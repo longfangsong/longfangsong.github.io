@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="190px" height="117px" viewBox="0 0 190 117" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(0.000000, 1.000000)">
+            <g id="2-node-with-links">
+                <g id="Group-3">
+                    <g id="Group-2">
+                        <g id="Group">
+                            <g id="2-node" transform="translate(63.000000, 0.000000)">
+                                <g id="Group">
+                                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                                        <tspan x="24" y="39">A</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <path d="M0.5,115.5 L69.5,53.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                            <path d="M121,115 L190,53" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(155.500000, 84.000000) scale(-1, 1) translate(-155.500000, -84.000000) "></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <text id="left" font-family="Helvetica" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="19" y="82">left</tspan>
+            </text>
+            <text id="right" font-family="Helvetica" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="154" y="82">right</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="龙方淞,longfangsong@icloud.com"><meta name="apple-mobile-web-app-capable" content="yes"><title>集成电路总线（IIC） · Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end --><meta name="description" content="I²C和SPI相比通信协议没那么简单，但是用的线比较少，因此封装尺寸和耗电量可以减少。
+另外，注意要读“I平方C”或者“IIC”，不要读“I二C”，这就和读“C井”一样不专业（正确读法是“C sharp”）。
+IIC的接线IIC只使用了两根线（全部都采用开漏输出，上拉电阻），串行数据线（SDA）和串"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="icon" sizes="any" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/SourceCodeVariable-font.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div></div><div style="width: 100%;" id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script><ul class="social-links"><li><a href="http://github.com/longfangsong"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by</span></a><a href="https://www.caicai.me"> CaiCai</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><span class="opacity" id="busuanzi_container_site_pv">访问量</span><span class="opacity" id="busuanzi_value_site_uv"></span><span class="opacity">人次</span><script src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>集成电路总线（IIC）</a></h3></div><div class="post-content"><p>I²C和SPI相比通信协议没那么简单，但是用的线比较少，因此封装尺寸和耗电量可以减少。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>另外，注意要读“I平方C”或者“IIC”，不要读“I二C”，这就和读“C井”一样不专业（正确读法是“C sharp”）。</p>
+<h2 id="IIC的接线"><a href="#IIC的接线" class="headerlink" title="IIC的接线"></a>IIC的接线</h2><p>IIC只使用了两根线（全部都采用开漏输出，上拉电阻），串行数据线（SDA）和串行时钟线（SCL）。</p>
+<ul>
+<li>SDA：用于传输数据，连接从设备的SDA</li>
+<li>SCL：时钟信号，用于达成关于通信速度的共识，连接从设备的SCL</li>
+</ul>
+<p>由于只有两根线，所以通过类似SPI那样通过片选线来选择要与之通信的芯片的方式就不可行了，幸运的是每个（其实应该是每批）IIC设备出厂时都附带了一个IIC地址，主设备在交换数据开始前会向总线上广播自己准备与之通信的IIC设备的地址，然后相关的IIC设备会启动，无关的IIC设备不会启用，通过这种方式，一组SDA-SCL的IIC总线上可以直接使用多个不同IIC地址的设备，当然缺点就是如果不另外进行配置<sup><a href="#fn_1" id="reffn_1">1</a></sup>，一般不能安装多个同一批号的设备。</p>
+<h2 id="IIC的操作"><a href="#IIC的操作" class="headerlink" title="IIC的操作"></a>IIC的操作</h2><p>IIC的操作其实是很毒的：</p>
+<ul>
+<li><p>首先主设备要发一个开始传输信号，这个信号长这样</p>
+<p><img src="/2018/03/20/集成电路总线（IIC）/start-bit.png" alt="image-20180320160940"></p>
+<p>简单来说就是在SCL的高电平期间，SDA发送一个下降沿。</p>
+<p>在得到这个信号后，所有IIC从设备都会被唤醒，然后等待接收接下来的信号。</p>
+</li>
+<li><p>接下来发送的是7位的IIC地址，发送方法如下：</p>
+<p><img src="/2018/03/20/集成电路总线（IIC）/send-data.png" alt="image-20180320160940"></p>
+<p>简单来说，从设备会在SCL为高电平时读取SDA线上的数据位，而完全不理睬SCL为低电平的时候SDA上的电平变化等。</p>
+</li>
+<li><p>接下来发送一个代表主设备要进行读还是写操作的位。0代表写，1代表读。</p>
+</li>
+<li><p>接着主设备会将SDA设置为输入（通过上拉电阻拉高），等待从设备将SDA拉低，来表示从设备成功被选中（这一动作被称为“（从设备）发送ACK”）。</p>
+</li>
+<li><p>接下来根据发送的读/写操作位来进行读/写操作，</p>
+<ul>
+<li>若主设备处于写模式，则会发送一个字节，然后等待从设备发送ACK，接着发送下一个字节，如此循环，直到主设备发送结束传输信号或者通信失败（ACK主设备迟迟等不到从设备的ACK，则认为发送失败）。</li>
+<li>若主设备处于读模式，则由从设备发送一个字节，主设备发送ACK，接着从设备发送下一个字节，如此循环，直到主设备发送结束传输信号。</li>
+</ul>
+</li>
+<li><p>主设备发送停止信号，停止信号长这样：</p>
+<p><img src="/2018/03/20/集成电路总线（IIC）/end-bit.png" alt="image-20180320160940"></p>
+<p>简单来说就是在SCL的高电平期间，SDA发送一个上升沿。</p>
+</li>
+</ul>
+<blockquote id="fn_1">
+<sup>1</sup>. 另外配置的案例：比如常用的EEPROM芯片的IIC地址中，前四个地址位都是1010，但后三个地址位可以用硬件连接决定，所以可以最多连接多达8个EEPROM芯片。<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_图片来源">
+<sup>图片来源</sup>. <a href="https://www.cnblogs.com/bixiaopengblog/p/7469536.html" target="_blank" rel="noopener">https://www.cnblogs.com/bixiaopengblog/p/7469536.html</a><a href="#reffn_图片来源" title="Jump back to footnote [图片来源] in the text."> &#8617;</a>
+</blockquote>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-03-20</span><i class="fa fa-tag"></i><a class="tag" href="/tags/单片机/" title="单片机">单片机 </a><a class="tag" href="/tags/接口技术/" title="接口技术">接口技术 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2018/03/20/集成电路总线（IIC）/,Blog,集成电路总线（IIC）,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2018/03/20/C++天问/" title="C++天问">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/03/20/串行外设接口（SPI）/" title="串行外设接口（SPI）">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false,
+  verify:false|| false,
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/3.0.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.6/jquery.appear.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
