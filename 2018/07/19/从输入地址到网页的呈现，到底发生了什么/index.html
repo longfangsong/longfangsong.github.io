@@ -190,18 +190,18 @@ MSS = MTU - IP与TCP头部长度
 </ol>
 </li>
 <li><p>删除Socket</p>
-<p> 注意Socket并非在四次分手完成后立刻删除，这是为了防止如下情形：</p>
-<p> 前三次握手正常</p>
-<p> 最后一次<code>ACK</code>并未正常送达。</p>
-<p> 此时从A的角度看，四次分手其实已经完成，A已经删除了Socket，并且这个Socket的端口号被另一个Socket再利用了。</p>
-<p> B没有收到<code>ACK</code>，于是重发一份<code>FIN=1</code>，被A的同一端口的Socket接受到了。</p>
-<p> 这个Socket就会进入意外的断开连接过程。</p>
-<p> 因此四次分手完成后要稍等一会才能删除Socket。</p>
-<h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2></li>
+<p>  注意Socket并非在四次分手完成后立刻删除，这是为了防止如下情形：</p>
+<p>  前三次握手正常</p>
+<p>  最后一次<code>ACK</code>并未正常送达。</p>
+<p>  此时从A的角度看，四次分手其实已经完成，A已经删除了Socket，并且这个Socket的端口号被另一个Socket再利用了。</p>
+<p>  B没有收到<code>ACK</code>，于是重发一份<code>FIN=1</code>，被A的同一端口的Socket接受到了。</p>
+<p>  这个Socket就会进入意外的断开连接过程。</p>
+<p>  因此四次分手完成后要稍等一会才能删除Socket。</p>
+</li>
 </ol>
 </li>
 </ol>
-<h3 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h3><p>其实就是网络中设备的ID。</p>
+<h2 id="相关知识"><a href="#相关知识" class="headerlink" title="相关知识"></a>相关知识</h2><h3 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h3><p>其实就是网络中设备的ID。</p>
 <h3 id="Netmask（子网掩码）"><a href="#Netmask（子网掩码）" class="headerlink" title="Netmask（子网掩码）"></a>Netmask（子网掩码）</h3><blockquote>
 <p>用来指明一个IP地址的哪些位标识的是主机所在的子网，以及哪些位标识的是主机的位掩码。子网掩码不能单独存在，它必须结合IP地址一起使用。子网掩码只有一个作用，就是将某个IP地址划分成网络地址和主机地址两部分。</p>
 </blockquote>
@@ -216,7 +216,7 @@ MSS = MTU - IP与TCP头部长度
 <h3 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h3><blockquote>
 <p>网络上的两个程序通过一个双向的通信连接实现数据的交换，这个连接的一端称为一个socket。</p>
 </blockquote>
-<p>其实说到底不过是想另一台主机的某个程序发东西的一个句柄。</p>
+<p>其实说到底不过是向另一台主机的某个程序（对应一个端口）发东西的一个句柄。</p>
 <blockquote id="fn_1">
 <sup>1</sup>. 我们不得不承认，日本在计算机基础理论的普及上远远走在了中国的前面，除此书外，《计算机是怎样跑起来的》、《30天自制操作系统》、《CPU自制入门》、《自制编程语言》等一系列书籍无疑降低了学习相关知识的门槛。<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
 </blockquote>
