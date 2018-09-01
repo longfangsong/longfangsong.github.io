@@ -19,10 +19,10 @@
 <p>  请求的格式如下：</p>
   <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;方法&gt; &lt;URI&gt; HTTP/1.1</span><br><span class="line"><span class="attribute">key:value</span></span><br><span class="line"><span class="attribute">key:value</span></span><br><span class="line"><span class="attribute">...</span></span><br><span class="line"><span class="attribute"></span></span><br><span class="line"><span class="attribute">&lt;消息体&gt;</span></span><br></pre></td></tr></table></figure>
 <p>  如：</p>
-<pre><code>- GET请求
-
+<ul>
+<li><p>GET请求</p>
   <figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: shupt.top</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span>: 1</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36</span><br><span class="line"><span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8</span><br><span class="line"><span class="attribute">Accept-Encoding</span>: gzip, deflate</span><br><span class="line"><span class="attribute">Accept-Language</span>: zh-CN,zh;q=0.9</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br></pre></td></tr></table></figure>
-</code></pre><ul>
+</li>
 <li><p>POST请求</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/login</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: shupt.top</span><br><span class="line"><span class="attribute">Content-Length</span>: 111</span><br><span class="line"><span class="attribute">Cache-Control</span>: max-age=0</span><br><span class="line"><span class="attribute">Origin</span>: http://shupt.top</span><br><span class="line"><span class="attribute">Upgrade-Insecure-Requests</span>: 1</span><br><span class="line"><span class="attribute">Content-Type</span>: application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">User-Agent</span>: （略）</span><br><span class="line"><span class="attribute">Accept</span>: （略）</span><br><span class="line"><span class="attribute">Referer</span>: http://shupt.top/login</span><br><span class="line"><span class="attribute">Accept-Encoding</span>: gzip, deflate</span><br><span class="line"><span class="attribute">Accept-Language</span>: zh-CN,zh;q=0.9</span><br><span class="line"><span class="attribute">Cookie</span>: （略）</span><br><span class="line"><span class="attribute">Connection</span>: keep-alive</span><br><span class="line"></span><br><span class="line">_token=（略）&amp;email=longfangsong%40icloud.com&amp;password=test&amp;remember=on</span><br></pre></td></tr></table></figure>
 <p>其中请求头有哪些，各自的意义是什么，请自行查表。</p>
@@ -95,9 +95,9 @@
 </ol>
 </li>
 <li><p>路由器根据收到的包的接收方IP地址对包进行转发</p>
-<p> 路由器中有这样一张路由表<sup><a href="#fn_6" id="reffn_6">6</a></sup>（下面的数据均取自书中）</p>
-<p> | 目标地址     | mask<sup><a href="#fn_5" id="reffn_5">5</a></sup>                     | 网关      | 接口 | Metric |<br> | —————— | —————————————— | ————- | —— | ——— |<br> | 10.10.1.0    | 255.255.255.0(ff.ff.ff.00)   | -         | e2   | 1      |<br> | 10.10.1.101  | 255.255.255.255(ff.ff.ff.ff) | -         | e2   | 1      |<br> | 192.168.1.0  | 255.255.255.0(ff.ff.ff.00)   | -         | e3   | 1      |<br> | 192.168.1.10 | 255.255.255.255(ff.ff.ff.ff) | -         | e3   | 1      |<br> | 0.0.0.0      | 0.0.0.0                      | 192.0.2.1 | e1   | 1      |</p>
-<p> 路由器会将包中的目标地址与经过mask的表中的目标地址进行匹配。然后将包发送到匹配上的地址中网络号最长的一个对应的端口上，如果存在多个网络号长度相等的匹配，则选择Metric值（表征路由远近，越小越近）最小的一个来发送。</p>
+<p>路由器中有这样一张路由表<sup><a href="#fn_6" id="reffn_6">6</a></sup>（下面的数据均取自书中）</p>
+<p><img src="/2018/07/19/从输入地址到网页的呈现，到底发生了什么/RouteTable.png" alt="RouteTable"></p>
+<p>路由器会将包中的目标地址与经过mask的表中的目标地址进行匹配。然后将包发送到匹配上的地址中网络号最长的一个对应的端口上，如果存在多个网络号长度相等的匹配，则选择Metric值（表征路由远近，越小越近）最小的一个来发送。</p>
 <p> 如果没有一个地址匹配，则会选择最后一行（0.0.0.0）来发送。</p>
 <p> 具体转发方法如下：</p>
 <ol>
@@ -122,7 +122,7 @@
 </li>
 <li><p>DNS查询域名对应的IP</p>
 <p> DNS服务器内部有一张资源记录表（下面的数据均取自书中）：</p>
-<p> | 域名                 | Class | 记录类型 | 响应数据             |<br> | —————————— | ——- | ———— | —————————— |<br> | www.lab.glasscom.com | IN    | A        | 192.0.2.226          |<br> | glasscom.com         | IN    | MX       | 10 mail.glasscom.com |<br> | mail.glasscom.com    | IN    | A        | 192.0.2.227          |<br> |                      |       |          |                      |</p>
+<p> <img src="/2018/07/19/从输入地址到网页的呈现，到底发生了什么/DNSTable.png" alt="DNSTable"></p>
 <p> 如果能在DNS中找到对应的记录，则直接返回对应的响应数据，否则会从根域开始逐级向下查询：<img src="/2018/07/19/从输入地址到网页的呈现，到底发生了什么/DNS-Field.png" alt="DNS-Field"></p>
 </li>
 <li><p>DNS通过与查询来时相似的途径把对应的IP返回给请求方</p>
@@ -161,43 +161,53 @@ MSS = MTU - IP与TCP头部长度
 在缓冲区中数据的量达到MSS，或者与上次发送之间的时间间隔达到一定长度时，协议栈会实际发送网络包。
 
 另外，应用程序也可以命令协议栈不经等待立刻发送，浏览器很多时候会这样做。
-
-当HTTP消息长度超出MSS时，TCP会将其拆分到多个网络包中，再分别发送出去，此时TCP头部中的“序号”字段表示这个包中的内容是`原始数据[序号-offset,序号-offset+包内容长度)`，其中`offset`是一个随机数值，是在握手时计算并放置于握手时的TCP包中来告知对放的，注意发送和接受时的`offset`是不同的，它们一个由客户端计算，在第一次握手时发给服务器，一个由服务器计算，在第二次握手时发给客户端。
-</code></pre></li>
+</code></pre><p>   当HTTP消息长度超出MSS时，TCP会将其拆分到多个网络包中，再分别发送出去，此时TCP头部中的“序号”字段表示这个包中的内容是<code>原始数据[序号-offset,序号-offset+包内容长度)</code>，其中<code>offset</code>是一个随机数值，是在握手时计算并放置于握手时的TCP包中来告知对放的，注意发送和接受时的<code>offset</code>是不同的，它们一个由客户端计算，在第一次握手时发给服务器，一个由服务器计算，在第二次握手时发给客户端。</p>
+</li>
 <li><p>通过IP协议发送TCP包（参考前面的UDP，只是将“UDP头”变为“TCP头”）</p>
 </li>
 <li><p>服务器接受包后返回确认信息</p>
-<p>   确认信息的TCP头部中有一个<code>ACK</code>号，</p>
-<p>   ACK = 服务器收到的包的序号 + 服务器收到的包的内容的长度</p>
-</li>
+<pre><code>  确认信息的TCP头部中有一个`ACK`号，
+
+  ACK = 服务器收到的包的序号 + 服务器收到的包的内容的长度
+</code></pre></li>
 <li><p>根据确认信息判断是否需要重传 </p>
-<p>   如果客户端没有收到某个包对应的ACK信息，则会重新发送这个包</p>
-<p>   注意发送和接受ACK信息是通过所谓的“滑动窗口”方式并行进行的</p>
-</li>
+<pre><code>  如果客户端没有收到某个包对应的ACK信息，则会重新发送这个包
+
+  注意发送和接受ACK信息是通过所谓的“滑动窗口”方式并行进行的
+</code></pre></li>
 <li><p>断开连接</p>
-<p>  由提出断开连接的一方开始向对方发送TCP头部中<code>FIN=1</code>的包。</p>
-<p>  对方返回<code>ACK</code>信息。</p>
-<p>  对方向我方发送<code>FIN=1</code>。</p>
-<p>  我方返回<code>ACK</code>信息。</p>
-<p>  这里共发送了四封TCP包，假设在A和B两台机器之间建立了连接，由A提出断开连接：</p>
-<ol>
-<li>A到B：<code>FIN=1</code></li>
-<li>B到A：<code>ACK</code></li>
-<li>B到A：<code>FIN=1</code></li>
-<li><p>A到B：<code>ACK</code></p>
-<p>故曰四次分手<sup><a href="#fn_9" id="reffn_9">9</a></sup>。</p>
-</li>
-</ol>
-</li>
+<pre><code> 由提出断开连接的一方开始向对方发送TCP头部中`FIN=1`的包。
+
+ 对方返回`ACK`信息。
+
+ 对方向我方发送`FIN=1`。
+
+ 我方返回`ACK`信息。
+
+ 这里共发送了四封TCP包，假设在A和B两台机器之间建立了连接，由A提出断开连接：
+
+ 1. A到B：`FIN=1`
+ 2. B到A：`ACK`
+ 3. B到A：`FIN=1`
+ 4. A到B：`ACK`
+
+ 故曰四次分手[^9]。
+</code></pre></li>
 <li><p>删除Socket</p>
-<p>  注意Socket并非在四次分手完成后立刻删除，这是为了防止如下情形：</p>
-<p>  前三次握手正常</p>
-<p>  最后一次<code>ACK</code>并未正常送达。</p>
-<p>  此时从A的角度看，四次分手其实已经完成，A已经删除了Socket，并且这个Socket的端口号被另一个Socket再利用了。</p>
-<p>  B没有收到<code>ACK</code>，于是重发一份<code>FIN=1</code>，被A的同一端口的Socket接受到了。</p>
-<p>  这个Socket就会进入意外的断开连接过程。</p>
-<p>  因此四次分手完成后要稍等一会才能删除Socket。</p>
-</li>
+<pre><code> 注意Socket并非在四次分手完成后立刻删除，这是为了防止如下情形：
+
+ 前三次握手正常
+
+ 最后一次`ACK`并未正常送达。
+
+ 此时从A的角度看，四次分手其实已经完成，A已经删除了Socket，并且这个Socket的端口号被另一个Socket再利用了。
+
+ B没有收到`ACK`，于是重发一份`FIN=1`，被A的同一端口的Socket接受到了。
+
+ 这个Socket就会进入意外的断开连接过程。
+
+ 因此四次分手完成后要稍等一会才能删除Socket。
+</code></pre></li>
 </ol>
 </li>
 </ol>
