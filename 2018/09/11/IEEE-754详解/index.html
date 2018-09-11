@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="龙方淞,longfangsong@icloud.com"><meta name="apple-mobile-web-app-capable" content="yes"><title> · Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end --><meta name="description" content="浮点数的表示IEEE 754中的浮点数表示如下：
+
+浮点数实际值 = 符号位 \times 分数值 \times (10)_2^{指数}实际存储在内存中的是
+
+符号位
+指数
+分数值
+
+在内存中的浮点数大概长这样1：
+
+IEEE 754规定了四种表示浮点数值的方式：
+
+
+
+
+浮点数类型
+符号位长度
+指"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="icon" sizes="any" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/SourceCodeVariable-font.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div></div><div style="width: 100%;" id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script><ul class="social-links"><li><a href="http://github.com/longfangsong"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by</span></a><a href="https://www.caicai.me"> CaiCai</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><span class="opacity" id="busuanzi_container_site_pv">访问量</span><span class="opacity" id="busuanzi_value_site_uv"></span><span class="opacity">人次</span><script src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a></a></h3></div><div class="post-content"><h2 id="浮点数的表示"><a href="#浮点数的表示" class="headerlink" title="浮点数的表示"></a>浮点数的表示</h2><p>IEEE 754中的浮点数表示如下：</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="math/tex; mode=display">
+浮点数实际值 = 符号位 \times 分数值 \times (10)_2^{指数}</script><p>实际存储在内存中的是</p>
+<ul>
+<li>符号位</li>
+<li>指数</li>
+<li>分数值</li>
+</ul>
+<p>在内存中的浮点数大概长这样<sup><a href="#fn_1" id="reffn_1">1</a></sup>：</p>
+<p><img src="/2018/09/11/IEEE-754详解/memo-representation.svg" alt="memo-representation"></p>
+<p>IEEE 754规定了四种表示浮点数值的方式：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>浮点数类型</th>
+<th>符号位长度</th>
+<th>指数位长度</th>
+<th>分数位长度</th>
+<th>总长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单精确度</td>
+<td>1</td>
+<td>8</td>
+<td>23</td>
+<td>32</td>
+</tr>
+<tr>
+<td>双精确度</td>
+<td>1</td>
+<td>11</td>
+<td>52</td>
+<td>64</td>
+</tr>
+<tr>
+<td>延伸单精确度</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>43+</td>
+</tr>
+<tr>
+<td>延伸双精确度</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+<td>79+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>本文为了节约篇幅，下面的讲解皆以单精度数为例，将其拓展到其他精度，只需扩展对应的位的长度即可。</p>
+<h3 id="符号位"><a href="#符号位" class="headerlink" title="符号位"></a>符号位</h3><p>代表浮点数本身的符号，老规矩，0正1负。</p>
+<h3 id="指数（exponent）"><a href="#指数（exponent）" class="headerlink" title="指数（exponent）"></a>指数（exponent）</h3><p>指数是一种特别的有符号数，它在计算机中的储存方式是这样的：</p>
+<script type="math/tex; mode=display">
+储存值 = 实际值+(10)_2^{指数位长度-1} - 1</script><p>对于单精度浮点数，上述式子中的“指数位长度”可以用8代入：</p>
+<script type="math/tex; mode=display">
+储存值=实际值+(0111\ 1111)_2 \\
+or \\
+储存值=实际值+127_{10}</script><p>这样，如果实际的指数数值是2，储存值就是$129_{10}$或${1000\ 0001}_2$。</p>
+<p>如果是-3，储存值就是$124_{10}$或$0111\ 1100_2$。</p>
+<p>特别的，储存值为${1111\ 1111}_2$或者说$255_{10}$时代表特殊情况，此时：</p>
+<ul>
+<li>分数值为0，符号位为0 —— 代表$+\infty$</li>
+<li>分数值为0，符号位为1 —— 代表$-\infty$</li>
+<li>分数值非0                —— 代表这个浮点数“不是数字”，多用在计算出现错误的情况下</li>
+</ul>
+<p>另外，在储存值为$0$时，这是一个“非规格浮点数”，其实际值并非$127$而仍然是$126$，将在下一个话题中讲述。</p>
+<p>为何这样储存，是因为这样在浮点数做比较的时候较为方便，直接按照字典序比较即可<sup><a href="#fn_3" id="reffn_3">3</a></sup>。</p>
+<h3 id="分数值-尾数（fraction）"><a href="#分数值-尾数（fraction）" class="headerlink" title="分数值/尾数（fraction）"></a>分数值/尾数（fraction）</h3><p>分数值的储存要分类讨论：</p>
+<ul>
+<li><p>规格浮点数</p>
+<p>在指数储存值非 $0$ 也非 ${1111\ 1111}_2$ 时，这个浮点数是一个规格化浮点数。</p>
+<p>此时分数值表示的是一个$[1,2)$之间的数。</p>
+<p>储存方式如下：</p>
+<script type="math/tex; mode=display">
+储存值 = 补全位数的小数部分(实际值-1)</script><p>也就是说只保存小数点后的部分，1是隐含的，比如说表示$1.1_2$：</p>
+<script type="math/tex; mode=display">
+1.1 - 1 = 0.1 \\
+  补全23位: \\
+  100\ 0000\ 0000\ 0000\ 0000\ 0000</script><p>再比如表示$1.11_2$。</p>
+<script type="math/tex; mode=display">
+1.11 - 1 = 0.11 \\
+  补全23位: \\
+  110\ 0000\ 0000\ 0000\ 0000\ 0000</script><p>以此类推。</p>
+</li>
+<li><p>非规格浮点数</p>
+<p>在指数储存值为 $0$ 时，这个浮点数是一个非规格化浮点数。</p>
+<p>此时分数值表示的是一个$[0,1)$之间的数。</p>
+<p>储存方式：</p>
+<script type="math/tex; mode=display">
+储存值 = 补全位数的小数部分(实际值)</script><p>如：</p>
+<script type="math/tex; mode=display">
+(0.1)_2 \\
+  补全23位: \\
+  100\ 0000\ 0000\ 0000\ 0000\ 0000</script><p>  实际上非规格浮点数做的事情就是填补距离 $0$ 最近的规格浮点数<sup><a href="#fn_2" id="reffn_2">2</a></sup>：</p>
+<script type="math/tex; mode=display">
+0\ 0000\ 0001\ 0000\ 0000\ 0000\ 0000\ 0000\ 000_{浮点} \\
+  \approx \\
+  (1.17549\times 10 ^{-38})_{10}</script><p>与 $0$ 之间的空间。</p>
+<p>需要非规格浮点数的原因是为防止“突然式下溢出”。</p>
+</li>
+</ul>
+<h4 id="突然式下溢出-amp-渐进式下溢出"><a href="#突然式下溢出-amp-渐进式下溢出" class="headerlink" title="突然式下溢出 &amp; 渐进式下溢出"></a>突然式下溢出 &amp; 渐进式下溢出</h4><p>如果不采用非规格浮点数，那么能表示的最接近$0$的数和次接近$0$的数之间的差值为$(10)_2^{-23}（分数值差异）\times (10)_2^{-127}（指数）= (10)_2^{-150}$<sup><a href="#fn_4" id="reffn_4">4</a></sup></p>
+<p>然而最接近$0$的数和$0$之间的差异仅有$(10)_2^{-127}$，如果你脑子里有数轴的话，你可以想象出这样一番场景：数轴从外往里浮点数能表示的数越来越密集（想一想，为什么），到了$0$点附近……</p>
+<p>却突然空了。</p>
+<p>感觉就很不舒服。</p>
+<p>而且，如果你将明明不等的最接近$0$的数和次接近$0$的数相减……</p>
+<p>答案却是0。</p>
+<p>这就糟透了。</p>
+<p>然后Intel的一群天才就强烈推荐IEEE采用<strong>渐进式下溢出</strong>。</p>
+<p>在使用了<strong>渐进式下溢出</strong>的情况下，最接近$0$的数就变成了非规格的：</p>
+<script type="math/tex; mode=display">
+0\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000\ 0000\ 001_{浮点} \\
+  \approx \\
+  (1.4013\times 10 ^{-45})_{10}</script><p>它和次接近$0$的数与和$0$的差值都是其本身，使用这种方法从0~最小规格化浮点数之间的空间被非规格化浮点数均匀地填充了。</p>
+<h2 id="附表"><a href="#附表" class="headerlink" title="附表"></a>附表</h2><p>32位浮点数情况：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>符号位</th>
+<th>实际指数</th>
+<th>有偏移指数</th>
+<th>指数</th>
+<th>尾数</th>
+<th>十进制数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>零</td>
+<td>0</td>
+<td>-127</td>
+<td>0</td>
+<td>0000 0000</td>
+<td>000 0000 0000 0000 0000 0000</td>
+<td>0.0</td>
+</tr>
+<tr>
+<td>负零</td>
+<td>1</td>
+<td>-127</td>
+<td>0</td>
+<td>0000 0000</td>
+<td>000 0000 0000 0000 0000 0000</td>
+<td>−0.0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>127</td>
+<td>0111 1111</td>
+<td>000 0000 0000 0000 0000 0000</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>-1</td>
+<td>1</td>
+<td>0</td>
+<td>127</td>
+<td>0111 1111</td>
+<td>000 0000 0000 0000 0000 0000</td>
+<td>−1.0</td>
+</tr>
+<tr>
+<td>最小的非规约数</td>
+<td>*</td>
+<td>-126</td>
+<td>0</td>
+<td>0000 0000</td>
+<td>000 0000 0000 0000 0000 0001</td>
+<td>$±2^{−23} \times  2^{−126} = ±2^{−149} \approx ±1.4 \times 10^{-45}$</td>
+</tr>
+<tr>
+<td>中间大小的非规约数</td>
+<td>*</td>
+<td>-126</td>
+<td>0</td>
+<td>0000 0000</td>
+<td>100 0000 0000 0000 0000 0000</td>
+<td>$±2^{−1} \times 2 ^ {−126} = ±2^{−127} \approx ±5.88\times10^{-39}$</td>
+</tr>
+<tr>
+<td>最大的非规约数</td>
+<td>*</td>
+<td>-126</td>
+<td>0</td>
+<td>0000 0000</td>
+<td>111 1111 1111 1111 1111 1111</td>
+<td>$±(1−2^{−23}) \times 2^{−126} \approx ±1.18\times 10^{-38}$</td>
+</tr>
+<tr>
+<td>最小的规约数</td>
+<td>*</td>
+<td>-126</td>
+<td>1</td>
+<td>0000 0001</td>
+<td>000 0000 0000 0000 0000 0000</td>
+<td>$±2^{−126} \approx ±1.18×10^{-38}$</td>
+</tr>
+<tr>
+<td>最大的规约数</td>
+<td>*</td>
+<td>127</td>
+<td>254</td>
+<td>1111 1110</td>
+<td>111 1111 1111 1111 1111 1111</td>
+<td>$±(2−2^{−23}) \times 2^{127} \approx ±3.4\times10^{38}$</td>
+</tr>
+<tr>
+<td>正无穷</td>
+<td>0</td>
+<td>128</td>
+<td>255</td>
+<td>1111 1111</td>
+<td>000 0000 0000 0000 0000 0000</td>
+<td>+∞</td>
+</tr>
+<tr>
+<td>负无穷</td>
+<td>1</td>
+<td>128</td>
+<td>255</td>
+<td>1111 1111</td>
+<td>000 0000 0000 0000 0000 0000</td>
+<td>−∞</td>
+</tr>
+<tr>
+<td>NaN</td>
+<td>*</td>
+<td>128</td>
+<td>255</td>
+<td>1111 1111</td>
+<td>non zero</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote id="fn_1">
+<sup>1</sup>. 在小端序计算机（X86等）中，最右边的是最低字节的最低位，以<code>float</code>为例，从右往左数，[0-22]位是分数位，[23-30]是指数位，[31]是符号位。<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. 为讲解方便，在讨论“最接近0的浮点数”时一律取正数作为研究对象。<a href="#reffn_2" title="Jump back to footnote [2] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_3">
+<sup>3</sup>. 实际上将符号位也反转过来，比较会更加容易，可以整个数不加修改地作字典序比较，人类感觉上也更加自然（0总感觉比1小），不过在电路上一个非门也费不了什么事<a href="#reffn_3" title="Jump back to footnote [3] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_4">
+<sup>4</sup>. 维基和百度百科中此处写的是$2^{-126}$和$2^{-149}$，显然他们没有考虑到如果去掉非规格浮点数的设定后，可以有更多规格浮点数<a href="#reffn_4" title="Jump back to footnote [4] in the text."> &#8617;</a>
+</blockquote>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-09-11</span><i class="fa fa-tag"></i><a class="tag" href="/tags/编码理论/" title="编码理论">编码理论 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2018/09/11/IEEE-754详解/,Blog,,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/09/05/Haskell与函数式编程/" title="Haskell与函数式编程">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false,
+  verify:false|| false,
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/3.0.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.6/jquery.appear.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
