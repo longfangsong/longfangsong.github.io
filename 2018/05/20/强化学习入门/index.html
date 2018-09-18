@@ -160,7 +160,7 @@ Q(now\_state,action_i) = max\{Q(now\_state.trans_i,action_j)\} + 1</script><p>�
 <p>这就引出了一个神仙玩意：贝尔曼方程<sup><a href="#fn_2" id="reffn_2">2</a></sup>，这里我不展开讲这些神仙玩意<del>（其实是我不会TAT）</del>。</p>
 <p>我们只给出最终的Q-tabel的更新方法：</p>
 <script type="math/tex; mode=display">
-Q(state,action)=reward\_now+\gamma (max(Q(state′,action′))</script><p>其中$\gamma$是一个“折扣因子”，$\gamma$越大，我们的模型就会越重视以往经验（$max(Q(state′,action′)$），$\gamma$越小，我们的模型只重视眼前利益（$reward\_now$）。</p>
+Q(state,action)=reward\_now+\gamma (max(Q(state′,action′))</script><p>其中$\gamma$是一个“折扣因子”，$\gamma$越大，我们的模型就会越重视以往经验（$max(Q(state′,action′)$），$\gamma$越小，我们的模型只重视眼前利益（$reward\_{now}$）。</p>
 <p>另外，为了防止每次都选择当前状态下得分期望值较大的那个动作而带来的陷入局部最优的问题，我们引入了$\epsilon$-greedy算法即每个状态有$\epsilon$的概率进行探索（随机选择动作），而剩下的1-$\epsilon$的概率则进行开发（选取当前状态下得分期望值较大的那个动作），我们一开始让$\epsilon$很大，这样一开始模型基本上什么都不知道的时候会倾向于进行探索，而后模型<del>成为经验丰富的老司机</del>有很多知识之后就倾向于开发了。</p>
 <p>用这个更新Q-table的方式，我们就能学习一些简单的策略了，但不幸的是，无论如何这里的Q-table还是需要使用很多内存来保存，有时需要内存的量是大的可怕的，我们需要一些别的方式来解决这个问题。</p>
 <h3 id="DQN"><a href="#DQN" class="headerlink" title="DQN"></a>DQN</h3><p><strong>神经网络是AI界最伟大的发明！</strong></p>

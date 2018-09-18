@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="823px" height="426px" viewBox="0 0 823 426" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3" transform="translate(1.000000, -5.000000)">
+            <g id="leaf-node" transform="translate(0.000000, 366.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="22.082" y="43">7</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="sum-node" transform="translate(50.000000, 277.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">30</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="sum-node" transform="translate(164.000000, 159.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">45</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="sum-node" transform="translate(392.000000, 33.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="11.282" y="43">97</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="sum-node" transform="translate(634.000000, 159.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">52</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="sum-node" transform="translate(282.000000, 277.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="13.856" y="43">15</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="sum-node" transform="translate(513.000000, 277.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">48</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(114.000000, 366.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">23</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(228.000000, 366.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="22.082" y="43">7</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(342.000000, 366.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="21.2" y="43">8</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(456.000000, 366.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">22</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(570.000000, 366.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">26</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(757.000000, 277.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="21.2" y="43">4</tspan>
+                    </text>
+                </g>
+            </g>
+            <path d="M395.5,72.5 L222.5,170.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M454.5,75.5 L645.5,165.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M561.5,280.5 L645.5,216.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M779.5,277.5 L693.5,207.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M173.5,213.5 L109.5,289.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M65.5,335.5 L43.5,368.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M101.5,334.5 L137.5,367.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M337.5,331.5 L364.5,366.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M569.5,332.5 L597.5,368.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M292.5,332.5 L270.5,368.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M528.5,336.5 L503.5,368.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M222.5,211.5 L292.5,285.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <text id="[0,6]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                <tspan x="399" y="25">[0,6]</tspan>
+            </text>
+            <text id="[0,3]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                <tspan x="171" y="151">[0,3]</tspan>
+            </text>
+            <text id="[4,6]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                <tspan x="641" y="151">[4,6]</tspan>
+            </text>
+            <text id="[4,5]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                <tspan x="519" y="274">[4,5]</tspan>
+            </text>
+            <text id="[0,1]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                <tspan x="57" y="269">[0,1]</tspan>
+            </text>
+            <text id="[2,3]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                <tspan x="289" y="269">[2,3]</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
