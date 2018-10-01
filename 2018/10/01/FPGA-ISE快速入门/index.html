@@ -38,34 +38,27 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NET &quot;a&quot; LOC = A2;</span><br><span class="line">NET &quot;b&quot; LOC = A3;</span><br><span class="line">NET &quot;out&quot; LOC = A4;</span><br></pre></td></tr></table></figure>
 <p>写完添加到工程里面就行。</p>
 <p>要注意的是你的硬件生产厂家给你的硬件接口编号往往和ISE软件里的不一样……请务必要想办法拿到映射表之类的东西。</p>
-<p>接着编译，随便点一个<img src="/2018/10/01/FPGA-ISE快速入门/../../Desktop/屏幕快照 2018-10-01 下午10.05.06.png" alt="屏幕快照 2018-10-01 下午10.05.06">就行了。</p>
+<p>接着编译，随便点一个绿色小箭头就行了。</p>
 <p>然后就是烧录了，点击这里</p>
 <p><img src="/2018/10/01/FPGA-ISE快速入门/download.png" alt="download"></p>
 <p>会为你打开ISE iMPACT，点击：</p>
 <p><img src="/2018/10/01/FPGA-ISE快速入门/scan.png" alt="scan"></p>
 <p>然后是：</p>
-<p><img src="/2018/10/01/FPGA-ISE快速入门/../../Desktop/屏幕快照 2018-10-01 下午10.01.41.png" alt="屏幕快照 2018-10-01 下午10.01.41"></p>
-<p>接着：</p>
-<p><img src="/2018/10/01/FPGA-ISE快速入门/../../Desktop/屏幕快照 2018-10-01 下午10.04.28.png" alt="屏幕快照 2018-10-01 下午10.04.28"></p>
-<p>Yes，选择你刚刚编译出来的.bit文件。</p>
+<p><img src="/2018/10/01/FPGA-ISE快速入门/initChain.png" alt="initChain"></p>
+<p>如果你看见了这个：</p>
 <p><img src="/2018/10/01/FPGA-ISE快速入门/attach.png" alt="attach"></p>
 <p>选No。</p>
 <p>其他的东西默认就行。</p>
-<p>然后在出来的设备上右键，Program：</p>
-<p><img src="/2018/10/01/FPGA-ISE快速入门/../../Desktop/屏幕快照 2018-10-01 下午10.10.14.png" alt="屏幕快照 2018-10-01 下午10.10.14"></p>
-<p>就下载好了。</p>
+<p>然后在出来的设备上右键，Program就下载好了。</p>
 <p>这样就能用了，不过你的代码并没有被存到PROM或者Flash里面，因此一reset或者掉电就丢失了，你要做一个MCS文件，这部分在</p>
 <p><img src="/2018/10/01/FPGA-ISE快速入门/prom.png" alt="prom"></p>
 <p>里面，双击进入：</p>
 <p><img src="/2018/10/01/FPGA-ISE快速入门/Pram.png" alt="Pram"></p>
 <p>像上图这样选择各项参数，注意第二步的时候要点一下红圈里的按键。</p>
-<p>完了之后点OK，会：</p>
-<p><img src="/2018/10/01/FPGA-ISE快速入门/../../Desktop/屏幕快照 2018-10-01 下午10.25.23.png" alt="屏幕快照 2018-10-01 下午10.25.23"></p>
-<p>OK之后选择你要放入Prom中的.bit文件。</p>
+<p>完了之后点OK，会让你选择你要放入Prom中的.bit文件。</p>
 <p>接下来会问你要不要继续添加，当然No。</p>
 <p>然后OK，右键，Generate File，mcs文件就做好了。</p>
-<p>回到这里：</p>
-<p><img src="/2018/10/01/FPGA-ISE快速入门/../../Desktop/屏幕快照 2018-10-01 下午10.10.14.png" alt="屏幕快照 2018-10-01 下午10.10.14"></p>
+<p>回到设备页面，右键你的设备。</p>
 <p>我们这次选择</p>
 <p><img src="/2018/10/01/FPGA-ISE快速入门/addFlash.png" alt="addFlash"></p>
 <p>然后选择我们做出来的mcs，接着选PROM的型号</p>
