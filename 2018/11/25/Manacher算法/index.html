@@ -11,12 +11,12 @@
 <p>显然回文半径最长的一个元素也是最长的回文字符串的中间元素，也就是说我们只要找到了这个回文半径最长的元素就找到了最长的回文字符串。</p>
 <h4 id="回文半径表-1"><a href="#回文半径表-1" class="headerlink" title="回文半径表"></a>回文半径表</h4><p>就是把所有字符对应的回文半径填进表里：</p>
 <p><img src="/2018/11/25/Manacher算法/radius-table.svg" alt="radius-table"></p>
-<p>显然打出了这张表就能很方便地知道最长子字符串的长度和位置了。</p>
+<p>打出了这张表就能很方便地知道最长子字符串的长度和位置了。</p>
 <p>那么怎么打这张表呢？</p>
 <p>显然不能用和中心扩展算法相似的方法去打，那样对时间复杂度毫无助益，而是要尽可能使用前面的数据推后面的数据。</p>
 <p>我们来看几个情况：</p>
 <h5 id="情况1"><a href="#情况1" class="headerlink" title="情况1"></a>情况1</h5><p><img src="/2018/11/25/Manacher算法/situation-1.svg" alt="situation-1"></p>
-<p>例如要计算这个回文半径表第0-12个元素已经计算好了，我们要计算第13个元素，这里称为i。</p>
+<p>例如这个回文半径表第0-12个元素已经计算好了，我们要计算第13个元素，这里称为i。</p>
 <p>之前得到的可以覆盖到整个字符串最右边的回文字符串中心位置是第11个元素，这里称为mid。</p>
 <p>此时要找到i关于mid的对称位置，这里就是第9个元素，称为j。</p>
 <p><img src="/2018/11/25/Manacher算法/variables-1.svg" alt="variables-1"></p>
@@ -28,16 +28,16 @@
 <p><img src="/2018/11/25/Manacher算法/situation-2.svg" alt="situation-2"></p>
 <p>因为此时以j为中心的回文字符串在翻转之后（注意这里的图为了清晰起见只画了以j为中心的回文字符串的左半边，右半边画了会重叠起来我就没画）：</p>
 <p><img src="/2018/11/25/Manacher算法/rotate-2.svg" alt="rotate-2"></p>
-<p>其中21和22位置上的元素已经不在以mid为中心的回文串内部了，所以我们并不能保证21和22号元素一定和1号和2号元素相等（实际上在这个例子中它们确实并不相等），在这种情况下，我们只能保证以i为中心的串中从i到<strong>以mid为中心的回文串的结尾</strong><sup><a href="#fn_3" id="reffn_3">3</a></sup>为止一定是回文的。对于后面的元素，我们只能直接暴力地进行匹配（即21和9匹配，22和8匹配）。</p>
+<p>其中21和22位置上的元素已经不在以mid为中心的回文串内部了，所以我们并不能保证21和22号元素一定和1号和2号元素相等（实际上在这个例子中它们确实并不相等），在这种情况下，我们只能保证以i为中心，到<strong>以mid为中心的回文串的结尾</strong><sup><a href="#fn_3" id="reffn_3">3</a></sup>为止的串一定的是回文的。对于后面的元素，我们只能直接暴力地进行匹配（即21和9匹配，22和8匹配）。</p>
 <h5 id="情况3"><a href="#情况3" class="headerlink" title="情况3"></a>情况3</h5><p>当我们要计算第21个元素：</p>
 <p><img src="/2018/11/25/Manacher算法/situation-3.svg" alt="situation-3"></p>
 <p>这时i已经完全在mid为中心的回文串外，也就是说我们目前没有任何和i为中心的回文串有关的已知信息，此时只能暴力地进行匹配了。</p>
 <h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>总的来说，生成这张表的算法是：</p>
 <p>对每串中的元素个i：</p>
 <ul>
-<li><p>若i在已知覆盖的最右的回文串右边，则暴力匹配</p>
+<li><p>若i在已知<strong>覆盖的最右</strong>的回文串右边，则暴力匹配</p>
 </li>
-<li><p>若i在已知覆盖的最右的回文串中</p>
+<li><p>若i在已知<strong>覆盖的最右</strong>的回文串中</p>
 <p>找出i关于mid的对称元素j</p>
 <ul>
 <li><p>若<strong>j的回文半径</strong>大于<strong>mid为中心的回文串的左侧到j的距离</strong></p>
@@ -62,7 +62,7 @@
 <li>每次匹配成功，<code>rightMostIndexRight</code>都将增加1</li>
 <li><code>rightMostIndexRight</code>不会超过n</li>
 </ul>
-<p>所以实际执行匹配的次数不会超过n，即算法是O(n)的</p>
+<p>所以实际执行匹配的次数不会超过n，即算法是O(n)的。</p>
 <blockquote id="fn_0">
 <sup>0</sup>. 真实想法：wcnm这怎么想到的，Manacher NB！<a href="#reffn_0" title="Jump back to footnote [0] in the text."> &#8617;</a>
 </blockquote>
