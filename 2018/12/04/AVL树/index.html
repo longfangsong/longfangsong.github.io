@@ -31,7 +31,7 @@ Wiki上没有查到上纲上线的定义，论文……毛子的文字一点都�
 <p>向这里插入90：</p>
 <p><img src="/2018/12/04/AVL树/origin-2.png" alt="origin-2"></p>
 <p>如二叉搜索树插入：</p>
-<p><img src="/2018/12/04/AVL树/../../Desktop/屏幕快照 2018-12-04 下午6.28.49.png" alt="屏幕快照 2018-12-04 下午6.28.49"></p>
+<p><img src="/2018/12/04/AVL树/屏幕快照 2018-12-04 下午6.28.49.png" alt="屏幕快照 2018-12-04 下午6.28.49"></p>
 <p>进行左旋：</p>
 <p><img src="/2018/12/04/AVL树/left-totate1.gif" alt="left-totate1"></p>
 <h4 id="左旋"><a href="#左旋" class="headerlink" title="左旋"></a>左旋</h4><p>左旋就是右旋的逆过程：</p>
@@ -47,7 +47,7 @@ Wiki上没有查到上纲上线的定义，论文……毛子的文字一点都�
 <p>为了解决这个问题，我们要先在60（不平衡的位置的右子树）的位置上右旋一次：</p>
 <p><img src="/2018/12/04/AVL树/insert-good-rotate-1.svg" alt="insert-good-rotate-1"></p>
 <p>再在43处左旋一次，即可得到：</p>
-<p><img src="/2018/12/04/AVL树/../../Desktop/屏幕快照 2018-12-10 下午2.11.43.png" alt="屏幕快照 2018-12-10 下午2.11.43"></p>
+<p><img src="/2018/12/04/AVL树/屏幕快照 2018-12-10 下午2.11.43.png" alt="屏幕快照 2018-12-10 下午2.11.43"></p>
 <h3 id="情况4"><a href="#情况4" class="headerlink" title="情况4"></a>情况4</h3><p>情况4就是情况3的镜像，即树是右偏，但刚刚的节点插入的位置在不平衡出现的节点的左子树的右子树。</p>
 <p>处理方式也是镜像的，在不平衡的位置的左子树上左旋一次，再在不平衡的位置上右旋一次。</p>
 <h2 id="AVL树的删除"><a href="#AVL树的删除" class="headerlink" title="AVL树的删除"></a>AVL树的删除</h2><p>删除的方式大体上和普通二叉搜索树一样，即找到要删除的节点，然后找出其中序遍历中的后继节点，用其替换这个要删除的节点。</p>
@@ -61,7 +61,7 @@ Wiki上没有查到上纲上线的定义，论文……毛子的文字一点都�
 </ul>
 <p>在最糟糕的情况下，红黑树上某条路径到叶子的路径长度会是约log2(n)的两倍，而AVL树则仍然高度平衡。</p>
 <p>但是在大量插入和删除数据时，AVL会旋转很多次，拖慢速度，而红黑树的旋转次数较少。</p>
-<p>故AVL在大量插入删除，少量查找时较占优势，红黑树则在少量查找、大量插入删除时较有优势。</p>
+<p>故红黑树在大量插入删除，少量查找时较占优势，AVL树则在少量查找、大量插入删除时较有优势。</p>
 </div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-12-04</span><i class="fa fa-tag"></i><a class="tag" href="/tags/数据结构/" title="数据结构">数据结构 </a><a class="tag" href="/tags/树/" title="树">树 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2018/12/04/AVL树/,Blog,AVL树,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/11/25/Manacher算法/" title="Manacher算法">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var valine = new Valine({
   el:'#vcomments',
   notify:false || false,
