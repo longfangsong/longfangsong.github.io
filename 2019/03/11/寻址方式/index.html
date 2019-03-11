@@ -14,7 +14,7 @@
 <p>本文一方面按照考试的来<sup><a href="#fn_1" id="reffn_1">1</a></sup>,另一方面尽量贴合wikipedia。</p>
 <p>本文假设：</p>
 <ul>
-<li>寻址使用的输入为<code>source_rigister</code>（当输入是寄存器编号）</li>
+<li>寻址使用的输入为<code>source_register</code>（当输入是寄存器编号）</li>
 <li>寻址使用的输入为<code>source_address</code>（当输入是内存地址）</li>
 <li>寻址使用的输入为<code>source</code>（当输入是一个普通的数字）</li>
 <li>寻址出的“地址”称为<code>target_address</code>，常称为有效地址</li>
@@ -28,7 +28,7 @@
 <h4 id="直接寻址"><a href="#直接寻址" class="headerlink" title="直接寻址"></a>直接寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_address = source_address</span><br></pre></td></tr></table></figure>
 <h4 id="间接寻址"><a href="#间接寻址" class="headerlink" title="间接寻址"></a>间接寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_address = *(source_address)</span><br></pre></td></tr></table></figure>
 <h4 id="寄存器寻址"><a href="#寄存器寻址" class="headerlink" title="寄存器寻址"></a>寄存器寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_register = source_rigister</span><br></pre></td></tr></table></figure>
-<h4 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_address = *(source_rigister)</span><br></pre></td></tr></table></figure>
+<h4 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_address = *(source_register)</span><br></pre></td></tr></table></figure>
 <h4 id="偏移寻址"><a href="#偏移寻址" class="headerlink" title="偏移寻址"></a>偏移寻址</h4><h5 id="相对寻址"><a href="#相对寻址" class="headerlink" title="相对寻址"></a>相对寻址</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_address = *(PC) + source</span><br></pre></td></tr></table></figure>
 <h5 id="基址（加偏移量）寻址2"><a href="#基址（加偏移量）寻址2" class="headerlink" title="基址（加偏移量）寻址2"></a>基址（加偏移量）寻址<sup><a href="#fn_2" id="reffn_2">2</a></sup></h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">target_address = *(source_register) + source</span><br></pre></td></tr></table></figure>
 <p>其中<code>source_register</code>被称为基址寄存器，基址寄存器可以隐式地给出。</p>
