@@ -1,0 +1,179 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="龙方淞,longfangsong@icloud.com"><meta name="apple-mobile-web-app-capable" content="yes"><title>抽象代数cheatsheet · Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end --><meta name="description" content="运算二元运算
+给定集合$A$，二元函数$F: A \times A → A$称为集合A上的二元运算。
+
+本文中的二元运算使用 $\circ$ 、$\diamond$  1表示，同时，集合$A$中的元素用 $a$ ，$b$ ，$c$ 等表示。
+可能使集合具有的特殊元素幺元/单位元 （identity "><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="icon" sizes="any" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/SourceCodeVariable-font.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div></div><div style="width: 100%;" id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script><ul class="social-links"><li><a href="http://github.com/longfangsong"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by</span></a><a href="https://www.caicai.me"> CaiCai</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><span class="opacity" id="busuanzi_container_site_pv">访问量</span><span class="opacity" id="busuanzi_value_site_uv"></span><span class="opacity">人次</span><script src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>抽象代数cheatsheet</a></h3></div><div class="post-content"><h2 id="运算"><a href="#运算" class="headerlink" title="运算"></a>运算</h2><h3 id="二元运算"><a href="#二元运算" class="headerlink" title="二元运算"></a>二元运算</h3><blockquote>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><p>给定集合$A$，二元函数$F: A \times A → A$称为集合A上的<strong>二元运算</strong>。</p>
+</blockquote>
+<p>本文中的二元运算使用 $\circ$ 、$\diamond$  <sup><a href="#fn_1" id="reffn_1">1</a></sup>表示，同时，集合$A$中的元素用 $a$ ，$b$ ，$c$ 等表示。</p>
+<h3 id="可能使集合具有的特殊元素"><a href="#可能使集合具有的特殊元素" class="headerlink" title="可能使集合具有的特殊元素"></a>可能使集合具有的特殊元素</h3><h4 id="幺元-单位元-（identity-element-neutral-element）"><a href="#幺元-单位元-（identity-element-neutral-element）" class="headerlink" title="幺元/单位元 （identity element/neutral element）"></a>幺元/单位元 （identity element/neutral element）</h4><p>若对 $A​$ 中每个元素 $a​$</p>
+<script type="math/tex; mode=display">
+i\ \circ\ a = a</script><p>则 $i$ 是 $\circ$ 在 $A​$ 上的左幺元。</p>
+<p>若对 $A$ 中每个元素 $a$</p>
+<script type="math/tex; mode=display">
+a\ \circ\ i = a</script><p>则 $i$ 是 $\circ$ 在 $A​$ 上的右幺元。</p>
+<p>幺元 = 左幺元 &amp; 右幺元。</p>
+<h4 id="逆元-（inverse-element）"><a href="#逆元-（inverse-element）" class="headerlink" title="逆元 （inverse element）"></a>逆元 （inverse element）</h4><p>在已经存在幺元 $i​$ 时，</p>
+<p>若</p>
+<script type="math/tex; mode=display">
+a\ \circ\ b = i</script><p>则 $a$ 是 $b$ 在 $\circ$ 上的左逆元，同时 $b$ 也是 $a$ 在 $\circ$ 下的右逆元。</p>
+<p>逆元 = 左逆元 &amp; 右逆元</p>
+<h4 id="零元（zero-element）"><a href="#零元（zero-element）" class="headerlink" title="零元（zero element）"></a>零元（zero element）</h4><p>若对 $A​$ 中每个元素 $a​$</p>
+<script type="math/tex; mode=display">
+z\ \circ\ a = z</script><p>则 $z$ 是 $\circ$ 在 $A$ 上的左零元。</p>
+<p>若对 $A​$ 中每个元素 $a​$</p>
+<script type="math/tex; mode=display">
+a\ \circ\ z = z</script><p>则 $z​$ 是 $\circ​$ 在 $A​$ 上的右零元。</p>
+<p>零元 = 左零元 &amp; 右零元</p>
+<h4 id="零因子（Zero-divisor）"><a href="#零因子（Zero-divisor）" class="headerlink" title="零因子（Zero divisor）"></a>零因子（Zero divisor）</h4><p>在已经存在零元 $z$ 时：</p>
+<p>若对 $A​$ 中存在不是零元的元素 $b​$</p>
+<script type="math/tex; mode=display">
+a\ \circ\ b = z</script><p>则 $a$ 是 $\circ$ 在 $A$ 上的左零因子。</p>
+<p>若对 $A$ 中存在不是零元的元素 $b$</p>
+<script type="math/tex; mode=display">
+b\ \circ\ a = z</script><p>则 $a$ 是 $\circ$ 在 $A$ 上的右零因子。</p>
+<p>零因子 = 左零因子 &amp; 右零因子（也有说法是 零因子 = 左零因子 | 右零因子）</p>
+<h3 id="可能具有的性质"><a href="#可能具有的性质" class="headerlink" title="可能具有的性质"></a>可能具有的性质</h3><h4 id="交换律"><a href="#交换律" class="headerlink" title="交换律"></a>交换律</h4><p>若对 $A$ 中任意元素 $a$ 、$b​$</p>
+<p>$a\ \circ\ b = b\ \circ\ a​$</p>
+<h4 id="结合律"><a href="#结合律" class="headerlink" title="结合律"></a>结合律</h4><p>若对 $A$ 中任意元素 $a$ 、$b$</p>
+<p>$(a\ \circ\ b)\ \circ\ c =a\ \circ\ (b\ \circ\ c) $</p>
+<h4 id="分配率"><a href="#分配率" class="headerlink" title="分配率"></a>分配率</h4><p>若对 $A$ 中任意元素 $a$ 、$b$、$c$</p>
+<p>若</p>
+<script type="math/tex; mode=display">
+a\ \circ\ (b\ \diamond\ c) = a\ \circ\ b\ \diamond\ a\ \circ\ b</script><p>称 $\circ$ 对 $\diamond$ 具有左分配率。</p>
+<p>若</p>
+<script type="math/tex; mode=display">
+(b\ \diamond\ c) \circ\ a = b\ \circ\ a\ \diamond\ c\ \circ\ a</script><p>称 $\circ$ 对 $\diamond​$ 具有右分配率。</p>
+<p>分配率 = 左分配率 &amp; 右分配率</p>
+<h4 id="幂等率"><a href="#幂等率" class="headerlink" title="幂等率"></a>幂等率</h4><p>对 $A$ 中每个元素 $a$</p>
+<script type="math/tex; mode=display">
+a\ \circ\ a = a</script><h4 id="幂幺率"><a href="#幂幺率" class="headerlink" title="幂幺率"></a>幂幺率</h4><p>对 $A$ 中每个元素 $a​$</p>
+<script type="math/tex; mode=display">
+a\ \circ\ a = i</script><h4 id=""><a href="#" class="headerlink" title=" "></a> </h4><p>其中 $i$ 为幺元。</p>
+<h4 id="幂零率"><a href="#幂零率" class="headerlink" title="幂零率"></a>幂零率</h4><p>对 $A$ 中每个元素 $a$</p>
+<script type="math/tex; mode=display">
+a\ \circ\ a = z</script><h4 id="-1"><a href="#-1" class="headerlink" title=" "></a> </h4><p>其中 $z$ 为零元。</p>
+<h4 id="吸收率"><a href="#吸收率" class="headerlink" title="吸收率"></a>吸收率</h4><p>对 $A$ 中每个 $a$ 、$b​$</p>
+<script type="math/tex; mode=display">
+a\ \circ\ (a\ \diamond\ b) = a\ \diamond\ (a\ \circ\ b) = a</script><p>则这两个运算服从吸收率，两种运算被称为对偶对。</p>
+<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><h3 id="偏序关系"><a href="#偏序关系" class="headerlink" title="偏序关系"></a>偏序关系</h3><p>待补充……</p>
+<h3 id="全序关系"><a href="#全序关系" class="headerlink" title="全序关系"></a>全序关系</h3><p>待补充……</p>
+<h3 id="上-下界"><a href="#上-下界" class="headerlink" title="上/下界"></a>上/下界</h3><p>待补充……</p>
+<h3 id="上-下确界（全上-下界）"><a href="#上-下确界（全上-下界）" class="headerlink" title="上/下确界（全上/下界）"></a>上/下确界（全上/下界）</h3><p>待补充……</p>
+<h2 id="代数结构"><a href="#代数结构" class="headerlink" title="代数结构"></a>代数结构</h2><p>来自维基百科（许多东西没有中文译名……）：</p>
+<p><img src="/Users/longfangsong/blog/source/_posts/代数结构/img1.png" alt="img1"></p>
+<p><img src="/Users/longfangsong/blog/source/_posts/代数结构/Lattice_v4.png" alt="Lattice_v4"></p>
+<h3 id="原群（magma-groupoid）"><a href="#原群（magma-groupoid）" class="headerlink" title="原群（magma/groupoid）"></a>原群（magma/groupoid）</h3><p>有一个集合和一个集合上的二元运算就是原群了。</p>
+<h3 id="拟群（quasigroup）"><a href="#拟群（quasigroup）" class="headerlink" title="拟群（quasigroup）"></a>拟群（quasigroup）</h3><p>对任意元素 $a$ 和 $b$，有唯一的 $x$ 和 $y$，使得</p>
+<script type="math/tex; mode=display">
+a\ \circ\ x = b \\
+y\ \circ\ a = b</script><p>我们可以从此定义出 $\circ$ 的逆运算：</p>
+<script type="math/tex; mode=display">
+x = a\ \grave{\circ}\ b\\
+y = b\ \acute{\circ}\ a\\</script><p>$\grave{\circ}$ 常写作 \ ，常被称为左除。</p>
+<p>$\acute{\circ}$ 常写作 /，被称为右除。</p>
+<h3 id="半群（semigroup）"><a href="#半群（semigroup）" class="headerlink" title="半群（semigroup）"></a>半群（semigroup）</h3><p>原群 加</p>
+<ul>
+<li>运算<ul>
+<li>结合律</li>
+</ul>
+</li>
+</ul>
+<h3 id="幺拟群（圈）（loop）"><a href="#幺拟群（圈）（loop）" class="headerlink" title="幺拟群（圈）（loop）"></a>幺拟群（圈）（loop）</h3><p>拟群 加上：</p>
+<ul>
+<li>特殊元素<ul>
+<li>幺元</li>
+</ul>
+</li>
+</ul>
+<h3 id="幺半群（独异点）（monoid）"><a href="#幺半群（独异点）（monoid）" class="headerlink" title="幺半群（独异点）（monoid）"></a>幺半群（独异点）（monoid）</h3><p>半群 加上：</p>
+<ul>
+<li>特殊元素<ul>
+<li>幺元</li>
+</ul>
+</li>
+</ul>
+<h3 id="可交换幺半群（阿贝尔幺半群）"><a href="#可交换幺半群（阿贝尔幺半群）" class="headerlink" title="可交换幺半群（阿贝尔幺半群）"></a>可交换幺半群（阿贝尔幺半群）</h3><p>幺半群 加上：</p>
+<ul>
+<li>运算<ul>
+<li>交换律</li>
+</ul>
+</li>
+</ul>
+<h3 id="群（group）"><a href="#群（group）" class="headerlink" title="群（group）"></a>群（group）</h3><p>幺半群 加上：</p>
+<ul>
+<li>特殊元素<ul>
+<li>（对每个元素）逆元</li>
+</ul>
+</li>
+</ul>
+<h3 id="可交换群（阿贝尔群）（Abelian-group）"><a href="#可交换群（阿贝尔群）（Abelian-group）" class="headerlink" title="可交换群（阿贝尔群）（Abelian group）"></a>可交换群（阿贝尔群）（Abelian group）</h3><p>群 + 可交换幺半群</p>
+<h3 id="环（ring）"><a href="#环（ring）" class="headerlink" title="环（ring）"></a>环（ring）</h3><p>对一种运算（$\circ$）构成可交换群 + 对另一种运算（$\diamond$）构成半群 + $\circ$ 对$\diamond$有分配率</p>
+<h3 id="幺环"><a href="#幺环" class="headerlink" title="幺环"></a>幺环</h3><p>环 + 其中那个半群是含幺半群</p>
+<h3 id="交换环"><a href="#交换环" class="headerlink" title="交换环"></a>交换环</h3><p>环 + 其中那个半群是交换半群</p>
+<h3 id="无零因子环"><a href="#无零因子环" class="headerlink" title="无零因子环"></a>无零因子环</h3><p>环 + 没有零因子</p>
+<h3 id="整环"><a href="#整环" class="headerlink" title="整环"></a>整环</h3><p>交换环 + 幺环 + 无零因子环</p>
+<h3 id="除环"><a href="#除环" class="headerlink" title="除环"></a>除环</h3><p>所有元素都在 $\circ$ 上有逆元</p>
+<h3 id="域（field）"><a href="#域（field）" class="headerlink" title="域（field）"></a>域（field）</h3><p>交换环 + 除环</p>
+<h3 id="偏序集（partially-ordered-set）"><a href="#偏序集（partially-ordered-set）" class="headerlink" title="偏序集（partially ordered set）"></a>偏序集（partially ordered set）</h3><p>定义了偏序的集合</p>
+<h3 id="半格"><a href="#半格" class="headerlink" title="半格"></a>半格</h3><h4 id="序理论定义"><a href="#序理论定义" class="headerlink" title="序理论定义"></a>序理论定义</h4><p>偏序集 + (最小上界 | 最大上界)</p>
+<h4 id="抽象代数定义"><a href="#抽象代数定义" class="headerlink" title="抽象代数定义"></a>抽象代数定义</h4><p>集合 加上 </p>
+<ul>
+<li>运算<ul>
+<li>交换律</li>
+<li>结合律</li>
+</ul>
+</li>
+</ul>
+<h3 id="格（Lattice）2"><a href="#格（Lattice）2" class="headerlink" title="格（Lattice）2"></a>格（Lattice）<sup><a href="#fn_2" id="reffn_2">2</a></sup></h3><h4 id="序理论定义-1"><a href="#序理论定义-1" class="headerlink" title="序理论定义"></a>序理论定义</h4><p>偏序集 + 最小上界 + 最大上界</p>
+<h4 id="抽象代数定义-1"><a href="#抽象代数定义-1" class="headerlink" title="抽象代数定义"></a>抽象代数定义</h4><p>两个定义在同一个集合上，但运算不同的半格，加上</p>
+<ul>
+<li>两个运算<ul>
+<li>吸收律</li>
+</ul>
+</li>
+</ul>
+<h3 id="分配格"><a href="#分配格" class="headerlink" title="分配格"></a>分配格</h3><p>格 加上</p>
+<ul>
+<li>运算<ul>
+<li>分配率</li>
+</ul>
+</li>
+</ul>
+<h3 id="完全格"><a href="#完全格" class="headerlink" title="完全格"></a>完全格</h3><p>偏序集 + 所有子集都有上确界和下确界</p>
+<h3 id="有界格"><a href="#有界格" class="headerlink" title="有界格"></a>有界格</h3><p>格 加上</p>
+<ul>
+<li>有全下界和全上界</li>
+</ul>
+<h3 id="有补格"><a href="#有补格" class="headerlink" title="有补格"></a>有补格</h3><p>有界格 加上</p>
+<ul>
+<li>对任意元素均有补元</li>
+</ul>
+<h4 id="补元"><a href="#补元" class="headerlink" title="补元"></a>补元</h4><script type="math/tex; mode=display">
+a\ \and\ b=0</script><p>且</p>
+<script type="math/tex; mode=display">
+a\ \or\ b = 1</script><p>则 $b$ 是 $a$ 的补元。</p>
+<h3 id="海廷代数"><a href="#海廷代数" class="headerlink" title="海廷代数"></a>海廷代数</h3><p>有界格 加上</p>
+<p>对于所有 $a$ 和 $b$，集合中存在最大的 $x$，使得$a \and x \leq b$。</p>
+<p>其中 $x$ 称为 $a$ 对 $b$ 的相对伪补元。</p>
+<h3 id="完全海廷代数"><a href="#完全海廷代数" class="headerlink" title="完全海廷代数"></a>完全海廷代数</h3><p>海廷代数 + 完全格</p>
+<h3 id="布尔代数"><a href="#布尔代数" class="headerlink" title="布尔代数"></a>布尔代数</h3><p>有补格 + 分配格</p>
+<p>或</p>
+<p>海廷代数 将 相对伪补元改为真正的补元。</p>
+<h3 id="逻辑代数"><a href="#逻辑代数" class="headerlink" title="逻辑代数"></a>逻辑代数</h3><p>布尔代数 + 二元（集合中元素只有两个）</p>
+<blockquote id="fn_1">
+<sup>1</sup>. 各种材料常常用常见的乘号和加号代表运算，个人并不喜欢这样做，”不同”的东西应该用”不同”的记号<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. 格在群论和序理论中代表两个不同的东西，英文名称都叫Lattice，中文名称都叫格。数学家起名字的水平和我五五开。<a href="#reffn_2" title="Jump back to footnote [2] in the text."> &#8617;</a>
+</blockquote>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-04-09</span><i class="fa fa-tag"></i><a class="tag" href="/tags/抽象代数/" title="抽象代数">抽象代数 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/04/09/代数结构/,Blog,抽象代数cheatsheet,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/03/11/寻址方式/" title="寻址方式">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false,
+  verify:false|| false,
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/3.0.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.6/jquery.appear.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
