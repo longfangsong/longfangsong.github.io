@@ -143,7 +143,7 @@ RV32I中共有47条指令，其中SCALL和FENCE等可以在阉割了部分功能
 </table>
 </div>
 <h2 id="AUIPC"><a href="#AUIPC" class="headerlink" title="AUIPC"></a><code>AUIPC</code></h2><p>这是一个<code>U</code>型指令，<code>opcode</code>为<code>0010111</code>，作用是：<code>rd = pc + imm</code>。</p>
-<p><img src="/Users/longfangsong/blog/source/_posts/RISC-V-基本整数指令集/屏幕快照 2019-06-14 下午3.49.45的副本.png" alt="屏幕快照 2019-06-14 下午3.49.45的副本"></p>
+<p><img src="/2019/06/13/RISC-V-基本整数指令集/屏幕快照 2019-06-14 下午3.49.45的副本.png" alt="屏幕快照 2019-06-14 下午3.49.45的副本"></p>
 <p>这个指令和LALR结合，可以进行32位的相对跳转，可以用来构建PIC<sup><a href="#fn_2" id="reffn_2">2</a></sup>。</p>
 <h2 id="内存存取指令"><a href="#内存存取指令" class="headerlink" title="内存存取指令"></a>内存存取指令</h2><h3 id="LOAD"><a href="#LOAD" class="headerlink" title="LOAD"></a><code>LOAD</code></h3><p>这是一组<code>I</code>型指令，<code>opcode</code>为<code>0000011</code>，用途是将内存中<code>rs1+imm</code>位置的数据加载到<code>rd</code>中。</p>
 <p><img src="/2019/06/13/RISC-V-基本整数指令集/屏幕快照 2019-06-14 下午4.11.45.png" alt="屏幕快照 2019-06-14 下午4.11.45"></p>
