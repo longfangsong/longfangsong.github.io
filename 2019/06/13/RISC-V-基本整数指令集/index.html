@@ -91,7 +91,8 @@ RV32I中共有47条指令，其中SCALL和FENCE等可以在阉割了部分功能
 <p>注意在移位指令中<code>rs2</code>只有低5位有效。</p>
 <h2 id="LUI"><a href="#LUI" class="headerlink" title="LUI"></a><code>LUI</code></h2><p>这是一个<code>U</code>型指令，<code>opcode</code>为<code>0110111</code>，这个指令主要用于将32位数的第31-第12位送入寄存器。与<code>ADDI</code>连用能达到将32位立即数送入寄存器的目的，在后面的跳转指令中也用于构造长距离跳转。</p>
 <p><img src="/2019/06/13/RISC-V-基本整数指令集/屏幕快照 2019-06-14 下午12.27.24.png" alt="屏幕快照 2019-06-14 下午12.27.24"></p>
-<h2 id="控制转移（跳转）指令"><a href="#控制转移（跳转）指令" class="headerlink" title="控制转移（跳转）指令"></a>控制转移（跳转）指令</h2><h3 id="无条件跳转"><a href="#无条件跳转" class="headerlink" title="无条件跳转"></a>无条件跳转</h3><h4 id="JAL"><a href="#JAL" class="headerlink" title="JAL"></a><code>JAL</code></h4><p>这是一个<code>J</code>型指令，<code>opcode</code>为<code>1101111</code>，这个指令将当前<code>pc+4</code>的值存入指定寄存器（可用来进行函数调用），并进行跳转，跳转范围为（向前或向后）<code>1MiB</code>内。</p>
+<h2 id="控制转移（跳转）指令"><a href="#控制转移（跳转）指令" class="headerlink" title="控制转移（跳转）指令"></a>控制转移（跳转）指令</h2><p>RISC-V中的跳转都是相对跳转。</p>
+<h3 id="无条件跳转"><a href="#无条件跳转" class="headerlink" title="无条件跳转"></a>无条件跳转</h3><h4 id="JAL"><a href="#JAL" class="headerlink" title="JAL"></a><code>JAL</code></h4><p>这是一个<code>J</code>型指令，<code>opcode</code>为<code>1101111</code>，这个指令将当前<code>pc+4</code>的值存入指定寄存器（可用来进行函数调用），并进行跳转，跳转范围为（向前或向后）<code>1MiB</code>内。</p>
 <p><img src="/2019/06/13/RISC-V-基本整数指令集/屏幕快照 2019-06-14 下午1.14.20.png" alt="屏幕快照 2019-06-14 下午1.14.20"></p>
 <p>注意此处的<code>offset</code>没有第0位，这是由于每个指令都是32位的，代码区不可能出现<code>offset</code>第0位为1的情况。</p>
 <h3 id="JALR"><a href="#JALR" class="headerlink" title="JALR"></a><code>JALR</code></h3><p>这是一个<code>I</code>型指令，<code>opcode</code>为<code>1100111</code>，和<code>JAL</code>唯一不同之处在于<code>JALR</code>的目标地址是由<code>(imm + rs1) &amp; 0xffff_fffe</code><sup><a href="#fn_1" id="reffn_1">1</a></sup>的结果。</p>
