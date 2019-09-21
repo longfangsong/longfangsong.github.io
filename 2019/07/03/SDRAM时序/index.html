@@ -14,7 +14,7 @@
 <p>我们主要需要关系的就是这个有效地址，从图中可以发现，这块内存的存储阵列是由4个Bank组成的，其中每个Bank内部大概是这样的<sup><a href="#fn_2" id="reffn_2">2</a></sup>：</p>
 <p><img src="/2019/07/03/SDRAM时序/Group.svg" alt="Group"></p>
 <p>其中每个存储单元内有16<sup><a href="#fn_3" id="reffn_3">3</a></sup>个单独的由电容构成的存储体，故每个存储单元内可以存储16个位。</p>
-<p>所以一个有效地址构成如下：</p>
+<p>所以一个有效地址<sup><a href="#fn_4" id="reffn_4">4</a></sup>构成如下：</p>
 <div class="table-container">
 <table>
 <thead>
@@ -36,8 +36,7 @@
 </table>
 </div>
 <p>共24位，这样一个地址确定了内存中的16位数据。</p>
-<p>这样可以容易地算出，这一内存芯片的大小总计为 $2 ^ {24} \times 16 = 268435456$ 位</p>
-<p>合33554432​字节，即32MiB。</p>
+<p>这样可以容易地算出，这一内存芯片的大小总计为 $2 ^ {24} \times 16 = 268435456$ 位，合33554432​字节，即32MiB。</p>
 <h2 id="引脚说明"><a href="#引脚说明" class="headerlink" title="引脚说明"></a>引脚说明</h2><p>以<strong>54_TSOPII</strong>封装方式为例，忽略（往往板子上已经帮你焊好的）供电引脚：</p>
 <div class="table-container">
 <table>
@@ -82,7 +81,7 @@
 <tr>
 <td>LDQM，UDQM</td>
 <td>inout</td>
-<td>是否要Mask掉一半的输入输出</td>
+<td>是否要Mask掉一半的输入输出（16位中的8位）</td>
 </tr>
 <tr>
 <td>DQ0-15</td>
@@ -95,13 +94,15 @@
 <h2 id="SDRAM初始化时序"><a href="#SDRAM初始化时序" class="headerlink" title="SDRAM初始化时序"></a>SDRAM初始化时序</h2><p><img src="/2019/07/03/SDRAM时序/sdram_init_timming.png" alt="sdram_init_timming"></p>
 <p>光看时序图可（肯）能（定）不好理解，我们还是像软件算法那样一步步写下来比较好，记得所有指令都在CLK上升沿时被执行：</p>
 <ol>
-<li><p>在芯片上电并为其输入稳定的时钟信号后，等待（即不断发送<code>NOP</code>指令，<code>{NRAS, NCAS, NWE} = &#39;b111</code>）至少100µs，然后发送<code>precharge</code>指令（即<code>{NRAS, NCAS, NWE} = &#39;b010</code>，同时<code>A10 = 1</code>来选中全部bank）。</p>
+<li><p>在芯片上电并为其输入稳定的时钟信号后，等待（即不断发送<code>NOP</code>指令，<code>{NRAS, NCAS, NWE} = &#39;b111</code>）至少100µs</p>
+</li>
+<li><p>发送<code>precharge</code>指令（即<code>{NRAS, NCAS, NWE} = &#39;b010</code>，同时<code>A10 = 1</code>来选中全部bank）。</p>
 </li>
 <li><p>等待<code>precharge</code>完成，等待时长为$t_{RP}$，在我这块片子上至少是20ns。</p>
 </li>
-<li><p>发送<code>auto refresh</code>指令（即<code>{NRAS, NCAS, NWE} = &#39;b001</code>），并等待其执行完成，等待时长为$t_{RC}$，在我的片子上至少是15ns。</p>
+<li><p>发送<code>auto refresh</code>指令（即<code>{NRAS, NCAS, NWE} = &#39;b001</code>），并等待其执行完成，等待时长为$t_{RC}$，在我的片子上至少是63ns。</p>
 </li>
-<li><p>重复步骤3至少一次。</p>
+<li><p>重复步骤4至少一次。</p>
 </li>
 <li><p>发送<code>load mode register</code>指令（即<code>{NRAS, NCAS, NWE} = &#39;b000</code>），mode register的值由地址线（含Bank地址线）给出：</p>
 <p><img src="/2019/07/03/SDRAM时序/mode_register.png" alt="mode_register"></p>
@@ -150,7 +151,7 @@
 </ol>
 <h2 id="SDRAM刷新时序"><a href="#SDRAM刷新时序" class="headerlink" title="SDRAM刷新时序"></a>SDRAM刷新时序</h2><p><img src="/2019/07/03/SDRAM时序/auto_refresh.png" alt="auto_refresh"></p>
 <p>直接在其他命令完成后（即最后的<code>precharge</code>完全完成后）发送<code>auto refresh</code>（<code>{NRAS, NCAS, NWE} = &#39;b001</code>，然后等待$t_{RC}$（我的片子上至少是15ns）即可。</p>
-<p>SDRAM内部电容保存数据的最长时间是64ms。一次刷新可以刷新每个bank的一行。因此两次刷新之间的时间间隔不应超过$64ms / 每bank行数$，在我的片子上这个数值是$64ms / 8192 = 7.8125\mu s$，考虑到时钟精度问题，$7.5\mu s$（1000个时钟周期）刷新一次为宜。</p>
+<p>SDRAM内部电容保存数据的最长时间是64ms。一次刷新可以刷新每个bank的一行。因此两次刷新之间的时间间隔不应超过$64ms / 每bank行数$，在我的片子上这个数值是$64ms / 8192 = 7.8125\mu s$，考虑到时钟精度问题，$7.68\mu s$（1024个时钟周期）刷新一次为宜。</p>
 <p>所以，整个SDRAM的操作就可以建模为一个状态机，初始化完成后，进入等待状态，当需要刷新时就进行刷新，在读写请求到来时，如果没有刷新的任务，就进入读写状态，否则进行一次突发读写，然后再判断是否需要刷新或进一步读写。</p>
 <blockquote id="fn_1">
 <sup>1</sup>. 然而我觉得并不方便TAT<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
@@ -161,7 +162,10 @@
 <blockquote id="fn_3">
 <sup>3</sup>. 随芯片型号而定<a href="#reffn_3" title="Jump back to footnote [3] in the text."> &#8617;</a>
 </blockquote>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-07-03</span><i class="fa fa-tag"></i><a class="tag" href="/tags/计组/" title="计组">计组 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/07/03/SDRAM时序/,Blog,SDRAM时序,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/06/13/RISC-V-基本整数指令集/" title="RISC-V 基本整数指令集">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var valine = new Valine({
+<blockquote id="fn_4">
+<sup>4</sup>. 如果要求按字节编址，则要再增加一位，来判断是读写当前内存16位中的高8位还是低8位，即向RAM控制器发送的地址为25位。<a href="#reffn_4" title="Jump back to footnote [4] in the text."> &#8617;</a>
+</blockquote>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-07-03</span><i class="fa fa-tag"></i><a class="tag" href="/tags/计组/" title="计组">计组 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/07/03/SDRAM时序/,Blog,SDRAM时序,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2019/09/19/并行、并发、同步、异步及其他-1/" title="并行、并发、同步、异步及其他 (1)">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/06/13/RISC-V-基本整数指令集/" title="RISC-V 基本整数指令集">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var valine = new Valine({
   el:'#vcomments',
   notify:false || false,
   verify:false|| false,
