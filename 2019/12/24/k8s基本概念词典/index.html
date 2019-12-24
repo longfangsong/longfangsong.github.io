@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="龙方淞,longfangsong@icloud.com"><meta name="apple-mobile-web-app-capable" content="yes"><title>k8s基本概念词典 · Blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end --><meta name="description" content="API Server我理解就是可以由此调用k8s的restful API来观察和管理各个集群里的各个对象。
+Pod一般来说，pod就是一个在跑的容器。
+当然也有一些情况是一个Pod内部署多个相关的容器的，比如多个容器需要共享一个存储 Volume 或者一个 IP 地址
+Service简单来说就是给一"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="icon" sizes="any" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><link rel="stylesheet" href="/css/SourceCodeVariable-font.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div></div><div style="width: 100%;" id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script><ul class="social-links"><li><a href="http://github.com/longfangsong"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by</span></a><a href="https://www.caicai.me"> CaiCai</a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><span class="opacity" id="busuanzi_container_site_pv">访问量</span><span class="opacity" id="busuanzi_value_site_uv"></span><span class="opacity">人次</span><script src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>k8s基本概念词典</a></h3></div><div class="post-content"><h2 id="API-Server"><a href="#API-Server" class="headerlink" title="API Server"></a>API Server</h2><p>我理解就是可以由此调用k8s的restful API来观察和管理各个集群里的各个对象。</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><h2 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h2><p>一般来说，pod就是一个在跑的容器。</p>
+<p>当然也有一些情况是一个Pod内部署多个相关的容器的，比如多个容器需要共享一个存储 Volume 或者一个 IP 地址</p>
+<h2 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h2><p>简单来说就是给一组Pod在集群内一个稳定（不随着Pod消亡/创建/修改而变化）的IP，并在这组Pod间进行负载均衡。</p>
+<h2 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h2><p>Controller负责监视集群状态，然后推动集群往“用户想要的状态”变化，每种资源都对应一种controller。</p>
+<h2 id="kube-controller-manager"><a href="#kube-controller-manager" class="headerlink" title="kube-controller-manager"></a>kube-controller-manager</h2><p>所有Controller的总称。</p>
+<h2 id="kubelet"><a href="#kubelet" class="headerlink" title="kubelet"></a>kubelet</h2><p>一个在每个node上都运行的worker，定期获取node要部署的pod的期望状态，并调用对应的容器平台接口达到这个状态。</p>
+<h2 id="kube-proxy"><a href="#kube-proxy" class="headerlink" title="kube-proxy"></a>kube-proxy</h2><p>Service到Pod的转发与负载均衡的实现。（在现在的k8s实现下，在Service和对应endpoint更新时，这玩意在会动iptables来实现目的）</p>
+<h2 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h2><p>简单来说就是用来创建一个Pod，跑一次，然后结束。</p>
+<h2 id="Cron-Job"><a href="#Cron-Job" class="headerlink" title="Cron Job"></a>Cron Job</h2><p>创建在给定时间点运行一次的pod，或是周期性创建并运行Pod。</p>
+<h2 id="Replication-Controller"><a href="#Replication-Controller" class="headerlink" title="Replication Controller"></a>Replication Controller</h2><p>一种用来保证有一定量的Pod副本个数在同时运行的Controller，注意这个Controller只能负责Pod的<strong>个数<sup><a href="#fn_1" id="reffn_1">1</a></sup></strong>。</p>
+<p>现在已经不推荐使用，建议使用Deployment。</p>
+<h2 id="ReplicaSet"><a href="#ReplicaSet" class="headerlink" title="ReplicaSet"></a>ReplicaSet</h2><p>改进版的Replication Controller，改进了选择器支持（我是没看出有多大变化）。</p>
+<h2 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h2><p>用于创建和管理Pod和对应ReplicaSet，经由Deployment，我们既可以更新pod族对应的镜像，也可以对其副本数进行伸缩。</p>
+<h2 id="StatefulSet"><a href="#StatefulSet" class="headerlink" title="StatefulSet"></a>StatefulSet</h2><p>StatefulSet是“有状态的Deployment”。</p>
+<p>其应用场景包括：</p>
+<ul>
+<li>Pod重新调度后还要访问到相同的持久化数据（需要使用PVC实现）</li>
+<li>Pod重新调度后其PodName和HostName不变（需要一个Headless Service实现）</li>
+<li>Pod的有序性（前面的pod准备好了，后面的pod才能开始运行，后面的pod销毁了，才能销毁前面的pod）</li>
+</ul>
+<p>从我自己的角度来看，就是将Deployment的“随机ID”改为了“自增ID”，并利用这个ID做一些将Pod和PVC绑定等等的事情。</p>
+<h2 id="DaemonSet"><a href="#DaemonSet" class="headerlink" title="DaemonSet"></a>DaemonSet</h2><p>DaemonSet 确保全部（或者某些）节点上运行一个 Pod 的副本。</p>
+<p>就是每个符合条件的节点都给他绑一个Pod。</p>
+<h2 id="Volume"><a href="#Volume" class="headerlink" title="Volume"></a>Volume</h2><p>持久卷，不随着Pod移除而被移除的存储卷。</p>
+<h2 id="PersistentVolume"><a href="#PersistentVolume" class="headerlink" title="PersistentVolume"></a>PersistentVolume</h2><p>由集群管理员事先创建好的存储卷。</p>
+<h2 id="PersistentVolumeClaim"><a href="#PersistentVolumeClaim" class="headerlink" title="PersistentVolumeClaim"></a>PersistentVolumeClaim</h2><p>用户对<code>PersistentVolume</code>的使用请求，用户只需告知k8s自己需要什么样的存储卷，k8s会自动从创建好的PV中挑选合适的，给用户使用。</p>
+<h2 id="Storage-Class"><a href="#Storage-Class" class="headerlink" title="Storage Class"></a>Storage Class</h2><blockquote>
+<p><code>StorageClass</code> 为管理员提供了描述存储 <code>&quot;类&quot;</code> 的方法。 不同的<code>类型</code>可能会映射到不同的服务质量等级或备份策略，或是由群集管理员制定的任意策略。</p>
+</blockquote>
+<p>就是某种符合某些条件的卷归为的一类。</p>
+<h2 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h2><p>用于管理对集群中服务的外部访问。</p>
+<h2 id="Operator"><a href="#Operator" class="headerlink" title="Operator"></a>Operator</h2><p>k8s的用户扩展。</p>
+<p>将k8s的资源和Controller的概念扩展到特定的应用程序上，使得对这些应用程序的“资源”的管理也能像对k8s的原生资源管理那样进行。</p>
+<blockquote id="fn_1">
+<sup>1</sup>. 讲道理根据我在上海大学开源社区的运维经验来看，更新镜像的场景比改变副本数的场景多多了……究其原因还是社区又穷服务又没人用，什么动态缩扩容什么的功能根本没用 TAT。<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
+</blockquote>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-12-24</span><i class="fa fa-tag"></i><a class="tag" href="/tags/k8s/" title="k8s">k8s </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/12/24/k8s基本概念词典/,Blog,k8s基本概念词典,;"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/09/21/并行、并发、同步、异步及其他-3/" title="并行、并发、同步、异步及其他 (3)">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false,
+  verify:false|| false,
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script></div></div></div></div><script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><script src="https://cdn.bootcss.com/jquery-migrate/3.0.1/jquery-migrate.min.js"></script><script src="https://cdn.bootcss.com/jquery.appear/0.3.6/jquery.appear.min.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>
