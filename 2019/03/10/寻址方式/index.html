@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>寻址方式 · Blog</title><meta name="description" content="寻址模式是大多数中央处理器 （CPU）设计中的指令集架构的一个方面。 在给定指令集架构中定义的各种寻址模式决定了该架构中的机器语言指令如何识别每个指令的操作数。寻址模式指定如何通过使用寄存器中保存的信息和/或机器指令中包含的常量或其他地方包含的常量来计算操作数的有效存储器地址。  —— 《维基百科》"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>寻址方式</a></h1></div><div class="post-content"><blockquote>
+<p>寻址模式是大多数中央处理器 （CPU）设计中的指令集架构的一个方面。 在给定指令集架构中定义的各种寻址模式决定了该架构中的机器语言指令如何识别每个指令的操作数。寻址模式指定如何通过使用寄存器中保存的信息和/或机器指令中包含的常量或其他地方包含的常量来计算操作数的有效存储器地址。  —— 《维基百科》，词条翻译自英文，译者本人</p>
+</blockquote>
+<p>简单来说寻址方式就是“CPU找数据/指令”的方式。</p>
+<h2 id="注意"><a class="headerlink" href="#注意" title="注意"></a>注意</h2><p>各种寻址模式都没有一个被普遍接受的的名称。不同的作者和计算机制造商可以为相同的寻址模式赋予不同的名称，或者为不同的寻址模式赋予相同的名称。</p>
+<h2 id="常见寻址方式"><a class="headerlink" href="#常见寻址方式" title="常见寻址方式"></a>常见寻址方式</h2><h3 id="指令的寻址方式"><a class="headerlink" href="#指令的寻址方式" title="指令的寻址方式"></a>指令的寻址方式</h3><p>指令寻址的目的就是修改PC的值，因此下面的例子中</p>
+<h4 id="顺序寻址方式"><a class="headerlink" href="#顺序寻址方式" title="顺序寻址方式"></a>顺序寻址方式</h4><p>没啥可说的，就是PC往下移：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">PC = PC + <span class="number">1</span></span><br/></pre></td></tr></table></figure>
+<h4 id="跳跃寻址方式"><a class="headerlink" href="#跳跃寻址方式" title="跳跃寻址方式"></a>跳跃寻址方式</h4><h5 id="绝对跳跃寻址"><a class="headerlink" href="#绝对跳跃寻址" title="绝对跳跃寻址"></a>绝对跳跃寻址</h5><p>即让PC跳跃到指定的地址处：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">PC = some address</span><br/></pre></td></tr></table></figure>
+<h5 id="相对跳跃寻址"><a class="headerlink" href="#相对跳跃寻址" title="相对跳跃寻址"></a>相对跳跃寻址</h5><p>即让PC变化指定的offset，此处offset可正可负，即跳转可以往前也可以往后：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">PC += offset</span><br/></pre></td></tr></table></figure>
+<h3 id="数据的寻址方式"><a class="headerlink" href="#数据的寻址方式" title="数据的寻址方式"></a>数据的寻址方式</h3><p>数据的寻址方式较多，且很多寻址方式的名称因为没有统一规定而众说纷纭。</p>
+<p>本文一方面按照考试的来<sup><a href="#fn_1" id="reffn_1">1</a></sup>,另一方面尽量贴合wikipedia。</p>
+<p>本文假设：</p>
+<ul>
+<li>寻址使用的输入为<code>source_register</code>（当输入是寄存器编号）</li>
+<li>寻址使用的输入为<code>source_address</code>（当输入是内存地址）</li>
+<li>寻址使用的输入为<code>source</code>（当输入是一个普通的数字）</li>
+<li>寻址出的“地址”称为<code>target_address</code>，常称为有效地址</li>
+<li>寻址出的“寄存器编号”称为<code>target_register</code>（立即数除外，立即数就是个数值）。</li>
+</ul>
+<p><code>*</code>的意义和C语言基本一样，即<code>*(address)</code>即取内存中<code>address</code>处的引用，<code>*(register_id)</code>代表取寄存器中的值。</p>
+<h4 id="隐含寻址"><a class="headerlink" href="#隐含寻址" title="隐含寻址"></a>隐含寻址</h4><p>操作数是默认的，很多老的计算机在做运算的时候都是默认寻址累加器，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/></pre></td><td class="code"><pre><span class="line">; 想要实现 b += 3</span><br/><span class="line">mov target_register, b      ; target = b</span><br/><span class="line">add 3                       ; target_register += 3</span><br/><span class="line">mov    target, target_register ; target = a</span><br/></pre></td></tr></table></figure>
+<p>这里<code>add 3</code>中使用到的<code>target_register</code>就是隐含寻址。</p>
+<h4 id="立即寻址"><a class="headerlink" href="#立即寻址" title="立即寻址"></a>立即寻址</h4><p>这个是不是算寻址有一些争议，总的来说就是把数据直接塞在指令里。</p>
+<h4 id="直接寻址"><a class="headerlink" href="#直接寻址" title="直接寻址"></a>直接寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address = source_address</span><br/></pre></td></tr></table></figure>
+<h4 id="间接寻址"><a class="headerlink" href="#间接寻址" title="间接寻址"></a>间接寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address = *(source_address)</span><br/></pre></td></tr></table></figure>
+<h4 id="寄存器寻址"><a class="headerlink" href="#寄存器寻址" title="寄存器寻址"></a>寄存器寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_register = source_rigister</span><br/></pre></td></tr></table></figure>
+<h4 id="寄存器间接寻址"><a class="headerlink" href="#寄存器间接寻址" title="寄存器间接寻址"></a>寄存器间接寻址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address = *(source_register)</span><br/></pre></td></tr></table></figure>
+<h4 id="偏移寻址"><a class="headerlink" href="#偏移寻址" title="偏移寻址"></a>偏移寻址</h4><h5 id="相对寻址"><a class="headerlink" href="#相对寻址" title="相对寻址"></a>相对寻址</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address = *(PC) + source</span><br/></pre></td></tr></table></figure>
+<h5 id="基址（加偏移量）寻址2"><a class="headerlink" href="#基址（加偏移量）寻址2" title="基址（加偏移量）寻址2"></a>基址（加偏移量）寻址<sup><a href="#fn_2" id="reffn_2">2</a></sup></h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address = *(source_register) + source</span><br/></pre></td></tr></table></figure>
+<p>其中<code>source_register</code>被称为基址寄存器，基址寄存器可以隐式地给出。</p>
+<p>其实相对寻址就是隐含<code>source_register</code>为PC的基址寻址。</p>
+<h5 id="变址寻址"><a class="headerlink" href="#变址寻址" title="变址寻址"></a>变址寻址</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address =  source_address + *(source_register)</span><br/></pre></td></tr></table></figure>
+<p>注意基址寻址和变址寻址的不同：</p>
+<ul>
+<li>基址（加偏移量）寻址是：确定不变的地址在<code>source_register</code>中，改变<code>source</code>来访问不同的地址</li>
+<li>变址寻址是：确定不变的地址在<code>source_address</code>中，改变<code>source_register</code>中的值来访问不同的地址</li>
+</ul>
+<h4 id="段寻址"><a class="headerlink" href="#段寻址" title="段寻址"></a>段寻址</h4><p>段寻址是基址寻址的特例<sup><a href="#fn_3" id="reffn_3">3</a></sup>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address = *(source_register) &lt;&lt; <span class="number">4</span> + source</span><br/></pre></td></tr></table></figure>
+<p>这里的4是书中给的值，实际上要根据段的大小调整。</p>
+<h3 id="寻址方式的复合"><a class="headerlink" href="#寻址方式的复合" title="寻址方式的复合"></a>寻址方式的复合</h3><p>比如，下面的寻址方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">target_address = *(*(source_register) + source)</span><br/></pre></td></tr></table></figure>
+<p>显然是基址寻址复合上间接寻址，那么这种寻址方式就称为“基址间接寻址”。</p>
+<h3 id="更多"><a class="headerlink" href="#更多" title="更多"></a>更多</h3><p>还有很多其他的寻址方式，例如比例变址加偏移量、基址加变址加偏移量、基址加比例变址加偏移量、blablabla的东西。</p>
+<p>不过这些寻址方式都是从上面几种方式变过去的，都大同小异。况且考试也不考，我就不写了，具体看维基吧（中文维基我还在翻译中……）。</p>
+<blockquote id="fn_1">
+<sup>1</sup>. 要活命的嘛……虽然书上不知所云<a href="#reffn_1" title="Jump back to footnote [1] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. 教课书中称之为基址寻址，但维基和Pentium皆称之为基址+偏移量寻址，根据书中所述，Pentium将文中的间接寻址称为基址寻址。请再读一遍“注意”中的内容，并思考为什么考试考这个是一个坏主意。<a href="#reffn_2" title="Jump back to footnote [2] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_3">
+<sup>3</sup>. 讲道理我觉得这算是“内存管理策略”而非寻址方式。<a href="#reffn_3" title="Jump back to footnote [3] in the text."> ↩</a>
+</blockquote>
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-03-11</span><i class="fa fa-tag"></i><a class="tag" href="/tags/计组/" title="计组">计组 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/03/10/寻址方式/,Blog,寻址方式,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2019/04/08/%E4%BB%A3%E6%95%B0%E7%BB%93%E6%9E%84%20cheatsheet/" title="代数结构 cheatsheet">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/01/28/%E7%AE%80%E5%8D%95CPU%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0/" title="简单CPU的设计与实现">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

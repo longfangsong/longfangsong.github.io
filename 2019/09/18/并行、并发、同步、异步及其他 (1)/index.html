@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>并行、并发、同步、异步及其他 (1) · Blog</title><meta name="description" content="概念并行（Parallel）同一时刻运行多个计算。
+ hexo-inject:begin  hexo-inject:end 位级并行（Bit-level parallelism）（这也算并行？）（还真是，同一时刻计算多个位……）
+一个很好的例子就是比较两个整数，不是逐个位串行比较而是一次就比较所有位"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>并行、并发、同步、异步及其他 (1)</a></h1></div><div class="post-content"><h1 id="概念"><a class="headerlink" href="#概念" title="概念"></a>概念</h1><h2 id="并行（Parallel）"><a class="headerlink" href="#并行（Parallel）" title="并行（Parallel）"></a>并行（Parallel）</h2><p>同一时刻运行多个计算。</p>
+ hexo-inject:begin  hexo-inject:end <h3 id="位级并行（Bit-level-parallelism）"><a class="headerlink" href="#位级并行（Bit-level-parallelism）" title="位级并行（Bit-level parallelism）"></a>位级并行（Bit-level parallelism）</h3><p>（这也算并行？）（还真是，同一时刻计算多个位……）</p>
+<p>一个很好的例子就是比较两个整数，不是逐个位串行比较而是一次就比较所有位。</p>
+<p>That’s one of the reason we increase the word length of a CPU.</p>
+<h3 id="指令级并行（Instruction-level-parallelism）"><a class="headerlink" href="#指令级并行（Instruction-level-parallelism）" title="指令级并行（Instruction-level parallelism）"></a>指令级并行（Instruction-level parallelism）</h3><p>同一时刻执行多个指令。</p>
+<ul>
+<li>硬件上<ul>
+<li>流水线</li>
+<li>超标量：多个ALU或类似运算单元（如FPU），某个ALU忙着的时候可以用别的ALU（md，我真希望ALU能直接组合逻辑完成一切计算）</li>
+<li>多发射：为什么要让ALU闲着？取指令什么的工序也给我多整几个。（于是变成了多个流水线一起跑）</li>
+</ul>
+</li>
+<li>软件&amp;硬件上<ul>
+<li>多发射中，对目前正在执行指令的结果有依赖的指令不能执行，此时可以让后面对结果没有依赖的指令先执行。这可以通过编译时的<strong>指令重排</strong>（龙书第10章）和执行时的<strong>乱序执行</strong>来实现。</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据级并行"><a class="headerlink" href="#数据级并行" title="数据级并行"></a>数据级并行</h3><p>同一时刻单个指令处理多个数据。</p>
+<ul>
+<li><p>cuda</p>
+</li>
+<li><p>mpi</p>
+</li>
+<li><p>openmp</p>
+</li>
+<li><p>simd</p>
+</li>
+</ul>
+<h3 id="任务级并行"><a class="headerlink" href="#任务级并行" title="任务级并行"></a>任务级并行</h3><p>我们常用的多线程/多进程属于这一级别。</p>
+<h2 id="并发（Concurrent）"><a class="headerlink" href="#并发（Concurrent）" title="并发（Concurrent）"></a>并发（Concurrent）</h2><p>同一时间段内运行多个计算。</p>
+<p>并发——有并行的潜力。</p>
+<h2 id="同步IO"><a class="headerlink" href="#同步IO" title="同步IO"></a>同步IO</h2><p>发起IO请求的线程不从正在调用的IO操作函数返回（即被阻塞），直至IO操作完成。</p>
+<h2 id="异步IO"><a class="headerlink" href="#异步IO" title="异步IO"></a>异步IO</h2><p>发起IO请求的线程不等IO操作完成，就继续执行随后的代码，IO结果用其他方式通知发起IO请求的程序。</p>
+<h2 id="阻塞"><a class="headerlink" href="#阻塞" title="阻塞"></a>阻塞</h2><p>IO结果准备好之前，当前线程/进程挂起。</p>
+<p>显然的，异步阻塞IO没有意义。</p>
+<h2 id="非阻塞"><a class="headerlink" href="#非阻塞" title="非阻塞"></a>非阻塞</h2><p>IO结果准备好之前，当前线程不挂起，而是继续做下面的事情。</p>
+<p>同步非阻塞就是（由当前线程自己）不断轮询IO结果是否准备好。</p>
+<p>见 <a href="https://en.wikipedia.org/wiki/Asynchronous_I/O#Examples" rel="noopener" target="_blank">wikipedia</a> 上的伪代码。</p>
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-09-19</span><i class="fa fa-tag"></i><a class="tag" href="/tags/并发/" title="并发">并发 </a><a class="tag" href="/tags/并行/" title="并行">并行 </a><a class="tag" href="/tags/同步/" title="同步">同步 </a><a class="tag" href="/tags/异步/" title="异步">异步 </a><a class="tag" href="/tags/阻塞/" title="阻塞">阻塞 </a><a class="tag" href="/tags/非阻塞/" title="非阻塞">非阻塞 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/09/18/并行、并发、同步、异步及其他 (1)/,Blog,并行、并发、同步、异步及其他 (1),;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2019/09/20/%E5%B9%B6%E8%A1%8C%E3%80%81%E5%B9%B6%E5%8F%91%E3%80%81%E5%90%8C%E6%AD%A5%E3%80%81%E5%BC%82%E6%AD%A5%E5%8F%8A%E5%85%B6%E4%BB%96%20(3)/" title="并行、并发、同步、异步及其他 (3)">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/07/02/SDRAM%E6%97%B6%E5%BA%8F/" title="SDRAM时序">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

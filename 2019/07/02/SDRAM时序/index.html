@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>SDRAM时序 · Blog</title><meta name="description" content="人类怎么会设计出SDRAM这种复杂到爆炸的玩意啊TAT，上帝也是个老混蛋好好的晶体管漏什么电啊。
+ hexo-inject:begin  hexo-inject:end 
+动态随机存取存储器（Dynamic Random Access Memory，DRAM）是一种半导体存储器，主要的作用原理是利用"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>SDRAM时序</a></h1></div><div class="post-content"><p><del>人类怎么会设计出SDRAM这种复杂到爆炸的玩意啊TAT，上帝也是个老混蛋好好的晶体管漏什么电啊。</del></p>
+ hexo-inject:begin  hexo-inject:end <blockquote>
+<p><strong>动态随机存取存储器</strong>（<strong>Dynamic Random Access Memory</strong>，<strong>DRAM</strong>）是一种<a href="https://zh.wikipedia.org/wiki/半导体" rel="noopener" target="_blank">半导体</a><a href="https://zh.wikipedia.org/wiki/記憶體" rel="noopener" target="_blank">存储器</a>，主要的作用原理是利用<a href="https://zh.wikipedia.org/wiki/電容" rel="noopener" target="_blank">电容</a>内存储<a href="https://zh.wikipedia.org/wiki/電荷" rel="noopener" target="_blank">电荷</a>的多寡来代表一个<a href="https://zh.wikipedia.org/wiki/二进制" rel="noopener" target="_blank">二进制</a><a href="https://zh.wikipedia.org/wiki/位元" rel="noopener" target="_blank">比特</a>（bit）是1还是0。由于在现实中晶体管会有漏电电流的现象，导致电容上所存储的电荷数量并不足以正确的判别数据，而导致数据毁损。因此对于DRAM来说，周期性地充电是一个无可避免的要件。由于这种需要定时刷新的特性，因此被称为“动态”存储器。相对来说，静态存储器（<a href="https://zh.wikipedia.org/wiki/静态随机存取存储器" rel="noopener" target="_blank">SRAM</a>）只要存入数据后，纵使不刷新也不会丢失记忆。</p>
+<p>—— 中文Wikipedia，DRAM页面</p>
+<p><strong>同步动态随机存取內存</strong>（synchronous dynamic random-access memory，简称SDRAM）是有一个<a href="https://zh.wikipedia.org/w/index.php?title=同步接口&amp;action=edit&amp;redlink=1" rel="noopener" target="_blank">同步接口</a>的动态随机存取內存（<a href="https://zh.wikipedia.org/wiki/DRAM" rel="noopener" target="_blank">DRAM</a>）。通常DRAM是有一个异步接口的，这样它可以随时响应控制输入的变化。而SDRAM有一个同步接口，在响应控制<a href="https://zh.wikipedia.org/w/index.php?title=输入&amp;action=edit&amp;redlink=1" rel="noopener" target="_blank">输入</a>前会等待一个<a href="https://zh.wikipedia.org/wiki/时钟信号" rel="noopener" target="_blank">时钟信号</a>，这样就能和计算机的<a href="https://zh.wikipedia.org/wiki/系统总线" rel="noopener" target="_blank">系统总线</a>同步。时钟被用来驱动一个有限状态机，对进入的指令进行<a href="https://zh.wikipedia.org/wiki/流水线_(计算机" rel="noopener" target="_blank">管线</a>)(Pipeline)操作。这使得SDRAM与没有同步接口的异步DRAM(asynchronous DRAM)相比，可以有一个更复杂的操作模式。</p>
+<p>—— 中文Wikipedia，SDRAM页面</p>
+</blockquote>
+<p><del>你这样说谁懂啊</del></p>
+<p>简单来说，DRAM就是一种用电容里有没有电来表示这一位是0还是1的存储器，而SDRAM在普通DRAM的基础上加了一些外围电路，使得对DRAM内数据的操作仅在时钟信号到来时才会进行，这样便于和总线进行同步等<sup><a href="#fn_1" id="reffn_1">1</a></sup>。</p>
+<h2 id="内部结构"><a class="headerlink" href="#内部结构" title="内部结构"></a>内部结构</h2><p>这里以我的开发板上的H57V2562GTR-75C（根据数据手册，这款芯片有4个bank，bank内的列地址有9位，行地址有13位，每个存储单元为16位）为例，其结构如图：</p>
+<p><img alt="diagram" src="./diagram.png"/></p>
+<p>我们主要需要关系的就是这个有效地址，从图中可以发现，这块内存的存储阵列是由4个Bank组成的，其中每个Bank内部大概是这样的<sup><a href="#fn_2" id="reffn_2">2</a></sup>：</p>
+<p><img alt="Group" src="./Group.svg"/></p>
+<p>其中每个存储单元内有16<sup><a href="#fn_3" id="reffn_3">3</a></sup>个单独的由电容构成的存储体，故每个存储单元内可以存储16个位。</p>
+<p>所以一个有效地址<sup><a href="#fn_4" id="reffn_4">4</a></sup>构成如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>内容</th>
+<th>Bank选择</th>
+<th>行选择</th>
+<th>列选择</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>位数</td>
+<td>2</td>
+<td>13</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>共24位，这样一个地址确定了内存中的16位数据。</p>
+<p>这样可以容易地算出，这一内存芯片的大小总计为 $2 ^ {24} \times 16 = 268435456$ 位，合33554432​字节，即32MiB。</p>
+<h2 id="引脚说明"><a class="headerlink" href="#引脚说明" title="引脚说明"></a>引脚说明</h2><p>以<strong>54_TSOPII</strong>封装方式为例，忽略（往往板子上已经帮你焊好的）供电引脚：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>引脚</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLK</td>
+<td>input</td>
+<td>时钟信号</td>
+</tr>
+<tr>
+<td>CKE</td>
+<td>input</td>
+<td>时钟使能信号，控制SDRAM内部时钟是否运行，为0时，根据其他连线SDRAM会进入断电、挂起或自刷新状态</td>
+</tr>
+<tr>
+<td>NCS</td>
+<td>input</td>
+<td>片选信号</td>
+</tr>
+<tr>
+<td>BA0、BA1</td>
+<td>input</td>
+<td>Bank地址</td>
+</tr>
+<tr>
+<td>A0-A12</td>
+<td>input</td>
+<td>地址线，行列分时复用，行地址使用全部13根线，列地址只使用0-8号，同时A10被用作自动预充电是否选中全部bank的flag。</td>
+</tr>
+<tr>
+<td>NRAS，NCAS，NWE</td>
+<td>input</td>
+<td>指定了要做的操作</td>
+</tr>
+<tr>
+<td>LDQM，UDQM</td>
+<td>inout</td>
+<td>是否要Mask掉一半的输入输出（16位中的8位）</td>
+</tr>
+<tr>
+<td>DQ0-15</td>
+<td>inout</td>
+<td>数据线</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="SDRAM初始化时序"><a class="headerlink" href="#SDRAM初始化时序" title="SDRAM初始化时序"></a>SDRAM初始化时序</h2><p><img alt="sdram_init_timming" src="./sdram_init_timming.png"/></p>
+<p>光看时序图可（肯）能（定）不好理解，我们还是像软件算法那样一步步写下来比较好，记得所有指令都在CLK上升沿时被执行：</p>
+<ol>
+<li><p>在芯片上电并为其输入稳定的时钟信号后，等待（即不断发送<code>NOP</code>指令，<code>{NRAS, NCAS, NWE} = 'b111</code>）至少100µs</p>
+</li>
+<li><p>发送<code>precharge</code>指令（即<code>{NRAS, NCAS, NWE} = 'b010</code>，同时<code>A10 = 1</code>来选中全部bank）。</p>
+</li>
+<li><p>等待<code>precharge</code>完成，等待时长为$t_{RP}$，在我这块片子上至少是20ns。</p>
+</li>
+<li><p>发送<code>auto refresh</code>指令（即<code>{NRAS, NCAS, NWE} = 'b001</code>），并等待其执行完成，等待时长为$t_{RC}$，在我的片子上至少是63ns。</p>
+</li>
+<li><p>重复步骤4至少一次。</p>
+</li>
+<li><p>发送<code>load mode register</code>指令（即<code>{NRAS, NCAS, NWE} = 'b000</code>），mode register的值由地址线（含Bank地址线）给出：</p>
+<p><img alt="mode_register" src="./mode_register.png"/></p>
+<p>可见</p>
+<ul>
+<li><code>A9</code>线上的值代表了写入的模式（突发写还是单写）</li>
+<li><code>{A6, A5, A4}</code>线上的值代表了CAS延迟（CL），即读操作的列地址写入RAM控制器后，读到的值在几个时钟周期后才会出现在输出线上</li>
+<li><code>A3</code>设置突发类型，连续型还是非连续型</li>
+<li><code>{A2, A1, A0}</code>线上的值代表突发读写时的长度</li>
+</ul>
+<p>需要注意的是，“突发”并非指从输入的地址开始向后连续读写多个存储单元的值，而是：</p>
+<ul>
+<li><p>开始时将每个行分成长为突发长度的多块</p>
+</li>
+<li><p>进行读写时从输入的地址开始读写，地址在当前的块内进行“环形递增（连续突发的情况）”</p>
+<p><img alt="burst" src="./burst.png"/></p>
+</li>
+</ul>
+</li>
+<li><p>等待<code>load mode register</code>完成，等待时长为$t_{MRD}$，在我这块片子上至少是2个时钟周期（即发送一个NOP）。</p>
+</li>
+<li><p>初始化完成，可以开始用了。</p>
+</li>
+</ol>
+<h2 id="SDRAM写入时序"><a class="headerlink" href="#SDRAM写入时序" title="SDRAM写入时序"></a>SDRAM写入时序</h2><p><img alt="write-without_autoprecharge" src="./write-without_autoprecharge.png"/></p>
+<ol>
+<li>发送<code>active</code>指令（<code>{NRAS, NCAS, NWE} = 'b011</code>），同时<code>A</code>和<code>BA</code>线上送入BANK和相应行的地址，来激活对应的行。</li>
+<li>等待$t_{RCD}$（发送NOP），在我的片子上是20ns。</li>
+<li>发送<code>write</code>指令（<code>{NRAS, NCAS, NWE} = 'b100</code>），同时<code>A</code>和<code>BA</code>线上送入BANK和相应行地址，<code>A10 = 0</code>，<code>DQ</code>线上送入第一个16位要写入的数据。</li>
+<li>【根据突发长度重复几次】指令线送入NOP，DQ线上送入第n个要写入的数据。</li>
+<li>如果从<code>active</code>指令发出到现在，时间未满$t_{RAS}$，本片为$42ns$，则用NOP补足。</li>
+<li>发送<code>precharge</code>指令（即<code>{NRAS, NCAS, NWE} = 'b010</code>）</li>
+<li>等待<code>precharge</code>完成，等待时间为$t_{RP}$，在我的片子上是20ns。</li>
+<li>写入完成</li>
+</ol>
+<h2 id="SDRAM读取时序"><a class="headerlink" href="#SDRAM读取时序" title="SDRAM读取时序"></a>SDRAM读取时序</h2><p><img alt="read_without_autoprecharge" src="./read_without_autoprecharge.png"/></p>
+<ol>
+<li>发送<code>active</code>指令（<code>{NRAS, NCAS, NWE} = 'b011</code>），同时<code>A</code>和<code>BA</code>线上送入BANK和相应行的地址，来激活对应的行。</li>
+<li>等待$t_{RCD}$（发送NOP），在我的片子上是20ns。</li>
+<li>发送<code>read</code>指令（<code>{NRAS, NCAS, NWE} = 'b101</code>），同时<code>A</code>和<code>BA</code>线上送入BANK和相应行地址，<code>A10 = 0</code>。</li>
+<li><code>read</code>后$CL$个时钟周期后，读取的几个数据依次出现在DQ上（每个时钟上升沿出现一个）</li>
+<li>如果从<code>active</code>指令发出到现在，时间未满$t_{RAS}$，本片为$42ns$，则用NOP补足。</li>
+<li>发送<code>precharge</code>指令（即<code>{NRAS, NCAS, NWE} = 'b010</code>）</li>
+<li>等待<code>precharge</code>完成，等待时间为$t_{RP}$，在我的片子上是20ns。</li>
+<li>读取完成</li>
+</ol>
+<h2 id="SDRAM刷新时序"><a class="headerlink" href="#SDRAM刷新时序" title="SDRAM刷新时序"></a>SDRAM刷新时序</h2><p><img alt="auto_refresh" src="./auto_refresh.png"/></p>
+<p>直接在其他命令完成后（即最后的<code>precharge</code>完全完成后）发送<code>auto refresh</code>（<code>{NRAS, NCAS, NWE} = 'b001</code>，然后等待$t_{RC}$（我的片子上至少是15ns）即可。</p>
+<p>SDRAM内部电容保存数据的最长时间是64ms。一次刷新可以刷新每个bank的一行。因此两次刷新之间的时间间隔不应超过$64ms / 每bank行数$，在我的片子上这个数值是$64ms / 8192 = 7.8125\mu s$，考虑到时钟精度问题，$7.68\mu s$（1024个时钟周期）刷新一次为宜。</p>
+<p>所以，整个SDRAM的操作就可以建模为一个状态机，初始化完成后，进入等待状态，当需要刷新时就进行刷新，在读写请求到来时，如果没有刷新的任务，就进入读写状态，否则进行一次突发读写，然后再判断是否需要刷新或进一步读写。</p>
+<blockquote id="fn_1">
+<sup>1</sup>. 然而我觉得并不方便TAT<a href="#reffn_1" title="Jump back to footnote [1] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. 很多资料上画的储存单元都是正方形的，这给人一种“一个储存单元对应一个电容，也对应一个位”的错误暗示，此处把单元画成长方形，希望可以让读者更容易地看出存储单元是有宽度的，对应了多个位。<a href="#reffn_2" title="Jump back to footnote [2] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_3">
+<sup>3</sup>. 随芯片型号而定<a href="#reffn_3" title="Jump back to footnote [3] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_4">
+<sup>4</sup>. 如果要求按字节编址，则要再增加一位，来判断是读写当前内存16位中的高8位还是低8位，即向RAM控制器发送的地址为25位。<a href="#reffn_4" title="Jump back to footnote [4] in the text."> ↩</a>
+</blockquote>
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-07-03</span><i class="fa fa-tag"></i><a class="tag" href="/tags/计组/" title="计组">计组 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/07/02/SDRAM时序/,Blog,SDRAM时序,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2019/09/18/%E5%B9%B6%E8%A1%8C%E3%80%81%E5%B9%B6%E5%8F%91%E3%80%81%E5%90%8C%E6%AD%A5%E3%80%81%E5%BC%82%E6%AD%A5%E5%8F%8A%E5%85%B6%E4%BB%96%20(1)/" title="并行、并发、同步、异步及其他 (1)">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/06/12/RISC-V%20%E5%9F%BA%E6%9C%AC%E6%95%B4%E6%95%B0%E6%8C%87%E4%BB%A4%E9%9B%86/" title="RISC-V 基本整数指令集">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

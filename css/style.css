@@ -2,6 +2,7 @@
 html {
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: none;
 }
 
 body {
@@ -197,6 +198,7 @@ a:active {
   margin: 0 auto;
 }
 .sidebar .logo-title .title h3 {
+  text-transform: uppercase;
   font-size: 2rem;
   font-weight: bold;
   letter-spacing: 2px;
@@ -396,6 +398,9 @@ a:active {
   background: #fff;
 }
 .footer a {
+  color: #a6a6a6;
+}
+.footer span {
   color: #a6a6a6;
 }
 .footer a:hover {
@@ -707,4 +712,20 @@ a.btn {
   #pirate .wordart-attribution {
     display: none;
   }
+}
+.tag-list-item {
+  font-size: 15px;
+  list-style: none;
+  margin-bottom: 18px;
+}
+.tag-list-item .tagcount {
+  float: right;
+  color: #fefefe;
+  min-width: 24px;
+  margin-right: 18px;
+  background: gray;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-radius: 1em;
+  text-align: center;
 }
