@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="845px" height="191px" viewBox="0 0 845 191" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 7</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M22.581476,8.38709033 C52.7160517,-2.9219137 113.659761,-2.66876354 143.119779,8.38709033 C172.579797,19.4429442 173.170678,42.3455049 143.119779,53.6231064 C113.06888,64.9007079 52.6641583,64.9126357 22.581476,53.6231064 C-7.50120634,42.3335772 -7.55309979,19.6960944 22.581476,8.38709033 Z" id="path-1"></path>
+        <path d="M22.581476,8.38709033 C52.7160517,-2.9219137 113.659761,-2.66876354 143.119779,8.38709033 C172.579797,19.4429442 173.170678,42.3455049 143.119779,53.6231064 C113.06888,64.9007079 52.6641583,64.9126357 22.581476,53.6231064 C-7.50120634,42.3335772 -7.55309979,19.6960944 22.581476,8.38709033 Z" id="path-2"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-7">
+            <g id="2-node-with-links" transform="translate(83.000000, 12.000000)">
+                <g id="Group-3">
+                    <g id="Group-2">
+                        <g id="Group">
+                            <g id="2-node" transform="translate(63.000000, 0.000000)">
+                                <g id="Group">
+                                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                                        <tspan x="25.8261719" y="39">4</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <path d="M0.5,115.5 L69.5,53.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                            <path d="M121,115 L190,53" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(155.500000, 84.000000) scale(-1, 1) translate(-155.500000, -84.000000) "></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <g id="3-node" transform="translate(0.000000, 126.000000)">
+                <g id="Group-2" transform="translate(0.000000, -0.162467)">
+                    <g id="Rectangle">
+                        <use fill-opacity="0.469372736" fill="#6400FF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <path stroke="#979797" stroke-width="1" d="M22.757154,8.8552113 C-6.9274706,19.9953561 -6.91063053,42.0211604 22.757154,53.1549855 C52.7159786,64.398033 112.995865,64.3940594 142.944101,53.1549855 C172.364401,42.1140374 172.171104,19.8236183 142.944101,8.8552113 C113.372261,-2.24260732 52.5550476,-2.32744155 22.757154,8.8552113 Z"></path>
+                    </g>
+                    <g id="Group" transform="translate(37.000000, 16.000000)" font-size="24" font-family="Helvetica" fill="#FFFFFF" font-weight="normal">
+                        <text id="B">
+                            <tspan x="0" y="24">1</tspan>
+                        </text>
+                        <text id="C">
+                            <tspan x="81" y="23">3</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(243.000000, 125.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">5</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(344.000000, 60.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">2</tspan>
+                    </text>
+                </g>
+            </g>
+            <text id="+" font-family="Helvetica" font-size="24" font-weight="normal" fill="#020000">
+                <tspan x="308" y="99">+</tspan>
+            </text>
+            <g id="3-node-with-links" transform="translate(548.000000, 0.000000)">
+                <g id="Group-2" transform="translate(0.000000, 1.000000)">
+                    <g id="3-node" transform="translate(49.000000, 0.000000)">
+                        <g id="Group-2" transform="translate(0.000000, -0.162467)">
+                            <g id="Rectangle">
+                                <use fill-opacity="0.469372736" fill="#6400FF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                                <path stroke="#979797" stroke-width="1" d="M22.757154,8.8552113 C-6.9274706,19.9953561 -6.91063053,42.0211604 22.757154,53.1549855 C52.7159786,64.398033 112.995865,64.3940594 142.944101,53.1549855 C172.364401,42.1140374 172.171104,19.8236183 142.944101,8.8552113 C113.372261,-2.24260732 52.5550476,-2.32744155 22.757154,8.8552113 Z"></path>
+                            </g>
+                            <g id="Group" transform="translate(37.000000, 16.000000)" font-size="24" font-family="Helvetica" fill="#FFFFFF" font-weight="normal">
+                                <text id="B">
+                                    <tspan x="0" y="24">2</tspan>
+                                </text>
+                                <text id="C">
+                                    <tspan x="81" y="23">4</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </g>
+                    <path d="M59.5,47.5 L0.5,89.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                    <path d="M131.5,62.5 L131.5,91.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                    <path d="M262.5,47.5 L203.5,89.5" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(233.000000, 68.500000) scale(-1, 1) translate(-233.000000, -68.500000) "></path>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(516.000000, 92.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">1</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(647.000000, 94.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">3</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(779.000000, 92.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">5</tspan>
+                    </text>
+                </g>
+            </g>
+            <path d="M432.5,83.5 L520.5,83.5" id="Line-6" stroke="#000000" fill="#020000" stroke-linecap="square"></path>
+            <path id="Line-6-decoration-1" d="M520.5,83.5 L509.7,80.5 L509.7,86.5 L520.5,83.5 Z" stroke="#000000" fill="#020000" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

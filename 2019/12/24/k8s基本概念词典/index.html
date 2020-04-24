@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>k8s基本概念词典 · Blog</title><meta name="description" content="API Server我理解就是可以由此调用k8s的restful API来观察和管理各个集群里的各个对象。
+ hexo-inject:begin  hexo-inject:end Pod一般来说，pod就是一个在跑的容器。
+当然也有一些情况是一个Pod内部署多个相关的容器的，比如多个容器需要共享一个"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>k8s基本概念词典</a></h1></div><div class="post-content"><h2 id="API-Server"><a class="headerlink" href="#API-Server" title="API Server"></a>API Server</h2><p>我理解就是可以由此调用k8s的restful API来观察和管理各个集群里的各个对象。</p>
+ hexo-inject:begin  hexo-inject:end <h2 id="Pod"><a class="headerlink" href="#Pod" title="Pod"></a>Pod</h2><p>一般来说，pod就是一个在跑的容器。</p>
+<p>当然也有一些情况是一个Pod内部署多个相关的容器的，比如多个容器需要共享一个存储 Volume 或者一个 IP 地址</p>
+<h2 id="Service"><a class="headerlink" href="#Service" title="Service"></a>Service</h2><p>简单来说就是给一组Pod在集群内一个稳定（不随着Pod消亡/创建/修改而变化）的IP，并在这组Pod间进行负载均衡。</p>
+<h2 id="Controller"><a class="headerlink" href="#Controller" title="Controller"></a>Controller</h2><p>Controller负责监视集群状态，然后推动集群往“用户想要的状态”变化，每种资源都对应一种controller。</p>
+<h2 id="kube-controller-manager"><a class="headerlink" href="#kube-controller-manager" title="kube-controller-manager"></a>kube-controller-manager</h2><p>所有Controller的总称。</p>
+<h2 id="kubelet"><a class="headerlink" href="#kubelet" title="kubelet"></a>kubelet</h2><p>一个在每个node上都运行的worker，定期获取node要部署的pod的期望状态，并调用对应的容器平台接口达到这个状态。</p>
+<h2 id="kube-proxy"><a class="headerlink" href="#kube-proxy" title="kube-proxy"></a>kube-proxy</h2><p>Service到Pod的转发与负载均衡的实现。（在现在的k8s实现下，在Service和对应endpoint更新时，这玩意在会动iptables来实现目的）</p>
+<h2 id="Job"><a class="headerlink" href="#Job" title="Job"></a>Job</h2><p>简单来说就是用来创建一个Pod，跑一次，然后结束。</p>
+<h2 id="Cron-Job"><a class="headerlink" href="#Cron-Job" title="Cron Job"></a>Cron Job</h2><p>创建在给定时间点运行一次的pod，或是周期性创建并运行Pod。</p>
+<h2 id="Replication-Controller"><a class="headerlink" href="#Replication-Controller" title="Replication Controller"></a>Replication Controller</h2><p>一种用来保证有一定量的Pod副本个数在同时运行的Controller，注意这个Controller只能负责Pod的<strong>个数<sup><a href="#fn_1" id="reffn_1">1</a></sup></strong>。</p>
+<p>现在已经不推荐使用，建议使用Deployment。</p>
+<h2 id="ReplicaSet"><a class="headerlink" href="#ReplicaSet" title="ReplicaSet"></a>ReplicaSet</h2><p>改进版的Replication Controller，改进了选择器支持（我是没看出有多大变化）。</p>
+<h2 id="Deployment"><a class="headerlink" href="#Deployment" title="Deployment"></a>Deployment</h2><p>用于创建和管理Pod和对应ReplicaSet，经由Deployment，我们既可以更新pod族对应的镜像，也可以对其副本数进行伸缩。</p>
+<h2 id="StatefulSet"><a class="headerlink" href="#StatefulSet" title="StatefulSet"></a>StatefulSet</h2><p>StatefulSet是“有状态的Deployment”。</p>
+<p>其应用场景包括：</p>
+<ul>
+<li>Pod重新调度后还要访问到相同的持久化数据（需要使用PVC实现）</li>
+<li>Pod重新调度后其PodName和HostName不变（需要一个Headless Service实现）</li>
+<li>Pod的有序性（前面的pod准备好了，后面的pod才能开始运行，后面的pod销毁了，才能销毁前面的pod）</li>
+</ul>
+<p>从我自己的角度来看，就是将Deployment的“随机ID”改为了“自增ID”，并利用这个ID做一些将Pod和PVC绑定等等的事情。</p>
+<h2 id="DaemonSet"><a class="headerlink" href="#DaemonSet" title="DaemonSet"></a>DaemonSet</h2><p>DaemonSet 确保全部（或者某些）节点上运行一个 Pod 的副本。</p>
+<p>就是每个符合条件的节点都给他绑一个Pod。</p>
+<h2 id="Volume"><a class="headerlink" href="#Volume" title="Volume"></a>Volume</h2><p>持久卷，不随着Pod移除而被移除的存储卷。</p>
+<h2 id="PersistentVolume"><a class="headerlink" href="#PersistentVolume" title="PersistentVolume"></a>PersistentVolume</h2><p>由集群管理员事先创建好的存储卷。</p>
+<h2 id="PersistentVolumeClaim"><a class="headerlink" href="#PersistentVolumeClaim" title="PersistentVolumeClaim"></a>PersistentVolumeClaim</h2><p>用户对<code>PersistentVolume</code>的使用请求，用户只需告知k8s自己需要什么样的存储卷，k8s会自动从创建好的PV中挑选合适的，给用户使用。</p>
+<h2 id="Storage-Class"><a class="headerlink" href="#Storage-Class" title="Storage Class"></a>Storage Class</h2><blockquote>
+<p><code>StorageClass</code> 为管理员提供了描述存储 <code>"类"</code> 的方法。 不同的<code>类型</code>可能会映射到不同的服务质量等级或备份策略，或是由群集管理员制定的任意策略。</p>
+</blockquote>
+<p>就是某种符合某些条件的卷归为的一类。</p>
+<h2 id="Ingress"><a class="headerlink" href="#Ingress" title="Ingress"></a>Ingress</h2><p>用于管理对集群中服务的外部访问。</p>
+<h2 id="ConfigMap"><a class="headerlink" href="#ConfigMap" title="ConfigMap"></a>ConfigMap</h2><p>不加密版本的Secret。</p>
+<h2 id="Operator"><a class="headerlink" href="#Operator" title="Operator"></a>Operator</h2><p>k8s的用户扩展。</p>
+<p>将k8s的资源和Controller的概念扩展到特定的应用程序上，使得对这些应用程序的“资源”的管理也能像对k8s的原生资源管理那样进行。</p>
+<h2 id="服务网格"><a class="headerlink" href="#服务网格" title="服务网格"></a>服务网格</h2><p>服务间通信的基础设施层。</p>
+<blockquote>
+<p>服务网格（Service Mesh）是致力于解决服务间通讯的基础设施层。它负责在现代云原生应用程序的复杂服务拓扑来可靠地传递请求。实际上，Service Mesh 通常是通过一组轻量级网络代理（Sidecar proxy），与应用程序代码部署在一起来实现，而无需感知应用程序本身。—— <a href="https://twitter.com/wm" rel="noopener" target="_blank">Willian Morgan</a></p>
+</blockquote>
+<p><img alt="Service Mesh 架构图" src="https://jimmysong.io/blog/what-is-a-service-mesh/service-mesh-arch.png"/></p>
+<p>Service Mesh 作为 sidecar 运行，对应用程序来说是透明的，所有应用程序间的流量都会通过它，所以对应用程序流量的控制都可以在 serivce mesh 中实现。</p>
+<h2 id="Istio"><a class="headerlink" href="#Istio" title="Istio"></a>Istio</h2><p>一个服务网格的实现。</p>
+<h3 id="Envoy"><a class="headerlink" href="#Envoy" title="Envoy"></a>Envoy</h3><blockquote>
+<p>Envoy 是用 C++ 开发的高性能代理，用于协调服务网格中所有服务的入站和出站流量。</p>
+</blockquote>
+<p>就一proxy。</p>
+<h3 id="虚拟服务"><a class="headerlink" href="#虚拟服务" title="虚拟服务"></a>虚拟服务</h3><blockquote>
+<p>使用虚拟服务，您可以为一个或多个主机名指定流量行为。在虚拟服务中使用路由规则，告诉 Envoy 如何发送虚拟服务的流量到适当的目标。路由目标地址可以是同一服务的不同版本，也可以是完全不同的服务。</p>
+</blockquote>
+<p>就是一个“更容易配置”的，从URL到一个服务集合的proxy。</p>
+<h3 id="目标规则"><a class="headerlink" href="#目标规则" title="目标规则"></a>目标规则</h3><p>目标规则将应用于流量的“真实”目标地址。</p>
+<p>就是从服务集合到单个服务的proxy。</p>
+<blockquote id="fn_1">
+<sup>1</sup>. 讲道理根据我在上海大学开源社区的运维经验来看，更新镜像的场景比改变副本数的场景多多了……究其原因还是社区又穷服务又没人用，什么动态缩扩容什么的功能根本没用 TAT。<a href="#reffn_1" title="Jump back to footnote [1] in the text."> ↩</a>
+</blockquote>
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-12-24</span><i class="fa fa-tag"></i><a class="tag" href="/tags/k8s/" title="k8s">k8s </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2019/12/24/k8s基本概念词典/,Blog,k8s基本概念词典,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/01/24/%E5%B9%B6%E8%A1%8C%E3%80%81%E5%B9%B6%E5%8F%91%E3%80%81%E5%90%8C%E6%AD%A5%E3%80%81%E5%BC%82%E6%AD%A5%E5%8F%8A%E5%85%B6%E4%BB%96%20(4)/" title="并行、并发、同步、异步及其他 (4)">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2019/09/21/%E5%B9%B6%E8%A1%8C%E3%80%81%E5%B9%B6%E5%8F%91%E3%80%81%E5%90%8C%E6%AD%A5%E3%80%81%E5%BC%82%E6%AD%A5%E5%8F%8A%E5%85%B6%E4%BB%96%20(3)/" title="并行、并发、同步、异步及其他 (3)">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

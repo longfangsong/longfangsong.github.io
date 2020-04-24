@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="394px" height="581px" viewBox="0 0 394 581" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="1" y="0" width="80" height="40"></rect>
+        <rect id="path-2" x="221" y="0" width="80" height="40"></rect>
+        <rect id="path-3" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-4" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-5" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-6" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-7" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-8" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-9" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-10" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-11" x="0" y="0" width="80" height="40"></rect>
+        <rect id="path-12" x="0" y="0" width="80" height="40"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-4">
+            <g id="Rectangle">
+                <use fill="#F5A623" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <rect stroke="#979797" stroke-width="1" x="1.5" y="0.5" width="79" height="39"></rect>
+            </g>
+            <text id="thread-1" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#FFFFFF">
+                <tspan x="7.28515625" y="24">thread-1</tspan>
+            </text>
+            <path d="M41,40.5 L41,396.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <g id="Rectangle">
+                <use fill="#F5A623" fill-rule="evenodd" xlink:href="#path-2"></use>
+                <rect stroke="#979797" stroke-width="1" x="221.5" y="0.5" width="79" height="39"></rect>
+            </g>
+            <text id="thread-2" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#FFFFFF">
+                <tspan x="226.285156" y="24">thread-2</tspan>
+            </text>
+            <path d="M260,40.5 L260,580.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <g id="Group-3" transform="translate(0.000000, 97.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="load-reg-A" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="23.1425781" y="17">load</tspan>
+                    <tspan x="18.9282227" y="33">reg A</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(220.000000, 298.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-4"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="load-reg-A" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="23.1425781" y="17">load</tspan>
+                    <tspan x="18.9282227" y="33">reg A</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(0.000000, 48.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-5"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="try-get-lock" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="10.4995117" y="17">try get</tspan>
+                    <tspan x="23.1425781" y="33">lock</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(0.000000, 248.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-6"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="release-lock" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="10.4995117" y="17">release</tspan>
+                    <tspan x="23.1425781" y="33">lock</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(220.000000, 448.500000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-7"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="release-lock" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="10.4995117" y="17">release</tspan>
+                    <tspan x="23.1425781" y="33">lock</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(2.000000, 199.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-8"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="store-reg-A" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="18.9282227" y="17">store</tspan>
+                    <tspan x="18.9282227" y="33">reg A</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(221.000000, 399.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-9"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="store-reg-A" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="18.9282227" y="17">store</tspan>
+                    <tspan x="18.9282227" y="33">reg A</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(1.000000, 148.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-10"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="A=A+1" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="18.9282227" y="24">A=A+1</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(221.000000, 349.500000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-11"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="A=A+1" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="18.9282227" y="24">A=A+1</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(221.000000, 77.000000)">
+                <g id="Rectangle-3">
+                    <use fill="#ABFFA3" fill-rule="evenodd" xlink:href="#path-12"></use>
+                    <rect stroke="#979797" stroke-width="1" x="0.5" y="0.5" width="79" height="39"></rect>
+                </g>
+                <text id="try-get-lock" font-family="Menlo-Regular, Menlo" font-size="14" font-weight="normal" fill="#000000">
+                    <tspan x="10.9995117" y="17">try get</tspan>
+                    <tspan x="23.6425781" y="33">lock</tspan>
+                </text>
+            </g>
+            <text id="success" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="90.432" y="72">success</tspan>
+            </text>
+            <text id="fail(blocked)" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="315.009" y="101">fail(blocked)</tspan>
+            </text>
+            <text id="lock-got" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" fill="#000000">
+                <tspan x="328.666" y="292">lock got</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

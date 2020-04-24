@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180px" height="182px" viewBox="0 0 180 182" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 4</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-4" transform="translate(1.000000, -5.000000)">
+            <g id="sum-node" transform="translate(54.000000, 33.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="13.856" y="43">16</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(0.000000, 122.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="22.082" y="43">7</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(114.000000, 122.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="21.2" y="43">9</tspan>
+                    </text>
+                </g>
+            </g>
+            <path d="M109.5,87.5 L136.5,122.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M64.5,88.5 L42.5,124.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <text id="[2,3]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                <tspan x="61" y="25">[2,3]</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

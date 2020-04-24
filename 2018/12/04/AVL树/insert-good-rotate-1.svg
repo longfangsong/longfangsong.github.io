@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="226px" height="198px" viewBox="0 0 226 198" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(1.000000, 1.000000)">
+            <g id="Node2" transform="translate(148.000000, 125.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0096FF" cx="15" cy="15" r="15"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.2" y="21">60</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node2" transform="translate(148.000000, 0.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0096FF" cx="15" cy="15" r="15"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.2" y="21">65</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node2" transform="translate(47.000000, 48.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0096FF" cx="15" cy="15" r="15"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.2" y="21">43</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node2" transform="translate(0.000000, 91.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0096FF" cx="15" cy="15" r="15"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.2" y="21">40</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node2" transform="translate(194.000000, 166.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0096FF" cx="15" cy="15" r="15"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.2" y="21">64</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node2" transform="translate(95.000000, 89.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0096FF" cx="15" cy="15" r="15"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.2" y="21">46</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node2" transform="translate(51.000000, 133.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#0096FF" cx="15" cy="15" r="15"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="18" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.2" y="21">45</tspan>
+                    </text>
+                </g>
+            </g>
+            <path d="M149.5,19.5 L72.5,51.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M48.5,70.5 L25.5,95.5" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M175.5,148.5 L199.5,168.5" id="Line-3" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M99.5,115.5 L77.5,137.5" id="Line-3" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M74.5,72.5 L101.5,91.5" id="Line-4" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M123.5,111.5 L150.5,130.5" id="Line-4" stroke="#979797" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>

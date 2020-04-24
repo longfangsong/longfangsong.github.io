@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="41px" viewBox="0 0 15 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 7</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="15" height="27"></rect>
+        <rect id="path-2" x="0" y="0.24848135" width="15" height="13.6664651"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-7" transform="translate(0.000000, 1.000000)">
+            <g id="character" transform="translate(0.000000, 13.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="#FFB82C" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            <rect stroke="#FF8602" stroke-width="1" x="0.5" y="0.5" width="14" height="26"></rect>
+                        </g>
+                        <text id="b" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="20" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="2" y="20">c</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="index">
+                <g id="Group" transform="translate(0.000000, -0.914946)">
+                    <g id="Rectangle">
+                        <use fill="#2CA7FF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        <rect stroke="#024FFF" stroke-width="1" x="0.5" y="0.74848135" width="14" height="12.6664651"></rect>
+                    </g>
+                    <text id="10" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="1.5" y="10">15</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

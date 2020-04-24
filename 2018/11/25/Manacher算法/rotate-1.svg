@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="105px" height="98px" viewBox="0 0 105 98" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 11</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0.24848135" width="15" height="13.6664651"></rect>
+        <rect id="path-2" x="0" y="0" width="15" height="27"></rect>
+        <rect id="path-3" x="0" y="0.24848135" width="15" height="13.6664651"></rect>
+        <rect id="path-4" x="0" y="0" width="15" height="27"></rect>
+        <rect id="path-5" x="0" y="0.24848135" width="15" height="13.6664651"></rect>
+        <rect id="path-6" x="0" y="0" width="15" height="27"></rect>
+        <rect id="path-7" x="0" y="0.24848135" width="15" height="13.6664651"></rect>
+        <rect id="path-8" x="0" y="0" width="15" height="27"></rect>
+        <rect id="path-9" x="0" y="0.24848135" width="15" height="13.6664651"></rect>
+        <rect id="path-10" x="0" y="0" width="15" height="27"></rect>
+        <rect id="path-11" x="0" y="0.24848135" width="15" height="13.6664651"></rect>
+        <rect id="path-12" x="0" y="0" width="15" height="27"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-11">
+            <g id="index" transform="translate(0.000000, 21.000000)">
+                <g id="Group" transform="translate(0.000000, -0.914946)">
+                    <g id="Rectangle">
+                        <use fill="#2CA7FF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <rect stroke="#024FFF" stroke-width="1" x="0.5" y="0.74848135" width="14" height="12.6664651"></rect>
+                    </g>
+                    <text id="10" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.5" y="10">8</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="character" transform="translate(0.000000, 34.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="#FFB82C" fill-rule="evenodd" xlink:href="#path-2"></use>
+                            <rect stroke="#FF8602" stroke-width="1" x="0.5" y="0.5" width="14" height="26"></rect>
+                        </g>
+                        <text id="b" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="20" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="2" y="20">#</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="index" transform="translate(15.000000, 21.000000)">
+                <g id="Group" transform="translate(0.000000, -0.914946)">
+                    <g id="Rectangle">
+                        <use fill="#2CA7FF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                        <rect stroke="#024FFF" stroke-width="1" x="0.5" y="0.74848135" width="14" height="12.6664651"></rect>
+                    </g>
+                    <text id="10" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="4.5" y="10">9</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="character" transform="translate(15.000000, 34.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="#FFB82C" fill-rule="evenodd" xlink:href="#path-4"></use>
+                            <rect stroke="#FF8602" stroke-width="1" x="0.5" y="0.5" width="14" height="26"></rect>
+                        </g>
+                        <text id="b" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="20" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="2" y="20">b</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="index" transform="translate(30.000000, 21.000000)">
+                <g id="Group" transform="translate(0.000000, -0.914946)">
+                    <g id="Rectangle">
+                        <use fill="#2CA7FF" fill-rule="evenodd" xlink:href="#path-5"></use>
+                        <rect stroke="#024FFF" stroke-width="1" x="0.5" y="0.74848135" width="14" height="12.6664651"></rect>
+                    </g>
+                    <text id="10" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="1.5" y="10">10</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="character" transform="translate(30.000000, 34.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="#FFB82C" fill-rule="evenodd" xlink:href="#path-6"></use>
+                            <rect stroke="#FF8602" stroke-width="1" x="0.5" y="0.5" width="14" height="26"></rect>
+                        </g>
+                        <text id="b" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="20" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="2" y="20">#</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="index" transform="translate(60.000000, 21.000000)">
+                <g id="Group" transform="translate(0.000000, -0.914946)">
+                    <g id="Rectangle">
+                        <use fill="#2CA7FF" fill-rule="evenodd" xlink:href="#path-7"></use>
+                        <rect stroke="#024FFF" stroke-width="1" x="0.5" y="0.74848135" width="14" height="12.6664651"></rect>
+                    </g>
+                    <text id="10" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="1.5" y="10">12</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="character" transform="translate(60.000000, 34.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="#FFB82C" fill-rule="evenodd" xlink:href="#path-8"></use>
+                            <rect stroke="#FF8602" stroke-width="1" x="0.5" y="0.5" width="14" height="26"></rect>
+                        </g>
+                        <text id="b" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="20" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="2" y="20">#</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="index" transform="translate(75.000000, 21.000000)">
+                <g id="Group" transform="translate(0.000000, -0.914946)">
+                    <g id="Rectangle">
+                        <use fill="#2CA7FF" fill-rule="evenodd" xlink:href="#path-9"></use>
+                        <rect stroke="#024FFF" stroke-width="1" x="0.5" y="0.74848135" width="14" height="12.6664651"></rect>
+                    </g>
+                    <text id="10" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="1.5" y="10">13</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="character" transform="translate(75.000000, 34.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="#FFB82C" fill-rule="evenodd" xlink:href="#path-10"></use>
+                            <rect stroke="#FF8602" stroke-width="1" x="0.5" y="0.5" width="14" height="26"></rect>
+                        </g>
+                        <text id="b" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="20" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="2" y="20">b</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="index" transform="translate(90.000000, 21.000000)">
+                <g id="Group" transform="translate(0.000000, -0.914946)">
+                    <g id="Rectangle">
+                        <use fill="#2CA7FF" fill-rule="evenodd" xlink:href="#path-11"></use>
+                        <rect stroke="#024FFF" stroke-width="1" x="0.5" y="0.74848135" width="14" height="12.6664651"></rect>
+                    </g>
+                    <text id="10" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="1.5" y="10">14</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="character" transform="translate(90.000000, 34.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="Rectangle">
+                            <use fill="#FFB82C" fill-rule="evenodd" xlink:href="#path-12"></use>
+                            <rect stroke="#FF8602" stroke-width="1" x="0.5" y="0.5" width="14" height="26"></rect>
+                        </g>
+                        <text id="b" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="20" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="2" y="20">#</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <path d="M52.5,0.5 L52.5,80.5" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M45.4826394,4.89141716 C47.8940558,7.29366403 50.2630383,8.49478746 52.5895869,8.49478746 C54.9161355,8.49478746 57.2143944,7.29366403 59.4843636,4.89141716 L55.7332907,5.45860412 L60.3001502,4.55737517 L58.8257733,8.22609672" id="Path-2" stroke="#979797"></path>
+            <path d="M82.5,84.5 L82.5,65.5" id="Line" stroke="#101010" fill="#000000" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M82.5,65.5 L79.5,76.3 L85.5,76.3 L82.5,65.5 Z" stroke="#101010" fill="#000000" stroke-linecap="square"></path>
+            <path d="M52.5,84.5 L52.5,65.5" id="Line" stroke="#101010" fill="#000000" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M52.5,65.5 L49.5,76.3 L55.5,76.3 L52.5,65.5 Z" stroke="#101010" fill="#000000" stroke-linecap="square"></path>
+            <path d="M22.5,84.5 L22.5,65.5" id="Line" stroke="#101010" fill="#000000" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M22.5,65.5 L19.5,76.3 L25.5,76.3 L22.5,65.5 Z" stroke="#101010" fill="#000000" stroke-linecap="square"></path>
+            <text id="mid" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#000000">
+                <tspan x="43" y="95">mid</tspan>
+            </text>
+            <text id="i" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#000000">
+                <tspan x="80" y="95">i</tspan>
+            </text>
+            <text id="j" font-family="SourceCodeVariable-Roman, Source Code Variable" font-size="10" font-weight="normal" fill="#000000">
+                <tspan x="19" y="95">j</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

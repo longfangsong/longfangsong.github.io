@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>数论复习 · Blog</title><meta name="description" content="本文摘录一些本人容易忘记的数论中的定义、定理、性质和计算方法。
+ hexo-inject:begin  hexo-inject:end 符号表
+
+
+
+符号
+意义
+
+
+
+
+$a
+b$
+$a$整除$b$，$b$可被$a$整除，$b=ak$，$b\ mod\ a = 0$
+
+
+$(a,b)$
+$gcd(a"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>数论复习</a></h1></div><div class="post-content"><p>本文摘录一些本人容易忘记的数论中的定义、定理、性质和计算方法。</p>
+ hexo-inject:begin  hexo-inject:end <h2 id="符号表"><a class="headerlink" href="#符号表" title="符号表"></a>符号表</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$a</td>
+<td>b$</td>
+<td>$a$整除$b$，$b$可被$a$整除，$b=ak$，$b\ mod\ a = 0$</td>
+</tr>
+<tr>
+<td>$(a,b)$</td>
+<td>$gcd(a,b)$</td>
+</tr>
+<tr>
+<td>$\tau(n)$</td>
+<td>$n$的所有正除数的个数</td>
+</tr>
+<tr>
+<td>$[x]$</td>
+<td>不超过$n$的最大整数</td>
+</tr>
+<tr>
+<td>$\{x\}$</td>
+<td>$x - [x]$</td>
+</tr>
+<tr>
+<td>$a^n</td>
+<td></td>
+<td>b$</td>
+<td>$a^n</td>
+<td>b, a^{n+1}\not</td>
+<td>b$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="定理"><a class="headerlink" href="#定理" title="定理"></a>定理</h2><ol>
+<li><p>$a|b且a|c \Leftrightarrow a|bx+cy$</p>
+<p>人话：倍数的线性组合仍然被他们的公共约数整除</p>
+</li>
+<li><p>若$f$是一个整系数的线性函数，$b=qd+c$，则$d|f(b) \Leftrightarrow d|f(c)$，或者说$d|f(qd+c) \Leftrightarrow d|f(c)$</p>
+<p>人话：考虑整除时，对倍数应用整系数线性函数，则倍数可由余数直接代替</p>
+</li>
+<li><p>$(a,b)=(a,b+ak)$</p>
+<p>人话：gcd括号里的这堆值可以随意相互加减，而不影响gcd的值</p>
+</li>
+<li><p>若存在$x_1,x_2…x_k$，使得$a_1x_1+a_2x_2…a_kx_k=1$，则$a_1,…,a_k$是既约的</p>
+<p>人话：线性组合后可以为1的一堆数是既约的</p>
+</li>
+<li><p>推广4，给定$x_1,x_2…x_k$，$m=a_1x_1+a_2x_2…+a_kx_k$，则m为$a_1,…,a_k$的公约数，其中最小的m就是$(a_1,…,a_k)$</p>
+<p>人话：一堆数的公约数可以由他们的线性组合表示</p>
+</li>
+<li><p>$m$个相邻整数的乘积可被$m!$整除</p>
+</li>
+</ol>
+<h2 id="性质"><a class="headerlink" href="#性质" title="性质"></a>性质</h2><h3 id="x-与-x"><a class="headerlink" href="#x-与-x" title="$[x]$与$ \{x\}$"></a>$[x]$与$ \{x\}$</h3><ol>
+<li><script type="math/tex; mode=display">
+b=a[\frac b a]+a\{\frac b a\}</script></li>
+<li><script type="math/tex; mode=display">
+a\{\frac b a\} \in Z</script></li>
+<li><script type="math/tex; mode=display">
+[x + n] = [x] + n, \{x + n\} = \{x\}</script></li>
+<li><script type="math/tex; mode=display">
+[-x]=\left\{
+\begin{aligned}
+& -[x], & x\in Z\\
+& -[x]-1, & x \notin Z
+\end{aligned}
+\right. \\
+\{-x\}=\left\{
+\begin{aligned}
+& 0, & x\in Z\\
+& 1-\{x\}, & x \notin Z
+\end{aligned}
+\right.</script></li>
+<li><script type="math/tex; mode=display">
+[\frac {[x]} n] = [\frac x m]</script></li>
+<li><p>$1$~$n$中能被$a$整除的正整数个数为$[\frac n a]$</p>
+</li>
+</ol>
+<h2 id="计算方法"><a class="headerlink" href="#计算方法" title="计算方法"></a>计算方法</h2><ol>
+<li><p>正除数个数</p>
+<script type="math/tex; mode=display">
+对 n = p_1^{a_1}p_2^{a_2}...p_k^{a_k} \\
+\tau(n) = \prod_{i=1}^k(a_i+1)=\prod_{i=1}^k(\tau(p_i^{a_i}))</script></li>
+<li><p>$n!$的素因数个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/></pre></td><td class="code"><pre><span class="line">result = 0</span><br/><span class="line">for all prime p in 1..=n {</span><br/><span class="line">    i = 1</span><br/><span class="line">    while p^i &lt;= n {</span><br/><span class="line">        result += [n / (p^i)]</span><br/><span class="line">    }</span><br/><span class="line">}</span><br/><span class="line">return result</span><br/></pre></td></tr></table></figure>
+</li>
+<li><p>一次不定方程</p>
+<p>结合例子：$907x_1+731x_2=2107$讲解</p>
+<ul>
+<li><p>由$(907, 731)|2107$得有解</p>
+</li>
+<li><p>先将系数最小的一项由其他<sup><a href="#fn_1" id="reffn_1">1</a></sup>项表示，即：</p>
+<script type="math/tex; mode=display">
+x_2 = -x_1+3+\frac 1 {731} (-176x_1-86)</script></li>
+<li><p>将丑陋的部分换元换掉：</p>
+<script type="math/tex; mode=display">
+x_3 = \frac 1 {173} (-176x_1-86) \\
+则 x_1 = -4x_3 + \frac 1 {176}(-27x_3-86)</script></li>
+<li><p>继续换元：</p>
+<script type="math/tex; mode=display">
+x_4 = \frac 1 {176}(-27x_3-86) \\
+则 x_3 = -7x_4-3 + \frac 1 {27} (13x_4 - 5)</script></li>
+<li><p>继续换元：</p>
+<script type="math/tex; mode=display">
+x_5 = \frac 1 {27}(13x_4-5) \\
+则 x_4 = 2x_5+\frac 1 {13} (x_5+5)</script></li>
+<li><p>继续：</p>
+<script type="math/tex; mode=display">
+x_6 = \frac 1 {13} (x_5 + 5)\\
+则 x_5 = 13x_6 - 5</script></li>
+<li><p>终于没有任何丑陋的部分了，现在只需要一路向上回带即可：</p>
+<script type="math/tex; mode=display">
+x_4 = 2x_5 + x_6 = 27x_6-10 \\
+x_3 =-7x_4 - 3 + x_5 = -176x_6+62 \\
+x_1 = -4x_3 + x_4=731x_6-258 \\
+x_2 = -x_1+3+x_3 = -907x_6 + 323</script></li>
+<li><p>得到解</p>
+<script type="math/tex; mode=display">
+\left\{
+\begin{aligned}
+x_1 &=731x_6-258\\
+x_2 &=-907x_6+323
+\end{aligned}
+\right.</script></li>
+</ul>
+</li>
+</ol>
+<blockquote id="fn_1">
+<sup>1</sup>. 故不止两元时仍然适用<a href="#reffn_1" title="Jump back to footnote [1] in the text."> ↩</a>
+</blockquote>
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-04-02</span><i class="fa fa-tag"></i><a class="tag" href="/tags/数学/" title="数学">数学 </a><a class="tag" href="/tags/复习/" title="复习">复习 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/04/02/数论复习/,Blog,数论复习,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/04/17/%E4%BF%A1%E6%81%AF%E8%AE%BA%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" title="信息论知识点整理">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/03/23/%E7%94%A8FUSE%E6%9E%84%E5%BB%BA%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" title="用FUSE构建你自己的文件系统">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

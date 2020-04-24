@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1014px" height="588px" viewBox="0 0 1014 588" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M22.581476,8.38709033 C52.7160517,-2.9219137 113.659761,-2.66876354 143.119779,8.38709033 C172.579797,19.4429442 173.170678,42.3455049 143.119779,53.6231064 C113.06888,64.9007079 52.6641583,64.9126357 22.581476,53.6231064 C-7.50120634,42.3335772 -7.55309979,19.6960944 22.581476,8.38709033 Z" id="path-1"></path>
+        <path d="M22.581476,8.38709033 C52.7160517,-2.9219137 113.659761,-2.66876354 143.119779,8.38709033 C172.579797,19.4429442 173.170678,42.3455049 143.119779,53.6231064 C113.06888,64.9007079 52.6641583,64.9126357 22.581476,53.6231064 C-7.50120634,42.3335772 -7.55309979,19.6960944 22.581476,8.38709033 Z" id="path-2"></path>
+        <path d="M22.581476,8.38709033 C52.7160517,-2.9219137 113.659761,-2.66876354 143.119779,8.38709033 C172.579797,19.4429442 173.170678,42.3455049 143.119779,53.6231064 C113.06888,64.9007079 52.6641583,64.9126357 22.581476,53.6231064 C-7.50120634,42.3335772 -7.55309979,19.6960944 22.581476,8.38709033 Z" id="path-3"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-6" transform="translate(1.000000, 1.000000)">
+            <text id="+" font-family="Helvetica" font-size="24" font-weight="normal" fill="#020000">
+                <tspan x="432" y="114">+</tspan>
+            </text>
+            <g id="Group-4" transform="translate(31.000000, 30.000000)">
+                <g id="3-node-with-links" transform="translate(86.000000, 0.000000)">
+                    <g id="Group-2" transform="translate(0.000000, 1.000000)">
+                        <g id="3-node" transform="translate(49.000000, 0.000000)">
+                            <g id="Group-2" transform="translate(0.000000, -0.162467)">
+                                <g id="Rectangle">
+                                    <use fill-opacity="0.469372736" fill="#6400FF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                                    <path stroke="#979797" stroke-width="1" d="M22.757154,8.8552113 C-6.9274706,19.9953561 -6.91063053,42.0211604 22.757154,53.1549855 C52.7159786,64.398033 112.995865,64.3940594 142.944101,53.1549855 C172.364401,42.1140374 172.171104,19.8236183 142.944101,8.8552113 C113.372261,-2.24260732 52.5550476,-2.32744155 22.757154,8.8552113 Z"></path>
+                                </g>
+                                <g id="Group" transform="translate(37.000000, 16.000000)" font-size="24" font-family="Helvetica" fill="#FFFFFF" font-weight="normal">
+                                    <text id="B">
+                                        <tspan x="0" y="24">5</tspan>
+                                    </text>
+                                    <text id="C">
+                                        <tspan x="81" y="23">7</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </g>
+                        <path d="M59.5,47.5 L0.5,89.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                        <path d="M131.5,62.5 L131.5,91.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                        <path d="M262.5,47.5 L203.5,89.5" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(233.000000, 68.500000) scale(-1, 1) translate(-233.000000, -68.500000) "></path>
+                    </g>
+                </g>
+                <g id="3-node" transform="translate(0.000000, 90.000000)">
+                    <g id="Group-2" transform="translate(0.000000, -0.162467)">
+                        <g id="Rectangle">
+                            <use fill-opacity="0.469372736" fill="#6400FF" fill-rule="evenodd" xlink:href="#path-2"></use>
+                            <path stroke="#979797" stroke-width="1" d="M22.757154,8.8552113 C-6.9274706,19.9953561 -6.91063053,42.0211604 22.757154,53.1549855 C52.7159786,64.398033 112.995865,64.3940594 142.944101,53.1549855 C172.364401,42.1140374 172.171104,19.8236183 142.944101,8.8552113 C113.372261,-2.24260732 52.5550476,-2.32744155 22.757154,8.8552113 Z"></path>
+                        </g>
+                        <g id="Group" transform="translate(37.000000, 16.000000)" font-size="24" font-family="Helvetica" fill="#FFFFFF" font-weight="normal">
+                            <text id="B">
+                                <tspan x="0" y="24">1</tspan>
+                            </text>
+                            <text id="C">
+                                <tspan x="81" y="23">3</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g id="2-node" transform="translate(186.000000, 93.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                        <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="25.8261719" y="39">6</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="2-node" transform="translate(320.000000, 90.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                        <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="25.8261719" y="39">8</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="Group-4" transform="translate(686.000000, 31.000000)">
+                <g id="Group-2">
+                    <g id="3-node" transform="translate(49.000000, 0.000000)">
+                        <g id="Group-2" transform="translate(0.000000, -0.162467)">
+                            <g id="Rectangle">
+                                <use fill-opacity="0.469372736" fill="#6400FF" fill-rule="evenodd" xlink:href="#path-3"></use>
+                                <path stroke="#979797" stroke-width="1" d="M22.757154,8.8552113 C-6.9274706,19.9953561 -6.91063053,42.0211604 22.757154,53.1549855 C52.7159786,64.398033 112.995865,64.3940594 142.944101,53.1549855 C172.364401,42.1140374 172.171104,19.8236183 142.944101,8.8552113 C113.372261,-2.24260732 52.5550476,-2.32744155 22.757154,8.8552113 Z"></path>
+                            </g>
+                            <g id="Group" transform="translate(37.000000, 16.000000)" font-size="24" font-family="Helvetica" fill="#FFFFFF" font-weight="normal">
+                                <text id="B">
+                                    <tspan x="0" y="24">5</tspan>
+                                </text>
+                                <text id="C">
+                                    <tspan x="81" y="23">7</tspan>
+                                </text>
+                            </g>
+                        </g>
+                    </g>
+                    <path d="M59.5,47.5 L0.5,89.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                    <path d="M164.5,60.5 L164.5,89.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                    <path d="M96.5,59.5 L96.5,88.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                    <path d="M262.5,47.5 L203.5,89.5" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(233.000000, 68.500000) scale(-1, 1) translate(-233.000000, -68.500000) "></path>
+                </g>
+                <g id="2-node" transform="translate(132.000000, 90.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                        <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="25.8261719" y="39">6</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="2-node" transform="translate(234.000000, 89.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                        <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                            <tspan x="25.8261719" y="39">8</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(460.000000, 75.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">2</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(947.000000, 26.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">2</tspan>
+                    </text>
+                </g>
+            </g>
+            <text id="1-2-3中间为2-上移" font-family="Helvetica" font-size="18" font-weight="normal" fill="#020000">
+                <tspan x="547" y="102">1-2-3</tspan>
+                <tspan x="589.020508" y="102" font-family="PingFangSC-Regular, PingFang SC">中间为</tspan>
+                <tspan x="643.020508" y="102">2</tspan>
+                <tspan x="547" y="127" font-family="PingFangSC-Regular, PingFang SC">上移</tspan>
+            </text>
+            <text id="2-5-7-中间为5-上移" transform="translate(556.000000, 259.000000) rotate(-20.000000) translate(-556.000000, -259.000000) " font-family="Helvetica" font-size="18" font-weight="normal" fill="#020000">
+                <tspan x="500" y="252">2-5-7 </tspan>
+                <tspan x="547.021484" y="252" font-family="PingFangSC-Regular, PingFang SC">中间为</tspan>
+                <tspan x="601.021484" y="252">5</tspan>
+                <tspan x="500" y="277" font-family="PingFangSC-Regular, PingFang SC">上移</tspan>
+            </text>
+            <g id="2-node" transform="translate(646.000000, 119.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">1</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(749.000000, 119.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">3</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Group-5" transform="translate(773.000000, 0.000000)" stroke="#000000" stroke-linecap="square">
+                <path d="M7.81752854,34.5726641 C20.496729,26.0408481 28.0853221,21.1155608 30.5833079,19.7968023 C62.8128181,2.78191809 73.9305611,1.21635842 99.8732718,0.404975869 C128.832063,-0.500737412 161.707639,8.4436099 198.5,27.2380178 C160.018008,8.30040849 127.142432,-0.643938823 99.8732718,0.404975869 C89.8900353,0.788983422 79.4006368,1.10464634 68.3430362,3.97570141 C56.2808025,7.10760482 43.5621357,13.0559189 30.5833079,19.7968023 C25.5018104,22.436007 17.9132173,27.3612942 7.81752854,34.5726641 Z" id="Line-2"></path>
+                <path d="M8.5,34.5 L0.5,41.5" id="Line-3" fill="#000000"></path>
+                <path id="Line-3-decoration-1" d="M0.5,41.5 L10.6033421,36.6458803 L6.65231448,32.1304202 L0.5,41.5 Z" fill="#000000"></path>
+            </g>
+            <path d="M683.5,217.5 L389.5,312.5" id="Line-4" stroke="#000000" fill="#000000" stroke-linecap="square"></path>
+            <path id="Line-4-decoration-1" d="M389.5,312.5 L400.699231,312.033932 L398.854378,306.324596 L389.5,312.5 Z" stroke="#000000" fill="#000000" stroke-linecap="square"></path>
+            <path d="M528.5,108.5 L685.5,108.5" id="Line-4" stroke="#000000" fill="#000000" stroke-linecap="square"></path>
+            <path id="Line-4-decoration-1" d="M685.5,108.5 L674.7,105.5 L674.7,111.5 L685.5,108.5 Z" stroke="#000000" fill="#000000" stroke-linecap="square"></path>
+            <path d="M480.935565,137.988698 C411.395161,197.096917 355.896302,227.168195 314.438988,228.202532 C272.981673,229.236869 207.898176,206.275844 119.188497,159.319458" id="Line-5" stroke="#000000" stroke-linecap="square"></path>
+            <path id="Line-5-decoration-1" d="M119.188497,159.319458 L127.330256,167.023467 L130.13723,161.720553 L119.188497,159.319458 Z" stroke="#000000" stroke-linecap="square"></path>
+            <g id="2-node-with-links" transform="translate(33.000000, 405.000000)">
+                <g id="Group-3">
+                    <g id="Group-2">
+                        <g id="Group">
+                            <g id="2-node" transform="translate(63.000000, 0.000000)">
+                                <g id="Group">
+                                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                                        <tspan x="25.8261719" y="39">2</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <path d="M0.5,115.5 L69.5,53.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                            <path d="M121,115 L190,53" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(155.500000, 84.000000) scale(-1, 1) translate(-155.500000, -84.000000) "></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <g id="2-node-with-links" transform="translate(321.000000, 405.000000)">
+                <g id="Group-3">
+                    <g id="Group-2">
+                        <g id="Group">
+                            <g id="2-node" transform="translate(63.000000, 0.000000)">
+                                <g id="Group">
+                                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                                        <tspan x="25.8261719" y="39">7</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                            <path d="M0.5,115.5 L69.5,53.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                            <path d="M121,115 L190,53" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(155.500000, 84.000000) scale(-1, 1) translate(-155.500000, -84.000000) "></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(0.000000, 521.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">1</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(192.000000, 521.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">3</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(289.000000, 521.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">6</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="2-node" transform="translate(481.000000, 521.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                    <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="25.8261719" y="39">8</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Group-3" transform="translate(138.000000, 284.000000)">
+                <g id="Group-2">
+                    <g id="Group">
+                        <g id="2-node" transform="translate(101.000000, 0.000000)">
+                            <g id="Group">
+                                <circle id="Oval" stroke="#979797" fill="#FF7100" cx="32.5" cy="32.5" r="32.5"></circle>
+                                <text id="A" font-family="Helvetica" font-size="24" font-weight="normal" fill="#FFFFFF">
+                                    <tspan x="25.8261719" y="39">5</tspan>
+                                </text>
+                            </g>
+                        </g>
+                        <path d="M0.5,124.5 L107.5,53.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                        <path d="M159,126.501932 L260.613901,53" id="Line" stroke="#979797" stroke-linecap="square" transform="translate(209.806951, 89.750966) scale(-1, 1) translate(-209.806951, -89.750966) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

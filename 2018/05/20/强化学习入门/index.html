@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>强化学习入门 · Blog</title><meta name="description" content="监督学习通过历史知识来建立模型，预测新的实例。
+ hexo-inject:begin  hexo-inject:end 非监督学习从历史知识中发现出规律。
+强化学习就厉害了，他会自己根据环境对自己行为的反馈来优化自己的行为，然后形成一种可以获得最大利益的“习惯性”行为，你需要输入的只有“环境”而已，"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>强化学习入门</a></h1></div><div class="post-content"><p>监督学习通过历史知识来建立模型，预测新的实例。</p>
+ hexo-inject:begin  hexo-inject:end <p>非监督学习从历史知识中发现出规律。</p>
+<p>强化学习就厉害了，他会自己根据环境对自己行为的反馈来优化自己的行为，然后形成一种可以获得最大利益的“习惯性”行为，你需要输入的只有“环境”而已，并不需要任何历史知识。</p>
+<p><del>（前两种都是填鸭式教育，强化学习强调的却是自主学习）</del></p>
+<h2 id="我们将用强化学习干什么？"><a class="headerlink" href="#我们将用强化学习干什么？" title="我们将用强化学习干什么？"></a>我们将用强化学习干什么？</h2><p>我们将会用它玩一个非常simple的小游戏，同时也是强化学习中一个经典的入门问题：CartPole。</p>
+<p><img alt="img" src="http://git.oschina.net/ford25v6/rl4j/raw/master/cartpole.gif"/></p>
+<p>这个游戏是这样的：一个小车（Cart）上面顶了一根杆子（Pole），小车可以在导轨上移动，我们可以用$+1$或$-1$的力推小车（但是不允许什么都不做），我们如果能保持住小车不出界且杆子不倒下来（实际上杆子和垂直方向偏离$15^\circ$就算输了），就能每“回合”得1分。</p>
+<p>目标自然是得分越高越好。</p>
+<p>为了<del>偷懒</del>避免自己构建场景的麻烦，我们使用增强学习界的神器：<a href="http://gym.openai.com" rel="noopener" target="_blank">OpenAI gym</a>来快速搭建环境。</p>
+<h3 id="OpenAI-使用入门"><a class="headerlink" href="#OpenAI-使用入门" title="OpenAI 使用入门"></a>OpenAI 使用入门</h3><p>安装当然是<code>pip</code><del>（啥？你搞AI却不用Python？聊不来的，告辞）</del>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">pip install gym</span><br/></pre></td></tr></table></figure>
+<p>就装好了。</p>
+<p>我们先构建好场景：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br/><span class="line">env = gym.make(<span class="string">'CartPole-v0'</span>)</span><br/><span class="line">env.reset() <span class="comment"># 复位游戏状态参数</span></span><br/></pre></td></tr></table></figure>
+<p>然后显示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">env.render()</span><br/></pre></td></tr></table></figure>
+<p><img alt="1" src="./1.png"/></p>
+<p>就显示出来了。</p>
+<p>我们看看我们能对这个场景干些啥：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">env.action_space <span class="comment"># Discrete(2)</span></span><br/></pre></td></tr></table></figure>
+<p>意思是<del>有两个按键可以按</del>可以进行离散的两个动作。</p>
+<p>那么我们推一下这个小车：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/></pre></td><td class="code"><pre><span class="line">env.step(<span class="number">1</span>) <span class="comment"># 按一下右键</span></span><br/><span class="line">env.render()</span><br/></pre></td></tr></table></figure>
+<p>会看到小车被往右推了，当然被推的很少也许看不出来，多推几下就好了。</p>
+<p>当然</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line">env.step(<span class="number">0</span>)</span><br/></pre></td></tr></table></figure>
+<p>是往左推。</p>
+<p>你可能已经注意到了，每次<code>step</code>都会返回一个四元组，这里我们只关注第一个元素（一个有四个元素的numpy array）和第三个元素（一个布尔值）。</p>
+<p>那个numpy array的意义如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>索引</th>
+<th>意义</th>
+<th>最小值</th>
+<th>最大值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>小车的位置</td>
+<td>-2.4</td>
+<td>2.4</td>
+</tr>
+<tr>
+<td>1</td>
+<td>小车的速度</td>
+<td>$- \infty$</td>
+<td>$+\infty$</td>
+</tr>
+<tr>
+<td>2</td>
+<td>杆子的角度</td>
+<td>~ -41.8°</td>
+<td>~ 41.8°</td>
+</tr>
+<tr>
+<td>3</td>
+<td>杆子顶端的线速度</td>
+<td>$- \infty$</td>
+<td>$+\infty$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>那个布尔值代表你是不是已经输掉了。</p>
+<p>这些信息都能在<a href="https://github.com/openai/gym/wiki/CartPole-v0" rel="noopener" target="_blank">CartPole的wiki页面</a>上查到。</p>
+<p>现在环境都准备好了，我们来让机器学会如何玩这个游戏。</p>
+<h2 id="Q学习"><a class="headerlink" href="#Q学习" title="Q学习"></a>Q学习</h2><p>让我们用更为便于让计算机理解的方式来表达上面的场景：</p>
+<p>我们需要一个模型（或者函数）$f(x)$，其中$x$为$($小车位置$,$小车速度$,$杆子角度$,$杆子顶端线速度$)$的一个向量，而模型的输出是$0$或$1$，代表按左键或是按右键。</p>
+<p>在强化学习中，这个模型我们称为agent。</p>
+<p>这是一个函数，如果我们把函数的所有输入和输出的值列在表里，我们会得到这样一张表<sup><a href="#fn_1" id="reffn_1">1</a></sup>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$x$</th>
+<th>$y$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(1,1,1,1)$</td>
+<td>0</td>
+</tr>
+<tr>
+<td>$(-1,-1,-1,-1)$</td>
+<td>1</td>
+</tr>
+<tr>
+<td>$(2,1,1,1)$</td>
+<td>0</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>那么怎么算出这个$y$呢？</p>
+<p>讨厌考古的可以直接跳到下一个标题<strong>DQN</strong>，否则请继续看。</p>
+<p>传统的Q-learning算法构建了这样一张表，名叫Q表：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>$x$</th>
+<th>$action_0$</th>
+<th>$trans_0$</th>
+<th>$action_1$</th>
+<th>$trans_1$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$(1,1,1,1)$</td>
+<td>7</td>
+<td>$(1.02,0.81, 1.02,1.40)$</td>
+<td>-92</td>
+<td>$(1.02,1.18,1.02, 1.10)$</td>
+</tr>
+<tr>
+<td>$(-1,-1,-1,-1)$</td>
+<td>10</td>
+<td>$(-1.02,-1.18,-1.02,-1.10)$</td>
+<td>2</td>
+<td>$(-1.02,-0.81,-1.02, -1.40)$</td>
+</tr>
+<tr>
+<td>$(2,1,1,1)$</td>
+<td>8</td>
+<td>$(2.02,0.81,1.02,1.40)$</td>
+<td>3</td>
+<td>$(2.02,1.18,1.02, 1.10)$</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$trans_0$和$trans_1$指执行$0$或$1$操作之后转移到的状态。</p>
+<p>$action_0$和$action_1$又是啥呢？我们可以将其看作是在这一状态下采取行动$0$或$1$之后收获的最终最高得分的值。</p>
+<p>这样根据$action_0$和$action_1$谁比较大就很好选择了。</p>
+<p>问题又来了，怎么计算$action_0$和$action_1$呢？</p>
+<p>如果这个问题只需要一个离线算法，问题就变得非常容易，这就是一道简单的算法题，动态规划就能解决：</p>
+<script type="math/tex; mode=display">
+Q(now\_state,action_i) = max\{Q(now\_state.trans_i,action_j)\} + 1</script><p>状态转移方程看的头大（我的锅，我写的不好），大概意思是说：</p>
+<p>某一个状态采取某一行为获得的最高得分是采取这一行为后转移到的状态能得到的最高得分加1（这里的1可以根据场景来调整，比如在Flappy Bird游戏中，如果恰好越过了一个水管，可以加50之类的）。</p>
+<p>然而不幸的是，强化学习需要“根据环境对自己行为的反馈来优化自己的行为”，这就要求我们给出一个在线算法。</p>
+<p>这就引出了一个神仙玩意：贝尔曼方程<sup><a href="#fn_2" id="reffn_2">2</a></sup>，这里我不展开讲这些神仙玩意<del>（其实是我不会TAT）</del>。</p>
+<p>我们只给出最终的Q-tabel的更新方法：</p>
+<script type="math/tex; mode=display">
+Q(state,action)=reward\_now+\gamma (max(Q(state′,action′))</script><p>其中$\gamma$是一个“折扣因子”，$\gamma$越大，我们的模型就会越重视以往经验（$max(Q(state′,action′)$），$\gamma$越小，我们的模型只重视眼前利益（$reward\_{now}$）。</p>
+<p>另外，为了防止每次都选择当前状态下得分期望值较大的那个动作而带来的陷入局部最优的问题，我们引入了$\epsilon$-greedy算法即每个状态有$\epsilon$的概率进行探索（随机选择动作），而剩下的1-$\epsilon$的概率则进行开发（选取当前状态下得分期望值较大的那个动作），我们一开始让$\epsilon$很大，这样一开始模型基本上什么都不知道的时候会倾向于进行探索，而后模型<del>成为经验丰富的老司机</del>有很多知识之后就倾向于开发了。</p>
+<p>用这个更新Q-table的方式，我们就能学习一些简单的策略了，但不幸的是，无论如何这里的Q-table还是需要使用很多内存来保存，有时需要内存的量是大的可怕的，我们需要一些别的方式来解决这个问题。</p>
+<h3 id="DQN"><a class="headerlink" href="#DQN" title="DQN"></a>DQN</h3><p><strong>神经网络是AI界最伟大的发明！</strong></p>
+<p><strong>神经网络是AI界最伟大的发明！</strong></p>
+<p><strong>神经网络是AI界最伟大的发明！</strong></p>
+<p>现在我们有神经网络了，我们现在管他的三七二十一，直接弄个神经网络来拟合这个$f$不就结了，至于用来拟合的数据，可以用前面基于Q-table的方法来计算。</p>
+<p>暴力，无脑，简单方便，用普通的最小二乘loss和反向传播就能训练，也省内存😄。</p>
+<p>当然天下没有免费的午餐，使用神经网络的实现会导致学习效果的稳定性不佳（即得到的分数会乱晃）。</p>
+<p>而且有一个问题是样本是从游戏中的连续帧获得的，样本的关联性很大。为了避免这一点带来的影响，我们引入experience replay这个方法，从所有样本中随机（而不是连续地）选取几个来训练我们的网络。</p>
+<h2 id="代码4"><a class="headerlink" href="#代码4" title="代码4"></a>代码<sup><a href="#fn_4" id="reffn_4">4</a></sup></h2><p>我们使用<code>pytorch</code><sup><a href="#fn_3" id="reffn_3">3</a></sup>来实现一个DQN来解决上面说的<code>CartPole</code>。</p>
+<p>我们用的神经网络长得像这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/><span class="line">9</span><br/><span class="line">10</span><br/><span class="line">11</span><br/><span class="line">12</span><br/><span class="line">13</span><br/><span class="line">14</span><br/><span class="line">15</span><br/><span class="line">16</span><br/><span class="line">17</span><br/><span class="line">18</span><br/><span class="line">19</span><br/><span class="line">20</span><br/><span class="line">21</span><br/><span class="line">22</span><br/><span class="line">23</span><br/><span class="line">24</span><br/><span class="line">25</span><br/></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DQN</span><span class="params">(nn.Module)</span>:</span></span><br/><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br/><span class="line">        super(DQN, self).__init__()</span><br/><span class="line">        self.input = nn.Linear(<span class="number">4</span>, <span class="number">64</span>)</span><br/><span class="line">        self.fc1 = nn.Linear(<span class="number">64</span>, <span class="number">128</span>)</span><br/><span class="line">        self.fc2 = nn.Linear(<span class="number">128</span>, <span class="number">128</span>)</span><br/><span class="line">        self.fc3 = nn.Linear(<span class="number">128</span>, <span class="number">128</span>)</span><br/><span class="line">        self.result = nn.Linear(<span class="number">128</span>, <span class="number">2</span>)</span><br/><span class="line">        self.optimizer = RMSprop(self.parameters(), lr=<span class="number">1e-4</span>)</span><br/><span class="line">        self.loss_fun = MSELoss(size_average=<span class="keyword">False</span>)</span><br/><span class="line"></span><br/><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br/><span class="line">        x = Tensor(x)</span><br/><span class="line">        x = self.input(x)</span><br/><span class="line">        x = F.rrelu(self.fc1(x))</span><br/><span class="line">        x = F.rrelu(self.fc2(x))</span><br/><span class="line">        x = F.rrelu(self.fc3(x))</span><br/><span class="line">        <span class="keyword">return</span> self.result(x)</span><br/><span class="line"></span><br/><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fit</span><span class="params">(self, x, y)</span>:</span></span><br/><span class="line">        y_pred = self(x)</span><br/><span class="line">        self.optimizer.zero_grad()</span><br/><span class="line">        loss = F.mse_loss(y_pred, y)</span><br/><span class="line">        loss.backward()</span><br/><span class="line">        self.optimizer.step()</span><br/></pre></td></tr></table></figure>
+<p>我们使用简单的三层全联接层，这只是一个例子，你可以自己改用更深更牛的网络（我觉得RNN及其变体会适合这类问题的）。</p>
+<p>下面是我们的agent：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/><span class="line">9</span><br/><span class="line">10</span><br/><span class="line">11</span><br/><span class="line">12</span><br/><span class="line">13</span><br/><span class="line">14</span><br/><span class="line">15</span><br/><span class="line">16</span><br/><span class="line">17</span><br/><span class="line">18</span><br/><span class="line">19</span><br/><span class="line">20</span><br/><span class="line">21</span><br/><span class="line">22</span><br/><span class="line">23</span><br/><span class="line">24</span><br/><span class="line">25</span><br/><span class="line">26</span><br/><span class="line">27</span><br/><span class="line">28</span><br/><span class="line">29</span><br/><span class="line">30</span><br/><span class="line">31</span><br/><span class="line">32</span><br/><span class="line">33</span><br/><span class="line">34</span><br/><span class="line">35</span><br/><span class="line">36</span><br/><span class="line">37</span><br/></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DeepQLearingAgent</span>:</span></span><br/><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, env)</span>:</span></span><br/><span class="line">        self.env = env</span><br/><span class="line">        self.memory = []</span><br/><span class="line">        self.gamma = <span class="number">0.9</span></span><br/><span class="line">        self.epsilon = <span class="number">1</span></span><br/><span class="line">        self.epsilon_decay = <span class="number">.995</span></span><br/><span class="line">        self.epsilon_min = <span class="number">0.01</span></span><br/><span class="line">        self.model = DQN()</span><br/><span class="line"></span><br/><span class="line">    <span class="comment"># 将状态添加到记忆</span></span><br/><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remember</span><span class="params">(self, state, action, reward, next_state, done)</span>:</span></span><br/><span class="line">        self.memory.append((state, action, reward, next_state, done))</span><br/><span class="line">        </span><br/><span class="line">    <span class="comment"># 进行一次行动</span></span><br/><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">act</span><span class="params">(self, state)</span>:</span></span><br/><span class="line">        <span class="comment"># epsilon-greedy</span></span><br/><span class="line">        <span class="keyword">if</span> np.random.rand() &lt;= self.epsilon:</span><br/><span class="line">            <span class="keyword">return</span> env.action_space.sample()</span><br/><span class="line">        act_values = self.model(state)</span><br/><span class="line">        <span class="keyword">return</span> np.argmax(act_values[<span class="number">0</span>].detach().numpy())</span><br/><span class="line">    </span><br/><span class="line">    <span class="comment"># 用experience replay算法更新网络权值</span></span><br/><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">replay</span><span class="params">(self, batch_size)</span>:</span></span><br/><span class="line">        batches = min(batch_size, len(self.memory))</span><br/><span class="line">        batches = np.random.choice(len(self.memory), batches)</span><br/><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> batches:</span><br/><span class="line">            state, action, reward, next_state, done = self.memory[i]</span><br/><span class="line">            target = reward</span><br/><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> done:</span><br/><span class="line">                target = reward + self.gamma * np.amax(self.model(next_state)[<span class="number">0</span>].detach().numpy())</span><br/><span class="line">            target_f = self.model(state)</span><br/><span class="line">            target_f[<span class="number">0</span>][action] = target</span><br/><span class="line">            self.model.fit(state, target_f)</span><br/><span class="line"></span><br/><span class="line">        <span class="keyword">if</span> self.epsilon &gt; self.epsilon_min:</span><br/><span class="line">            self.epsilon *= self.epsilon_decay</span><br/></pre></td></tr></table></figure>
+<p>实际的运作过程：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/><span class="line">9</span><br/><span class="line">10</span><br/><span class="line">11</span><br/><span class="line">12</span><br/><span class="line">13</span><br/><span class="line">14</span><br/><span class="line">15</span><br/><span class="line">16</span><br/><span class="line">17</span><br/><span class="line">18</span><br/><span class="line">19</span><br/><span class="line">20</span><br/><span class="line">21</span><br/><span class="line">22</span><br/><span class="line">23</span><br/><span class="line">24</span><br/><span class="line">25</span><br/><span class="line">26</span><br/><span class="line">27</span><br/><span class="line">28</span><br/><span class="line">29</span><br/><span class="line">30</span><br/><span class="line">31</span><br/><span class="line">32</span><br/><span class="line">33</span><br/><span class="line">34</span><br/><span class="line">35</span><br/><span class="line">36</span><br/></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br/><span class="line">    env = gym.make(<span class="string">'CartPole-v0'</span>)</span><br/><span class="line">    <span class="comment"># 默认游戏只会进行200个回合就会停止</span></span><br/><span class="line">    <span class="comment"># 可以通过修改下面的变量修改</span></span><br/><span class="line">    <span class="comment"># env._max_episode_steps = 10000</span></span><br/><span class="line">    agent = DeepQLearingAgent(env)</span><br/><span class="line"></span><br/><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br/><span class="line">        state = env.reset()</span><br/><span class="line">        state = np.reshape(state, [<span class="number">1</span>, <span class="number">4</span>])</span><br/><span class="line">        </span><br/><span class="line">        <span class="keyword">for</span> time_t <span class="keyword">in</span> range(<span class="number">5000</span>):</span><br/><span class="line">            <span class="comment"># 如果你希望一直看到angent的行为，解开此处注释</span></span><br/><span class="line">            <span class="comment"># env.render()</span></span><br/><span class="line"></span><br/><span class="line">            action = agent.act(state)</span><br/><span class="line"></span><br/><span class="line">            next_state, reward, done, _ = env.step(action)</span><br/><span class="line">            next_state = np.reshape(next_state, [<span class="number">1</span>, <span class="number">4</span>])</span><br/><span class="line">            </span><br/><span class="line">            <span class="comment"># 每活回合得1分，死掉扣100分</span></span><br/><span class="line">            reward = <span class="number">-100</span> <span class="keyword">if</span> done <span class="keyword">else</span> reward</span><br/><span class="line"></span><br/><span class="line">            <span class="comment"># 记忆先前的状态，行为，回报与下一个状态</span></span><br/><span class="line">            agent.remember(state, action, reward, next_state, done)</span><br/><span class="line">            </span><br/><span class="line">            <span class="comment"># 更新当前状态</span></span><br/><span class="line">            state = copy.deepcopy(next_state)</span><br/><span class="line"></span><br/><span class="line">            <span class="keyword">if</span> done:</span><br/><span class="line">                <span class="comment"># 打印分数并且跳出游戏循环</span></span><br/><span class="line">                print(<span class="string">"episode: {}/{}, score: {}"</span></span><br/><span class="line">                      .format(e, <span class="number">10000</span>, time_t))</span><br/><span class="line">                <span class="keyword">break</span></span><br/><span class="line">        <span class="comment"># 训练模型</span></span><br/><span class="line">        agent.replay(<span class="number">32</span>)</span><br/></pre></td></tr></table></figure>
+<p>训练1200多轮后，我们就能得到一个相当好的模型了，得分能常常达到200分。</p>
+<p><img alt="2" src="./2.png"/></p>
+<p>不过得到的模型稳定性还是不太好，有的时候会突然降到个位数……</p>
+<p>无论如何这个AI比我厉害就是了……</p>
+<p>好，希望到这里大家就有点了解RL的一些基本概念、工具和算法了，希望可以跟你们一起学习！</p>
+<p>Enjoy Hacking！</p>
+<blockquote id="fn_1">
+<sup>1</sup>. 表中部分数据为虚构<a href="#reffn_1" title="Jump back to footnote [1] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. 贝尔曼方程是动态规划（Dynamic Programming）这种数学最佳化方法能够达到最佳化的必要条件。所以说不要以为有AI了就不用学传统算法了。<a href="#reffn_2" title="Jump back to footnote [2] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_3">
+<sup>3</sup>. 感谢某个神仙学长推荐我使用<code>pytorch</code>代替<code>tensorflow</code>，动态图机器学习框架确实方便调试。<a href="#reffn_3" title="Jump back to footnote [3] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_4">
+<sup>4</sup>. 代码实现参考了<a href="https://www.cnblogs.com/caorui/p/6431156.html" rel="noopener" target="_blank">这个</a>，我发现超参数优化器等的选择其实挺重要的，用<code>tanh</code>时他拒绝收敛，改成<code>relu</code>、<code>leaky_relu</code>和<code>rrelu</code>就收敛的特别快，另外在这个例子上<code>RMSprop</code>的表现比<code>Adam</code>好。<a href="#reffn_4" title="Jump back to footnote [4] in the text."> ↩</a>
+</blockquote>
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-05-20</span><i class="fa fa-tag"></i><a class="tag" href="/tags/新手级/" title="新手级">新手级 </a><a class="tag" href="/tags/AI/" title="AI">AI </a><a class="tag" href="/tags/强化学习/" title="强化学习">强化学习 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2018/05/20/强化学习入门/,Blog,强化学习入门,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2018/06/01/Ubuntu%20Server%E6%96%B0%E6%9C%BA%E9%85%8D%E7%BD%AE/" title="Ubuntu Server新机配置">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/05/15/3-8%E8%AF%91%E7%A0%81%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0/" title="3-8译码器的实现">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

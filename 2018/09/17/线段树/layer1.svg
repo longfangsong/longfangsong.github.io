@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="536px" height="219px" viewBox="0 0 536 219" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(1.000000, -5.000000)">
+            <g id="Group">
+                <g id="sum-node" transform="translate(0.000000, 159.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                        <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                            <tspan x="22.046" y="43">?</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="sum-node" transform="translate(228.000000, 33.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                        <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                            <tspan x="22.046" y="43">?</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="sum-node" transform="translate(470.000000, 159.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                        <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                            <tspan x="22.046" y="43">?</tspan>
+                        </text>
+                    </g>
+                </g>
+                <path d="M231.5,72.5 L58.5,170.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M290.5,75.5 L481.5,165.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <text id="[0,6]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="235" y="25">[0,6]</tspan>
+                </text>
+                <text id="[0,3]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="7" y="151">[0,3]</tspan>
+                </text>
+                <text id="[4,6]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="477" y="151">[4,6]</tspan>
+                </text>
+            </g>
+            <path d="M54.5,163.5 L226.5,66.5" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M226.5,66.5 L215.619164,69.1921028 L218.566501,74.418307 L226.5,66.5 Z" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M489.5,159.5 L290.5,63.5" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M290.5,63.5 L298.923789,70.8945772 L301.530765,65.4905344 L290.5,63.5 Z" stroke="#979797" stroke-linecap="square"></path>
+            <text id="当左右节点的值确定后-回朔-计算父节点的" font-family="PingFangSC-Light, PingFang SC" font-size="12" font-weight="300" fill="#000000">
+                <tspan x="81" y="88">当左右节点的值确定后</tspan>
+                <tspan x="81" y="105">回朔</tspan>
+                <tspan x="81" y="122">计算父节点的值</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

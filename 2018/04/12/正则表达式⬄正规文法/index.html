@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>正则表达式⬄正规文法 · Blog</title><meta name="description" content="基本理论理论的东西谁看了都头大，我就能减则减了，就说一点点。
+ hexo-inject:begin  hexo-inject:end 正则表达式正则表达式和我们平常使用的正则表达式差不多，只不过为了方便起见，我们只使用了$\cdot$、$*$和$|$三个运算符，实际上，大部分其他运算符的功能都可以被"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>正则表达式⬄正规文法</a></h1></div><div class="post-content"><h2 id="基本理论"><a class="headerlink" href="#基本理论" title="基本理论"></a>基本理论</h2><p>理论的东西谁看了都头大，我就能减则减了，就说一点点。</p>
+ hexo-inject:begin  hexo-inject:end <h3 id="正则表达式"><a class="headerlink" href="#正则表达式" title="正则表达式"></a>正则表达式</h3><p>正则表达式和我们平常使用的正则表达式差不多，只不过为了方便起见，我们只使用了$\cdot$、$*$和$|$三个运算符，实际上，大部分其他运算符的功能都可以被这三个运算符所替代<sup><a href="#fn_1" id="reffn_1">1</a></sup>。</p>
+<ul>
+<li>$\cdot$代表两个正则字符串的连接，如$a\cdot b$就能匹配ab，习惯上可以省略。</li>
+<li>$|$代表并集，如$a|b$能匹配$a$，也能匹配$b$</li>
+<li>$*$代表重复0次或更多，如$ a* $能匹配$ \epsilon $、$a$、$aa$、$aaa$等等，这里$ \epsilon $代表的是空字符串。</li>
+</ul>
+<p>规定$*$优先级最高，$\cdot$次之，$|$优先级最低，当然我们也有$()$来表示优先计算。</p>
+<p>显然有：</p>
+<ul>
+<li>$\cdot​$和$|​$满足结合律</li>
+<li>$\cdot$满足对$|$的分配律，如$a(b|c)\leftrightarrow ab|ac$</li>
+<li>$|$满足交换律</li>
+<li>$*$满足幂等率，$(a*)* \leftrightarrow a*$</li>
+<li>$\epsilon|a\leftrightarrow a$，$\epsilon \cdot a\leftrightarrow a$，$a \cdot \epsilon \leftrightarrow a$</li>
+</ul>
+<h3 id="正规文法"><a class="headerlink" href="#正规文法" title="正规文法"></a>正规文法</h3><h4 id="产生式"><a class="headerlink" href="#产生式" title="产生式"></a>产生式</h4><p>产生式是这样一个东西：</p>
+<script type="math/tex; mode=display">
+A \rightarrow \epsilon \\
+or \\
+A \rightarrow abc \\
+or \\
+B \rightarrow aA \\
+or \\
+aC \rightarrow aAbBc \\
+or \\
+aAb \rightarrow Bac \\
+or \\
+A \rightarrow a|b*</script><p>意思就是左边的东西代表了右边的东西，我们习惯用小写字母代表真正的字母（称为终结符），用大写字母代表代表另一些字母的一个符号（称为非终结符）。</p>
+<p>有个直观感受就行了，具体定义除了让人头大以外没啥意义。</p>
+<h4 id="正规文法-1"><a class="headerlink" href="#正规文法-1" title="正规文法"></a>正规文法</h4><p>正规文法<sup><a href="#fn_2" id="reffn_2">2</a></sup>是这样一个东西：</p>
+<p>正规文法就是一堆产生式的集合<sup><a href="#fn_3" id="reffn_3">3</a></sup>，这些产生式要满足：</p>
+<ul>
+<li>左边只有一个非终结符</li>
+<li>右边是：<ul>
+<li>$\epsilon$</li>
+<li>终结符</li>
+<li>一个终结符$\cdot$一个非终结符</li>
+</ul>
+</li>
+</ul>
+<p>明显这些产生式在替换的时候就会比较方便，而且日后拿来化NFA就非常容易了。</p>
+<p>（结果还是逼逼了好多理论……）</p>
+<h2 id="实践"><a class="headerlink" href="#实践" title="实践"></a>实践</h2><p>实践证明，书上给的算法还是偏理论，实际应用起来还是会有很多问题。</p>
+<p>自己实现的时候还是要做很多的考虑。</p>
+<p>我们结合我的代码来分析。</p>
+<p>代码使用Kotlin写成，<a href="https://github.com/longfangsong/RegexCalculator" rel="noopener" target="_blank">项目地址在这里</a>。</p>
+<h4 id="正则表达式-1"><a class="headerlink" href="#正则表达式-1" title="正则表达式"></a>正则表达式</h4><p>我们先将正则表达式中的元素抽象为接口<sup><a href="#fn_4" id="reffn_4">4</a></sup>：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">RegexComponent</span></span></span><br/></pre></td></tr></table></figure>
+<p>那么哪些东西该实现这个接口呢？</p>
+<p>字母：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Character</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> name: String) : RegexComponent, Comparable&lt;Character&gt;</span><br/><span class="line"></span><br/><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NonTerminalCharacter</span></span>(name: String) : Character(name)</span><br/><span class="line"></span><br/><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">TerminalCharacter</span></span>(name: String) : Character(name)</span><br/><span class="line"></span><br/><span class="line"><span class="keyword">object</span> nullCharacter : TerminalCharacter(<span class="string">"ε"</span>)</span><br/></pre></td></tr></table></figure>
+<p>和正则表达式中的元素之间运算的结果：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/></pre></td><td class="code"><pre><span class="line"><span class="comment">// “拼接”的结果</span></span><br/><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Concated</span></span>(<span class="keyword">val</span> components: List&lt;RegexComponent&gt;) : RegexComponent</span><br/><span class="line"><span class="comment">// “或”的结果</span></span><br/><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Optioned</span></span>(<span class="keyword">val</span> components: Set&lt;RegexComponent&gt;) : RegexComponent</span><br/><span class="line"><span class="comment">// “重复”的结果</span></span><br/><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Repeated</span></span>(<span class="keyword">val</span> toRepeat: RegexComponent) : RegexComponent</span><br/></pre></td></tr></table></figure>
+<p>开始我对把各个运算的业务逻辑放在哪里感到摇摆不定，因为我希望尽可能地使用分配律和结合率，来让后面的工作变得简单，但这样就不可避免地使用运行时类型识别，这有一点反模式的意味，因为一般来说都是建议Replace Conditional with Polymorphism的，但多态其实难以解决这里的问题，反而会造成Duplicated Code，例如运用对$|$的分配律的时候要分别在<code>Character</code>、<code>Repeated</code>和<code>Concated</code>中进行对<code>Optioned</code>类型的判断，如果试图用Polymorphism为所有<code>RegexComponent</code>添加一个返回这时要被分配出来的东西的属性，那么代码量就会平白无故多出很多，而且至少本人无法为这个属性命名（通常这意味着引入这个属性并非好主意）。</p>
+<p>最终我决定干脆把所有业务逻辑塞到一个地方，反正这种学术性问题不存在改需求。</p>
+<p>然后就做了一个factory出来：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/><span class="line">9</span><br/></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> RegexComponentFactory {</span><br/><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">concated</span><span class="params">(component1: <span class="type">RegexComponent</span>, component2: <span class="type">RegexComponent</span>)</span></span>: RegexComponent</span><br/><span class="line">    </span><br/><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">optioned</span><span class="params">(component1: <span class="type">RegexComponent</span>, component2: <span class="type">RegexComponent</span>)</span></span>: RegexComponent</span><br/><span class="line">    </span><br/><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">repeated</span><span class="params">(component: <span class="type">RegexComponent</span>)</span></span>: RegexComponent</span><br/><span class="line">    </span><br/><span class="line">    <span class="comment">// ...</span></span><br/><span class="line">}</span><br/></pre></td></tr></table></figure>
+<p>既然是factory，干脆把从字符串构造<code>RegexComponent</code>的方法也塞进去（前方大量代码出没）：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/><span class="line">9</span><br/><span class="line">10</span><br/><span class="line">11</span><br/><span class="line">12</span><br/><span class="line">13</span><br/><span class="line">14</span><br/><span class="line">15</span><br/><span class="line">16</span><br/><span class="line">17</span><br/><span class="line">18</span><br/><span class="line">19</span><br/><span class="line">20</span><br/><span class="line">21</span><br/><span class="line">22</span><br/><span class="line">23</span><br/><span class="line">24</span><br/><span class="line">25</span><br/><span class="line">26</span><br/><span class="line">27</span><br/><span class="line">28</span><br/><span class="line">29</span><br/><span class="line">30</span><br/><span class="line">31</span><br/><span class="line">32</span><br/><span class="line">33</span><br/><span class="line">34</span><br/><span class="line">35</span><br/><span class="line">36</span><br/><span class="line">37</span><br/><span class="line">38</span><br/><span class="line">39</span><br/><span class="line">40</span><br/><span class="line">41</span><br/><span class="line">42</span><br/><span class="line">43</span><br/><span class="line">44</span><br/><span class="line">45</span><br/><span class="line">46</span><br/><span class="line">47</span><br/><span class="line">48</span><br/><span class="line">49</span><br/><span class="line">50</span><br/><span class="line">51</span><br/><span class="line">52</span><br/><span class="line">53</span><br/><span class="line">54</span><br/><span class="line">55</span><br/><span class="line">56</span><br/></pre></td><td class="code"><pre><span class="line">   <span class="comment">/**</span></span><br/><span class="line"><span class="comment">    * 补上省略的'.'号</span></span><br/><span class="line"><span class="comment">    */</span></span><br/><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">addOmittedDotOperator</span><span class="params">(str: <span class="type">String</span>)</span></span>: String {</span><br/><span class="line">       <span class="keyword">val</span> theString = StringBuilder()</span><br/><span class="line">       <span class="keyword">for</span> ((index, ch) <span class="keyword">in</span> str.withIndex()) {</span><br/><span class="line">           theString.append(ch)</span><br/><span class="line">           <span class="keyword">if</span> (index != str.length - <span class="number">1</span>) {</span><br/><span class="line">               <span class="keyword">if</span> ((ch.isLowerCase() || ch.isDigit() || ch == <span class="string">')'</span>) &amp;&amp;</span><br/><span class="line">                       (str[index + <span class="number">1</span>].isLowerCase() || str[index + <span class="number">1</span>].isDigit() || str[index + <span class="number">1</span>] == <span class="string">'('</span>) ||</span><br/><span class="line">                       (ch == <span class="string">'*'</span> &amp;&amp; !isRegexOperator(str[index + <span class="number">1</span>]) &amp;&amp; str[index + <span class="number">1</span>] != <span class="string">')'</span>)) {</span><br/><span class="line">                   theString.append(<span class="string">'.'</span>)</span><br/><span class="line">               }</span><br/><span class="line">           }</span><br/><span class="line">       }</span><br/><span class="line">       <span class="keyword">return</span> theString.toString()</span><br/><span class="line">   }</span><br/><span class="line"></span><br/><span class="line"><span class="comment">/**</span></span><br/><span class="line"><span class="comment"> * 实际构造过程</span></span><br/><span class="line"><span class="comment"> */</span></span><br/><span class="line">   <span class="keyword">private</span> <span class="function"><span class="keyword">fun</span> <span class="title">fromFormalString</span><span class="params">(string: <span class="type">String</span>)</span></span>: RegexComponent {</span><br/><span class="line">       <span class="keyword">if</span> (string == <span class="string">""</span>)</span><br/><span class="line">           <span class="keyword">return</span> nullCharacter</span><br/><span class="line">       <span class="keyword">try</span> {</span><br/><span class="line">           <span class="keyword">return</span> <span class="keyword">when</span> {</span><br/><span class="line">               string.startsWith(<span class="string">'('</span>) &amp;&amp; pairedRightBracketIndex(string) == string.length - <span class="number">1</span> -&gt;</span><br/><span class="line">                   fromFormalString(eraseUselessBracketPairs(string))</span><br/><span class="line">               string.length == <span class="number">1</span> -&gt;</span><br/><span class="line">                   TerminalCharacter(string)</span><br/><span class="line">               string.firstLayerContain(<span class="string">'|'</span>) -&gt;</span><br/><span class="line">                   string.splitFirstLayerBy(<span class="string">'|'</span>).map { fromFormalString(it) }.reduce { acc, regexPart -&gt; acc or regexPart }</span><br/><span class="line">               string.firstLayerContain(<span class="string">'.'</span>) -&gt;</span><br/><span class="line">                   string.splitFirstLayerBy(<span class="string">'.'</span>).map { fromFormalString(it) }.reduce { acc, regexPart -&gt; acc concat regexPart }</span><br/><span class="line">               string.endsWith(<span class="string">'*'</span>) -&gt;</span><br/><span class="line">                   <span class="keyword">if</span> (string.startsWith(<span class="string">'('</span>)) {</span><br/><span class="line">                       fromFormalString(string.slice(<span class="number">1</span> until string.length - <span class="number">2</span>)).repeat()</span><br/><span class="line">                   } <span class="keyword">else</span> {</span><br/><span class="line">                       fromFormalString(string.slice(<span class="number">0</span> until string.length - <span class="number">1</span>)).repeat()</span><br/><span class="line">                   }</span><br/><span class="line">               <span class="keyword">else</span> -&gt;</span><br/><span class="line">                   <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Can not construct from string <span class="variable">$string</span>"</span>)</span><br/><span class="line">           }</span><br/><span class="line">       } <span class="keyword">catch</span> (_: StringIndexOutOfBoundsException) {</span><br/><span class="line">           <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Can not construct from string <span class="variable">$string</span>"</span>)</span><br/><span class="line">       } <span class="keyword">catch</span> (_: IllegalArgumentException) {</span><br/><span class="line">           <span class="keyword">throw</span> IllegalArgumentException(<span class="string">"Can not construct from string <span class="variable">$string</span>"</span>)</span><br/><span class="line">       }</span><br/><span class="line">   }</span><br/><span class="line"></span><br/><span class="line">   <span class="comment">/**</span></span><br/><span class="line"><span class="comment">    * 从字符串中构造 RegexComponent</span></span><br/><span class="line"><span class="comment">    */</span></span><br/><span class="line">   <span class="function"><span class="keyword">fun</span> <span class="title">fromString</span><span class="params">(string: <span class="type">String</span>)</span></span>: RegexComponent {</span><br/><span class="line">       <span class="keyword">return</span> fromFormalString(addOmittedDotOperator(string))</span><br/><span class="line">   }</span><br/></pre></td></tr></table></figure>
+<p>其中用到的几个帮助函数，实现可以在<code>Tools.kt</code>中找到：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/><span class="line">9</span><br/><span class="line">10</span><br/><span class="line">11</span><br/><span class="line">12</span><br/><span class="line">13</span><br/><span class="line">14</span><br/><span class="line">15</span><br/><span class="line">16</span><br/><span class="line">17</span><br/><span class="line">18</span><br/><span class="line">19</span><br/><span class="line">20</span><br/><span class="line">21</span><br/><span class="line">22</span><br/><span class="line">23</span><br/><span class="line">24</span><br/><span class="line">25</span><br/></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br/><span class="line"><span class="comment"> * 判断 <span class="doctag">@arg</span> char 是否是正则表达式运算符</span></span><br/><span class="line"><span class="comment"> */</span></span><br/><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">isRegexOperator</span><span class="params">(char: <span class="type">Char</span>)</span></span> = char == <span class="string">'|'</span> || char == <span class="string">'*'</span> || char == <span class="string">'.'</span></span><br/><span class="line"></span><br/><span class="line"><span class="comment">/**</span></span><br/><span class="line"><span class="comment"> * 找到和某个'('相匹配的')'</span></span><br/><span class="line"><span class="comment"> */</span></span><br/><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">pairedRightBracketIndex</span><span class="params">(str: <span class="type">String</span>, leftBracketIndex: <span class="type">Int</span> = <span class="number">0</span>)</span></span></span><br/><span class="line"></span><br/><span class="line"><span class="comment">/**</span></span><br/><span class="line"><span class="comment"> * 移除一个字符串两侧无用的括号</span></span><br/><span class="line"><span class="comment"> */</span></span><br/><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">eraseUselessBracketPairs</span><span class="params">(str: <span class="type">String</span>)</span></span>: String</span><br/><span class="line"></span><br/><span class="line"><span class="comment">/**</span></span><br/><span class="line"><span class="comment"> * 判断一个字符串的第一层是否有某个字符</span></span><br/><span class="line"><span class="comment"> * "第一层"指所有括号之外</span></span><br/><span class="line"><span class="comment"> */</span></span><br/><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">firstLayerContain</span><span class="params">(char: <span class="type">Char</span>)</span></span>: <span class="built_in">Boolean</span></span><br/><span class="line"></span><br/><span class="line"><span class="comment">/**</span></span><br/><span class="line"><span class="comment"> * 将第一层用 <span class="doctag">@arg</span> char split开</span></span><br/><span class="line"><span class="comment"> */</span></span><br/><span class="line"><span class="function"><span class="keyword">fun</span> String.<span class="title">splitFirstLayerBy</span><span class="params">(char: <span class="type">Char</span>)</span></span>: List&lt;String&gt;</span><br/></pre></td></tr></table></figure>
+<p>到这里为止，我们已经能让计算机从我们输入的字符串中“读懂”一个正则了。</p>
+<p>接下来我们看文法那一边。</p>
+<h4 id="正规文法-2"><a class="headerlink" href="#正规文法-2" title="正规文法"></a>正规文法</h4><p>要有正规文法，首先要有生成式：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Generator</span></span>(</span><br/><span class="line">        <span class="keyword">val</span> from: NonTerminalCharacter,</span><br/><span class="line">        <span class="keyword">val</span> to: RegexComponent</span><br/><span class="line">)</span><br/></pre></td></tr></table></figure>
+<p>我们的文法是按照书上写的正规文法来的：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br/><span class="line">2</span><br/><span class="line">3</span><br/><span class="line">4</span><br/><span class="line">5</span><br/><span class="line">6</span><br/><span class="line">7</span><br/><span class="line">8</span><br/><span class="line">9</span><br/><span class="line">10</span><br/><span class="line">11</span><br/><span class="line">12</span><br/><span class="line">13</span><br/><span class="line">14</span><br/></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Grammar</span></span>(</span><br/><span class="line">        <span class="keyword">val</span> nonTerminals: Set&lt;NonTerminalCharacter&gt;,</span><br/><span class="line">        <span class="keyword">val</span> terminals: Set&lt;TerminalCharacter&gt;,</span><br/><span class="line">        <span class="keyword">val</span> rules: Set&lt;Generator&gt;,</span><br/><span class="line">        <span class="keyword">val</span> start: NonTerminalCharacter</span><br/><span class="line">) {</span><br/><span class="line">    <span class="comment">// 我们都知道使用一些Generator就能完成初始化了</span></span><br/><span class="line">    <span class="keyword">constructor</span>(rles: Collection&lt;Generator&gt;) : <span class="keyword">this</span>(</span><br/><span class="line">            rles.map { it.from }.toSet(),</span><br/><span class="line">            rles.map { it.alphabet }.reduce { acc, <span class="keyword">set</span> -&gt; acc + <span class="keyword">set</span> },</span><br/><span class="line">            rles.toSet(),</span><br/><span class="line">            rles.minBy { it.from }!!.from</span><br/><span class="line">    )</span><br/><span class="line">}</span><br/></pre></td></tr></table></figure>
+<h4 id="正则表达式-rightarrow-正规文法"><a class="headerlink" href="#正则表达式-rightarrow-正规文法" title="正则表达式$\rightarrow$正规文法"></a>正则表达式$\rightarrow$正规文法</h4><p>我们先构造一个产生式，其左侧是一个新的非终结符，右侧是要转换的正则表达式本身。</p>
+<p>针对某个产生式，我们可能会面临这几种情况：</p>
+<ul>
+<li><p>这个产生式右侧最外层是$\cdot$运算</p>
+<p>在这种情况下，我们还要考虑：</p>
+<ul>
+<li><p>如果这个产生式右侧以一个非终结符结尾，即形如</p>
+<p>$A\rightarrow a \cdot b \cdot B$ 或 $A\rightarrow (a|b)\cdot B$ 或 $A\rightarrow a*\cdot B$</p>
+<p>的形式，我们要对<strong>这一非终结符左边的表达式</strong>的类型进行分类讨论：</p>
+<ul>
+<li><p>如果这个表达式最外层是$\cdot$运算，则我们可以直接将最右侧的两个字母结合起来：</p>
+<p>$C \rightarrow b\cdot B$</p>
+<p>然后把前面那部分加进来：</p>
+<p>$A\rightarrow a\cdot C$</p>
+</li>
+<li><p>不可能会碰到这个表达式最外层是$|$运算的情况，因为我们前面已经使用了分配律将$|$运算符分配进去了<sup><a href="#fn_5" id="reffn_5">5</a></sup></p>
+</li>
+<li><p>如果这个表达式最外层是$*$运算，我们可以构造出：</p>
+<p>$A\rightarrow aA$</p>
+<p>和</p>
+<p>$A\rightarrow B$</p>
+</li>
+</ul>
+</li>
+<li><p>否则，就是一个形如</p>
+<p>$A \rightarrow a\cdot b\cdot c$</p>
+<p>的式子，我们可以将其变为</p>
+<p>$A\rightarrow a\cdot B$</p>
+<p>$B\rightarrow bc$</p>
+<p>这样的形式</p>
+</li>
+</ul>
+</li>
+<li><p>这个产生式右侧最外层是$|$运算，即形如</p>
+<p>$A\rightarrow a|b|c$</p>
+<p>的式子，将其变为</p>
+<p>$A\rightarrow a$</p>
+<p>和</p>
+<p>$A\rightarrow b$</p>
+<p>和</p>
+<p>$A\rightarrow c$</p>
+<p>即可。</p>
+</li>
+<li><p>这个产生式右侧最外层是$*$运算，即形如</p>
+<p>$A\rightarrow a*$</p>
+<p>这再简单没有了，只要化为：</p>
+<p>$A\rightarrow \epsilon$</p>
+<p>和</p>
+<p>$A\rightarrow a\cdot A$</p>
+<p>即可。</p>
+</li>
+</ul>
+<p>我们只需要不断对还没有化到符合正规文法的生成式不断使用上面的规则，直到所有生成式都无法用上面的方法进一步化简的时候就能停止了。</p>
+<p>此时的结果还不完全是正规文法，因为存在$A\rightarrow B$这样的直接推导到另外一个非终结符的推导式。</p>
+<p>这时我们可以把所有产生式中的$A$都替换成$B$，然后移除这个产生式即可。</p>
+<p>另外还有一些不被其他推导式使用的推导式，也可以移除。</p>
+<p>完成这些之后，我们就完成了将正则表达式化为正规文法的过程了。</p>
+<h4 id="正规文法-rightarrow-正则表达式"><a class="headerlink" href="#正规文法-rightarrow-正则表达式" title="正规文法$\rightarrow$正则表达式"></a>正规文法$\rightarrow$正则表达式</h4><p>要将一个正规文法转化为正则表达式，只需按照下面的算法进行即可：</p>
+<ol>
+<li><p>将同一左侧但不同右侧的产生式用$|$结合成一个产生式</p>
+<p>如$B\rightarrow b$ 和 $B\rightarrow b\cdot A$ 和 $B \rightarrow b\cdot B$化为$B\rightarrow a|b\cdot A|b\cdot B$</p>
+</li>
+<li><p>将所有左侧包含右侧的产生式化为左侧不含右侧的产生式，如：<br/>$A \rightarrow a\cdot A$化为$A\rightarrow a*$</p>
+<p>$B\rightarrow a|b\cdot A|b\cdot B$化为$B \rightarrow b* \cdot a|b* \cdot b \cdot A$</p>
+</li>
+<li><p>取一个左侧不是文法开始字符的产生式，将其他产生式中的对应这个选取的产生式的左侧的非终止字符替换成对应的串。</p>
+</li>
+<li><p>重复3.，直到只剩下一个产生式为止。</p>
+</li>
+<li><p>这个产生式右侧即位所求。</p>
+</li>
+</ol>
+<p>具体情况请见代码。</p>
+<blockquote id="fn_1">
+<sup>1</sup>. 在有限字母表上定义了这三个算子、空字符串$\epsilon$和空集$\varnothing$之后就形成了一个神仙玩意：<a href="https://zh.wikipedia.org/wiki/%E5%85%8B%E8%8E%B1%E5%B0%BC%E4%BB%A3%E6%95%B0" rel="noopener" target="_blank">克莱尼代数</a><a href="#reffn_1" title="Jump back to footnote [1] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_2">
+<sup>2</sup>. 这里其实说的是右线性文法，还有左线性文法，这两者统称正规文法，为方便考虑取右线性文法作为例子来研究<a href="#reffn_2" title="Jump back to footnote [2] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_3">
+<sup>3</sup>. 其实真正的定义上，正规文法还包含了字母表，终结符表，非终结符表等等，然而这些都能从产生式中拿到，故其实意义不大<a href="#reffn_3" title="Jump back to footnote [3] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_4">
+<sup>4</sup>. 其实这个接口不仅仅是作为正则的一部分出现的，更好的名字是“实现了克莱尼代数的”，但这玩意看上去就太高深了……<a href="#reffn_4" title="Jump back to footnote [4] in the text."> ↩</a>
+</blockquote>
+<blockquote id="fn_5">
+<sup>5</sup>. 但是我在代码中仍然保留了这一分枝<a href="#reffn_5" title="Jump back to footnote [5] in the text."> ↩</a>
+</blockquote>
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-04-12</span><i class="fa fa-tag"></i><a class="tag" href="/tags/编译原理/" title="编译原理">编译原理 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2018/04/12/正则表达式⬄正规文法/,Blog,正则表达式⬄正规文法,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2018/04/13/js%E8%A7%A3%E6%B7%B7%E6%B7%86/" title="js解混淆">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2018/04/11/%E6%88%91%E4%BB%AC%E6%9D%A5%E7%A7%8D%E6%A0%91/" title="我们来种树">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

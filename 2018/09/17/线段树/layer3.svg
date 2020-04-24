@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="459px" height="428px" viewBox="0 0 459 428" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(1.000000, -5.000000)">
+            <g id="leaf-node" transform="translate(0.000000, 368.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="22.082" y="43">7</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="leaf-node" transform="translate(114.000000, 368.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#979797" fill="#FFC200" cx="32" cy="32" r="32"></circle>
+                    <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                        <tspan x="10.4" y="43">23</tspan>
+                    </text>
+                </g>
+            </g>
+            <path d="M65.5,337.5 L43.5,370.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M101.5,336.5 L137.5,369.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+            <g id="Group" transform="translate(51.000000, 0.000000)">
+                <g id="sum-node" transform="translate(0.000000, 277.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                        <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                            <tspan x="22.046" y="43">?</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="sum-node" transform="translate(114.000000, 159.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                        <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                            <tspan x="22.046" y="43">?</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="sum-node" transform="translate(342.000000, 33.000000)">
+                    <g id="Group">
+                        <circle id="Oval" stroke="#979797" fill="#0088FF" cx="32" cy="32" r="32"></circle>
+                        <text id="7" font-family="PingFangSC-Medium, PingFang SC" font-size="36" font-weight="400" fill="#FFFFFF">
+                            <tspan x="22.046" y="43">?</tspan>
+                        </text>
+                    </g>
+                </g>
+                <path d="M345.5,72.5 L172.5,170.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <path d="M123.5,213.5 L59.5,289.5" id="Line" stroke="#979797" stroke-linecap="square"></path>
+                <text id="[0,6]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="349" y="25">[0,6]</tspan>
+                </text>
+                <text id="[0,3]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="121" y="151">[0,3]</tspan>
+                </text>
+                <text id="[0,1]" font-family="PingFangSC-Light, PingFang SC" font-size="24" font-weight="300" fill="#000000">
+                    <tspan x="7" y="269">[0,1]</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
