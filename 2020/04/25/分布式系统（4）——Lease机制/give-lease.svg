@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="226px" height="164px" viewBox="0 0 226 164" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(0.000000, 1.000000)">
+            <g id="Node" transform="translate(76.000000, 112.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#4A90E2" fill="#4A90E2" cx="25" cy="25" r="25"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="17.116" y="32">A</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Group" transform="translate(175.000000, 0.000000)">
+                <circle id="Oval" stroke="#F5A623" fill="#F5A623" cx="25" cy="25" r="25"></circle>
+                <text id="M" font-family="PingFangSC-Regular, PingFang SC" font-size="24" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="14.416" y="32">M</tspan>
+                </text>
+            </g>
+            <path d="M182.5,43.5 L116.5,115.5" id="Line" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M116.5,115.5 L126.009288,109.565909 L121.586364,105.511561 L116.5,115.5 Z" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <text id="You-are-primary-repl" font-family="PingFangSC-Regular, PingFang SC" font-size="10" font-weight="normal" fill="#000000">
+                <tspan x="0.055" y="77">You are primary replica of data 1</tspan>
+                <tspan x="33.84" y="91">until timestamp T1</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

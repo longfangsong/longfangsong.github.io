@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="214px" height="222px" viewBox="0 0 214 222" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="96" height="41" rx="8"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3">
+            <g id="Node" transform="translate(48.000000, 171.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#4A90E2" fill="#4A90E2" cx="25" cy="25" r="25"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="24" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="17.116" y="32">A</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Group" transform="translate(147.000000, 59.000000)">
+                <circle id="Oval" stroke="#F5A623" fill="#F5A623" cx="25" cy="25" r="25"></circle>
+                <text id="M" font-family="PingFangSC-Regular, PingFang SC" font-size="24" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="14.416" y="32">M</tspan>
+                </text>
+            </g>
+            <path d="M95.5,23.5 L156.5,63.5" id="Line" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M156.5,63.5 L149.113632,55.0690117 L145.82349,60.0864779 L156.5,63.5 Z" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path d="M152.5,66.5 L95.5,28.5" id="Line" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M95.5,28.5 L102.822043,36.986913 L106.150244,31.9946112 L95.5,28.5 Z" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <g id="Group-2">
+                <g id="Rectangle">
+                    <use fill="#7ED321" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <rect stroke="#7ED321" stroke-width="1" x="0.5" y="0.5" width="95" height="40" rx="8"></rect>
+                </g>
+                <text id="Client" font-family="PingFangSC-Regular, PingFang SC" font-size="24" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="16.244" y="28">Client</tspan>
+                </text>
+            </g>
+            <text id="who-is-Primary-for-d" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="131.328" y="13">who is Primary</tspan>
+                <tspan x="140.58" y="30">for data 1 ?</tspan>
+            </text>
+            <text id="A!" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="114.06" y="63">A!</tspan>
+            </text>
+            <path d="M41.5,41.5 L70.5,168.5" id="Line-2" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M70.5,168.5 L71.0204617,157.303165 L65.1710249,158.638863 L70.5,168.5 Z" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path d="M64.5,170.5 L35.5,44.5" id="Line-2" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M35.5,44.5 L34.9988176,55.6977148 L40.8459459,54.3519471 L35.5,44.5 Z" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <text id="xxx" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="62.338" y="105">xxx</tspan>
+            </text>
+            <text id="xxx" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="27.338" y="118">xxx</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
