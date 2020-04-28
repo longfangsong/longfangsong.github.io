@@ -8,7 +8,6 @@
 <li>可用性（<strong>A</strong>vailability）（即每次请求没有物理上不可用的节点时都能获取到非错的响应）</li>
 <li>分区容错性（<strong>P</strong>artition tolerance）（即如果分布式系统由于某些原因，存在互相不能通信的两组节点，那么这个系统仍然应该正常的提供服务）</li>
 </ul>
-
 <h3 id="例子"><a class="headerlink" href="#例子" title="例子"></a>例子</h3><p>假设有两个节点和一个Client：</p>
 <ol>
 <li><p>如果要保证可用性（A）和分区容错性（P），那么在网络出现分区时，无论用户的请求被发送到了两个节点中的任何一个，无论如何都要做出相应，而在一个节点上的插入请求无法被另一个节点知道，这样两个节点间不可能保持一致性，即放弃了C。<br/><img alt="AP" src="./AP.png"/></p>
@@ -24,11 +23,13 @@
 <p>以下是使用一些一致性机制时对应的CAP取舍。</p>
 <h4 id="Lease机制"><a class="headerlink" href="#Lease机制" title="Lease机制"></a>Lease机制</h4><p>完全的C，较好的A和P。</p>
 <h4 id="Quorum-机制"><a class="headerlink" href="#Quorum-机制" title="Quorum 机制"></a>Quorum 机制</h4><p>有一定的 C，有较好的 A，也有较好的 P。</p>
-<h4 id="两阶段提交机制"><a class="headerlink" href="#两阶段提交机制" title="两阶段提交机制"></a>两阶段提交机制</h4><p>完全的 C，很糟糕的 A，很糟糕的 P。</p>
-<h4 id="Paxos"><a class="headerlink" href="#Paxos" title="Paxos"></a>Paxos</h4><p>完全的 C，较好的 A，较好的 P。</p>
+
+<h4 id="两阶段提交机制"><a href="#两阶段提交机制" class="headerlink" title="两阶段提交机制"></a>两阶段提交机制</h4><p>完全的 C，很糟糕的 A，很糟糕的 P。</p>
+<h4 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h4><p>完全的 C，较好的 A，较好的 P。</p>
 <blockquote id="fn_1">
 <sup>1</sup>. 关于这点，<a href="https://www.infoq.cn/article/cap-twelve-years-later-how-the-rules-have-changed/" rel="noopener" target="_blank">这篇文章</a>写得很好。<a href="#reffn_1" title="Jump back to footnote [1] in the text."> ↩</a>
 </blockquote>
+
 
 </div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-04-23</span><i class="fa fa-tag"></i><a class="tag" href="/tags/分布式系统/" title="分布式系统">分布式系统 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/04/22/分布式系统（2）—— CAP定理/,Blog,分布式系统（2）—— CAP定理,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/04/25/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94Lease%E6%9C%BA%E5%88%B6/" title="分布式系统（4）——Lease机制">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/04/22/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%883%EF%BC%89%E2%80%94%E2%80%94Primary-Secondary%E5%8D%8F%E8%AE%AE/" title="分布式系统（3）——Primary-Secondary协议">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
   el:'#vcomments',

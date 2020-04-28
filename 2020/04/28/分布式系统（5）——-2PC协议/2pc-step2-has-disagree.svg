@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="414px" height="298px" viewBox="0 0 414 298" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(1.000000, 1.000000)">
+            <g id="Master" transform="translate(156.000000, 0.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#4A90E2" fill="#4A90E2" cx="50" cy="50" r="50"></circle>
+                    <text id="M" font-family="PingFangSC-Regular, PingFang SC" font-size="50" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="28.45" y="65">M</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node" transform="translate(0.000000, 196.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#F5A623" fill="#F5A623" cx="50" cy="50" r="50"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="50" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="34.075" y="65">A</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node" transform="translate(312.000000, 196.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#F5A623" fill="#F5A623" cx="50" cy="50" r="50"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="50" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="33.575" y="65">B</tspan>
+                    </text>
+                </g>
+            </g>
+            <path d="M78.5,205.5 L175.5,93.5" id="Line" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M175.5,93.5 L166.16179,99.699826 L170.697261,103.627867 L175.5,93.5 Z" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path d="M347.5,197.5 L235.5,93.5" id="Line" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M235.5,93.5 L241.372816,103.047252 L245.455523,98.6504914 L235.5,93.5 Z" stroke="#979797" fill="#9B9B9B" stroke-linecap="square"></path>
+            <text id="NO!" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="98.086" y="150">NO!</tspan>
+            </text>
+            <text id="ok!" font-family="PingFangSC-Regular, PingFang SC" font-size="12" font-weight="normal" fill="#000000">
+                <tspan x="303.312" y="145">ok!</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
