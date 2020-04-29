@@ -17,7 +17,13 @@
 <p>可见这一过程中完全不需要Master和Primary之间的网络通信。</p>
 <h3 id="Lease到期"><a href="#Lease到期" class="headerlink" title="Lease到期"></a>Lease到期</h3><p>Lease到期后，Primary会放弃自己的Primary身份，不会再处理任何需要Primary身份才能进行的请求<a href="注意这里Client可能上一秒刚从Master处获知Primary的位置，下一秒请求还没发出来Primary的Lease就过期了，再下一秒，Client发送到Primary的请求就会被Reject。">^1</a>。直到下一个Lease被颁发给新的Primary，才能正常提供有关这份data的服务。这略微降低了系统的可用性。</p>
 <h3 id="检查节点可用性"><a href="#检查节点可用性" class="headerlink" title="检查节点可用性"></a>检查节点可用性</h3><p>一般来讲，检查可用性的方案第一个想到的就是基于心跳包的方案，即节点隔一段时间就向Master发送心跳包，Master一段时间内没有收到从某处过来的心跳包就标记这个节点为不可用。</p>
-<p>单纯地这么做的问题在于，某一个节点可能因为和Master之间的网络连接不好而被误认为挂掉了，如果这个节点是Secondary还好说，如果是个Primary节点，正在处理某个写请求，而此时Master又选出了新的Primary节点，新Primary节点也在处理另一个写请求……那显然数据完整性就完蛋了。</p>
+<p>单纯地这么做的问题在于，某一个节点可能因为和Master之间的网络连接不好而被误认为挂掉了：</p>
+<img src="/2020/04/25/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94Lease%E6%9C%BA%E5%88%B6/failed-heartbeat.svg" class="" title="failed-heartbeat">
+
+<p>如果这个节点是Secondary还好说，如果是个Primary节点，正在处理某个写请求，而此时Master又选出了新的Primary节点，新Primary节点也要处理另一个写请求：</p>
+<img src="/2020/04/25/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%884%EF%BC%89%E2%80%94%E2%80%94Lease%E6%9C%BA%E5%88%B6/failed-heartbeat-result.svg" class="" title="failed-heartbeat-result">
+
+<p>那显然数据完整性就完蛋了。</p>
 <p>如果使用Lease机制来保证可用性，即在某个Primary的Lease过期前无论如何都不会剥夺其Primary身份，就不会有问题，Master如果没有收到来自某个Primary的心跳包，也不会立即选择新的Primary，而是等到这个Primary的Lease过期后再选择。这就保证无论何时，一个系统内最多只有某个数据块对应的一个Primary。这显然也是放弃可用性来追求一致性的方案。</p>
 <h2 id="Lease与时钟"><a href="#Lease与时钟" class="headerlink" title="Lease与时钟"></a>Lease与时钟</h2><p>从上面的讲解来看，Lease机制对Lease颁发者和使用者之间的时钟速度的一致性有一定的要求，如果颁发者的时钟比使用者的时钟快，那么颁发者认为Lease过期时，使用者可能不这么认为，从而造成一致性问题。</p>
 <p>实践中，可以让颁发者稍微“放宽”一点Lease的时间限制，在Lease过期后再过一会再进行对应的操作，不过这段时间也不宜设计地过大，以免使得可用性变得太差。</p>

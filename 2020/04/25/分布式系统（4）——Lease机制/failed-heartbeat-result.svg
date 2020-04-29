@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="633px" height="172px" viewBox="0 0 633 172" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(0.000000, 1.000000)">
+            <g id="Node" transform="translate(99.000000, 0.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#F5A623" fill="#F5A623" cx="50" cy="50" r="50"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="50" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="34.075" y="65">A</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node" transform="translate(314.000000, 0.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#F5A623" fill="#F5A623" cx="50" cy="50" r="50"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="50" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="33.575" y="65">B</tspan>
+                    </text>
+                </g>
+            </g>
+            <g id="Node" transform="translate(532.000000, 0.000000)">
+                <g id="Group">
+                    <circle id="Oval" stroke="#F5A623" fill="#F5A623" cx="50" cy="50" r="50"></circle>
+                    <text id="A" font-family="PingFangSC-Regular, PingFang SC" font-size="50" font-weight="normal" fill="#FFFFFF">
+                        <tspan x="32.3" y="65">C</tspan>
+                    </text>
+                </g>
+            </g>
+            <text id="Primary" font-family="PingFangSC-Regular, PingFang SC" font-size="36" font-weight="normal" fill="#000000">
+                <tspan x="85.316" y="138">Primary</tspan>
+            </text>
+            <text id="Primary" font-family="PingFangSC-Regular, PingFang SC" font-size="36" font-weight="normal" fill="#000000">
+                <tspan x="301.316" y="138">Primary</tspan>
+            </text>
+            <path d="M2.5,52.5 L98.5,52.5" id="Line" stroke="#979797" stroke-width="5" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M98.5,52.5 L87.7,49.5 L87.7,55.5 L98.5,52.5 Z" stroke="#979797" stroke-width="5" stroke-linecap="square"></path>
+            <text id="write-request-1" font-family="PingFangSC-Regular, PingFang SC" font-size="20" font-weight="normal" fill="#000000">
+                <tspan x="19.64" y="42">write </tspan>
+                <tspan x="0.35" y="70">request 1</tspan>
+            </text>
+            <path d="M217.5,52.5 L313.5,52.5" id="Line" stroke="#979797" stroke-width="5" stroke-linecap="square"></path>
+            <path id="Line-decoration-1" d="M313.5,52.5 L302.7,49.5 L302.7,55.5 L313.5,52.5 Z" stroke="#979797" stroke-width="5" stroke-linecap="square"></path>
+            <text id="write-request-2" font-family="PingFangSC-Regular, PingFang SC" font-size="20" font-weight="normal" fill="#000000">
+                <tspan x="233.64" y="42">write </tspan>
+                <tspan x="212.36" y="70">request 2</tspan>
+            </text>
+            <path d="M166.5,94.5 C205.389942,108.829853 235.056608,115.994779 255.5,115.994779 C275.943392,115.994779 305.610058,108.829853 344.5,94.5" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M344.5,94.5 L333.328819,95.4190891 L335.403304,101.049055 L344.5,94.5 Z" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M413.078463,66 C434.991955,73.1649263 453.299134,76.7473894 468,76.7473894 C482.700866,76.7473894 504.034199,73.1649263 532,66" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M532,66 L520.793348,65.7742843 L522.28247,71.586557 L532,66 Z" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M166.5,94.5 C254.809806,144.890394 320.643139,170.085591 364,170.085591 C407.356861,170.085591 473.190194,144.890394 561.5,94.5" id="Line-2" stroke="#979797" stroke-linecap="square"></path>
+            <path id="Line-2-decoration-1" d="M561.5,94.5 L550.632858,97.2468574 L553.606472,102.458154 L561.5,94.5 Z" stroke="#979797" stroke-linecap="square"></path>
+            <path d="M323.5,82.5 C291.903624,89.9550326 269.57029,93.6825489 256.5,93.6825489 C243.42971,93.6825489 221.096376,89.9550326 189.5,82.5" id="Line-3" stroke="#979797" stroke-linecap="square"></path>
+            <path id="Line-3-decoration-1" d="M189.5,82.5 L199.322455,87.8999419 L200.700297,82.0602885 L189.5,82.5 Z" stroke="#979797" stroke-linecap="square"></path>
+            <text id="???" font-family="PingFangSC-Regular, PingFang SC" font-size="20" font-weight="normal" fill="#000000">
+                <tspan x="566.39" y="133">???</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
