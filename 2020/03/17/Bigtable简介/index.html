@@ -31,7 +31,8 @@
 <li>Root Tablet 保存着 <code>METADATA</code> Table 所有 Tablet 的位置</li>
 <li><code>METADATA</code> Table 中保存着其他所有 Table 的 Tablet 的位置</li>
 </ol>
-<p><img alt="img" src="https://pic3.zhimg.com/80/v2-dc508864d058132dbd5644bcb7c9ae86_1440w.jpg"/></p>
+<img src="/2020/03/17/Bigtable%E7%AE%80%E4%BB%8B/v2-dc508864d058132dbd5644bcb7c9ae86_1440w.jpg" class="" title="v2-dc508864d058132dbd5644bcb7c9ae86_1440w">
+
 <p>Tablet对应的文件存放在存储设备中的结构如下：</p>
 <p><img alt="img" src="https://pic4.zhimg.com/80/v2-34b6b3c7b2f0673fab7676c7204f9e5f_1440w.jpg"/></p>
 <p>一个 Tablet 由若干个位于 GFS 上的 SSTable 文件、一个位于内存内的 MemTable 以及一份 Commit Log 组成。</p>
@@ -45,6 +46,7 @@
 <p>这种存储方式可以将对磁盘的随机写转换为顺序写，代价则是读取性能的下降。<sup><a href="#fn_2" id="reffn_2">2</a></sup></p>
 <p>为了解决读取性能的问题，Bigtable使用了读缓存和Bloom Filter方案。</p>
 <h4 id="读缓存"><a class="headerlink" href="#读缓存" title="读缓存"></a>读缓存</h4><ul>
+
 <li>Block Cache 会缓存从 GFS 中读出的 SSTable 文件 Block，提高客户端读取某个数据附近的其他数据的效率；</li>
 <li>Scan Cache 缓存由 SSTable 返回给 Tablet Server 的键值对，以提高客户端重复读取相同数据的效率。</li>
 </ul>
