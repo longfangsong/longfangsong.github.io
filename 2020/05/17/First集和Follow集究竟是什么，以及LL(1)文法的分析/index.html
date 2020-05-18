@@ -121,8 +121,8 @@
 <p>和上面我们自己推出的求法相比也非常相似，不过是按照推导式左侧的非终结符全部并起来的结果。</p>
 <p>而这种求法，显然是可以用动态规划法加速的。</p>
 <h2 id="最后一列"><a href="#最后一列" class="headerlink" title="最后一列"></a>最后一列</h2><p>那这个最后一列怎么处理呢？</p>
-<p>也很简单，如果从起始符号开始，在经过数次推导之后，在由某个非终结符作为最右边的非终结符时推导可以使整个文法的分析结束，这个非终结符对应推出$\epsilon$的推导式就能填在最后一列对应的行中。<a href="这里可能要自己感觉一下，如果有人有更好的讲法，请在评论区留言">^1</a></p>
-<p>那么怎么找出这些“从起始符号开始，在经过数次推导<a href="注意这里“数次”含0次，所以起始符号自然符合要求">^0</a>之后，作为最右边的非终结符时推导可以使整个文法的分析结束”的非终结符号呢？</p>
+<p>也很简单，如果从起始符号开始，在经过数次推导之后，在由某个非终结符作为最右边的非终结符时推导可以使整个文法的分析结束，这个非终结符对应推出$\epsilon$的推导式就能填在最后一列对应的行中。<a href="这里可能要自己感觉一下，如果有人有更好的讲法，请在评论区留言">^2</a></p>
+<p>那么怎么找出这些“从起始符号开始，在经过数次推导<a href="注意这里“数次”含0次，所以起始符号自然符合要求">^1</a>之后，作为最右边的非终结符时推导可以使整个文法的分析结束”的非终结符号呢？</p>
 <p>首先我们可以看开始符号最右边的符号，这个符号一定符合我们的要求，在这里这个符号是$E ‘$。</p>
 <p>如果对某个符合条件的符号$Z$和另外某个（单个）符号$X$，有产生式$Z\rightarrow YX$或$Z\rightarrow YXW$，其中$W \stackrel{*}{\Rightarrow} \epsilon$，则$X$也符合要求。</p>
 <p>从我们的例子上来看，将上面的$Z$可以带入$E’$和$E$，有：</p>
@@ -139,18 +139,15 @@
 <p>Follow集就是在文法的所有句子中，可能出现在“由非终结符A生成的部分”之后的终结符的集合。而上述例子所求的其实就是这里的“终结符”为“输入结束标记”的特例。</p>
 <h3 id="求法-1"><a href="#求法-1" class="headerlink" title="求法"></a>求法</h3><blockquote>
 <ol>
-<li>Place $ in $FOLLOW(S)$, where S is the start symbol, and $ is the input right endmarker.</li>
+<li>Place $\$$ in $FOLLOW(S)$, where S is the start symbol, and $ is the input right endmarker.</li>
 <li>If there is a production $A → αBβ$, then everything in $FIRST(β)$ except $\epsilon$ is in $FOLLOW(B)$.</li>
 <li>If there is a production $A → αB$, or a production $A → αBβ$, where $FIRST(β)$ contains $\epsilon$, then everything in $FOLLOW(A)$is in $FOLLOW(B)$.<br>—— “Compilers: Principles, Techniques, and Tools, 2/e”</li>
 </ol>
 </blockquote>
 <ol>
-<li><p>输入结束标记（龙书中称为$）在$FOLLOW(S)$中</p>
-</li>
-<li><p>若有$A → αBβ$，则 $FIRST(β)$ 中所有不为 $\epsilon$ 的元素都在 $FOLLOW(B)$ 中</p>
-</li>
-<li><p>若有$A → αB$，或 $A → αBβ$，其中 $FIRST(β)$ 包含 $\epsilon$ 则 $FOLLOW(A)$ 中的所有元素也在 $FOLLOW(B)$ 中。</p>
-</li>
+<li>输入结束标记（龙书中称为$\$$）在$FOLLOW(S)$中</li>
+<li>若有$A → αBβ$，则 $FIRST(β)$ 中所有不为 $\epsilon$ 的元素都在 $FOLLOW(B)$ 中</li>
+<li>若有$A → αB$，或 $A → αBβ$，其中 $FIRST(β)$ 包含 $\epsilon$ 则 $FOLLOW(A)$ 中的所有元素也在 $FOLLOW(B)$ 中。</li>
 </ol>
 <p>和我们上面的例子唯一差别在于第2条，不过也很好想，$FIRST(β)$就是$\beta$能推出的第一个非终结符的所有可能取值的集合，而$B$与$β$是紧挨着的，$B$的下一个元素就是$\beta$的第一个元素（$\epsilon$除外）。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>有了上面讲的填这类表的方法之后，对于填完后每个格子至多只有一个推导式的文法，我们就可以写出完全不含有回朔的自顶向下文法分析器（递归或者非递归均可），这类文法也就是$LL(1)$文法。当然如果将表头中的一个符号变为多个符号的组合，这种方法也可以推广到$LL(N)$文法上。</p>
