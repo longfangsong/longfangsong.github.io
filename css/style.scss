@@ -131,7 +131,7 @@ a:active {
   width: 75%;
   position: fixed;
   right: 0;
-  z-index: -2;
+  z-index: 4;
   background-color: #fff;
   height: 60px;
   border-bottom: 1px solid #f2f2f2;
@@ -186,6 +186,7 @@ a:active {
     }
   }
 }
+
 .sidebar {
   width: 40%;
   -webkit-background-size: cover;
@@ -196,7 +197,7 @@ a:active {
   top: 0;
   left: 0;
   position: fixed;
-  z-index: -1;
+  z-index: 3;
   border-right: 1px solid #f2f2f2;
 
   .logo-title {
@@ -758,4 +759,8 @@ a.btn {
   #pirate .wordart-attribution {
     display: none;
   }
+}
+
+[class*="hint--"] {
+  z-index: 5;
 }
