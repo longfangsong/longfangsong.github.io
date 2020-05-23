@@ -9,7 +9,11 @@
 <h3 id="平均互信息量"><a href="#平均互信息量" class="headerlink" title="平均互信息量"></a>平均互信息量</h3><p>$$<br>I(X;Y) = \sum_i \sum_j P(x_iy_j)I(x_i;y_j)=H(X)-H(X|Y)<br>$$</p>
 <h3 id="平均条件互信息"><a href="#平均条件互信息" class="headerlink" title="平均条件互信息"></a>平均条件互信息</h3><p>表示随机变量$Z$给定后，从随机变量$Y$所得到的关于随机变量$X$的信息量。<br>$$<br>I(X;Y|Z)=E{I(xy|z)}=\sum_{x,y,z}P(xyz)log(\frac {P(x|yz)} {P(x|z)})<br>$$</p>
 <h3 id="平均联合互信息"><a href="#平均联合互信息" class="headerlink" title="平均联合互信息"></a>平均联合互信息</h3><p>表示从二维随机变量$YZ$所得到的关于随机变量$X$的信息量。<br>$$<br>I(X;YZ)=E{I(x;yz)}=\sum_{x,y,z}P(xyz)log(\frac {P(x|yz)} {P(x)})<br>$$</p>
-<h3 id="信源"><a href="#信源" class="headerlink" title="信源"></a>信源</h3><h4 id="离散单符号信源"><a href="#离散单符号信源" class="headerlink" title="离散单符号信源"></a>离散单符号信源</h4><h4 id="离散多符号信源"><a href="#离散多符号信源" class="headerlink" title="离散多符号信源"></a>离散多符号信源</h4><h5 id="马尔可夫信源"><a href="#马尔可夫信源" class="headerlink" title="马尔可夫信源"></a>马尔可夫信源</h5><p>某时刻发出某的符号的概率仅和之前发生的有限个符号有关。其中的“有限个”的个数就是马尔可夫信源的阶数。</p>
+<h3 id="信源"><a href="#信源" class="headerlink" title="信源"></a>信源</h3><p>信息的来源，产生消息（符号）、时间离散的消息序列（符号序列）以及时间连续的消息的来源。</p>
+<h4 id="离散单符号信源"><a href="#离散单符号信源" class="headerlink" title="离散单符号信源"></a>离散单符号信源</h4><p>输出单个离散取值的符号的信源。</p>
+<h4 id="离散多符号信源"><a href="#离散多符号信源" class="headerlink" title="离散多符号信源"></a>离散多符号信源</h4><h5 id="马尔可夫信源"><a href="#马尔可夫信源" class="headerlink" title="马尔可夫信源"></a>马尔可夫信源</h5><p>某时刻发出某的符号的概率仅和之前发生的有限个符号有关。其中的“有限个”的个数就是马尔可夫信源的阶数。</p>
+<h3 id="信源的相对率"><a href="#信源的相对率" class="headerlink" title="信源的相对率"></a>信源的相对率</h3><p>一个信源的熵率（极限熵）与具有相同符号集的最大熵的比。<br>$$<br>\eta = \frac {H_\infty} {H_0}<br>$$</p>
+<h3 id="信源的剩余度"><a href="#信源的剩余度" class="headerlink" title="信源的剩余度"></a>信源的剩余度</h3><p>$$<br>\gamma = 1-\eta=1-\frac {H_\infty} {H_0}=1-\frac {H_\infty} {log\ q}<br>$$</p>
 <h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h3><ul>
 <li>对称性</li>
 <li>确定性</li>
