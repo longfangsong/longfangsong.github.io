@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="596px" height="1015px" viewBox="0 0 596 1015" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-5">
+            <rect id="Rectangle-3" stroke="#979797" stroke-width="2" x="1" y="1" width="345" height="384.5"></rect>
+            <text id="内存" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#150000">
+                <tspan x="144" y="62">内存</tspan>
+            </text>
+            <g id="Group-3" transform="translate(387.000000, 646.000000)">
+                <rect id="Rectangle" fill-opacity="0.636662138" fill="#BD10E0" x="0" y="0" width="209" height="84"></rect>
+                <text id="空闲-数据块" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="75.2206897" y="32">空闲</tspan>
+                    <tspan x="60.2206897" y="74">数据块</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(387.000000, 742.000000)">
+                <rect id="Rectangle" fill-opacity="0.636662138" fill="#BD10E0" x="0" y="0" width="209" height="84"></rect>
+                <text id="空闲-数据块" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="75.2206897" y="32">空闲</tspan>
+                    <tspan x="60.2206897" y="74">数据块</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(387.000000, 837.000000)">
+                <rect id="Rectangle" fill-opacity="0.636662138" fill="#BD10E0" x="0" y="0" width="209" height="84"></rect>
+                <text id="空闲-数据块" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="75.2206897" y="32">空闲</tspan>
+                    <tspan x="60.2206897" y="74">数据块</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(387.000000, 931.000000)">
+                <rect id="Rectangle" fill-opacity="0.636662138" fill="#BD10E0" x="0" y="0" width="209" height="84"></rect>
+                <text id="空闲-数据块" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="75.2206897" y="32">空闲</tspan>
+                    <tspan x="60.2206897" y="74">数据块</tspan>
+                </text>
+            </g>
+            <g id="Group-3" transform="translate(69.000000, 434.000000)">
+                <rect id="Rectangle" fill-opacity="0.636662138" fill="#BD10E0" x="0" y="0" width="209" height="84"></rect>
+                <text id="空闲-数据块" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="75.2206897" y="32">空闲</tspan>
+                    <tspan x="60.2206897" y="74">数据块</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(69.000000, 94.000000)">
+                <rect id="Rectangle" fill="#50E3C2" x="0" y="0" width="208.270194" height="74"></rect>
+                <text id="1" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="98.1200969" y="46">1</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(69.000000, 165.000000)">
+                <rect id="Rectangle" fill="#7ED321" x="0" y="3" width="208.270194" height="74"></rect>
+                <text id="下一空闲块组地址" font-family="PingFangSC-Regular, PingFang SC" font-size="28" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="20.1350969" y="30">下一空闲块组</tspan>
+                    <tspan x="76.1350969" y="70">地址</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(69.000000, 242.000000)">
+                <rect id="Rectangle" fill="#9921D3" x="0" y="0.7625" width="208.270194" height="95.2375"></rect>
+                <text id="组内空闲数据块地址" font-family="PingFangSC-Regular, PingFang SC" font-size="28" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="20.1350969" y="41">组内空闲数据</tspan>
+                    <tspan x="62.1350969" y="81">块地址</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(387.000000, 94.000000)">
+                <rect id="Rectangle" fill="#50E3C2" x="0" y="0" width="208.270194" height="74"></rect>
+                <text id="空闲数据块数" font-family="PingFangSC-Regular, PingFang SC" font-size="30" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="14.1350969" y="46">空闲数据块数</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(387.000000, 165.000000)">
+                <rect id="Rectangle" fill="#7ED321" x="0" y="3" width="208.270194" height="74"></rect>
+                <text id="下一空闲块组地址" font-family="PingFangSC-Regular, PingFang SC" font-size="28" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="20.1350969" y="30">下一空闲块组</tspan>
+                    <tspan x="76.1350969" y="70">地址</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(387.000000, 242.000000)">
+                <rect id="Rectangle" fill="#9921D3" x="0" y="0.7625" width="208.270194" height="95.2375"></rect>
+                <text id="组内空闲数据块地址" font-family="PingFangSC-Regular, PingFang SC" font-size="28" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="20.1350969" y="41">组内空闲数据</tspan>
+                    <tspan x="62.1350969" y="81">块地址</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(387.000000, 338.000000)">
+                <rect id="Rectangle" fill="#9921D3" x="0" y="0.7625" width="208.270194" height="95.2375"></rect>
+                <text id="组内空闲数据块地址" font-family="PingFangSC-Regular, PingFang SC" font-size="28" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="20.1350969" y="41">组内空闲数据</tspan>
+                    <tspan x="62.1350969" y="81">块地址</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(387.000000, 434.000000)">
+                <rect id="Rectangle" fill="#9921D3" x="0" y="0.7625" width="208.270194" height="95.2375"></rect>
+                <text id="组内空闲数据块地址" font-family="PingFangSC-Regular, PingFang SC" font-size="28" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="20.1350969" y="41">组内空闲数据</tspan>
+                    <tspan x="62.1350969" y="81">块地址</tspan>
+                </text>
+            </g>
+            <g id="Group-2" transform="translate(387.000000, 530.000000)">
+                <rect id="Rectangle" fill="#9921D3" x="0" y="0.7625" width="208.270194" height="95.2375"></rect>
+                <text id="组内空闲数据块地址" font-family="PingFangSC-Regular, PingFang SC" font-size="28" font-weight="normal" fill="#FFFFFF">
+                    <tspan x="20.1350969" y="41">组内空闲数据</tspan>
+                    <tspan x="62.1350969" y="81">块地址</tspan>
+                </text>
+            </g>
+            <path d="M278.5,206.5 L383.5,132.5" id="Line-6" stroke="#979797" stroke-width="3" stroke-linecap="square"></path>
+            <path id="Line-6-decoration-1" d="M383.5,132.5 L372.943874,136.269378 L376.400305,141.173772 L383.5,132.5 Z" stroke="#979797" stroke-width="3" stroke-linecap="square"></path>
+            <polyline id="Line-6" stroke="#979797" stroke-width="3" stroke-linecap="square" points="67.5 290.5 23.663659 290.5 23.663659 482.5 67.5 482.5"></polyline>
+            <path id="Line-6-decoration-1" d="M67.5,482.5 L56.7,479.5 L56.7,485.5 L67.5,482.5 Z" stroke="#979797" stroke-width="3" stroke-linecap="square"></path>
+        </g>
+    </g>
+</svg>
