@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>LR(0)分析 · Blog</title><meta name="description" content="如果你已经理解了移进-归约分析的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？毕竟如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？
 举一个经典的"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/source-code-pro.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>LR(0)分析</a></h1></div><div class="post-content"><link rel="stylesheet noopener" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css" target="_blank"><p>如果你已经理解了<a href="https://longfangsong.github.io/2020/05/22/%E7%A7%BB%E8%BF%9B-%E5%BD%92%E7%BA%A6%E5%88%86%E6%9E%90/">移进-归约分析</a>的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？毕竟如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？</p>
-<p>举一个经典的表达式文法的例子：<br>$$<br>E \rightarrow E+T|T \<br>T \rightarrow T<em>F|F \<br>F \rightarrow (E) | \bold{id}<br>$$<br>我们来模拟一下匹配字符串$\bold{id}</em>\bold{id}+(\bold{id}+\bold{id})*\bold{id}$的过程，并尝试解释每一步选择移进还是归约的原因。</p>
+<p>举一个经典的表达式文法的例子：<br>$$<br>E \rightarrow E+T|T \<br>T \rightarrow T<em>F|F \<br>F \rightarrow (E) | \bold{id}<br>$$<br>我们来模拟一下匹配字符串$\textbf{id}</em>\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$的过程，并尝试解释每一步选择移进还是归约的原因。</p>
 <table>
 <thead>
 <tr>
@@ -12,150 +12,150 @@
 </thead>
 <tbody><tr>
 <td></td>
-<td>$\bold{id}<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
-<td>移进 $\bold{id}$</td>
+<td>$\textbf{id}<em>\textbf{id}+(\textbf{id}+\textbf{id})</em>\textbf{id}$</td>
+<td>移进 $\textbf{id}$</td>
 <td>没得选</td>
 </tr>
 <tr>
-<td>$\bold{id}$</td>
-<td>$<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
+<td>$\textbf{id}$</td>
+<td>$<em>\textbf{id}+(\textbf{id}+\textbf{id})</em>\textbf{id}$</td>
 <td>栈顶归约为 $F$</td>
-<td>下一个符号是$*$，而没有包含 $\bold{id} *$ 的规则，但栈顶可以归约</td>
+<td>下一个符号是$*$，而没有包含 $\textbf{id} *$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$F$</td>
-<td>$<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
+<td>$<em>\textbf{id}+(\textbf{id}+\textbf{id})</em>\textbf{id}$</td>
 <td>栈顶归约为 $T$</td>
 <td>下一个符号是$*$，而没有包含$F *$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$T$</td>
-<td>$<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
+<td>$<em>\textbf{id}+(\textbf{id}+\textbf{id})</em>\textbf{id}$</td>
 <td>移进 $*$</td>
 <td>下一个符号是$*$， 而没有包含 $ T *$ 的规则</td>
 </tr>
 <tr>
 <td>$T*$</td>
-<td>$\bold{id}+(\bold{id}+\bold{id})*\bold{id}$</td>
-<td>移进 $\bold{id}$</td>
+<td>$\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$</td>
+<td>移进 $\textbf{id}$</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
-<td>$T*\bold{id}$</td>
-<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>$T*\textbf{id}$</td>
+<td>$+(\textbf{id}+\textbf{id})*\textbf{id}$</td>
 <td>栈顶归约为 $F$</td>
-<td>下一个符号是$+$，而没有包含 $T *\bold{id}+$ 或者 $\bold{id}+$ 的规则，但栈顶可以归约</td>
+<td>下一个符号是$+$，而没有包含 $T *\textbf{id}+$ 或者 $\textbf{id}+$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$T*F$</td>
-<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>$+(\textbf{id}+\textbf{id})*\textbf{id}$</td>
 <td>栈顶归约为 $T$</td>
 <td>下一个符号是$+$，而没有包含$T * F+$ 或者 $F+$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$T$</td>
-<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>$+(\textbf{id}+\textbf{id})*\textbf{id}$</td>
 <td>栈顶归约为 $E$</td>
 <td>下一个符号是$+$，而没有包含$T+$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E$</td>
-<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>$+(\textbf{id}+\textbf{id})*\textbf{id}$</td>
 <td>移进 $+$</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
 <td>$E+$</td>
-<td>$(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>$(\textbf{id}+\textbf{id})*\textbf{id}$</td>
 <td>移进 $($</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
 <td>$E+($</td>
-<td>$\bold{id}+\bold{id})*\bold{id}$</td>
-<td>移进 $\bold{id}$</td>
+<td>$\textbf{id}+\textbf{id})*\textbf{id}$</td>
+<td>移进 $\textbf{id}$</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
-<td>$E+(\bold{id}$</td>
-<td>$+\bold{id})*\bold{id}$</td>
+<td>$E+(\textbf{id}$</td>
+<td>$+\textbf{id})*\textbf{id}$</td>
 <td>栈顶归约为 $F$</td>
-<td>下一个符号是$+$，而没有包含 $\bold{id}+$ 的规则，但栈顶可以归约</td>
+<td>下一个符号是$+$，而没有包含 $\textbf{id}+$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+(F$</td>
-<td>$+\bold{id})*\bold{id}$</td>
+<td>$+\textbf{id})*\textbf{id}$</td>
 <td>栈顶归约为 $T$</td>
 <td>下一个符号是$+$，而没有包含 $F+$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+(T$</td>
-<td>$+\bold{id})*\bold{id}$</td>
+<td>$+\textbf{id})*\textbf{id}$</td>
 <td>栈顶归约为 $E$</td>
 <td>下一个符号是$+$，而没有 包含 $T+$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+(E$</td>
-<td>$+\bold{id})*\bold{id}$</td>
+<td>$+\textbf{id})*\textbf{id}$</td>
 <td>移进</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
 <td>$E+(E+$</td>
-<td>$\bold{id})*\bold{id}$</td>
+<td>$\textbf{id})*\textbf{id}$</td>
 <td>移进</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
-<td>$E+(E+\bold{id}$</td>
-<td>$)*\bold{id}$</td>
+<td>$E+(E+\textbf{id}$</td>
+<td>$)*\textbf{id}$</td>
 <td>栈顶归约为 $F$</td>
-<td>下一个符号是$)$，而没有 包含 $\bold{id})$ 的规则，但栈顶可以归约</td>
+<td>下一个符号是$)$，而没有 包含 $\textbf{id})$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+(E+F$</td>
-<td>$)*\bold{id}$</td>
+<td>$)*\textbf{id}$</td>
 <td>栈顶归约为 $T$</td>
 <td>下一个符号是$)$，而没有 包含 $F)$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+(E+T$</td>
-<td>$)*\bold{id}$</td>
+<td>$)*\textbf{id}$</td>
 <td>栈顶归约为 $E$</td>
 <td>下一个符号是$+$，而没有包含 $T)$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+(E+E$</td>
-<td>$)*\bold{id}$</td>
+<td>$)*\textbf{id}$</td>
 <td>移进</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
 <td>$E+(E+E)$</td>
-<td>$*\bold{id}$</td>
+<td>$*\textbf{id}$</td>
 <td>栈顶归约为 $F$</td>
 <td>下一个符号是$<em>$，没有包含 $)</em>$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+F$</td>
-<td>$*\bold{id}$</td>
+<td>$*\textbf{id}$</td>
 <td>栈顶归约为 $T$</td>
 <td>下一个符号是$<em>$，没有包含 $F</em>$ 的规则，但栈顶可以归约</td>
 </tr>
 <tr>
 <td>$E+T$</td>
-<td>$*\bold{id}$</td>
+<td>$*\textbf{id}$</td>
 <td>移进</td>
 <td>这里是tricky的地方，这里考虑到优先级问题必须移进，这样看来<strong>优先移进，不行了再归约可能是处理优先级问题的方案</strong></td>
 </tr>
 <tr>
 <td>$E+T*$</td>
-<td>$\bold{id}$</td>
+<td>$\textbf{id}$</td>
 <td>移进</td>
 <td>栈顶不能归约，只能移进</td>
 </tr>
 <tr>
-<td>$E+T*\bold{id}$</td>
+<td>$E+T*\textbf{id}$</td>
 <td></td>
 <td>栈顶归约为 $F$</td>
 <td>没有符号了，往死里归约</td>
@@ -227,7 +227,7 @@
 </ul>
 <h3 id="使用-LR-0-状态机进行匹配"><a href="#使用-LR-0-状态机进行匹配" class="headerlink" title="使用 LR(0) 状态机进行匹配"></a>使用 LR(0) 状态机进行匹配</h3><p>为了存储一路匹配上来时经过的状态，我们需要在分析表中增设一个状态栈。</p>
 <p>我不想再画上面那一百万行的巨大表格了，所以我们这次直接用龙书上的例子：</p>
-<p>分析$\bold{id} * \bold{id}$：</p>
+<p>分析$\textbf{id} * \textbf{id}$：</p>
 <table>
 <thead>
 <tr>
@@ -240,48 +240,48 @@
 <tbody><tr>
 <td>$I_0$</td>
 <td></td>
-<td>$\bold{id} * \bold{id}$</td>
-<td>根据状态机的标识，转到$I_5$（即压入状态栈），同时移进 $\bold{id}$</td>
+<td>$\textbf{id} * \textbf{id}$</td>
+<td>根据状态机的标识，转到$I_5$（即压入状态栈），同时移进 $\textbf{id}$</td>
 </tr>
 <tr>
 <td>$I_0I_5$</td>
-<td>$\bold{id}$</td>
-<td>$* \bold{id}$</td>
+<td>$\textbf{id}$</td>
+<td>$* \textbf{id}$</td>
 <td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
 </tr>
 <tr>
 <td>$I_0$</td>
 <td>$F$</td>
-<td>$* \bold{id}$</td>
+<td>$* \textbf{id}$</td>
 <td>弹栈后进行下一步状态转移，转到$I_3$</td>
 </tr>
 <tr>
 <td>$I_0I_3$</td>
 <td>$F$</td>
-<td>$* \bold{id}$</td>
+<td>$* \textbf{id}$</td>
 <td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
 </tr>
 <tr>
 <td>$I_0$</td>
 <td>$T$</td>
-<td>$* \bold{id}$</td>
+<td>$* \textbf{id}$</td>
 <td>弹栈后进行下一步状态转移，转到$I_2$</td>
 </tr>
 <tr>
 <td>$I_0I_2$</td>
 <td>$T$</td>
-<td>$* \bold{id}$</td>
+<td>$* \textbf{id}$</td>
 <td>根据状态机的标识，转到$I_7$，同时移进 $*$</td>
 </tr>
 <tr>
 <td>$I_0I_2I_7$</td>
 <td>$T*$</td>
-<td>$\bold{id}$</td>
-<td>根据状态机的标识，转到$I_5$，同时移进 $\bold{id}$</td>
+<td>$\textbf{id}$</td>
+<td>根据状态机的标识，转到$I_5$，同时移进 $\textbf{id}$</td>
 </tr>
 <tr>
 <td>$I_0I_2I_7I_5$</td>
-<td>$T*\bold{id}$</td>
+<td>$T*\textbf{id}$</td>
 <td></td>
 <td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
 </tr>
