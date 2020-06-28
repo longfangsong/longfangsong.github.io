@@ -1,0 +1,343 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>LR(0)分析 · Blog</title><meta name="description" content="如果你已经理解了移进-归约分析的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？毕竟如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？
+举一个经典的"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/source-code-pro.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>LR(0)分析</a></h1></div><div class="post-content"><link rel="stylesheet noopener" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css" target="_blank"><p>如果你已经理解了<a href="https://longfangsong.github.io/2020/05/22/%E7%A7%BB%E8%BF%9B-%E5%BD%92%E7%BA%A6%E5%88%86%E6%9E%90/">移进-归约分析</a>的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？毕竟如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？</p>
+<p>举一个经典的表达式文法的例子：<br>$$<br>E \rightarrow E+T|T \<br>T \rightarrow T<em>F|F \<br>F \rightarrow (E) | \bold{id}<br>$$<br>我们来模拟一下匹配字符串$\bold{id}</em>\bold{id}+(\bold{id}+\bold{id})*\bold{id}$的过程，并尝试解释每一步选择移进还是归约的原因。</p>
+<table>
+<thead>
+<tr>
+<th>符号栈</th>
+<th>剩余输入</th>
+<th>动作</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>$\bold{id}<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
+<td>移进 $\bold{id}$</td>
+<td>没得选</td>
+</tr>
+<tr>
+<td>$\bold{id}$</td>
+<td>$<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
+<td>栈顶归约为 $F$</td>
+<td>下一个符号是$*$，而没有包含 $\bold{id} *$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$F$</td>
+<td>$<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
+<td>栈顶归约为 $T$</td>
+<td>下一个符号是$*$，而没有包含$F *$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$T$</td>
+<td>$<em>\bold{id}+(\bold{id}+\bold{id})</em>\bold{id}$</td>
+<td>移进 $*$</td>
+<td>下一个符号是$*$， 而没有包含 $ T *$ 的规则</td>
+</tr>
+<tr>
+<td>$T*$</td>
+<td>$\bold{id}+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>移进 $\bold{id}$</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$T*\bold{id}$</td>
+<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>栈顶归约为 $F$</td>
+<td>下一个符号是$+$，而没有包含 $T *\bold{id}+$ 或者 $\bold{id}+$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$T*F$</td>
+<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>栈顶归约为 $T$</td>
+<td>下一个符号是$+$，而没有包含$T * F+$ 或者 $F+$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$T$</td>
+<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>栈顶归约为 $E$</td>
+<td>下一个符号是$+$，而没有包含$T+$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td>$+(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>移进 $+$</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$E+$</td>
+<td>$(\bold{id}+\bold{id})*\bold{id}$</td>
+<td>移进 $($</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$E+($</td>
+<td>$\bold{id}+\bold{id})*\bold{id}$</td>
+<td>移进 $\bold{id}$</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$E+(\bold{id}$</td>
+<td>$+\bold{id})*\bold{id}$</td>
+<td>栈顶归约为 $F$</td>
+<td>下一个符号是$+$，而没有包含 $\bold{id}+$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+(F$</td>
+<td>$+\bold{id})*\bold{id}$</td>
+<td>栈顶归约为 $T$</td>
+<td>下一个符号是$+$，而没有包含 $F+$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+(T$</td>
+<td>$+\bold{id})*\bold{id}$</td>
+<td>栈顶归约为 $E$</td>
+<td>下一个符号是$+$，而没有 包含 $T+$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+(E$</td>
+<td>$+\bold{id})*\bold{id}$</td>
+<td>移进</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$E+(E+$</td>
+<td>$\bold{id})*\bold{id}$</td>
+<td>移进</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$E+(E+\bold{id}$</td>
+<td>$)*\bold{id}$</td>
+<td>栈顶归约为 $F$</td>
+<td>下一个符号是$)$，而没有 包含 $\bold{id})$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+(E+F$</td>
+<td>$)*\bold{id}$</td>
+<td>栈顶归约为 $T$</td>
+<td>下一个符号是$)$，而没有 包含 $F)$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+(E+T$</td>
+<td>$)*\bold{id}$</td>
+<td>栈顶归约为 $E$</td>
+<td>下一个符号是$+$，而没有包含 $T)$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+(E+E$</td>
+<td>$)*\bold{id}$</td>
+<td>移进</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$E+(E+E)$</td>
+<td>$*\bold{id}$</td>
+<td>栈顶归约为 $F$</td>
+<td>下一个符号是$<em>$，没有包含 $)</em>$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+F$</td>
+<td>$*\bold{id}$</td>
+<td>栈顶归约为 $T$</td>
+<td>下一个符号是$<em>$，没有包含 $F</em>$ 的规则，但栈顶可以归约</td>
+</tr>
+<tr>
+<td>$E+T$</td>
+<td>$*\bold{id}$</td>
+<td>移进</td>
+<td>这里是tricky的地方，这里考虑到优先级问题必须移进，这样看来<strong>优先移进，不行了再归约可能是处理优先级问题的方案</strong></td>
+</tr>
+<tr>
+<td>$E+T*$</td>
+<td>$\bold{id}$</td>
+<td>移进</td>
+<td>栈顶不能归约，只能移进</td>
+</tr>
+<tr>
+<td>$E+T*\bold{id}$</td>
+<td></td>
+<td>栈顶归约为 $F$</td>
+<td>没有符号了，往死里归约</td>
+</tr>
+<tr>
+<td>$E+T*F$</td>
+<td></td>
+<td>栈顶归约为 $T$</td>
+<td>没有符号了，往死里归约</td>
+</tr>
+<tr>
+<td>$E+T$</td>
+<td></td>
+<td>栈顶归约为 $E$</td>
+<td>没有符号了，往死里归约</td>
+</tr>
+<tr>
+<td>$E$</td>
+<td></td>
+<td>接受</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>这是一个漫长的过程，在这个过程中我们发现：</p>
+<ul>
+<li>为了处理运算符的优先级，优先进行移进<ul>
+<li>这和我们编写计算器的方式很像</li>
+</ul>
+</li>
+<li>在移进会导致栈中不包含某个可以归约的“前缀”时，必须先归约</li>
+<li>在栈中的内容不同时，要考虑的是否可以归约的部分也不一样<ul>
+<li>例如在处理栈为 $T<em>$ 和 $E+T</em>$ 时，其实都只要考虑 $T*$ 的部分就可以了</li>
+</ul>
+</li>
+</ul>
+<p>那么我们可以看一下有哪些方法解决这些问题。</p>
+<h2 id="LR-0-项、状态、产生式中的“-cdot-”-与LR-0-状态机"><a href="#LR-0-项、状态、产生式中的“-cdot-”-与LR-0-状态机" class="headerlink" title="LR(0)项、状态、产生式中的“$\cdot$” 与LR(0) 状态机"></a>LR(0)项、状态、产生式中的“$\cdot$” 与LR(0) 状态机</h2><p>我们从前面的最后一个问题开始着手。</p>
+<p>我们看 $E+T<em>$ 这里，在这种<strong>状态</strong>下，我们能用来归约的产生式只有 $T \rightarrow T*F$ 一个，会归约到栈顶上多了一个 $T$ 的状态。<sup id="fnref:0"><a href="#fn:0" rel="footnote">&lt;span class=”hint–top hint–error hint–medium hint–rounded hint–bounce” aria-label=”这里也可以理解成，匹配完了$E+$ 之后，再递归地（用“干净”的栈帧）匹配后面的以$T</em>$开头的内容<br>“&gt;[0]</span></a></sup></p>
+<p>而在 $T<em>$ 这里，在这种*</em>状态*<em>下，我们也能用来归约的产生式只有 $T \rightarrow T</em>F$ 一个，也只会归约到栈顶上多了一个 $T$ 的状态。</p>
+<p>可以看出从“往栈上放一个$T$的角度来看”这两个状态其实是同一个状态。</p>
+<h3 id="LR-0-项"><a href="#LR-0-项" class="headerlink" title="LR(0)项"></a>LR(0)项</h3><p>我们引入$\cdot$标记来分割生成式匹配过了的部分和还需要匹配的部分，所以现在这个状态可以写成：<br>$$<br>T \rightarrow T<em>\cdot F<br>$$<br>也就代表在这个状态下，已经匹配到了$T</em>$，接下来如果能成功地匹配到一个$F$，就能顺利地归约为栈顶上的一个 $T$。</p>
+<p>像这种标记过匹配到的状态的产生式，我们称之为“LR(0)项”，简称“项”。</p>
+<h3 id="项集闭包"><a href="#项集闭包" class="headerlink" title="项集闭包"></a>项集闭包</h3><p>我们考虑上面说到的 $T \rightarrow T<em>\cdot F$，以及另外两个项：<br>$$<br>F \rightarrow \cdot(E) \<br>F \rightarrow \cdot \bold{id}<br>$$<br>我们可以看到在 $T \rightarrow T</em>\cdot F$ 项的对应状态下，上面两个项所代表的状态其实就是 $T \rightarrow T*\cdot F$ 在试图匹配 $F$ 时的“子状态”或“等价状态”。</p>
+<p>那么我们就把这两个状态和原先的 $T \rightarrow T<em>\cdot F$ 放在一个集合里面，称之为“ $T \rightarrow T</em>\cdot F$ 的项集闭包”，其中 $T \rightarrow T*\cdot F$ 称为闭包的核心。</p>
+<p>那么项集闭包有啥用呢？我们仍然举上面文法的例子：</p>
+<p>比如现在栈中有$…T<em>$，我们在 $T \rightarrow T</em>\cdot F$ 状态，我们看到前面有一个$’(‘$，此时我们就可以根据这个$’(‘$ 和项集闭包中的$F \rightarrow \cdot(E)$，转到$F \rightarrow (\cdot E)$ 状态，然后去匹配出一个一个 $F$，放到栈顶，然后进行 $T$ 的归约。</p>
+<p>把所有的项、对应的项集闭包以及状态之间的转换关系列出来，我们就可以建立起一个 LR(0) 状态机：</p>
+<p>![截屏2020-06-29 上午2.37.41](LR-0-分析/截屏2020-06-29 上午2.37.41.png)</p>
+<p>可以看到每一个产生式对应的所有项都会出现在这个状态机里面，而每条边上则指示了在栈顶又被压入某个符号时的状态转换。</p>
+<p>其中$E’$是为了标记我们最终匹配到什么而设置的，其实这个例子来讲说到底就是$E$。</p>
+<h4 id="上述过程的算法描述"><a href="#上述过程的算法描述" class="headerlink" title="上述过程的算法描述"></a>上述过程的算法描述</h4><p>这部分看看就行了，看懂了上面的你可以自己想到这些的。</p>
+<p>根据龙书，上面的过程的算法描述为：</p>
+<ul>
+<li><p>求每个LR(0)项，直接往所有每个产生式里能插的地方（包括开头和结尾）插入“$\cdot$”即可</p>
+</li>
+<li><p>对开始符号所在的项 $S’\rightarrow \cdot S$，求其闭包</p>
+</li>
+<li><p>寻找每个我们拿到的闭包在某个输入下转换到的项集（称为$GOTO$函数）</p>
+<ul>
+<li><p>求法</p>
+<blockquote>
+<p>“If $A → α·Bβ$ is in $CLOSURE(I)$ and $B → γ$ is a production, then add the item $B → ·γ$ to $CLOSURE(I)$, if it is not already there. Apply this rule until no more new items can be added to $CLOSURE(I)$.”</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>重复上一步，直到不再有新的项集出现为止</p>
+</li>
+</ul>
+<h3 id="使用-LR-0-状态机进行匹配"><a href="#使用-LR-0-状态机进行匹配" class="headerlink" title="使用 LR(0) 状态机进行匹配"></a>使用 LR(0) 状态机进行匹配</h3><p>为了存储一路匹配上来时经过的状态，我们需要在分析表中增设一个状态栈。</p>
+<p>我不想再画上面那一百万行的巨大表格了，所以我们这次直接用龙书上的例子：</p>
+<p>分析$\bold{id} * \bold{id}$：</p>
+<table>
+<thead>
+<tr>
+<th>状态栈</th>
+<th>符号栈</th>
+<th>剩余输入</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$I_0$</td>
+<td></td>
+<td>$\bold{id} * \bold{id}$</td>
+<td>根据状态机的标识，转到$I_5$（即压入状态栈），同时移进 $\bold{id}$</td>
+</tr>
+<tr>
+<td>$I_0I_5$</td>
+<td>$\bold{id}$</td>
+<td>$* \bold{id}$</td>
+<td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
+</tr>
+<tr>
+<td>$I_0$</td>
+<td>$F$</td>
+<td>$* \bold{id}$</td>
+<td>弹栈后进行下一步状态转移，转到$I_3$</td>
+</tr>
+<tr>
+<td>$I_0I_3$</td>
+<td>$F$</td>
+<td>$* \bold{id}$</td>
+<td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
+</tr>
+<tr>
+<td>$I_0$</td>
+<td>$T$</td>
+<td>$* \bold{id}$</td>
+<td>弹栈后进行下一步状态转移，转到$I_2$</td>
+</tr>
+<tr>
+<td>$I_0I_2$</td>
+<td>$T$</td>
+<td>$* \bold{id}$</td>
+<td>根据状态机的标识，转到$I_7$，同时移进 $*$</td>
+</tr>
+<tr>
+<td>$I_0I_2I_7$</td>
+<td>$T*$</td>
+<td>$\bold{id}$</td>
+<td>根据状态机的标识，转到$I_5$，同时移进 $\bold{id}$</td>
+</tr>
+<tr>
+<td>$I_0I_2I_7I_5$</td>
+<td>$T*\bold{id}$</td>
+<td></td>
+<td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
+</tr>
+<tr>
+<td>$I_0I_2I_7$</td>
+<td>$T*F$</td>
+<td></td>
+<td>弹栈后进行下一步状态转移，转到$I_{10}$</td>
+</tr>
+<tr>
+<td>$I_0I_2I_{10}$</td>
+<td>$T$</td>
+<td></td>
+<td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
+</tr>
+<tr>
+<td>$I_0I_2$</td>
+<td>$E$</td>
+<td></td>
+<td>根据状态机的标识，无处可转，进行归约，弹状态栈</td>
+</tr>
+<tr>
+<td>$I_0$</td>
+<td>$E$</td>
+<td></td>
+<td>弹栈后进行下一步状态转移，转到$I_1$</td>
+</tr>
+<tr>
+<td>$I_0I_1$</td>
+<td>$E’$</td>
+<td></td>
+<td>接受</td>
+</tr>
+</tbody></table>
+<p>注意我这里的步骤比龙书上多了些，龙书将“弹栈后进行下一步状态转移”这一步和下面的步骤合并起来写。</p>
+<p>其实说实话你可以把这个状态栈用函数（递归）调用的方法消去的。</p>
+<h3 id="冲突"><a href="#冲突" class="headerlink" title="冲突"></a>冲突</h3><p>看了上面的步骤你会发现，LR(0) 的每个项集闭包中不可以包含：</p>
+<ul>
+<li><p>一个项认为已经可以归约了，另一个项认为还需要移进<br>$$<br>A \rightarrow a\cdot b \<br>B \rightarrow c \cdot<br>$$<br>这称为移进-归约冲突。</p>
+</li>
+<li><p>两个项认为可以归约出不同的东西<br>$$<br>A \rightarrow b \cdot \<br>C \rightarrow d \cdot \<br>$$<br>这称为归约-归约冲突。</p>
+</li>
+</ul>
+<p>有此类冲突的不是LR(0)文法，需要用其他分析方法分析。</p>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:0"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">0.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">这里也可以理解成，匹配完了$E+$ 之后，再递归地（用“干净”的栈帧）匹配后面的以$T*$开头的内容<a href="#fnref:0" rev="footnote"> ↩</a></span></li></ol></div></div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-06-28</span><i class="fa fa-tag"></i><a class="tag" href="/tags/编译原理/" title="编译原理">编译原理 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/06/28/LR-0-分析/,Blog,LR(0)分析,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/05/27/%E6%88%90%E7%BB%84%E9%93%BE%E6%8E%A5%E6%B3%95%E5%9B%BE%E8%A7%A3/" title="成组链接法图解">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
