@@ -12,9 +12,18 @@
 <h3 id="信源"><a href="#信源" class="headerlink" title="信源"></a>信源</h3><p>信息的来源，产生消息（符号）、时间离散的消息序列（符号序列）以及时间连续的消息的来源。</p>
 <h4 id="离散单符号信源"><a href="#离散单符号信源" class="headerlink" title="离散单符号信源"></a>离散单符号信源</h4><p>输出单个离散取值的符号的信源。</p>
 <h4 id="离散多符号信源"><a href="#离散多符号信源" class="headerlink" title="离散多符号信源"></a>离散多符号信源</h4><h5 id="马尔可夫信源"><a href="#马尔可夫信源" class="headerlink" title="马尔可夫信源"></a>马尔可夫信源</h5><p>某时刻发出某的符号的概率仅和之前发生的有限个符号有关。其中的“有限个”的个数就是马尔可夫信源的阶数。</p>
+<h6 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h6><ul>
+<li>马尔可夫性、平稳性<br>$$<br>\begin{align}<br>H_\infty &amp;= lim_{N\rightarrow \infty} H (X_N|X_1X_2\cdots X_{N-1}) \\<br>&amp;= lim_{N\rightarrow \infty} H (X_N|X_{N-m}X_{N-m+1}\cdots X_{N-1}) \\<br>&amp;= H (X_{m+1}|X_1X_2\cdots X_m)<br>\end{align}<br>$$<br>最后一个式子常记做$H_{m+1}$</li>
+</ul>
+<h5 id="离散平稳信源"><a href="#离散平稳信源" class="headerlink" title="离散平稳信源"></a>离散平稳信源</h5><p>任意两个时刻信源发出消息的概率分布完全相同。<br>$$<br>P(X_i)=P(X_j)<br>$$</p>
+<h6 id="离散平稳无记忆信源"><a href="#离散平稳无记忆信源" class="headerlink" title="离散平稳无记忆信源"></a>离散平稳无记忆信源</h6><p>输出的序列是平稳随机序列，符号之间无关。</p>
+<p>熵率为：<br>$$<br>H(\textbf{X}) = H(\textbf{X}^N)=NH(\textbf{X}) \\<br>H_{\infty} = lim_{N \rightarrow \infty} \frac 1 N NH_N(\textbf{X}) = H(\textbf{X})<br>$$</p>
+<h6 id="离散平稳有记忆信源"><a href="#离散平稳有记忆信源" class="headerlink" title="离散平稳有记忆信源"></a>离散平稳有记忆信源</h6><p>输出的序列是平稳随机序列，符号之间有关。</p>
 <h3 id="信源的相对率"><a href="#信源的相对率" class="headerlink" title="信源的相对率"></a>信源的相对率</h3><p>一个信源的熵率（极限熵）与具有相同符号集的最大熵的比。<br>$$<br>\eta = \frac {H_\infty} {H_0}<br>$$</p>
 <h3 id="信源的剩余度"><a href="#信源的剩余度" class="headerlink" title="信源的剩余度"></a>信源的剩余度</h3><p>$$<br>\gamma = 1-\eta=1-\frac {H_\infty} {H_0}=1-\frac {H_\infty} {log\ q}<br>$$</p>
-<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><h3 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h3><ul>
+<h3 id="平均符号熵"><a href="#平均符号熵" class="headerlink" title="平均符号熵"></a>平均符号熵</h3><p>信源输出的符号序列中平均每个符号所携带的信息量。<br>$$<br>H_N(\textbf{X}) = \frac 1 N H(X_1X_2\cdots X_N)<br>$$</p>
+<h3 id="熵率（极限熵）"><a href="#熵率（极限熵）" class="headerlink" title="熵率（极限熵）"></a>熵率（极限熵）</h3><p>平均符号熵在 $N \rightarrow + \infty$ 时的极限。</p>
+<h2 id="性质-1"><a href="#性质-1" class="headerlink" title="性质"></a>性质</h2><h3 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h3><ul>
 <li>对称性</li>
 <li>确定性</li>
 <li>非负性</li>
@@ -30,11 +39,23 @@
 <li>极值性</li>
 <li>凸函数性</li>
 </ul>
-<h2 id="定理"><a href="#定理" class="headerlink" title="定理"></a>定理</h2><p>如果随机变量$X,Y,Z$构成一个马尔可夫链，则有以下关系成立：<br>$$<br>I(X;Z) \le I(X;Y), I(X,Z) \le I(Y;Z)<br>$$<br>在$P(x|yz)=P(x|z)\ P(z|xy)=P(z|x)$时取等号。</p>
-<h2 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h2><ol>
+<h3 id="离散平稳信源-1"><a href="#离散平稳信源-1" class="headerlink" title="离散平稳信源"></a>离散平稳信源</h3><ul>
+<li><p>条件熵$H(X_N|X_1X_2\cdots X_{N-1})$随N增加递减</p>
+</li>
+<li><p>条件熵$H_N(\textbf{X})$随N增加递减</p>
+</li>
+<li><p>N一定时，平均符号熵大于等于条件熵<br>$$<br>H_N(\textbf{X}) \ge H(X_N|X_1X_2\cdots X_{N-1})<br>$$</p>
+</li>
+<li><p>若 $H(X_1) &lt; \infty$ ，则 $H_\infty = lim_{N\rightarrow \infty}H_N(X)$ 存在，且为：<br>$$<br>H_\infty = lim_{N\rightarrow \infty}H_N(X) = H(X_N|X_1X_2 \cdots X_{N-1})<br>$$</p>
+</li>
+</ul>
+<h2 id="定理"><a href="#定理" class="headerlink" title="定理"></a>定理</h2><ol>
+<li><p>数据处理定理</p>
+<p>如果随机变量$X,Y,Z$构成一个马尔可夫链，则有以下关系成立：<br>$$<br>I(X;Z) \le I(X;Y), I(X,Z) \le I(Y;Z)<br>$$<br>在$P(x|yz)=P(x|z)\ P(z|xy)=P(z|x)$时取等号。</p>
+<h2 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h2></li>
 <li><p>熵函数的链式法则<br>$$<br>H(X_1X_2…X_N)=H(X_1)+H(X_2|X_1)+…+H(X_N|X_1X_2…X_{N-1})<br>$$</p>
 </li>
-<li><p>平均互信息<br>$$<br>I(X;Y)=H(X)-H(X|Y)\<br>=H(Y)-H(Y|X)\<br>=H(X)+H(Y)-H(XY)<br>$$<br>当$X,Y$独立时，$I(X;Y)=0$</p>
+<li><p>平均互信息<br>$$<br>I(X;Y)=H(X)-H(X|Y)\\<br>=H(Y)-H(Y|X)\\<br>=H(X)+H(Y)-H(XY)<br>$$<br>当$X,Y$独立时，$I(X;Y)=0$</p>
 </li>
 </ol>
 </div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-04-17</span><i class="fa fa-tag"></i><a class="tag" href="/tags/信息论/" title="信息论">信息论 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/04/16/信息论知识点整理/,Blog,信息论知识点整理,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/04/19/%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/" title="基本类型系统">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/04/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A7%84%E8%8C%83%E5%8C%96%E8%AE%BE%E8%AE%A1%E6%A6%82%E5%BF%B5%E6%95%B4%E7%90%86/" title="数据库规范化设计概念整理">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
