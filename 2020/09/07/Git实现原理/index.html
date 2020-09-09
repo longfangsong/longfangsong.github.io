@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>Git实现原理 · Blog</title><meta name="description" content="Git is a database …Git 首先可以用作一个键值数据库：
+我们先创建一个空的 Git 仓库：
+
+
+这个数据库的数据都在objects里面，我们放一个文件进去：
+
+
+可以看到生成了一长串哈希值，这个哈希值就是一个 key，是原本文件内容的一个摘要，可以拿着这个key去找对应的valu"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/source-code-pro.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>Git实现原理</a></h1></div><div class="post-content"><link rel="stylesheet noopener" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css" target="_blank"><h2 id="Git-is-a-database-…"><a href="#Git-is-a-database-…" class="headerlink" title="Git is a database …"></a>Git is a database …</h2><p>Git 首先可以用作一个键值数据库：</p>
+<p>我们先创建一个空的 Git 仓库：</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/empty.png" class="" title="empty">
+
+<p>这个数据库的数据都在<code>objects</code>里面，我们放一个文件进去：</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/first-file.png" class="" title="first-file">
+
+<p>可以看到生成了一长串哈希值，这个哈希值就是一个 <code>key</code>，是原本文件<strong>内容</strong>的一个摘要，可以拿着这个key去找对应的value。</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/read.png" class="" title="read">
+
+<p>实际存的时候，这里是按照“loose”方式存的，即把文件存在一个以这个<code>key</code>前两位为文件夹名，后面的几位为文件名的文件，这种文件我们称之为blob。</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/how-stored.png" class="" title="how stored">注意直接cat这个文件是乱码，因为 Git 里这个文件是用zlib压缩过的。
+
+<p>再对这个文件做一点修改：</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/edit.png" class="" title="edit">
+
+<p>可见这里 Git 的做法非常简单粗暴：并不去“思考”和原本文件的差别，而是直接创建一个新的文件，这也很正常，本来我们现在在就是数据库层面的事情，它不该对文件位置什么的有所知。</p>
+<p>不过有的同学可能会觉得每次都创建一个新的文件会比较浪费（尤其是代码这个东西明明其实很多时候两个版本之间的文件就差几个字），Git也考虑到了这种情况，因此当文件多了或者你要把存储库推送到远程服务器上时，或者你手动跑 <code>git gc</code> 的时候，Git会把一些你已经commit过的相似的文件压缩成一个pack，以此来节约空间。</p>
+<h2 id="…-with-knows-about-filesystem-…"><a href="#…-with-knows-about-filesystem-…" class="headerlink" title="… with knows about filesystem …"></a>… with knows about filesystem …</h2><p>数据库解决了文件的存储问题，但是这里只有文件，没有目录，没有文件名，什么都没有。</p>
+<p>为了解决存目录的问题，Git 提供了另外一种也存在“数据库”里的对象：tree 来表示目录。</p>
+<p>我们先创建一个如下的文件夹：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── 1.txt</span><br><span class="line">└── dir1</span><br><span class="line">    └── 2.txt</span><br></pre></td></tr></table></figure>
+
+<p>然后把文件放入暂存区（使用<code>update-index</code>）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git update-index --add ./1.txt</span><br><span class="line">git update-index --add ./dir1/2.txt</span><br></pre></td></tr></table></figure>
+
+<p>再</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; git write-tree</span></span><br><span class="line">&lt;&lt;&lt; bf290698942c24352c075186ba47695667831eb3</span><br></pre></td></tr></table></figure>
+
+<p>然后看看现在<code>.git</code>文件夹里有些啥子东西：<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/tree-0.png" class="" title="tree-0"></p>
+<p><code>index</code> 文件代表了目前暂存区有些个啥子文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat .git/index                     </span><br><span class="line">DIRC_W?+,UZ?_W?+,UZ??????????~[??(???2??S?M1.txt_W?1 ???_W?1 ?????????</span><br><span class="line">                                                                      ????????S?4?O??,?</span><br><span class="line">dir1/2.txt???Y?PߖQ??§q? R%</span><br></pre></td></tr></table></figure>
+
+<p>虽然是二进制文件但是还是可以看出 <code>1.txt</code> 和 <code>dir1/2.txt</code>。</p>
+<p>我们 <code>write-tree</code> 得到的键是 <code>bf290698942c24352c075186ba47695667831eb3</code>，我们来看一下这个文件它里头到底是啥：</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/tree-1.png" class="" title="tree-1">
+
+<p>可以看到就是“根”目录里面有哪些子文件（夹）的情况，子文件就一blob，而子文件夹是另外一棵tree。</p>
+<p>这样我们就解决了文件夹存放的问题。</p>
+<h2 id="…-and-it-supports-mvcc"><a href="#…-and-it-supports-mvcc" class="headerlink" title="… and it supports mvcc"></a>… and it supports mvcc</h2><p>然后就到了 Git 真正做版本控制的地方，这主要是通过 commit 对象实现的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; git commit-tree  bf290698942c24352c075186ba47695667831eb3 -m <span class="string">"initial commit"</span></span></span><br><span class="line">&lt;&lt;&lt; 7d58c29d3f841ed2c1bd429d5b177fcd9ff11bd9</span><br><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; git cat-file -p 7d58c29d3f841ed2c1bd429d5b177fcd9ff11bd9</span></span><br><span class="line">&lt;&lt;&lt; </span><br><span class="line">	tree bf290698942c24352c075186ba47695667831eb3</span><br><span class="line">	author longfangsong &lt;longfangsong@icloud.com&gt; 1599612446 +0800</span><br><span class="line">	committer longfangsong &lt;longfangsong@icloud.com&gt; 1599612446 +0800</span><br><span class="line"></span><br><span class="line">	initial commit</span><br></pre></td></tr></table></figure>
+
+<p>我们就创建了一个提交对象，然后只要把新的提交对象和旧的连起来：</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/commit-parent.png" class="" title="commit-parent">
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log e232d34bab2ffbb4aa852a1e433c1a61830c5e3f</span><br></pre></td></tr></table></figure>
+
+<p>看下log：</p>
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/log-1.png" class="" title="log-1">这就是一个典型的 `git log` 记录。
+
+<p>但是我们平时用的分支他的名字肯定不是一个 hash 值，那肯定是 master 这样的名字，git为了支持给分支命名，提供了 <code>refs</code> 的功能，我们只要把一个commit对象对应的键保存在以引用的名字命名的文件中即可：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo "e232d34bab2ffbb4aa852a1e433c1a61830c5e3f" &gt; .git/refs/heads/master</span><br></pre></td></tr></table></figure>
+
+<img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/ref-master.png" class="" title="ref-master">
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文讲述了 git 的几个更为“基本”的命令，从而剖析了 Git 的内部工作原理。</p>
+<p>简单来说：</p>
+<ul>
+<li>Git 将文件内容、文件夹结构、commit内容都保存在 <code>.git/objects</code> 下，并有一个键与其中每个文件对应</li>
+<li>Git 将分支保存在 <code>.git/refs</code> 里<ul>
+<li>其中 <code>heads</code> 存的是每个本地分支的头节点对应的 <code>commit</code> 号</li>
+<li>前面没有提过，但远程分支对应信息在 <code>.git/refs/remotes/远程名/分支名</code> 里</li>
+<li>前面没有提过，但tag对应信息在 <code>.git/refs/tags/tag名</code> 里</li>
+</ul>
+</li>
+</ul>
+<p>上述所有内容均会在Git任务合适的时候被pack成更节约空间的形式。</p>
+<p>那么我们就可以自己推出一些我们更常用的命令的实现：</p>
+<ul>
+<li><p><code>add</code></p>
+<p><code>update-index</code></p>
+</li>
+<li><p><code>commit</code></p>
+<p><code>write-tree</code> + 更新 <code>refs</code></p>
+</li>
+<li><p><code>checkout</code></p>
+<ol>
+<li>查 <code>refs</code> 得其对应 <code>commit</code></li>
+<li>查 <code>commit</code> 得其对应 <code>tree</code></li>
+<li>递归从 <code>tree</code> 中解出文件，并覆盖工作区的对应文件</li>
+</ol>
+</li>
+<li><p><code>fetch</code></p>
+<p>下载远程仓库 <code>refs</code> 信息到 <code>.git/refs/remotes</code>，并下载缺失的 <code>object</code>。</p>
+<p>同时会更新 <code>FETCH_HEAD</code> ，记录本地上次fetch到哪里了</p>
+</li>
+<li><p><code>push</code></p>
+<p>与上述相反</p>
+</li>
+<li><p><code>pull</code></p>
+<ol>
+<li><code>fetch</code></li>
+<li><code>merge FETCH_HEAD</code></li>
+</ol>
+</li>
+<li><p><code>merge</code> (no-ff)</p>
+<ol>
+<li>three-way merging，如有必要手动解决冲突，结果放在工作区</li>
+<li><code>update-index</code></li>
+<li><code>write-tree</code> + 更新 <code>refs</code>，生成的 commit 有两个爹，其他也没啥特别的</li>
+</ol>
+</li>
+<li><p><code>cherry-pick</code></p>
+<ol>
+<li>three-way merging，如有必要手动解决冲突，结果放在工作区</li>
+<li><code>update-index</code></li>
+<li><code>write-tree</code> + 更新 <code>refs</code>，生成的 commit 其 parent 是cherry-pick到的分支的head，tree是刚刚write的tree，其他都和cherry-pick来的那个 commit 一样</li>
+</ol>
+</li>
+<li><p><code>rebase</code></p>
+<ol>
+<li>three-way merging，如有必要手动解决冲突，结果放在工作区</li>
+<li>更新 commit，重新认爹。</li>
+</ol>
+</li>
+</ul>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-09-07</span><i class="fa fa-tag"></i><a class="tag" href="/tags/Git/" title="Git">Git </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/09/07/Git实现原理/,Blog,Git实现原理,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/09/07/Git%E8%83%8C%E5%90%8E%E7%9A%84%E6%80%9D%E6%83%B3/" title="Git背后的思想">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
