@@ -89,7 +89,7 @@
 
 <p>之后的push都会push到remote的这个分支上。</p>
 <h3 id="Merge"><a href="#Merge" class="headerlink" title="Merge"></a>Merge</h3><p>（我这里就讲最基本的 <code>Fast-forward</code> 合并和默认的合并（<code>Recusive</code> 合并））</p>
-<p>当你在某个分支开发了和很久之后，觉得你这个功能做的差不多了，那就可以把它merge回master分支，或者这个时候master分支比如说修了一些bug，你希望你的功能分支中的这些bug也不要出现，那么你就可以把master合并到你的功能分支上。</p>
+<p>当你在某个分支开发了很久之后，觉得你这个功能做的差不多了，那就可以把它merge回master分支，或者这个时候master分支比如说修了一些bug，你希望你的功能分支中的这些bug也不要出现，那么你就可以把master合并到你的功能分支上。</p>
 <p>这个merge操作其实很有讲究，有些场景很多经验丰富的老司机也搞不定。</p>
 <h4 id="Fast-forward-合并"><a href="#Fast-forward-合并" class="headerlink" title="Fast-forward 合并"></a><code>Fast-forward</code> 合并</h4><p>FF合并是一种很简单的情况：要合并入的分支自从这个分支被创建以来根本没改过，那就很方便了，只要把要合并入的分支的头节点移到这个分支的头节点就好了。</p>
 <h4 id="其他情况下的合并"><a href="#其他情况下的合并" class="headerlink" title="其他情况下的合并"></a>其他情况下的合并</h4><p>其他情况下的合并其实默认走的是一个 <code>recusive three-way merging</code> 的算法，这个算法我一会讲原理的时候会提，我们先来看他的效果。</p>
