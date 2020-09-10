@@ -31,6 +31,7 @@
 <p>然后把文件放入暂存区（使用<code>update-index</code>）：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git update-index --add ./1.txt</span><br><span class="line">git update-index --add ./dir1/2.txt</span><br></pre></td></tr></table></figure>
 
+<p>注意 <code>update-index</code> 同时也做了 <code>hash-object -w</code> 的操作。</p>
 <p>再</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">&gt;&gt; git write-tree</span></span><br><span class="line">&lt;&lt;&lt; bf290698942c24352c075186ba47695667831eb3</span><br></pre></td></tr></table></figure>
 
@@ -60,6 +61,34 @@
 
 <img src="/2020/09/07/Git%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/ref-master.png" class="" title="ref-master">
 
+<h2 id="merge-算法"><a href="#merge-算法" class="headerlink" title="merge 算法"></a>merge 算法</h2><p>解决上面这个问题之后，这个 <code>merge</code> 变成了难点：除了可以fast forward的情况之外，我们merge的过程中一定是会出现冲突的，即要merge的两个版本中的文件不一样的问题。</p>
+<p>有些解决策略很简单粗暴，比如：</p>
+<ul>
+<li><p><code>ours</code></p>
+<p>无脑采纳己方修改</p>
+</li>
+<li><p><code>theirs</code></p>
+<p>无脑采纳对方修改</p>
+</li>
+</ul>
+<p>但有的时候是真的需要比较两个版本，看采纳哪一部分。</p>
+<p>仅仅比较两个版本是无法看出冲突中要保留哪一个的，这很容易理解：两个版本如果有差异，我们不可能知道要采用哪边的版本。</p>
+<p>但是如果找出两个版本公共的祖先版本，然后两个版本都和它比较，如果祖先版本和某个版本在这个地方是一样的，那么我们可以认为这个版本没有改这个部分，而另一个版本改了，那么就应该采用另一个版本，这个算法就叫三路归并，resolve策略执行的就是这种merge。</p>
+<p>这个算法说起来很简单，但执行过程中会遇到找到不止一个公共祖先的问题，这种时候采用递归合并策略，就是如果发现多个公共祖先，那就先合并这多个公共祖先，直到只有一个公共祖先为止，然后递归向上合并，这也是默认的行为。</p>
+<p>还有一个叫<code>octopus</code>的策略用于合并多个分支，<code>subtree</code> 策略在合并树A和树B时，如果B是A的子树，B首先调整至匹配A的树结构，这两个用的比较少，就不细说了。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>还有一些要知道的信息：</p>
+<p><code>.git/config</code>会存：</p>
+<ul>
+<li><p>有哪些远程分支</p>
+</li>
+<li><p>跟踪远程分支</p>
+</li>
+<li><p>submodule相关</p>
+</li>
+</ul>
+<p>仓库上传时</p>
+<p>可以使用简单的HTTP传输，用你能想到的那种最简单的方式</p>
+<p>也可以定制协议，<code>send-pack</code>、<code>receive-pack</code>等。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文讲述了 git 的几个更为“基本”的命令，从而剖析了 Git 的内部工作原理。</p>
 <p>简单来说：</p>
 <ul>
@@ -71,7 +100,7 @@
 </ul>
 </li>
 </ul>
-<p>上述所有内容均会在Git任务合适的时候被pack成更节约空间的形式。</p>
+<p>上述所有内容均会在Git认为合适的时候被pack成更节约空间的形式。</p>
 <p>那么我们就可以自己推出一些我们更常用的命令的实现：</p>
 <ul>
 <li><p><code>add</code></p>
@@ -85,6 +114,7 @@
 <li>查 <code>refs</code> 得其对应 <code>commit</code></li>
 <li>查 <code>commit</code> 得其对应 <code>tree</code></li>
 <li>递归从 <code>tree</code> 中解出文件，并覆盖工作区的对应文件</li>
+<li>更新 <code>HEAD</code>，记录当前所在分支</li>
 </ol>
 </li>
 <li><p><code>fetch</code></p>
@@ -102,26 +132,26 @@
 </li>
 <li><p><code>merge</code> (no-ff)</p>
 <ol>
-<li>three-way merging，如有必要手动解决冲突，结果放在工作区</li>
+<li>进行某种three-way merging，如有必要手动解决冲突，结果放在工作区</li>
 <li><code>update-index</code></li>
 <li><code>write-tree</code> + 更新 <code>refs</code>，生成的 commit 有两个爹，其他也没啥特别的</li>
 </ol>
 </li>
 <li><p><code>cherry-pick</code></p>
 <ol>
-<li>three-way merging，如有必要手动解决冲突，结果放在工作区</li>
+<li>进行某种three-way merging，如有必要手动解决冲突，结果放在工作区</li>
 <li><code>update-index</code></li>
 <li><code>write-tree</code> + 更新 <code>refs</code>，生成的 commit 其 parent 是cherry-pick到的分支的head，tree是刚刚write的tree，其他都和cherry-pick来的那个 commit 一样</li>
 </ol>
 </li>
 <li><p><code>rebase</code></p>
 <ol>
-<li>three-way merging，如有必要手动解决冲突，结果放在工作区</li>
-<li>更新 commit，重新认爹。</li>
+<li>进行某种three-way merging，如有必要手动解决冲突，结果放在工作区</li>
+<li>更新 commit，内容不变，但是会更新commit id，并重新认爹。</li>
 </ol>
 </li>
 </ul>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-09-07</span><i class="fa fa-tag"></i><a class="tag" href="/tags/Git/" title="Git">Git </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/09/07/Git实现原理/,Blog,Git实现原理,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/09/07/Git%E8%83%8C%E5%90%8E%E7%9A%84%E6%80%9D%E6%83%B3/" title="Git背后的思想">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-09-07</span><i class="fa fa-tag"></i><a class="tag" href="/tags/Git/" title="Git">Git </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/09/07/Git实现原理/,Blog,Git实现原理,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a class="btn" role="navigation" href="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/" title="Git 常用命令与工作流程">上一篇</a></li><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/09/07/Git%E8%83%8C%E5%90%8E%E7%9A%84%E6%80%9D%E6%83%B3/" title="Git背后的思想">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
   el:'#vcomments',
   notify:false || false, 
   verify:false|| false, 
