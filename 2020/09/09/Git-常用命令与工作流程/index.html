@@ -66,11 +66,16 @@
 <p>![pull upstream](Git-常用命令与工作流程/pull upstream.png)</p>
 <p>注意这里生成了一个新的提交，因为 <code>git pull</code> 实质上做的是一次 <code>git fetch</code> 加上一次 <code>git merge</code>，如果不希望生成这个提交可以使用 <code>git pull --rebase</code> ，这里的 <code>merge</code> 和 <code>rebase</code> 是啥我一会讲分支的时候讲。</p>
 <h3 id="提pull-request，让别人采用你的修改"><a href="#提pull-request，让别人采用你的修改" class="headerlink" title="提pull request，让别人采用你的修改"></a>提pull request，让别人采用你的修改</h3><p>用如下的方式创建一个 pull request：</p>
-<p>![截屏2020-09-10 下午3.10.30](Git-常用命令与工作流程/截屏2020-09-10 下午3.10.30.png)</p>
-<p>![截屏2020-09-10 下午3.10.54](Git-常用命令与工作流程/截屏2020-09-10 下午3.10.54.png)</p>
-<p>![截屏2020-09-10 下午3.11.20](Git-常用命令与工作流程/截屏2020-09-10 下午3.11.20.png)</p>
-<p>![截屏2020-09-10 下午3.11.53](Git-常用命令与工作流程/截屏2020-09-10 下午3.11.53.png)</p>
-<p>![截屏2020-09-10 下午3.12.16](Git-常用命令与工作流程/截屏2020-09-10 下午3.12.16.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/n.png" class="" title="n">
+
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/m.png" class="" title="m">
+
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/l.png" class="" title="l">
+
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/k.png" class="" title="k">
+
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/j.png" class="" title="j">
+
 <p>创建完之后就只要天天等着对方给你提意见就好了，如果没人理你就去催一催，如果人家有提出修稿意见你就改好按原样push到你自己的仓库就行。</p>
 <h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><p>当我们进行了一些开发之后。</p>
 <p>我们可能会想要</p>
@@ -82,7 +87,8 @@
 <p>这种情况下我们就需要用到 Git 的分支功能。</p>
 <p>分支及其合并其实是 Git 中最难的一部分。</p>
 <h3 id="创建和切换"><a href="#创建和切换" class="headerlink" title="创建和切换"></a>创建和切换</h3><p>使用 <code>branch</code> 命令创建一个分支，用 <code>checkout</code> 在分支间切换（提示：<code>git checkout -b</code> 可以同时做这两件事）：</p>
-<p>![截屏2020-09-10 下午3.33.30](Git-常用命令与工作流程/截屏2020-09-10 下午3.33.30.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/i.png" class="" title="i">
+
 <p>切换到某个分支之后，以后的提交都会提交到这个分支上。</p>
 <p>而push的时候，如果是clone下来的分支，会直接push到对应的分支上，否则要push的同时创建：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push 远端名 本地分支:远端新分支</span><br></pre></td></tr></table></figure>
@@ -93,26 +99,36 @@
 <p>这个merge操作其实很有讲究，有些场景很多经验丰富的老司机也搞不定。</p>
 <h4 id="Fast-forward-合并"><a href="#Fast-forward-合并" class="headerlink" title="Fast-forward 合并"></a><code>Fast-forward</code> 合并</h4><p>FF合并是一种很简单的情况：要合并入的分支自从这个分支被创建以来根本没改过，那就很方便了，只要把要合并入的分支的头节点移到这个分支的头节点就好了。</p>
 <h4 id="其他情况下的合并"><a href="#其他情况下的合并" class="headerlink" title="其他情况下的合并"></a>其他情况下的合并</h4><p>其他情况下的合并其实默认走的是一个 <code>recusive three-way merging</code> 的算法，这个算法我一会讲原理的时候会提，我们先来看他的效果。</p>
-<p>先准备一个有两个分支，每个分支都提交了修改，的仓库：</p>
-<p>  ![截屏2020-09-10 下午6.41.27](Git-常用命令与工作流程/截屏2020-09-10 下午6.47.01.png)</p>
+<p>先准备一个有两个分支，每个分支都提交了修改的仓库：</p>
+  <img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/h.png" class="" title="h">
+
 <p>然后把master merge进a：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge master</span><br></pre></td></tr></table></figure>
 
 <p>会跳出窗口让你填 commit message，可见每次提交都会生成一次新的commit：</p>
-<p>![截屏2020-09-10 下午6.48.29](Git-常用命令与工作流程/截屏2020-09-10 下午6.48.29.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/g.png" class="" title="g">
+
 <p>然后merge完之后你可以发现master中的修改过来了：</p>
-<p>![截屏2020-09-10 下午7.04.55](Git-常用命令与工作流程/截屏2020-09-10 下午7.04.55.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/e.png" class="" title="e">
+
+
+
 <p>这次合并很舒服，没有冲突，下一次可能就没那么幸运了：</p>
-<p>![截屏2020-09-10 下午7.23.26](Git-常用命令与工作流程/截屏2020-09-10 下午7.23.26.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/d.png" class="" title="d">
+
 <p>这次修改了同一个文件的同一个位置的两个文件想要merge，那git就看不出这里该怎么处理了，会请求我们手动处理，我们打开它报冲突的1.txt:</p>
-<p>![截屏2020-09-10 下午7.24.54](Git-常用命令与工作流程/截屏2020-09-10 下午7.24.54.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/f.png" class="" title="f">
+
 <p>会用这样的记号标记出文件中不能自动合并的部分，我们要手动把文件修改成你想要的样子，比如这里是两者全部保留，你也可以保留其中一个分支上的更改，丢弃另一边的更改：</p>
-<p>![截屏2020-09-10 下午7.25.47](Git-常用命令与工作流程/截屏2020-09-10 下午7.25.47.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/c.png" class="" title="c">
+
 <p>然后用<code>git add</code> 把你修改好的文件提交到暂存区，接着<code>git merge --continue</code> 继续你的合并：</p>
-<p>![截屏2020-09-10 下午7.28.14](Git-常用命令与工作流程/截屏2020-09-10 下午7.28.14.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/b.png" class="" title="b">
+
 <p>如果你的冲突都解决完了，那这里就可以继续合并下去了。</p>
 <h3 id="Rebase"><a href="#Rebase" class="headerlink" title="Rebase"></a>Rebase</h3><p>merge确实可以把别的分支上的修改拿到本分支上来，但是他会导致多一次提交，而如果经常merge修改的话，你的git分支图就会变成这样：</p>
-<p>![截屏2020-09-10 下午7.36.48](Git-常用命令与工作流程/截屏2020-09-10 下午7.36.48.png)</p>
+<img src="/2020/09/09/Git-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B/a.png" class="" title="a">
+
 <p>当然这个图夸张了一点，当年我还处在一个迷信IDE的阶段，然后不懂merge什么的的原理嘛，他跳出来让我选merge那我就选了，结果我的分支图……所以说别迷信IDE和图形界面就是这个道理。</p>
 <p>那么rebase和merge有啥区别呢，rebase中文名称叫变基，就是变更这个分支从某个分支分叉出来的位置的意思。</p>
 <p>rebase常见的用法是功能分支从主分支中获取最新的变更。</p>
