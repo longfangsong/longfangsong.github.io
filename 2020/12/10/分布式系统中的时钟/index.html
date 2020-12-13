@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="longfangsong"><title>分布式系统中的时钟 · Blog</title><meta name="description" content="为什么在分布式系统中时钟很重要最简单的一个例子：一个读请求和一个修改请求（在外界观察者眼中）先后来到一个系统中的两个不同的节点上（假设所有节点的存储是通过某些“魔法”手段连在一起的），按道理由于读请求先发生，那么他不应当读到写请求写入的数据。但是如果两个节点上的物理时钟出了问题，处理读请求的时钟快了"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" href="/images/favicon.png" type="image/x-icon"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144.png"><link rel="apple-touch-icon-precomposed" sizes="120x120" href="/images/apple-touch-icon-120x120.png"><link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon-precomposed" sizes="57x57" href="/images/apple-touch-icon-57x57.png"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="stylesheet" href="/css/source-code-pro.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/images/logo@2x.png" style="width:127px;"><h3 title=""><a href="/">Blog</a></h3><div class="description"><p>生命是灰色的，而理论之树常青</p></div></div><div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;" data-wordart-show-attribution></div><script src="//cdn.wordart.com/wordart.min.js" async defer></script></div><ul class="social-links"><li><a href="http://github.com/longfangsong" target="_blank" rel="noopener"><i class="fa fa-github"></i></a></li></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/about">关于</a></li><li><a href="/tags">标签</a></li><li><a href="/archives">归档</a></li><li><a href="/links">友链</a></li></div><div class="information"><div class="back_btn"><li><a class="fa fa-chevron-left" onclick="window.history.go(-1)"> </a></li></div><div class="avatar"><img src="/images/logo.png"></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h1><a>分布式系统中的时钟</a></h1></div><div class="post-content"><link rel="stylesheet noopener" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css" target="_blank"><h2 id="为什么在分布式系统中时钟很重要"><a href="#为什么在分布式系统中时钟很重要" class="headerlink" title="为什么在分布式系统中时钟很重要"></a>为什么在分布式系统中时钟很重要</h2><p>最简单的一个例子：一个读请求和一个修改请求（在外界观察者眼中）先后来到一个系统中的两个不同的节点上（假设所有节点的存储是通过某些“魔法”手段连在一起的），按道理由于读请求先发生，那么他不应当读到写请求写入的数据。但是如果两个节点上的物理时钟出了问题，处理读请求的时钟快了（认为请求到来时的时间戳比较大），而处理写请求的时钟慢了（认为请求到来时的时间戳比较小），此时按照时钟判断出的读写顺序就和实际不同了，这就会带来读写操作进行的顺序和预期不符。</p>
+<p>即使是同一个节点上也会遇到时钟由于走的太快而被NTP这样的时间同步算法回拨，导致的时间戳不唯一的问题。</p>
+<p>可见分布式系统中直接根据物理时钟决定事件发生的先后顺序是不可行的，原因是不同系统中的物理时钟其快慢是无法保证的。</p>
+<p>而目前最好的时间校准算法NTP也无法很好的保证精度，网络这个东西实在是太不可靠了……</p>
+<h2 id="TSO"><a href="#TSO" class="headerlink" title="TSO"></a>TSO</h2><p>实际上我们可以确定的一种顺序就是同一节点上事件发生的顺序：</p>
+<blockquote>
+<p>公理1：在同一节点上有序的两个事件在外界观察者眼中也有序</p>
+</blockquote>
+<p>那么很简单的一个想法就是：在每次有请求来到系统时，都要经过一个负责分配单调递增的时间戳的节点，给这个请求分配时间戳</p>
+<p>但是这样系统里面就出现了这么一个不能扩展的单点，而且这个节点理论上不能宕掉，否则就算是切换新的时间戳分配节点，这个新旧节点之间的时间戳的差异也会造成问题，至少也会引起一个等于“节点之间最大可能物理时间的差距”（通过物理时钟分配时间戳）或者“一个从某种持久化存储中读取数据”（使用累加计数器分配时间戳）的延迟。</p>
+<h2 id="通信和逻辑时钟"><a href="#通信和逻辑时钟" class="headerlink" title="通信和逻辑时钟"></a>通信和逻辑时钟</h2><p>（两个节点之间的）通信必定有一个发送事件和一个接收事件，分别发生在两个节点上，而无论在任何观察者眼中发送一定先于接收，所以我们可以通过通信来确定一些事件的先后<sup id="fnref:1"><a href="#fn:1" rel="footnote"><span class="hint--top hint--error hint--medium hint--rounded hint--bounce" aria-label="有些人将定理1和2确定出的时间顺序关系称为“因果关系”，但是个人并不觉得这是个好名字，因为这些事件之间并不一定存在谁引起谁，借用这个名词可能会产生误解">[1]</span></a></sup>：</p>
+<blockquote>
+<p>公理2：对于某个通信，在外界观察者眼中发送先于接收</p>
+</blockquote>
+<p>结合公理1和公理2，有：</p>
+<blockquote>
+<p>定理1：对于某个通信，”通信发送之前发生的事件”在外界观察者眼中发生在”通信接收之后发生的事件”之后</p>
+</blockquote>
+<p>根据这一定理，我们可以通过这个逻辑时间戳建立事件间关于“happens before”的<strong>偏序关系</strong>，即我们可以比较一部分事件的先后关系。</p>
+<p>由此 Lamport 创造了 Lamport 逻辑时钟算法：</p>
+<ul>
+<li>每个节点初始时间戳都为0</li>
+<li>每次发生消息交换之外的事件时，本地时间戳 +1</li>
+<li>每次发送消息，本地时间戳+1，并带在消息里</li>
+<li>每次接收消息，如果消息中的时间戳比本地时间大，那么本地时间戳 = 消息时间戳 + 1，否则正常本地时间戳 + 1‘</li>
+</ul>
+<p>即每次发生事件，都保证 <code>本地时间戳 = 节点看到过的最大时间戳 + 1</code></p>
+<h3 id="保证了什么"><a href="#保证了什么" class="headerlink" title="保证了什么"></a>保证了什么</h3><p>Lamport逻辑时钟保证了：</p>
+<ul>
+<li>若系统外部观察者看到事件A在事件B前发生，则系统内部必有 事件A对应的时间戳&lt;事件B对应的时间戳。</li>
+</ul>
+<p>但反之则不一定成立，即时间戳的大小并不能决定事件的发生顺序。</p>
+<h3 id="全序化改进"><a href="#全序化改进" class="headerlink" title="全序化改进"></a>全序化改进</h3><p>可以暴力地给每个节点一个编号，把时间戳的定义改为 <code>concat(原本的时间戳, 节点编号)</code>，这样人为地通过时间戳之间的全序关系为事件定出一个全序关系。</p>
+<p>虽然这个全序关系和事件在外界观察者眼中的顺序并没有绝对的关系，但是方便了我们进行一些应用。</p>
+<h4 id="应用：Lamport-锁"><a href="#应用：Lamport-锁" class="headerlink" title="应用：Lamport 锁"></a>应用：Lamport 锁</h4><p>Lamport锁是一个经典的分布式锁算法，理论上可以在分布式系统中保证某一个资源同一时间只有一个访问者。</p>
+<p>算法如下：</p>
+<ul>
+<li><p>每个节点维护一个等锁队列</p>
+</li>
+<li><p>当一个节点想要锁上一个资源供自己访问时，发送一个请求锁的消息给所有节点，eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Node A 想要锁上这个资源</span><br><span class="line">—— 发送于 时间戳 T</span><br></pre></td></tr></table></figure>
+
+<p>并将这个请求消息放入自己的存储中</p>
+</li>
+<li><p>收到消息后，发送一个确认消息，eg：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Node B 已收到 Node A 的请求</span><br><span class="line">—— 发送于 时间戳 T&#39;</span><br></pre></td></tr></table></figure>
+
+<p>由Lamport 逻辑时钟算法，T’ &gt; T</p>
+<p>并将这个请求消息放入自己的存储中</p>
+</li>
+<li><p>如果某个节点</p>
+<ul>
+<li>存储里的所有消息中，来自自己的请求的时间戳是最小的</li>
+<li>从所有其他节点都收到过，时间戳大于上面说的这个请求的时间戳的消息</li>
+</ul>
+<p>那么它可以认为自己获取到了这个资源上的锁。</p>
+</li>
+<li><p>当节点用完资源准备释放时，删除自己的储存中所有来自自身的请求消息，然后发送删除自己的锁请求的消息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Node A 释放了这个资源</span><br><span class="line">—— 发送于时间戳 XXX</span><br></pre></td></tr></table></figure>
+
+<p>其他节点收到后也从自己的存储中删掉所有来自这一节点的请求消息</p>
+</li>
+</ul>
+<p>以上就是Lamport 锁算法。</p>
+<h5 id="TLA-Proof"><a href="#TLA-Proof" class="headerlink" title="TLA+ Proof"></a>TLA+ Proof</h5><p>TODO</p>
+<h5 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h5><p>Lamport锁并没有任何容错机制，无论是网络不通还是节点挂掉，他一概防不出去，所以后来才会有Paxos、Raft这种更强的替代品出现。</p>
+<h2 id="向量时钟"><a href="#向量时钟" class="headerlink" title="向量时钟"></a>向量时钟</h2><p>向量时钟是对 Lamport 逻辑时钟的一种改进，Lamport逻辑时钟里面拿到的时间戳……并没有什么卵用，因为凭时间戳的大小并不能确定其他节点上事件的发生顺序，这一情况的根本原因是这里的时间戳只能指示当前节点对<strong>自身</strong>事件推进的认识，而正如我们前面所述，同一节点上的时间戳可以确定出顺序，那么我们是不是能让每个节点上都有所有节点的时间信息？</p>
+<p>这就是向量时钟的想法：</p>
+<ul>
+<li>将原本Lamport时钟中每个节点上一个的时间戳改成 为每个节点（包括自己）都设立一个时间戳，这构成了一个时间戳向量</li>
+<li>发生事件时更新（+1）时间戳向量中自己对应的那个元素</li>
+<li>在发送消息时，发送整个时间戳向量</li>
+<li>接收消息时，根据发来的时间戳向量更新自己的时间戳向量（对向量中的每个元素应用Lamport时间戳的更新算法）</li>
+</ul>
+<p>使用向量时钟，我们可以确定部分事件的先后关系：</p>
+<p>假设事件x、y分别发生在节点A、B上：</p>
+<ul>
+<li>若事件x发生时的时间戳向量（自然是从A上取得）中，每个元素全部都小于等于事件y发生时的时间戳向量的对应元素（从B上取得），则x早于y发生，反之亦然</li>
+<li>若两个时间戳向量中的各个元素大小关系各有不同，则不能比较出其发生的先后，可以认为这两个事件是并发发生的。</li>
+</ul>
+<p>这样，我们可以通过时间戳向量确定很大一部分事件的先后关系。</p>
+<h2 id="Hybrid-Logical-Clocks-HLC"><a href="#Hybrid-Logical-Clocks-HLC" class="headerlink" title="Hybrid Logical Clocks (HLC)"></a>Hybrid Logical Clocks (HLC)</h2><p>向量时钟这样的逻辑时钟虽然让我们能确定一部分事件的先后关系，但是其问题在于只在系统内部有用，而对于系统外部的时间一无所知。这在我们想要知道外部事件的先后顺序或者根据物理时间查询事件时非常不利，而物理时钟又是那么的不可靠。</p>
+<p>于是就有了混合时钟这种试图把物理和逻辑时钟结合起来的方案。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>容易想到的方法是，每次发送和接收消息时，都在Lamport时间戳的基础上，再多做一个和物理时钟做max的操作，即：</p>
+<ul>
+<li>发送消息前或者本地发生新的事件，时间戳 = max(时间戳+1, 物理时钟)</li>
+<li>接收到消息后，时间戳 = max(本地时间戳+1, 消息时间戳+1, 物理时钟)</li>
+</ul>
+<p>问题在于这样搞时间戳是可以比物理时间无限制地快下去的，例如所有请求都从某个节点非常快地进入系统，并广播到其他节点，其他节点也对每个事件发送了回复，那就会造成时间戳不断+1，导致时间戳远比物理时间大，此时时间戳相当于退化成了普通的逻辑时钟，让我们失去了对物理时间的感知。</p>
+<p>我们可以看出这一实现主要的问题在于大量时间可能会造成时间戳过快的增长而物理时钟赶不上的问题，那我们能不能记录一下物理时钟落后了多少来修正这个问题呢？</p>
+<p>这就是HLC算法的想法：</p>
+<ul>
+<li>HLC时间戳分为两个部分，“物理”部分（常实现为一个变量的高位）和“逻辑”部分（常实现为一个变量的低位）</li>
+<li>发送消息前或者本地发生事件<ul>
+<li>若HLC时间戳“物理”部分小于现在的物理时钟，证明物理时钟已经赶上了事件发生的速度，此时只需把“物理”部分更新为新的物理时间戳，并将“逻辑”部分清0即可</li>
+<li>若HLC时间戳“物理”部分大于（物理时钟被回拨时会发生大于的情况）等于现在的物理时钟，证明物理时钟没有赶上了事件发生的速度，此时只需向“逻辑”部分加一即可</li>
+</ul>
+</li>
+<li>收到消息后：<ul>
+<li>比较 本地HLC时间戳“物理”部分、消息HLC时间戳“物理”部分、本地物理时间戳 三者<ul>
+<li>本地HLC时间戳“物理”部分和消息“物理”部分相等，同大于本地物理时间戳，证明本地物理时钟既没有赶上本地事件发生的速度，也没有赶上消息发送方上事件发生的速度，那么本地“逻辑”部分的值就可以更新为 <code>max(本地“逻辑”部分, 消息“逻辑”部分) + 1</code></li>
+<li>本地HLC时间戳“物理”部分 是其中最大的，说明消息发送方的物理时钟落后于本地物理时钟，但由于 本地物理时间戳 仍然小于 本地HLC时间戳的“物理”部分 说明本地物理时间戳没有赶上事件发生的速度，需要向“逻辑”部分加一</li>
+<li>消息的HLC时间戳“物理”部分 是其中最大的（无论他与本地物理时间戳是否相等），说明本地HLC时钟完全落后于消息发送方，那么本地的时间戳就需要直接更新为消息的HLC时间戳再在“逻辑”部分加一的结果</li>
+<li>本地物理时间戳 是其中最大的，证明物理时钟已经赶上了本地和发送方事件发生的速度，此时只需把“物理”部分更新为新的物理时间戳，并将“逻辑”部分清0即可</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>简单的思考就是： </p>
+<ol>
+<li>为防止在物理时钟 回拨 或者 精度不足以区别事件先后 时物理时钟无法确定本地事件顺序的问题，增设了一个“逻辑”部分，用来<ul>
+<li>在时钟回拨时让HLC时间戳“物理”部分不跟着回拨，而是通过这个逻辑部分确定先后，从而保证时钟的单调性</li>
+<li>在物理时钟精度不足时使用逻辑部分确定先后</li>
+<li>如果物理时钟比HLC时钟“走得快”，就相信物理时钟</li>
+</ul>
+</li>
+<li>通信后，保证自己的HLC时间戳不比消息的HLC时间戳早</li>
+</ol>
+<h3 id="保证了什么-1"><a href="#保证了什么-1" class="headerlink" title="保证了什么"></a>保证了什么</h3><ol>
+<li>对任何事件x和y，若x发生在y之前，则 x对应的HLC时间戳 &lt; y 对应的HLC时间戳</li>
+<li>HLC时间戳对应的物理时间和节点实际的物理时间的差有确定的上限，这个上限基本上是 两倍的机器的时间和ntp server时间存在的 误差范围（ntp offset），平时这个 offset 一般都是几个 ms。</li>
+</ol>
+<h3 id="TLA-Proof-1"><a href="#TLA-Proof-1" class="headerlink" title="TLA+ Proof"></a>TLA+ Proof</h3><p>TODO</p>
+<div id="footnotes"><hr><div id="footnotelist"><ol style="list-style: none; padding-left: 0; margin-left: 40px"><li id="fn:1"><span style="display: inline-block; vertical-align: top; padding-right: 10px; margin-left: -40px">1.</span><span style="display: inline-block; vertical-align: top; margin-left: 10px;">有些人将定理1和2确定出的时间顺序关系称为“因果关系”，但是个人并不觉得这是个好名字，因为这些事件之间并不一定存在谁引起谁，借用这个名词可能会产生误解<a href="#fnref:1" rev="footnote"> ↩</a></span></li></ol></div></div></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2020-12-10</span><i class="fa fa-tag"></i><a class="tag" href="/tags/分布式系统/" title="分布式系统">分布式系统 </a></div></div></div></div><div class="share"><div class="evernote"><a class="fa fa-bookmark" href="javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';try{var%20x=document.createElement('SCRIPT');x.type='text/javascript';x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new%20Date().getTime()/100000);document.getElementsByTagName('head')[0].appendChild(x);}catch(e){location.href=EN_CLIP_HOST+'/clip.action?url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title);}})();" ref="nofollow" target="_blank"></a></div><div class="weibo"><a class="fa fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&amp;title=',e(d.title),'&amp;appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a></div><div class="twitter"><a class="fa fa-twitter" href="http://twitter.com/home?status=,http://longfangsong.github.io/2020/12/10/分布式系统中的时钟/,Blog,分布式系统中的时钟,;" target="_blank" rel="noopener"></a></div></div><div class="pagination"><ul class="clearfix"><li class="next pagbuttons"><a class="btn" role="navigation" href="/2020/11/15/Polya-%E8%AE%A1%E6%95%B0%E5%AE%9A%E7%90%86/" title="Pólya 计数定理">下一篇</a></li></ul></div><a id="comments"></a><div id="vcomments" style="margin:0 30px;"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//cdn.jsdelivr.net/gh/xcss/valine@v1.1.7/dist/Valine.min.js?v=undefined"></script><script>var valine = new Valine({
+  el:'#vcomments',
+  notify:false || false, 
+  verify:false|| false, 
+  app_id:'HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz',
+  app_key:'6eevqWRr7jsWPUavkkAQjIMi',
+  placeholder:'随便说点啥吧……',
+  path: window.location.pathname,
+  avatar:'mm'
+})</script><script src="https://cdn.bootcss.com/mathjax/2.7.3/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ["\\(","\\)"]],
+    displayMath: [['$$','$$'], ["\\[","\\]"]]
+  }
+});</script></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
