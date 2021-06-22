@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</title>
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  
+  
+<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;parsing-combinator&#x2F;">Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</a></h1>
+  <div class="post-content"><p>如果你听了老师上课讲的那一大坨根本没人听得懂的parse方法之后认为自己这辈子都造不出编译器了，那么本文介绍含回朔的递归自顶而下分析法正是你所需要的，这种方式非常容易想到，也非常容易编写，除了文法分析之外，对于词法分析，这个方法也可以一手包办，而且足以应付绝大多数编程语言的构造。</p>
+<p>我们先结合一个例子来看一下这玩意怎么使的：</p>
+<h2 id="zhu-yao-si-xiang">主要思想</h2>
+<p>含回朔的递归自顶而下分析法的主要思想是：将每个非终结符（推导式左边）的分析写成一个函数，将右侧的内容组合写在函数体里面，如果这个函数从左向右匹配某段代码字符串成功，就返回存放了对应信息的结构体和剩下的字符串，否则返回Error。</p>
+<h2 id="shi-jian">实践</h2>
+<p>我们要分析的文法是：
+$$
+\displaylines {
+Expression \rightarrow Ident | Constant | InBrackets \mid Expression * Expression | Expression + Expression \\
+InBrackets \rightarrow '(' Expression')' \\
+Ident \rightarrow [a-zA-Z][a-zA-Z0-9]* \\
+Constant \rightarrow [0-9]*
+}
+$$</p>
+<p>上面的例子可以写成四个函数<sup class="footnote-reference"><a href="#1">1</a></sup>：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expresion, string) | Error;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">in_brackets</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (InBrackets, string) | Error;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">ident</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Ident, string) | Error;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">constant</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Constant, string) | Error;
+</span></code></pre>
+<p>那么函数体怎么写呢？</p>
+<h3 id="alt-many0he-tag"><code>alt</code>、<code>many0</code>和<code>tag</code></h3>
+<p>我们首先针对<code>|</code>和<code>*</code>，定义两个函数：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// 接受一组parser函数和字符串作为参数，返回其中最早成功匹配的parser的匹配结果，相当于|
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">alt</span><span style="color:#c0c5ce;">&lt;R&gt;(</span><span style="color:#bf616a;">parsers</span><span style="color:#c0c5ce;">: Vec&lt;Fn(string) -&gt; (R, string) </span><span style="background-color:#bf616a;color:#2b303b;">|</span><span style="color:#c0c5ce;"> Error&gt;, </span><span style="color:#bf616a;">input</span><span style="color:#c0c5ce;">: string) -&gt; (R, string) | Error {
+	</span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> parser in parsers {
+		</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input) != Error {
+			</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input)
+		}
+	}
+	</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> Error
+}
+
+</span><span style="color:#65737e;">// 接受一个parser函数，返回其重复匹配0次以上的结果，相当于*
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">many0</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">parser</span><span style="color:#c0c5ce;">: Fn(</span><span style="color:#bf616a;">string</span><span style="color:#c0c5ce;">) -&gt; (</span><span style="color:#bf616a;">R</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">string</span><span style="color:#c0c5ce;">) | Error, </span><span style="color:#bf616a;">input</span><span style="color:#c0c5ce;">: string) -&gt; (Vec&lt;R&gt;, string) | Error {
+	result = new Vec();
+	</span><span style="color:#b48ead;">while </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input) != error {
+		r, input = </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input)
+		result.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(r)
+	}
+	</span><span style="color:#b48ead;">return </span><span style="color:#c0c5ce;">(result, input)
+}
+</span></code></pre>
+<p>在实现一个<code>tag</code>函数来识别某些指定的字面量<sup class="footnote-reference"><a href="#2">2</a></sup>：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">tag</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">tagname</span><span style="color:#c0c5ce;">: string, </span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (string, string) | Error {
+	</span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> code.</span><span style="color:#96b5b4;">starts_with</span><span style="color:#c0c5ce;">(tagname) {
+		</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> tagname, code[</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(tagname):]
+	} </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{
+		</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> Error
+	}
+}
+</span></code></pre>
+<p>然后就可以实现上面的几个函数了：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">mul</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expression, string) | Error {
+	</span><span style="color:#65737e;">// 识别左操作数, ? 代表如果它前面的函数返回Error，则当前函数也返回Error
+</span><span style="color:#c0c5ce;">	lhs, rest = </span><span style="color:#96b5b4;">expression</span><span style="color:#c0c5ce;">(code)?
+	</span><span style="color:#65737e;">// 识别*号
+</span><span style="color:#c0c5ce;">	op, rest = </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;, rest)?
+	</span><span style="color:#65737e;">// 识别右操作数
+</span><span style="color:#c0c5ce;">	rhs, rest = </span><span style="color:#96b5b4;">expression</span><span style="color:#c0c5ce;">(rest)?
+	</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> Expression {lhs, &quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;, rhs}
+}
+
+</span><span style="color:#65737e;">// add 函数同理，*变为+
+
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expresion, string) | Error {
+	</span><span style="color:#65737e;">// 注意这里的顺序，优先级越低操作符对应的函数越要在前面
+	// 不理解的话考虑一下1+2*3会怎么被parse就知道了
+	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">([
+		add,
+		mul,
+		ident,
+		constant,
+		in_brackets,
+	], code)
+}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">in_brackets</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (InBrackets, string) | Error {
+	bracket, rest = </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">(</span><span style="color:#c0c5ce;">&quot;,code)?
+	expr, rest = </span><span style="color:#96b5b4;">expression</span><span style="color:#c0c5ce;">(rest)?
+	bracket, rest = </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">)</span><span style="color:#c0c5ce;">&quot;,code)?
+	</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> InBrackets(expr), rest
+}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">ident</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Ident, string) | Error {
+	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">a</span><span style="color:#c0c5ce;">&quot;, code), </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">b</span><span style="color:#c0c5ce;">&quot;, code),........) 
+}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">digit</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (string, string) | Error {
+	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">0</span><span style="color:#c0c5ce;">&quot;, code), </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">1</span><span style="color:#c0c5ce;">&quot;, code),........) 
+}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">constant</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Constant, string) | Error {
+	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">many0</span><span style="color:#c0c5ce;">(digit, code)
+}
+</span></code></pre><h3 id="zuo-di-gui">左递归</h3>
+<p>实际写出来之后会发现这里有一个问题：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expresion, string) | Error {
+	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">([
+		add,
+		mul,
+		ident,
+		constant,
+		in_brackets,
+	], code)
+}
+</span></code></pre>
+<p>其中的<code>mul</code>，间接调用了<code>expression(code)</code>，而这时又会反过去调用<code>mul(code)</code>，且其中的<code>code</code>参数一直没有变化，<code>add</code>也有这个问题，这样在程序中就会造成无限递归。</p>
+<p>这也是为什么课上说在做自顶而下文法分析的时候要先消除左递归的原因。</p>
+<p>怎么消除也很简单，我们要让<code>mul</code>和<code>add</code>至少从<code>code</code>中“消耗”一个优先级比其自身高的expression，即：</p>
+<pre style="background-color:#2b303b;">
+<code><span style="color:#c0c5ce;">fn higher_than_mul(code: string) -&gt; (Expression, string) | Error {
+	return alt([
+		ident,
+		constant,
+		in_brackets
+	], code)
+}
+
+fn mul(code: string) -&gt; (Expression, string) | Error {
+	// 识别左操作数, 消耗掉一个优先级高于*结果的语法元素
+	lhs, rest = higher_than_mul(code)?
+	// 识别*号
+	op, rest = tag(&quot;*&quot;, rest)?
+	// 识别右操作数
+	rhs, rest = expression(rest)?
+	return Expression {lhs, &quot;*&quot;, rhs}
+}
+
+// add 同理，你应该自己能想到的
+</span></code></pre>
+<p>实际上就相当于将Expression部分的文法改成了：
+$$
+\displaylines {
+Expression \rightarrow Add | Mul | Ident | Constant | InBrackets \\
+Add \rightarrow HigherThanAdd + Expression \\
+Mul \rightarrow HigherThanMul * Expression \\
+HigherThanMul \rightarrow Ident | Constant|InBrackets \\
+HigherThanAdd \rightarrow Mul | HighterThanMul
+}
+$$
+和书上讲的消除左递归的方案是不是很像？</p>
+<p>这样一个简单表达式的parser就完成了。</p>
+<h2 id="you-shi-yu-bu-zu">优势与不足</h2>
+<h3 id="you-shi">优势</h3>
+<p>这种parser的优势有：</p>
+<ul>
+<li>容易理解与实现</li>
+<li>写出的代码是完全可读可调试的</li>
+<li>这种分析器可以分析 $LL(k)$ 文法，在实践中，这一分析器可以应用于几乎所有可能会碰到的文法，当然，除了C++之外，C++不是$CFG$……。</li>
+</ul>
+<h3 id="bu-zu">不足</h3>
+<p>这种parser的不足有：</p>
+<ul>
+<li>效率问题，回朔可能会带来一定的性能问题，因此可能不适用于一些极其要求性能的场合<sup class="footnote-reference"><a href="#3">3</a></sup></li>
+<li>一般来说生成的所有运算符都是右结合的，上面的例子由于加法和乘法都有交换律所以也没关系，但是减法和除法就会出现问题，需要在 AST 上做 hack 解决，hack 的一个方案如下：
+<ul>
+<li>
+<p>将文法的相应部分改写成：
+$$
+\displaylines {
+Add \rightarrow HigherThanAdd\ (+ HigherThanAdd)* \\
+Mul \rightarrow HigherThanMul\ (* HigherThanMul)* \\
+}
+$$</p>
+<p>然后将 parse 得到的东西用如下方法转换（折叠）为 AST：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">to_ast</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">first</span><span style="color:#c0c5ce;">: RValue, </span><span style="color:#bf616a;">rest</span><span style="color:#c0c5ce;">: Vec&lt;(String, RValue)&gt;) -&gt; BinOp {
+</span><span style="color:#c0c5ce;">  </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> current_lhs = first;
+</span><span style="color:#c0c5ce;">  </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">(op, value) in rest.</span><span style="color:#96b5b4;">into_iter</span><span style="color:#c0c5ce;">() {
+</span><span style="color:#c0c5ce;">      current_lhs = BinOp {
+</span><span style="color:#c0c5ce;">          operator: op,
+</span><span style="color:#c0c5ce;">          lhs: Box::new(current_lhs),
+</span><span style="color:#c0c5ce;">          rhs: Box::new(value),
+</span><span style="color:#c0c5ce;">      }
+</span><span style="color:#c0c5ce;">      .</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">  }
+</span><span style="color:#c0c5ce;">  current_lhs.</span><span style="color:#96b5b4;">try_into</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">()
+</span><span style="color:#c0c5ce;">}
+</span></code></pre></li>
+</ul>
+</li>
+</ul>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>本文中的代码均为伪代码，返回类型也不太严谨（如果你一定要深究的话，那么可以把它们看作是协变的），实际实现可以参考<a href="https://github.com/Geal/nom">Geal/nom</a>及<a href="https://github.com/longfangsong/tiny-nom">我对其的简化实现</a>。</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>你可以认为tag是用来识别“终结符”的</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>一般的编译器中，文法分析器的性能其实是无需首先考虑的（后端每个步骤的耗时常常是整个前端的耗时的十倍甚至百倍之多），但在部分场合比如数据库中SQL的解释中，较慢的文法分析器可能会带来性能瓶颈。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2020-05-17</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/编译原理">&nbsp;编译原理</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;parsing-combinator&hashtags=编译原理"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+  
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

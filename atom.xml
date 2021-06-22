@@ -795,6 +795,674 @@ $$&lt;&#x2F;p&gt;
 </content>
 	</entry>
 	<entry xml:lang="zh">
+		<title>Parsing • LR(0)分析</title>
+		<published>2020-05-22T22:56:58.045+00:00</published>
+		<updated>2020-05-22T22:56:58.045+00:00</updated>
+		<link href="https://longfangsong.github.io/lr0/" type="text/html"/>
+		<id>https://longfangsong.github.io/lr0/</id>
+		<content type="html">&lt;p&gt;如果你已经理解了&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;&quot;&gt;移进-归约分析&lt;&#x2F;a&gt;的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？&lt;&#x2F;p&gt;
+&lt;p&gt;举一个经典的表达式文法的例子：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+E \rightarrow E+T|T
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+T \rightarrow T*F|F
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+F \rightarrow (E) | \textbf{id}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;我们来模拟一下匹配字符串 $\textbf{id}*\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$ 的过程，并尝试解释每一步选择移进还是归约的原因。&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;符号栈&lt;&#x2F;th&gt;&lt;th&gt;剩余输入&lt;&#x2F;th&gt;&lt;th&gt;动作&lt;&#x2F;th&gt;&lt;th&gt;原因&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id}*\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进 $\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;没得选&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;$*\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $F$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$*$，而没有包含 $\textbf{id} *$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$F$&lt;&#x2F;td&gt;&lt;td&gt;$*\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $T$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$*$，而没有包含$F *$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$T$&lt;&#x2F;td&gt;&lt;td&gt;$*\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进 $*$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$*$， 而没有包含 $ T *$ 的规则&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$T*$&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id}+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进 $\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$T*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;$+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $F$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$+$，而没有包含 $T *\textbf{id}+$ 或者 $\textbf{id}+$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$T*F$&lt;&#x2F;td&gt;&lt;td&gt;$+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $T$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$+$，而没有包含$T * F+$ 或者 $F+$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$T$&lt;&#x2F;td&gt;&lt;td&gt;$+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $E$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$+$，而没有包含$T+$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E$&lt;&#x2F;td&gt;&lt;td&gt;$+(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进 $+$&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+$&lt;&#x2F;td&gt;&lt;td&gt;$(\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进 $($&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+($&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id}+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进 $\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;$+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $F$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$+$，而没有包含 $\textbf{id}+$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(F$&lt;&#x2F;td&gt;&lt;td&gt;$+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $T$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$+$，而没有包含 $F+$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(T$&lt;&#x2F;td&gt;&lt;td&gt;$+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $E$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$+$，而没有 包含 $T+$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(E$&lt;&#x2F;td&gt;&lt;td&gt;$+\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(E+$&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id})*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(E+\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;$)*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $F$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$)$，而没有 包含 $\textbf{id})$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(E+F$&lt;&#x2F;td&gt;&lt;td&gt;$)*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $T$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$)$，而没有 包含 $F)$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(E+T$&lt;&#x2F;td&gt;&lt;td&gt;$)*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $E$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$+$，而没有包含 $T)$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(E+E$&lt;&#x2F;td&gt;&lt;td&gt;$)*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+(E+E)$&lt;&#x2F;td&gt;&lt;td&gt;$*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $F$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$*$，没有包含 $)*$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+F$&lt;&#x2F;td&gt;&lt;td&gt;$*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $T$&lt;&#x2F;td&gt;&lt;td&gt;下一个符号是$*$，没有包含 $F*$ 的规则，但栈顶可以归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+T$&lt;&#x2F;td&gt;&lt;td&gt;$*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进&lt;&#x2F;td&gt;&lt;td&gt;这里是tricky的地方，这里考虑到优先级问题必须移进，这样看来**优先移进，不行了再归约可能是处理优先级问题的方案**&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+T*$&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;移进&lt;&#x2F;td&gt;&lt;td&gt;栈顶不能归约，只能移进&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+T*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $F$&lt;&#x2F;td&gt;&lt;td&gt;没有符号了，往死里归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+T*F$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $T$&lt;&#x2F;td&gt;&lt;td&gt;没有符号了，往死里归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E+T$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;栈顶归约为 $E$&lt;&#x2F;td&gt;&lt;td&gt;没有符号了，往死里归约&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;接受&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;这是一个漫长的过程，在这个过程中我们发现：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;为了处理运算符的优先级，优先进行移进
+&lt;ul&gt;
+&lt;li&gt;这和我们编写计算器的方式很像&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;在移进会导致栈中不包含某个可以归约的“前缀”时，必须先归约&lt;&#x2F;li&gt;
+&lt;li&gt;在栈中的内容不同时，要考虑的是否可以归约的部分也不一样
+&lt;ul&gt;
+&lt;li&gt;例如在处理栈为 $T*$ 和 $E+T*$ 时，其实都只要考虑 $T*$ 的部分就可以了&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;那么我们可以看一下有哪些方法解决这些问题。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;lr-0-xiang-zhuang-tai-chan-sheng-shi-zhong-de-cdot-yu-lr-0-zhuang-tai-ji&quot;&gt;LR(0)项、状态、产生式中的 “$\cdot$” 与LR(0) 状态机&lt;&#x2F;h2&gt;
+&lt;p&gt;我们从前面的最后一个问题开始着手。&lt;&#x2F;p&gt;
+&lt;p&gt;我们看 $E+T*$ 这里，在这种&lt;strong&gt;状态&lt;&#x2F;strong&gt;下，我们能用来归约的产生式只有 $T \rightarrow T*F$ 一个，会归约到栈顶上多了一个 $T$ 的状态。&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#0&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;而在 $T*$ 这里，在这种&lt;strong&gt;状态&lt;&#x2F;strong&gt;下，我们也能用来归约的产生式只有 $T \rightarrow T*F$ 一个，也只会归约到栈顶上多了一个 $T$ 的状态。&lt;&#x2F;p&gt;
+&lt;p&gt;可以看出从“往栈上放一个$T$的角度来看”这两个状态其实是同一个状态。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;lr-0-xiang&quot;&gt;LR(0)项&lt;&#x2F;h3&gt;
+&lt;p&gt;我们引入$\cdot$标记来分割生成式匹配过了的部分和还需要匹配的部分，所以现在这个状态可以写成：
+$$
+T \rightarrow T*\cdot F
+$$
+也就代表在这个状态下，已经匹配到了$T*$，接下来如果能成功地匹配到一个$F$，就能顺利地归约为栈顶上的一个 $T$。&lt;&#x2F;p&gt;
+&lt;p&gt;像这种标记过匹配到的状态的产生式，我们称之为“LR(0)项”，简称“项”。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;xiang-ji-bi-bao&quot;&gt;项集闭包&lt;&#x2F;h3&gt;
+&lt;p&gt;我们考虑上面说到的 $T \rightarrow T*\cdot F$，以及另外两个项：
+$$
+F \rightarrow \cdot(E)
+$$
+$$
+F \rightarrow \cdot \textbf{id}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;我们可以看到在 $T \rightarrow T*\cdot F$ 项的对应状态下，上面两个项所代表的状态其实就是 $T \rightarrow T*\cdot F$ 在试图匹配 $F$ 时的“子状态”或“等价状态”。&lt;&#x2F;p&gt;
+&lt;p&gt;那么我们就把这两个状态和原先的 $T \rightarrow T*\cdot F$ 放在一个集合里面，称之为“ $T \rightarrow T*\cdot F$ 的项集闭包”，其中 $T \rightarrow T*\cdot F$ 称为闭包的核心。&lt;&#x2F;p&gt;
+&lt;p&gt;那么项集闭包有啥用呢？我们仍然举上面文法的例子：&lt;&#x2F;p&gt;
+&lt;p&gt;比如现在栈中有$...T*$，我们在 $T \rightarrow T*\cdot F$ 状态，我们看到前面有一个$&#x27;(&#x27;$，此时我们就可以根据这个$&#x27;(&#x27;$ 和项集闭包中的$F \rightarrow \cdot(E)$，转到$F \rightarrow (\cdot E)$ 状态，然后去匹配出一个 $F$，放到栈顶，然后进行 $T$ 的归约。&lt;&#x2F;p&gt;
+&lt;p&gt;把所有的项、对应的项集闭包以及状态之间的转换关系列出来，我们就可以建立起一个 LR(0) 状态机：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;lr0&#x2F;i100.png&quot; alt=&quot;i100&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;可以看到每一个产生式对应的所有项都会出现在这个状态机里面，而每条边上则指示了在栈顶又被压入某个符号时的状态转换。&lt;&#x2F;p&gt;
+&lt;p&gt;其中$E&#x27;$是为了标记我们最终匹配到什么而设置的，其实这个例子来讲说到底就是$E$。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;shang-shu-guo-cheng-de-suan-fa-miao-shu&quot;&gt;上述过程的算法描述&lt;&#x2F;h4&gt;
+&lt;p&gt;这部分看看就行了，看懂了上面的你可以自己想到这些的。&lt;&#x2F;p&gt;
+&lt;p&gt;根据龙书，上面的过程的算法描述为：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;求每个LR(0)项，直接往所有每个产生式里能插的地方（包括开头和结尾）插入“$\cdot$”即可&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;对开始符号所在的项 $S&#x27;\rightarrow \cdot S$，求其闭包&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;寻找每个我们拿到的闭包在某个输入下转换到的项集（称为$GOTO$函数）&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;求法&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“If $A → α·Bβ$ is in $CLOSURE(I)$ and $B → γ$ is a production, then add the item $B → ·γ$ to $CLOSURE(I)$, if it is not already there. Apply this rule until no more new items can be added to $CLOSURE(I)$.”&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;重复上一步，直到不再有新的项集出现为止&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;shi-yong-lr-0-zhuang-tai-ji-jin-xing-pi-pei&quot;&gt;使用 LR(0) 状态机进行匹配&lt;&#x2F;h3&gt;
+&lt;p&gt;为了存储一路匹配上来时经过的状态，我们需要在分析表中增设一个状态栈。&lt;&#x2F;p&gt;
+&lt;p&gt;我不想再画上面那一百万行的巨大表格了，所以我们这次直接用龙书上的例子：&lt;&#x2F;p&gt;
+&lt;p&gt;分析$\textbf{id} * \textbf{id}$：&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;状态栈&lt;&#x2F;th&gt;&lt;th&gt;符号栈&lt;&#x2F;th&gt;&lt;th&gt;剩余输入&lt;&#x2F;th&gt;&lt;th&gt;动作&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;$I_0$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id} * \textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，转到$I_5$（即压入状态栈），同时移进 $\textbf{id}$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_5$&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;$* \textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，无处可转，进行归约，弹状态栈&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0$&lt;&#x2F;td&gt;&lt;td&gt;$F$&lt;&#x2F;td&gt;&lt;td&gt;$* \textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;弹栈后进行下一步状态转移，转到$I_3$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_3$&lt;&#x2F;td&gt;&lt;td&gt;$F$&lt;&#x2F;td&gt;&lt;td&gt;$* \textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，无处可转，进行归约，弹状态栈&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0$&lt;&#x2F;td&gt;&lt;td&gt;$T$&lt;&#x2F;td&gt;&lt;td&gt;$* \textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;弹栈后进行下一步状态转移，转到$I_2$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_2$&lt;&#x2F;td&gt;&lt;td&gt;$T$&lt;&#x2F;td&gt;&lt;td&gt;$* \textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，转到$I_7$，同时移进 $*$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_2I_7$&lt;&#x2F;td&gt;&lt;td&gt;$T*$&lt;&#x2F;td&gt;&lt;td&gt;$\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，转到$I_5$，同时移进 $\textbf{id}$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_2I_7I_5$&lt;&#x2F;td&gt;&lt;td&gt;$T*\textbf{id}$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，无处可转，进行归约，弹状态栈&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_2I_7$&lt;&#x2F;td&gt;&lt;td&gt;$T*F$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;弹栈后进行下一步状态转移，转到$I_{10}$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_2I_{10}$&lt;&#x2F;td&gt;&lt;td&gt;$T$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，无处可转，进行归约，弹状态栈&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_2$&lt;&#x2F;td&gt;&lt;td&gt;$E$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;根据状态机的标识，无处可转，进行归约，弹状态栈&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0$&lt;&#x2F;td&gt;&lt;td&gt;$E$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;弹栈后进行下一步状态转移，转到$I_1$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$I_0I_1$&lt;&#x2F;td&gt;&lt;td&gt;$E&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;接受&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;注意我这里的步骤比龙书上多了些，龙书将“弹栈后进行下一步状态转移”这一步和下面的步骤合并起来写。&lt;&#x2F;p&gt;
+&lt;p&gt;其实说实话你可以把这个状态栈用函数（递归）调用的方法消去的。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;chong-tu&quot;&gt;冲突&lt;&#x2F;h3&gt;
+&lt;p&gt;看了上面的步骤你会发现，LR(0) 的每个项集闭包中不可以包含：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;一个项认为已经可以归约了，另一个项认为还需要移进
+$$
+A \rightarrow a\cdot b
+$$
+$$
+B \rightarrow c \cdot
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;这称为移进-归约冲突。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;两个项认为可以归约出不同的东西
+$$
+A \rightarrow b \cdot
+$$
+$$
+C \rightarrow d \cdot
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;这称为归约-归约冲突。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;有此类冲突的不是LR(0)文法，需要用其他分析方法分析。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;0&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;这里也可以理解成，匹配完了$E+$ 之后，再递归地（用“干净”的栈帧）匹配后面的以$T*$开头的内容&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>Parsing • 移进-归约分析</title>
+		<published>2020-05-22T22:56:58.045+00:00</published>
+		<updated>2020-05-22T22:56:58.045+00:00</updated>
+		<link href="https://longfangsong.github.io/shift-reduce/" type="text/html"/>
+		<id>https://longfangsong.github.io/shift-reduce/</id>
+		<content type="html">&lt;p&gt;回忆你很可能在大一大二&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;写过的运用栈进行表达式求值的程序，我们将其简化到只支持加法和乘法，这里给出一个Rust语言的例子（写的比较随意……），太长不看党可以直接跳过看下面的分析：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; input = String::new();
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;stdin&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;read_to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; input).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+    input = input.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;trim&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_owned&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; current_number = String::new();
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; stack = Vec::new();
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; ch in input.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;chars&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; ch {
+            &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;#39;..=&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;#39; =&amp;gt; current_number.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(ch),
+            &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;#39; | &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;#39; =&amp;gt; {
+                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;!current_number.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;is_empty&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+                    stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(Token::Value(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;::from_str(&amp;amp;current_number).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()));
+                    current_number = String::new();
+                }
+                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; top_op = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rev&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+                    .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;find_map&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(|&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;it&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Token::Op(op) = it { Some(op) } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{ None });
+                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; top_op.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;is_some&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; top_op = top_op.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 下面的条件实际上是&amp;quot;栈上最后一个操作符优先级大于等于当前读到的操作符&amp;quot;
+                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; ch == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;#39; || top_op == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;#39; {
+                        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; op2 = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+                        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; op = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; should be equal to top_op
+                        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; op1 = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+                        stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(Token::Value(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;eval&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(op1, op, op2)));
+                        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; next_top_op = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rev&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+                            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;find_map&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(|&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;it&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Token::Op(op) = it { Some(op) } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{ None });
+                        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; next_top_op.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;is_none&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;break&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;; }
+                        top_op = next_top_op.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+                    }
+                }
+                stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(Token::Op(ch));
+            }
+            _ =&amp;gt; unreachable!()
+        }
+    }
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;!current_number.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;is_empty&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+        stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(Token::Value(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;::from_str(&amp;amp;current_number).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()));
+        current_number.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;clear&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+    }
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; top_op = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rev&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;find_map&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(|&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;it&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Token::Op(op) = it { Some(op) } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{ None });
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; top_op.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;is_some&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; op2 = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; op = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; op1 = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+        stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(Token::Value(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;eval&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(op1, op, op2)));
+        top_op = stack.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rev&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;find_map&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(|&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;it&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;| &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Token::Op(op) = it { Some(op) } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{ None });
+    }
+		println!(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;{:?}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, stack[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;我们以表达式$1+2*3+4$的求值来观察这一过程：&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;输入数字1，压入栈中&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i1.svg&quot; alt=&quot;i1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;输入操作符&#x27;+&#x27;，压入栈中&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i2.svg&quot; alt=&quot;i2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;输入数字2，压入栈中&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i3.svg&quot; alt=&quot;i3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;输入操作符&#x27;*&#x27;，压入栈中&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i4.svg&quot; alt=&quot;i4&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;输入数字3，压入栈中&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i5.svg&quot; alt=&quot;i5&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;输入操作符&#x27;+&#x27;，优先级低于栈中最后一个压入的运算符，先对栈中内容求值，再将&#x27;+&#x27;压入栈中&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&#x27;*&#x27;优先级高于&#x27;+&#x27;，求值&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i6.svg&quot; alt=&quot;i6&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i7.svg&quot; alt=&quot;i7&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&#x27;+&#x27;优先级等于&#x27;+&#x27;，求值&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i8.svg&quot; alt=&quot;i8&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i9.svg&quot; alt=&quot;i9&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;栈中没有运算符了，压入&#x27;+&#x27;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i10.svg&quot; alt=&quot;i10&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;看到数字4，压入&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i11.svg&quot; alt=&quot;i11&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;没有输入了，不断求值直到没有更多运算符&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i12.svg&quot; alt=&quot;i12&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i13.svg&quot; alt=&quot;i13&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;这里的11就是我们求得得答案。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;yi-jin-he-gui-yue&quot;&gt;移进和归约&lt;&#x2F;h2&gt;
+&lt;p&gt;我们看到，我们上面的分析过程中出现了两种操作：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;移进：将输入的值或者操作符&lt;strong&gt;压入&lt;&#x2F;strong&gt;栈中&lt;&#x2F;li&gt;
+&lt;li&gt;归约：将输入的值和&lt;strong&gt;栈顶&lt;&#x2F;strong&gt;的某几个值经过计算，变为一般来说更少的几个值，&lt;strong&gt;压回&lt;&#x2F;strong&gt;栈中&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;我们可以将“值”、“操作符”推广到“文法元素”，得到了文法分析中的移进和归约&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;移进：将输入的某个token&lt;strong&gt;压入&lt;&#x2F;strong&gt;栈中&lt;&#x2F;li&gt;
+&lt;li&gt;归约：将输入的值和&lt;strong&gt;栈顶&lt;&#x2F;strong&gt;的某几个文法元素经过计算，变为一般来说更少的几个文法元素，&lt;strong&gt;压回&lt;&#x2F;strong&gt;栈中&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;那么我们就能将上面的例子推广到更一般的，非数字的场景，以文法&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：
+$$
+Expr \rightarrow id | Expr + Expr | Expr * Expr
+$$
+和表达式$a+b*c+d$为例（图中的所有蓝色节点均代表$Expr$，其中复杂$Expr$已经画为AST的样子）：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i14.svg&quot; alt=&quot;i14&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;通过简单地将上面求值中的数字改为了文法元素（也即AST的节点），我们容易地将表达式求值的方法扩展到了求表达式对应的AST。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;chong-tu&quot;&gt;冲突&lt;&#x2F;h2&gt;
+&lt;p&gt;在移进-归约分析过程中，可能会遇到某些情况下，有多种可能使用的行为，例如：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i3.svg&quot; alt=&quot;i3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;此时是否应当将1+2归约为3？这就要等到下一个操作符到来才能决定。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yi-jin-gui-yue-chong-tu&quot;&gt;移进-归约冲突&lt;&#x2F;h3&gt;
+&lt;p&gt;当某个输入可以选择与栈中内容结合，进行归约，也可以选择直接压入栈，后续再进行归约时，就说我们遇到了一个移进-归约冲突。&lt;&#x2F;p&gt;
+&lt;p&gt;上述的例子就是一个典型的移进-归约冲突。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;gui-yue-gui-yue-chong-tu&quot;&gt;归约-归约冲突&lt;&#x2F;h3&gt;
+&lt;p&gt;当我们遇到了某个输入与栈中内容结合，其结构符合多个产生式时，可以有多种方式进行归约，这时就说我们遇到了一个归约-归约冲突。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;&lt;del&gt;我初三就会写了，你来打我呀&lt;&#x2F;del&gt;（虽然当年写的爆炸丑陋）&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;这里要注意其实可以说归约时用的产生式是$Expr+ \rightarrow Expr*Expr+|Expr+Expr+$，这样就没有了优先级这个概念，但这样就是个上下文有关文法了。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</title>
+		<published>2020-05-17T16:37:01.045+00:00</published>
+		<updated>2020-05-17T16:37:01.045+00:00</updated>
+		<link href="https://longfangsong.github.io/ll1/" type="text/html"/>
+		<id>https://longfangsong.github.io/ll1/</id>
+		<content type="html">&lt;h2 id=&quot;wei-shi-yao-xu-yao-firstji-he-followji&quot;&gt;为什么需要First集和Follow集&lt;&#x2F;h2&gt;
+&lt;p&gt;了解&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;parsing-combinator&#x2F;&quot;&gt;带回朔的递归下降文法分析方法&lt;&#x2F;a&gt;的同学可能会发现这种分析法由于在文法中每个出现 &lt;code&gt;|&lt;&#x2F;code&gt; 的点上，都会&lt;strong&gt;尝试&lt;&#x2F;strong&gt;这个点上所有可能的生成式，直到有一个匹配成功为止，这种方案虽然保证了对所有文法中的句子，最终都能通过这种方式构建出其语法树，但由于可能存在的大量回朔，效率就会收到影响。&lt;&#x2F;p&gt;
+&lt;p&gt;那么我们就要想了，有没有什么方法可以选择出这个点上&lt;strong&gt;唯一&lt;&#x2F;strong&gt;的生成式，来消除所有回朔的可能性，这样效率就能大大提升了。&lt;&#x2F;p&gt;
+&lt;p&gt;事实证明，对于一部分文法来说，这么做是可能的。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ke-yi-xuan-chu-wei-yi-sheng-cheng-shi-de-shi-li&quot;&gt;可以选出唯一生成式的实例&lt;&#x2F;h2&gt;
+&lt;p&gt;例如下面一个（消除了左递归的，所有的$|$都拆开了的）文法：
+$$
+\displaylines {
+E \rightarrow T E&#x27; \\
+E&#x27; \rightarrow + T E&#x27; \\
+E&#x27; \rightarrow \epsilon \\
+T \rightarrow F T&#x27; \\
+T&#x27; \rightarrow * FT&#x27; \\
+T&#x27; \rightarrow \epsilon \\
+F \rightarrow (E) \\
+F \rightarrow id
+}
+$$
+可以看出，在调用某个（直接或间接）带有&lt;code&gt;|&lt;&#x2F;code&gt;的parse函数，并看到了下一个输入为某个符号时，选用的生成式是：&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;parse\输入符号&lt;&#x2F;th&gt;&lt;th&gt;$id$&lt;&#x2F;th&gt;&lt;th&gt;$+$&lt;&#x2F;th&gt;&lt;th&gt;$*$&lt;&#x2F;th&gt;&lt;th&gt;$($&lt;&#x2F;th&gt;&lt;th&gt;$)$&lt;&#x2F;th&gt;&lt;th&gt;输入结束（接受输入）&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;$E$&lt;&#x2F;td&gt;&lt;td&gt;$E\rightarrow TE&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$E\rightarrow TE&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$E&#x27;\rightarrow +TE&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$E&#x27;\rightarrow \epsilon$&lt;&#x2F;td&gt;&lt;td&gt;$E&#x27;\rightarrow \epsilon$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$T$&lt;&#x2F;td&gt;&lt;td&gt;$T\rightarrow FT&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$T\rightarrow FT&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$T&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$T&#x27;\rightarrow \epsilon$&lt;&#x2F;td&gt;&lt;td&gt;$T&#x27;\rightarrow *FT&#x27;$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$T&#x27;\rightarrow \epsilon$&lt;&#x2F;td&gt;&lt;td&gt;$T&#x27;\rightarrow \epsilon$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$F$&lt;&#x2F;td&gt;&lt;td&gt;$F\rightarrow id$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$F\rightarrow (E)$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;这里生成式的选择（即每个格子中的产生式）正是唯一的。&lt;&#x2F;p&gt;
+&lt;p&gt;那么如何求这张表呢？&lt;&#x2F;p&gt;
+&lt;p&gt;容易想到的是，对某个产生式：
+$$
+A \rightarrow BCD...X
+$$
+检查其能生成的每个句子中的第一个符号，并将该产生式填入$A$对应行中，这些符号的对应的列中即可。&lt;&#x2F;p&gt;
+&lt;p&gt;而求出“能生成的每个句子中的第一个符号”的方法是：按顺序检查$B,C,D...X$中的每一个，如果这个符号是$\epsilon$，那么略过这个符号继续往下看就好了（如果后面啥也没有了，那就把$\epsilon$看成是终结符），如果是终结符，那这“第一个符号”就是它了，如果是非终结符，那么递归地往下看这个符号就好了。&lt;&#x2F;p&gt;
+&lt;p&gt;取前面例子中的$E \rightarrow T E&#x27;$为例：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;检查$T$，是非终结符，递归地向下看，有：&lt;&#x2F;p&gt;
+&lt;p&gt;$T \rightarrow F T&#x27;$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;检查$F$，是非终结符，递归地向下看，有：&lt;&#x2F;p&gt;
+&lt;p&gt;$F \rightarrow (E)$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;检查&#x27;$($&#x27;，是终结符，故下一步看到&#x27;$($&#x27;时，可以选择$E \rightarrow T E&#x27;$，填入表$E$行&#x27;$)$&#x27;列中。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;$F \rightarrow id$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;检查$id$，是终结符，故下一步看到$id$时，可以选择$E \rightarrow T E&#x27;$，填入表$E$行$id$列中。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$F$不会为$\epsilon$，故到此结束&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$T$不会为$\epsilon$，故到此结束&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;考虑过每个非终结符对应的产生式后，对应的这一行除了最后一列就填好了，非终结符全部考虑过后，这整个表除了最后一列就都填好了。&lt;&#x2F;p&gt;
+&lt;p&gt;最后一列的事情暂时按下不表，我们此时已经自己推出了这个First集了。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;firstji&quot;&gt;First集&lt;&#x2F;h2&gt;
+&lt;p&gt;到这里，你就已经自己发明出First集的定义与求法了：&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ding-yi&quot;&gt;定义&lt;&#x2F;h3&gt;
+&lt;p&gt;龙书的定义里面有一堆数学符号，其实说到底和我上面的定义完全一致。&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Define $FIRST(α)$, where $α$ is any string of grammar symbols, to be the set of terminals that begin strings derived from $α$. If $\alpha \stackrel{*}{\Rightarrow} \epsilon$, then $\epsilon$ is also in $FIRST(α)$.  ——  “Compilers: Principles, Techniques, and Tools, 2&#x2F;e” &lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;定义$FIRST(α)$，其中$\alpha$是一个语法符号构成的任意串，为一组可以被$\alpha$推导出的终结符串的起始字符的集合。如果$\alpha \stackrel{*}{\Rightarrow} \epsilon$，那$\epsilon$也在$FIRST(α)$中。&lt;&#x2F;p&gt;
+&lt;p&gt;这不就是我们上面说的“能生成的每个句子中的第一个符号”按照推导式左侧的非终结符全部并起来的结果吗。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;qiu-fa&quot;&gt;求法&lt;&#x2F;h3&gt;
+&lt;p&gt;同理，数学符号……&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;If X is a terminal, then $FIRST(X) = {X}$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;If X is a nonterminal and $X → Y_1Y_2 ... Y_k$ is a production for some $k \ge 1$, then place &#x27;a&#x27; in $FIRST(X)$ if for some $i$, &#x27;a&#x27; is in $FIRST(Y_i)$, and $\epsilon$ is in all of $FIRST(Y_1), ..., FIRST(Y_{i – 1})$; that is, $Y_1Y_2...Y_{i-1} \stackrel{*}{\Rightarrow} \epsilon$. &lt;&#x2F;p&gt;
+&lt;p&gt;If $\epsilon$ is in $FIRST(Y_j)$ for all $j = 1, 2, ..., k$, then add $\epsilon$ to $FIRST(X)$. &lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;If $X \rightarrow \epsilon$ is a production, then add $\epsilon$ to $FIRST(X)$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;—— “Compilers: Principles, Techniques, and Tools, 2&#x2F;e” &lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;若X是终结符，则$FIRST(X) = {X}$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;若X是非终结符：&lt;&#x2F;p&gt;
+&lt;p&gt;若$\epsilon$ 在所有 $FIRST(Y_1), ..., FIRST(Y_{i – 1})$ 中，在&#x27;a&#x27; 在 $FIRST(Y_i)$中。则&#x27;a&#x27;也在$FIRST(X)$中。&lt;&#x2F;p&gt;
+&lt;p&gt;若对所有$j = 1, 2, ..., k$，$\epsilon$都在$FIRST(Y_j)$中，则$\epsilon$也在$FIRST(X)$中。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;若有生成式$X\rightarrow \epsilon$，则$\epsilon$也在$FIRST(X)$中。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;和上面我们自己推出的求法相比也非常相似，不过是按照推导式左侧的非终结符全部并起来的结果。&lt;&#x2F;p&gt;
+&lt;p&gt;而这种求法，显然是可以用动态规划法加速的。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zui-hou-yi-lie&quot;&gt;最后一列&lt;&#x2F;h2&gt;
+&lt;p&gt;那这个最后一列怎么处理呢？&lt;&#x2F;p&gt;
+&lt;p&gt;也很简单，如果从起始符号开始，在经过数次推导之后，在由某个非终结符作为最右边的非终结符时推导可以使整个文法的分析结束，这个非终结符对应推出$\epsilon$的推导式就能填在最后一列对应的行中。&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;那么怎么找出这些“从起始符号开始，在经过数次推导&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;之后，作为最右边的非终结符时推导可以使整个文法的分析结束”的非终结符号呢？&lt;&#x2F;p&gt;
+&lt;p&gt;首先我们可以看开始符号最右边的符号，这个符号一定符合我们的要求，在这里这个符号是$E &#x27;$。&lt;&#x2F;p&gt;
+&lt;p&gt;如果对某个符合条件的符号$Z$和另外某个（单个）符号$X$，有产生式$Z\rightarrow YX$或$Z\rightarrow YXW$，其中$W \stackrel{*}{\Rightarrow} \epsilon$，则$X$也符合要求。&lt;&#x2F;p&gt;
+&lt;p&gt;从我们的例子上来看，将上面的$Z$可以带入$E&#x27;$和$E$，有：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$E\rightarrow TE&#x27;$，而存在$E&#x27; \rightarrow \epsilon$，故$T$也符合要求，但不能推出$\epsilon$&lt;&#x2F;li&gt;
+&lt;li&gt;$T \rightarrow* FT&#x27;$，故$T&#x27; $也符合要求，将$T&#x27; \rightarrow \epsilon$填入适当位置&lt;&#x2F;li&gt;
+&lt;li&gt;$T \rightarrow* FT&#x27;$，而存在$T&#x27; \rightarrow \epsilon$，故$F$也符合要求，但$F$不能推出$\epsilon$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;followji&quot;&gt;Follow集&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;ding-yi-1&quot;&gt;定义&lt;&#x2F;h3&gt;
+&lt;p&gt;Follow集的定义在我们上面的求法的基础上进行了扩展：&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“Define $FOLLOW(A)$, for nonterminal A, to be the set of terminals $a$ that can appear immediately to the right of A in some sentential form; that is, the set of terminals a such that there exists a derivation of the form $S \stackrel{*}{\Rightarrow} \alpha Aa\beta$, for some $\alpha$ and $\beta$”&lt;&#x2F;p&gt;
+&lt;p&gt;——  “Compilers: Principles, Techniques, and Tools, 2&#x2F;e” &lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Follow集就是在文法的所有句子中，可能出现在“由非终结符A生成的部分”之后的终结符的集合。而上述例子所求的其实就是这里的“终结符”为“输入结束标记”的特例。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;qiu-fa-1&quot;&gt;求法&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;Place $\$$ in $FOLLOW(S)$, where S is the start symbol, and $ is the input right endmarker.&lt;&#x2F;li&gt;
+&lt;li&gt;If there is a production $A → αBβ$, then everything in $FIRST(β)$ except $\epsilon$ is in $FOLLOW(B)$.&lt;&#x2F;li&gt;
+&lt;li&gt;If there is a production $A → αB$, or a production $A → αBβ$, where $FIRST(β)$ contains $\epsilon$, then everything in $FOLLOW(A)$is in $FOLLOW(B)$.
+—— “Compilers: Principles, Techniques, and Tools, 2&#x2F;e”&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;输入结束标记（龙书中称为$\$$）在$FOLLOW(S)$中&lt;&#x2F;li&gt;
+&lt;li&gt;若有$A → αBβ$，则 $FIRST(β)$ 中所有不为 $\epsilon$ 的元素都在 $FOLLOW(B)$ 中&lt;&#x2F;li&gt;
+&lt;li&gt;若有$A → αB$，或 $A → αBβ$，其中 $FIRST(β)$ 包含 $\epsilon$ 则 $FOLLOW(A)$ 中的所有元素也在 $FOLLOW(B)$ 中。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;和我们上面的例子唯一差别在于第2条，不过也很好想，$FIRST(β)$就是$\beta$能推出的第一个非终结符的所有可能取值的集合，而$B$与$β$是紧挨着的，$B$的下一个元素就是$\beta$的第一个元素（$\epsilon$除外）。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zong-jie&quot;&gt;总结&lt;&#x2F;h2&gt;
+&lt;p&gt;有了上面讲的填这类表的方法之后，对于填完后每个格子至多只有一个推导式的文法，我们就可以写出完全不含有回朔的自顶向下文法分析器（递归或者非递归均可），这类文法也就是$LL(1)$文法。当然如果将表头中的一个符号变为多个符号的组合，这种方法也可以推广到$LL(N)$文法上。&lt;&#x2F;p&gt;
+&lt;p&gt;同时我们也终于明白了$FIRST$集和$FOLLOW$集的求法，这两个集合在之后的移进-规约分析中也有用。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;这里可能要自己感觉一下，如果有人有更好的讲法，请在评论区留言&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;注意这里“数次”含0次，所以起始符号自然符合要求&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</title>
+		<published>2020-05-17T16:30:31.045+00:00</published>
+		<updated>2020-05-17T16:30:31.045+00:00</updated>
+		<link href="https://longfangsong.github.io/parsing-combinator/" type="text/html"/>
+		<id>https://longfangsong.github.io/parsing-combinator/</id>
+		<content type="html">&lt;p&gt;如果你听了老师上课讲的那一大坨根本没人听得懂的parse方法之后认为自己这辈子都造不出编译器了，那么本文介绍含回朔的递归自顶而下分析法正是你所需要的，这种方式非常容易想到，也非常容易编写，除了文法分析之外，对于词法分析，这个方法也可以一手包办，而且足以应付绝大多数编程语言的构造。&lt;&#x2F;p&gt;
+&lt;p&gt;我们先结合一个例子来看一下这玩意怎么使的：&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zhu-yao-si-xiang&quot;&gt;主要思想&lt;&#x2F;h2&gt;
+&lt;p&gt;含回朔的递归自顶而下分析法的主要思想是：将每个非终结符（推导式左边）的分析写成一个函数，将右侧的内容组合写在函数体里面，如果这个函数从左向右匹配某段代码字符串成功，就返回存放了对应信息的结构体和剩下的字符串，否则返回Error。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;shi-jian&quot;&gt;实践&lt;&#x2F;h2&gt;
+&lt;p&gt;我们要分析的文法是：
+$$
+\displaylines {
+Expression \rightarrow Ident | Constant | InBrackets \mid Expression * Expression | Expression + Expression \\
+InBrackets \rightarrow &#x27;(&#x27; Expression&#x27;)&#x27; \\
+Ident \rightarrow [a-zA-Z][a-zA-Z0-9]* \\
+Constant \rightarrow [0-9]*
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;上面的例子可以写成四个函数&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Expresion, string) | Error;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;in_brackets&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (InBrackets, string) | Error;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;ident&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Ident, string) | Error;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;constant&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Constant, string) | Error;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;那么函数体怎么写呢？&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;alt-many0he-tag&quot;&gt;&lt;code&gt;alt&lt;&#x2F;code&gt;、&lt;code&gt;many0&lt;&#x2F;code&gt;和&lt;code&gt;tag&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;我们首先针对&lt;code&gt;|&lt;&#x2F;code&gt;和&lt;code&gt;*&lt;&#x2F;code&gt;，定义两个函数：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 接受一组parser函数和字符串作为参数，返回其中最早成功匹配的parser的匹配结果，相当于|
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;alt&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;lt;R&amp;gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;parsers&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: Vec&amp;lt;Fn(string) -&amp;gt; (R, string) &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; Error&amp;gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (R, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; parser in parsers {
+		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;parser&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(input) != Error {
+			&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;parser&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(input)
+		}
+	}
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; Error
+}
+
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 接受一个parser函数，返回其重复匹配0次以上的结果，相当于*
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;many0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;parser&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: Fn(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;) -&amp;gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;R&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;) | Error, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Vec&amp;lt;R&amp;gt;, string) | Error {
+	result = new Vec();
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;parser&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(input) != error {
+		r, input = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;parser&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(input)
+		result.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(r)
+	}
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(result, input)
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;在实现一个&lt;code&gt;tag&lt;&#x2F;code&gt;函数来识别某些指定的字面量&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;tagname&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (string, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; code.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;starts_with&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(tagname) {
+		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; tagname, code[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;len&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(tagname):]
+	} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+		&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; Error
+	}
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;然后就可以实现上面的几个函数了：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;mul&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Expression, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 识别左操作数, ? 代表如果它前面的函数返回Error，则当前函数也返回Error
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;	lhs, rest = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(code)?
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 识别*号
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;	op, rest = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, rest)?
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 识别右操作数
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;	rhs, rest = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(rest)?
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; Expression {lhs, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, rhs}
+}
+
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; add 函数同理，*变为+
+
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Expresion, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 注意这里的顺序，优先级越低操作符对应的函数越要在前面
+	&#x2F;&#x2F; 不理解的话考虑一下1+2*3会怎么被parse就知道了
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;alt&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;([
+		add,
+		mul,
+		ident,
+		constant,
+		in_brackets,
+	], code)
+}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;in_brackets&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (InBrackets, string) | Error {
+	bracket, rest = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,code)?
+	expr, rest = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(rest)?
+	bracket, rest = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,code)?
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; InBrackets(expr), rest
+}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;ident&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Ident, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;alt&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, code), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, code),........) 
+}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;digit&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (string, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;alt&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, code), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tag&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, code),........) 
+}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;constant&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Constant, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;many0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(digit, code)
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;zuo-di-gui&quot;&gt;左递归&lt;&#x2F;h3&gt;
+&lt;p&gt;实际写出来之后会发现这里有一个问题：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;code&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: string) -&amp;gt; (Expresion, string) | Error {
+	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;alt&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;([
+		add,
+		mul,
+		ident,
+		constant,
+		in_brackets,
+	], code)
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其中的&lt;code&gt;mul&lt;&#x2F;code&gt;，间接调用了&lt;code&gt;expression(code)&lt;&#x2F;code&gt;，而这时又会反过去调用&lt;code&gt;mul(code)&lt;&#x2F;code&gt;，且其中的&lt;code&gt;code&lt;&#x2F;code&gt;参数一直没有变化，&lt;code&gt;add&lt;&#x2F;code&gt;也有这个问题，这样在程序中就会造成无限递归。&lt;&#x2F;p&gt;
+&lt;p&gt;这也是为什么课上说在做自顶而下文法分析的时候要先消除左递归的原因。&lt;&#x2F;p&gt;
+&lt;p&gt;怎么消除也很简单，我们要让&lt;code&gt;mul&lt;&#x2F;code&gt;和&lt;code&gt;add&lt;&#x2F;code&gt;至少从&lt;code&gt;code&lt;&#x2F;code&gt;中“消耗”一个优先级比其自身高的expression，即：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;fn higher_than_mul(code: string) -&amp;gt; (Expression, string) | Error {
+	return alt([
+		ident,
+		constant,
+		in_brackets
+	], code)
+}
+
+fn mul(code: string) -&amp;gt; (Expression, string) | Error {
+	&#x2F;&#x2F; 识别左操作数, 消耗掉一个优先级高于*结果的语法元素
+	lhs, rest = higher_than_mul(code)?
+	&#x2F;&#x2F; 识别*号
+	op, rest = tag(&amp;quot;*&amp;quot;, rest)?
+	&#x2F;&#x2F; 识别右操作数
+	rhs, rest = expression(rest)?
+	return Expression {lhs, &amp;quot;*&amp;quot;, rhs}
+}
+
+&#x2F;&#x2F; add 同理，你应该自己能想到的
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;实际上就相当于将Expression部分的文法改成了：
+$$
+\displaylines {
+Expression \rightarrow Add | Mul | Ident | Constant | InBrackets \\
+Add \rightarrow HigherThanAdd + Expression \\
+Mul \rightarrow HigherThanMul * Expression \\
+HigherThanMul \rightarrow Ident | Constant|InBrackets \\
+HigherThanAdd \rightarrow Mul | HighterThanMul
+}
+$$
+和书上讲的消除左递归的方案是不是很像？&lt;&#x2F;p&gt;
+&lt;p&gt;这样一个简单表达式的parser就完成了。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;you-shi-yu-bu-zu&quot;&gt;优势与不足&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;you-shi&quot;&gt;优势&lt;&#x2F;h3&gt;
+&lt;p&gt;这种parser的优势有：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;容易理解与实现&lt;&#x2F;li&gt;
+&lt;li&gt;写出的代码是完全可读可调试的&lt;&#x2F;li&gt;
+&lt;li&gt;这种分析器可以分析 $LL(k)$ 文法，在实践中，这一分析器可以应用于几乎所有可能会碰到的文法，当然，除了C++之外，C++不是$CFG$……。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;bu-zu&quot;&gt;不足&lt;&#x2F;h3&gt;
+&lt;p&gt;这种parser的不足有：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;效率问题，回朔可能会带来一定的性能问题，因此可能不适用于一些极其要求性能的场合&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;一般来说生成的所有运算符都是右结合的，上面的例子由于加法和乘法都有交换律所以也没关系，但是减法和除法就会出现问题，需要在 AST 上做 hack 解决，hack 的一个方案如下：
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;将文法的相应部分改写成：
+$$
+\displaylines {
+Add \rightarrow HigherThanAdd\ (+ HigherThanAdd)* \\
+Mul \rightarrow HigherThanMul\ (* HigherThanMul)* \\
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;然后将 parse 得到的东西用如下方法转换（折叠）为 AST：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;to_ast&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;first&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: RValue, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rest&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: Vec&amp;lt;(String, RValue)&amp;gt;) -&amp;gt; BinOp {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; current_lhs = first;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(op, value) in rest.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;into_iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;      current_lhs = BinOp {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;          operator: op,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;          lhs: Box::new(current_lhs),
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;          rhs: Box::new(value),
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;      }
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;      .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;into&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  }
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  current_lhs.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;try_into&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;本文中的代码均为伪代码，返回类型也不太严谨（如果你一定要深究的话，那么可以把它们看作是协变的），实际实现可以参考&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;Geal&#x2F;nom&quot;&gt;Geal&#x2F;nom&lt;&#x2F;a&gt;及&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;tiny-nom&quot;&gt;我对其的简化实现&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;你可以认为tag是用来识别“终结符”的&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;一般的编译器中，文法分析器的性能其实是无需首先考虑的（后端每个步骤的耗时常常是整个前端的耗时的十倍甚至百倍之多），但在部分场合比如数据库中SQL的解释中，较慢的文法分析器可能会带来性能瓶颈。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
 		<title>Hello zola!</title>
 		<published>2020-01-02T15:00:00+00:00</published>
 		<updated>2020-01-02T15:00:00+00:00</updated>

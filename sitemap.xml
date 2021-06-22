@@ -29,11 +29,26 @@
         <loc>https://longfangsong.github.io/links/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/ll1/</loc>
+        <lastmod>2020-05-17T16:37:01.045Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/lr0/</loc>
+        <lastmod>2020-05-22T22:56:58.045Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/macos-fpga/</loc>
         <lastmod>2021-04-24T16:53:12.045Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/page/1/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/page/2/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/parsing-combinator/</loc>
+        <lastmod>2020-05-17T16:30:31.045Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/restart-math-logic-1/</loc>
@@ -48,7 +63,14 @@
         <lastmod>2021-04-19T15:45:33.706Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/shift-reduce/</loc>
+        <lastmod>2020-05-22T22:56:58.045Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/tags/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/bian-yi-yuan-li/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/cheatsheet/</loc>
