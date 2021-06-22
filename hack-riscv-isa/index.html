@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • Hack RISC-V 指令集</title>
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  
+  
+<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hack-riscv-isa&#x2F;">Hack RISC-V 指令集</a></h1>
+  <div class="post-content"><h2 id="huan-jing">环境</h2>
+<p>本文假设用户使用基于 debian 的 Linux 系统，有 <code>su</code> 或者 <code>sudo</code> 的能力<sup class="footnote-reference"><a href="#1">1</a></sup>，并且用的文件系统是区分大小写<sup class="footnote-reference"><a href="#2">2</a></sup>的。</p>
+<p>然后请事先安装 <code>git</code> 以及任意文本编辑器。</p>
+<h2 id="gnu-bian-yi-gong-ju-lian">GNU 编译工具链</h2>
+<h3 id="clone-dai-ma">clone 代码</h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://github.com/riscv/riscv-gnu-toolchain
+</span></code></pre>
+<p>然后进入 clone 到的文件夹中。</p>
+<h3 id="zhuang-yi-lai">装依赖</h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">apt-get</span><span style="color:#c0c5ce;"> install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
+</span></code></pre><h3 id="zhun-bei-yao-an-zhuang-dao-de-wei-zhi">准备要安装到的位置</h3>
+<p>比如要把工具链装到 <code>/opt/riscv</code> 下的话：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">mkdir</span><span style="color:#c0c5ce;"> /opt/riscv
+</span><span style="color:#bf616a;">chmod</span><span style="color:#c0c5ce;"> 777 /opt/riscv </span><span style="color:#65737e;"># just use 777, who cares about bad guys?
+</span></code></pre><h3 id="configure"><code>configure</code></h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">./configure --prefix</span><span style="color:#c0c5ce;">=/opt/riscv</span><span style="color:#bf616a;"> --enable-multilib
+</span></code></pre><h3 id="make"><code>make</code></h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">make
+</span></code></pre>
+<p>One eternity later ...</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">make</span><span style="color:#c0c5ce;"> linux
+</span></code></pre>
+<p>Two eternities later ...</p>
+<p>注意每次 <code>make</code> 的时候都会下载对应的 <code>submodule</code>，请保证有正常的网络环境。</p>
+<p>然后 <code>/opt/riscv</code> 里就有编译器、lib 等等了。</p>
+<h3 id="tian-jia-zi-ding-yi-zhi-ling">添加自定义指令</h3>
+<p>编辑 <code>riscv-binutils/opcodes/riscv-opc.c</code>，在 <code>riscv_opcodes</code> 中加入新的指令:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#c0c5ce;">{
+    &quot;</span><span style="color:#a3be8c;">&lt;指令名称&gt;</span><span style="color:#c0c5ce;">&quot;, </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, &lt;指令类型&gt;, &quot;</span><span style="color:#a3be8c;">&lt;操作数&gt;</span><span style="color:#c0c5ce;">&quot;, 
+    &lt;匹配&gt;, &lt;掩码&gt;, match_opcode, </span><span style="color:#d08770;">0
+</span><span style="color:#c0c5ce;">},
+</span></code></pre>
+<p>代表使用时形如：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-asm" data-lang="asm"><span style="color:#8fa1b3;">&lt;指令名称&gt; &lt;操作数&gt;
+</span></code></pre>
+<p>的一条汇编指令。</p>
+<h4 id="zhi-ling-lei-xing">指令类型</h4>
+<p>建议无脑给 <code>INSN_CLASS_I</code>, 因为 <code>I</code> 在所有情况下都是支持的，无需在编译时手动开启各个指令集。</p>
+<p>暂时不清楚是否支持在 <code>include/opcode/riscv.h</code> 中的 <code>riscv_insn_class</code> 中添加自己的指令集名称，然后在这里使用。</p>
+<h4 id="cao-zuo-shu">操作数</h4>
+<p>这我一直没找到一个说明的文档，只有根据已经写好的部分和代码（代码在 <code>riscv-binutils/gas/config/tc-riscv.c</code>）推了<sup class="footnote-reference"><a href="#3">3</a></sup>：</p>
+<ul>
+<li>
+<p><code>d</code>
+代表目标寄存器</p>
+</li>
+<li>
+<p><code>s</code>
+代表第一个寄存器操作数</p>
+</li>
+<li>
+<p><code>t</code>
+代表第二个寄存器操作数</p>
+</li>
+<li>
+<p><code>j</code>
+代表一个立即数</p>
+</li>
+<li>
+<p><code>o(s)</code>
+代表用于读取出来的一个地址，格式为寄存器 + 偏移量</p>
+</li>
+<li>
+<p><code>q(s)</code>
+代表用于写入进去的一个地址，格式为寄存器 + 偏移量</p>
+</li>
+<li>
+<p><code>&lt;</code> 和 <code>&gt;</code>
+代表移位的位数</p>
+</li>
+</ul>
+<h5 id="ke-zhi-ji-cun-qi">客制寄存器</h5>
+<p>这里假设你希望在内联汇编里手写寄存器而不是让 gcc 为你分配你的客制寄存器，比如你希望添加一个读取矩阵的指令：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#c0c5ce;">{&quot;</span><span style="color:#a3be8c;">matload</span><span style="color:#c0c5ce;">&quot;, </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, INSN_CLASS_I, &quot;</span><span style="color:#a3be8c;">Md,o(s)</span><span style="color:#c0c5ce;">&quot;, </span><span style="color:#d08770;">0x100b</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">0x707f</span><span style="color:#c0c5ce;">, match_opcode, INSN_DREF},
+</span></code></pre>
+<p>这里的 <code>Md</code> 代表一个矩阵寄存器。</p>
+<p>那么你需要在 gnu 工具链中进行如下修改：</p>
+<ol>
+<li>
+<p>在 <code>riscv-binutils/opcodes/riscv-opc.c</code> 中的 <code>riscv_fpr_names_abi</code> 下面，添加一个新的数组，保存你的各个寄存器的名字，并在 <code>riscv-binutils/include/opcode/riscv.h</code> 添加相应的声明，例如：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#65737e;">// riscv.h
+</span><span style="color:#b48ead;">extern const char </span><span style="color:#c0c5ce;">*</span><span style="color:#b48ead;">const</span><span style="color:#c0c5ce;"> riscv_mat_names_numeric[</span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">];
+</span></code></pre><pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#65737e;">// riscv-opc.c
+</span><span style="color:#b48ead;">const char </span><span style="color:#c0c5ce;">* </span><span style="color:#b48ead;">const</span><span style="color:#c0c5ce;"> riscv_mat_names_numeric[</span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">] ={&quot;</span><span style="color:#a3be8c;">mat0</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">mat1</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">mat2</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">mat3</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">mat4</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">mat5</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">mat6</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">mat7</span><span style="color:#c0c5ce;">&quot;};
+</span></code></pre></li>
+<li>
+<p>在 <code>reg_class</code> （在 <code>riscv-binutils/gas/config/tc-riscv.c</code>）中添加这个客制寄存器集的“名称”：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-diff" data-lang="diff"><span style="color:#c0c5ce;">enum reg_class
+</span><span style="color:#c0c5ce;">{
+</span><span style="color:#c0c5ce;">  RCLASS_GPR,
+</span><span style="color:#c0c5ce;">  RCLASS_FPR,
+</span><span style="color:#a3be8c;">+ RCLASS_MPR,
+</span><span style="color:#c0c5ce;">  RCLASS_MAX,
+</span><span style="color:#c0c5ce;">  RCLASS_CSR
+</span><span style="color:#c0c5ce;">};
+</span></code></pre></li>
+<li>
+<p>在同一文件下负责汇编器初始化的 <code>md_begin</code> 函数中注册这个客制寄存器集：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#bf616a;">hash_reg_names</span><span style="color:#c0c5ce;">(RCLASS_MPR, riscv_mat_names_numeric, </span><span style="color:#d08770;">8</span><span style="color:#c0c5ce;">);
+</span></code></pre></li>
+<li>
+<p>在同一文件下检查 RISC-V 指令格式的 <code>validate_riscv_insn</code> 函数中个的最大的那个 <code>switch</code> 中添加对这个寄存器参数的检查。</p>
+</li>
+<li>
+<p>在同一文件下负责进行实际汇编到二进制代码的 <code>riscv_ip</code> 函数中添加生成二进制代码的代码。</p>
+</li>
+</ol>
+<p>到此你的编译器已经能正常生成二进制代码了，但是如果你还想要用 <code>objdump</code> 之类的反编译工具：</p>
+<ol start="6">
+<li>在 <code>riscv-binutils/opcodes/riscv-dis.c</code> 中的 <code>print_insn_args</code> 中也添加相关解析代码。</li>
+</ol>
+<h4 id="pi-pei-he-yan-ma">匹配和掩码</h4>
+<p>设有一条二进制指令 <code>instruction</code>, 若：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#c0c5ce;">instruction &amp; 掩码 == 匹配
+</span></code></pre>
+<p>则认为 <code>instruction</code> 是这一类的指令。</p>
+<h4 id="zhong-xin-bian-yi">重新编译</h4>
+<p>重新编译工具链需要 <code>make clean</code>，删空安装位置（如 <code>/opt/riscv</code>），然后重新 <code>make</code><sup class="footnote-reference"><a href="#4">4</a></sup>。</p>
+<h3 id="shi-yong">使用</h3>
+<p>然后就能在汇编里拿 <code>asm</code> 用你刚刚加的指令了。</p>
+<p>如果你不是很懂内联汇编<sup class="footnote-reference"><a href="#5">5</a></sup>，可以看看我的<a href="https://longfangsong.github.io/inline-asm-cheatsheet/">另一篇文章</a>。</p>
+<h2 id="risc-v-tools">RISC-V tools</h2>
+<p>我们主要使用 RISC-V tools 中的 RISC-V 行为级模拟器 —— spike。</p>
+<h3 id="clone-dai-ma-1">clone 代码</h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://github.com/riscv/riscv-tools.git
+</span></code></pre>
+<p>然后进入 clone 到的文件夹中。</p>
+<p>与 GNU 工具链在 <code>make</code> 的时候会自动拿 submodule 不同，tools 这边要手动：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> submodule update</span><span style="color:#bf616a;"> --init --recursive
+</span></code></pre>
+<p>此外建议把我们重点要修改的 <code>riscv-isa-sim</code> 手动更新到 origin master 版本：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#96b5b4;">cd</span><span style="color:#c0c5ce;"> riscv-isa-sim
+</span><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> pull origin master
+</span></code></pre><h3 id="zhi-ding-an-zhuang-di-zhi">指定安装地址</h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#b48ead;">export </span><span style="color:#bf616a;">RISCV</span><span style="color:#c0c5ce;">=&lt;安装地址&gt;
+</span></code></pre><h3 id="build">build</h3>
+<p>如果你按照官方说明直接在 clone 到的文件夹中：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">./build.sh
+</span></code></pre>
+<p>那你大概率会碰到 riscv-test submodule 里的关于 <code>tohost</code> 和 <code>fromhost</code> 重复定义的错误，可以采用<a href="https://github.com/riscv/riscv-tests/issues/286#issuecomment-801002149">这里提到</a>的方法修复<sup class="footnote-reference"><a href="#6">6</a></sup>：</p>
+<p>修改 <code>./riscv-tests/isa/Makefile</code> 中的编译选项：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-diff" data-lang="diff"><span style="color:#bf616a;">-RISCV_GCC_OPTS ?= -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles
+</span><span style="color:#a3be8c;">+RISCV_GCC_OPTS ?= -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -fcommon
+</span></code></pre><h3 id="tian-jia-zi-ding-yi-zhi-ling-ji">添加自定义指令集</h3>
+<p>在 Spike 模拟器中添加客制指令集非常方便，只需要在 <code>./riscv-isa-sim/customext/</code> 中添加一个实现扩展指令集行为的文件，
+其中有一个类实现了 <code>extension_t</code>，然后用 <code>REGISTER_EXTENSION</code> 宏将其注册到模拟器即可。</p>
+<p><code>extension_t</code> 要求一个 <code>name</code>，一个拿所有指令的 <code>get_instructions</code>，一个拿所有反汇编指令的 <code>get_disasms</code>。</p>
+<h2 id="gem5-mo-ni-qi">gem5 模拟器</h2>
+<h3 id="clone-dai-ma-2">clone 代码</h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">git</span><span style="color:#c0c5ce;"> clone https://gem5.googlesource.com/public/gem5
+</span></code></pre><h3 id="zhuang-yi-lai-1">装依赖</h3>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">sudo</span><span style="color:#c0c5ce;"> apt install build-essential git m4 scons zlib1g zlib1g-dev \
+    libprotobuf-dev protobuf-compiler libprotoc-dev libgoogle-perftools-dev \
+    python3-dev python3-six python libboost-all-dev pkg-config
+</span></code></pre><h3 id="build-1">build</h3>
+<p>在 clone 到的文件夹中：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">/usr/bin/env</span><span style="color:#c0c5ce;"> python3 $(</span><span style="color:#bf616a;">which</span><span style="color:#c0c5ce;"> scons) build/RISCV/gem5.opt</span><span style="color:#bf616a;"> -j </span><span style="color:#c0c5ce;">&lt;CPU核数&gt;
+</span></code></pre>
+<p>如果你想要在你的程序中加 <code>checkpoint</code>、重置统计数据等，需要构建 <code>libm5</code>：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">/usr/bin/env</span><span style="color:#c0c5ce;"> python3 $(</span><span style="color:#bf616a;">which</span><span style="color:#c0c5ce;"> scons)</span><span style="color:#bf616a;"> -C</span><span style="color:#c0c5ce;"> util/m5 build/riscv/out/m5
+</span></code></pre><h3 id="shi-yong-1">使用</h3>
+<p>如果你编写的程序中使用了 <code>libm5</code> 中的功能，需要包含 <code>gem5/m5ops.h</code> 并在链接时链接 <code>libm5.a</code>：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-sh" data-lang="sh"><span style="color:#bf616a;">riscv64-linux-gnu-gcc -static -I</span><span style="color:#c0c5ce;">/home/longfangsong/workspace/gem5/include/</span><span style="color:#bf616a;"> -I </span><span style="color:#c0c5ce;">&lt;gem5 位置&gt;/gem5/include/</span><span style="color:#bf616a;"> -static </span><span style="color:#c0c5ce;">&lt;其他源文件&gt; &lt;gem5 位置&gt;/gem5/util/m5/build/riscv/out/libm5.a
+</span></code></pre><h4 id="trick-on-profiling-unspported-isa-set">Trick on profiling unspported ISA set</h4>
+<p><code>gem5</code> 只支持使用 <code>riscv64-linux-gnu-gcc</code> 生成的二进制文件，而且假定了用户有硬浮点支持，这在想要比较不同指令集时会带来一些不便。</p>
+<p>解决方案非常呆但很有效，就是先用 <code>riscv64-unknown-elf-gcc</code> 拿到某个指令集和 abi（如果要用和最终编译到二进制文件时不同的 abi 的话建议通过全局变量传参数和返回值） 下的汇编，然后用 <code>riscv64-linux-gnu-gcc</code> 编译汇编来生成最终的二进制文件以供 <code>gem5</code> 执行。</p>
+<p>可能会用到软乘法、软浮点等等的libgcc 中的 polyfill 代码，把这些也拉过来编译就是了<sup class="footnote-reference"><a href="#7">7</a></sup>, 目前已知的几份 polyfill 代码的位置都位于 <code>riscv-gnu-toolchain/libgcc</code> 下，<code>softfp</code> 就是软浮点，<code>config/riscv</code> 就是其他一些东西的 polyfill，比如乘除法，原子操作等等。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>因为 debian 可以在 <code>su</code> 下面做所有的事，<code>sudo</code> 反而要自己装，docker 一打开就是 <code>su</code>，为了复制粘贴方便下面都不会写明要 <code>sudo</code> 的地方，如果有必要的话自己加……</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>这是真的坑。还好正常的 Linux 系统安装器默认的文件系统都是区分大小写的。但用 Docker 挂其他系统的 Volume 就不一定了……</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>没文档就 nm 离谱，有些字母用的也挺离谱。</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>这群开发者写的什么鬼 Makefile 啦。</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>讲道理我也不懂 😭</p>
+</div>
+<div class="footnote-definition" id="6"><sup class="footnote-definition-label">6</sup>
+<p>官方维护在干什么东西啊.jpg</p>
+</div>
+<div class="footnote-definition" id="7"><sup class="footnote-definition-label">7</sup>
+<p>现在我懂为啥 C++ 大型项目为啥要把依赖也搞到项目的 <code>./third_parties</code> 里面一起编译了，否则这个链接、 abi 什么的是真的麻烦。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2021-04-17</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/RISC-V">&nbsp;RISC-V</a>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/体系结构">&nbsp;体系结构</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Hack RISC-V 指令集&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hack-riscv-isa&hashtags=RISC-V,体系结构"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

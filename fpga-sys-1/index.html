@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • 自动逻辑综合原理 • 组合逻辑与 LUT 的最简单的综合</title>
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  
+  
+<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;fpga-sys-1&#x2F;">自动逻辑综合原理 • 组合逻辑与 LUT 的最简单的综合</a></h1>
+  <div class="post-content"><h2 id="lut">LUT</h2>
+<blockquote>
+<p>一切皆查表。 ——我自己说的</p>
+</blockquote>
+<p>由于 FPGA 的基本结构是基于 Look Up Table 的，因此 FPGA 里实现组合逻辑的方式非常简单粗暴，就是把真值表非常暴力的存下来然后匹配。</p>
+<p>比如说最简单的与逻辑：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-verilog" data-lang="verilog"><span style="color:#c0c5ce;">assign C = A &amp; B;
+</span></code></pre>
+<p>其真值表：</p>
+<table><thead><tr><th></th><th>0</th><th>1</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+</tbody></table>
+<p>那么我们就可以用一小块存储器存下这张表：</p>
+<table><thead><tr><th>地址</th><th>值</th></tr></thead><tbody>
+<tr><td>00</td><td>0</td></tr>
+<tr><td>01</td><td>0</td></tr>
+<tr><td>10</td><td>0</td></tr>
+<tr><td>11</td><td>1</td></tr>
+</tbody></table>
+<p>这个存储器此时就是一个 LUT，输入 A 和 B 就能输出对应逻辑函数的值。</p>
+<p>更多变量和更复杂的式子也是同理。</p>
+<h2 id="shi-jian">实践</h2>
+<p>我们来用最简单粗暴的方式实现一个支持简单组合逻辑电路综合的简单综合器。</p>
+<p>为了方便快草猛的实现出一个能动的程序，我们将要综合的逻辑函数限制在 4 个以下的输入和单个输出，这样就能使用单个 LUT4 综合出可以动的成果。</p>
+<p>注意实际的综合器实现方式肯定不是这样暴力解出真值表然后就硬带，肯定是有更先进的方案的。</p>
+<h3 id="mu-biao-wen-jian-ge-shi">目标文件格式</h3>
+<p>为了方便上硬件，我们综合到的目标是 <code>nextpnr-ecp5</code> 中使用的 json 文件。</p>
+<p>经过仔细阅读 <code>yosys</code> 综合出来的 json 文件以及反复实验，我们可以确定这个 json 最小需要写出如下内容：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-json" data-lang="json"><span style="color:#c0c5ce;">{
+    &quot;</span><span style="color:#a3be8c;">creator</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">&lt;综合器名称和版本，其实目测可以不写&gt;</span><span style="color:#c0c5ce;">&quot;,
+    &quot;</span><span style="color:#a3be8c;">modules</span><span style="color:#c0c5ce;">&quot;: {
+        &quot;</span><span style="color:#a3be8c;">Module1</span><span style="color:#c0c5ce;">&quot;: {</span><span style="background-color:#bf616a;color:#2b303b;">&lt;内容&gt;</span><span style="color:#c0c5ce;">},
+        &quot;</span><span style="color:#a3be8c;">Module2</span><span style="color:#c0c5ce;">&quot;: {</span><span style="background-color:#bf616a;color:#2b303b;">&lt;内容&gt;</span><span style="color:#c0c5ce;">},
+    }
+}
+</span></code></pre>
+<p>其中 module 的内容：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-json" data-lang="json"><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">ports</span><span style="color:#c0c5ce;">&quot;: {
+    &quot;</span><span style="color:#a3be8c;">&lt;对外端口名称&gt;</span><span style="color:#c0c5ce;">&quot;: {
+        &quot;</span><span style="color:#a3be8c;">direction</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">&lt;input/output&gt;</span><span style="color:#c0c5ce;">&quot;,
+        &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="background-color:#bf616a;color:#2b303b;">&lt;对应的线网的第</span><span style="color:#d08770;">1</span><span style="background-color:#bf616a;color:#2b303b;">个bit的id&gt;</span><span style="color:#c0c5ce;">, </span><span style="background-color:#bf616a;color:#2b303b;">&lt;对应的线网的第</span><span style="color:#d08770;">2</span><span style="background-color:#bf616a;color:#2b303b;">个bit的id&gt;</span><span style="color:#c0c5ce;">, </span><span style="background-color:#bf616a;color:#2b303b;">...</span><span style="color:#c0c5ce;">]
+    },
+    </span><span style="background-color:#bf616a;color:#2b303b;">...</span><span style="color:#c0c5ce;">
+},
+&quot;</span><span style="color:#a3be8c;">cells</span><span style="color:#c0c5ce;">&quot;: {
+    &quot;</span><span style="color:#a3be8c;">&lt;子组件名称&gt;</span><span style="color:#c0c5ce;">&quot;: {
+        &quot;</span><span style="color:#a3be8c;">type</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">&lt;子组件类型&gt;</span><span style="color:#c0c5ce;">&quot;,
+        &quot;</span><span style="color:#a3be8c;">parameters</span><span style="color:#c0c5ce;">&quot;: {
+            &quot;</span><span style="color:#a3be8c;">&lt;子组件参数名1&gt;</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">&lt;子组件参数值1&gt;</span><span style="color:#c0c5ce;">&quot;,
+            </span><span style="background-color:#bf616a;color:#2b303b;">...</span><span style="color:#c0c5ce;">
+        },
+        &quot;</span><span style="color:#a3be8c;">port_directions</span><span style="color:#c0c5ce;">&quot;: {
+            &quot;</span><span style="color:#a3be8c;">&lt;子组件端口名1&gt;</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">input/output</span><span style="color:#c0c5ce;">&quot;,
+            </span><span style="background-color:#bf616a;color:#2b303b;">...</span><span style="color:#c0c5ce;">
+        },
+        &quot;</span><span style="color:#a3be8c;">connections</span><span style="color:#c0c5ce;">&quot;: {
+            &quot;</span><span style="color:#a3be8c;">&lt;子组件端口名1&gt;</span><span style="color:#c0c5ce;">&quot;: [</span><span style="background-color:#bf616a;color:#2b303b;">&lt;子组件端口</span><span style="color:#d08770;">1</span><span style="background-color:#bf616a;color:#2b303b;">连接到的线网的第</span><span style="color:#d08770;">1</span><span style="background-color:#bf616a;color:#2b303b;">个bit的id&gt;</span><span style="color:#c0c5ce;">, </span><span style="background-color:#bf616a;color:#2b303b;">&lt;子组件端口</span><span style="color:#d08770;">1</span><span style="background-color:#bf616a;color:#2b303b;">连接到的线网的第</span><span style="color:#d08770;">2</span><span style="background-color:#bf616a;color:#2b303b;">个bit的id&gt;</span><span style="color:#c0c5ce;">, </span><span style="background-color:#bf616a;color:#2b303b;">...</span><span style="color:#c0c5ce;">],
+            </span><span style="background-color:#bf616a;color:#2b303b;">...</span><span style="color:#c0c5ce;">
+        }
+    }
+},
+&quot;</span><span style="color:#a3be8c;">netnames</span><span style="color:#c0c5ce;">&quot;: {
+    &quot;</span><span style="color:#a3be8c;">&lt;线网名称&gt;</span><span style="color:#c0c5ce;">&quot;: {
+        &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="background-color:#bf616a;color:#2b303b;">&lt;对应的线网的第</span><span style="color:#d08770;">1</span><span style="background-color:#bf616a;color:#2b303b;">个bit的id&gt;</span><span style="color:#c0c5ce;">, </span><span style="background-color:#bf616a;color:#2b303b;">&lt;对应的线网的第</span><span style="color:#d08770;">2</span><span style="background-color:#bf616a;color:#2b303b;">个bit的id&gt;</span><span style="color:#c0c5ce;">, </span><span style="background-color:#bf616a;color:#2b303b;">...</span><span style="color:#c0c5ce;">]
+    },
+}
+</span></code></pre><h3 id="parser">parser</h3>
+<p>略，见我以前有关 parser combinator 的文章。</p>
+<p>总之把这样子的输入：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#c0c5ce;">module Top(a: bit, b: bit) -&gt; bit {
+    </span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> a &amp; b;
+}
+</span></code></pre>
+<p>parse 成这样的结构：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// Bracket、逻辑函数的实现同普通编程语言，略
+</span><span style="color:#b48ead;">pub enum </span><span style="color:#c0c5ce;">Expression {
+    Name(String),
+    Bracket(Bracket),
+    Not(Not),
+    Or(Or),
+    And(And),
+}
+</span><span style="color:#b48ead;">pub struct </span><span style="color:#c0c5ce;">Return(pub Expression);
+</span><span style="color:#b48ead;">pub struct </span><span style="color:#c0c5ce;">Port {
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">name</span><span style="color:#c0c5ce;">: String,
+}
+</span><span style="color:#b48ead;">pub struct </span><span style="color:#c0c5ce;">Module {
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">name</span><span style="color:#c0c5ce;">: String,
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">input</span><span style="color:#c0c5ce;">: Vec&lt;Port&gt;,
+    </span><span style="color:#65737e;">// todo: output type
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">output</span><span style="color:#c0c5ce;">: Vec&lt;()&gt;,
+    </span><span style="color:#65737e;">// todo: `Statement` instead of `Return`
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">statements</span><span style="color:#c0c5ce;">: Vec&lt;Return&gt;,
+}
+</span></code></pre>
+<p>然后将表达式编译成如下的 LUT4:</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub struct </span><span style="color:#c0c5ce;">LUT4 {
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">name</span><span style="color:#c0c5ce;">: String,
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">initial_value</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">u16</span><span style="color:#c0c5ce;">,
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">input_connections</span><span style="color:#c0c5ce;">: [</span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">; 4],
+    </span><span style="color:#b48ead;">pub </span><span style="color:#bf616a;">output_connections</span><span style="color:#c0c5ce;">: </span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">,
+}
+</span></code></pre>
+<p>编译过程如下，代码太丑不好意思拿出来看我就放伪代码了：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">compile_expression</span><span style="color:#c0c5ce;">(
+    </span><span style="color:#bf616a;">expression</span><span style="color:#c0c5ce;">: frontend::Expression,
+    </span><span style="color:#bf616a;">context</span><span style="color:#c0c5ce;">: &amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> Context,
+) -&gt; Result&lt;LUT4, ()&gt; {
+    </span><span style="color:#65737e;">// generate initial_value
+    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> initial_value = </span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">;
+    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> variables = expression.</span><span style="color:#96b5b4;">variables</span><span style="color:#c0c5ce;">();
+    </span><span style="color:#b48ead;">while</span><span style="color:#c0c5ce;"> variables.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">() &lt; </span><span style="color:#d08770;">4 </span><span style="color:#c0c5ce;">{
+        variables.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(format!(&quot;</span><span style="color:#a3be8c;">dummy_</span><span style="color:#d08770;">{}</span><span style="color:#c0c5ce;">&quot;, variables.</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">()));
+    }
+    </span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> i, (a, b, c, d) in </span><span style="color:#96b5b4;">tagged_cartesian_product</span><span style="color:#c0c5ce;">(a: (</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">), b: (</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">), c: (</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">), d: (</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">, </span><span style="color:#d08770;">1</span><span style="color:#c0c5ce;">)).</span><span style="color:#96b5b4;">enumerate</span><span style="color:#c0c5ce;">() {
+        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> result = expression.</span><span style="color:#96b5b4;">evaluate</span><span style="color:#c0c5ce;">(a, b, c, d);
+        initial_value |= result &lt;&lt; i;
+    }
+    </span><span style="color:#65737e;">// generate input connections
+    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> connections = [</span><span style="color:#d08770;">0</span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">; </span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">];
+    </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">(index, variable) in variables.</span><span style="color:#96b5b4;">enumerate</span><span style="color:#c0c5ce;">() {
+        connections[index] = *context.wires.</span><span style="color:#96b5b4;">get</span><span style="color:#c0c5ce;">(*variable).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
+    }
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> id = context.next_id++;
+    </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> name = format!(&quot;</span><span style="color:#a3be8c;">port</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">_LUT4</span><span style="color:#c0c5ce;">&quot;, id);
+    context.wires.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(format!(&quot;</span><span style="color:#a3be8c;">port</span><span style="color:#d08770;">{}</span><span style="color:#a3be8c;">_LUT4_Z</span><span style="color:#c0c5ce;">&quot;, id), id);
+    Ok(</span><span style="color:#d08770;">LUT4 </span><span style="color:#c0c5ce;">{
+        name,
+        initial_value,
+        input_connections: connections,
+        output_connections: id,
+    })
+}
+</span></code></pre>
+<p>总之就是暴力把所有可能带入 expression 求出真值表，进而算出 LUT4 的初始值，再次提醒这不是生产环境下的做法。</p>
+<p>然后就是生成 JSON，这里只展示从 LUT4 生成 <code>Cell</code> 的代码：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub struct </span><span style="color:#c0c5ce;">Cell {
+    </span><span style="color:#bf616a;">name</span><span style="color:#c0c5ce;">: String,
+    </span><span style="color:#bf616a;">component_type</span><span style="color:#c0c5ce;">: String,
+    </span><span style="color:#bf616a;">parameters</span><span style="color:#c0c5ce;">: HashMap&lt;String, String&gt;,
+    </span><span style="color:#bf616a;">port_directions</span><span style="color:#c0c5ce;">: HashMap&lt;String, PortDirection&gt;,
+    </span><span style="color:#bf616a;">connections</span><span style="color:#c0c5ce;">: HashMap&lt;String, Vec&lt;</span><span style="color:#b48ead;">usize</span><span style="color:#c0c5ce;">&gt;&gt;,
+}
+
+</span><span style="color:#b48ead;">impl </span><span style="color:#c0c5ce;">From&lt;LUT4&gt; </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">Cell {
+    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">lut</span><span style="color:#c0c5ce;">: LUT4) -&gt; </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> port_directions = {
+            </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> m = HashMap::new();
+            m.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">A</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), PortDirection::Input);
+            m.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">B</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), PortDirection::Input);
+            m.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">C</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), PortDirection::Input);
+            m.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">D</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), PortDirection::Input);
+            m.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">Z</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), PortDirection::Output);
+            m
+        };
+        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> parameters = {
+            </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> m = HashMap::new();
+            m.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">INIT</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), format!(&quot;</span><span style="color:#a3be8c;">{:16b}</span><span style="color:#c0c5ce;">&quot;, lut.initial_value));
+            m
+        };
+
+        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> c = [&quot;</span><span style="color:#a3be8c;">A</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">B</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">C</span><span style="color:#c0c5ce;">&quot;, &quot;</span><span style="color:#a3be8c;">D</span><span style="color:#c0c5ce;">&quot;]
+            .</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">()
+            .</span><span style="color:#96b5b4;">zip</span><span style="color:#c0c5ce;">(lut.input_connections.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">())
+            .</span><span style="color:#96b5b4;">chain</span><span style="color:#c0c5ce;">([&quot;</span><span style="color:#a3be8c;">Z</span><span style="color:#c0c5ce;">&quot;].</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">zip</span><span style="color:#c0c5ce;">(iter::once(&amp;lut.output_connections)));
+        </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> connections = HashMap::new();
+        </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">(name, &amp;id) in c {
+            connections.</span><span style="color:#96b5b4;">insert</span><span style="color:#c0c5ce;">(name.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(), vec![id]);
+        }
+
+        </span><span style="color:#b48ead;">Self </span><span style="color:#c0c5ce;">{
+            name: lut.name,
+            component_type: &quot;</span><span style="color:#a3be8c;">LUT4</span><span style="color:#c0c5ce;">&quot;.</span><span style="color:#96b5b4;">to_string</span><span style="color:#c0c5ce;">(),
+            parameters,
+            port_directions,
+            connections,
+        }
+    }
+}
+</span></code></pre>
+<p>其他部分的实现略，唯一要注意的点就是这里 Serde 的实现有些怪异，需要自己搞，具体见代码（等我写的好一点就开源），重点就是要活用 <code>collect_map</code> 和 <code>serialize_map</code> 就是了。</p>
+<h3 id="run-yi-xia-shi-shi">Run 一下试试！</h3>
+<p>我们用我们的程序综合上面提到的代码，可以得到：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-json" data-lang="json"><span style="color:#c0c5ce;">{
+    &quot;</span><span style="color:#a3be8c;">creator</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">Rosys 0.1</span><span style="color:#c0c5ce;">&quot;,
+    &quot;</span><span style="color:#a3be8c;">modules</span><span style="color:#c0c5ce;">&quot;: {
+        &quot;</span><span style="color:#a3be8c;">Top</span><span style="color:#c0c5ce;">&quot;: {
+            &quot;</span><span style="color:#a3be8c;">ports</span><span style="color:#c0c5ce;">&quot;: {
+                &quot;</span><span style="color:#a3be8c;">a</span><span style="color:#c0c5ce;">&quot;: {
+                    &quot;</span><span style="color:#a3be8c;">direction</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">input</span><span style="color:#c0c5ce;">&quot;,
+                    &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">]
+                },
+                &quot;</span><span style="color:#a3be8c;">b</span><span style="color:#c0c5ce;">&quot;: {
+                    &quot;</span><span style="color:#a3be8c;">direction</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">input</span><span style="color:#c0c5ce;">&quot;,
+                    &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">]
+                },
+                &quot;</span><span style="color:#a3be8c;">port4_LUT4_Z</span><span style="color:#c0c5ce;">&quot;: {
+                    &quot;</span><span style="color:#a3be8c;">direction</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">output</span><span style="color:#c0c5ce;">&quot;,
+                    &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">]
+                }
+            },
+            &quot;</span><span style="color:#a3be8c;">cells</span><span style="color:#c0c5ce;">&quot;: {
+                &quot;</span><span style="color:#a3be8c;">port4_LUT4</span><span style="color:#c0c5ce;">&quot;: {
+                    &quot;</span><span style="color:#a3be8c;">type</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">LUT4</span><span style="color:#c0c5ce;">&quot;,
+                    &quot;</span><span style="color:#a3be8c;">parameters</span><span style="color:#c0c5ce;">&quot;: {
+                        &quot;</span><span style="color:#a3be8c;">INIT</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">1000100010001000</span><span style="color:#c0c5ce;">&quot;
+                    },
+                    &quot;</span><span style="color:#a3be8c;">port_directions</span><span style="color:#c0c5ce;">&quot;: {
+                        &quot;</span><span style="color:#a3be8c;">A</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">input</span><span style="color:#c0c5ce;">&quot;,
+                        &quot;</span><span style="color:#a3be8c;">Z</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">output</span><span style="color:#c0c5ce;">&quot;,
+                        &quot;</span><span style="color:#a3be8c;">C</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">input</span><span style="color:#c0c5ce;">&quot;,
+                        &quot;</span><span style="color:#a3be8c;">B</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">input</span><span style="color:#c0c5ce;">&quot;,
+                        &quot;</span><span style="color:#a3be8c;">D</span><span style="color:#c0c5ce;">&quot;: &quot;</span><span style="color:#a3be8c;">input</span><span style="color:#c0c5ce;">&quot;
+                    },
+                    &quot;</span><span style="color:#a3be8c;">connections</span><span style="color:#c0c5ce;">&quot;: {
+                        &quot;</span><span style="color:#a3be8c;">Z</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">],
+                        &quot;</span><span style="color:#a3be8c;">A</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">],
+                        &quot;</span><span style="color:#a3be8c;">D</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">],
+                        &quot;</span><span style="color:#a3be8c;">B</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">],
+                        &quot;</span><span style="color:#a3be8c;">C</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">]
+                    }
+                }
+            },
+            &quot;</span><span style="color:#a3be8c;">netnames</span><span style="color:#c0c5ce;">&quot;: {
+                &quot;</span><span style="color:#a3be8c;">a</span><span style="color:#c0c5ce;">&quot;: {
+                    &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">2</span><span style="color:#c0c5ce;">]
+                },
+                &quot;</span><span style="color:#a3be8c;">b</span><span style="color:#c0c5ce;">&quot;: {
+                    &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">3</span><span style="color:#c0c5ce;">]
+                },
+                &quot;</span><span style="color:#a3be8c;">port4_LUT4_Z</span><span style="color:#c0c5ce;">&quot;: {
+                    &quot;</span><span style="color:#a3be8c;">bits</span><span style="color:#c0c5ce;">&quot;: [</span><span style="color:#d08770;">4</span><span style="color:#c0c5ce;">]
+                }
+            }
+        }
+    }
+}
+</span></code></pre>
+<p>然后居然就可以用 <code>nextpnr-ecp5</code> 搓出 <code>config</code> 文件，然后用 <code>ecppack</code> 做出 bit，然后把它烧录进 FPGA 里居然就可以用了。</p>
+<p>我们居然这么容易就写出了一个能动的综合器。
+接下来将会介绍更多逻辑综合的相关内容，预定会写更复杂逻辑函数的综合和时序逻辑电路的综合。</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2021-04-25</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/FPGA">&nbsp;FPGA</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=自动逻辑综合原理 • 组合逻辑与 LUT 的最简单的综合&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;fpga-sys-1&hashtags=FPGA"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

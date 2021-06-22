@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • RoCC RISC-V 扩展方案</title>
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  
+  
+<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;riscv-rocc&#x2F;">RoCC RISC-V 扩展方案</a></h1>
+  <div class="post-content"><p>RoCC 是通过向 RISC-V 处理器添加扩展的半官方<sup class="footnote-reference"><a href="#1">1</a></sup>方案，最早用于 BSD 的 Rocket-core。</p>
+<h2 id="rocc-gui-ding-de-kuo-zhan-zhi-ling">RoCC 规定的扩展指令</h2>
+<p>RoCC 使用了 RISCV 标准中预留的所有四个扩展槽位，并规定了如下指令格式：</p>
+<p><img src="./rocc-inst.png" alt="RoCC inst" /></p>
+<p>其中 <code>xd</code>、<code>xs1</code>、<code>xs2</code> 分别表示对应的寄存器是否被使用到了。</p>
+<h2 id="rocc-he-cpu-zhi-jian-de-jiao-hu">RoCC 和 CPU 之间的交互</h2>
+<p>RoCC 主要通过如下接口和 CPU 进行交互：</p>
+<ul>
+<li>
+<p>CPU 通过 <code>Cmd</code> 接口将指令和相关寄存器的值发送给 RoCC 加速器</p>
+</li>
+<li>
+<p>RoCC 加速器通过 <code>Resp</code> 接口将计算结果（要写入的寄存器号和值）返回到 CPU</p>
+</li>
+<li>
+<p>RoCC 通过 <code>busy</code> 标记加速器是否处于忙状态</p>
+</li>
+<li>
+<p>RoCC 自身也可以访问内存、引发中断等</p>
+</li>
+</ul>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>指由 RISC-V 亲爹 BSD 研发。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2021-04-19</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/RISC-V">&nbsp;RISC-V</a>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/体系结构">&nbsp;体系结构</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=RoCC RISC-V 扩展方案&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;riscv-rocc&hashtags=RISC-V,体系结构"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+  
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

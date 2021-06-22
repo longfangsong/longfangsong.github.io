@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • 内联汇编 cheatsheet</title>
+  
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  
+  
+<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;inline-asm-cheatsheet&#x2F;">内联汇编 cheatsheet</a></h1>
+  <div class="post-content"><h2 id="ji-ben-yu-fa-mo-ban">基本语法模版</h2>
+<pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#bf616a;">asm</span><span style="color:#c0c5ce;">(
+    &lt;代码&gt;:
+    &lt;输出到哪些变量&gt;:
+    &lt;从哪些变量输入&gt;:
+    &lt;副作用会影响什么&gt;
+)
+</span></code></pre>
+<p>其中每个值如果有多个的话都是用逗号分隔。</p>
+<h3 id="shu-ru-shu-chu-bian-liang">输入输出变量</h3>
+<p>输入输出变量的常用格式为：</p>
+<pre style="background-color:#2b303b;">
+<code class="language-c" data-lang="c"><span style="color:#c0c5ce;">&quot;</span><span style="color:#a3be8c;">&lt;修饰符&gt;&lt;约束&gt;</span><span style="color:#c0c5ce;">&quot;(&lt;变量&gt;)
+</span></code></pre><h4 id="yue-shu">约束</h4>
+<ul>
+<li><code>r</code>
+指代某个通用寄存器</li>
+<li><code>m</code>
+指代某个变量的内存地址, 后面的括号填入的是变量本身而非变量地址</li>
+<li><code>i</code>
+指代某个立即数</li>
+</ul>
+<h4 id="xiu-shi-fu">修饰符</h4>
+<ul>
+<li><code>=</code>
+指这个变量/寄存器被写入了，一般所有输出变量都会带上这个。</li>
+<li><code>+</code>
+指这个变量/寄存器被读取和写入了</li>
+</ul>
+<h3 id="fu-zuo-yong-hui-ying-xiang-shi-yao">副作用会影响什么</h3>
+<p>这里一般就填一些标记寄存器和 <code>memory</code>。</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2021-04-18</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/汇编">&nbsp;汇编</a>
+          
+            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/cheatsheet">&nbsp;cheatsheet</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=内联汇编 cheatsheet&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;inline-asm-cheatsheet&hashtags=汇编,cheatsheet"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

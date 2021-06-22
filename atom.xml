@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh">
+	<title>Blog</title>
+	<subtitle>生命是灰色的，而理论之树常青</subtitle>
+	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://longfangsong.github.io"/>
+	<generator uri="https://www.getzola.org/">Zola</generator>
+	<updated>2021-04-25T16:09:46.815+00:00</updated>
+	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>自动逻辑综合原理 • 组合逻辑与 LUT 的最简单的综合</title>
+		<published>2021-04-25T16:09:46.815+00:00</published>
+		<updated>2021-04-25T16:09:46.815+00:00</updated>
+		<link href="https://longfangsong.github.io/fpga-sys-1/" type="text/html"/>
+		<id>https://longfangsong.github.io/fpga-sys-1/</id>
+		<content type="html">&lt;h2 id=&quot;lut&quot;&gt;LUT&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一切皆查表。 ——我自己说的&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;由于 FPGA 的基本结构是基于 Look Up Table 的，因此 FPGA 里实现组合逻辑的方式非常简单粗暴，就是把真值表非常暴力的存下来然后匹配。&lt;&#x2F;p&gt;
+&lt;p&gt;比如说最简单的与逻辑：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-verilog&quot; data-lang=&quot;verilog&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;assign C = A &amp;amp; B;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其真值表：&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;&#x2F;th&gt;&lt;th&gt;0&lt;&#x2F;th&gt;&lt;th&gt;1&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;那么我们就可以用一小块存储器存下这张表：&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;地址&lt;&#x2F;th&gt;&lt;th&gt;值&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;00&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;01&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;10&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;11&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;这个存储器此时就是一个 LUT，输入 A 和 B 就能输出对应逻辑函数的值。&lt;&#x2F;p&gt;
+&lt;p&gt;更多变量和更复杂的式子也是同理。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;shi-jian&quot;&gt;实践&lt;&#x2F;h2&gt;
+&lt;p&gt;我们来用最简单粗暴的方式实现一个支持简单组合逻辑电路综合的简单综合器。&lt;&#x2F;p&gt;
+&lt;p&gt;为了方便快草猛的实现出一个能动的程序，我们将要综合的逻辑函数限制在 4 个以下的输入和单个输出，这样就能使用单个 LUT4 综合出可以动的成果。&lt;&#x2F;p&gt;
+&lt;p&gt;注意实际的综合器实现方式肯定不是这样暴力解出真值表然后就硬带，肯定是有更先进的方案的。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;mu-biao-wen-jian-ge-shi&quot;&gt;目标文件格式&lt;&#x2F;h3&gt;
+&lt;p&gt;为了方便上硬件，我们综合到的目标是 &lt;code&gt;nextpnr-ecp5&lt;&#x2F;code&gt; 中使用的 json 文件。&lt;&#x2F;p&gt;
+&lt;p&gt;经过仔细阅读 &lt;code&gt;yosys&lt;&#x2F;code&gt; 综合出来的 json 文件以及反复实验，我们可以确定这个 json 最小需要写出如下内容：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;creator&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;综合器名称和版本，其实目测可以不写&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;modules&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Module1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;内容&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;},
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Module2&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;内容&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;},
+    }
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其中 module 的内容：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ports&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;对外端口名称&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;direction&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;input&#x2F;output&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;对应的线网的第&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;个bit的id&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;对应的线网的第&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;个bit的id&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+    },
+    &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;
+},
+&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;cells&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;子组件名称&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;子组件类型&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;parameters&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;子组件参数名1&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;子组件参数值1&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+            &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;
+        },
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;port_directions&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;子组件端口名1&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;input&#x2F;output&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+            &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;
+        },
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;connections&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;子组件端口名1&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;子组件端口&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;连接到的线网的第&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;个bit的id&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;子组件端口&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;连接到的线网的第&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;个bit的id&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;],
+            &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;
+        }
+    }
+},
+&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;netnames&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;线网名称&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;对应的线网的第&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;个bit的id&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;&amp;lt;对应的线网的第&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;个bit的id&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;...&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+    },
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;parser&quot;&gt;parser&lt;&#x2F;h3&gt;
+&lt;p&gt;略，见我以前有关 parser combinator 的文章。&lt;&#x2F;p&gt;
+&lt;p&gt;总之把这样子的输入：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;module Top(a: bit, b: bit) -&amp;gt; bit {
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; a &amp;amp; b;
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;parse 成这样的结构：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Bracket、逻辑函数的实现同普通编程语言，略
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub enum &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Expression {
+    Name(String),
+    Bracket(Bracket),
+    Not(Not),
+    Or(Or),
+    And(And),
+}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Return(pub Expression);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Port {
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: String,
+}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Module {
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: String,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: Vec&amp;lt;Port&amp;gt;,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; todo: output type
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;output&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: Vec&amp;lt;()&amp;gt;,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; todo: `Statement` instead of `Return`
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;statements&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: Vec&amp;lt;Return&amp;gt;,
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;然后将表达式编译成如下的 LUT4:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;LUT4 {
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: String,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;initial_value&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;u16&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;input_connections&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;; 4],
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;output_connections&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;,
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;编译过程如下，代码太丑不好意思拿出来看我就放伪代码了：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;compile_expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;expression&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: frontend::Expression,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;context&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: &amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; Context,
+) -&amp;gt; Result&amp;lt;LUT4, ()&amp;gt; {
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; generate initial_value
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; initial_value = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;;
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; variables = expression.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;variables&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; variables.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;len&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() &amp;lt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+        variables.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(format!(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;dummy_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, variables.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;len&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()));
+    }
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; i, (a, b, c, d) in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;tagged_cartesian_product&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(a: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;), b: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;), c: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;), d: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;)).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;enumerate&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; result = expression.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;evaluate&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(a, b, c, d);
+        initial_value |= result &amp;lt;&amp;lt; i;
+    }
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; generate input connections
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; connections = [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;];
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(index, variable) in variables.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;enumerate&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;() {
+        connections[index] = *context.wires.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(*variable).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;();
+    }
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; id = context.next_id++;
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; name = format!(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;port&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;_LUT4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, id);
+    context.wires.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(format!(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;port&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;{}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;_LUT4_Z&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, id), id);
+    Ok(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;LUT4 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+        name,
+        initial_value,
+        input_connections: connections,
+        output_connections: id,
+    })
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;总之就是暴力把所有可能带入 expression 求出真值表，进而算出 LUT4 的初始值，再次提醒这不是生产环境下的做法。&lt;&#x2F;p&gt;
+&lt;p&gt;然后就是生成 JSON，这里只展示从 LUT4 生成 &lt;code&gt;Cell&lt;&#x2F;code&gt; 的代码：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;pub struct &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Cell {
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: String,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;component_type&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: String,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;parameters&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: HashMap&amp;lt;String, String&amp;gt;,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;port_directions&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: HashMap&amp;lt;String, PortDirection&amp;gt;,
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;connections&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: HashMap&amp;lt;String, Vec&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;usize&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;gt;&amp;gt;,
+}
+
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;impl &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;From&amp;lt;LUT4&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Cell {
+    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;from&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: LUT4) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Self &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; port_directions = {
+            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; m = HashMap::new();
+            m.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(), PortDirection::Input);
+            m.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(), PortDirection::Input);
+            m.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(), PortDirection::Input);
+            m.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;D&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(), PortDirection::Input);
+            m.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Z&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(), PortDirection::Output);
+            m
+        };
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; parameters = {
+            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; m = HashMap::new();
+            m.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;INIT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(), format!(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;{:16b}&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, lut.initial_value));
+            m
+        };
+
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; c = [&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;D&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;]
+            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;()
+            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;zip&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(lut.input_connections.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;())
+            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;chain&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;([&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Z&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;].&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;iter&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;zip&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(iter::once(&amp;amp;lut.output_connections)));
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; connections = HashMap::new();
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(name, &amp;amp;id) in c {
+            connections.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(name.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(), vec![id]);
+        }
+
+        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Self &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+            name: lut.name,
+            component_type: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;LUT4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_string&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(),
+            parameters,
+            port_directions,
+            connections,
+        }
+    }
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其他部分的实现略，唯一要注意的点就是这里 Serde 的实现有些怪异，需要自己搞，具体见代码（等我写的好一点就开源），重点就是要活用 &lt;code&gt;collect_map&lt;&#x2F;code&gt; 和 &lt;code&gt;serialize_map&lt;&#x2F;code&gt; 就是了。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;run-yi-xia-shi-shi&quot;&gt;Run 一下试试！&lt;&#x2F;h3&gt;
+&lt;p&gt;我们用我们的程序综合上面提到的代码，可以得到：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;creator&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Rosys 0.1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;modules&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Top&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ports&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;direction&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+                },
+                &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;direction&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+                },
+                &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;port4_LUT4_Z&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;direction&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;output&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+                }
+            },
+            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;cells&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;port4_LUT4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;LUT4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;parameters&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;INIT&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;1000100010001000&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;
+                    },
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;port_directions&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Z&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;output&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;,
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;D&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;input&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;
+                    },
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;connections&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Z&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;],
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;],
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;D&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;],
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;],
+                        &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+                    }
+                }
+            },
+            &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;netnames&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+                },
+                &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+                },
+                &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;port4_LUT4_Z&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: {
+                    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;bits&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;: [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;]
+                }
+            }
+        }
+    }
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;然后居然就可以用 &lt;code&gt;nextpnr-ecp5&lt;&#x2F;code&gt; 搓出 &lt;code&gt;config&lt;&#x2F;code&gt; 文件，然后用 &lt;code&gt;ecppack&lt;&#x2F;code&gt; 做出 bit，然后把它烧录进 FPGA 里居然就可以用了。&lt;&#x2F;p&gt;
+&lt;p&gt;我们居然这么容易就写出了一个能动的综合器。
+接下来将会介绍更多逻辑综合的相关内容，预定会写更复杂逻辑函数的综合和时序逻辑电路的综合。&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>macOS 用户也要玩 FPGA！</title>
+		<published>2021-04-24T16:53:12.045+00:00</published>
+		<updated>2021-04-24T16:53:12.045+00:00</updated>
+		<link href="https://longfangsong.github.io/macos-fpga/" type="text/html"/>
+		<id>https://longfangsong.github.io/macos-fpga/</id>
+		<content type="html">&lt;p&gt;冲着能用开源工具链入了一块 iCESugar-Pro，本来想着如果 macOS 环境搞不定就下官方的虚拟机，结果居然给我配成了。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ise-vivado-quartus-de-que-dian&quot;&gt;ISE&#x2F;Vivado&#x2F;Quartus 的缺点&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;收费&lt;&#x2F;p&gt;
+&lt;p&gt;我没钱。&lt;del&gt;我用盗版，我让国外资本主义巨头亏麻了，我骄傲。&lt;&#x2F;del&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;限定系统&lt;&#x2F;p&gt;
+&lt;p&gt;首先，没有一个有 macOS 支持，其次 Linux 支持也不甚完整（Ubuntu 装 ISE 能强行装上，但基本跑不起来，官方支持列表里好像只有红帽，也许 centos 可以但我真的不是很喜欢这个发行版），基本上只有 Windows 能用……&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;命令行支持烂（IDE 还丑）&lt;&#x2F;p&gt;
+&lt;p&gt;我就是想用 Vim&#x2F;VSCode 写 Verilog&#x2F;Chisel 然后用 Makefile 编译和下载啊！！！
+谁想用那些个难看的不得了又卡交互逻辑又奇怪的 IDE 啊！！！
+虽说技术上这几个设计工具都有命令行接口，但是资料和例子就基本没有了，好不容易看到一个官方的文档然后打开一看拿几千个选项甩你一脸……&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;对学习自动综合原理等没有帮助&lt;&#x2F;p&gt;
+&lt;p&gt;看不了代码，学习，学个屁。
+不过说实话我是希望有书能讲讲这个的……光看代码还是太痛苦了。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;kai-yuan-gong-ju-lian&quot;&gt;开源工具链&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;claire-wolf-de-chuan-qi&quot;&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.clifford.at&#x2F;&quot;&gt;Claire Wolf&lt;&#x2F;a&gt; 的传奇&lt;&#x2F;h3&gt;
+&lt;p&gt;这个人就是开源硬件世界里的 Richard Stallman&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;这个人 2012 年几乎单枪匹马做出了开源 Verilog 逻辑综合工具 &lt;a href=&quot;http:&#x2F;&#x2F;www.clifford.at&#x2F;yosys&#x2F;&quot;&gt;Yosys&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;2015 年（也是几乎单枪匹马）做出了开源 RISC-V 核 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;cliffordwolf&#x2F;picorv32&quot;&gt;picorv32&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;同年开始 &lt;a href=&quot;http:&#x2F;&#x2F;www.clifford.at&#x2F;icestorm&#x2F;&quot;&gt;icestorm&lt;&#x2F;a&gt; 项目，开始针对 Lattice FPGA 整合整条开源工具链。&lt;&#x2F;p&gt;
+&lt;p&gt;2018 年，开始 FPGA 布局布线工具项目 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;YosysHQ&#x2F;nextpnr&quot;&gt;nextpnr&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;总之一句话，开源 FPGA 界的基础软件基本上是这个人一个人打的基础。&lt;&#x2F;p&gt;
+&lt;p&gt;看完这个人的经历之后我只想用一个表情包表达我的心情：&lt;&#x2F;p&gt;
+&lt;p&gt;我也能，像他一样吗.jpg （不会 PS 所以表情包请自行脑补 😄）&lt;&#x2F;p&gt;
+&lt;p&gt;说了那么多我们还是看看这些工具怎么用吧，毕竟我现在也就只能用用这些工具了，离去开发这些东西还太远😭。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yosys-zong-he-gong-ju&quot;&gt;Yosys 综合工具&lt;&#x2F;h3&gt;
+&lt;p&gt;虽然说 &lt;code&gt;brew&lt;&#x2F;code&gt; 可以装上，但是那个版本太老了，和其他工具（比如 &lt;code&gt;nextpnr&lt;&#x2F;code&gt;）配合使用会出问题。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;clone-dai-ma&quot;&gt;clone 代码&lt;&#x2F;h4&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; clone https:&#x2F;&#x2F;github.com&#x2F;YosysHQ&#x2F;yosys.git
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;zhuang-yi-lai&quot;&gt;装依赖&lt;&#x2F;h4&gt;
+&lt;p&gt;&lt;code&gt;yosys&lt;&#x2F;code&gt; 提供了 &lt;code&gt;Brewfile&lt;&#x2F;code&gt;，像官方说的：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; tap Homebrew&#x2F;bundle &amp;amp;&amp;amp; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;brew&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; bundle
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;就好了&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;make&quot;&gt;make&lt;&#x2F;h4&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;make -j&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;(nproc)
+make&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; install
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;shi-yong&quot;&gt;使用&lt;&#x2F;h4&gt;
+&lt;p&gt;&lt;code&gt;yosys&lt;&#x2F;code&gt; 可以通过 &lt;code&gt;-p&lt;&#x2F;code&gt; 参数接受一个 “综合脚本”，或者通过 &lt;code&gt;-s&lt;&#x2F;code&gt; 接受综合脚本文件，或者不加任何参数的话可以直接 &lt;code&gt;yosys&lt;&#x2F;code&gt; 一个命令直接 REPL 执行，目前我已知的脚本命令有：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;read_verilog&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;用于读取 verilog 文件。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;synth_ecp5&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;用于实际综合，传入 &lt;code&gt;-json&lt;&#x2F;code&gt; 来获取 json 格式的输出。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;例如：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;yosys -p &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;read_verilog blink.v; read_verilog rst_gen.v; synth_ecp5 -json main.json&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;或者也可以写成：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;yosys -p &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;synth_ecp5 -json main.json&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot; blink.v rst_gen.v
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;nextpnr-bu-ju-bu-xian-gong-ju&quot;&gt;nextpnr 布局布线工具&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;clone-dai-ma-1&quot;&gt;clone 代码&lt;&#x2F;h4&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; clone https:&#x2F;&#x2F;github.com&#x2F;YosysHQ&#x2F;nextpnr.git
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;an-zhuang-trellis-zu-jian-yu-gong-ju-ku&quot;&gt;安装 Trellis 组件与工具库&lt;&#x2F;h4&gt;
+&lt;p&gt;Trellis 组件库与工具库为 nextpnr 提供了 Lattice ECP5 的组件库以及用于生成 bitstream 的 &lt;code&gt;ecppack&lt;&#x2F;code&gt; 工具。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;clone-dai-ma-2&quot;&gt;clone 代码&lt;&#x2F;h5&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; clone&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --recursive&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; https:&#x2F;&#x2F;github.com&#x2F;YosysHQ&#x2F;prjtrellis
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h5 id=&quot;make-1&quot;&gt;make&lt;&#x2F;h5&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; libtrellis
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 就算 sudo 了也不能装在 &#x2F;usr 里，直接跟着 brew 装 &#x2F;usr&#x2F;local 里就行
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;cmake -DCMAKE_INSTALL_PREFIX=&#x2F;usr&#x2F;local .
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;make -j&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;(nproc)
+sudo&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; make install
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;make-2&quot;&gt;make&lt;&#x2F;h4&gt;
+&lt;p&gt;在克隆下来的 &lt;code&gt;nextpnr&lt;&#x2F;code&gt; 仓库下：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cmake&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -DARCH&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;=ecp5&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -DTRELLIS_INSTALL_PREFIX&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;=&#x2F;usr&#x2F;local
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;make -j&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;$&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;(nproc)
+sudo&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; make install
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;shi-yong-1&quot;&gt;使用&lt;&#x2F;h4&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;nextpnr-ecp5&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; --&amp;lt;型号&amp;gt; --package &amp;lt;封装&amp;gt; --json &amp;lt;刚刚综合出来的 JSON&amp;gt; --lpf &amp;lt;引脚分配文件&amp;gt; --textcfg &amp;lt;输出到 config 文件&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;iCESugar-Pro 上的 FPGA 型号是 &lt;code&gt;25k&lt;&#x2F;code&gt;，封装方式是 &lt;code&gt;CABGA256&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;lpf-wen-jian&quot;&gt;LPF 文件&lt;&#x2F;h5&gt;
+&lt;p&gt;主要使用下面几个命令：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;LOCATE&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-lpf&quot; data-lang=&quot;lpf&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;LOCATE COMP &amp;quot;&amp;lt;代码内名称&amp;gt;&amp;quot; SITE &amp;quot;&amp;lt;硬件手册上的编号&amp;gt;&amp;quot;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;例如：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-lpf&quot; data-lang=&quot;lpf&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;LOCATE COMP &amp;quot;clk&amp;quot; SITE &amp;quot;A1&amp;quot;;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;ecppack-bitstream-sheng-cheng-qi&quot;&gt;ecppack bitstream 生成器&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;ecppack&lt;&#x2F;code&gt; 是 Trellis 组件与工具库的一部分，前面已经安装好了。&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ecppack &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;lt;config 文件&amp;gt; --bit &amp;lt;目标 .bit 文件&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;xia-zai&quot;&gt;下载&lt;&#x2F;h3&gt;
+&lt;p&gt;iCESugar-Pro 连到电脑上就一U盘，可以直接拖！拽！下！载！作者太 tmd 良心了！！！&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;比 RMS nb 的是，Claire Wolf 是一位 MTF，政治正确的一匹。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;在 GFW 内约耗时一个世纪。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>RoCC RISC-V 扩展方案</title>
+		<published>2021-04-19T15:45:33.706+00:00</published>
+		<updated>2021-04-19T15:45:33.706+00:00</updated>
+		<link href="https://longfangsong.github.io/riscv-rocc/" type="text/html"/>
+		<id>https://longfangsong.github.io/riscv-rocc/</id>
+		<content type="html">&lt;p&gt;RoCC 是通过向 RISC-V 处理器添加扩展的半官方&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;方案，最早用于 BSD 的 Rocket-core。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;rocc-gui-ding-de-kuo-zhan-zhi-ling&quot;&gt;RoCC 规定的扩展指令&lt;&#x2F;h2&gt;
+&lt;p&gt;RoCC 使用了 RISCV 标准中预留的所有四个扩展槽位，并规定了如下指令格式：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;.&#x2F;rocc-inst.png&quot; alt=&quot;RoCC inst&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;其中 &lt;code&gt;xd&lt;&#x2F;code&gt;、&lt;code&gt;xs1&lt;&#x2F;code&gt;、&lt;code&gt;xs2&lt;&#x2F;code&gt; 分别表示对应的寄存器是否被使用到了。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;rocc-he-cpu-zhi-jian-de-jiao-hu&quot;&gt;RoCC 和 CPU 之间的交互&lt;&#x2F;h2&gt;
+&lt;p&gt;RoCC 主要通过如下接口和 CPU 进行交互：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;CPU 通过 &lt;code&gt;Cmd&lt;&#x2F;code&gt; 接口将指令和相关寄存器的值发送给 RoCC 加速器&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;RoCC 加速器通过 &lt;code&gt;Resp&lt;&#x2F;code&gt; 接口将计算结果（要写入的寄存器号和值）返回到 CPU&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;RoCC 通过 &lt;code&gt;busy&lt;&#x2F;code&gt; 标记加速器是否处于忙状态&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;RoCC 自身也可以访问内存、引发中断等&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;指由 RISC-V 亲爹 BSD 研发。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>内联汇编 cheatsheet</title>
+		<published>2021-04-18T07:34:52.996+00:00</published>
+		<updated>2021-04-18T07:34:52.996+00:00</updated>
+		<link href="https://longfangsong.github.io/inline-asm-cheatsheet/" type="text/html"/>
+		<id>https://longfangsong.github.io/inline-asm-cheatsheet/</id>
+		<content type="html">&lt;h2 id=&quot;ji-ben-yu-fa-mo-ban&quot;&gt;基本语法模版&lt;&#x2F;h2&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;asm&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(
+    &amp;lt;代码&amp;gt;:
+    &amp;lt;输出到哪些变量&amp;gt;:
+    &amp;lt;从哪些变量输入&amp;gt;:
+    &amp;lt;副作用会影响什么&amp;gt;
+)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其中每个值如果有多个的话都是用逗号分隔。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shu-ru-shu-chu-bian-liang&quot;&gt;输入输出变量&lt;&#x2F;h3&gt;
+&lt;p&gt;输入输出变量的常用格式为：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;修饰符&amp;gt;&amp;lt;约束&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;(&amp;lt;变量&amp;gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;yue-shu&quot;&gt;约束&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;r&lt;&#x2F;code&gt;
+指代某个通用寄存器&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;m&lt;&#x2F;code&gt;
+指代某个变量的内存地址, 后面的括号填入的是变量本身而非变量地址&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;i&lt;&#x2F;code&gt;
+指代某个立即数&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;xiu-shi-fu&quot;&gt;修饰符&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;=&lt;&#x2F;code&gt;
+指这个变量&#x2F;寄存器被写入了，一般所有输出变量都会带上这个。&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;+&lt;&#x2F;code&gt;
+指这个变量&#x2F;寄存器被读取和写入了&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;fu-zuo-yong-hui-ying-xiang-shi-yao&quot;&gt;副作用会影响什么&lt;&#x2F;h3&gt;
+&lt;p&gt;这里一般就填一些标记寄存器和 &lt;code&gt;memory&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>Hack RISC-V 指令集</title>
+		<published>2021-04-17T07:34:52.996+00:00</published>
+		<updated>2021-04-17T07:34:52.996+00:00</updated>
+		<link href="https://longfangsong.github.io/hack-riscv-isa/" type="text/html"/>
+		<id>https://longfangsong.github.io/hack-riscv-isa/</id>
+		<content type="html">&lt;h2 id=&quot;huan-jing&quot;&gt;环境&lt;&#x2F;h2&gt;
+&lt;p&gt;本文假设用户使用基于 debian 的 Linux 系统，有 &lt;code&gt;su&lt;&#x2F;code&gt; 或者 &lt;code&gt;sudo&lt;&#x2F;code&gt; 的能力&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，并且用的文件系统是区分大小写&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;的。&lt;&#x2F;p&gt;
+&lt;p&gt;然后请事先安装 &lt;code&gt;git&lt;&#x2F;code&gt; 以及任意文本编辑器。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gnu-bian-yi-gong-ju-lian&quot;&gt;GNU 编译工具链&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;clone-dai-ma&quot;&gt;clone 代码&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; clone https:&#x2F;&#x2F;github.com&#x2F;riscv&#x2F;riscv-gnu-toolchain
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;然后进入 clone 到的文件夹中。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zhuang-yi-lai&quot;&gt;装依赖&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;apt-get&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;zhun-bei-yao-an-zhuang-dao-de-wei-zhi&quot;&gt;准备要安装到的位置&lt;&#x2F;h3&gt;
+&lt;p&gt;比如要把工具链装到 &lt;code&gt;&#x2F;opt&#x2F;riscv&lt;&#x2F;code&gt; 下的话：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;mkdir&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; &#x2F;opt&#x2F;riscv
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;chmod&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; 777 &#x2F;opt&#x2F;riscv &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# just use 777, who cares about bad guys?
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;configure&quot;&gt;&lt;code&gt;configure&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;.&#x2F;configure --prefix&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;=&#x2F;opt&#x2F;riscv&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --enable-multilib
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;make&quot;&gt;&lt;code&gt;make&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;make
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;One eternity later ...&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;make&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; linux
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Two eternities later ...&lt;&#x2F;p&gt;
+&lt;p&gt;注意每次 &lt;code&gt;make&lt;&#x2F;code&gt; 的时候都会下载对应的 &lt;code&gt;submodule&lt;&#x2F;code&gt;，请保证有正常的网络环境。&lt;&#x2F;p&gt;
+&lt;p&gt;然后 &lt;code&gt;&#x2F;opt&#x2F;riscv&lt;&#x2F;code&gt; 里就有编译器、lib 等等了。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;tian-jia-zi-ding-yi-zhi-ling&quot;&gt;添加自定义指令&lt;&#x2F;h3&gt;
+&lt;p&gt;编辑 &lt;code&gt;riscv-binutils&#x2F;opcodes&#x2F;riscv-opc.c&lt;&#x2F;code&gt;，在 &lt;code&gt;riscv_opcodes&lt;&#x2F;code&gt; 中加入新的指令:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+    &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;指令名称&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &amp;lt;指令类型&amp;gt;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;操作数&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, 
+    &amp;lt;匹配&amp;gt;, &amp;lt;掩码&amp;gt;, match_opcode, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;},
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;代表使用时形如：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-asm&quot; data-lang=&quot;asm&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;&amp;lt;指令名称&amp;gt; &amp;lt;操作数&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;的一条汇编指令。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;zhi-ling-lei-xing&quot;&gt;指令类型&lt;&#x2F;h4&gt;
+&lt;p&gt;建议无脑给 &lt;code&gt;INSN_CLASS_I&lt;&#x2F;code&gt;, 因为 &lt;code&gt;I&lt;&#x2F;code&gt; 在所有情况下都是支持的，无需在编译时手动开启各个指令集。&lt;&#x2F;p&gt;
+&lt;p&gt;暂时不清楚是否支持在 &lt;code&gt;include&#x2F;opcode&#x2F;riscv.h&lt;&#x2F;code&gt; 中的 &lt;code&gt;riscv_insn_class&lt;&#x2F;code&gt; 中添加自己的指令集名称，然后在这里使用。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;cao-zuo-shu&quot;&gt;操作数&lt;&#x2F;h4&gt;
+&lt;p&gt;这我一直没找到一个说明的文档，只有根据已经写好的部分和代码（代码在 &lt;code&gt;riscv-binutils&#x2F;gas&#x2F;config&#x2F;tc-riscv.c&lt;&#x2F;code&gt;）推了&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;d&lt;&#x2F;code&gt;
+代表目标寄存器&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;s&lt;&#x2F;code&gt;
+代表第一个寄存器操作数&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;t&lt;&#x2F;code&gt;
+代表第二个寄存器操作数&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;j&lt;&#x2F;code&gt;
+代表一个立即数&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;o(s)&lt;&#x2F;code&gt;
+代表用于读取出来的一个地址，格式为寄存器 + 偏移量&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;q(s)&lt;&#x2F;code&gt;
+代表用于写入进去的一个地址，格式为寄存器 + 偏移量&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt; 和 &lt;code&gt;&amp;gt;&lt;&#x2F;code&gt;
+代表移位的位数&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h5 id=&quot;ke-zhi-ji-cun-qi&quot;&gt;客制寄存器&lt;&#x2F;h5&gt;
+&lt;p&gt;这里假设你希望在内联汇编里手写寄存器而不是让 gcc 为你分配你的客制寄存器，比如你希望添加一个读取矩阵的指令：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;matload&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, INSN_CLASS_I, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Md,o(s)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0x100b&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0x707f&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;, match_opcode, INSN_DREF},
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;这里的 &lt;code&gt;Md&lt;&#x2F;code&gt; 代表一个矩阵寄存器。&lt;&#x2F;p&gt;
+&lt;p&gt;那么你需要在 gnu 工具链中进行如下修改：&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;在 &lt;code&gt;riscv-binutils&#x2F;opcodes&#x2F;riscv-opc.c&lt;&#x2F;code&gt; 中的 &lt;code&gt;riscv_fpr_names_abi&lt;&#x2F;code&gt; 下面，添加一个新的数组，保存你的各个寄存器的名字，并在 &lt;code&gt;riscv-binutils&#x2F;include&#x2F;opcode&#x2F;riscv.h&lt;&#x2F;code&gt; 添加相应的声明，例如：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; riscv.h
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;extern const char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; riscv_mat_names_numeric[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;8&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;];
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; riscv-opc.c
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const char &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;const&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; riscv_mat_names_numeric[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;8&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;] ={&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat2&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat3&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat4&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat5&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat6&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;mat7&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;quot;};
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;在 &lt;code&gt;reg_class&lt;&#x2F;code&gt; （在 &lt;code&gt;riscv-binutils&#x2F;gas&#x2F;config&#x2F;tc-riscv.c&lt;&#x2F;code&gt;）中添加这个客制寄存器集的“名称”：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-diff&quot; data-lang=&quot;diff&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;enum reg_class
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;{
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  RCLASS_GPR,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  RCLASS_FPR,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+ RCLASS_MPR,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  RCLASS_MAX,
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;  RCLASS_CSR
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;};
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;在同一文件下负责汇编器初始化的 &lt;code&gt;md_begin&lt;&#x2F;code&gt; 函数中注册这个客制寄存器集：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hash_reg_names&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(RCLASS_MPR, riscv_mat_names_numeric, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;8&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;在同一文件下检查 RISC-V 指令格式的 &lt;code&gt;validate_riscv_insn&lt;&#x2F;code&gt; 函数中个的最大的那个 &lt;code&gt;switch&lt;&#x2F;code&gt; 中添加对这个寄存器参数的检查。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;在同一文件下负责进行实际汇编到二进制代码的 &lt;code&gt;riscv_ip&lt;&#x2F;code&gt; 函数中添加生成二进制代码的代码。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;到此你的编译器已经能正常生成二进制代码了，但是如果你还想要用 &lt;code&gt;objdump&lt;&#x2F;code&gt; 之类的反编译工具：&lt;&#x2F;p&gt;
+&lt;ol start=&quot;6&quot;&gt;
+&lt;li&gt;在 &lt;code&gt;riscv-binutils&#x2F;opcodes&#x2F;riscv-dis.c&lt;&#x2F;code&gt; 中的 &lt;code&gt;print_insn_args&lt;&#x2F;code&gt; 中也添加相关解析代码。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h4 id=&quot;pi-pei-he-yan-ma&quot;&gt;匹配和掩码&lt;&#x2F;h4&gt;
+&lt;p&gt;设有一条二进制指令 &lt;code&gt;instruction&lt;&#x2F;code&gt;, 若：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;instruction &amp;amp; 掩码 == 匹配
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;则认为 &lt;code&gt;instruction&lt;&#x2F;code&gt; 是这一类的指令。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;zhong-xin-bian-yi&quot;&gt;重新编译&lt;&#x2F;h4&gt;
+&lt;p&gt;重新编译工具链需要 &lt;code&gt;make clean&lt;&#x2F;code&gt;，删空安装位置（如 &lt;code&gt;&#x2F;opt&#x2F;riscv&lt;&#x2F;code&gt;），然后重新 &lt;code&gt;make&lt;&#x2F;code&gt;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shi-yong&quot;&gt;使用&lt;&#x2F;h3&gt;
+&lt;p&gt;然后就能在汇编里拿 &lt;code&gt;asm&lt;&#x2F;code&gt; 用你刚刚加的指令了。&lt;&#x2F;p&gt;
+&lt;p&gt;如果你不是很懂内联汇编&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#5&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，可以看看我的&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;inline-asm-cheatsheet&#x2F;&quot;&gt;另一篇文章&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;risc-v-tools&quot;&gt;RISC-V tools&lt;&#x2F;h2&gt;
+&lt;p&gt;我们主要使用 RISC-V tools 中的 RISC-V 行为级模拟器 —— spike。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;clone-dai-ma-1&quot;&gt;clone 代码&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; clone https:&#x2F;&#x2F;github.com&#x2F;riscv&#x2F;riscv-tools.git
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;然后进入 clone 到的文件夹中。&lt;&#x2F;p&gt;
+&lt;p&gt;与 GNU 工具链在 &lt;code&gt;make&lt;&#x2F;code&gt; 的时候会自动拿 submodule 不同，tools 这边要手动：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; submodule update&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; --init --recursive
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;此外建议把我们重点要修改的 &lt;code&gt;riscv-isa-sim&lt;&#x2F;code&gt; 手动更新到 origin master 版本：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; riscv-isa-sim
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; pull origin master
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;zhi-ding-an-zhuang-di-zhi&quot;&gt;指定安装地址&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;export &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;RISCV&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;=&amp;lt;安装地址&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;build&quot;&gt;build&lt;&#x2F;h3&gt;
+&lt;p&gt;如果你按照官方说明直接在 clone 到的文件夹中：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;.&#x2F;build.sh
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;那你大概率会碰到 riscv-test submodule 里的关于 &lt;code&gt;tohost&lt;&#x2F;code&gt; 和 &lt;code&gt;fromhost&lt;&#x2F;code&gt; 重复定义的错误，可以采用&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;riscv&#x2F;riscv-tests&#x2F;issues&#x2F;286#issuecomment-801002149&quot;&gt;这里提到&lt;&#x2F;a&gt;的方法修复&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#6&quot;&gt;6&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;p&gt;修改 &lt;code&gt;.&#x2F;riscv-tests&#x2F;isa&#x2F;Makefile&lt;&#x2F;code&gt; 中的编译选项：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-diff&quot; data-lang=&quot;diff&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;-RISCV_GCC_OPTS ?= -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+RISCV_GCC_OPTS ?= -static -mcmodel=medany -fvisibility=hidden -nostdlib -nostartfiles -fcommon
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;tian-jia-zi-ding-yi-zhi-ling-ji&quot;&gt;添加自定义指令集&lt;&#x2F;h3&gt;
+&lt;p&gt;在 Spike 模拟器中添加客制指令集非常方便，只需要在 &lt;code&gt;.&#x2F;riscv-isa-sim&#x2F;customext&#x2F;&lt;&#x2F;code&gt; 中添加一个实现扩展指令集行为的文件，
+其中有一个类实现了 &lt;code&gt;extension_t&lt;&#x2F;code&gt;，然后用 &lt;code&gt;REGISTER_EXTENSION&lt;&#x2F;code&gt; 宏将其注册到模拟器即可。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;extension_t&lt;&#x2F;code&gt; 要求一个 &lt;code&gt;name&lt;&#x2F;code&gt;，一个拿所有指令的 &lt;code&gt;get_instructions&lt;&#x2F;code&gt;，一个拿所有反汇编指令的 &lt;code&gt;get_disasms&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gem5-mo-ni-qi&quot;&gt;gem5 模拟器&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;clone-dai-ma-2&quot;&gt;clone 代码&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; clone https:&#x2F;&#x2F;gem5.googlesource.com&#x2F;public&#x2F;gem5
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;zhuang-yi-lai-1&quot;&gt;装依赖&lt;&#x2F;h3&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sudo&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; apt install build-essential git m4 scons zlib1g zlib1g-dev \
+    libprotobuf-dev protobuf-compiler libprotoc-dev libgoogle-perftools-dev \
+    python3-dev python3-six python libboost-all-dev pkg-config
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;build-1&quot;&gt;build&lt;&#x2F;h3&gt;
+&lt;p&gt;在 clone 到的文件夹中：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;&#x2F;usr&#x2F;bin&#x2F;env&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; python3 $(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;which&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; scons) build&#x2F;RISCV&#x2F;gem5.opt&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -j &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;lt;CPU核数&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;如果你想要在你的程序中加 &lt;code&gt;checkpoint&lt;&#x2F;code&gt;、重置统计数据等，需要构建 &lt;code&gt;libm5&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;&#x2F;usr&#x2F;bin&#x2F;env&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; python3 $(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;which&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; scons)&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -C&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; util&#x2F;m5 build&#x2F;riscv&#x2F;out&#x2F;m5
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;shi-yong-1&quot;&gt;使用&lt;&#x2F;h3&gt;
+&lt;p&gt;如果你编写的程序中使用了 &lt;code&gt;libm5&lt;&#x2F;code&gt; 中的功能，需要包含 &lt;code&gt;gem5&#x2F;m5ops.h&lt;&#x2F;code&gt; 并在链接时链接 &lt;code&gt;libm5.a&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;riscv64-linux-gnu-gcc -static -I&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&#x2F;home&#x2F;longfangsong&#x2F;workspace&#x2F;gem5&#x2F;include&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -I &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;lt;gem5 位置&amp;gt;&#x2F;gem5&#x2F;include&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt; -static &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;&amp;lt;其他源文件&amp;gt; &amp;lt;gem5 位置&amp;gt;&#x2F;gem5&#x2F;util&#x2F;m5&#x2F;build&#x2F;riscv&#x2F;out&#x2F;libm5.a
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h4 id=&quot;trick-on-profiling-unspported-isa-set&quot;&gt;Trick on profiling unspported ISA set&lt;&#x2F;h4&gt;
+&lt;p&gt;&lt;code&gt;gem5&lt;&#x2F;code&gt; 只支持使用 &lt;code&gt;riscv64-linux-gnu-gcc&lt;&#x2F;code&gt; 生成的二进制文件，而且假定了用户有硬浮点支持，这在想要比较不同指令集时会带来一些不便。&lt;&#x2F;p&gt;
+&lt;p&gt;解决方案非常呆但很有效，就是先用 &lt;code&gt;riscv64-unknown-elf-gcc&lt;&#x2F;code&gt; 拿到某个指令集和 abi（如果要用和最终编译到二进制文件时不同的 abi 的话建议通过全局变量传参数和返回值） 下的汇编，然后用 &lt;code&gt;riscv64-linux-gnu-gcc&lt;&#x2F;code&gt; 编译汇编来生成最终的二进制文件以供 &lt;code&gt;gem5&lt;&#x2F;code&gt; 执行。&lt;&#x2F;p&gt;
+&lt;p&gt;可能会用到软乘法、软浮点等等的libgcc 中的 polyfill 代码，把这些也拉过来编译就是了&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, 目前已知的几份 polyfill 代码的位置都位于 &lt;code&gt;riscv-gnu-toolchain&#x2F;libgcc&lt;&#x2F;code&gt; 下，&lt;code&gt;softfp&lt;&#x2F;code&gt; 就是软浮点，&lt;code&gt;config&#x2F;riscv&lt;&#x2F;code&gt; 就是其他一些东西的 polyfill，比如乘除法，原子操作等等。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;因为 debian 可以在 &lt;code&gt;su&lt;&#x2F;code&gt; 下面做所有的事，&lt;code&gt;sudo&lt;&#x2F;code&gt; 反而要自己装，docker 一打开就是 &lt;code&gt;su&lt;&#x2F;code&gt;，为了复制粘贴方便下面都不会写明要 &lt;code&gt;sudo&lt;&#x2F;code&gt; 的地方，如果有必要的话自己加……&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;这是真的坑。还好正常的 Linux 系统安装器默认的文件系统都是区分大小写的。但用 Docker 挂其他系统的 Volume 就不一定了……&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;没文档就 nm 离谱，有些字母用的也挺离谱。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;这群开发者写的什么鬼 Makefile 啦。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;讲道理我也不懂 😭&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;6&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;6&lt;&#x2F;sup&gt;
+&lt;p&gt;官方维护在干什么东西啊.jpg&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;7&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;7&lt;&#x2F;sup&gt;
+&lt;p&gt;现在我懂为啥 C++ 大型项目为啥要把依赖也搞到项目的 &lt;code&gt;.&#x2F;third_parties&lt;&#x2F;code&gt; 里面一起编译了，否则这个链接、 abi 什么的是真的麻烦。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>重新开始学数学 • 数理逻辑（2）</title>
+		<published>2021-03-25T09:29:44.051+00:00</published>
+		<updated>2021-03-25T09:29:44.051+00:00</updated>
+		<link href="https://longfangsong.github.io/restart-math-logic-2/" type="text/html"/>
+		<id>https://longfangsong.github.io/restart-math-logic-2/</id>
+		<content type="html">&lt;h2 id=&quot;wei-ci-luo-ji&quot;&gt;谓词逻辑&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;wei-ci&quot;&gt;谓词&lt;&#x2F;h3&gt;
+&lt;p&gt;就是返回 &lt;code&gt;bool&lt;&#x2F;code&gt; 的函数&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;liang-ci&quot;&gt;量词&lt;&#x2F;h3&gt;
+&lt;p&gt;就是 $\forall$ 和 $\exists$。&lt;&#x2F;p&gt;
+&lt;p&gt;注意量词的优先级比 $\wedge$ 和 $\vee$ 高，例如：$\forall x A \wedge B$ 意思是 $(\forall x A) \wedge B$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;substitution-ti-huan&quot;&gt;substitution（替换）&lt;&#x2F;h3&gt;
+&lt;p&gt;设有一个式子 $A$，其中有一个变量 $x$，给定一个项 $t$，用 $t$ 替换所有自由出现的 $x$ 的操作称为一次 substitution，记作：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+A[t&#x2F;x]
+$$&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>重新开始学数学 • 数理逻辑（1）</title>
+		<published>2021-01-12T10:01:52.110+00:00</published>
+		<updated>2021-01-12T10:01:52.110+00:00</updated>
+		<link href="https://longfangsong.github.io/restart-math-logic-1/" type="text/html"/>
+		<id>https://longfangsong.github.io/restart-math-logic-1/</id>
+		<content type="html">&lt;h2 id=&quot;ming-ti-luo-ji&quot;&gt;命题逻辑&lt;&#x2F;h2&gt;
+&lt;p&gt;我们课上学的基本上就是这些了，大部分就是一些 trival 的是个人都能想通的东西，就是各种箭头（？）的用法容易混淆：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;设有命题 $A$ 和 $B$，$A \rightarrow B$ 指 “$A$ 实质蕴含 $B$” 这样一个命题，即&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-pesudo&quot; data-lang=&quot;pesudo&quot;&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;if A then B
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;设有一堆命题 $A$ 和一个命题 $B$，$A \vdash B$ 指 “$B$ 是 $A$ 的句法后承 ” 这样一个 sequent。&lt;&#x2F;p&gt;
+&lt;p&gt;通过使用某些证明手段，从前提 $A$ 能证出 $B$，那么这个 sequent 就 valid，否则就不vaild。
+$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{A}
+\UnaryInfC{$\vdots$}
+\UnaryInfC{B}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$ A \dashv \vdash B$：$A \vdash B$ 和 $ B \vdash A$ 都 valid，称为 $A$ 和 $B$ provably equivalent。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;设有一堆命题 $A$ 和一个命题 $B$，$A \models B$：指 “$B$ 是 $A$ 的语义后承”，即如果 $A$ 中每一个命题都为真，则 $B$ 也为真。&lt;&#x2F;p&gt;
+&lt;p&gt;在自然演绎中，$A \models B$ 当且仅当 $ A \vdash B $&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;另外常常会使用 $\top$ 和 $\bot$ 分别代表 &lt;code&gt;true&lt;&#x2F;code&gt; 和 &lt;code&gt;false&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;horn-gong-shi-he-horn-ke-man-zu-xing-wen-ti&quot;&gt;Horn 公式和 Horn 可满足性问题&lt;&#x2F;h3&gt;
+&lt;p&gt;设 p 为原子公式，&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+P ::= \bot | \top | p \\
+A ::= P \mid P \wedge A \\
+C ::= A \rightarrow P \\
+H ::= C \mid C \wedge H
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;其中 H 就是 Horn 公式，C 就是 Horn 子句&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;Horn 公式的几个例子：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(p \wedge q \wedge s \rightarrow p) \wedge(q \wedge r \rightarrow p) \wedge(p \wedge s \rightarrow s)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(p \wedge q \wedge s \rightarrow \perp) \wedge(q \wedge r \rightarrow p) \wedge(\top \rightarrow s)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(p_{2} \wedge p_{3} \wedge p_{5} \rightarrow p_{13}) \wedge (\top \rightarrow p_{5}) \wedge (p_{5} \wedge p_{11} \rightarrow \perp)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Horn 公式的好处在于，和任意公式是否可满足（即 SAT 问题）是 NP 问题不同，HornSAT 是 P 问题，有这么一个判定算法：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;&quot;&gt;
+&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;horn_satisfiabe&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;formula&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;: HornFormula) {
+  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt; marked = HashSet::new();
+  marked.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(⊤);
+  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while let &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;Some(p) = 
+    formula.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;find&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;it&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;| !it.rhs.marked &amp;amp;&amp;amp; 
+      it.lhs.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;all&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;it&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;| marked.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;contains&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(it))
+    ).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;map&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;it&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;| it.rhs) {
+    marked.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(p);
+  }
+  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;!marked.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;contains&lt;&#x2F;span&gt;&lt;span style=&quot;color:#c0c5ce;&quot;&gt;(⊥);
+}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;&lt;h3 id=&quot;sat-qiu-jie-qi&quot;&gt;Sat 求解器&lt;&#x2F;h3&gt;
+&lt;p&gt;感觉这里书上讲的好复杂……&lt;&#x2F;p&gt;
+&lt;p&gt;其实就是自顶而下地考虑一个公式的 parse tree，对公式本身每一个子公式的值，如果能通过上层的值和算符的真值表直接判定就直接判定，比如：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\top = \neg p \wedge q
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;从上层的 $\top$ 和 $\wedge$ 的性质我们就能得出
+$$
+\neg p = \top
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+q = \top
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;不行的话（比如遇到了类似 $\top = p \vee q$ 的情况）就随便选一个子公式把 $\top$ 和 $\bot$ 都试一遍，如果推出了冲突的结论就回溯，如果全判定完了没冲突就成了。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;“子句” 的定义是原子公式或 “$\neg 原子公式$” 的析取。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>Hello zola!</title>
+		<published>2020-01-02T15:00:00+00:00</published>
+		<updated>2020-01-02T15:00:00+00:00</updated>
+		<link href="https://longfangsong.github.io/hello-zola/" type="text/html"/>
+		<id>https://longfangsong.github.io/hello-zola/</id>
+		<content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
+&lt;p&gt;Here&#x27;s an image from my origin blog, powered by hexo:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hello-zola&#x2F;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Ouch!&lt;&#x2F;p&gt;
+&lt;p&gt;And then, since I&#x27;m a big fan of Rust, I found zola, though this tool is not as complete as hexo, I can use its shortcodes feature to embed different of things to my blog!&lt;&#x2F;p&gt;
+&lt;p&gt;For example, terminal record:&lt;&#x2F;p&gt;
+&lt;script id=&quot;asciicast-9EhVw8rujVjpPVBV5kQMdAIHe&quot; src=&quot;https:&#x2F;&#x2F;asciinema.org&#x2F;a&#x2F;9EhVw8rujVjpPVBV5kQMdAIHe.js&quot; async&gt;&lt;&#x2F;script&gt;
+&lt;p&gt;Which I never imagined when using hexo!&lt;&#x2F;p&gt;
+&lt;p&gt;And zola do make it easier to customize a theme, in hexo, if I want to customize a theme, I have to fork it, and do some edit on it. But in zola I can do this easily by override a template block.&lt;&#x2F;p&gt;
+&lt;p&gt;But there remains some problems:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;translations&lt;&#x2F;code&gt; in a theme cannot be used in the site based on that theme. Hope will fixed after &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;getzola&#x2F;zola&#x2F;pull&#x2F;1148&quot;&gt;#1148&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Cannot paginate over another section.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Anyway, I&#x27;ll absolutly move my blog to zola.&lt;&#x2F;p&gt;
+&lt;p&gt;Also I&#x27;m looking forward to contribute something to this project, and I started with &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;getzola&#x2F;themes&#x2F;pull&#x2F;49&quot;&gt;migrating a theme&lt;&#x2F;a&gt;, which I&#x27;ll also used on my blog.&lt;&#x2F;p&gt;
+&lt;p&gt;Hope zola will become a better project in the future!&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Or maybe I misunderstood the &lt;code&gt;pagination&lt;&#x2F;code&gt; feature ...&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+</feed>
