@@ -4,30 +4,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
-  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</title>
-  
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  <title> • Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</title>
   
   
-<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4ENV87MNSQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4ENV87MNSQ');
+</script>
 
 </head>
 <body>
 <div id="sidebar" class="animated fadeInDown">
   <div class="logo-title">
     <div class="title">
-      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
-      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https://longfangsong.github.io/"></a></h3>
       <div class="description">
-        <p>生命是灰色的，而理论之树常青</p>
+        <p></p>
       </div>
     </div>
   </div>
@@ -46,12 +52,12 @@
 <div id="main">
   <div class="page-top animated fadeInDown">
     <div class="nav">
-      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+      <li><a  href="https://longfangsong.github.io/">首页</a></li><li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a  href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
     <div class="information">
       <div class="back_btn">
         <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
       </div>
-      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+      <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
     </div>
   </div>
   <div class="autopagerize_page_element">
@@ -59,6 +65,7 @@
     
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;parsing-combinator&#x2F;">Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</a></h1>
+  
   <div class="post-content"><p>如果你听了老师上课讲的那一大坨根本没人听得懂的parse方法之后认为自己这辈子都造不出编译器了，那么本文介绍含回朔的递归自顶而下分析法正是你所需要的，这种方式非常容易想到，也非常容易编写，除了文法分析之外，对于词法分析，这个方法也可以一手包办，而且足以应付绝大多数编程语言的构造。</p>
 <p>我们先结合一个例子来看一下这玩意怎么使的：</p>
 <h2 id="zhu-yao-si-xiang">主要思想</h2>
@@ -74,122 +81,117 @@ Constant \rightarrow [0-9]*
 }
 $$</p>
 <p>上面的例子可以写成四个函数<sup class="footnote-reference"><a href="#1">1</a></sup>：</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expresion, string) | Error;
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">in_brackets</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (InBrackets, string) | Error;
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">ident</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Ident, string) | Error;
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">constant</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Constant, string) | Error;
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Expresion, string) | Error;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">in_brackets</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (InBrackets, string) | Error;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">ident</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Ident, string) | Error;
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">constant</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Constant, string) | Error;
 </span></code></pre>
 <p>那么函数体怎么写呢？</p>
 <h3 id="alt-many0he-tag"><code>alt</code>、<code>many0</code>和<code>tag</code></h3>
 <p>我们首先针对<code>|</code>和<code>*</code>，定义两个函数：</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#65737e;">// 接受一组parser函数和字符串作为参数，返回其中最早成功匹配的parser的匹配结果，相当于|
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">alt</span><span style="color:#c0c5ce;">&lt;R&gt;(</span><span style="color:#bf616a;">parsers</span><span style="color:#c0c5ce;">: Vec&lt;Fn(string) -&gt; (R, string) </span><span style="background-color:#bf616a;color:#2b303b;">|</span><span style="color:#c0c5ce;"> Error&gt;, </span><span style="color:#bf616a;">input</span><span style="color:#c0c5ce;">: string) -&gt; (R, string) | Error {
-	</span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> parser in parsers {
-		</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input) != Error {
-			</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input)
-		}
-	}
-	</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> Error
-}
-
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// 接受一组parser函数和字符串作为参数，返回其中最早成功匹配的parser的匹配结果，相当于|
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">alt</span><span>&lt;R&gt;(</span><span style="color:#bf616a;">parsers</span><span>: Vec&lt;Fn(string) -&gt; (R, string) </span><span style="background-color:#bf616a;color:#2b303b;">|</span><span> Error&gt;, </span><span style="color:#bf616a;">input</span><span>: string) -&gt; (R, string) | Error {
+</span><span>	</span><span style="color:#b48ead;">for</span><span> parser in parsers {
+</span><span>		</span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">parser</span><span>(input) != Error {
+</span><span>			</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">parser</span><span>(input)
+</span><span>		}
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">return</span><span> Error
+</span><span>}
+</span><span>
 </span><span style="color:#65737e;">// 接受一个parser函数，返回其重复匹配0次以上的结果，相当于*
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">many0</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">parser</span><span style="color:#c0c5ce;">: Fn(</span><span style="color:#bf616a;">string</span><span style="color:#c0c5ce;">) -&gt; (</span><span style="color:#bf616a;">R</span><span style="color:#c0c5ce;">, </span><span style="color:#bf616a;">string</span><span style="color:#c0c5ce;">) | Error, </span><span style="color:#bf616a;">input</span><span style="color:#c0c5ce;">: string) -&gt; (Vec&lt;R&gt;, string) | Error {
-	result = new Vec();
-	</span><span style="color:#b48ead;">while </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input) != error {
-		r, input = </span><span style="color:#96b5b4;">parser</span><span style="color:#c0c5ce;">(input)
-		result.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(r)
-	}
-	</span><span style="color:#b48ead;">return </span><span style="color:#c0c5ce;">(result, input)
-}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">many0</span><span>(</span><span style="color:#bf616a;">parser</span><span>: Fn(</span><span style="color:#bf616a;">string</span><span>) -&gt; (</span><span style="color:#bf616a;">R</span><span>, </span><span style="color:#bf616a;">string</span><span>) | Error, </span><span style="color:#bf616a;">input</span><span>: string) -&gt; (Vec&lt;R&gt;, string) | Error {
+</span><span>	result = new Vec();
+</span><span>	</span><span style="color:#b48ead;">while </span><span style="color:#96b5b4;">parser</span><span>(input) != error {
+</span><span>		r, input = </span><span style="color:#96b5b4;">parser</span><span>(input)
+</span><span>		result.</span><span style="color:#96b5b4;">push</span><span>(r)
+</span><span>	}
+</span><span>	</span><span style="color:#b48ead;">return </span><span>(result, input)
+</span><span>}
 </span></code></pre>
 <p>在实现一个<code>tag</code>函数来识别某些指定的字面量<sup class="footnote-reference"><a href="#2">2</a></sup>：</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">tag</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">tagname</span><span style="color:#c0c5ce;">: string, </span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (string, string) | Error {
-	</span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> code.</span><span style="color:#96b5b4;">starts_with</span><span style="color:#c0c5ce;">(tagname) {
-		</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> tagname, code[</span><span style="color:#96b5b4;">len</span><span style="color:#c0c5ce;">(tagname):]
-	} </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{
-		</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> Error
-	}
-}
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">tag</span><span>(</span><span style="color:#bf616a;">tagname</span><span>: string, </span><span style="color:#bf616a;">code</span><span>: string) -&gt; (string, string) | Error {
+</span><span>	</span><span style="color:#b48ead;">if</span><span> code.</span><span style="color:#96b5b4;">starts_with</span><span>(tagname) {
+</span><span>		</span><span style="color:#b48ead;">return</span><span> tagname, code[</span><span style="color:#96b5b4;">len</span><span>(tagname):]
+</span><span>	} </span><span style="color:#b48ead;">else </span><span>{
+</span><span>		</span><span style="color:#b48ead;">return</span><span> Error
+</span><span>	}
+</span><span>}
 </span></code></pre>
 <p>然后就可以实现上面的几个函数了：</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">mul</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expression, string) | Error {
-	</span><span style="color:#65737e;">// 识别左操作数, ? 代表如果它前面的函数返回Error，则当前函数也返回Error
-</span><span style="color:#c0c5ce;">	lhs, rest = </span><span style="color:#96b5b4;">expression</span><span style="color:#c0c5ce;">(code)?
-	</span><span style="color:#65737e;">// 识别*号
-</span><span style="color:#c0c5ce;">	op, rest = </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;, rest)?
-	</span><span style="color:#65737e;">// 识别右操作数
-</span><span style="color:#c0c5ce;">	rhs, rest = </span><span style="color:#96b5b4;">expression</span><span style="color:#c0c5ce;">(rest)?
-	</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> Expression {lhs, &quot;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&quot;, rhs}
-}
-
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">mul</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Expression, string) | Error {
+</span><span>	</span><span style="color:#65737e;">// 识别左操作数, ? 代表如果它前面的函数返回Error，则当前函数也返回Error
+</span><span>	lhs, rest = </span><span style="color:#96b5b4;">expression</span><span>(code)?
+</span><span>	</span><span style="color:#65737e;">// 识别*号
+</span><span>	op, rest = </span><span style="color:#96b5b4;">tag</span><span>(&quot;</span><span style="color:#a3be8c;">*</span><span>&quot;, rest)?
+</span><span>	</span><span style="color:#65737e;">// 识别右操作数
+</span><span>	rhs, rest = </span><span style="color:#96b5b4;">expression</span><span>(rest)?
+</span><span>	</span><span style="color:#b48ead;">return</span><span> Expression {lhs, &quot;</span><span style="color:#a3be8c;">*</span><span>&quot;, rhs}
+</span><span>}
+</span><span>
 </span><span style="color:#65737e;">// add 函数同理，*变为+
-
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expresion, string) | Error {
-	</span><span style="color:#65737e;">// 注意这里的顺序，优先级越低操作符对应的函数越要在前面
-	// 不理解的话考虑一下1+2*3会怎么被parse就知道了
-	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">([
-		add,
-		mul,
-		ident,
-		constant,
-		in_brackets,
-	], code)
-}
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">in_brackets</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (InBrackets, string) | Error {
-	bracket, rest = </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">(</span><span style="color:#c0c5ce;">&quot;,code)?
-	expr, rest = </span><span style="color:#96b5b4;">expression</span><span style="color:#c0c5ce;">(rest)?
-	bracket, rest = </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">)</span><span style="color:#c0c5ce;">&quot;,code)?
-	</span><span style="color:#b48ead;">return</span><span style="color:#c0c5ce;"> InBrackets(expr), rest
-}
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">ident</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Ident, string) | Error {
-	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">a</span><span style="color:#c0c5ce;">&quot;, code), </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">b</span><span style="color:#c0c5ce;">&quot;, code),........) 
-}
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">digit</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (string, string) | Error {
-	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">(</span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">0</span><span style="color:#c0c5ce;">&quot;, code), </span><span style="color:#96b5b4;">tag</span><span style="color:#c0c5ce;">(&quot;</span><span style="color:#a3be8c;">1</span><span style="color:#c0c5ce;">&quot;, code),........) 
-}
-</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">constant</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Constant, string) | Error {
-	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">many0</span><span style="color:#c0c5ce;">(digit, code)
-}
-</span></code></pre><h3 id="zuo-di-gui">左递归</h3>
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Expresion, string) | Error {
+</span><span>	</span><span style="color:#65737e;">// 注意这里的顺序，优先级越低操作符对应的函数越要在前面
+</span><span>	</span><span style="color:#65737e;">// 不理解的话考虑一下1+2*3会怎么被parse就知道了
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span>([
+</span><span>		add,
+</span><span>		mul,
+</span><span>		ident,
+</span><span>		constant,
+</span><span>		in_brackets,
+</span><span>	], code)
+</span><span>}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">in_brackets</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (InBrackets, string) | Error {
+</span><span>	bracket, rest = </span><span style="color:#96b5b4;">tag</span><span>(&quot;</span><span style="color:#a3be8c;">(</span><span>&quot;,code)?
+</span><span>	expr, rest = </span><span style="color:#96b5b4;">expression</span><span>(rest)?
+</span><span>	bracket, rest = </span><span style="color:#96b5b4;">tag</span><span>(&quot;</span><span style="color:#a3be8c;">)</span><span>&quot;,code)?
+</span><span>	</span><span style="color:#b48ead;">return</span><span> InBrackets(expr), rest
+</span><span>}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">ident</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Ident, string) | Error {
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span>(</span><span style="color:#96b5b4;">tag</span><span>(&quot;</span><span style="color:#a3be8c;">a</span><span>&quot;, code), </span><span style="color:#96b5b4;">tag</span><span>(&quot;</span><span style="color:#a3be8c;">b</span><span>&quot;, code),........) 
+</span><span>}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">digit</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (string, string) | Error {
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span>(</span><span style="color:#96b5b4;">tag</span><span>(&quot;</span><span style="color:#a3be8c;">0</span><span>&quot;, code), </span><span style="color:#96b5b4;">tag</span><span>(&quot;</span><span style="color:#a3be8c;">1</span><span>&quot;, code),........) 
+</span><span>}
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">constant</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Constant, string) | Error {
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">many0</span><span>(digit, code)
+</span><span>}
+</span></code></pre>
+<h3 id="zuo-di-gui">左递归</h3>
 <p>实际写出来之后会发现这里有一个问题：</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">code</span><span style="color:#c0c5ce;">: string) -&gt; (Expresion, string) | Error {
-	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span style="color:#c0c5ce;">([
-		add,
-		mul,
-		ident,
-		constant,
-		in_brackets,
-	], code)
-}
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">expression</span><span>(</span><span style="color:#bf616a;">code</span><span>: string) -&gt; (Expresion, string) | Error {
+</span><span>	</span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">alt</span><span>([
+</span><span>		add,
+</span><span>		mul,
+</span><span>		ident,
+</span><span>		constant,
+</span><span>		in_brackets,
+</span><span>	], code)
+</span><span>}
 </span></code></pre>
 <p>其中的<code>mul</code>，间接调用了<code>expression(code)</code>，而这时又会反过去调用<code>mul(code)</code>，且其中的<code>code</code>参数一直没有变化，<code>add</code>也有这个问题，这样在程序中就会造成无限递归。</p>
 <p>这也是为什么课上说在做自顶而下文法分析的时候要先消除左递归的原因。</p>
 <p>怎么消除也很简单，我们要让<code>mul</code>和<code>add</code>至少从<code>code</code>中“消耗”一个优先级比其自身高的expression，即：</p>
-<pre style="background-color:#2b303b;">
-<code><span style="color:#c0c5ce;">fn higher_than_mul(code: string) -&gt; (Expression, string) | Error {
-	return alt([
-		ident,
-		constant,
-		in_brackets
-	], code)
-}
-
-fn mul(code: string) -&gt; (Expression, string) | Error {
-	// 识别左操作数, 消耗掉一个优先级高于*结果的语法元素
-	lhs, rest = higher_than_mul(code)?
-	// 识别*号
-	op, rest = tag(&quot;*&quot;, rest)?
-	// 识别右操作数
-	rhs, rest = expression(rest)?
-	return Expression {lhs, &quot;*&quot;, rhs}
-}
-
-// add 同理，你应该自己能想到的
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>fn higher_than_mul(code: string) -&gt; (Expression, string) | Error {
+</span><span>	return alt([
+</span><span>		ident,
+</span><span>		constant,
+</span><span>		in_brackets
+</span><span>	], code)
+</span><span>}
+</span><span>
+</span><span>fn mul(code: string) -&gt; (Expression, string) | Error {
+</span><span>	// 识别左操作数, 消耗掉一个优先级高于*结果的语法元素
+</span><span>	lhs, rest = higher_than_mul(code)?
+</span><span>	// 识别*号
+</span><span>	op, rest = tag(&quot;*&quot;, rest)?
+</span><span>	// 识别右操作数
+</span><span>	rhs, rest = expression(rest)?
+</span><span>	return Expression {lhs, &quot;*&quot;, rhs}
+</span><span>}
+</span><span>
+</span><span>// add 同理，你应该自己能想到的
 </span></code></pre>
 <p>实际上就相当于将Expression部分的文法改成了：
 $$
@@ -226,20 +228,20 @@ Mul \rightarrow HigherThanMul\ (* HigherThanMul)* \\
 }
 $$</p>
 <p>然后将 parse 得到的东西用如下方法转换（折叠）为 AST：</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">to_ast</span><span style="color:#c0c5ce;">(</span><span style="color:#bf616a;">first</span><span style="color:#c0c5ce;">: RValue, </span><span style="color:#bf616a;">rest</span><span style="color:#c0c5ce;">: Vec&lt;(String, RValue)&gt;) -&gt; BinOp {
-</span><span style="color:#c0c5ce;">  </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> current_lhs = first;
-</span><span style="color:#c0c5ce;">  </span><span style="color:#b48ead;">for </span><span style="color:#c0c5ce;">(op, value) in rest.</span><span style="color:#96b5b4;">into_iter</span><span style="color:#c0c5ce;">() {
-</span><span style="color:#c0c5ce;">      current_lhs = BinOp {
-</span><span style="color:#c0c5ce;">          operator: op,
-</span><span style="color:#c0c5ce;">          lhs: Box::new(current_lhs),
-</span><span style="color:#c0c5ce;">          rhs: Box::new(value),
-</span><span style="color:#c0c5ce;">      }
-</span><span style="color:#c0c5ce;">      .</span><span style="color:#96b5b4;">into</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">  }
-</span><span style="color:#c0c5ce;">  current_lhs.</span><span style="color:#96b5b4;">try_into</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">()
-</span><span style="color:#c0c5ce;">}
-</span></code></pre></li>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">to_ast</span><span>(</span><span style="color:#bf616a;">first</span><span>: RValue, </span><span style="color:#bf616a;">rest</span><span>: Vec&lt;(String, RValue)&gt;) -&gt; BinOp {
+</span><span>  </span><span style="color:#b48ead;">let mut</span><span> current_lhs = first;
+</span><span>  </span><span style="color:#b48ead;">for </span><span>(op, value) in rest.</span><span style="color:#96b5b4;">into_iter</span><span>() {
+</span><span>      current_lhs = BinOp {
+</span><span>          operator: op,
+</span><span>          lhs: Box::new(current_lhs),
+</span><span>          rhs: Box::new(value),
+</span><span>      }
+</span><span>      .</span><span style="color:#96b5b4;">into</span><span>()
+</span><span>  }
+</span><span>  current_lhs.</span><span style="color:#96b5b4;">try_into</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>()
+</span><span>}
+</span></code></pre>
+</li>
 </ul>
 </li>
 </ul>
@@ -262,7 +264,7 @@ $$</p>
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/编译原理">&nbsp;编译原理</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/编译原理">&nbsp;编译原理</a>
           
         
       </div>
@@ -313,7 +315,8 @@ $$</p>
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
-  
+
+
 
     </div>
   </div>

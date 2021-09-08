@@ -4,30 +4,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
-  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • Parsing • 移进-归约分析</title>
-  
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  <title> • Parsing • 移进-归约分析</title>
   
   
-<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4ENV87MNSQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4ENV87MNSQ');
+</script>
 
 </head>
 <body>
 <div id="sidebar" class="animated fadeInDown">
   <div class="logo-title">
     <div class="title">
-      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
-      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https://longfangsong.github.io/"></a></h3>
       <div class="description">
-        <p>生命是灰色的，而理论之树常青</p>
+        <p></p>
       </div>
     </div>
   </div>
@@ -46,12 +52,12 @@
 <div id="main">
   <div class="page-top animated fadeInDown">
     <div class="nav">
-      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+      <li><a  href="https://longfangsong.github.io/">首页</a></li><li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a  href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
     <div class="information">
       <div class="back_btn">
         <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
       </div>
-      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+      <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
     </div>
   </div>
   <div class="autopagerize_page_element">
@@ -59,57 +65,57 @@
     
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;">Parsing • 移进-归约分析</a></h1>
+  
   <div class="post-content"><p>回忆你很可能在大一大二<sup class="footnote-reference"><a href="#1">1</a></sup>写过的运用栈进行表达式求值的程序，我们将其简化到只支持加法和乘法，这里给出一个Rust语言的例子（写的比较随意……），太长不看党可以直接跳过看下面的分析：</p>
-<pre style="background-color:#2b303b;">
-<code class="language-rust" data-lang="rust"><span style="color:#c0c5ce;">    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> input = String::new();
-    </span><span style="color:#96b5b4;">stdin</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">read_to_string</span><span style="color:#c0c5ce;">(&amp;</span><span style="color:#b48ead;">mut</span><span style="color:#c0c5ce;"> input).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
-    input = input.</span><span style="color:#96b5b4;">trim</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">to_owned</span><span style="color:#c0c5ce;">();
-    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> current_number = String::new();
-    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> stack = Vec::new();
-    </span><span style="color:#b48ead;">for</span><span style="color:#c0c5ce;"> ch in input.</span><span style="color:#96b5b4;">chars</span><span style="color:#c0c5ce;">() {
-        </span><span style="color:#b48ead;">match</span><span style="color:#c0c5ce;"> ch {
-            &#39;</span><span style="color:#a3be8c;">0</span><span style="color:#c0c5ce;">&#39;..=&#39;</span><span style="color:#a3be8c;">9</span><span style="color:#c0c5ce;">&#39; =&gt; current_number.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(ch),
-            &#39;</span><span style="color:#a3be8c;">+</span><span style="color:#c0c5ce;">&#39; | &#39;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&#39; =&gt; {
-                </span><span style="color:#b48ead;">if </span><span style="color:#c0c5ce;">!current_number.</span><span style="color:#96b5b4;">is_empty</span><span style="color:#c0c5ce;">() {
-                    stack.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(Token::Value(</span><span style="color:#b48ead;">i32</span><span style="color:#c0c5ce;">::from_str(&amp;current_number).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">()));
-                    current_number = String::new();
-                }
-                </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> top_op = stack.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">rev</span><span style="color:#c0c5ce;">()
-                    .</span><span style="color:#96b5b4;">find_map</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">it</span><span style="color:#c0c5ce;">| </span><span style="color:#b48ead;">if let </span><span style="color:#c0c5ce;">Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{ None });
-                </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> top_op.</span><span style="color:#96b5b4;">is_some</span><span style="color:#c0c5ce;">() {
-                    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> top_op = top_op.</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
-                    </span><span style="color:#65737e;">// 下面的条件实际上是&quot;栈上最后一个操作符优先级大于等于当前读到的操作符&quot;
-                    </span><span style="color:#b48ead;">while</span><span style="color:#c0c5ce;"> ch == &#39;</span><span style="color:#a3be8c;">+</span><span style="color:#c0c5ce;">&#39; || top_op == &#39;</span><span style="color:#a3be8c;">*</span><span style="color:#c0c5ce;">&#39; {
-                        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> op2 = stack.</span><span style="color:#96b5b4;">pop</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
-                        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> op = stack.</span><span style="color:#96b5b4;">pop</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">(); </span><span style="color:#65737e;">// should be equal to top_op
-                        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> op1 = stack.</span><span style="color:#96b5b4;">pop</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
-                        stack.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(Token::Value(</span><span style="color:#96b5b4;">eval</span><span style="color:#c0c5ce;">(op1, op, op2)));
-                        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> next_top_op = stack.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">rev</span><span style="color:#c0c5ce;">()
-                            .</span><span style="color:#96b5b4;">find_map</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">it</span><span style="color:#c0c5ce;">| </span><span style="color:#b48ead;">if let </span><span style="color:#c0c5ce;">Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{ None });
-                        </span><span style="color:#b48ead;">if</span><span style="color:#c0c5ce;"> next_top_op.</span><span style="color:#96b5b4;">is_none</span><span style="color:#c0c5ce;">() { </span><span style="color:#b48ead;">break</span><span style="color:#c0c5ce;">; }
-                        top_op = next_top_op.</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">()
-                    }
-                }
-                stack.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(Token::Op(ch));
-            }
-            _ =&gt; unreachable!()
-        }
-    }
-    </span><span style="color:#b48ead;">if </span><span style="color:#c0c5ce;">!current_number.</span><span style="color:#96b5b4;">is_empty</span><span style="color:#c0c5ce;">() {
-        stack.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(Token::Value(</span><span style="color:#b48ead;">i32</span><span style="color:#c0c5ce;">::from_str(&amp;current_number).</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">()));
-        current_number.</span><span style="color:#96b5b4;">clear</span><span style="color:#c0c5ce;">();
-    }
-    </span><span style="color:#b48ead;">let mut</span><span style="color:#c0c5ce;"> top_op = stack.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">rev</span><span style="color:#c0c5ce;">()
-        .</span><span style="color:#96b5b4;">find_map</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">it</span><span style="color:#c0c5ce;">| </span><span style="color:#b48ead;">if let </span><span style="color:#c0c5ce;">Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{ None });
-    </span><span style="color:#b48ead;">while</span><span style="color:#c0c5ce;"> top_op.</span><span style="color:#96b5b4;">is_some</span><span style="color:#c0c5ce;">() {
-        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> op2 = stack.</span><span style="color:#96b5b4;">pop</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
-        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> op = stack.</span><span style="color:#96b5b4;">pop</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
-        </span><span style="color:#b48ead;">let</span><span style="color:#c0c5ce;"> op1 = stack.</span><span style="color:#96b5b4;">pop</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">unwrap</span><span style="color:#c0c5ce;">();
-        stack.</span><span style="color:#96b5b4;">push</span><span style="color:#c0c5ce;">(Token::Value(</span><span style="color:#96b5b4;">eval</span><span style="color:#c0c5ce;">(op1, op, op2)));
-        top_op = stack.</span><span style="color:#96b5b4;">iter</span><span style="color:#c0c5ce;">().</span><span style="color:#96b5b4;">rev</span><span style="color:#c0c5ce;">()
-            .</span><span style="color:#96b5b4;">find_map</span><span style="color:#c0c5ce;">(|&amp;</span><span style="color:#bf616a;">it</span><span style="color:#c0c5ce;">| </span><span style="color:#b48ead;">if let </span><span style="color:#c0c5ce;">Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span style="color:#c0c5ce;">{ None });
-    }
-		println!(&quot;</span><span style="color:#d08770;">{:?}</span><span style="color:#c0c5ce;">&quot;, stack[</span><span style="color:#d08770;">0</span><span style="color:#c0c5ce;">]);
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>    </span><span style="color:#b48ead;">let mut</span><span> input = String::new();
+</span><span>    </span><span style="color:#96b5b4;">stdin</span><span>().</span><span style="color:#96b5b4;">read_to_string</span><span>(&amp;</span><span style="color:#b48ead;">mut</span><span> input).</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>    input = input.</span><span style="color:#96b5b4;">trim</span><span>().</span><span style="color:#96b5b4;">to_owned</span><span>();
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> current_number = String::new();
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> stack = Vec::new();
+</span><span>    </span><span style="color:#b48ead;">for</span><span> ch in input.</span><span style="color:#96b5b4;">chars</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">match</span><span> ch {
+</span><span>            &#39;</span><span style="color:#a3be8c;">0</span><span>&#39;..=&#39;</span><span style="color:#a3be8c;">9</span><span>&#39; =&gt; current_number.</span><span style="color:#96b5b4;">push</span><span>(ch),
+</span><span>            &#39;</span><span style="color:#a3be8c;">+</span><span>&#39; | &#39;</span><span style="color:#a3be8c;">*</span><span>&#39; =&gt; {
+</span><span>                </span><span style="color:#b48ead;">if </span><span>!current_number.</span><span style="color:#96b5b4;">is_empty</span><span>() {
+</span><span>                    stack.</span><span style="color:#96b5b4;">push</span><span>(Token::Value(</span><span style="color:#b48ead;">i32</span><span>::from_str(&amp;current_number).</span><span style="color:#96b5b4;">unwrap</span><span>()));
+</span><span>                    current_number = String::new();
+</span><span>                }
+</span><span>                </span><span style="color:#b48ead;">let</span><span> top_op = stack.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">rev</span><span>()
+</span><span>                    .</span><span style="color:#96b5b4;">find_map</span><span>(|&amp;</span><span style="color:#bf616a;">it</span><span>| </span><span style="color:#b48ead;">if let </span><span>Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span>{ None });
+</span><span>                </span><span style="color:#b48ead;">if</span><span> top_op.</span><span style="color:#96b5b4;">is_some</span><span>() {
+</span><span>                    </span><span style="color:#b48ead;">let mut</span><span> top_op = top_op.</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>                    </span><span style="color:#65737e;">// 下面的条件实际上是&quot;栈上最后一个操作符优先级大于等于当前读到的操作符&quot;
+</span><span>                    </span><span style="color:#b48ead;">while</span><span> ch == &#39;</span><span style="color:#a3be8c;">+</span><span>&#39; || top_op == &#39;</span><span style="color:#a3be8c;">*</span><span>&#39; {
+</span><span>                        </span><span style="color:#b48ead;">let</span><span> op2 = stack.</span><span style="color:#96b5b4;">pop</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>                        </span><span style="color:#b48ead;">let</span><span> op = stack.</span><span style="color:#96b5b4;">pop</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>(); </span><span style="color:#65737e;">// should be equal to top_op
+</span><span>                        </span><span style="color:#b48ead;">let</span><span> op1 = stack.</span><span style="color:#96b5b4;">pop</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>                        stack.</span><span style="color:#96b5b4;">push</span><span>(Token::Value(</span><span style="color:#96b5b4;">eval</span><span>(op1, op, op2)));
+</span><span>                        </span><span style="color:#b48ead;">let</span><span> next_top_op = stack.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">rev</span><span>()
+</span><span>                            .</span><span style="color:#96b5b4;">find_map</span><span>(|&amp;</span><span style="color:#bf616a;">it</span><span>| </span><span style="color:#b48ead;">if let </span><span>Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span>{ None });
+</span><span>                        </span><span style="color:#b48ead;">if</span><span> next_top_op.</span><span style="color:#96b5b4;">is_none</span><span>() { </span><span style="color:#b48ead;">break</span><span>; }
+</span><span>                        top_op = next_top_op.</span><span style="color:#96b5b4;">unwrap</span><span>()
+</span><span>                    }
+</span><span>                }
+</span><span>                stack.</span><span style="color:#96b5b4;">push</span><span>(Token::Op(ch));
+</span><span>            }
+</span><span>            _ =&gt; unreachable!()
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">if </span><span>!current_number.</span><span style="color:#96b5b4;">is_empty</span><span>() {
+</span><span>        stack.</span><span style="color:#96b5b4;">push</span><span>(Token::Value(</span><span style="color:#b48ead;">i32</span><span>::from_str(&amp;current_number).</span><span style="color:#96b5b4;">unwrap</span><span>()));
+</span><span>        current_number.</span><span style="color:#96b5b4;">clear</span><span>();
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> top_op = stack.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">rev</span><span>()
+</span><span>        .</span><span style="color:#96b5b4;">find_map</span><span>(|&amp;</span><span style="color:#bf616a;">it</span><span>| </span><span style="color:#b48ead;">if let </span><span>Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span>{ None });
+</span><span>    </span><span style="color:#b48ead;">while</span><span> top_op.</span><span style="color:#96b5b4;">is_some</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> op2 = stack.</span><span style="color:#96b5b4;">pop</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>        </span><span style="color:#b48ead;">let</span><span> op = stack.</span><span style="color:#96b5b4;">pop</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>        </span><span style="color:#b48ead;">let</span><span> op1 = stack.</span><span style="color:#96b5b4;">pop</span><span>().</span><span style="color:#96b5b4;">unwrap</span><span>();
+</span><span>        stack.</span><span style="color:#96b5b4;">push</span><span>(Token::Value(</span><span style="color:#96b5b4;">eval</span><span>(op1, op, op2)));
+</span><span>        top_op = stack.</span><span style="color:#96b5b4;">iter</span><span>().</span><span style="color:#96b5b4;">rev</span><span>()
+</span><span>            .</span><span style="color:#96b5b4;">find_map</span><span>(|&amp;</span><span style="color:#bf616a;">it</span><span>| </span><span style="color:#b48ead;">if let </span><span>Token::Op(op) = it { Some(op) } </span><span style="color:#b48ead;">else </span><span>{ None });
+</span><span>    }
+</span><span>		println!(&quot;</span><span style="color:#d08770;">{:?}</span><span>&quot;, stack[</span><span style="color:#d08770;">0</span><span>]);
 </span></code></pre>
 <p>我们以表达式$1+2*3+4$的求值来观察这一过程：</p>
 <ol>
@@ -206,7 +212,7 @@ $$
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/编译原理">&nbsp;编译原理</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/编译原理">&nbsp;编译原理</a>
           
         
       </div>
@@ -257,7 +263,8 @@ $$
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
-  
+
+
 
     </div>
   </div>

@@ -4,30 +4,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
-  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • Parsing • LR(0)分析</title>
-  
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  <title> • Parsing • LR(0)分析</title>
   
   
-<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4ENV87MNSQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4ENV87MNSQ');
+</script>
 
 </head>
 <body>
 <div id="sidebar" class="animated fadeInDown">
   <div class="logo-title">
     <div class="title">
-      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
-      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https://longfangsong.github.io/"></a></h3>
       <div class="description">
-        <p>生命是灰色的，而理论之树常青</p>
+        <p></p>
       </div>
     </div>
   </div>
@@ -46,12 +52,12 @@
 <div id="main">
   <div class="page-top animated fadeInDown">
     <div class="nav">
-      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+      <li><a  href="https://longfangsong.github.io/">首页</a></li><li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a  href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
     <div class="information">
       <div class="back_btn">
         <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
       </div>
-      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+      <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
     </div>
   </div>
   <div class="autopagerize_page_element">
@@ -59,6 +65,7 @@
     
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;lr0&#x2F;">Parsing • LR(0)分析</a></h1>
+  
   <div class="post-content"><p>如果你已经理解了<a href="https://longfangsong.github.io/shift-reduce/">移进-归约分析</a>的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？</p>
 <p>举一个经典的表达式文法的例子：</p>
 <p>$$
@@ -228,7 +235,7 @@ $$</p>
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/编译原理">&nbsp;编译原理</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/编译原理">&nbsp;编译原理</a>
           
         
       </div>
@@ -279,7 +286,8 @@ $$</p>
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
-  
+
+
 
     </div>
   </div>

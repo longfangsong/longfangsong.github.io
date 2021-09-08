@@ -11,7 +11,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title> • 内联汇编 cheatsheet</title>
+  <title> • 自动机理论 • 有限状态机</title>
   
   
 <link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
@@ -64,52 +64,31 @@
     <div class="content">
     
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;inline-asm-cheatsheet&#x2F;">内联汇编 cheatsheet</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;">自动机理论 • 有限状态机</a></h1>
   
-  <div class="post-content"><h2 id="ji-ben-yu-fa-mo-ban">基本语法模版</h2>
-<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#bf616a;">asm</span><span>(
-</span><span>    &lt;代码&gt;:
-</span><span>    &lt;输出到哪些变量&gt;:
-</span><span>    &lt;从哪些变量输入&gt;:
-</span><span>    &lt;副作用会影响什么&gt;
-</span><span>)
-</span></code></pre>
-<p>其中每个值如果有多个的话都是用逗号分隔。</p>
-<h3 id="shu-ru-shu-chu-bian-liang">输入输出变量</h3>
-<p>输入输出变量的常用格式为：</p>
-<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span>&quot;</span><span style="color:#a3be8c;">&lt;修饰符&gt;&lt;约束&gt;</span><span>&quot;(&lt;变量&gt;)
-</span></code></pre>
-<h4 id="yue-shu">约束</h4>
+  <div class="post-content"><h2 id="que-ding-xing-you-xian-zhuang-tai-ji-deterministic-finite-automata-dfa">确定性有限状态机（Deterministic Finite Automata, DFA）</h2>
+<p>DFA包含以下要素：</p>
 <ul>
-<li><code>r</code>
-指代某个通用寄存器</li>
-<li><code>m</code>
-指代某个变量的内存地址, 后面的括号填入的是变量本身而非变量地址</li>
-<li><code>i</code>
-指代某个立即数</li>
+<li>一个有限大小的状态集合，常记为 $Q$。</li>
+<li>一个有限大小的输入符号集合，常记为 $\Sigma$。</li>
+<li>一个状态转换函数，其参数为一个状态（设为 $B$）和一个输入符号（设为 $a$），返回一个状态（设为 $C$），表现了状态机在状态 $B$ 时，若接收到输入 $a$，则应该转到状态 $C$，常记为 $\delta$，如 $C = \delta(B, a)$。</li>
+<li>一个开始状态，常记为 $q_0$，$q_0 \in Q$</li>
+<li>一个终止或者接受状态的集合，常记为 $F$，$F \subseteq Q$。</li>
 </ul>
-<h4 id="xiu-shi-fu">修饰符</h4>
-<ul>
-<li><code>=</code>
-指这个变量/寄存器被写入了，一般所有输出变量都会带上这个。</li>
-<li><code>+</code>
-指这个变量/寄存器被读取和写入了</li>
-</ul>
-<h3 id="fu-zuo-yong-hui-ying-xiang-shi-yao">副作用会影响什么</h3>
-<p>这里一般就填一些标记寄存器和 <code>memory</code>。</p>
+<p>DFA 常常用如上五种要素的元组表示，记为 $A = (Q, \Sigma, \delta, q_0, F)$</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-          <i class="far fa-sun"></i><span class="date">2021-04-18</span>
+          <i class="far fa-sun"></i><span class="date">2021-07-22</span>
         
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https://longfangsong.github.io/tags/汇编">&nbsp;汇编</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/自动机">&nbsp;自动机</a>
           
-            <a class="tag" href="https://longfangsong.github.io/tags/cheatsheet">&nbsp;cheatsheet</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/计算机科学基础">&nbsp;计算机科学基础</a>
           
         
       </div>
@@ -121,7 +100,7 @@
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=内联汇编 cheatsheet&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;inline-asm-cheatsheet&hashtags=汇编,cheatsheet"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=自动机理论 • 有限状态机&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&hashtags=自动机,计算机科学基础"></a>
   </div>
 </div>
 
@@ -147,6 +126,19 @@
 
 
 
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
 
 
 

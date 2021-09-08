@@ -4,30 +4,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-144x144.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-120x120.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-72x72.png"/>
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;apple-touch-icon-57x57.png"/>
-  <link rel="short icon" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;favicon.png" type="image/x-icon"/>
-  <link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;style.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</title>
-  
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;rss.xml">
+  <title> • Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</title>
   
   
-<link rel="stylesheet" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;blog.css">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4ENV87MNSQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4ENV87MNSQ');
+</script>
 
 </head>
 <body>
 <div id="sidebar" class="animated fadeInDown">
   <div class="logo-title">
     <div class="title">
-      <img src=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;logo@2x.png style="width:127px;" alt="logo"/>
-      <h3><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">Blog</a></h3>
+      <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https://longfangsong.github.io/"></a></h3>
       <div class="description">
-        <p>生命是灰色的，而理论之树常青</p>
+        <p></p>
       </div>
     </div>
   </div>
@@ -46,12 +52,12 @@
 <div id="main">
   <div class="page-top animated fadeInDown">
     <div class="nav">
-      <li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;">首页</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;about&#x2F;">关于</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags">标签</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;archive&#x2F;">归档</a></li><li><a  href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;links&#x2F;">友链</a></li></div>
+      <li><a  href="https://longfangsong.github.io/">首页</a></li><li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a  href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
     <div class="information">
       <div class="back_btn">
         <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
       </div>
-      <div class="avatar"><img src="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;images&#x2F;avatar.jpg"></div>
+      <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
     </div>
   </div>
   <div class="autopagerize_page_element">
@@ -59,6 +65,7 @@
     
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;ll1&#x2F;">Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</a></h1>
+  
   <div class="post-content"><h2 id="wei-shi-yao-xu-yao-firstji-he-followji">为什么需要First集和Follow集</h2>
 <p>了解<a href="https://longfangsong.github.io/parsing-combinator/">带回朔的递归下降文法分析方法</a>的同学可能会发现这种分析法由于在文法中每个出现 <code>|</code> 的点上，都会<strong>尝试</strong>这个点上所有可能的生成式，直到有一个匹配成功为止，这种方案虽然保证了对所有文法中的句子，最终都能通过这种方式构建出其语法树，但由于可能存在的大量回朔，效率就会收到影响。</p>
 <p>那么我们就要想了，有没有什么方法可以选择出这个点上<strong>唯一</strong>的生成式，来消除所有回朔的可能性，这样效率就能大大提升了。</p>
@@ -216,7 +223,7 @@ $$
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;tags/编译原理">&nbsp;编译原理</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/编译原理">&nbsp;编译原理</a>
           
         
       </div>
@@ -267,7 +274,8 @@ $$
 <script type="text/javascript" id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
-  
+
+
 
     </div>
   </div>
