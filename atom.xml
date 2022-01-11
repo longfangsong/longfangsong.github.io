@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh">
-	<title></title>
+	<title>Blog</title>
+	<subtitle>生命是灰色的，而理论之树常青</subtitle>
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
@@ -895,6 +896,166 @@ $$&lt;&#x2F;p&gt;
 </content>
 	</entry>
 	<entry xml:lang="zh">
+		<title>分布式系统 • 时钟</title>
+		<published>2020-12-10T22:42:11.815+00:00</published>
+		<updated>2020-12-10T22:42:11.815+00:00</updated>
+		<link href="https://longfangsong.github.io/clocks-in-distributed-system/" type="text/html"/>
+		<id>https://longfangsong.github.io/clocks-in-distributed-system/</id>
+		<content type="html">&lt;h2 id=&quot;wei-shi-yao-zai-fen-bu-shi-xi-tong-zhong-shi-zhong-hen-zhong-yao&quot;&gt;为什么在分布式系统中时钟很重要&lt;&#x2F;h2&gt;
+&lt;p&gt;最简单的一个例子：一个读请求和一个修改请求（在外界观察者眼中）先后来到一个系统中的两个不同的节点上（假设所有节点的存储是通过某些“魔法”手段连在一起的），按道理由于读请求先发生，那么他不应当读到写请求写入的数据。但是如果两个节点上的物理时钟出了问题，处理读请求的时钟快了（认为请求到来时的时间戳比较大），而处理写请求的时钟慢了（认为请求到来时的时间戳比较小），此时按照时钟判断出的读写顺序就和实际不同了，这就会带来读写操作进行的顺序和预期不符。&lt;&#x2F;p&gt;
+&lt;p&gt;即使是同一个节点上也会遇到时钟由于走的太快而被 NTP 这样的时间同步算法回拨，导致的时间戳不唯一的问题。&lt;&#x2F;p&gt;
+&lt;p&gt;可见分布式系统中直接根据物理时钟决定事件发生的先后顺序是不可行的，原因是不同系统中的物理时钟其快慢是无法保证的。&lt;&#x2F;p&gt;
+&lt;p&gt;而目前最好的时间校准算法 NTP 也无法很好的保证精度，网络这个东西实在是太不可靠了……&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;tso&quot;&gt;TSO&lt;&#x2F;h2&gt;
+&lt;p&gt;实际上我们可以确定的一种顺序就是同一节点上事件发生的顺序：&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;公理1：在同一节点上有序的两个事件在外界观察者眼中也有序&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;那么很简单的一个想法就是：在每次有请求来到系统时，都要经过一个负责分配单调递增的时间戳的节点，给这个请求分配时间戳&lt;&#x2F;p&gt;
+&lt;p&gt;但是这样系统里面就出现了这么一个不能扩展的单点，而且这个节点理论上不能宕掉，否则就算是切换新的时间戳分配节点，这个新旧节点之间的时间戳的差异也会造成问题，至少也会引起一个等于“节点之间最大可能物理时间的差距”（通过物理时钟分配时间戳）或者“一个从某种持久化存储中读取数据”（使用累加计数器分配时间戳）的延迟。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;tong-xin-he-luo-ji-shi-zhong&quot;&gt;通信和逻辑时钟&lt;&#x2F;h2&gt;
+&lt;p&gt;（两个节点之间的）通信必定有一个发送事件和一个接收事件，分别发生在两个节点上，而无论在任何观察者眼中发送一定先于接收，所以我们可以通过通信来确定一些事件的先后&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;公理2：对于某个通信，在外界观察者眼中发送先于接收&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;结合公理1和公理2，有：&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;定理1：对于某个通信，&amp;quot;通信发送之前发生的事件&amp;quot;在外界观察者眼中发生在&amp;quot;通信接收之后发生的事件&amp;quot;之后&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;根据这一定理，我们可以通过这个逻辑时间戳建立事件间关于“happens before”的&lt;strong&gt;偏序关系&lt;&#x2F;strong&gt;，即我们可以比较一部分事件的先后关系。&lt;&#x2F;p&gt;
+&lt;p&gt;由此 Lamport 创造了 Lamport 逻辑时钟算法：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;每个节点初始时间戳都为0&lt;&#x2F;li&gt;
+&lt;li&gt;每次发生消息交换之外的事件时，本地时间戳 +1&lt;&#x2F;li&gt;
+&lt;li&gt;每次发送消息，本地时间戳+1，并带在消息里&lt;&#x2F;li&gt;
+&lt;li&gt;每次接收消息，如果消息中的时间戳比本地时间大，那么本地时间戳 = 消息时间戳 + 1，否则正常本地时间戳 + 1‘&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;即每次发生事件，都保证 &lt;code&gt;本地时间戳 = 节点看到过的最大时间戳 + 1&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;bao-zheng-liao-shi-yao&quot;&gt;保证了什么&lt;&#x2F;h3&gt;
+&lt;p&gt;Lamport逻辑时钟保证了：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;若系统外部观察者看到事件A在事件B前发生，则系统内部必有 事件A对应的时间戳&amp;lt;事件B对应的时间戳。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;但反之则不一定成立，即时间戳的大小并不能决定事件的发生顺序。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;quan-xu-hua-gai-jin&quot;&gt;全序化改进&lt;&#x2F;h3&gt;
+&lt;p&gt;可以暴力地给每个节点一个编号，把时间戳的定义改为 &lt;code&gt;concat(原本的时间戳, 节点编号)&lt;&#x2F;code&gt;，这样人为地通过时间戳之间的全序关系为事件定出一个全序关系。&lt;&#x2F;p&gt;
+&lt;p&gt;虽然这个全序关系和事件在外界观察者眼中的顺序并没有绝对的关系，但是方便了我们进行一些应用。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;ying-yong-lamport-suo&quot;&gt;应用：Lamport 锁&lt;&#x2F;h4&gt;
+&lt;p&gt;Lamport锁是一个经典的分布式锁算法，理论上可以在分布式系统中保证某一个资源同一时间只有一个访问者。&lt;&#x2F;p&gt;
+&lt;p&gt;算法如下：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;每个节点维护一个等锁队列&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;当一个节点想要锁上一个资源供自己访问时，发送一个请求锁的消息给所有节点，eg：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;Node A 想要锁上这个资源
+&lt;&#x2F;span&gt;&lt;span&gt;—— 发送于 时间戳 T
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;并将这个请求消息放入自己的存储中&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;收到消息后，发送一个确认消息，eg：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;Node B 已收到 Node A 的请求
+&lt;&#x2F;span&gt;&lt;span&gt;—— 发送于 时间戳 T&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;由 Lamport 逻辑时钟算法，T&#x27; &amp;gt; T&lt;&#x2F;p&gt;
+&lt;p&gt;并将这个请求消息放入自己的存储中&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;如果某个节点&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;存储里的所有消息中，来自自己的请求的时间戳是最小的&lt;&#x2F;li&gt;
+&lt;li&gt;从所有其他节点都收到过，时间戳大于上面说的这个请求的时间戳的消息&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;那么它可以认为自己获取到了这个资源上的锁。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;当节点用完资源准备释放时，删除自己的储存中所有来自自身的请求消息，然后发送删除自己的锁请求的消息：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;Node A 释放了这个资源
+&lt;&#x2F;span&gt;&lt;span&gt;—— 发送于时间戳 XXX
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其他节点收到后也从自己的存储中删掉所有来自这一节点的请求消息&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;以上就是 Lamport 锁算法。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;tla-proof&quot;&gt;TLA+ Proof&lt;&#x2F;h5&gt;
+&lt;p&gt;TODO&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;que-xian&quot;&gt;缺陷&lt;&#x2F;h5&gt;
+&lt;p&gt;Lamport 锁并没有任何容错机制，无论是网络不通还是节点挂掉，他一概防不出去。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;xiang-liang-shi-zhong&quot;&gt;向量时钟&lt;&#x2F;h2&gt;
+&lt;p&gt;向量时钟是对 Lamport 逻辑时钟的一种改进，Lamport 逻辑时钟里面拿到的时间戳……并没有什么卵用，因为凭时间戳的大小并不能确定其他节点上事件的发生顺序，这一情况的根本原因是这里的时间戳只能指示当前节点对&lt;strong&gt;自身&lt;&#x2F;strong&gt;事件推进的认识，而正如我们前面所述，同一节点上的时间戳可以确定出顺序，那么我们是不是能让每个节点上都有所有节点的时间信息？&lt;&#x2F;p&gt;
+&lt;p&gt;这就是向量时钟的想法：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;将原本 Lamport 时钟中每个节点上一个的时间戳改成 为每个节点（包括自己）都设立一个时间戳，这构成了一个时间戳向量&lt;&#x2F;li&gt;
+&lt;li&gt;发生事件时更新（+1）时间戳向量中自己对应的那个元素&lt;&#x2F;li&gt;
+&lt;li&gt;在发送消息时，发送整个时间戳向量&lt;&#x2F;li&gt;
+&lt;li&gt;接收消息时，根据发来的时间戳向量更新自己的时间戳向量（对向量中的每个元素应用 Lamport 时间戳的更新算法）&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;使用向量时钟，我们可以确定部分事件的先后关系：&lt;&#x2F;p&gt;
+&lt;p&gt;假设事件 x、y 分别发生在节点 A、B 上：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;若事件x发生时的时间戳向量（自然是从 A 上取得）中，每个元素全部都小于等于事件  y发生时的时间戳向量的对应元素（从 B 上取得），则 x 早于 y 发生，反之亦然&lt;&#x2F;li&gt;
+&lt;li&gt;若两个时间戳向量中的各个元素大小关系各有不同，则不能比较出其发生的先后，可以认为这两个事件是并发发生的。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;这样，我们可以通过时间戳向量确定很大一部分事件的先后关系。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hybrid-logical-clocks-hlc&quot;&gt;Hybrid Logical Clocks (HLC)&lt;&#x2F;h2&gt;
+&lt;p&gt;向量时钟这样的逻辑时钟虽然让我们能确定一部分事件的先后关系，但是其问题在于只在系统内部有用，而对于系统外部的时间一无所知。这在我们想要知道外部事件的先后顺序或者根据物理时间查询事件时非常不利，而物理时钟又是那么的不可靠。&lt;&#x2F;p&gt;
+&lt;p&gt;于是就有了混合时钟这种试图把物理和逻辑时钟结合起来的方案。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shi-xian&quot;&gt;实现&lt;&#x2F;h3&gt;
+&lt;p&gt;容易想到的方法是，每次发送和接收消息时，都在Lamport时间戳的基础上，再多做一个和物理时钟做max的操作，即：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;发送消息前或者本地发生新的事件，时间戳 = max(时间戳+1, 物理时钟)&lt;&#x2F;li&gt;
+&lt;li&gt;接收到消息后，时间戳 = max(本地时间戳+1, 消息时间戳+1, 物理时钟)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;问题在于这样搞时间戳是可以比物理时间无限制地快下去的，例如所有请求都从某个节点非常快地进入系统，并广播到其他节点，其他节点也对每个事件发送了回复，那就会造成时间戳不断+1，导致时间戳远比物理时间大，此时时间戳相当于退化成了普通的逻辑时钟，让我们失去了对物理时间的感知。&lt;&#x2F;p&gt;
+&lt;p&gt;我们可以看出这一实现主要的问题在于大量时间可能会造成时间戳过快的增长而物理时钟赶不上的问题，那我们能不能记录一下物理时钟落后了多少来修正这个问题呢？&lt;&#x2F;p&gt;
+&lt;p&gt;这就是 HLC 算法的想法：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;HLC 时间戳分为两个部分，“物理”部分（常实现为一个变量的高位）和“逻辑”部分（常实现为一个变量的低位）&lt;&#x2F;li&gt;
+&lt;li&gt;发送消息前或者本地发生事件
+&lt;ul&gt;
+&lt;li&gt;若 HLC 时间戳“物理”部分小于现在的物理时钟，证明物理时钟已经赶上了事件发生的速度，此时只需把“物理”部分更新为新的物理时间戳，并将“逻辑”部分清0即可&lt;&#x2F;li&gt;
+&lt;li&gt;若 HLC 时间戳“物理”部分大于（物理时钟被回拨时会发生大于的情况）等于现在的物理时钟，证明物理时钟没有赶上了事件发生的速度，此时只需向“逻辑”部分加一即可&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;收到消息后：
+&lt;ul&gt;
+&lt;li&gt;比较 本地 HLC 时间戳“物理”部分、消息 HLC 时间戳“物理”部分、本地物理时间戳 三者
+&lt;ul&gt;
+&lt;li&gt;本地 HLC 时间戳“物理”部分和消息“物理”部分相等，同大于本地物理时间戳，证明本地物理时钟既没有赶上本地事件发生的速度，也没有赶上消息发送方上事件发生的速度，那么本地“逻辑”部分的值就可以更新为 &lt;code&gt;max(本地“逻辑”部分, 消息“逻辑”部分) + 1&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;本地 HLC 时间戳“物理”部分 是其中最大的，说明消息发送方的物理时钟落后于本地物理时钟，但由于 本地物理时间戳 仍然小于 本地 HLC 时间戳的“物理”部分 说明本地物理时间戳没有赶上事件发生的速度，需要向“逻辑”部分加一&lt;&#x2F;li&gt;
+&lt;li&gt;消息的 HLC 时间戳“物理”部分 是其中最大的（无论他与本地物理时间戳是否相等），说明本地 HLC 时钟完全落后于消息发送方，那么本地的时间戳就需要直接更新为消息的 HLC 时间戳再在“逻辑”部分加一的结果&lt;&#x2F;li&gt;
+&lt;li&gt;本地物理时间戳 是其中最大的，证明物理时钟已经赶上了本地和发送方事件发生的速度，此时只需把“物理”部分更新为新的物理时间戳，并将“逻辑”部分清0即可&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;简单的思考就是： &lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;为防止在物理时钟 回拨 或者 精度不足以区别事件先后 时物理时钟无法确定本地事件顺序的问题，增设了一个“逻辑”部分，用来
+&lt;ul&gt;
+&lt;li&gt;在时钟回拨时让 HLC 时间戳“物理”部分不跟着回拨，而是通过这个逻辑部分确定先后，从而保证时钟的单调性&lt;&#x2F;li&gt;
+&lt;li&gt;在物理时钟精度不足时使用逻辑部分确定先后&lt;&#x2F;li&gt;
+&lt;li&gt;如果物理时钟比 HLC 时钟“走得快”，就相信物理时钟&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;通信后，保证自己的 HLC 时间戳不比消息的 HLC 时间戳早&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;bao-zheng-liao-shi-yao-1&quot;&gt;保证了什么&lt;&#x2F;h3&gt;
+&lt;ol&gt;
+&lt;li&gt;对任何事件x和y，若x发生在y之前，则 x对应的 HLC 时间戳 &amp;lt; y 对应的 HLC 时间戳&lt;&#x2F;li&gt;
+&lt;li&gt;HLC 时间戳对应的物理时间和节点实际的物理时间的差有确定的上限，这个上限基本上是 两倍的机器的时间和ntp server时间存在的 误差范围（ntp offset），平时这个 offset 一般都是几个 ms。&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h3 id=&quot;tla-proof-1&quot;&gt;TLA+ Proof&lt;&#x2F;h3&gt;
+&lt;p&gt;TODO&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;有些人将定理1和2确定出的时间顺序关系称为“因果关系”，但是个人并不觉得这是个好名字，因为这些事件之间并不一定存在谁引起谁，借用这个名词可能会产生误解&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
 		<title>Parsing • LR(0)分析</title>
 		<published>2020-05-22T22:56:58.045+00:00</published>
 		<updated>2020-05-22T22:56:58.045+00:00</updated>
@@ -982,7 +1143,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;那么项集闭包有啥用呢？我们仍然举上面文法的例子：&lt;&#x2F;p&gt;
 &lt;p&gt;比如现在栈中有$...T*$，我们在 $T \rightarrow T*\cdot F$ 状态，我们看到前面有一个$&#x27;(&#x27;$，此时我们就可以根据这个$&#x27;(&#x27;$ 和项集闭包中的$F \rightarrow \cdot(E)$，转到$F \rightarrow (\cdot E)$ 状态，然后去匹配出一个 $F$，放到栈顶，然后进行 $T$ 的归约。&lt;&#x2F;p&gt;
 &lt;p&gt;把所有的项、对应的项集闭包以及状态之间的转换关系列出来，我们就可以建立起一个 LR(0) 状态机：&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;lr0&#x2F;i100.png&quot; alt=&quot;i100&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i100.png&quot; alt=&quot;i100&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;可以看到每一个产生式对应的所有项都会出现在这个状态机里面，而每条边上则指示了在栈顶又被压入某个符号时的状态转换。&lt;&#x2F;p&gt;
 &lt;p&gt;其中$E&#x27;$是为了标记我们最终匹配到什么而设置的，其实这个例子来讲说到底就是$E$。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;shang-shu-guo-cheng-de-suan-fa-miao-shu&quot;&gt;上述过程的算法描述&lt;&#x2F;h4&gt;
@@ -1122,51 +1283,51 @@ $$&lt;&#x2F;p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;输入数字1，压入栈中&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i1.svg&quot; alt=&quot;i1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i1.svg&quot; alt=&quot;i1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;输入操作符&#x27;+&#x27;，压入栈中&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i2.svg&quot; alt=&quot;i2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i2.svg&quot; alt=&quot;i2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;输入数字2，压入栈中&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i3.svg&quot; alt=&quot;i3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i3.svg&quot; alt=&quot;i3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;输入操作符&#x27;*&#x27;，压入栈中&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i4.svg&quot; alt=&quot;i4&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i4.svg&quot; alt=&quot;i4&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;输入数字3，压入栈中&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i5.svg&quot; alt=&quot;i5&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i5.svg&quot; alt=&quot;i5&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;输入操作符&#x27;+&#x27;，优先级低于栈中最后一个压入的运算符，先对栈中内容求值，再将&#x27;+&#x27;压入栈中&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&#x27;*&#x27;优先级高于&#x27;+&#x27;，求值&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i6.svg&quot; alt=&quot;i6&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i7.svg&quot; alt=&quot;i7&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i6.svg&quot; alt=&quot;i6&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i7.svg&quot; alt=&quot;i7&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;&#x27;+&#x27;优先级等于&#x27;+&#x27;，求值&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i8.svg&quot; alt=&quot;i8&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i9.svg&quot; alt=&quot;i9&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i8.svg&quot; alt=&quot;i8&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i9.svg&quot; alt=&quot;i9&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;栈中没有运算符了，压入&#x27;+&#x27;&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i10.svg&quot; alt=&quot;i10&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i10.svg&quot; alt=&quot;i10&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;看到数字4，压入&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i11.svg&quot; alt=&quot;i11&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i11.svg&quot; alt=&quot;i11&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;没有输入了，不断求值直到没有更多运算符&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i12.svg&quot; alt=&quot;i12&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i13.svg&quot; alt=&quot;i13&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i12.svg&quot; alt=&quot;i12&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i13.svg&quot; alt=&quot;i13&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ol&gt;
 &lt;p&gt;这里的11就是我们求得得答案。&lt;&#x2F;p&gt;
@@ -1186,11 +1347,11 @@ $$
 Expr \rightarrow id | Expr + Expr | Expr * Expr
 $$
 和表达式$a+b*c+d$为例（图中的所有蓝色节点均代表$Expr$，其中复杂$Expr$已经画为AST的样子）：&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i14.svg&quot; alt=&quot;i14&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i14.svg&quot; alt=&quot;i14&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;通过简单地将上面求值中的数字改为了文法元素（也即AST的节点），我们容易地将表达式求值的方法扩展到了求表达式对应的AST。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;chong-tu&quot;&gt;冲突&lt;&#x2F;h2&gt;
 &lt;p&gt;在移进-归约分析过程中，可能会遇到某些情况下，有多种可能使用的行为，例如：&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;i3.svg&quot; alt=&quot;i3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;i3.svg&quot; alt=&quot;i3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;此时是否应当将1+2归约为3？这就要等到下一个操作符到来才能决定。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;yi-jin-gui-yue-chong-tu&quot;&gt;移进-归约冲突&lt;&#x2F;h3&gt;
 &lt;p&gt;当某个输入可以选择与栈中内容结合，进行归约，也可以选择直接压入栈，后续再进行归约时，就说我们遇到了一个移进-归约冲突。&lt;&#x2F;p&gt;
@@ -1557,6 +1718,181 @@ $$&lt;&#x2F;p&gt;
 </content>
 	</entry>
 	<entry xml:lang="zh">
+		<title>分布式系统 • 两阶段提交</title>
+		<published>2020-04-23T16:09:46.815+00:00</published>
+		<updated>2020-04-23T16:09:46.815+00:00</updated>
+		<link href="https://longfangsong.github.io/2pc/" type="text/html"/>
+		<id>https://longfangsong.github.io/2pc/</id>
+		<content type="html">&lt;blockquote&gt;
+&lt;p&gt;经典的分布式数据库模型中，同一个数据库的各个副本运行在不同的节点上，每个副本的数 据要求完全一致。数据库中的操作都是事务 (transaction)，一个事务是一系列读、写操作，事务满足 ACID。每个事务的最终状态要么是提交 (commit)，要么是失败 (abort)。一旦一个事务成功提交，那么这个事务中所有的写操作中成功，否则所有的写操作都失败。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;为了适应这种 ACID 模型，2PC 提供的解决方案是：首先由一个节点（提议者）询问每个其他节点（参与者）是否同意提交某个事务，如果全部同意，则实际提交这个事务，否则拒绝提交这个事务。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gong-zuo-liu-cheng&quot;&gt;工作流程&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;cheng-gong-ti-jiao&quot;&gt;成功提交&lt;&#x2F;h3&gt;
+&lt;p&gt;在任何一个新的事务到来时，master会先将事务开始的相关信息写入日志。&lt;&#x2F;p&gt;
+&lt;p&gt;注意要 commit 的内容在第一次询问时会被 cache 在各个 node 上，如果决定了 commit，直接做这个 cache 里的内容就好了，这部分 cache 也被用于决定后续的事务是否可以被提交。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;2pc-step1.svg&quot; alt=&quot;2pc-step1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;&lt;img src=&quot;2pc-step2-all-agree.svg&quot; alt=&quot;2pc-step2-all-agree&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;&lt;img src=&quot;2pc-step3-do-commit.svg&quot; alt=&quot;2pc-step3-do-commit&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;注意最后的 commit 请求完成后node还需要通知一声master，让master记录此次事务完成。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shi-bai&quot;&gt;失败&lt;&#x2F;h3&gt;
+&lt;p&gt;失败提交的可能场景是某些节点上其他事务（可能是上一步留下来还没有完成提交的事务）和待提交的事务有冲突。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;2pc-step1-8094287.svg&quot; alt=&quot;2pc-step1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;&lt;img src=&quot;2pc-step2-has-disagree.svg&quot; alt=&quot;2pc-step2-has-disagree&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;hr &#x2F;&gt;
+&lt;p&gt;&lt;img src=&quot;2pc-step3-do-reject.svg&quot; alt=&quot;2pc-step3-do-reject&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;yi-chang-qing-kuang-chu-li&quot;&gt;异常情况处理&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;dang-ji&quot;&gt;宕机&lt;&#x2F;h3&gt;
+&lt;p&gt;宕机恢复后可以通过日志确定自己处于何种状态。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;master&quot;&gt;Master&lt;&#x2F;h4&gt;
+&lt;p&gt;Master宕机后恢复，如果发现自己处于：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;事务开始了，但还没有作出决定是否commit最后一个事务的状态&lt;&#x2F;p&gt;
+&lt;p&gt;那么重新询问全部节点是否可以commit，然后继续一般流程即可。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;已经决定是否commit最后一个事务，但还没有实际commit&#x2F;reject的状态&lt;&#x2F;p&gt;
+&lt;p&gt;简单地从通知所有节点实际进行commit&#x2F;reject这步开始继续一般流程即可。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;node&quot;&gt;Node&lt;&#x2F;h4&gt;
+&lt;p&gt;Node宕机后恢复，如果发现自己处于：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;已经接到对某个事务的投票请求，但还未投票&lt;&#x2F;p&gt;
+&lt;p&gt;检查并投票，然后继续流程。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;已经投票，但还没有实际提交&lt;&#x2F;p&gt;
+&lt;p&gt;等待Master发送&#x2F;重发commit&#x2F;reject消息即可&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;chao-shi&quot;&gt;超时&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Node为某次事务是否commit的投票超时&lt;&#x2F;p&gt;
+&lt;p&gt;Master直接认为它选择了reject这个事务。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Node某次事务实际提交&#x2F;拒绝后的确认超时&lt;&#x2F;p&gt;
+&lt;p&gt;不断重试要求其提交，直到Node再次上线并返回确认。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Node迟迟没有收到Master对某次事务的最终决定&lt;&#x2F;p&gt;
+&lt;p&gt;不断重发自己的投票结果，直到收到决定。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;这种不断重试的机制决定了2PC如果不加修改的话，A和P都是很糟糕的，不过相应地也换来了完全的C。&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>分布式系统 • CAP 定理</title>
+		<published>2020-04-23T16:09:46.815+00:00</published>
+		<updated>2020-04-23T16:09:46.815+00:00</updated>
+		<link href="https://longfangsong.github.io/cap-theorem/" type="text/html"/>
+		<id>https://longfangsong.github.io/cap-theorem/</id>
+		<content type="html">&lt;p&gt;CAP 定理是说，对于一个分布式系统来说，不可能同时满足以下三点：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;（强外部）一致性（&lt;strong&gt;C&lt;&#x2F;strong&gt;onsistency）&lt;&#x2F;li&gt;
+&lt;li&gt;可用性（&lt;strong&gt;A&lt;&#x2F;strong&gt;vailability）（即每次请求没有物理上不可用的节点时都能获取到非错的响应）&lt;&#x2F;li&gt;
+&lt;li&gt;分区容错性（&lt;strong&gt;P&lt;&#x2F;strong&gt;artition tolerance）（即如果分布式系统由于某些原因，存在互相不能通信的两&#x2F;几组节点，那么这个系统仍然应该正常的提供服务）&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;li-zi-zhi-guan-de-bu-yan-ge-zheng-ming&quot;&gt;例子（直观的不严格证明）&lt;&#x2F;h2&gt;
+&lt;p&gt;假设有两个节点和一个Client：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;如果要保证可用性（A）和分区容错性（P），那么在网络出现分区时，无论用户的请求被发送到了两个节点中的任何一个，无论如何都要做出相应，而在一个节点上的插入请求无法被另一个节点知道，这样两个节点间不可能保持一致性，即放弃了C。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;AP.png&quot; alt=&quot;AP&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;如果要保证一致性（C）和分区容错性（P），那么为了修正上一个系统的问题，对在插入某个数据时没有得到插入的节点，或者其上对应数据不是最新的节点，在被请求这个数据时只能返回错误，这就放弃了A。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;CP.png&quot; alt=&quot;CP&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;如果要保证一致性（C）和可用性（A），那么不得不允许两个节点之间可以通信，在每次插入时将数据分发到每一个节点上，但此时如果节点之间网络不可达，那么这个分发操作就不可行。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;CA.png&quot; alt=&quot;CA&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;chang-jian-wu-qu&quot;&gt;常见误区&lt;&#x2F;h2&gt;
+&lt;p&gt;要注意的是，实践中并不是说去选择 CAP 中的两个，放弃另外一个。CAP 里的每个标准都不是绝对的“有”或者“没有”的关系，而是一个程度的问题，例如一致性可以降低到任何一个一致性等级，可用性可以做到 n 个 9，而分区容错性可以降低到有“部分”节点和其他部分不能通信时整个系统可用的程度。&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>分布式系统 • 基本概念</title>
+		<published>2020-04-22T16:09:46.815+00:00</published>
+		<updated>2020-04-22T16:09:46.815+00:00</updated>
+		<link href="https://longfangsong.github.io/distributed-system/" type="text/html"/>
+		<id>https://longfangsong.github.io/distributed-system/</id>
+		<content type="html">&lt;p&gt;先拜一拜伟大的 &lt;strong&gt;Leslie Lamport&lt;&#x2F;strong&gt; 祖师爷。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;thumb&#x2F;5&#x2F;50&#x2F;Leslie_Lamport.jpg&#x2F;150px-Leslie_Lamport.jpg&quot; alt=&quot;Leslie Lamport&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;shi-yao-shi-fen-bu-shi-xi-tong&quot;&gt;什么是分布式系统&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;分布式系统是一组电脑，透过网络相互连接传递消息与通信后并协调它们的行为而形成的系统。 —— wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;当然我觉得这个定义有点狭窄了，我扩展范围后的定义是：&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;分布式系统是一组抽象的计算和存储单元，通过某种方式相互连接传递消息并协调它们的行为而形成的系统。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;讲道理，单机上的一组进程其实也一定程度上具有分布式系统的功能，也存在分布式系统中的问题，只不过部分问题的发生率降低了而已，因此我觉得将分布式系统窄化到多个物理计算机之间是不甚合理的。&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fen-bu-shi-xi-tong-de-zuo-yong&quot;&gt;分布式系统的作用&lt;&#x2F;h2&gt;
+&lt;p&gt;主要是：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;满足扩展性（Scalability）需求：一台机器吃不消了，多上几台机器就能顶住&lt;&#x2F;li&gt;
+&lt;li&gt;满足高可用性（Availability）需求：某几个机器down了，整个服务不能down&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;fen-bu-shi-xi-tong-de-nan-dian&quot;&gt;分布式系统的难点&lt;&#x2F;h2&gt;
+&lt;p&gt;分布式系统涉及到多个计算与存储单元（称为节点），故：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;相比单个节点，更容易出现某些节点故障&lt;&#x2F;li&gt;
+&lt;li&gt;节点之间的通信可能出现问题，消息可能会丢失、重复、乱序&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;相对来说，分布式“计算”的门槛是相对较低的，如果某个节点烂了直接换个节点算就行了，而存储问题就比较大了。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;chang-yong-gai-nian&quot;&gt;常用概念&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;nei-bu-yi-zhi-xing&quot;&gt;内部一致性&lt;&#x2F;h3&gt;
+&lt;p&gt;内部一致性（Consistency in ACID）指数据库内部的数据完整性（由各类约束、触发器，再加上数据库的隔离性保证）。&lt;&#x2F;p&gt;
+&lt;p&gt;当我们在说：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E5%8F%AF%E4%B8%B2%E8%A1%8C%E6%80%A7&quot;&gt;可串行化&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E5%BF%AB%E7%85%A7%E9%9A%94%E7%A6%BB&quot;&gt;快照隔离&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB&quot;&gt;可重复读&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E6%8F%90%E4%BA%A4%E8%AF%BB&quot;&gt;读已提交&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E6%9C%AA%E6%8F%90%E4%BA%A4%E8%AF%BB&quot;&gt;读未提交&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;脏写&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E8%84%8F%E8%AF%BB&quot;&gt;脏读&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB&quot;&gt;不可重复读&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E5%B9%BB%E5%BD%B1%E8%AF%BB&quot;&gt;幻读&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;Read Skew&lt;&#x2F;li&gt;
+&lt;li&gt;Write Skew&lt;&#x2F;li&gt;
+&lt;li&gt;Lost Update&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;我们说的就和内部一致性有关。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wai-bu-yi-zhi-xing&quot;&gt;外部一致性&lt;&#x2F;h3&gt;
+&lt;p&gt;指 Read 和 Write 应该遵守怎样的时间线顺序，比如 Linearizability 外部一致性级别就保证了每一个读操作都将返回“（某个标准时钟规定的）最近的写操作”。
+CAP 中的 C 指的是外部一致性。
+当我们在说：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E7%BA%BF%E6%80%A7%E4%B8%80%E8%87%B4%E6%80%A7&quot;&gt;线性一致性&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Sequential_consistency&quot;&gt;顺序一致性&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Causal_consistency&quot;&gt;因果一致性&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7&quot;&gt;最终一致性&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;Raft&quot;&gt;Raft 共识算法&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;Paxos%E7%AE%97%E6%B3%95&quot;&gt;Paxos 共识算法&lt;&#x2F;a&gt;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;我们所说的就和外部一致性相关。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;我记得伟大的羊学长说过，集群是操作系统在网络上scale的结果。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;有些人称 “XX 共识算法” 为 “XX 一致性算法”，个人觉得可以理解为“用来解决一致性问题的算法”，问题也不大。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
 		<title>Hello zola!</title>
 		<published>2020-01-02T15:00:00+00:00</published>
 		<updated>2020-01-02T15:00:00+00:00</updated>
@@ -1565,7 +1901,7 @@ $$&lt;&#x2F;p&gt;
 		<content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
 &lt;p&gt;Here&#x27;s an image from my origin blog, powered by hexo:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hello-zola&#x2F;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;Ouch!&lt;&#x2F;p&gt;
 &lt;p&gt;And then, since I&#x27;m a big fan of Rust, I found zola, though this tool is not as complete as hexo, I can use its shortcodes feature to embed different of things to my blog!&lt;&#x2F;p&gt;

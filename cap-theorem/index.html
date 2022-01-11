@@ -11,7 +11,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • 自动机理论 • 基本概念</title>
+  <title>Blog • 分布式系统 • CAP 定理</title>
   
   
 <link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
@@ -64,55 +64,43 @@
     <div class="content">
     
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-1&#x2F;">自动机理论 • 基本概念</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cap-theorem&#x2F;">分布式系统 • CAP 定理</a></h1>
   
-  <div class="post-content"><h2 id="zi-mu-biao-alphabet">字母表（Alphabet）</h2>
-<p>字母表是一个<strong>有限</strong>、<strong>非空</strong>的符号集合，常用 $\Sigma$ 表示。</p>
-<h3 id="zi-mu-biao-de-mi-power">字母表的幂（Power）</h3>
-<p>某个字母表 $\Sigma$ 的 $k$ 次幂就是由该字母表中的字母组成的，长度为 $k$ 的所有串组成的集合，记作 $\Sigma^k$。</p>
-<h2 id="zi-mu-biao-de-kleene-bi-bao-ke-lai-ni-xing-hao-kleene-star">字母表的 Kleene 闭包（克莱尼星号， Kleene star）</h2>
-<blockquote>
-<p>Kleene 星号，或称 Kleene 闭包，德语称 Kleensche Hülle，在数学上是一种适用于字符串或符号及字元的集合的一元运算。 —— Wikipedia</p>
-</blockquote>
-<p>某个字母表 $\Sigma$ 在进行 Kleene 星号运算后的结果就是这个字母表可以表示的所有字符串（包含空串）组成的集合，记作 $\Sigma^*$。</p>
-<p>将其中的空串去掉之后的集合记作 $\Sigma^+$。</p>
-<p>我们有：</p>
-<p>$$
-\Sigma^+ = \bigcup^{+\infty}_1 \Sigma^k
-$$</p>
-<p>$$
-\Sigma^* = \bigcup^{+\infty}_0 \Sigma^k = \Sigma^+ \cup \{\epsilon\}
-$$</p>
-<h2 id="chuan-string">串（String）</h2>
-<p>串是一个由从某个字母表中选取的符号组成的序列。</p>
-<p>空串是一个没有符号的串，常常用 $\epsilon$ 表示。</p>
-<h3 id="chuan-de-chang-du">串的长度</h3>
-<p>串的长度是指串中符号<strong>位置</strong><sup class="footnote-reference"><a href="#1">1</a></sup>的数量。</p>
-<h3 id="chuan-de-pin-jie-concatenation">串的拼接（Concatenation）</h3>
-<p>设有两个串 $x = a_1a_2\cdots a_n$ 和 $y = b_1b_2\cdots b_m$，则
-$$
-xy = a_1a_2\cdots a_nb_1b_2\cdots b_m
-$$</p>
-<h2 id="yu-yan-language">语言（Language）</h2>
-<p>对于某个字母表 $\Sigma$，一个语言指其 Kleene 闭包的一个子集。</p>
-<h2 id="wen-ti-problem">问题 （Problem）</h2>
-<p>在自动机理论中，一个<em>问题</em>是一个判定一个给定的串是否属于某个语言的问题（question）。</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>符号位置数量不等于符号数量，比如串 &quot;101010&quot; 中的符号位置数量为 6，但符号数量（只有 0 和 1 ）为 2。</p>
-</div>
+  <div class="post-content"><p>CAP 定理是说，对于一个分布式系统来说，不可能同时满足以下三点：</p>
+<ul>
+<li>（强外部）一致性（<strong>C</strong>onsistency）</li>
+<li>可用性（<strong>A</strong>vailability）（即每次请求没有物理上不可用的节点时都能获取到非错的响应）</li>
+<li>分区容错性（<strong>P</strong>artition tolerance）（即如果分布式系统由于某些原因，存在互相不能通信的两/几组节点，那么这个系统仍然应该正常的提供服务）</li>
+</ul>
+<h2 id="li-zi-zhi-guan-de-bu-yan-ge-zheng-ming">例子（直观的不严格证明）</h2>
+<p>假设有两个节点和一个Client：</p>
+<ul>
+<li>
+<p>如果要保证可用性（A）和分区容错性（P），那么在网络出现分区时，无论用户的请求被发送到了两个节点中的任何一个，无论如何都要做出相应，而在一个节点上的插入请求无法被另一个节点知道，这样两个节点间不可能保持一致性，即放弃了C。</p>
+<p><img src="AP.png" alt="AP" /></p>
+</li>
+<li>
+<p>如果要保证一致性（C）和分区容错性（P），那么为了修正上一个系统的问题，对在插入某个数据时没有得到插入的节点，或者其上对应数据不是最新的节点，在被请求这个数据时只能返回错误，这就放弃了A。</p>
+<p><img src="CP.png" alt="CP" /></p>
+</li>
+<li>
+<p>如果要保证一致性（C）和可用性（A），那么不得不允许两个节点之间可以通信，在每次插入时将数据分发到每一个节点上，但此时如果节点之间网络不可达，那么这个分发操作就不可行。</p>
+<p><img src="CA.png" alt="CA" /></p>
+</li>
+</ul>
+<h2 id="chang-jian-wu-qu">常见误区</h2>
+<p>要注意的是，实践中并不是说去选择 CAP 中的两个，放弃另外一个。CAP 里的每个标准都不是绝对的“有”或者“没有”的关系，而是一个程度的问题，例如一致性可以降低到任何一个一致性等级，可用性可以做到 n 个 9，而分区容错性可以降低到有“部分”节点和其他部分不能通信时整个系统可用的程度。</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-          <i class="far fa-sun"></i><span class="date">2021年07月22日</span>
+          <i class="far fa-sun"></i><span class="date">2020年04月23日</span>
         
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https://longfangsong.github.io/tags/自动机">&nbsp;自动机</a>
-          
-            <a class="tag" href="https://longfangsong.github.io/tags/计算机科学基础">&nbsp;计算机科学基础</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/分布式系统">&nbsp;分布式系统</a>
           
         
       </div>
@@ -124,7 +112,7 @@ $$</p>
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=自动机理论 • 基本概念&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-1&hashtags=自动机,计算机科学基础"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=分布式系统 • CAP 定理&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cap-theorem&hashtags=分布式系统"></a>
   </div>
 </div>
 
@@ -150,19 +138,6 @@ $$</p>
 
 
 
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script>
-  MathJax = {
-    tex: {
-      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
 
 
 

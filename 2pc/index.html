@@ -11,7 +11,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • 自动机理论 • 基本概念</title>
+  <title>Blog • 分布式系统 • 两阶段提交</title>
   
   
 <link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
@@ -64,55 +64,84 @@
     <div class="content">
     
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-1&#x2F;">自动机理论 • 基本概念</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;2pc&#x2F;">分布式系统 • 两阶段提交</a></h1>
   
-  <div class="post-content"><h2 id="zi-mu-biao-alphabet">字母表（Alphabet）</h2>
-<p>字母表是一个<strong>有限</strong>、<strong>非空</strong>的符号集合，常用 $\Sigma$ 表示。</p>
-<h3 id="zi-mu-biao-de-mi-power">字母表的幂（Power）</h3>
-<p>某个字母表 $\Sigma$ 的 $k$ 次幂就是由该字母表中的字母组成的，长度为 $k$ 的所有串组成的集合，记作 $\Sigma^k$。</p>
-<h2 id="zi-mu-biao-de-kleene-bi-bao-ke-lai-ni-xing-hao-kleene-star">字母表的 Kleene 闭包（克莱尼星号， Kleene star）</h2>
-<blockquote>
-<p>Kleene 星号，或称 Kleene 闭包，德语称 Kleensche Hülle，在数学上是一种适用于字符串或符号及字元的集合的一元运算。 —— Wikipedia</p>
+  <div class="post-content"><blockquote>
+<p>经典的分布式数据库模型中，同一个数据库的各个副本运行在不同的节点上，每个副本的数 据要求完全一致。数据库中的操作都是事务 (transaction)，一个事务是一系列读、写操作，事务满足 ACID。每个事务的最终状态要么是提交 (commit)，要么是失败 (abort)。一旦一个事务成功提交，那么这个事务中所有的写操作中成功，否则所有的写操作都失败。</p>
 </blockquote>
-<p>某个字母表 $\Sigma$ 在进行 Kleene 星号运算后的结果就是这个字母表可以表示的所有字符串（包含空串）组成的集合，记作 $\Sigma^*$。</p>
-<p>将其中的空串去掉之后的集合记作 $\Sigma^+$。</p>
-<p>我们有：</p>
-<p>$$
-\Sigma^+ = \bigcup^{+\infty}_1 \Sigma^k
-$$</p>
-<p>$$
-\Sigma^* = \bigcup^{+\infty}_0 \Sigma^k = \Sigma^+ \cup \{\epsilon\}
-$$</p>
-<h2 id="chuan-string">串（String）</h2>
-<p>串是一个由从某个字母表中选取的符号组成的序列。</p>
-<p>空串是一个没有符号的串，常常用 $\epsilon$ 表示。</p>
-<h3 id="chuan-de-chang-du">串的长度</h3>
-<p>串的长度是指串中符号<strong>位置</strong><sup class="footnote-reference"><a href="#1">1</a></sup>的数量。</p>
-<h3 id="chuan-de-pin-jie-concatenation">串的拼接（Concatenation）</h3>
-<p>设有两个串 $x = a_1a_2\cdots a_n$ 和 $y = b_1b_2\cdots b_m$，则
-$$
-xy = a_1a_2\cdots a_nb_1b_2\cdots b_m
-$$</p>
-<h2 id="yu-yan-language">语言（Language）</h2>
-<p>对于某个字母表 $\Sigma$，一个语言指其 Kleene 闭包的一个子集。</p>
-<h2 id="wen-ti-problem">问题 （Problem）</h2>
-<p>在自动机理论中，一个<em>问题</em>是一个判定一个给定的串是否属于某个语言的问题（question）。</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>符号位置数量不等于符号数量，比如串 &quot;101010&quot; 中的符号位置数量为 6，但符号数量（只有 0 和 1 ）为 2。</p>
-</div>
+<p>为了适应这种 ACID 模型，2PC 提供的解决方案是：首先由一个节点（提议者）询问每个其他节点（参与者）是否同意提交某个事务，如果全部同意，则实际提交这个事务，否则拒绝提交这个事务。</p>
+<h2 id="gong-zuo-liu-cheng">工作流程</h2>
+<h3 id="cheng-gong-ti-jiao">成功提交</h3>
+<p>在任何一个新的事务到来时，master会先将事务开始的相关信息写入日志。</p>
+<p>注意要 commit 的内容在第一次询问时会被 cache 在各个 node 上，如果决定了 commit，直接做这个 cache 里的内容就好了，这部分 cache 也被用于决定后续的事务是否可以被提交。</p>
+<p><img src="2pc-step1.svg" alt="2pc-step1" /></p>
+<hr />
+<p><img src="2pc-step2-all-agree.svg" alt="2pc-step2-all-agree" /></p>
+<hr />
+<p><img src="2pc-step3-do-commit.svg" alt="2pc-step3-do-commit" /></p>
+<hr />
+<p>注意最后的 commit 请求完成后node还需要通知一声master，让master记录此次事务完成。</p>
+<h3 id="shi-bai">失败</h3>
+<p>失败提交的可能场景是某些节点上其他事务（可能是上一步留下来还没有完成提交的事务）和待提交的事务有冲突。</p>
+<p><img src="2pc-step1-8094287.svg" alt="2pc-step1" /></p>
+<hr />
+<p><img src="2pc-step2-has-disagree.svg" alt="2pc-step2-has-disagree" /></p>
+<hr />
+<p><img src="2pc-step3-do-reject.svg" alt="2pc-step3-do-reject" /></p>
+<h2 id="yi-chang-qing-kuang-chu-li">异常情况处理</h2>
+<h3 id="dang-ji">宕机</h3>
+<p>宕机恢复后可以通过日志确定自己处于何种状态。</p>
+<h4 id="master">Master</h4>
+<p>Master宕机后恢复，如果发现自己处于：</p>
+<ul>
+<li>
+<p>事务开始了，但还没有作出决定是否commit最后一个事务的状态</p>
+<p>那么重新询问全部节点是否可以commit，然后继续一般流程即可。</p>
+</li>
+<li>
+<p>已经决定是否commit最后一个事务，但还没有实际commit/reject的状态</p>
+<p>简单地从通知所有节点实际进行commit/reject这步开始继续一般流程即可。</p>
+</li>
+</ul>
+<h4 id="node">Node</h4>
+<p>Node宕机后恢复，如果发现自己处于：</p>
+<ul>
+<li>
+<p>已经接到对某个事务的投票请求，但还未投票</p>
+<p>检查并投票，然后继续流程。</p>
+</li>
+<li>
+<p>已经投票，但还没有实际提交</p>
+<p>等待Master发送/重发commit/reject消息即可</p>
+</li>
+</ul>
+<h3 id="chao-shi">超时</h3>
+<ul>
+<li>
+<p>Node为某次事务是否commit的投票超时</p>
+<p>Master直接认为它选择了reject这个事务。</p>
+</li>
+<li>
+<p>Node某次事务实际提交/拒绝后的确认超时</p>
+<p>不断重试要求其提交，直到Node再次上线并返回确认。</p>
+</li>
+<li>
+<p>Node迟迟没有收到Master对某次事务的最终决定</p>
+<p>不断重发自己的投票结果，直到收到决定。</p>
+</li>
+</ul>
+<p>这种不断重试的机制决定了2PC如果不加修改的话，A和P都是很糟糕的，不过相应地也换来了完全的C。</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-          <i class="far fa-sun"></i><span class="date">2021年07月22日</span>
+          <i class="far fa-sun"></i><span class="date">2020年04月23日</span>
         
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https://longfangsong.github.io/tags/自动机">&nbsp;自动机</a>
-          
-            <a class="tag" href="https://longfangsong.github.io/tags/计算机科学基础">&nbsp;计算机科学基础</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/分布式系统">&nbsp;分布式系统</a>
           
         
       </div>
@@ -124,7 +153,7 @@ $$</p>
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=自动机理论 • 基本概念&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-1&hashtags=自动机,计算机科学基础"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=分布式系统 • 两阶段提交&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;2pc&hashtags=分布式系统"></a>
   </div>
 </div>
 
@@ -150,19 +179,6 @@ $$</p>
 
 
 
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script>
-  MathJax = {
-    tex: {
-      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
 
 
 
