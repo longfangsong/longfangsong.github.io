@@ -5,8 +5,43 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2021-07-22T10:55:33.427+00:00</updated>
+	<updated>2022-01-26T03:35:48.219+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>Mitchell Merritt 分布式死锁检测算法</title>
+		<published>2022-01-26T03:35:48.219+00:00</published>
+		<updated>2022-01-26T03:35:48.219+00:00</updated>
+		<link href="https://longfangsong.github.io/mitchell-merritt-algorithm/" type="text/html"/>
+		<id>https://longfangsong.github.io/mitchell-merritt-algorithm/</id>
+		<content type="html">&lt;h2 id=&quot;ji-ben-suan-fa&quot;&gt;基本算法&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;mo-xing&quot;&gt;模型&lt;&#x2F;h3&gt;
+&lt;p&gt;采用最基本的 wait-for 图模型，即每个节点是一个 process，每条边代表起点对应的 process 需要的被终点 process 持有。&lt;&#x2F;p&gt;
+&lt;p&gt;对每个节点，有两个 label，一个 public，一个 private。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;suan-fa-liu-cheng&quot;&gt;算法流程&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;所有进程开始时会被分配一个唯一的 label，此时 &lt;code&gt;public_label == private_label == 这个 label&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;当一个进程（&lt;code&gt;process_waiting&lt;&#x2F;code&gt;）开始等待其他进程（&lt;code&gt;process_waited&lt;&#x2F;code&gt;）时，添加等待边：&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;new_label = max(process_waiting.process_waiting, process_waited.public_label) + 1
+&lt;&#x2F;span&gt;&lt;span&gt;process_waiting.public_label = new_label
+&lt;&#x2F;span&gt;&lt;span&gt;process_waiting.private_label = new_label
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;当一个进程结束等待（可能成功获取了需要的资源，也可能运行超时）后，只需断开等待边即可&lt;&#x2F;li&gt;
+&lt;li&gt;等待中的进程（&lt;code&gt;process_waiting&lt;&#x2F;code&gt;）需要时不时地检查它正等待的那个进程（&lt;code&gt;process_waited&lt;&#x2F;code&gt;）的 &lt;code&gt;public_label&lt;&#x2F;code&gt; 是否大于自己的，如果大于，则 &lt;code&gt;process_waiting.public_label = process_waited.public_label&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;进程发现自己的 &lt;code&gt;public_label&lt;&#x2F;code&gt; 再次等于自己的 &lt;code&gt;private_label&lt;&#x2F;code&gt;，则说明发生了死锁，此时可以终结自己断开死锁环&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;gai-jin&quot;&gt;改进&lt;&#x2F;h2&gt;
+&lt;p&gt;对于有优先级的系统，我们再给每个进程添加 &lt;code&gt;public_priority&lt;&#x2F;code&gt; 和 &lt;code&gt;private_priority&lt;&#x2F;code&gt; 属性。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;在“时不时检查”这一步，如果 &lt;code&gt;process_waited.public_label &amp;gt; process_waiting.public_label || (process_waited.public_label == process_waiting.public_label &amp;amp;&amp;amp; process_waiting.public_priority &amp;gt; process_waited.public_priority)&lt;&#x2F;code&gt;，则：&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;process_waiting.public_label = process_waited.public_label
+&lt;&#x2F;span&gt;&lt;span&gt;process_waiting.public_priority = min(process_waited.public_priority, process_waiting.private_priority)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;进程发现自己的 &lt;code&gt;process_waited.public_label == process_waiting.public_label &amp;amp;&amp;amp; process_waited.public_priority == process_waiting.public_priority &amp;amp;&amp;amp; process_waiting.public_priority == process_waiting.private_priority&lt;&#x2F;code&gt;，则说明发生了死锁，且自己是死锁环中优先级最低的，此时可以终结自己断开死锁环&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;ping-jie&quot;&gt;评价&lt;&#x2F;h2&gt;
+&lt;p&gt;实践上可能效率还不如直接中心化死锁检测……&lt;&#x2F;p&gt;
+</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>自动机理论 • 有限状态机</title>
 		<published>2021-07-22T10:55:33.427+00:00</published>
@@ -818,7 +853,7 @@ $$&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;设有命题 $A$ 和 $B$，$A \rightarrow B$ 指 “$A$ 实质蕴含 $B$” 这样一个命题，即&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;pesudo&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-pesudo &quot;&gt;&lt;code class=&quot;language-pesudo&quot; data-lang=&quot;pesudo&quot;&gt;&lt;span&gt;if A then B
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;if A then B
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;

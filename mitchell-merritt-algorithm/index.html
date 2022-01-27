@@ -11,7 +11,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • 重新开始学数学 • 数理逻辑（1）</title>
+  <title>Blog • Mitchell Merritt 分布式死锁检测算法</title>
   
     
       <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -69,101 +69,46 @@
     <div class="content">
     
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-1&#x2F;">重新开始学数学 • 数理逻辑（1）</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;mitchell-merritt-algorithm&#x2F;">Mitchell Merritt 分布式死锁检测算法</a></h1>
   
-  <div class="post-content"><h2 id="ming-ti-luo-ji">命题逻辑</h2>
-<p>我们课上学的基本上就是这些了，大部分就是一些 trival 的是个人都能想通的东西，就是各种箭头（？）的用法容易混淆：</p>
+  <div class="post-content"><h2 id="ji-ben-suan-fa">基本算法</h2>
+<h3 id="mo-xing">模型</h3>
+<p>采用最基本的 wait-for 图模型，即每个节点是一个 process，每条边代表起点对应的 process 需要的被终点 process 持有。</p>
+<p>对每个节点，有两个 label，一个 public，一个 private。</p>
+<h3 id="suan-fa-liu-cheng">算法流程</h3>
 <ul>
-<li>
-<p>设有命题 $A$ 和 $B$，$A \rightarrow B$ 指 “$A$ 实质蕴含 $B$” 这样一个命题，即</p>
-<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>if A then B
+<li>所有进程开始时会被分配一个唯一的 label，此时 <code>public_label == private_label == 这个 label</code></li>
+<li>当一个进程（<code>process_waiting</code>）开始等待其他进程（<code>process_waited</code>）时，添加等待边：<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>new_label = max(process_waiting.process_waiting, process_waited.public_label) + 1
+</span><span>process_waiting.public_label = new_label
+</span><span>process_waiting.private_label = new_label
 </span></code></pre>
 </li>
-<li>
-<p>设有一堆命题 $A$ 和一个命题 $B$，$A \vdash B$ 指 “$B$ 是 $A$ 的句法后承 ” 这样一个 sequent。</p>
-<p>通过使用某些证明手段，从前提 $A$ 能证出 $B$，那么这个 sequent 就 valid，否则就不vaild。
-$$
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{A}
-\UnaryInfC{$\vdots$}
-\UnaryInfC{B}
-\end{prooftree}
-$$</p>
-</li>
-<li>
-<p>$ A \dashv \vdash B$：$A \vdash B$ 和 $ B \vdash A$ 都 valid，称为 $A$ 和 $B$ provably equivalent。</p>
-</li>
-<li>
-<p>设有一堆命题 $A$ 和一个命题 $B$，$A \models B$：指 “$B$ 是 $A$ 的语义后承”，即如果 $A$ 中每一个命题都为真，则 $B$ 也为真。</p>
-<p>在自然演绎中，$A \models B$ 当且仅当 $ A \vdash B $</p>
-</li>
+<li>当一个进程结束等待（可能成功获取了需要的资源，也可能运行超时）后，只需断开等待边即可</li>
+<li>等待中的进程（<code>process_waiting</code>）需要时不时地检查它正等待的那个进程（<code>process_waited</code>）的 <code>public_label</code> 是否大于自己的，如果大于，则 <code>process_waiting.public_label = process_waited.public_label</code></li>
+<li>进程发现自己的 <code>public_label</code> 再次等于自己的 <code>private_label</code>，则说明发生了死锁，此时可以终结自己断开死锁环</li>
 </ul>
-<p>另外常常会使用 $\top$ 和 $\bot$ 分别代表 <code>true</code> 和 <code>false</code>。</p>
-<h3 id="horn-gong-shi-he-horn-ke-man-zu-xing-wen-ti">Horn 公式和 Horn 可满足性问题</h3>
-<p>设 p 为原子公式，</p>
-<p>$$
-\displaylines {
-P ::= \bot | \top | p \\
-A ::= P \mid P \wedge A \\
-C ::= A \rightarrow P \\
-H ::= C \mid C \wedge H
-}
-$$</p>
-<p>其中 H 就是 Horn 公式，C 就是 Horn 子句<sup class="footnote-reference"><a href="#1">1</a></sup>。</p>
-<p>Horn 公式的几个例子：</p>
-<p>$$
-(p \wedge q \wedge s \rightarrow p) \wedge(q \wedge r \rightarrow p) \wedge(p \wedge s \rightarrow s)
-$$</p>
-<p>$$
-(p \wedge q \wedge s \rightarrow \perp) \wedge(q \wedge r \rightarrow p) \wedge(\top \rightarrow s)
-$$</p>
-<p>$$
-(p_{2} \wedge p_{3} \wedge p_{5} \rightarrow p_{13}) \wedge (\top \rightarrow p_{5}) \wedge (p_{5} \wedge p_{11} \rightarrow \perp)
-$$</p>
-<p>Horn 公式的好处在于，和任意公式是否可满足（即 SAT 问题）是 NP 问题不同，HornSAT 是 P 问题，有这么一个判定算法：</p>
-<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">horn_satisfiabe</span><span>(</span><span style="color:#bf616a;">formula</span><span>: HornFormula) {
-</span><span>  </span><span style="color:#b48ead;">let mut</span><span> marked = HashSet::new();
-</span><span>  marked.</span><span style="color:#96b5b4;">add</span><span>(⊤);
-</span><span>  </span><span style="color:#b48ead;">while let </span><span>Some(p) = 
-</span><span>    formula.</span><span style="color:#96b5b4;">find</span><span>(|</span><span style="color:#bf616a;">it</span><span>| !it.rhs.marked &amp;&amp; 
-</span><span>      it.lhs.</span><span style="color:#96b5b4;">all</span><span>(|</span><span style="color:#bf616a;">it</span><span>| marked.</span><span style="color:#96b5b4;">contains</span><span>(it))
-</span><span>    ).</span><span style="color:#96b5b4;">map</span><span>(|</span><span style="color:#bf616a;">it</span><span>| it.rhs) {
-</span><span>    marked.</span><span style="color:#96b5b4;">add</span><span>(p);
-</span><span>  }
-</span><span>  </span><span style="color:#b48ead;">return </span><span>!marked.</span><span style="color:#96b5b4;">contains</span><span>(⊥);
-</span><span>}
+<h2 id="gai-jin">改进</h2>
+<p>对于有优先级的系统，我们再给每个进程添加 <code>public_priority</code> 和 <code>private_priority</code> 属性。</p>
+<ul>
+<li>在“时不时检查”这一步，如果 <code>process_waited.public_label &gt; process_waiting.public_label || (process_waited.public_label == process_waiting.public_label &amp;&amp; process_waiting.public_priority &gt; process_waited.public_priority)</code>，则：<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>process_waiting.public_label = process_waited.public_label
+</span><span>process_waiting.public_priority = min(process_waited.public_priority, process_waiting.private_priority)
 </span></code></pre>
-<h3 id="sat-qiu-jie-qi">Sat 求解器</h3>
-<p>感觉这里书上讲的好复杂……</p>
-<p>其实就是自顶而下地考虑一个公式的 parse tree，对公式本身每一个子公式的值，如果能通过上层的值和算符的真值表直接判定就直接判定，比如：</p>
-<p>$$
-\top = \neg p \wedge q
-$$</p>
-<p>从上层的 $\top$ 和 $\wedge$ 的性质我们就能得出
-$$
-\neg p = \top
-$$</p>
-<p>$$
-q = \top
-$$</p>
-<p>不行的话（比如遇到了类似 $\top = p \vee q$ 的情况）就随便选一个子公式把 $\top$ 和 $\bot$ 都试一遍，如果推出了冲突的结论就回溯，如果全判定完了没冲突就成了。</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>“子句” 的定义是原子公式或 “$\neg 原子公式$” 的析取。</p>
-</div>
+</li>
+<li>进程发现自己的 <code>process_waited.public_label == process_waiting.public_label &amp;&amp; process_waited.public_priority == process_waiting.public_priority &amp;&amp; process_waiting.public_priority == process_waiting.private_priority</code>，则说明发生了死锁，且自己是死锁环中优先级最低的，此时可以终结自己断开死锁环</li>
+</ul>
+<h2 id="ping-jie">评价</h2>
+<p>实践上可能效率还不如直接中心化死锁检测……</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-          <i class="far fa-sun"></i><span class="date">2021年01月12日</span>
+          <i class="far fa-sun"></i><span class="date">2022年01月26日</span>
         
         
           <i class="fas fa-tags"></i>
           
-            <a class="tag" href="https://longfangsong.github.io/tags/数学">&nbsp;数学</a>
-          
-            <a class="tag" href="https://longfangsong.github.io/tags/数理逻辑">&nbsp;数理逻辑</a>
+            <a class="tag" href="https://longfangsong.github.io/tags/分布式系统">&nbsp;分布式系统</a>
           
         
       </div>
@@ -175,7 +120,7 @@ $$</p>
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=重新开始学数学 • 数理逻辑（1）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-1&hashtags=数学,数理逻辑"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Mitchell Merritt 分布式死锁检测算法&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;mitchell-merritt-algorithm&hashtags=分布式系统"></a>
   </div>
 </div>
 
