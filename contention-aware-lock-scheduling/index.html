@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • Contention-Aware Lock Scheduling 和 （b）LDSF 算法</title>
+  
+    
+      <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+    
+  
+
+  
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https://longfangsong.github.io/">首页</a></li><li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a  href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;contention-aware-lock-scheduling&#x2F;">Contention-Aware Lock Scheduling 和 （b）LDSF 算法</a></h1>
+  
+  <div class="post-content"><script src="//d3js.org/d3.v5.min.js"></script>
+<script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+<script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
+<h2 id="ji-ben-mo-xing">基本模型</h2>
+<p>论文里是一个高度形式化<sup class="footnote-reference"><a href="#1">1</a></sup>的模型，容易看得头大，然后图形表示里箭头指向的含义也很奇怪……<sup class="footnote-reference"><a href="#2">2</a></sup>，其实主体就是一个 trival 的事务的等待关系图，我把这模型稍微改了下应该会比较好理解。</p>
+<h3 id="deng-dai-guan-xi-tu">等待关系图</h3>
+<h4 id="jie-dian">节点</h4>
+<h5 id="dui-xiang">对象</h5>
+<p>指可以被事务锁定的资源，用圆圈表示。</p>
+<div id="graph-object"></div>
+<script>
+d3.select("#graph-object").graphviz()
+    .renderDot('digraph  {a[label="", shape="circle"]}');
+</script>
+<h5 id="shi-wu">事务</h5>
+<p>就是通常理解的事务，用圆角矩形表示。</p>
+<div id="graph-txn"></div>
+<script>
+d3.select("#graph-txn").graphviz()
+    .renderDot('digraph  {a[label="", shape="Mrecord"]}');
+</script>
+<h4 id="bian">边</h4>
+<h5 id="chi-suo">持锁</h5>
+<p>事务指向对象的实线箭头指事务锁定了这个对象。</p>
+<div id="graph-txn-lock-object"></div>
+<script>
+d3.select("#graph-txn-lock-object").graphviz()
+    .renderDot('digraph {b[label="", shape="circle"]; a[label="", shape="Mrecord"]; a->b;}');
+</script>
+<div id="graph-txn"></div>
+<script>
+d3.select("#graph-txn").graphviz()
+    .renderDot('digraph  {a[label="", shape="Mrecord"]}');
+</script>
+<h5 id="deng-suo">等锁</h5>
+<p>事务指向对象的虚线箭头指事务等待锁定这个对象。</p>
+<div id="graph-txn-wait-object"></div>
+<script>
+d3.select("#graph-txn-wait-object").graphviz()
+    .renderDot('digraph {b[label="", shape="circle"]; a[label="", shape="Mrecord"]; a->b[style="dashed"];}');
+</script>
+<h5 id="gong-xiang-suo-he-pai-ta-suo">共享锁和排他锁</h5>
+<p>在对应的边上写 X 或者 S。</p>
+<div id="graph-lock-type"></div>
+<script>
+d3.select("#graph-lock-type").graphviz()
+    .renderDot('digraph {b[label="", shape="circle"]; a[label="", shape="Mrecord"]; a->b[style="dashed", label="X"];d[label="", shape="circle"]; c[label="", shape="Mrecord"]; c->d[label="S"];}');
+</script>
+<h3 id="mu-biao">目标</h3>
+<p>目标就是找到一个算法，让所有事务的总运行时间的期望值最短。</p>
+<p>由于共享锁的存在，这样的算法是 NP 难的（具体见原论文的参考文献）。</p>
+<p>因此这篇论文提出了一个近似算法。</p>
+<h2 id="ldsf-suan-fa">LDSF 算法</h2>
+<p>基本思想就是让（现在） block 了更多其他事务的事务先拿到锁。</p>
+<p>例如下面的等待关系图：</p>
+<pre id="graph-1-content">
+digraph {
+    O1[label="O1", shape="circle"];
+    t1 -> O1[label="X",style="dashed"];
+    t2 -> O1[label="X",style="dashed"];
+    subgraph cluster_t1 {
+        label = "t1";
+        t1[label="t1", shape="Mrecord"];
+
+        O2[label="O2", shape="circle"];
+        O3[label="O3", shape="circle"];
+        O4[label="O4", shape="circle"];
+        t1 -> O2;
+        t1 -> O3;
+        t1 -> O4;
+
+        t3[label="t3", shape="Mrecord"];
+        t4[label="t4", shape="Mrecord"];
+        t5[label="t5", shape="Mrecord"];
+        t6[label="t6", shape="Mrecord"];
+    
+        t3 -> O2[label="",style="dashed"];
+        t4 -> O2[label="",style="dashed"];
+        t4 -> O3[label="",style="dashed"];
+        t5 -> O4[label="",style="dashed"];
+        t6 -> O4[label="",style="dashed"];
+    }
+
+    subgraph cluster_t2 {
+        label = "t2";
+        t2[label="t2", shape="Mrecord"];
+        O5[label="O5", shape="circle"];
+        O6[label="O6", shape="circle"];
+        t2 -> O5;
+        t2 -> O6;
+
+        t7[label="t7", shape="Mrecord"];
+        t8[label="t8", shape="Mrecord"];
+        t9[label="t9", shape="Mrecord"];
+
+        t7 -> O5[label="",style="dashed"];
+        t8 -> O6[label="",style="dashed"];
+        t9 -> O6[label="",style="dashed"];
+
+        O7[label="O7", shape="circle"];
+        O8[label="O8", shape="circle"];
+        O9[label="O9", shape="circle"];
+
+        t7 -> O7[label="",style="dashed"];
+        t7 -> O8[label="",style="dashed"];
+        t8 -> O9[label="",style="dashed"];
+        t9 -> O9[label="",style="dashed"];
+    }
+}
+</pre>
+<div id="graph-1"></div>
+<script>
+const content = document.getElementById("graph-1-content").innerHTML.replaceAll("&gt;", ">");
+document.getElementById("graph-1-content").innerHTML = "";
+console.log(content);
+d3.select("#graph-1").graphviz()
+    .renderDot(content);
+</script>
+<p>上一个锁定 O1 的事务已经完成，现在希望锁定 O1 的事务有 t1 和 t2。</p>
+<p>观察等待关系图可以发现, t1 已经 block 了 t3-t6 共 4 个事务，而 t2 只 block 了 3 个事务，因此我们的算法会让 t1 先持有这个锁。</p>
+<p>我们定义某个事务的“依赖集合”为其所有的直接或间接阻塞的事务（包含其本身）。</p>
+<h3 id="you-xian-ji-de-ji-suan">优先级的计算</h3>
+<h4 id="yao-jia-pai-ta-suo-de-shi-wu">要加排他锁的事务</h4>
+<p>LDSF 算法中，要加排他锁的事务的优先级是其依赖集合的大小。</p>
+<h4 id="yao-jia-gong-xiang-suo-de-shi-wu">要加共享锁的事务</h4>
+<p>由于共享锁是“共享”的，出于方便考虑 LDSF 算法会一次性让所有要加共享锁的事务拿到锁。因此，要加共享锁的事务整体的优先级就是所有要加共享锁的事务的依赖集合的并集的大小。</p>
+<p>LDSF 会让优先级最高（大）的事务（或者事务集合，如果是共享锁的话）成功加上锁。</p>
+<h2 id="gai-jin-bldsf-suan-fa">改进：bLDSF 算法</h2>
+<p>LDSF 算法一次性让所有要加共享锁的事务拿到锁，如果有其中某个事务长期持有某个资源上的共享锁，而其他事务在等着锁定这个资源，系统整体的效率会变得很烂。</p>
+<p>例如：</p>
+<pre id="graph-2-content">
+digraph {
+    O[label="O", shape="circle"];
+    t1 -> O[label="S",style="dashed"];
+    t2 -> O[label="S",style="dashed"];
+    t3 -> O[label="S",style="dashed"];
+    t4 -> O[label="X",style="dashed"];
+    subgraph cluster_t1 {
+        label = "t1, size=6";
+        t1[label="t1", shape="Mrecord"];
+    }
+    subgraph cluster_t2 {
+        label = "t2, size=1";
+        t2[label="t2", shape="Mrecord"];
+    }
+    subgraph cluster_t3 {
+        label = "t3, size=1";
+        t3[label="t3", shape="Mrecord"];
+    }
+    subgraph cluster_t4 {
+        label = "t4, size=5";
+        t4[label="t4", shape="Mrecord"];
+    }
+}
+</pre>
+<div id="graph-2"></div>
+<script>
+const content2 = document.getElementById("graph-2-content").innerHTML.replaceAll("&gt;", ">");
+document.getElementById("graph-2-content").innerHTML = "";
+console.log(content2);
+d3.select("#graph-2").graphviz()
+    .renderDot(content2);
+</script>
+<p>按照 LDSF 算法，此时应该让 t1、t2 和 t3 获取到共享锁，但此时较优的方案是先给 t1 共享锁，然后给 t4 排他锁，最后同时给 t2 和 t3 共享锁。</p>
+<p>为了解决此类问题，文章提出了 bLDSF 算法。</p>
+<h3 id="delay-yin-zi">delay 因子</h3>
+<p>可以看出，一组共享锁加锁成功后，这个资源下一次可用的时间取决于获得到锁的事务集合中其中最慢的事务的剩余运行时间。</p>
+<p>我们将这个时间的期望值称为 R_max(m)，其中 m 为集合大小，而每个事务本身的剩余运行时间期望值称为 R。</p>
+<p>我们定义 delay 因子为 f(m) = R_max(m)/R，显然随着获得到锁的事务集合的增大，f(m) 也会随之增大。</p>
+<p>在不同的负载下，R_max 的计算方法 和对应的 f 的值也会不同，但文章表明，实践中只需使用递增的亚线性函数即可达到比较好的效果。</p>
+<h3 id="you-xian-ji-ji-suan-de-gai-jin">优先级计算的改进</h3>
+<p>对于排他锁，优先级计算方式不变。</p>
+<p>对于共享锁，在 bLDSF 算法中，备选的加锁集合是所有是 所有要加共享锁的事务组成的集合 的所有非空子集。</p>
+<p>对于这些子集，其优先级计算方法为：这个子集的所有元素的依赖集合的并集的大小 / 这个集合的 delay 因子。</p>
+<h2 id="gong-cheng-shi-xian-zhong-de-gai-jin">工程实现中的改进</h2>
+<h3 id="gu-suan-yi-lai-ji-he-de-da-xiao">估算依赖集合的大小</h3>
+<p>实践上无论是直接搜索整个等待关系图还是在构建等待关系图时维护，计算依赖集合的大小都是比较消耗资源的（因为实际上依赖图是 DAG），文章中针对这个问题提出的改进是别管什么 DAG 了，就按树来算（即 依赖集合的大小 = 所有被直接 block 的事务的依赖集合的大小之和 + 1）。</p>
+<h3 id="bldsf-zhong-bian-li-suo-you-fei-kong-zi-ji">bLDSF 中遍历所有非空子集</h3>
+<p>实践中为了节约资源，可以直接遍历任意一组长度递增的非空子集，而不是遍历所有非空子集。</p>
+<p>比如 {t1, t2, t3} 我们只考虑 {t1}, {t1, t2}, {t1, t2, t3} 就行了。</p>
+<h3 id="fang-zhi-ji-e">防止饥饿</h3>
+<p>文章中的意思应该是隔一段时间放置一个 barrier，barrier 之后到达的事务一定要在 barrier 之前的事务都完成之后才能获得锁。</p>
+<h2 id="si-huo-tikvli-neng-yong-dao-na-xie">私货：TiKV里能用到哪些？</h2>
+<p>TiKV 里全都是排他锁，因此 LDSF 就很够了。</p>
+<p>不过现在这个等锁之后隔段时间就全部返回到 TiDB 再重试的行为<sup class="footnote-reference"><a href="#3">3</a></sup>和 LDSF 好像不是特别兼容……</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>希腊字母，我让你希腊字母；花体字，我让你花体字。要是我说了算，用键盘上没有的符号的文章一概拒稿。</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>对象指向事务的虚线箭头的意义是：事务持锁定了这个对象。事务指向对象的实线箭头的意义是：事务希望锁定这个对象……我觉得搞这种表示形式的人一定不是普通人类。</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>而且这个东西本身我觉得就非常怪异……</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022年02月08日</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/tags/数据库">&nbsp;数据库</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Contention-Aware Lock Scheduling 和 （b）LDSF 算法&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;contention-aware-lock-scheduling&hashtags=数据库"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

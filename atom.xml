@@ -5,8 +5,210 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-01-26T03:35:48.219+00:00</updated>
+	<updated>2022-02-08T14:56:30+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>Contention-Aware Lock Scheduling 和 （b）LDSF 算法</title>
+		<published>2022-02-08T14:56:30+00:00</published>
+		<updated>2022-02-08T14:56:30+00:00</updated>
+		<link href="https://longfangsong.github.io/contention-aware-lock-scheduling/" type="text/html"/>
+		<id>https://longfangsong.github.io/contention-aware-lock-scheduling/</id>
+		<content type="html">&lt;script src=&quot;&#x2F;&#x2F;d3js.org&#x2F;d3.v5.min.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;script src=&quot;https:&#x2F;&#x2F;unpkg.com&#x2F;@hpcc-js&#x2F;wasm@0.3.11&#x2F;dist&#x2F;index.min.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;script src=&quot;https:&#x2F;&#x2F;unpkg.com&#x2F;d3-graphviz@3.0.5&#x2F;build&#x2F;d3-graphviz.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;h2 id=&quot;ji-ben-mo-xing&quot;&gt;基本模型&lt;&#x2F;h2&gt;
+&lt;p&gt;论文里是一个高度形式化&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;的模型，容易看得头大，然后图形表示里箭头指向的含义也很奇怪……&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，其实主体就是一个 trival 的事务的等待关系图，我把这模型稍微改了下应该会比较好理解。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;deng-dai-guan-xi-tu&quot;&gt;等待关系图&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;jie-dian&quot;&gt;节点&lt;&#x2F;h4&gt;
+&lt;h5 id=&quot;dui-xiang&quot;&gt;对象&lt;&#x2F;h5&gt;
+&lt;p&gt;指可以被事务锁定的资源，用圆圈表示。&lt;&#x2F;p&gt;
+&lt;div id=&quot;graph-object&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+d3.select(&quot;#graph-object&quot;).graphviz()
+    .renderDot(&#x27;digraph  {a[label=&quot;&quot;, shape=&quot;circle&quot;]}&#x27;);
+&lt;&#x2F;script&gt;
+&lt;h5 id=&quot;shi-wu&quot;&gt;事务&lt;&#x2F;h5&gt;
+&lt;p&gt;就是通常理解的事务，用圆角矩形表示。&lt;&#x2F;p&gt;
+&lt;div id=&quot;graph-txn&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+d3.select(&quot;#graph-txn&quot;).graphviz()
+    .renderDot(&#x27;digraph  {a[label=&quot;&quot;, shape=&quot;Mrecord&quot;]}&#x27;);
+&lt;&#x2F;script&gt;
+&lt;h4 id=&quot;bian&quot;&gt;边&lt;&#x2F;h4&gt;
+&lt;h5 id=&quot;chi-suo&quot;&gt;持锁&lt;&#x2F;h5&gt;
+&lt;p&gt;事务指向对象的实线箭头指事务锁定了这个对象。&lt;&#x2F;p&gt;
+&lt;div id=&quot;graph-txn-lock-object&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+d3.select(&quot;#graph-txn-lock-object&quot;).graphviz()
+    .renderDot(&#x27;digraph {b[label=&quot;&quot;, shape=&quot;circle&quot;]; a[label=&quot;&quot;, shape=&quot;Mrecord&quot;]; a-&gt;b;}&#x27;);
+&lt;&#x2F;script&gt;
+&lt;div id=&quot;graph-txn&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+d3.select(&quot;#graph-txn&quot;).graphviz()
+    .renderDot(&#x27;digraph  {a[label=&quot;&quot;, shape=&quot;Mrecord&quot;]}&#x27;);
+&lt;&#x2F;script&gt;
+&lt;h5 id=&quot;deng-suo&quot;&gt;等锁&lt;&#x2F;h5&gt;
+&lt;p&gt;事务指向对象的虚线箭头指事务等待锁定这个对象。&lt;&#x2F;p&gt;
+&lt;div id=&quot;graph-txn-wait-object&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+d3.select(&quot;#graph-txn-wait-object&quot;).graphviz()
+    .renderDot(&#x27;digraph {b[label=&quot;&quot;, shape=&quot;circle&quot;]; a[label=&quot;&quot;, shape=&quot;Mrecord&quot;]; a-&gt;b[style=&quot;dashed&quot;];}&#x27;);
+&lt;&#x2F;script&gt;
+&lt;h5 id=&quot;gong-xiang-suo-he-pai-ta-suo&quot;&gt;共享锁和排他锁&lt;&#x2F;h5&gt;
+&lt;p&gt;在对应的边上写 X 或者 S。&lt;&#x2F;p&gt;
+&lt;div id=&quot;graph-lock-type&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+d3.select(&quot;#graph-lock-type&quot;).graphviz()
+    .renderDot(&#x27;digraph {b[label=&quot;&quot;, shape=&quot;circle&quot;]; a[label=&quot;&quot;, shape=&quot;Mrecord&quot;]; a-&gt;b[style=&quot;dashed&quot;, label=&quot;X&quot;];d[label=&quot;&quot;, shape=&quot;circle&quot;]; c[label=&quot;&quot;, shape=&quot;Mrecord&quot;]; c-&gt;d[label=&quot;S&quot;];}&#x27;);
+&lt;&#x2F;script&gt;
+&lt;h3 id=&quot;mu-biao&quot;&gt;目标&lt;&#x2F;h3&gt;
+&lt;p&gt;目标就是找到一个算法，让所有事务的总运行时间的期望值最短。&lt;&#x2F;p&gt;
+&lt;p&gt;由于共享锁的存在，这样的算法是 NP 难的（具体见原论文的参考文献）。&lt;&#x2F;p&gt;
+&lt;p&gt;因此这篇论文提出了一个近似算法。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ldsf-suan-fa&quot;&gt;LDSF 算法&lt;&#x2F;h2&gt;
+&lt;p&gt;基本思想就是让（现在） block 了更多其他事务的事务先拿到锁。&lt;&#x2F;p&gt;
+&lt;p&gt;例如下面的等待关系图：&lt;&#x2F;p&gt;
+&lt;pre id=&quot;graph-1-content&quot;&gt;
+digraph {
+    O1[label=&quot;O1&quot;, shape=&quot;circle&quot;];
+    t1 -&gt; O1[label=&quot;X&quot;,style=&quot;dashed&quot;];
+    t2 -&gt; O1[label=&quot;X&quot;,style=&quot;dashed&quot;];
+    subgraph cluster_t1 {
+        label = &quot;t1&quot;;
+        t1[label=&quot;t1&quot;, shape=&quot;Mrecord&quot;];
+
+        O2[label=&quot;O2&quot;, shape=&quot;circle&quot;];
+        O3[label=&quot;O3&quot;, shape=&quot;circle&quot;];
+        O4[label=&quot;O4&quot;, shape=&quot;circle&quot;];
+        t1 -&gt; O2;
+        t1 -&gt; O3;
+        t1 -&gt; O4;
+
+        t3[label=&quot;t3&quot;, shape=&quot;Mrecord&quot;];
+        t4[label=&quot;t4&quot;, shape=&quot;Mrecord&quot;];
+        t5[label=&quot;t5&quot;, shape=&quot;Mrecord&quot;];
+        t6[label=&quot;t6&quot;, shape=&quot;Mrecord&quot;];
+    
+        t3 -&gt; O2[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t4 -&gt; O2[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t4 -&gt; O3[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t5 -&gt; O4[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t6 -&gt; O4[label=&quot;&quot;,style=&quot;dashed&quot;];
+    }
+
+    subgraph cluster_t2 {
+        label = &quot;t2&quot;;
+        t2[label=&quot;t2&quot;, shape=&quot;Mrecord&quot;];
+        O5[label=&quot;O5&quot;, shape=&quot;circle&quot;];
+        O6[label=&quot;O6&quot;, shape=&quot;circle&quot;];
+        t2 -&gt; O5;
+        t2 -&gt; O6;
+
+        t7[label=&quot;t7&quot;, shape=&quot;Mrecord&quot;];
+        t8[label=&quot;t8&quot;, shape=&quot;Mrecord&quot;];
+        t9[label=&quot;t9&quot;, shape=&quot;Mrecord&quot;];
+
+        t7 -&gt; O5[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t8 -&gt; O6[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t9 -&gt; O6[label=&quot;&quot;,style=&quot;dashed&quot;];
+
+        O7[label=&quot;O7&quot;, shape=&quot;circle&quot;];
+        O8[label=&quot;O8&quot;, shape=&quot;circle&quot;];
+        O9[label=&quot;O9&quot;, shape=&quot;circle&quot;];
+
+        t7 -&gt; O7[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t7 -&gt; O8[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t8 -&gt; O9[label=&quot;&quot;,style=&quot;dashed&quot;];
+        t9 -&gt; O9[label=&quot;&quot;,style=&quot;dashed&quot;];
+    }
+}
+&lt;&#x2F;pre&gt;
+&lt;div id=&quot;graph-1&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+const content = document.getElementById(&quot;graph-1-content&quot;).innerHTML.replaceAll(&quot;&amp;gt;&quot;, &quot;&gt;&quot;);
+document.getElementById(&quot;graph-1-content&quot;).innerHTML = &quot;&quot;;
+console.log(content);
+d3.select(&quot;#graph-1&quot;).graphviz()
+    .renderDot(content);
+&lt;&#x2F;script&gt;
+&lt;p&gt;上一个锁定 O1 的事务已经完成，现在希望锁定 O1 的事务有 t1 和 t2。&lt;&#x2F;p&gt;
+&lt;p&gt;观察等待关系图可以发现, t1 已经 block 了 t3-t6 共 4 个事务，而 t2 只 block 了 3 个事务，因此我们的算法会让 t1 先持有这个锁。&lt;&#x2F;p&gt;
+&lt;p&gt;我们定义某个事务的“依赖集合”为其所有的直接或间接阻塞的事务（包含其本身）。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;you-xian-ji-de-ji-suan&quot;&gt;优先级的计算&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;yao-jia-pai-ta-suo-de-shi-wu&quot;&gt;要加排他锁的事务&lt;&#x2F;h4&gt;
+&lt;p&gt;LDSF 算法中，要加排他锁的事务的优先级是其依赖集合的大小。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;yao-jia-gong-xiang-suo-de-shi-wu&quot;&gt;要加共享锁的事务&lt;&#x2F;h4&gt;
+&lt;p&gt;由于共享锁是“共享”的，出于方便考虑 LDSF 算法会一次性让所有要加共享锁的事务拿到锁。因此，要加共享锁的事务整体的优先级就是所有要加共享锁的事务的依赖集合的并集的大小。&lt;&#x2F;p&gt;
+&lt;p&gt;LDSF 会让优先级最高（大）的事务（或者事务集合，如果是共享锁的话）成功加上锁。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gai-jin-bldsf-suan-fa&quot;&gt;改进：bLDSF 算法&lt;&#x2F;h2&gt;
+&lt;p&gt;LDSF 算法一次性让所有要加共享锁的事务拿到锁，如果有其中某个事务长期持有某个资源上的共享锁，而其他事务在等着锁定这个资源，系统整体的效率会变得很烂。&lt;&#x2F;p&gt;
+&lt;p&gt;例如：&lt;&#x2F;p&gt;
+&lt;pre id=&quot;graph-2-content&quot;&gt;
+digraph {
+    O[label=&quot;O&quot;, shape=&quot;circle&quot;];
+    t1 -&gt; O[label=&quot;S&quot;,style=&quot;dashed&quot;];
+    t2 -&gt; O[label=&quot;S&quot;,style=&quot;dashed&quot;];
+    t3 -&gt; O[label=&quot;S&quot;,style=&quot;dashed&quot;];
+    t4 -&gt; O[label=&quot;X&quot;,style=&quot;dashed&quot;];
+    subgraph cluster_t1 {
+        label = &quot;t1, size=6&quot;;
+        t1[label=&quot;t1&quot;, shape=&quot;Mrecord&quot;];
+    }
+    subgraph cluster_t2 {
+        label = &quot;t2, size=1&quot;;
+        t2[label=&quot;t2&quot;, shape=&quot;Mrecord&quot;];
+    }
+    subgraph cluster_t3 {
+        label = &quot;t3, size=1&quot;;
+        t3[label=&quot;t3&quot;, shape=&quot;Mrecord&quot;];
+    }
+    subgraph cluster_t4 {
+        label = &quot;t4, size=5&quot;;
+        t4[label=&quot;t4&quot;, shape=&quot;Mrecord&quot;];
+    }
+}
+&lt;&#x2F;pre&gt;
+&lt;div id=&quot;graph-2&quot;&gt;&lt;&#x2F;div&gt;
+&lt;script&gt;
+const content2 = document.getElementById(&quot;graph-2-content&quot;).innerHTML.replaceAll(&quot;&amp;gt;&quot;, &quot;&gt;&quot;);
+document.getElementById(&quot;graph-2-content&quot;).innerHTML = &quot;&quot;;
+console.log(content2);
+d3.select(&quot;#graph-2&quot;).graphviz()
+    .renderDot(content2);
+&lt;&#x2F;script&gt;
+&lt;p&gt;按照 LDSF 算法，此时应该让 t1、t2 和 t3 获取到共享锁，但此时较优的方案是先给 t1 共享锁，然后给 t4 排他锁，最后同时给 t2 和 t3 共享锁。&lt;&#x2F;p&gt;
+&lt;p&gt;为了解决此类问题，文章提出了 bLDSF 算法。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;delay-yin-zi&quot;&gt;delay 因子&lt;&#x2F;h3&gt;
+&lt;p&gt;可以看出，一组共享锁加锁成功后，这个资源下一次可用的时间取决于获得到锁的事务集合中其中最慢的事务的剩余运行时间。&lt;&#x2F;p&gt;
+&lt;p&gt;我们将这个时间的期望值称为 R_max(m)，其中 m 为集合大小，而每个事务本身的剩余运行时间期望值称为 R。&lt;&#x2F;p&gt;
+&lt;p&gt;我们定义 delay 因子为 f(m) = R_max(m)&#x2F;R，显然随着获得到锁的事务集合的增大，f(m) 也会随之增大。&lt;&#x2F;p&gt;
+&lt;p&gt;在不同的负载下，R_max 的计算方法 和对应的 f 的值也会不同，但文章表明，实践中只需使用递增的亚线性函数即可达到比较好的效果。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;you-xian-ji-ji-suan-de-gai-jin&quot;&gt;优先级计算的改进&lt;&#x2F;h3&gt;
+&lt;p&gt;对于排他锁，优先级计算方式不变。&lt;&#x2F;p&gt;
+&lt;p&gt;对于共享锁，在 bLDSF 算法中，备选的加锁集合是所有是 所有要加共享锁的事务组成的集合 的所有非空子集。&lt;&#x2F;p&gt;
+&lt;p&gt;对于这些子集，其优先级计算方法为：这个子集的所有元素的依赖集合的并集的大小 &#x2F; 这个集合的 delay 因子。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;gong-cheng-shi-xian-zhong-de-gai-jin&quot;&gt;工程实现中的改进&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;gu-suan-yi-lai-ji-he-de-da-xiao&quot;&gt;估算依赖集合的大小&lt;&#x2F;h3&gt;
+&lt;p&gt;实践上无论是直接搜索整个等待关系图还是在构建等待关系图时维护，计算依赖集合的大小都是比较消耗资源的（因为实际上依赖图是 DAG），文章中针对这个问题提出的改进是别管什么 DAG 了，就按树来算（即 依赖集合的大小 = 所有被直接 block 的事务的依赖集合的大小之和 + 1）。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;bldsf-zhong-bian-li-suo-you-fei-kong-zi-ji&quot;&gt;bLDSF 中遍历所有非空子集&lt;&#x2F;h3&gt;
+&lt;p&gt;实践中为了节约资源，可以直接遍历任意一组长度递增的非空子集，而不是遍历所有非空子集。&lt;&#x2F;p&gt;
+&lt;p&gt;比如 {t1, t2, t3} 我们只考虑 {t1}, {t1, t2}, {t1, t2, t3} 就行了。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;fang-zhi-ji-e&quot;&gt;防止饥饿&lt;&#x2F;h3&gt;
+&lt;p&gt;文章中的意思应该是隔一段时间放置一个 barrier，barrier 之后到达的事务一定要在 barrier 之前的事务都完成之后才能获得锁。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;si-huo-tikvli-neng-yong-dao-na-xie&quot;&gt;私货：TiKV里能用到哪些？&lt;&#x2F;h2&gt;
+&lt;p&gt;TiKV 里全都是排他锁，因此 LDSF 就很够了。&lt;&#x2F;p&gt;
+&lt;p&gt;不过现在这个等锁之后隔段时间就全部返回到 TiDB 再重试的行为&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;和 LDSF 好像不是特别兼容……&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;希腊字母，我让你希腊字母；花体字，我让你花体字。要是我说了算，用键盘上没有的符号的文章一概拒稿。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;对象指向事务的虚线箭头的意义是：事务持锁定了这个对象。事务指向对象的实线箭头的意义是：事务希望锁定这个对象……我觉得搞这种表示形式的人一定不是普通人类。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;而且这个东西本身我觉得就非常怪异……&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>Mitchell Merritt 分布式死锁检测算法</title>
 		<published>2022-01-26T03:35:48.219+00:00</published>
