@@ -38,6 +38,10 @@
         <lastmod>2020-04-22T16:09:46.815Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/flex-layout/</loc>
+        <lastmod>2018-04-09T22:20:50Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/fpga-sys-1/</loc>
         <lastmod>2021-04-25T16:09:46.815Z</lastmod>
     </url>
@@ -86,6 +90,10 @@
         <lastmod>2020-05-17T16:30:31.045Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/resistor-value/</loc>
+        <lastmod>2022-02-28T22:20:50Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/restart-math-logic-1/</loc>
         <lastmod>2021-01-12T10:01:52.11Z</lastmod>
     </url>
@@ -115,6 +123,12 @@
         <loc>https://longfangsong.github.io/tags/cheatsheet/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/tags/css/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/dian-lu/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/tags/fen-bu-shi-xi-tong/</loc>
     </url>
     <url>
@@ -131,6 +145,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/macos/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/qian-duan/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/risc-v/</loc>

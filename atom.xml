@@ -5,8 +5,431 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-02-08T14:56:30+00:00</updated>
+	<updated>2022-02-28T22:20:50+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>电阻阻值为什么这么奇怪</title>
+		<published>2022-02-28T22:20:50+00:00</published>
+		<updated>2022-02-28T22:20:50+00:00</updated>
+		<link href="https://longfangsong.github.io/resistor-value/" type="text/html"/>
+		<id>https://longfangsong.github.io/resistor-value/</id>
+		<content type="html">&lt;p&gt;如果你去购买电阻，会发现阻值都非常的奇怪，阻值常常是什么 39, 47, 51 之类的，咋就不取个整数呢？&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dian-zu-de-wu-chai&quot;&gt;电阻的误差&lt;&#x2F;h2&gt;
+&lt;p&gt;我们知道因为人类是有极限的，人类造出来的产品也都是有瑕疵的，所以我们人类造出来的电阻也都是有误差的。&lt;&#x2F;p&gt;
+&lt;p&gt;以 10% 的误差为例，假如我们造这种电阻，要覆盖从 10 到 100 的整个数轴，那么我们应该制造的电阻阻值应该符合一个公差为 $10^{\frac {1} {12}}$ 指数等比数列。&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;数列的值&lt;&#x2F;th&gt;&lt;th&gt;采用值&lt;&#x2F;th&gt;&lt;th&gt;最小&lt;&#x2F;th&gt;&lt;th&gt;最大&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;10&lt;&#x2F;td&gt;&lt;td&gt;10&lt;&#x2F;td&gt;&lt;td&gt;9&lt;&#x2F;td&gt;&lt;td&gt;11&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;12.11527659&lt;&#x2F;td&gt;&lt;td&gt;12&lt;&#x2F;td&gt;&lt;td&gt;10.8&lt;&#x2F;td&gt;&lt;td&gt;13.2&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;14.67799268&lt;&#x2F;td&gt;&lt;td&gt;15&lt;&#x2F;td&gt;&lt;td&gt;13.5&lt;&#x2F;td&gt;&lt;td&gt;16.5&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;17.7827941&lt;&#x2F;td&gt;&lt;td&gt;18&lt;&#x2F;td&gt;&lt;td&gt;16.2&lt;&#x2F;td&gt;&lt;td&gt;19.8&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;21.5443469&lt;&#x2F;td&gt;&lt;td&gt;22&lt;&#x2F;td&gt;&lt;td&gt;19.8&lt;&#x2F;td&gt;&lt;td&gt;24.2&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;26.10157216&lt;&#x2F;td&gt;&lt;td&gt;27&lt;&#x2F;td&gt;&lt;td&gt;24.3&lt;&#x2F;td&gt;&lt;td&gt;29.7&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;31.6227766&lt;&#x2F;td&gt;&lt;td&gt;33&lt;&#x2F;td&gt;&lt;td&gt;29.7&lt;&#x2F;td&gt;&lt;td&gt;36.3&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;38.3118685&lt;&#x2F;td&gt;&lt;td&gt;39&lt;&#x2F;td&gt;&lt;td&gt;35.1&lt;&#x2F;td&gt;&lt;td&gt;42.9&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;46.41588834&lt;&#x2F;td&gt;&lt;td&gt;47&lt;&#x2F;td&gt;&lt;td&gt;42.3&lt;&#x2F;td&gt;&lt;td&gt;51.7&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;56.23413252&lt;&#x2F;td&gt;&lt;td&gt;56&lt;&#x2F;td&gt;&lt;td&gt;50.4&lt;&#x2F;td&gt;&lt;td&gt;61.6&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;68.12920691&lt;&#x2F;td&gt;&lt;td&gt;68&lt;&#x2F;td&gt;&lt;td&gt;61.2&lt;&#x2F;td&gt;&lt;td&gt;74.8&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;82.54041853&lt;&#x2F;td&gt;&lt;td&gt;82&lt;&#x2F;td&gt;&lt;td&gt;73.8&lt;&#x2F;td&gt;&lt;td&gt;90.2&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;100&lt;&#x2F;td&gt;&lt;td&gt;100&lt;&#x2F;td&gt;&lt;td&gt;90&lt;&#x2F;td&gt;&lt;td&gt;110&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;这样，如果我们需要某个阻值的一个电阻，我们就能在上述阻值所“负责”的范围内，找到你要的阻值所在的一个。&lt;&#x2F;p&gt;
+&lt;p&gt;比如你要一个 70 欧的电阻，发现 68 欧的电阻可以管 61.2 到 74.8 这个范围，所以就用 68 欧的就行了&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;当然，同样的阻值范围可以推广到 1-10 欧、100-1k 欧等等范围，在此不再赘述。&lt;&#x2F;p&gt;
+&lt;p&gt;国际上把这种在 用 12 个电阻覆盖从 10 到 100 的整个数轴的电阻标准称为 E12，同理有 E6、E24、E48 等等，分别代表不同精度下覆盖这一个范围需要的电阻数量。&lt;&#x2F;p&gt;
+&lt;p&gt;可见，电阻阻值的数字奇怪是为了让电阻在一定精度下覆盖所有可能的阻值。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;biao-zhun-zu-zhi-biao&quot;&gt;标准阻值表&lt;&#x2F;h2&gt;
+&lt;table&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;th&gt;E6(20%)&lt;&#x2F;th&gt;
+            &lt;th&gt;E12(10%)&lt;&#x2F;th&gt;
+            &lt;th&gt;E24(5%)&lt;&#x2F;th&gt;
+            &lt;th&gt;E48(2%)&lt;&#x2F;th&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;8&quot;&gt;100&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;100&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;100&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;100&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;105&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;110&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;110&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;115&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;120&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;120&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;121&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;127&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;130&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;133&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;140&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;8&quot;&gt;150&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;150&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;150&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;147&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;154&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;160&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;162&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;169&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;180&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;180&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;178&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;187&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;200&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;196&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;205&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;8&quot;&gt;220&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;220&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;220&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;215&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;226&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;240&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;237&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;249&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;270&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;270&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;261&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;274&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;300&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;287&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;301&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;8&quot;&gt;330&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;330&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;330&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;316&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;332&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;360&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;348&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;365&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;390&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;390&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;383&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;402&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;430&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;422&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;442&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;8&quot;&gt;470&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;470&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;470&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;464&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;487&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;510&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;511&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;536&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;560&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;560&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;562&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;590&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;620&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;619&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;649&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;8&quot;&gt;680&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;680&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;680&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;681&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;715&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;750&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;750&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;787&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;4&quot;&gt;820&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;820&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;825&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;866&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;2&quot;&gt;910&lt;&#x2F;td&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;909&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+        &lt;tr&gt;
+            &lt;td rowspan=&quot;1&quot;&gt;953&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+    &lt;&#x2F;tbody&gt;
+&lt;&#x2F;table&gt;
+&lt;h2 id=&quot;cou-dian-zu-gong-ju&quot;&gt;凑电阻工具&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;shu-ru&quot;&gt;输入&lt;&#x2F;h3&gt;
+&lt;p&gt;你手上有的电阻&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
+&lt;div id=&quot;current_have_resistors&quot;&gt;&lt;&#x2F;div&gt;
+&lt;p&gt;选择&lt;input id=&quot;count&quot; type=&quot;number&quot; style=&quot;width: 3em&quot; value=&quot;1&quot;&gt;&lt;&#x2F;input&gt;个电阻。&lt;&#x2F;p&gt;
+&lt;p&gt;要求凑出电阻：&lt;&#x2F;p&gt;
+&lt;p&gt;最小：&lt;input id=&quot;min&quot; class=&quot;requirements&quot; type=&quot;text&quot; style=&quot;width: 5em&quot;&gt;&lt;&#x2F;input&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;最大：&lt;input id=&quot;max&quot; class=&quot;requirements&quot; type=&quot;text&quot; style=&quot;width: 5em&quot;&gt;&lt;&#x2F;input&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shu-chu&quot;&gt;输出&lt;&#x2F;h3&gt;
+&lt;p&gt;选择电阻：&lt;&#x2F;p&gt;
+&lt;ul id=&quot;solution&quot;&gt;&lt;&#x2F;ul&gt;
+&lt;p&gt;得到的最小电阻：&lt;span id=&quot;solution-min&quot;&gt;&lt;&#x2F;span&gt;
+得到的最大电阻：&lt;span id=&quot;solution-max&quot;&gt;&lt;&#x2F;span&gt;&lt;&#x2F;p&gt;
+&lt;script&gt;
+let current_have_resistors = [];
+
+function parseInput(input) {
+    if (input.endsWith(&#x27;k&#x27;) || input.endsWith(&#x27;K&#x27;)) {
+        return parseFloat(input.slice(0, -1)) * 1000;
+    } else if (input.endsWith(&#x27;m&#x27;) || input.endsWith(&#x27;M&#x27;)) {
+        return parseFloat(input.slice(0, -1)) * 1000000;
+    } else {
+        return parseFloat(input);
+    }
+}
+
+function ResistorToString(input) {
+    if (input &gt;= 1000000) {
+        return input &#x2F; 1000000 + &#x27;M&#x27;;
+    } else if (input &gt;= 1000) {
+        return input &#x2F; 1000 + &#x27;k&#x27;;
+    } else {
+        return input;
+    }
+}
+
+function register_handling_function() {
+    document.getElementById(&#x27;add&#x27;).onclick = () =&gt; {
+        let add_html = document.createElement(&quot;span&quot;);
+        add_html.innerHTML = `&lt;input style=&quot;width: 3em&quot; id=&quot;value&quot;&gt;&lt;&#x2F;input&gt;Ω&amp;nbsp;&lt;input style=&quot;width: 3em&quot; id=&quot;precision&quot;&gt;&lt;&#x2F;input&gt;%&lt;button id=&quot;do-add&quot;&gt;ok&lt;&#x2F;button&gt;`;
+        document.getElementById(&#x27;current_have_resistors&#x27;).replaceChild(add_html, document.getElementById(&#x27;add&#x27;));
+
+        document.getElementById(&#x27;do-add&#x27;).onclick = () =&gt; {
+            let value = document.getElementById(&#x27;value&#x27;).value;
+            let precision = document.getElementById(&#x27;precision&#x27;).value;
+            current_have_resistors.push({value: parseInput(value), precision: parseInput(precision)});
+            current_have_resistors.sort((a, b) =&gt; a.value - b.value);
+            localStorage.setItem(&#x27;current_have_resistors&#x27;, JSON.stringify(current_have_resistors));
+            render_current_have_resistors();
+        }
+    }
+    for(let element of document.getElementsByClassName(&#x27;remove-resistor&#x27;)) {
+        element.onclick = (e) =&gt; {
+            let id = parseInt(e.target.id.slice(7));
+            current_have_resistors.splice(id, 1);
+            localStorage.setItem(&#x27;current_have_resistors&#x27;, JSON.stringify(current_have_resistors));
+            render_current_have_resistors();
+        }
+    }
+    for(let element of document.getElementsByClassName(&#x27;requirements&#x27;)) {
+        element.onkeyup = () =&gt; {
+            let min = parseInput(document.getElementById(&#x27;min&#x27;).value);
+            let max = parseInput(document.getElementById(&#x27;max&#x27;).value);
+            let count = parseInt(document.getElementById(&#x27;count&#x27;).value);
+            let result = solve(min, max, count);
+            render_solution(result);
+        }
+    }
+    document.getElementById(&#x27;count&#x27;).onkeyup = () =&gt; {
+        let min = parseInput(document.getElementById(&#x27;min&#x27;).value);
+        let max = parseInput(document.getElementById(&#x27;max&#x27;).value);
+        let count = parseInt(document.getElementById(&#x27;count&#x27;).value);
+        let result = solve(min, max, count);
+        render_solution(result);
+    }
+    document.getElementById(&#x27;count&#x27;).onchange = () =&gt; {
+        let min = parseInput(document.getElementById(&#x27;min&#x27;).value);
+        let max = parseInput(document.getElementById(&#x27;max&#x27;).value);
+        let count = parseInt(document.getElementById(&#x27;count&#x27;).value);
+        let result = solve(min, max, count);
+        render_solution(result);
+    }
+}
+
+function render_current_have_resistors() {
+    let html = &#x27;&#x27;;
+    for (let i = 0; i &lt; current_have_resistors.length; i++) {
+        html += `&lt;div class=&quot;current-have-resistors-row&quot;&gt;&lt;span&gt;${ResistorToString(current_have_resistors[i].value)}Ω&lt;&#x2F;span&gt;&lt;span&gt;${current_have_resistors[i].precision}%&lt;&#x2F;span&gt;&lt;button id=&quot;remove-${i}&quot; class=&quot;remove-resistor&quot;&gt;x&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;`;
+    }
+    html += `&lt;button id=&quot;add&quot;&gt;+&lt;&#x2F;button&gt;`;
+    document.getElementById(&#x27;current_have_resistors&#x27;).innerHTML = html;
+    register_handling_function();
+}
+
+function load_current_have() {
+    let current_have_resistors_str = localStorage.getItem(&#x27;current_have_resistors&#x27;);
+    if (current_have_resistors_str === null) {
+        current_have_resistors = [];
+    } else {
+        current_have_resistors = JSON.parse(current_have_resistors_str);
+    }
+    render_current_have_resistors();
+}
+
+function render_solution(solution) {
+    let html = &#x27;&#x27;;
+    for (let i = 0; i &lt; solution.length; i++) {
+        html += `&lt;li&gt;${ResistorToString(solution[i].value)}Ω&amp;nbsp;${solution[i].precision}%&lt;&#x2F;li&gt;`;
+    }
+    document.getElementById(&#x27;solution&#x27;).innerHTML = html;
+    let max = solution.map(x =&gt; x.value*(1+x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
+    let min = solution.map(x =&gt; x.value*(1-x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
+    document.getElementById(&#x27;solution-min&#x27;).innerHTML = ResistorToString(min);
+    document.getElementById(&#x27;solution-max&#x27;).innerHTML = ResistorToString(max);
+}
+
+function solve_sub(min, max, current_have_resistors_start_index, count) {
+    if (count === 0) {
+        return [];
+    }
+    let this_round_result = null;
+    let next_current_have_resistors_start_index = null;
+    for (let i = current_have_resistors_start_index; i &gt;= 0; i--) {
+        let resistor = current_have_resistors[i];
+        let min_value = resistor.value * (1 - resistor.precision &#x2F; 100);
+        let max_value = resistor.value * (1 + resistor.precision &#x2F; 100);
+        if (max &gt;= max_value) {
+            this_round_result = resistor;
+            next_current_have_resistors_start_index = i;
+            break;
+        }
+    }
+    if (this_round_result === null) {
+        return [];
+    } else {
+        let result = [];
+        result.push(this_round_result);
+        let min_value = this_round_result.value * (1 - this_round_result.precision &#x2F; 100);
+        let max_value = this_round_result.value * (1 + this_round_result.precision &#x2F; 100);
+        let remain_min = min - max_value;
+        let remain_max = max - min_value;
+        let remain_result = solve_sub(remain_min, remain_max, next_current_have_resistors_start_index, count - 1);
+        result = result.concat(remain_result);
+        return result;
+    }
+}
+
+function solve(min, max, count) {
+    let basic_result = solve_sub(min, max, current_have_resistors.length - 1, count);
+    while(basic_result.length &gt; 1) {
+        let polified_result = [...basic_result];
+        let initial_max = polified_result.map(x =&gt; x.value*(1+x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
+        let initial_max_diff = Math.abs(initial_max-max);
+        let initial_min = polified_result.map(x =&gt; x.value*(1-x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
+        let initial_min_diff = Math.abs(initial_min-min);
+        polified_result.pop();
+        let new_max = polified_result.map(x =&gt; x.value*(1+x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
+        let new_max_diff = Math.abs(new_max-max);
+        let new_min = polified_result.map(x =&gt; x.value*(1-x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
+        let new_min_diff = Math.abs(new_min-min);
+        if(new_max_diff + new_min_diff &lt; initial_min_diff + initial_max_diff) {
+            basic_result = polified_result;
+        } else {
+            break;
+        }
+    }
+    return basic_result;
+}
+
+load_current_have();
+document.getElementById(&#x27;min&#x27;).value = &quot;&quot;;
+document.getElementById(&#x27;max&#x27;).value = &quot;&quot;;
+&lt;&#x2F;script&gt;
+&lt;style&gt;
+.current-have-resistors-row {
+    width: 128px;
+    justify-content: space-between;
+    display: flex;
+    border-top: solid #ddd 1px;
+}
+.current-have-resistors-row &gt; span {
+    text-align: center;
+    width: 24px;
+}
+#add {
+    width: 128px;
+}
+&lt;&#x2F;style&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;一般来说要求的电阻也是一个范围，如果你需要更精确的控制，可以用更精确的电阻。这里再加一个同样精度的 1.8 欧电阻用处没那么大，这只是把可能的阻值范围变为 62.82 到 76.78 欧这个范围，并没有比原来好多少，甚至误差范围还变大了。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;这些数据持久化在你的浏览器的 local storage 里面，只要不清缓存，下次打开该页面也有效。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>Contention-Aware Lock Scheduling 和 （b）LDSF 算法</title>
 		<published>2022-02-08T14:56:30+00:00</published>
@@ -2157,6 +2580,50 @@ CAP 中的 C 指的是外部一致性。
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;Or maybe I misunderstood the &lt;code&gt;pagination&lt;&#x2F;code&gt; feature ...&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>Flexbox 布局 cheatsheet</title>
+		<published>2018-04-09T22:20:50+00:00</published>
+		<updated>2018-04-09T22:20:50+00:00</updated>
+		<link href="https://longfangsong.github.io/flex-layout/" type="text/html"/>
+		<id>https://longfangsong.github.io/flex-layout/</id>
+		<content type="html">&lt;p&gt;Flexbox 是现代 web 页面布局的一大利器，但是相关属性众多，本人每次使用都要查文档，而且查了多次（≥20）居然一点都没记住。&lt;&#x2F;p&gt;
+&lt;p&gt;所以我就写了这个 cheatsheet，不是因为写了就记住了，而是从自己写的文档里翻东西比较快……&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;display-flex&quot;&gt;&lt;code&gt;display: flex;&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;在某个元素上设置，这个元素内部使用 Flexbox 布局。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;flex-direction&quot;&gt;&lt;code&gt;flex-direction&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;主轴方向，取值如下：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;row&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;row-reverse&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;column&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;column-reverse&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;justify-content&quot;&gt;&lt;code&gt;justify-content&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;控制主轴方向上元素的排列，取值如下：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;center&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;start&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;flex-start&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;end&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;flex-end&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;space-between&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;space-around&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;space-evenly&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;&lt;code&gt;start&lt;&#x2F;code&gt;&#x2F;&lt;code&gt;flex-start&lt;&#x2F;code&gt; 和 &lt;code&gt;end&lt;&#x2F;code&gt;&#x2F;&lt;code&gt;flex-end&lt;&#x2F;code&gt; 之间的差别在于是否只对 flex 元素生效。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;align-items&quot;&gt;&lt;code&gt;align-items&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;stretch&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;flex-start&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;flex-end&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;center&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;flex&quot;&gt;&lt;code&gt;flex&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
+&lt;pre data-lang=&quot;css&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-css &quot;&gt;&lt;code class=&quot;language-css&quot; data-lang=&quot;css&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;flex: 数字
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;代表元素在flexbox中占的比例。&lt;&#x2F;p&gt;
 </content>
 	</entry>
 </feed>
