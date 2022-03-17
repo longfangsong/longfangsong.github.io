@@ -526,7 +526,7 @@ $$&lt;&#x2F;p&gt;
 U_{max} = \sqrt{2}U_{有效}
 $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;san-xiang-jiao-liu-dian&quot;&gt;三相交流电&lt;&#x2F;h2&gt;
-&lt;p&gt;我们家用的 220V 50Hz 的交流电就是&lt;&#x2F;p&gt;
+&lt;p&gt;我们家用的 220V 50Hz&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#5&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 的交流电就是电压有效值为 220V，频率为 50Hz 的三相交流电。（其实是其中的一相）&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;ji-yu-shao-kai-shui-de-fa-dian-han-shi-ru-he-fa-dian-de&quot;&gt;（基于烧开水的）发电厂是如何发电的&lt;&#x2F;h3&gt;
 &lt;p&gt;一般基于烧开水的发电都是靠的往磁场里装个往死里转的线圈（或者在线圈里装个往死里转的磁体，反正运动是相对的），这线圈其中一头接的称为零线，另一头接的线称为火线。&lt;&#x2F;p&gt;
 &lt;p&gt;现在的发电厂会在一个磁场里装三个这样的线圈，这三个线圈之间的角度为120度，发电时就会生成三组相位差为120度的交流电。&lt;&#x2F;p&gt;
@@ -552,6 +552,9 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
 &lt;p&gt;&lt;code&gt;todo_list++&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;中国大陆是这个方案，其实供电方案最奇妙的是日本，关东关西频率不一样可还行，日本电工一定很难受。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
 	</entry>
