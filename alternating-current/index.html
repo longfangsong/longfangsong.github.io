@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • 交流电基础</title>
+  
+    
+      <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+    
+  
+
+  
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https://longfangsong.github.io/">首页</a></li><li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a  href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;alternating-current&#x2F;">交流电基础</a></h1>
+  
+  <div class="post-content"><blockquote>
+<p>交流电流是指电流强度和电流方向都发生周期性变化的电流，在一个周期内的运行平均值为零。—— 维基百科</p>
+</blockquote>
+<p>虽然定义上是这么说的，但是分析交流电的方法也适合分析一些没那么周期性的变化的，平均值不为 0 的电流，比如高速信号的传输。</p>
+<h2 id="zheng-xian-jiao-liu-dian">正弦交流电</h2>
+<p>最常见的交流电，比如平常我们生活中的插头接出来的 220V 电就是正弦交流电，即电流变化符合正弦函数的交流电。</p>
+<p>正弦交流电的电流值可以用如下函数表示：</p>
+<p>$$
+I(t) = I_{max} sin(k t + I_0)
+$$</p>
+<p><canvas id="sineCanvas"></canvas>
+<button id="pause">暂停</button></p>
+<script>
+    let paused = false;
+    let canvas = document.getElementById("sineCanvas");
+    canvas.width = window.innerWidth * 0.7;
+    canvas.height = 300;
+    let context = canvas.getContext("2d");
+    let height = canvas.height;
+    let width = canvas.width;
+    const dpr = window.devicePixelRatio;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    context.scale(dpr, dpr);
+    context.font = '18px sans-serif';
+    context.strokeStyle = '#000';
+    context.lineJoin = 'round';
+    let xAxis = Math.floor(height / 2);
+    let yAxis = Math.floor(width / 4);
+    let t = 0;
+    let seconds = 0;
+    const unit = window.innerWidth * 0.07;
+    context.save();
+    draw();
+    function draw() {
+        if (!paused) {
+            context.clearRect(0, 0, width, height);
+            context.beginPath();
+            drawAxes();
+            context.stroke();
+            context.save();
+            context.strokeStyle = '#00f';
+            context.fillStyle = '#fff';
+            context.lineWidth = 2;
+            context.beginPath();
+            drawSine(t);
+            drawCircle();
+            context.stroke();
+            drawArrow(t);
+            context.restore();
+            context.fillText("Imax", yAxis + unit + 10, 18 + xAxis);
+            seconds = seconds - .007;
+            t = seconds * Math.PI;
+        }
+        setTimeout(draw, 35);
+    };
+    function drawAxes() {
+        context.moveTo(0, xAxis);
+        context.lineTo(width, xAxis);
+        context.moveTo(yAxis, 0);
+        context.lineTo(yAxis, height);
+        context.moveTo(yAxis + Math.PI * unit, xAxis + 5);
+        context.lineTo(yAxis + Math.PI * unit, xAxis - 5);
+    }
+    function drawSine(t) {
+        let x = t;
+        let y = Math.sin(x);
+        context.moveTo(yAxis, unit * y + xAxis);
+        for (i = yAxis; i <= width; i += 10) {
+            x = t + (-yAxis + i) / unit;
+            y = Math.sin(x);
+            context.lineTo(i, unit * y + xAxis);
+        }
+    }
+    function drawCircle() {
+        context.moveTo(yAxis + unit, xAxis);
+        context.arc(yAxis, xAxis, unit, 0, 2 * Math.PI, false);
+    }
+    function drawArrow(t) {
+        let x = yAxis + unit * Math.cos(t);
+        let y = xAxis + unit * Math.sin(t);
+        context.beginPath();
+        context.moveTo(yAxis, xAxis);
+        context.lineTo(x, y);
+        context.stroke();
+        context.beginPath();
+        context.arc(x, y, 5, 0, 2 * Math.PI, false);
+        context.fill();
+        context.stroke();
+        context.beginPath();
+        let direction = (Math.cos(t) < 0) ? 1 : -1;
+        let start = (direction == -1) ? -5 : 0;
+        for (let i = x; direction * i < direction * yAxis - 5; i = i + direction * 10) {
+            context.moveTo(i + direction * 5, y);
+            context.lineTo(i + direction * 10, y);
+        }
+        context.stroke();
+        context.beginPath();
+        context.arc(yAxis, y, 5, 0, 2 * Math.PI, false);
+        context.fill();
+        context.stroke();
+        context.fillStyle = "black";
+        context.fillText(`I=${-Math.sin(t).toFixed(2)}Imax`, yAxis + 0.15*unit, y);
+    }
+    let pauseButton = document.getElementById("pause");
+    pauseButton.addEventListener("click", function () {
+        paused = !paused;
+    });
+</script>
+<p>其中数值的正负自然代表电流的方向。</p>
+<h2 id="li-xiang-dian-zu-zai-jiao-liu-dian-lu-zhong-de-te-xing">（理想）电阻在交流电路中的特性</h2>
+<p>电阻没啥好说的，和直流电路中一样。</p>
+<h2 id="li-xiang-dian-rong-zai-jiao-liu-dian-lu-zhong-de-te-xing">（理想）电容在交流电路中的特性</h2>
+<p>最简单的电容就是两块平行金属板，在外部电压的作用下，接到低电压的一侧会聚集负电荷，另一端会聚集正电荷。</p>
+<p>在交流电<sup class="footnote-reference"><a href="#1">1</a></sup>中，由于电流的方向不断变化，电容两侧的电压高低也不断变化，因此两侧聚集的电荷也不断变化。</p>
+<p>由于产生电流的是<strong>电压差</strong>，稍微思考一下就知道，当电容两侧电压达到最大值时，电流为 0 ，此时就是电容“充饱”了；反之当电容两侧电压为 0 时，电流达到最大 ，此时就是电容“放空”了。</p>
+<p><canvas id="capacitorCanvas"></canvas>
+<button id="pauseCapacitor">暂停</button></p>
+<script>
+    let capacitorPaused = false;
+    let capacitorCanvas = document.getElementById("capacitorCanvas");
+    capacitorCanvas.width = window.innerWidth * 0.7;
+    capacitorCanvas.height = 300;
+    let capacitorContext = capacitorCanvas.getContext("2d");
+    let capacitorHeight = capacitorCanvas.height;
+    let capacitorWidth = capacitorCanvas.width;
+    capacitorCanvas.width = width * dpr;
+    capacitorCanvas.height = height * dpr;
+    capacitorCanvas.style.width = width + 'px';
+    capacitorCanvas.style.height = height + 'px';
+    capacitorContext.scale(dpr, dpr);
+    capacitorContext.font = '18px sans-serif';
+    capacitorContext.strokeStyle = '#000';
+    capacitorContext.lineJoin = 'round';
+    capacitorContext.save();
+    let capacitorSeconds = 0;
+    let capacitorT = 0;
+    drawCapacitor();
+    function drawCapacitor() {
+        if (!capacitorPaused) {
+            capacitorContext.clearRect(0, 0, width, height);
+            drawCapacitorAxes();
+            drawCapacitorSine(capacitorT);
+            drawCapacitorCircle();
+            drawCapacitorArrow(capacitorT);
+            capacitorSeconds = capacitorSeconds - .007;
+            capacitorT = capacitorSeconds * Math.PI;
+        }
+        setTimeout(drawCapacitor, 50);
+    };
+    function drawCapacitorAxes() {
+        capacitorContext.beginPath();
+        capacitorContext.moveTo(0, xAxis);
+        capacitorContext.lineTo(width, xAxis);
+        capacitorContext.moveTo(yAxis, 0);
+        capacitorContext.lineTo(yAxis, height);
+        capacitorContext.moveTo(yAxis + Math.PI * unit, xAxis + 5);
+        capacitorContext.lineTo(yAxis + Math.PI * unit, xAxis - 5);
+        capacitorContext.fillText("Imax", yAxis + unit + 10, 18 + xAxis);
+        capacitorContext.fillText("Umax", yAxis + unit - 70, 18 + xAxis);
+        capacitorContext.stroke();
+    }
+    function drawCapacitorSine(t) {
+        capacitorContext.save();
+        capacitorContext.strokeStyle = '#00f';
+        capacitorContext.fillStyle = '#fff';
+        capacitorContext.lineWidth = 2;
+        capacitorContext.beginPath();
+        let x = t;
+        let y = Math.sin(x);
+        capacitorContext.moveTo(yAxis, unit * y + xAxis);
+        for (i = yAxis; i <= width; i += 10) {
+            x = t + (-yAxis + i) / unit;
+            y = Math.sin(x);
+            capacitorContext.lineTo(i, unit * y + xAxis);
+        }
+        capacitorContext.stroke();
+        capacitorContext.restore();
+        capacitorContext.save();
+        capacitorContext.strokeStyle = '#0f0';
+        capacitorContext.fillStyle = 'rgba(0,0,0,0)';
+        capacitorContext.lineWidth = 2;
+        capacitorContext.beginPath();
+        x = t;
+        y = Math.sin(x+Math.PI/2)*0.8;
+        capacitorContext.moveTo(yAxis, unit * y + xAxis);
+        for (i = yAxis; i <= width; i += 10) {
+            x = t + (-yAxis + i) / unit;
+            y = Math.sin(x+Math.PI/2)*0.8;
+            capacitorContext.lineTo(i, unit * y + xAxis);
+        }
+        capacitorContext.stroke();
+        capacitorContext.restore();
+    }
+    function drawCapacitorCircle() {
+        capacitorContext.save();
+        capacitorContext.strokeStyle = '#00f';
+        capacitorContext.fillStyle = '#fff';
+        capacitorContext.lineWidth = 2;
+        capacitorContext.beginPath();
+        capacitorContext.moveTo(yAxis + unit, xAxis);
+        capacitorContext.arc(yAxis, xAxis, unit, 0, 2 * Math.PI, false);
+        capacitorContext.stroke();
+        capacitorContext.restore();
+        capacitorContext.save();
+        capacitorContext.strokeStyle = '#0f0';
+        capacitorContext.fillStyle = '#fff';
+        capacitorContext.lineWidth = 2;
+        capacitorContext.moveTo(yAxis + unit, xAxis);
+        capacitorContext.beginPath();
+        capacitorContext.arc(yAxis, xAxis, unit*0.8, 0, 2 * Math.PI, false);
+        capacitorContext.stroke();
+        capacitorContext.restore();
+    }
+    function drawCapacitorArrow(t) {
+        capacitorContext.save();
+        capacitorContext.strokeStyle = '#00f';
+        capacitorContext.fillStyle = '#fff';
+        capacitorContext.lineWidth = 2;
+        let x = yAxis + unit * Math.cos(t);
+        let y = xAxis + unit * Math.sin(t);
+        capacitorContext.beginPath();
+        capacitorContext.moveTo(yAxis, xAxis);
+        capacitorContext.lineTo(x, y);
+        capacitorContext.stroke();
+        capacitorContext.beginPath();
+        capacitorContext.arc(x, y, 5, 0, 2 * Math.PI, false);
+        capacitorContext.fill();
+        capacitorContext.stroke();
+        capacitorContext.beginPath();
+        let direction = (Math.cos(t) < 0) ? 1 : -1;
+        let start = (direction == -1) ? -5 : 0;
+        for (let i = x; direction * i < direction * yAxis - 5; i = i + direction * 10) {
+            capacitorContext.moveTo(i + direction * 5, y);
+            capacitorContext.lineTo(i + direction * 10, y);
+        }
+        capacitorContext.stroke();
+        capacitorContext.beginPath();
+        capacitorContext.arc(yAxis, y, 5, 0, 2 * Math.PI, false);
+        capacitorContext.fill();
+        capacitorContext.stroke();
+        capacitorContext.fillStyle = "black";
+        capacitorContext.fillText(`I=${-Math.sin(t).toFixed(2)}Imax`, yAxis + 0.15*unit, y);
+        capacitorContext.fillStyle = "white";
+        x = yAxis + unit * 0.8 * Math.cos(t+Math.PI/2);
+        y = xAxis + unit * 0.8 * Math.sin(t+Math.PI/2);
+        capacitorContext.restore();
+        capacitorContext.save();
+        capacitorContext.strokeStyle = '#0f0';
+        capacitorContext.fillStyle = '#fff';
+        capacitorContext.lineWidth = 2;
+        capacitorContext.beginPath();
+        capacitorContext.moveTo(yAxis, xAxis);
+        capacitorContext.lineTo(x, y);
+        capacitorContext.stroke();
+        capacitorContext.beginPath();
+        capacitorContext.arc(x, y, 5, 0, 2 * Math.PI, false);
+        capacitorContext.fill();
+        capacitorContext.stroke();
+        capacitorContext.beginPath();
+        direction = (Math.cos(t+Math.PI/2) < 0) ? 1 : -1;
+        start = (direction == -1) ? -5 : 0;
+        for (let i = x; direction * i < direction * yAxis - 5; i = i + direction * 10) {
+            capacitorContext.moveTo(i + direction * 5, y);
+            capacitorContext.lineTo(i + direction * 10, y);
+        }
+        capacitorContext.stroke();
+        capacitorContext.beginPath();
+        capacitorContext.arc(yAxis, y, 5, 0, 2 * Math.PI, false);
+        capacitorContext.fill();
+        capacitorContext.stroke();
+        capacitorContext.fillStyle = "black";
+        capacitorContext.fillText(`U=${-Math.sin(t+Math.PI/2).toFixed(2)}Umax`, yAxis + 0.15*unit, y);
+        capacitorContext.restore();
+    }
+    let capacitorPauseButton = document.getElementById("pauseCapacitor");
+    capacitorPauseButton.addEventListener("click", function () {
+        capacitorPaused = !capacitorPaused;
+    });
+</script>
+<p>从图中可以看到，电容两侧的电压和电流变化差四分之一周期，或者说相位差 90 度。</p>
+<h2 id="li-xiang-dian-gan-zai-jiao-liu-dian-lu-zhong-de-te-xing">（理想）电感在交流电路中的特性</h2>
+<p>最简单的电感就一个绕起来的线圈，流过线圈的电流变化时，就会感应出磁场，而磁场会反过来感应出和原本电流相反的电压。</p>
+<p>在交流电中，电感总是不断感应出和电流相反的电压，电感某时刻电感感应出的电压和电感该时刻的电流变化量（即电流变化的导数）成正相关，因此若电流变化曲线为正弦曲线，则电感上的电压就是余弦曲线。</p>
+<p><canvas id="inductorCanvas"></canvas>
+<button id="pauseInductor">暂停</button></p>
+<script>
+    let inductorPaused = false;
+    let inductorCanvas = document.getElementById("inductorCanvas");
+    inductorCanvas.width = window.innerWidth * 0.7;
+    inductorCanvas.height = 300;
+    let inductorContext = inductorCanvas.getContext("2d");
+    let inductorHeight = inductorCanvas.height;
+    let inductorWidth = inductorCanvas.width;
+    inductorCanvas.width = width * dpr;
+    inductorCanvas.height = height * dpr;
+    inductorCanvas.style.width = width + 'px';
+    inductorCanvas.style.height = height + 'px';
+    inductorContext.scale(dpr, dpr);
+    inductorContext.font = '18px sans-serif';
+    inductorContext.strokeStyle = '#000';
+    inductorContext.lineJoin = 'round';
+    inductorContext.save();
+    let inductorSeconds = 0;
+    let inductorT = 0;
+    drawInductor();
+    function drawInductor() {
+        if (!inductorPaused) {
+            inductorContext.clearRect(0, 0, width, height);
+            drawInductorAxes();
+            drawInductorSine(inductorT);
+            drawInductorCircle();
+            drawInductorArrow(inductorT);
+            inductorSeconds = inductorSeconds - .007;
+            inductorT = inductorSeconds * Math.PI;
+        }
+        setTimeout(drawInductor, 50);
+    };
+    function drawInductorAxes() {
+        inductorContext.beginPath();
+        inductorContext.moveTo(0, xAxis);
+        inductorContext.lineTo(width, xAxis);
+        inductorContext.moveTo(yAxis, 0);
+        inductorContext.lineTo(yAxis, height);
+        inductorContext.moveTo(yAxis + Math.PI * unit, xAxis + 5);
+        inductorContext.lineTo(yAxis + Math.PI * unit, xAxis - 5);
+        inductorContext.fillText("Imax", yAxis + unit + 10, 18 + xAxis);
+        inductorContext.fillText("Umax", yAxis + unit - 70, 18 + xAxis);
+        inductorContext.stroke();
+    }
+    function drawInductorSine(t) {
+        inductorContext.save();
+        inductorContext.strokeStyle = '#00f';
+        inductorContext.fillStyle = '#fff';
+        inductorContext.lineWidth = 2;
+        inductorContext.beginPath();
+        let x = t;
+        let y = Math.sin(x);
+        inductorContext.moveTo(yAxis, unit * y + xAxis);
+        for (i = yAxis; i <= width; i += 10) {
+            x = t + (-yAxis + i) / unit;
+            y = Math.sin(x);
+            inductorContext.lineTo(i, unit * y + xAxis);
+        }
+        inductorContext.stroke();
+        inductorContext.restore();
+        inductorContext.save();
+        inductorContext.strokeStyle = '#0f0';
+        inductorContext.fillStyle = 'rgba(0,0,0,0)';
+        inductorContext.lineWidth = 2;
+        inductorContext.beginPath();
+        x = t;
+        y = Math.sin(x-Math.PI/2)*0.8;
+        inductorContext.moveTo(yAxis, unit * y + xAxis);
+        for (i = yAxis; i <= width; i += 10) {
+            x = t + (-yAxis + i) / unit;
+            y = Math.sin(x-Math.PI/2)*0.8;
+            inductorContext.lineTo(i, unit * y + xAxis);
+        }
+        inductorContext.stroke();
+        inductorContext.restore();
+    }
+    function drawInductorCircle() {
+        inductorContext.save();
+        inductorContext.strokeStyle = '#00f';
+        inductorContext.fillStyle = '#fff';
+        inductorContext.lineWidth = 2;
+        inductorContext.beginPath();
+        inductorContext.moveTo(yAxis + unit, xAxis);
+        inductorContext.arc(yAxis, xAxis, unit, 0, 2 * Math.PI, false);
+        inductorContext.stroke();
+        inductorContext.restore();
+        inductorContext.save();
+        inductorContext.strokeStyle = '#0f0';
+        inductorContext.fillStyle = '#fff';
+        inductorContext.lineWidth = 2;
+        inductorContext.moveTo(yAxis + unit, xAxis);
+        inductorContext.beginPath();
+        inductorContext.arc(yAxis, xAxis, unit*0.8, 0, 2 * Math.PI, false);
+        inductorContext.stroke();
+        inductorContext.restore();
+    }
+    function drawInductorArrow(t) {
+        inductorContext.save();
+        inductorContext.strokeStyle = '#00f';
+        inductorContext.fillStyle = '#fff';
+        inductorContext.lineWidth = 2;
+        let x = yAxis + unit * Math.cos(t);
+        let y = xAxis + unit * Math.sin(t);
+        inductorContext.beginPath();
+        inductorContext.moveTo(yAxis, xAxis);
+        inductorContext.lineTo(x, y);
+        inductorContext.stroke();
+        inductorContext.beginPath();
+        inductorContext.arc(x, y, 5, 0, 2 * Math.PI, false);
+        inductorContext.fill();
+        inductorContext.stroke();
+        inductorContext.beginPath();
+        let direction = (Math.cos(t) < 0) ? 1 : -1;
+        let start = (direction == -1) ? -5 : 0;
+        for (let i = x; direction * i < direction * yAxis - 5; i = i + direction * 10) {
+            inductorContext.moveTo(i + direction * 5, y);
+            inductorContext.lineTo(i + direction * 10, y);
+        }
+        inductorContext.stroke();
+        inductorContext.beginPath();
+        inductorContext.arc(yAxis, y, 5, 0, 2 * Math.PI, false);
+        inductorContext.fill();
+        inductorContext.stroke();
+        inductorContext.fillStyle = "black";
+        inductorContext.fillText(`I=${-Math.sin(t).toFixed(2)}Imax`, yAxis + 0.15*unit, y);
+        inductorContext.fillStyle = "white";
+        x = yAxis + unit * 0.8 * Math.cos(t-Math.PI/2);
+        y = xAxis + unit * 0.8 * Math.sin(t-Math.PI/2);
+        inductorContext.restore();
+        inductorContext.save();
+        inductorContext.strokeStyle = '#0f0';
+        inductorContext.fillStyle = '#fff';
+        inductorContext.lineWidth = 2;
+        inductorContext.beginPath();
+        inductorContext.moveTo(yAxis, xAxis);
+        inductorContext.lineTo(x, y);
+        inductorContext.stroke();
+        inductorContext.beginPath();
+        inductorContext.arc(x, y, 5, 0, 2 * Math.PI, false);
+        inductorContext.fill();
+        inductorContext.stroke();
+        inductorContext.beginPath();
+        direction = (Math.cos(t+Math.PI/2) < 0) ? 1 : -1;
+        start = (direction == -1) ? -5 : 0;
+        for (let i = x; direction * i < direction * yAxis - 5; i = i + direction * 10) {
+            inductorContext.moveTo(i + direction * 5, y);
+            inductorContext.lineTo(i + direction * 10, y);
+        }
+        inductorContext.stroke();
+        inductorContext.beginPath();
+        inductorContext.arc(yAxis, y, 5, 0, 2 * Math.PI, false);
+        inductorContext.fill();
+        inductorContext.stroke();
+        inductorContext.fillStyle = "black";
+        inductorContext.fillText(`U=${-Math.sin(t-Math.PI/2).toFixed(2)}Umax`, yAxis + 0.15*unit, y);
+        inductorContext.restore();
+    }
+    let inductorPauseButton = document.getElementById("pauseInductor");
+    inductorPauseButton.addEventListener("click", function () {
+        inductorPaused = !inductorPaused;
+    });
+</script>
+<h2 id="zu-kang">阻抗</h2>
+<p>阻抗就是元件对交流电的阻碍作用，定义为电压与电流的频域比率。
+<strong>概念</strong>上，</p>
+<p>$$
+阻抗 = 电阻部分 + 电抗部分
+$$</p>
+<p>电阻就和直流电里的电阻一样，恒定地阻碍电流的通过，在理想元件中只有电阻器有电阻。</p>
+<h3 id="dian-kang">电抗</h3>
+<p>电抗又可以分为容抗和感抗：</p>
+<p>$$
+X = X_C + X_L
+$$</p>
+<p>容抗和感抗分别表现了电容和电感对交流电的阻碍作用。</p>
+<h4 id="rong-kang">容抗</h4>
+<p>电容在电流充入的时候，由于两侧极板上都有很多的同电性的电荷，这些电荷就会排斥其他这种电性的电荷，从而导致电容会阻碍电流。</p>
+<p>因此直觉上可以得出：</p>
+<ul>
+<li>电流变化得越快，极板上的电荷就可以更快地被放掉，从而减少电容对电流的阻碍作用</li>
+<li>电容总容量越大（可以看作“极板”越大），极板上的电荷产生的对其他电荷同种电荷的排斥力就越小，也可以减少电容对电流的阻碍作用</li>
+</ul>
+<p>这个直觉<sup class="footnote-reference"><a href="#2">2</a></sup>是非常准确的，容抗的公式正是：</p>
+<p>$$
+X_C = \frac{1}{\omega C} = \frac 1 {2\pi fC}
+$$</p>
+<p>其中 $\omega$ 就是交流电的角频率，$f$ 为其对应的频率，$C$ 就是电容的容量<sup class="footnote-reference"><a href="#3">3</a></sup>。</p>
+<h4 id="gan-kang">感抗</h4>
+<p>电感产生的感应电压会生成和原本的电流相反的电流，使得总电流减小。</p>
+<p>我们结合电磁感应定律，可以直觉上得出：</p>
+<ul>
+<li>电流变化的越快，感应出的电流越大，电感的阻碍作用就越大</li>
+<li>电感值越大（即线圈的匝数越多，磁导率越大，面积越大，线长越小），电感的阻碍作用就越大</li>
+</ul>
+<p>因此电感的公式是：</p>
+<p>$$
+X_L = \omega C = 2\pi fC
+$$</p>
+<h3 id="fu-zu-kang">复阻抗</h3>
+<p>为了计算方便，通过包括欧拉公式拉普拉斯变换在内的一系列手段<sup class="footnote-reference"><a href="#4">4</a></sup>，我们将电压、电流和阻抗写成复数形式：</p>
+<p>$$
+U(t) = U_{max}cos(\omega t + U_0) + isin(\omega t + U_0) = U_{max}e^{i(\omega t + U_0)}
+$$</p>
+<p>$$
+I(t) = I_{max}cos(\omega t + I_0) + isin(\omega t + I_0) = I_{max}e^{i(\omega t + I_0)}
+$$</p>
+<p>$$
+Z = R + iX = |Z|\angle \theta = |Z| e^{i\theta}
+$$</p>
+<p>这样表示之后，许多在直流电中成立的定律可以直接 lift 到交流电上来：</p>
+<p>比如欧姆定律：</p>
+<p>$$
+U(t) = I(t)X
+$$</p>
+<h2 id="jiao-liu-dian-de-you-xiao-zhi">交流电的有效值</h2>
+<p>交流电的有效值指的是在相同的电阻上分别通过直流电流和交流电流，经过一个交流周期的时间，如果它们在电阻上所消耗的电能相等的话，则把该直流电流（电压）的大小等于交流电流（电压）的有效值。</p>
+<p>总之就是在消耗电能方面和交流电等效的直流电流/压的大小。</p>
+<p>对于正弦交流电，有：</p>
+<p>$$
+I_{max} = \sqrt{2}I_{有效}
+$$</p>
+<p>$$
+U_{max} = \sqrt{2}U_{有效}
+$$</p>
+<h2 id="san-xiang-jiao-liu-dian">三相交流电</h2>
+<p>我们家用的 220V 50Hz 的交流电就是</p>
+<h3 id="ji-yu-shao-kai-shui-de-fa-dian-han-shi-ru-he-fa-dian-de">（基于烧开水的）发电厂是如何发电的</h3>
+<p>一般基于烧开水的发电都是靠的往磁场里装个往死里转的线圈（或者在线圈里装个往死里转的磁体，反正运动是相对的），这线圈其中一头接的称为零线，另一头接的线称为火线。</p>
+<p>现在的发电厂会在一个磁场里装三个这样的线圈，这三个线圈之间的角度为120度，发电时就会生成三组相位差为120度的交流电。</p>
+<h3 id="san-xiang-san-xian-zhi">三相三线制</h3>
+<p>我们把发电厂的三个线圈的零线接在一起，研究这跟线上的电流可以发现，三组线圈生成的电流在这跟线上恰好抵消了，也就是说实际上这跟线其实并不过电流，所以输电时可以把这跟线去掉，高压输电时为了节约材料，常采用这种方式供电。</p>
+<p>在这种情况下，实际电压有效值是其中两个线圈电压的矢量和的模，如果每相都是220V交流电，那这种方式输电下最终得到的电压有效值就是 380V。</p>
+<h3 id="san-xiang-si-xian-zhi">三相四线制</h3>
+<p>在家庭用电过程中，由于很多电器不想要三相电，而只想要一相电，此时最简单的想法是每个电器直接从一根火线上取电，电器的另一端都接在一起。
+但是这样如果三相电每根线上的负载不同，会导致三组线圈生成的电压不再相等，分配到较高电压的负载可能会过压烧毁。</p>
+<p>因此三相电在输送给家庭时，会把发电机（如果发电机直接连到家里，这其实不太可能）或者变电站的零线和负载的零线接在一起（通常通过接地）。</p>
+<h3 id="san-xiang-wu-xian-zhi">三相五线制</h3>
+<p>在三相四线制的基础上，再加一个保护地，一般连接用电器的外壳，防止触电。</p>
+<p>保护地和零线虽然一般都接地，但不能共用，因为零线是直接通过用电器连接到火线的，平时要过电流，如果零线断路，则零线会直接带上火线的电压，此时如果直接用零线当保护地，那碰一下外壳会非常危险。</p>
+<p>而保护地是直接接的地，用电器的外壳带电就会直接从保护地流走，而只有在用 电器外壳带电+保护地接线断路 的情况下才会导致触电，显然比单独的零线断路即会触电更安全。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>假设输入的交流电来自一个恒流源，下同。</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>~~列公式讲这些的都是傻逼~~直觉只能定性说明变化趋势，如果想知道这个定量公式是怎么来的，还是需要用各种更基础的公式一点点推的，不过真的不是所有人都 care 严密性😄。</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>其实 $2\pi$ 这个系数就是为了调单位的，我也可以发明一种新的单位直接让 $X_C = \frac 1 {fc}$ 让讨厌的 $\pi$ 和三角函数下地狱。</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><code>todo_list++</code></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022年02月28日</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/tags/数学">&nbsp;数学</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/tags/物理">&nbsp;物理</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/tags/电路">&nbsp;电路</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=交流电基础&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;alternating-current&hashtags=数学,物理,电路"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
