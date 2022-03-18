@@ -542,7 +542,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;保护地和零线虽然一般都接地，但不能共用，因为零线是直接通过用电器连接到火线的，平时要过电流，如果零线断路，则零线会直接带上火线的电压，此时如果直接用零线当保护地，那碰一下外壳会非常危险。&lt;&#x2F;p&gt;
 &lt;p&gt;而保护地是直接接的地，用电器的外壳带电就会直接从保护地流走，而只有在用 电器外壳带电+保护地接线断路 的情况下才会导致触电，显然比单独的零线断路即会触电更安全。&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;假设输入的交流电来自一个恒流源，下同。&lt;&#x2F;p&gt;
+&lt;p&gt;假设输入的交流电来自一个恒压源，由于我们假设电路中只有一个元件（电容&#x2F;电感），而元件对电流的阻碍作用恒定，所以这个恒压源同时也是恒流源，同时，由于电路中只有一个元件，电源电压也就是元件两端的电压，下同。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
 &lt;p&gt;~~列公式讲这些的都是傻逼~~直觉只能定性说明变化趋势，如果想知道这个定量公式是怎么来的，还是需要用各种更基础的公式一点点推的，不过真的不是所有人都 care 严密性😄。&lt;&#x2F;p&gt;
