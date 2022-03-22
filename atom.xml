@@ -842,7 +842,7 @@ function registerHandlingFunction() {
             let valueStr = document.getElementById(&#x27;value&#x27;).value;
             let precisionStr = document.getElementById(&#x27;precision&#x27;).value;
             let value = parseInput(valueStr);
-            let precision = parseInput(precision);
+            let precision = parseInput(precisionStr);
             current_have_resistors.push({
                 value: value, 
                 precision: precision,
