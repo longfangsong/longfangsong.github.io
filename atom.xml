@@ -789,15 +789,26 @@ $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;shu-ru&quot;&gt;输入&lt;&#x2F;h3&gt;
 &lt;p&gt;你手上有的电阻&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
 &lt;div id=&quot;current_have_resistors&quot;&gt;&lt;&#x2F;div&gt;
-&lt;p&gt;选择&lt;input id=&quot;count&quot; type=&quot;number&quot; style=&quot;width: 3em&quot; value=&quot;1&quot;&gt;&lt;&#x2F;input&gt;个电阻。&lt;&#x2F;p&gt;
-&lt;p&gt;要求凑出电阻：&lt;&#x2F;p&gt;
-&lt;p&gt;最小：&lt;input id=&quot;min&quot; class=&quot;requirements&quot; type=&quot;text&quot; style=&quot;width: 5em&quot;&gt;&lt;&#x2F;input&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;最大：&lt;input id=&quot;max&quot; class=&quot;requirements&quot; type=&quot;text&quot; style=&quot;width: 5em&quot;&gt;&lt;&#x2F;input&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;计算公式：&lt;input id=&quot;func&quot; class=&quot;requirements&quot; type=&quot;text&quot; style=&quot;width: 10em&quot;&gt;&lt;&#x2F;input&gt;=&lt;input id=&quot;expected-result&quot; class=&quot;requirements&quot; type=&quot;text&quot; style=&quot;width: 4em&quot;&gt;&lt;&#x2F;input&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;shu-chu&quot;&gt;输出&lt;&#x2F;h3&gt;
 &lt;p&gt;选择电阻：&lt;&#x2F;p&gt;
-&lt;ul id=&quot;solution&quot;&gt;&lt;&#x2F;ul&gt;
-&lt;p&gt;得到的最小电阻：&lt;span id=&quot;solution-min&quot;&gt;&lt;&#x2F;span&gt;
-得到的最大电阻：&lt;span id=&quot;solution-max&quot;&gt;&lt;&#x2F;span&gt;&lt;&#x2F;p&gt;
+&lt;table id=&quot;solution&quot;&gt;
+    &lt;thead&gt;
+    &lt;tr id=&quot;solution-header&quot;&gt;
+        &lt;th id=&quot;solution-header-avg&quot;&gt;均值&lt;&#x2F;th&gt;
+        &lt;th&gt;均值差值&lt;&#x2F;th&gt;
+        &lt;th&gt;均值差值百分比&lt;&#x2F;th&gt;
+        &lt;th&gt;最小值&lt;&#x2F;th&gt;
+        &lt;th&gt;最小值差值&lt;&#x2F;th&gt;
+        &lt;th&gt;最小值差值百分比&lt;&#x2F;th&gt;
+        &lt;th&gt;最大值&lt;&#x2F;th&gt;
+        &lt;th&gt;最大值差值&lt;&#x2F;th&gt;
+        &lt;th&gt;最大值差值百分比&lt;&#x2F;th&gt;
+    &lt;&#x2F;tr&gt;
+    &lt;&#x2F;thead&gt;
+    &lt;tbody id=&quot;solution-body&quot;&gt;
+    &lt;&#x2F;tbody&gt;
+&lt;&#x2F;table&gt;
 &lt;script&gt;
 let current_have_resistors = [];
 
@@ -811,7 +822,7 @@ function parseInput(input) {
     }
 }
 
-function ResistorToString(input) {
+function resistorToString(input) {
     if (input &gt;= 1000000) {
         return input &#x2F; 1000000 + &#x27;M&#x27;;
     } else if (input &gt;= 1000) {
@@ -821,19 +832,26 @@ function ResistorToString(input) {
     }
 }
 
-function register_handling_function() {
+function registerHandlingFunction() {
     document.getElementById(&#x27;add&#x27;).onclick = () =&gt; {
         let add_html = document.createElement(&quot;span&quot;);
         add_html.innerHTML = `&lt;input style=&quot;width: 3em&quot; id=&quot;value&quot;&gt;&lt;&#x2F;input&gt;Ω&amp;nbsp;&lt;input style=&quot;width: 3em&quot; id=&quot;precision&quot;&gt;&lt;&#x2F;input&gt;%&lt;button id=&quot;do-add&quot;&gt;ok&lt;&#x2F;button&gt;`;
         document.getElementById(&#x27;current_have_resistors&#x27;).replaceChild(add_html, document.getElementById(&#x27;add&#x27;));
 
         document.getElementById(&#x27;do-add&#x27;).onclick = () =&gt; {
-            let value = document.getElementById(&#x27;value&#x27;).value;
-            let precision = document.getElementById(&#x27;precision&#x27;).value;
-            current_have_resistors.push({value: parseInput(value), precision: parseInput(precision)});
+            let valueStr = document.getElementById(&#x27;value&#x27;).value;
+            let precisionStr = document.getElementById(&#x27;precision&#x27;).value;
+            let value = parseInput(valueStr);
+            let precision = parseInput(precision);
+            current_have_resistors.push({
+                value: value, 
+                precision: precision,
+                min: value * (1-precision&#x2F;100),
+                max: value * (1+precision&#x2F;100)
+            });
             current_have_resistors.sort((a, b) =&gt; a.value - b.value);
             localStorage.setItem(&#x27;current_have_resistors&#x27;, JSON.stringify(current_have_resistors));
-            render_current_have_resistors();
+            renderCurrentHaveResistors();
         }
     }
     for(let element of document.getElementsByClassName(&#x27;remove-resistor&#x27;)) {
@@ -841,122 +859,227 @@ function register_handling_function() {
             let id = parseInt(e.target.id.slice(7));
             current_have_resistors.splice(id, 1);
             localStorage.setItem(&#x27;current_have_resistors&#x27;, JSON.stringify(current_have_resistors));
-            render_current_have_resistors();
+            renderCurrentHaveResistors();
         }
     }
     for(let element of document.getElementsByClassName(&#x27;requirements&#x27;)) {
         element.onkeyup = () =&gt; {
-            let min = parseInput(document.getElementById(&#x27;min&#x27;).value);
-            let max = parseInput(document.getElementById(&#x27;max&#x27;).value);
-            let count = parseInt(document.getElementById(&#x27;count&#x27;).value);
-            let result = solve(min, max, count);
-            render_solution(result);
+            let func = document.getElementById(&#x27;func&#x27;).value;
+            let expectedResult = parseInput(document.getElementById(&#x27;expected-result&#x27;).value);
+            let problem = parseProblem(func, expectedResult);
+            if(problem.params.length !== 0) {
+                let result = solve(problem);
+                renderSolution(problem, result);
+            }
         }
-    }
-    document.getElementById(&#x27;count&#x27;).onkeyup = () =&gt; {
-        let min = parseInput(document.getElementById(&#x27;min&#x27;).value);
-        let max = parseInput(document.getElementById(&#x27;max&#x27;).value);
-        let count = parseInt(document.getElementById(&#x27;count&#x27;).value);
-        let result = solve(min, max, count);
-        render_solution(result);
-    }
-    document.getElementById(&#x27;count&#x27;).onchange = () =&gt; {
-        let min = parseInput(document.getElementById(&#x27;min&#x27;).value);
-        let max = parseInput(document.getElementById(&#x27;max&#x27;).value);
-        let count = parseInt(document.getElementById(&#x27;count&#x27;).value);
-        let result = solve(min, max, count);
-        render_solution(result);
     }
 }
 
-function render_current_have_resistors() {
+function renderCurrentHaveResistors() {
     let html = &#x27;&#x27;;
     for (let i = 0; i &lt; current_have_resistors.length; i++) {
-        html += `&lt;div class=&quot;current-have-resistors-row&quot;&gt;&lt;span&gt;${ResistorToString(current_have_resistors[i].value)}Ω&lt;&#x2F;span&gt;&lt;span&gt;${current_have_resistors[i].precision}%&lt;&#x2F;span&gt;&lt;button id=&quot;remove-${i}&quot; class=&quot;remove-resistor&quot;&gt;x&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;`;
+        html += `&lt;div class=&quot;current-have-resistors-row&quot;&gt;&lt;span&gt;${resistorToString(current_have_resistors[i].value)}Ω&lt;&#x2F;span&gt;&lt;span&gt;${current_have_resistors[i].precision}%&lt;&#x2F;span&gt;&lt;button id=&quot;remove-${i}&quot; class=&quot;remove-resistor&quot;&gt;x&lt;&#x2F;button&gt;&lt;&#x2F;div&gt;`;
     }
     html += `&lt;button id=&quot;add&quot;&gt;+&lt;&#x2F;button&gt;`;
     document.getElementById(&#x27;current_have_resistors&#x27;).innerHTML = html;
-    register_handling_function();
+    registerHandlingFunction();
 }
 
-function load_current_have() {
+function loadCurrentHave() {
     let current_have_resistors_str = localStorage.getItem(&#x27;current_have_resistors&#x27;);
     if (current_have_resistors_str === null) {
         current_have_resistors = [];
     } else {
         current_have_resistors = JSON.parse(current_have_resistors_str);
+        for(let current_have_resistor of current_have_resistors) {
+            current_have_resistor.min = current_have_resistor.value * (1-current_have_resistor.precision&#x2F;100);
+            current_have_resistor.max = current_have_resistor.value * (1+current_have_resistor.precision&#x2F;100);
+        }
     }
-    render_current_have_resistors();
+    renderCurrentHaveResistors();
 }
 
-function render_solution(solution) {
+function renderSolution(problem, solutions) {
+    let extraHeaderHTML = &#x27;&#x27;;
+    let parentNode = document.getElementById(&#x27;solution-header&#x27;);
+    let firstChild = parentNode.firstChild;
+    while(firstChild.id !== &#x27;solution-header-avg&#x27;) {
+        parentNode.removeChild(firstChild);
+        firstChild = parentNode.firstChild;
+    }
+    let refNode = document.getElementById(&#x27;solution-header-avg&#x27;);
+    for(let param of problem.params) {
+        let newHeader = document.createElement(&quot;th&quot;);
+        newHeader.innerHTML = `${param}`;
+        parentNode.insertBefore(newHeader, refNode);
+    }
+
     let html = &#x27;&#x27;;
-    for (let i = 0; i &lt; solution.length; i++) {
-        html += `&lt;li&gt;${ResistorToString(solution[i].value)}Ω&amp;nbsp;${solution[i].precision}%&lt;&#x2F;li&gt;`;
-    }
-    document.getElementById(&#x27;solution&#x27;).innerHTML = html;
-    let max = solution.map(x =&gt; x.value*(1+x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
-    let min = solution.map(x =&gt; x.value*(1-x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
-    document.getElementById(&#x27;solution-min&#x27;).innerHTML = ResistorToString(min);
-    document.getElementById(&#x27;solution-max&#x27;).innerHTML = ResistorToString(max);
-}
-
-function solve_sub(min, max, current_have_resistors_start_index, count) {
-    if (count === 0) {
-        return [];
-    }
-    let this_round_result = null;
-    let next_current_have_resistors_start_index = null;
-    for (let i = current_have_resistors_start_index; i &gt;= 0; i--) {
-        let resistor = current_have_resistors[i];
-        let min_value = resistor.value * (1 - resistor.precision &#x2F; 100);
-        let max_value = resistor.value * (1 + resistor.precision &#x2F; 100);
-        if (max &gt;= max_value) {
-            this_round_result = resistor;
-            next_current_have_resistors_start_index = i;
-            break;
+    for (let solution of solutions) {
+        let solutionHTML = &#x27;&#x27;;
+        for(let s of solution.selected) {
+            solutionHTML += `&lt;td&gt;${resistorToString(current_have_resistors[s].value)}&lt;&#x2F;td&gt;`;
         }
+        html += `
+        &lt;tr&gt;
+            ${solutionHTML}
+            &lt;td&gt;${solution.avg.toFixed(6)}&lt;&#x2F;td&gt;
+            &lt;td&gt;${Math.abs(solution.avg - problem.value).toFixed(6)}&lt;&#x2F;td&gt;
+            &lt;td&gt;${Math.abs((solution.avg - problem.value)&#x2F;problem.value*100).toFixed(4)}%&lt;&#x2F;td&gt;
+            &lt;td&gt;${solution.min.toFixed(6)}&lt;&#x2F;td&gt;
+            &lt;td&gt;${Math.abs(solution.min - problem.value).toFixed(6)}&lt;&#x2F;td&gt;
+            &lt;td&gt;${Math.abs((solution.min - problem.value)&#x2F;problem.value*100).toFixed(4)}%&lt;&#x2F;td&gt;
+            &lt;td&gt;${solution.max.toFixed(6)}&lt;&#x2F;td&gt;
+            &lt;td&gt;${Math.abs(solution.max - problem.value).toFixed(6)}&lt;&#x2F;td&gt;
+            &lt;td&gt;${Math.abs((solution.max - problem.value)&#x2F;problem.value*100).toFixed(4)}%&lt;&#x2F;td&gt;
+        &lt;&#x2F;tr&gt;
+    `;
     }
-    if (this_round_result === null) {
-        return [];
-    } else {
-        let result = [];
-        result.push(this_round_result);
-        let min_value = this_round_result.value * (1 - this_round_result.precision &#x2F; 100);
-        let max_value = this_round_result.value * (1 + this_round_result.precision &#x2F; 100);
-        let remain_min = min - max_value;
-        let remain_max = max - min_value;
-        let remain_result = solve_sub(remain_min, remain_max, next_current_have_resistors_start_index, count - 1);
-        result = result.concat(remain_result);
-        return result;
-    }
+    document.getElementById(&#x27;solution-body&#x27;).innerHTML = html;
 }
 
-function solve(min, max, count) {
-    let basic_result = solve_sub(min, max, current_have_resistors.length - 1, count);
-    while(basic_result.length &gt; 1) {
-        let polified_result = [...basic_result];
-        let initial_max = polified_result.map(x =&gt; x.value*(1+x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
-        let initial_max_diff = Math.abs(initial_max-max);
-        let initial_min = polified_result.map(x =&gt; x.value*(1-x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
-        let initial_min_diff = Math.abs(initial_min-min);
-        polified_result.pop();
-        let new_max = polified_result.map(x =&gt; x.value*(1+x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
-        let new_max_diff = Math.abs(new_max-max);
-        let new_min = polified_result.map(x =&gt; x.value*(1-x.precision&#x2F;100)).reduce((a, b) =&gt; a+b);
-        let new_min_diff = Math.abs(new_min-min);
-        if(new_max_diff + new_min_diff &lt; initial_min_diff + initial_max_diff) {
-            basic_result = polified_result;
+function minMaxIndexes(indexes, minMaxes) {
+    let result = [];
+    for (let i = 0; i &lt; indexes.length; ++i) {
+        let index = indexes[i];
+        let minMax = minMaxes[i];
+        if(minMax === 0) {
+            value = current_have_resistors[index].min;
         } else {
-            break;
+            value = current_have_resistors[index].max;
         }
+        result.push(value);
     }
-    return basic_result;
+    return result;
 }
 
-load_current_have();
-document.getElementById(&#x27;min&#x27;).value = &quot;&quot;;
-document.getElementById(&#x27;max&#x27;).value = &quot;&quot;;
+function arrayIndexes(array, indexes) {
+    let result = [];
+    for (let i = 0; i &lt; indexes.length; i++) {
+        result.push(array[indexes[i]]);
+    }
+    return result;
+}
+
+function parseProblem(func, value) {
+    let paramsSet = new Set();
+    const paramRegexp = &#x2F;[a-zA-Z]\w*&#x2F;g;
+    &#x2F;&#x2F; todo: use matchAll
+    let match = paramRegexp.exec(func);
+    while (match !== null) {
+        let paramName = match[0];
+        paramsSet.add(paramName);
+        match = paramRegexp.exec(func);
+    }
+    let params = [...paramsSet];
+    let funcF = new Function(...params, `return ${func};`);
+    return {params: params, funcF: funcF, value: value};
+}
+
+function compareSolution(value) {
+    return (a, b) =&gt; {
+        let avgDiffA = Math.abs(a.avg-value);
+        let avgDiffB = Math.abs(b.avg-value);
+        if(avgDiffA - avgDiffB &lt; -0.00001) {
+            return -1;
+        } else if (avgDiffA - avgDiffB &gt; 0.00001) {
+            return 1;
+        } else {
+            let minMaxDiffA = Math.abs(a.min-value) + Math.abs(a.max-value);
+            let minMaxDiffB = Math.abs(b.min-value) + Math.abs(b.max-value);
+            if(minMaxDiffA - minMaxDiffB &lt; -0.00001) {
+                return -1;
+            } else if (minMaxDiffA - minMaxDiffB &gt; 0.00001) {
+                return 1;
+            } else {
+                let useResistorSumA = a.selected.reduce((a,b) =&gt; a+b);
+                let useResistorSumB = b.selected.reduce((a,b) =&gt; a+b);
+                return useResistorSumB - useResistorSumA;
+            }
+        }
+    }
+}
+    
+
+function solve(problem) {
+    let params = problem.params;
+    let funcF = problem.funcF;
+    let value = problem.value;
+    let compareSolutionF = compareSolution(value);
+    let results = [];
+    let currentSelectedIndexes = [];
+    for (let i = 0; i &lt; params.length; i++) {
+        currentSelectedIndexes.push(0);
+    }
+    let exit = false;
+    &#x2F;&#x2F; 0: min, 1: max
+    let minMax = [];
+    for (let i = 0; i &lt; params.length; i++) {
+        minMax.push(0);
+    }
+    while(!exit) {
+        for (let i = 0; i &lt; params.length; i++) {
+            minMax[i] = 0;
+        }
+        &#x2F;&#x2F; eval
+        let exitInner = false;
+        let currentResultMax = null;
+        let currentResultMin = null;
+        while(!exitInner) {
+            let currentResult = funcF(...minMaxIndexes(currentSelectedIndexes, minMax));
+            if(currentResultMax === null || currentResult &gt; currentResultMax) {
+                currentResultMax = currentResult;
+            }
+            if(currentResultMin === null || currentResult &lt; currentResultMin) {
+                currentResultMin = currentResult;
+            }
+            minMax[0]++;
+            let carring = 0;
+            while(minMax[carring] &gt; 1) {
+                minMax[carring] = 0;
+                carring++;
+                if(carring &gt;= params.length) {
+                    exitInner = true;
+                    break;
+                }
+                minMax[carring]++;
+            }
+        }
+        let currentResultAvg = funcF(...arrayIndexes(current_have_resistors, currentSelectedIndexes).map(it =&gt; it.value));
+        let currentSolution = {selected: [...currentSelectedIndexes], avg: currentResultAvg, min: currentResultMin, max: currentResultMax};
+        if(results.length &lt; 9) {
+            results.push(currentSolution);
+        } else if (results.length === 9) {
+            results.push(currentSolution);
+            results.sort(compareSolutionF);
+        } else {
+            for (let i = 0; i &lt; results.length; i++) {
+                if(compareSolutionF(currentSolution, results[i]) &lt; 0) {
+                    results.splice(i, 0, currentSolution);
+                    results.pop();
+                    break;
+                }
+            }
+        }
+        currentSelectedIndexes[0]++;
+        let carring = 0;
+        exit = false;
+        while(currentSelectedIndexes[carring] &gt;= current_have_resistors.length) {
+            currentSelectedIndexes[carring] = 0;
+            carring++;
+            if (carring &gt;= currentSelectedIndexes.length) {
+                exit = true;
+                break;
+            }
+            currentSelectedIndexes[carring]++;
+        }
+    }
+    return results;
+}
+
+loadCurrentHave();
+document.getElementById(&#x27;func&#x27;).value = &#x27;&#x27;;
+document.getElementById(&#x27;expected-result&#x27;).value = &#x27;&#x27;;
 &lt;&#x2F;script&gt;
 &lt;style&gt;
 .current-have-resistors-row {
