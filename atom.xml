@@ -5,8 +5,56 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-02-28T22:21:20+00:00</updated>
+	<updated>2022-06-05T11:56:50+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>midi 文件转蜂鸣器乐谱</title>
+		<published>2022-06-05T11:56:50+00:00</published>
+		<updated>2022-06-05T11:56:50+00:00</updated>
+		<link href="https://longfangsong.github.io/midi/" type="text/html"/>
+		<id>https://longfangsong.github.io/midi/</id>
+		<content type="html">&lt;p&gt;本工具可以将 midi 文件重新编码为 (频率[单位 Hz, 16位无符号数], 持续时间 [单位us, 32位无符号数]) 格式的数组。&lt;&#x2F;p&gt;
+&lt;p&gt;对有多个通道的 midi 文件，只会保留第一个通道的数据。&lt;&#x2F;p&gt;
+&lt;p&gt;对同一时间点的多个音符（柱状和弦），只保留最低音。&lt;&#x2F;p&gt;
+&lt;p&gt;上传文件即可开始转换。&lt;&#x2F;p&gt;
+&lt;p&gt;源代码：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;midi-compiler&quot;&gt;&lt;img src=&quot;https:&#x2F;&#x2F;gh-card.dev&#x2F;repos&#x2F;longfangsong&#x2F;midi-compiler.svg&quot; alt=&quot;longfangsong&#x2F;midi-compiler - GitHub&quot; &#x2F;&gt;&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;input type=&quot;file&quot; id=&quot;input&quot;&gt;
+&lt;script type=&quot;module&quot;&gt;
+import init, { convert_midi } from &#x27;.&#x2F;lib&#x2F;midi_compiler_lib.js&#x27;;
+
+document.getElementById(&#x27;input&#x27;).disabled = true;
+async function load_wasm() {
+    await init();
+    let inputElement = document.getElementById(&#x27;input&#x27;);
+    inputElement.addEventListener(&#x27;change&#x27;, function () {
+        const file = inputElement.files[0];
+        const reader = new FileReader();
+        const filename = file.name;
+        reader.onload = (e) =&gt; {
+            const data = new Uint8Array(e.target.result);
+            const result = convert_midi(data);
+            const blob = new Blob([result]);
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement(&quot;a&quot;);
+            let pathSegments = filename.split(&#x27;.&#x27;);
+            if (pathSegments.length &gt; 1) {
+                pathSegments.pop();
+            }
+            pathSegments.push(&#x27;notes&#x27;);
+            a.download = pathSegments.join(&#x27;.&#x27;);
+            a.href = url;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            inputElement.value = null;
+        };
+        reader.readAsArrayBuffer(file);
+    });
+    inputElement.disabled = false;
+}
+load_wasm();
+&lt;&#x2F;script&gt;</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>交流电基础</title>
 		<published>2022-02-28T22:21:20+00:00</published>
@@ -545,7 +593,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;假设输入的交流电来自一个恒压源，由于我们假设电路中只有一个元件（电容&#x2F;电感），而元件对电流的阻碍作用恒定，所以这个恒压源同时也是恒流源，同时，由于电路中只有一个元件，电源电压也就是元件两端的电压，下同。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
-&lt;p&gt;~~列公式讲这些的都是傻逼~~直觉只能定性说明变化趋势，如果想知道这个定量公式是怎么来的，还是需要用各种更基础的公式一点点推的，不过真的不是所有人都 care 严密性😄。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;del&gt;列公式讲这些的都是傻逼&lt;&#x2F;del&gt; 直觉只能定性说明变化趋势，如果想知道这个定量公式是怎么来的，还是需要用各种更基础的公式一点点推的，不过真的不是所有人都 care 严密性😄。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
 &lt;p&gt;其实 $2\pi$ 这个系数就是为了调单位的，我也可以发明一种新的单位直接让 $X_C = \frac 1 {fc}$ 让讨厌的 $\pi$ 和三角函数下地狱。&lt;&#x2F;p&gt;
@@ -1097,7 +1145,7 @@ document.getElementById(&#x27;expected-result&#x27;).value = &#x27;&#x27;;
 }
 &lt;&#x2F;style&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;一般来说要求的电阻也是一个范围，如果你需要更精确的控制，可以用更精确的电阻。这里再加一个同样精度的 1.8 欧电阻用处没那么大，这只是把可能的阻值范围变为 62.82 到 76.78 欧这个范围，并没有比原来好多少，甚至误差范围还变大了。&lt;&#x2F;p&gt;
+&lt;p&gt;一般来说要求的电阻也是一个范围，如果你需要更精确的控制，可以用更精确的电阻。这里再加一个同样精度的 1.8 欧电阻用处没那么大，这只是把可能的阻值范围变为 62.82 到 76.78 欧这个范围，并没有比原来好多少，甚至误差范围还变大了。当然，如果是用几个电阻的比值就另当别论了。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
 &lt;p&gt;这些数据持久化在你的浏览器的 local storage 里面，只要不清缓存，下次打开该页面也有效。&lt;&#x2F;p&gt;

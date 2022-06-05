@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png"/>
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • midi 文件转蜂鸣器乐谱</title>
+  
+    
+      <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+    
+  
+
+  
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+<body>
+<div id="sidebar" class="animated fadeInDown">
+  <div class="logo-title">
+    <div class="title">
+      <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo"/>
+      <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+      <div class="description">
+        <p>生命是灰色的，而理论之树常青</p>
+      </div>
+    </div>
+  </div>
+  <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+    data-wordart-show-attribution></div>
+
+  </ul>
+  <div class="footer">
+    
+    <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+    <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+    
+  </div>
+</div>
+<div id="main">
+  <div class="page-top animated fadeInDown">
+    <div class="nav">
+      <li><a  href="https://longfangsong.github.io/">首页</a></li><li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a  href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+    <div class="information">
+      <div class="back_btn">
+        <li><a onclick="window.history.go(-1)" ><i class="fas fa-chevron-left"></i></a></li>
+      </div>
+      <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+    </div>
+  </div>
+  <div class="autopagerize_page_element">
+    <div class="content">
+    
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;midi&#x2F;">midi 文件转蜂鸣器乐谱</a></h1>
+  
+  <div class="post-content"><p>本工具可以将 midi 文件重新编码为 (频率[单位 Hz, 16位无符号数], 持续时间 [单位us, 32位无符号数]) 格式的数组。</p>
+<p>对有多个通道的 midi 文件，只会保留第一个通道的数据。</p>
+<p>对同一时间点的多个音符（柱状和弦），只保留最低音。</p>
+<p>上传文件即可开始转换。</p>
+<p>源代码：</p>
+<p><a href="https://github.com/longfangsong/midi-compiler"><img src="https://gh-card.dev/repos/longfangsong/midi-compiler.svg" alt="longfangsong/midi-compiler - GitHub" /></a></p>
+<input type="file" id="input">
+<script type="module">
+import init, { convert_midi } from './lib/midi_compiler_lib.js';
+
+document.getElementById('input').disabled = true;
+async function load_wasm() {
+    await init();
+    let inputElement = document.getElementById('input');
+    inputElement.addEventListener('change', function () {
+        const file = inputElement.files[0];
+        const reader = new FileReader();
+        const filename = file.name;
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            const result = convert_midi(data);
+            const blob = new Blob([result]);
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            let pathSegments = filename.split('.');
+            if (pathSegments.length > 1) {
+                pathSegments.pop();
+            }
+            pathSegments.push('notes');
+            a.download = pathSegments.join('.');
+            a.href = url;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            inputElement.value = null;
+        };
+        reader.readAsArrayBuffer(file);
+    });
+    inputElement.disabled = false;
+}
+load_wasm();
+</script></div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022年06月05日</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/tags/h5app">&nbsp;h5app</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=midi 文件转蜂鸣器乐谱&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;midi&hashtags=h5app"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
