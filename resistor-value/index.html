@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" 
+   
+    class="theme--light" 
+  
+>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -43,7 +47,7 @@
     </div>
   </div>
   <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/685czi4rqil5" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
     data-wordart-show-attribution></div>
 
   </ul>
@@ -678,5 +682,21 @@ document.getElementById('expected-result').value = '';
     </div>
   </div>
 </div>
+
+<script>
+  window.onload = function () {
+    const currentTheme = localStorage.getItem('theme');
+    const element = document.getElementsByTagName("html")[0];
+    if (currentTheme) {
+      element.classList.remove('theme--light');
+      element.classList.add('theme--'+currentTheme);
+    } else {
+      localStorage.setItem('theme', 'light');
+      element.classList.remove('theme--light');
+      element.classList.add('theme--light');
+    }
+  }
+</script>
+
 </body>
 </html>
