@@ -1,0 +1,7 @@
+{
+    "name": "My Blog",
+    "short_name": "Blog",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/"
+}

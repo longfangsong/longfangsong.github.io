@@ -25,6 +25,7 @@
   
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/static/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
 <script>
@@ -33,20 +34,6 @@
   gtag('js', new Date());
 
   gtag('config', 'G-YG5Z4J086Y');
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    for (element of document.getElementsByTagName('a')) {
-      element.onclick = function (event) {
-        // Stop the default behavior of the browser, which
-        // is to change the URL of the page.
-        event.preventDefault();
-        // Manually change the location of the page to stay in
-        // "Standalone" mode and change the URL at the same time.
-        location.href = event.target.href;
-      }
-    }
-  });
 </script>
 
 </head>
