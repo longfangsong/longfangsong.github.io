@@ -2,6 +2,6 @@
     "name": "My Blog",
     "short_name": "Blog",
     "display": "standalone",
-    "scope": "/",
-    "start_url": "/"
+    "scope": "https://longfangsong.github.io/",
+    "start_url": "https://longfangsong.github.io/"
 }
