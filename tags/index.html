@@ -24,15 +24,29 @@
 
   
 <meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="stylesheet" href="https://longfangsong.github.io/ blog.css">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    for (element of document.getElementsByTagName('a')) {
+      element.onclick = function (event) {
+        // Stop the default behavior of the browser, which
+        // is to change the URL of the page.
+        event.preventDefault();
+        // Manually change the location of the page to stay in
+        // "Standalone" mode and change the URL at the same time.
+        location.href = $(event.target).attr("href");
+      }
+    }
+  });
 </script>
 
 </head>
@@ -49,7 +63,7 @@
   </div>
   <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
 <div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
-    data-wordart-show-attribution></div>
+  data-wordart-show-attribution></div>
 
   </ul>
   <div class="footer">
