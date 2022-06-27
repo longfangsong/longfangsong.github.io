@@ -74,10 +74,16 @@
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;本文使用 Lean 4，但更多研究者使用 Lean 3。相比 Lean3，Lean 4 的“自动档” mathlib 还没有实装，但用来证明一些基本的逻辑命题已经足够了。
-&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: 更专业的说法是“自然演绎”。
-&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: 更专业的说法是“简单类型 λ 演算”。
-&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: 假设所有函数都是科里化的，即 &lt;code&gt;Fn(a: T1) -&amp;gt; Fn(b: T2)&lt;&#x2F;code&gt; 和 &lt;code&gt;Fn(a: T1, b: T2)&lt;&#x2F;code&gt; 完全是一回事。&lt;&#x2F;p&gt;
+&lt;p&gt;本文使用 Lean 4，但更多研究者使用 Lean 3。相比 Lean3，Lean 4 的“自动档” mathlib 还没有实装，但用来证明一些基本的逻辑命题已经足够了。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;更专业的说法是“自然演绎”。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;更专业的说法是“简单类型 λ 演算”。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;假设所有函数都是科里化的，即 &lt;code&gt;Fn(a: T1) -&amp;gt; Fn(b: T2)&lt;&#x2F;code&gt; 和 &lt;code&gt;Fn(a: T1, b: T2)&lt;&#x2F;code&gt; 完全是一回事。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
 	</entry>
