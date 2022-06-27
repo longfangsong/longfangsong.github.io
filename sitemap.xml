@@ -125,6 +125,9 @@
         <loc>https://longfangsong.github.io/tags/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/tags/bian-cheng-yu-yan-li-lun/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/tags/bian-yi-yuan-li/</loc>
     </url>
     <url>
@@ -183,5 +186,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/zola/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/why-lean-proof/</loc>
+        <lastmod>2022-06-24T08:10:17.031Z</lastmod>
     </url>
 </urlset>

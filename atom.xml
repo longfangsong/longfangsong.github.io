@@ -5,8 +5,82 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-06-05T11:56:50+00:00</updated>
+	<updated>2022-06-24T08:10:17.031+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>定理证明器背后的数学原理</title>
+		<published>2022-06-24T08:10:17.031+00:00</published>
+		<updated>2022-06-24T08:10:17.031+00:00</updated>
+		<link href="https://longfangsong.github.io/why-lean-proof/" type="text/html"/>
+		<id>https://longfangsong.github.io/why-lean-proof/</id>
+		<content type="html">&lt;h2 id=&quot;how-it-looks-like&quot;&gt;How it looks like&lt;&#x2F;h2&gt;
+&lt;p&gt;相比一上来就掰扯复杂的数学理论，我们不如先来看看一个使用定理证明器 Lean &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 编写数学定理的证明的实际例子，我们就选择比较容易证明的德摩根定律来证：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;lean&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-lean &quot;&gt;&lt;code class=&quot;language-lean&quot; data-lang=&quot;lean&quot;&gt;&lt;span&gt;open Classical
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;theorem deMorgan : ¬(p ∧ q) ↔ ¬p ∨ ¬q :=
+&lt;&#x2F;span&gt;&lt;span&gt;  Iff.intro
+&lt;&#x2F;span&gt;&lt;span&gt;    (λ (left: ¬(p ∧ q)) =&amp;gt; (
+&lt;&#x2F;span&gt;&lt;span&gt;      Or.elim (em p) 
+&lt;&#x2F;span&gt;&lt;span&gt;        (λ (hp: p) =&amp;gt; Or.intro_right (¬p) (
+&lt;&#x2F;span&gt;&lt;span&gt;          λ (hq: q) =&amp;gt; absurd ⟨ hp, hq ⟩ left
+&lt;&#x2F;span&gt;&lt;span&gt;        ))
+&lt;&#x2F;span&gt;&lt;span&gt;        (λ (hnp: ¬p) =&amp;gt; Or.intro_left (¬q) hnp)
+&lt;&#x2F;span&gt;&lt;span&gt;    ))
+&lt;&#x2F;span&gt;&lt;span&gt;    (λ (left: ¬p ∨ ¬q) =&amp;gt; (
+&lt;&#x2F;span&gt;&lt;span&gt;      Or.elim left
+&lt;&#x2F;span&gt;&lt;span&gt;        (λ (hnp: ¬p) (inner: p ∧ q) =&amp;gt; absurd inner.left hnp)
+&lt;&#x2F;span&gt;&lt;span&gt;        (λ (hnq: ¬q) (inner: p ∧ q) =&amp;gt; absurd inner.right hnq)
+&lt;&#x2F;span&gt;&lt;span&gt;    ))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;看起来这个证明好像是由一些 λ（就像 Python 中的 &lt;code&gt;lambda&lt;&#x2F;code&gt;）和一些高阶函数（比如 &lt;code&gt;Or.elim&lt;&#x2F;code&gt;）组成的。&lt;&#x2F;p&gt;
+&lt;p&gt;那这些东西凭什么能证明这个命题呢。&lt;&#x2F;p&gt;
+&lt;p&gt;这就要牵扯到一个叫 Curry-Howard 同构的东西了。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;curry-howard-tong-gou&quot;&gt;Curry-Howard 同构&lt;&#x2F;h2&gt;
+&lt;p&gt;Curry-Howard 同构建立了 “证明”&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 和 “程序”&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 的对应关系：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;一个程序（常体现为一个函数）的内容对应于一个证明
+比如我们上面证明 &lt;code&gt;deMorgan&lt;&#x2F;code&gt; 定律时，无非就是把几个更基本的结论的证明组合起来（比如使用 &lt;code&gt;Iff.intro&lt;&#x2F;code&gt; 来结合 &lt;code&gt;↔&lt;&#x2F;code&gt; 从左至右和从右至左的结论的证明，来组成最终的证明），因此编写证明的过程就是在编写一个把 旧有结论的证明 结合成 新结论的证明 的程序。&lt;&#x2F;li&gt;
+&lt;li&gt;一个类型对应于一个命题
+比如我们上面证明的 &lt;code&gt;deMorgan&lt;&#x2F;code&gt; 定律，其对应的类型也就是之前提到过的“把旧有结论的证明结合成新结论的证明的程序”所对应的函数的类型。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;比较简单的想法是，如果我们能从一个命题通过一些程序运算得到另一个命题，那如果前者成立，后者（因为是算出来的）也必定成立，所以这个程序就是两个命题间“实质蕴涵”的一个构造性证明；而为了让这个程序中的 “类型检查” 可以用于保证这个证明是有效的，我们可以用类型的形式“书写”这个命题。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zen-yao-yong-ye-ji-yi-xie-ji-suan-ji-fu-zhu-zheng-ming-de-li-zi&quot;&gt;怎么用，也即一些计算机辅助证明的例子&lt;&#x2F;h2&gt;
+&lt;p&gt;例如我们要在 lean 中证明 &lt;code&gt;(p → (q → r)) → (p ∧ q → r)&lt;&#x2F;code&gt;，或者读作：&lt;&#x2F;p&gt;
+&lt;p&gt;For all proposition p, q, and r, &amp;quot;p → (q → r)&amp;quot; implies &amp;quot;(p ∧ q) → r&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;根据“程序即证明”的思想接下来我们要写一个类型为 &lt;code&gt;(p → (q → r)) → (p ∧ q → r)&lt;&#x2F;code&gt; 的程序。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;lean&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-lean &quot;&gt;&lt;code class=&quot;language-lean&quot; data-lang=&quot;lean&quot;&gt;&lt;span&gt;-- fill &amp;quot;sorry&amp;quot; here
+&lt;&#x2F;span&gt;&lt;span&gt;theorem tt: (p → (q → r)) → (p ∧ q → r) := sorry
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;我们直接创建一个这个类型的匿名函数：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;lean&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-lean &quot;&gt;&lt;code class=&quot;language-lean&quot; data-lang=&quot;lean&quot;&gt;&lt;span&gt;theorem tt: (p → (q → r)) → (p ∧ q → r) := 
+&lt;&#x2F;span&gt;&lt;span&gt;    λ (lhs: p → (q → r)) (hp_and_q: p ∧ q) =&amp;gt; sorry
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;现在要做的就是填入函数体，考虑到 &lt;code&gt;∧&lt;&#x2F;code&gt; 的性质，直接将其拆分成 &lt;code&gt;left&lt;&#x2F;code&gt; 和 &lt;code&gt;right&lt;&#x2F;code&gt;，然后作为 &lt;code&gt;lhs&lt;&#x2F;code&gt; 的参数（由于 Curry-Howard 同构，lhs 既是类型为 命题 &lt;code&gt;p → (q → r)&lt;&#x2F;code&gt; 对应的类型 的一个函数，也是这个命题的证明）填入即可。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;lean&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-lean &quot;&gt;&lt;code class=&quot;language-lean&quot; data-lang=&quot;lean&quot;&gt;&lt;span&gt;theorem tt: (p → (q → r)) → (p ∧ q → r) := 
+&lt;&#x2F;span&gt;&lt;span&gt;  λ (lhs: p → (q → r)) (hp_and_q: p ∧ q) =&amp;gt; 
+&lt;&#x2F;span&gt;&lt;span&gt;      lhs hp_and_q.left hp_and_q.right
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;现在，我们写出了一个类型是 &lt;code&gt;(p → (q → r)) → (p ∧ q → r)&lt;&#x2F;code&gt; 的函数，同时也就构造出了对应命题的证明，由于 lean 的类型检查器没有抱怨，我们就可以认为这个证明是正确的。&lt;&#x2F;p&gt;
+&lt;p&gt;实际证明命题的时候，我们可以利用到一些事先已经证明好的定理或者公理（也就是对应的函数），比如：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Or.elim&lt;&#x2F;code&gt;，其类型为 &lt;code&gt;Or a b → (a → c) → (b → c) → c&lt;&#x2F;code&gt;，也就是说它是一个 
+&lt;ul&gt;
+&lt;li&gt;接受一个形如 &lt;code&gt;Or a b&lt;&#x2F;code&gt; （常被写作 &lt;code&gt;a ∨ b&lt;&#x2F;code&gt;）的类型（也就是对应的命题）&lt;&#x2F;li&gt;
+&lt;li&gt;再接受一个 &lt;code&gt;a → c&lt;&#x2F;code&gt; 类型的函数（或者说 命题 &lt;code&gt;a → c&lt;&#x2F;code&gt; 的证明）&lt;&#x2F;li&gt;
+&lt;li&gt;再接受一个 &lt;code&gt;b → c&lt;&#x2F;code&gt; 类型的函数（或者说 命题 &lt;code&gt;b → c&lt;&#x2F;code&gt; 的证明）
+的函数，也即是对应命题的证明。
+更多 Lean 证明中可以使用的定理和公理，可以查看 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;&quot;&gt;Lean 源码&lt;&#x2F;a&gt; 里的库的部分，比如 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Prelude.lean&quot;&gt;Prelude.lean&lt;&#x2F;a&gt; 和包含&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E7%BB%8F%E5%85%B8%E9%80%BB%E8%BE%91&quot;&gt;经典逻辑&lt;&#x2F;a&gt; 的 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Classical.lean&quot;&gt;Classical.lean&lt;&#x2F;a&gt;。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;本文使用 Lean 4，但更多研究者使用 Lean 3。相比 Lean3，Lean 4 的“自动档” mathlib 还没有实装，但用来证明一些基本的逻辑命题已经足够了。
+&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: 更专业的说法是“自然演绎”。
+&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: 更专业的说法是“简单类型 λ 演算”。
+&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: 假设所有函数都是科里化的，即 &lt;code&gt;Fn(a: T1) -&amp;gt; Fn(b: T2)&lt;&#x2F;code&gt; 和 &lt;code&gt;Fn(a: T1, b: T2)&lt;&#x2F;code&gt; 完全是一回事。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>midi 文件转蜂鸣器乐谱</title>
 		<published>2022-06-05T11:56:50+00:00</published>
