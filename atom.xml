@@ -68,11 +68,11 @@
 &lt;li&gt;接受一个形如 &lt;code&gt;Or a b&lt;&#x2F;code&gt; （常被写作 &lt;code&gt;a ∨ b&lt;&#x2F;code&gt;）的类型（也就是对应的命题）&lt;&#x2F;li&gt;
 &lt;li&gt;再接受一个 &lt;code&gt;a → c&lt;&#x2F;code&gt; 类型的函数（或者说 命题 &lt;code&gt;a → c&lt;&#x2F;code&gt; 的证明）&lt;&#x2F;li&gt;
 &lt;li&gt;再接受一个 &lt;code&gt;b → c&lt;&#x2F;code&gt; 类型的函数（或者说 命题 &lt;code&gt;b → c&lt;&#x2F;code&gt; 的证明）
-的函数，也即是对应命题的证明。
-更多 Lean 证明中可以使用的定理和公理，可以查看 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;&quot;&gt;Lean 源码&lt;&#x2F;a&gt; 里的库的部分，比如 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Prelude.lean&quot;&gt;Prelude.lean&lt;&#x2F;a&gt; 和包含&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E7%BB%8F%E5%85%B8%E9%80%BB%E8%BE%91&quot;&gt;经典逻辑&lt;&#x2F;a&gt; 的 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Classical.lean&quot;&gt;Classical.lean&lt;&#x2F;a&gt;。&lt;&#x2F;li&gt;
+的函数，也即是对应命题的证明。&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
+&lt;p&gt;更多 Lean 证明中可以使用的定理和公理，可以查看 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;&quot;&gt;Lean 源码&lt;&#x2F;a&gt; 里的库的部分，比如 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Prelude.lean&quot;&gt;&lt;code&gt;Prelude.lean&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; 和包含&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E7%BB%8F%E5%85%B8%E9%80%BB%E8%BE%91&quot;&gt;经典逻辑&lt;&#x2F;a&gt; 的 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Classical.lean&quot;&gt;&lt;code&gt;Classical.lean&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;本文使用 Lean 4，但更多研究者使用 Lean 3。相比 Lean3，Lean 4 的“自动档” mathlib 还没有实装，但用来证明一些基本的逻辑命题已经足够了。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
