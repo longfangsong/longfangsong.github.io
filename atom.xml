@@ -5,12 +5,12 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-06-24T08:10:17.031+00:00</updated>
+	<updated>2022-06-30T13:04:33+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
 	<entry xml:lang="zh">
 		<title>定理证明器背后的数学原理</title>
 		<published>2022-06-24T08:10:17.031+00:00</published>
-		<updated>2022-06-24T08:10:17.031+00:00</updated>
+		<updated>2022-06-30T13:04:33+00:00</updated>
 		<link href="https://longfangsong.github.io/why-lean-proof/" type="text/html"/>
 		<id>https://longfangsong.github.io/why-lean-proof/</id>
 		<content type="html">&lt;h2 id=&quot;how-it-looks-like&quot;&gt;How it looks like&lt;&#x2F;h2&gt;
@@ -32,7 +32,7 @@
 &lt;&#x2F;span&gt;&lt;span&gt;        (λ (hnq: ¬q) (inner: p ∧ q) =&amp;gt; absurd inner.right hnq)
 &lt;&#x2F;span&gt;&lt;span&gt;    ))
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;看起来这个证明好像是由一些 λ（就像 Python 中的 &lt;code&gt;lambda&lt;&#x2F;code&gt;）和一些高阶函数（比如 &lt;code&gt;Or.elim&lt;&#x2F;code&gt;）组成的。&lt;&#x2F;p&gt;
+&lt;p&gt;看起来这个证明好像是由一些 λ（就像 Python 中的 &lt;code&gt;lambda&lt;&#x2F;code&gt;，in case 你没学过“正规”的 FP 语言）和一些高阶函数（比如 &lt;code&gt;Or.elim&lt;&#x2F;code&gt;）组成的。&lt;&#x2F;p&gt;
 &lt;p&gt;那这些东西凭什么能证明这个命题呢。&lt;&#x2F;p&gt;
 &lt;p&gt;这就要牵扯到一个叫 Curry-Howard 同构的东西了。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;curry-howard-tong-gou&quot;&gt;Curry-Howard 同构&lt;&#x2F;h2&gt;
@@ -67,13 +67,14 @@
 &lt;p&gt;现在，我们写出了一个类型是 &lt;code&gt;(p → (q → r)) → (p ∧ q → r)&lt;&#x2F;code&gt; 的函数，同时也就构造出了对应命题的证明，由于 lean 的类型检查器没有抱怨，我们就可以认为这个证明是正确的。&lt;&#x2F;p&gt;
 &lt;p&gt;实际证明命题的时候，我们可以利用到一些事先已经证明好的定理或者公理（也就是对应的函数），比如：&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Or.elim&lt;&#x2F;code&gt;，其类型为 &lt;code&gt;Or a b → (a → c) → (b → c) → c&lt;&#x2F;code&gt;，也就是说它是一个 
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Or.elim&lt;&#x2F;code&gt;，其类型为 &lt;code&gt;Or a b → (a → c) → (b → c) → c&lt;&#x2F;code&gt;，也就是说它是一个 &lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;接受一个形如 &lt;code&gt;Or a b&lt;&#x2F;code&gt; （常被写作 &lt;code&gt;a ∨ b&lt;&#x2F;code&gt;）的类型（也就是对应的命题）&lt;&#x2F;li&gt;
 &lt;li&gt;再接受一个 &lt;code&gt;a → c&lt;&#x2F;code&gt; 类型的函数（或者说 命题 &lt;code&gt;a → c&lt;&#x2F;code&gt; 的证明）&lt;&#x2F;li&gt;
-&lt;li&gt;再接受一个 &lt;code&gt;b → c&lt;&#x2F;code&gt; 类型的函数（或者说 命题 &lt;code&gt;b → c&lt;&#x2F;code&gt; 的证明）
-的函数，也即是对应命题的证明。&lt;&#x2F;li&gt;
+&lt;li&gt;再接受一个 &lt;code&gt;b → c&lt;&#x2F;code&gt; 类型的函数（或者说 命题 &lt;code&gt;b → c&lt;&#x2F;code&gt; 的证明）&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
+&lt;p&gt;的函数，也即是对应命题的证明。&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;更多 Lean 证明中可以使用的定理和公理，可以查看 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;&quot;&gt;Lean 源码&lt;&#x2F;a&gt; 里的库的部分，比如 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Prelude.lean&quot;&gt;&lt;code&gt;Prelude.lean&lt;&#x2F;code&gt;&lt;&#x2F;a&gt; 和包含&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E7%BB%8F%E5%85%B8%E9%80%BB%E8%BE%91&quot;&gt;经典逻辑&lt;&#x2F;a&gt; 的 &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;leanprover&#x2F;lean4&#x2F;blob&#x2F;master&#x2F;src&#x2F;Init&#x2F;Classical.lean&quot;&gt;&lt;code&gt;Classical.lean&lt;&#x2F;code&gt;&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
