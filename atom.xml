@@ -5,8 +5,79 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-06-30T13:04:33+00:00</updated>
+	<updated>2022-07-11T00:09:54+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>重新开始学数学 • 数理逻辑（4）</title>
+		<published>2022-07-03T16:33:08.514+00:00</published>
+		<updated>2022-07-03T16:33:08.514+00:00</updated>
+		<link href="https://longfangsong.github.io/restart-math-logic-4/" type="text/html"/>
+		<id>https://longfangsong.github.io/restart-math-logic-4/</id>
+		<content type="html">&lt;h2 id=&quot;shi-xu-luo-ji&quot;&gt;时序逻辑&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在逻辑中，术语时间逻辑被用来描述为表现和推理关于时间限定的命题的规则和符号化的任何系统。 —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;基于模型的程序正确性验证，比如现在常用的 TLA+，背后的原理就是时序逻辑。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;xian-xing-shi-jian-shi-xu-luo-ji-ltl-linear-time-temporal-logic&quot;&gt;线性时间时序逻辑（LTL, Linear-time Temporal Logic）&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In logic, linear temporal logic or linear-time temporal logic(LTL) is a modal temporal logic with modalities referring to time. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Linear-time temporal logic, or LTL for short, is a temporal logic, with connectives that allow us to refer to the future. —— Logic in Computer Science&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是提供了描述时间的工具的时间逻辑系统。&lt;&#x2F;p&gt;
+&lt;p&gt;这种逻辑系统将时间建模为一系列（不分支的）无限向未来延伸的状态。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;xing-shi-hua-biao-shu&quot;&gt;形式化表述&lt;&#x2F;h4&gt;
+&lt;p&gt;$$\displaylines {
+Formula ::= \\
+\top | \bot | p | \neg Formula | Formula \wedge Formula | Formula \vee Formula | Formula \rightarrow Formula \\
+| X\ Formula | F\ Formula | G\ Formula | Formula\ U\ Formula | Formula\ W\ Formula | Formula\ R\ Formula
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;其中 $p$ 是一个原子命题。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;yu-yi&quot;&gt;语意&lt;&#x2F;h5&gt;
+&lt;p&gt;除了喜闻乐见的 $\wedge$、$\vee$ 等，时序逻辑还添加了一些别的，用来描述状态之间关系的谓词符号&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$X$ 代表 neXt state，比如 $X\ p$ 就是 $p$ 在下一个状态成立。&lt;&#x2F;li&gt;
+&lt;li&gt;$F$ 代表 some Future state，比如 $F\ p$ 就是 $p$ 一定在某个未来&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;状态成立，常写作 $\diamond$。&lt;&#x2F;li&gt;
+&lt;li&gt;$G$ 代表 all future states (Globally)，比如 $G\ p$ 就是 $p$ 在所有未来状态成立，常写作 $\square$。&lt;&#x2F;li&gt;
+&lt;li&gt;$U$ 代表 Until，比如 $p\ U\ q$ 就是 $p$ 一直成立，“直到”&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;有一天 $q$ 成立，而且也 imply 了 $q$ 真的总有一天会成立。&lt;&#x2F;li&gt;
+&lt;li&gt;$W$ 代表 Weak until，比如 $p\ W\ q$ 就是 $p$ 一直成立，直到有一天 $q$ 成立，&lt;strong&gt;但并不&lt;&#x2F;strong&gt; imply $q$ 真的总有一天会成立。&lt;&#x2F;li&gt;
+&lt;li&gt;$R$ 代表 Release，$p\ R\ q$ 等价于 $\neg (\neg p\ U \neg q)$，也就是说，$p$ 的成立 释放了 $q$，使得 $q$ 可以不再成立。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;fen-zhi-shi-xu-luo-ji-ctl-computation-tree-logic&quot;&gt;分支时序逻辑（CTL，Computation Tree Logic）&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Computation tree logic (CTL) is a branching-time logic, meaning that its model of time is a tree-like structure in which the future is not determined; there are different paths in the future, any one of which might be an actual path that is realized. —— Wikipedia &amp;amp; Logic in Computer Science&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是可以描述整个执行树的逻辑系统。&lt;&#x2F;p&gt;
+&lt;p&gt;相比 LTL，CTL 多出了“分支”，使得原本在 LTL 里无法表达的 “存在” 可以表达了。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;xing-shi-hua-biao-shu-1&quot;&gt;形式化表述&lt;&#x2F;h4&gt;
+&lt;p&gt;$$\displaylines {
+Formula ::= \\
+\top | \bot | p | \neg Formula | Formula \wedge Formula | Formula \vee Formula | Formula \rightarrow Formula \\
+| AX\ Formula | EX\ Formula | AF\ Formula | EF\ Formula | AG\ Formula | EG\ Formula | A[Formula\ U\ Formula] | E[Formula\ U\ Formula]
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;其中 $p$ 是一个原子命题。&lt;&#x2F;p&gt;
+&lt;p&gt;CTL 一般不包含 $W$ 和 $R$。&lt;&#x2F;p&gt;
+&lt;p&gt;需要注意的是，CTL 不包括“连用” LTL 新引入的连接词 的句子，比如 LTL $FG\ p$ 是合法的 LTL，但 $A(FG\ p)$ 却不是合法的 CTL。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;yu-yi-1&quot;&gt;语意&lt;&#x2F;h4&gt;
+&lt;p&gt;A 是 along All paths（但我更倾向于继续使用 Always）, 即后面的 LTL 在所有路径上成立。
+E 是 there Exists one path，即后面的 LTL-like 的公式在某条路径上成立。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ctl&quot;&gt;CTL*&lt;&#x2F;h3&gt;
+&lt;p&gt;CTL* 可以看作是 LTL 和 CTL “取长补短” 得到的结果，它也是 LTL 和 CTL 的超集。&lt;&#x2F;p&gt;
+&lt;p&gt;在 CTL* 中，可以自由地使用 $A$&#x2F;$E$ 和 $X$&#x2F;$F$&#x2F;$G$&#x2F;$U$ 来连结命题。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;当然书中给出了形式化的描述，但是 for most of the times, who cares?&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;这里说的所有“未来”都包含“现在”。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;但并不说明 $q$ 成立之后 $p$ 一定就不成立了。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>定理证明器背后的数学原理</title>
 		<published>2022-06-24T08:10:17.031+00:00</published>
@@ -2277,7 +2348,7 @@ $$&lt;&#x2F;p&gt;
 	<entry xml:lang="zh">
 		<title>重新开始学数学 • 数理逻辑（1）</title>
 		<published>2021-01-12T10:01:52.110+00:00</published>
-		<updated>2021-01-12T10:01:52.110+00:00</updated>
+		<updated>2022-07-11T00:09:54+00:00</updated>
 		<link href="https://longfangsong.github.io/restart-math-logic-1/" type="text/html"/>
 		<id>https://longfangsong.github.io/restart-math-logic-1/</id>
 		<content type="html">&lt;h2 id=&quot;ming-ti-luo-ji&quot;&gt;命题逻辑&lt;&#x2F;h2&gt;
@@ -2290,7 +2361,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
 &lt;p&gt;设有一堆命题 $A$ 和一个命题 $B$，$A \vdash B$ 指 “$B$ 是 $A$ 的句法后承 ” 这样一个 sequent。&lt;&#x2F;p&gt;
-&lt;p&gt;通过使用某些证明手段，从前提 $A$ 能证出 $B$，那么这个 sequent 就 valid，否则就不vaild。
+&lt;p&gt;通过使用某些证明手段，从前提 $A$ 能证出 $B$，那么这个 sequent 就 valid，否则就不vaild。&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;
 $$
 \require{bussproofs}
 \begin{prooftree}
@@ -2319,7 +2390,7 @@ C ::= A \rightarrow P \\
 H ::= C \mid C \wedge H
 }
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;其中 H 就是 Horn 公式，C 就是 Horn 子句&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;其中 H 就是 Horn 公式，C 就是 Horn 子句&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
 &lt;p&gt;Horn 公式的几个例子：&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 (p \wedge q \wedge s \rightarrow p) \wedge(q \wedge r \rightarrow p) \wedge(p \wedge s \rightarrow s)
@@ -2357,8 +2428,11 @@ $$&lt;&#x2F;p&gt;
 q = \top
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;不行的话（比如遇到了类似 $\top = p \vee q$ 的情况）就随便选一个子公式把 $\top$ 和 $\bot$ 都试一遍，如果推出了冲突的结论就回溯，如果全判定完了没冲突就成了。&lt;&#x2F;p&gt;
-&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
 &lt;p&gt;“子句” 的定义是原子公式或 “$\neg 原子公式$” 的析取。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Useless fact: 下面这些横线称为 deduction bar。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
 	</entry>

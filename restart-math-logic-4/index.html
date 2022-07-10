@@ -15,7 +15,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon"/>
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
-  <title>Blog • 重新开始学数学 • 数理逻辑（1）</title>
+  <title>Blog • 重新开始学数学 • 数理逻辑（4）</title>
   
     
       <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -75,97 +75,77 @@
     <div class="content">
     
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-1&#x2F;">重新开始学数学 • 数理逻辑（1）</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-4&#x2F;">重新开始学数学 • 数理逻辑（4）</a></h1>
   
-  <div class="post-content"><h2 id="ming-ti-luo-ji">命题逻辑</h2>
-<p>我们课上学的基本上就是这些了，大部分就是一些 trival 的是个人都能想通的东西，就是各种箭头（？）的用法容易混淆：</p>
-<ul>
-<li>
-<p>设有命题 $A$ 和 $B$，$A \rightarrow B$ 指 “$A$ 实质蕴含 $B$” 这样一个命题，即</p>
-<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>if A then B
-</span></code></pre>
-</li>
-<li>
-<p>设有一堆命题 $A$ 和一个命题 $B$，$A \vdash B$ 指 “$B$ 是 $A$ 的句法后承 ” 这样一个 sequent。</p>
-<p>通过使用某些证明手段，从前提 $A$ 能证出 $B$，那么这个 sequent 就 valid，否则就不vaild。<sup class="footnote-reference"><a href="#2">1</a></sup>
-$$
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{A}
-\UnaryInfC{$\vdots$}
-\UnaryInfC{B}
-\end{prooftree}
-$$</p>
-</li>
-<li>
-<p>$ A \dashv \vdash B$：$A \vdash B$ 和 $ B \vdash A$ 都 valid，称为 $A$ 和 $B$ provably equivalent。</p>
-</li>
-<li>
-<p>设有一堆命题 $A$ 和一个命题 $B$，$A \models B$：指 “$B$ 是 $A$ 的语义后承”，即如果 $A$ 中每一个命题都为真，则 $B$ 也为真。</p>
-<p>在自然演绎中，$A \models B$ 当且仅当 $ A \vdash B $</p>
-</li>
-</ul>
-<p>另外常常会使用 $\top$ 和 $\bot$ 分别代表 <code>true</code> 和 <code>false</code>。</p>
-<h3 id="horn-gong-shi-he-horn-ke-man-zu-xing-wen-ti">Horn 公式和 Horn 可满足性问题</h3>
-<p>设 p 为原子公式，</p>
-<p>$$
-\displaylines {
-P ::= \bot | \top | p \\
-A ::= P \mid P \wedge A \\
-C ::= A \rightarrow P \\
-H ::= C \mid C \wedge H
+  <div class="post-content"><h2 id="shi-xu-luo-ji">时序逻辑</h2>
+<blockquote>
+<p>在逻辑中，术语时间逻辑被用来描述为表现和推理关于时间限定的命题的规则和符号化的任何系统。 —— Wikipedia</p>
+</blockquote>
+<p>基于模型的程序正确性验证，比如现在常用的 TLA+，背后的原理就是时序逻辑。</p>
+<h3 id="xian-xing-shi-jian-shi-xu-luo-ji-ltl-linear-time-temporal-logic">线性时间时序逻辑（LTL, Linear-time Temporal Logic）</h3>
+<blockquote>
+<p>In logic, linear temporal logic or linear-time temporal logic(LTL) is a modal temporal logic with modalities referring to time. —— Wikipedia</p>
+</blockquote>
+<blockquote>
+<p>Linear-time temporal logic, or LTL for short, is a temporal logic, with connectives that allow us to refer to the future. —— Logic in Computer Science</p>
+</blockquote>
+<p>简单来说就是提供了描述时间的工具的时间逻辑系统。</p>
+<p>这种逻辑系统将时间建模为一系列（不分支的）无限向未来延伸的状态。</p>
+<h4 id="xing-shi-hua-biao-shu">形式化表述</h4>
+<p>$$\displaylines {
+Formula ::= \\
+\top | \bot | p | \neg Formula | Formula \wedge Formula | Formula \vee Formula | Formula \rightarrow Formula \\
+| X\ Formula | F\ Formula | G\ Formula | Formula\ U\ Formula | Formula\ W\ Formula | Formula\ R\ Formula
 }
 $$</p>
-<p>其中 H 就是 Horn 公式，C 就是 Horn 子句<sup class="footnote-reference"><a href="#1">2</a></sup>。</p>
-<p>Horn 公式的几个例子：</p>
-<p>$$
-(p \wedge q \wedge s \rightarrow p) \wedge(q \wedge r \rightarrow p) \wedge(p \wedge s \rightarrow s)
+<p>其中 $p$ 是一个原子命题。</p>
+<h5 id="yu-yi">语意</h5>
+<p>除了喜闻乐见的 $\wedge$、$\vee$ 等，时序逻辑还添加了一些别的，用来描述状态之间关系的谓词符号<sup class="footnote-reference"><a href="#1">1</a></sup>：</p>
+<ul>
+<li>$X$ 代表 neXt state，比如 $X\ p$ 就是 $p$ 在下一个状态成立。</li>
+<li>$F$ 代表 some Future state，比如 $F\ p$ 就是 $p$ 一定在某个未来<sup class="footnote-reference"><a href="#2">2</a></sup>状态成立，常写作 $\diamond$。</li>
+<li>$G$ 代表 all future states (Globally)，比如 $G\ p$ 就是 $p$ 在所有未来状态成立，常写作 $\square$。</li>
+<li>$U$ 代表 Until，比如 $p\ U\ q$ 就是 $p$ 一直成立，“直到”<sup class="footnote-reference"><a href="#3">3</a></sup>有一天 $q$ 成立，而且也 imply 了 $q$ 真的总有一天会成立。</li>
+<li>$W$ 代表 Weak until，比如 $p\ W\ q$ 就是 $p$ 一直成立，直到有一天 $q$ 成立，<strong>但并不</strong> imply $q$ 真的总有一天会成立。</li>
+<li>$R$ 代表 Release，$p\ R\ q$ 等价于 $\neg (\neg p\ U \neg q)$，也就是说，$p$ 的成立 释放了 $q$，使得 $q$ 可以不再成立。</li>
+</ul>
+<h3 id="fen-zhi-shi-xu-luo-ji-ctl-computation-tree-logic">分支时序逻辑（CTL，Computation Tree Logic）</h3>
+<blockquote>
+<p>Computation tree logic (CTL) is a branching-time logic, meaning that its model of time is a tree-like structure in which the future is not determined; there are different paths in the future, any one of which might be an actual path that is realized. —— Wikipedia &amp; Logic in Computer Science</p>
+</blockquote>
+<p>简单来说就是可以描述整个执行树的逻辑系统。</p>
+<p>相比 LTL，CTL 多出了“分支”，使得原本在 LTL 里无法表达的 “存在” 可以表达了。</p>
+<h4 id="xing-shi-hua-biao-shu-1">形式化表述</h4>
+<p>$$\displaylines {
+Formula ::= \\
+\top | \bot | p | \neg Formula | Formula \wedge Formula | Formula \vee Formula | Formula \rightarrow Formula \\
+| AX\ Formula | EX\ Formula | AF\ Formula | EF\ Formula | AG\ Formula | EG\ Formula | A[Formula\ U\ Formula] | E[Formula\ U\ Formula]
+}
 $$</p>
-<p>$$
-(p \wedge q \wedge s \rightarrow \perp) \wedge(q \wedge r \rightarrow p) \wedge(\top \rightarrow s)
-$$</p>
-<p>$$
-(p_{2} \wedge p_{3} \wedge p_{5} \rightarrow p_{13}) \wedge (\top \rightarrow p_{5}) \wedge (p_{5} \wedge p_{11} \rightarrow \perp)
-$$</p>
-<p>Horn 公式的好处在于，和任意公式是否可满足（即 SAT 问题）是 NP 问题不同，HornSAT 是 P 问题，有这么一个判定算法：</p>
-<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">horn_satisfiabe</span><span>(</span><span style="color:#bf616a;">formula</span><span>: HornFormula) {
-</span><span>  </span><span style="color:#b48ead;">let mut</span><span> marked = HashSet::new();
-</span><span>  marked.</span><span style="color:#96b5b4;">add</span><span>(⊤);
-</span><span>  </span><span style="color:#b48ead;">while let </span><span>Some(p) = 
-</span><span>    formula.</span><span style="color:#96b5b4;">find</span><span>(|</span><span style="color:#bf616a;">it</span><span>| !it.rhs.marked &amp;&amp; 
-</span><span>      it.lhs.</span><span style="color:#96b5b4;">all</span><span>(|</span><span style="color:#bf616a;">it</span><span>| marked.</span><span style="color:#96b5b4;">contains</span><span>(it))
-</span><span>    ).</span><span style="color:#96b5b4;">map</span><span>(|</span><span style="color:#bf616a;">it</span><span>| it.rhs) {
-</span><span>    marked.</span><span style="color:#96b5b4;">add</span><span>(p);
-</span><span>  }
-</span><span>  </span><span style="color:#b48ead;">return </span><span>!marked.</span><span style="color:#96b5b4;">contains</span><span>(⊥);
-</span><span>}
-</span></code></pre>
-<h3 id="sat-qiu-jie-qi">Sat 求解器</h3>
-<p>感觉这里书上讲的好复杂……</p>
-<p>其实就是自顶而下地考虑一个公式的 parse tree，对公式本身每一个子公式的值，如果能通过上层的值和算符的真值表直接判定就直接判定，比如：</p>
-<p>$$
-\top = \neg p \wedge q
-$$</p>
-<p>从上层的 $\top$ 和 $\wedge$ 的性质我们就能得出
-$$
-\neg p = \top
-$$</p>
-<p>$$
-q = \top
-$$</p>
-<p>不行的话（比如遇到了类似 $\top = p \vee q$ 的情况）就随便选一个子公式把 $\top$ 和 $\bot$ 都试一遍，如果推出了冲突的结论就回溯，如果全判定完了没冲突就成了。</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">2</sup>
-<p>“子句” 的定义是原子公式或 “$\neg 原子公式$” 的析取。</p>
+<p>其中 $p$ 是一个原子命题。</p>
+<p>CTL 一般不包含 $W$ 和 $R$。</p>
+<p>需要注意的是，CTL 不包括“连用” LTL 新引入的连接词 的句子，比如 LTL $FG\ p$ 是合法的 LTL，但 $A(FG\ p)$ 却不是合法的 CTL。</p>
+<h4 id="yu-yi-1">语意</h4>
+<p>A 是 along All paths（但我更倾向于继续使用 Always）, 即后面的 LTL 在所有路径上成立。
+E 是 there Exists one path，即后面的 LTL-like 的公式在某条路径上成立。</p>
+<h3 id="ctl">CTL*</h3>
+<p>CTL* 可以看作是 LTL 和 CTL “取长补短” 得到的结果，它也是 LTL 和 CTL 的超集。</p>
+<p>在 CTL* 中，可以自由地使用 $A$/$E$ 和 $X$/$F$/$G$/$U$ 来连结命题。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>当然书中给出了形式化的描述，但是 for most of the times, who cares?</p>
 </div>
-<div class="footnote-definition" id="2"><sup class="footnote-definition-label">1</sup>
-<p>Useless fact: 下面这些横线称为 deduction bar。</p>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>这里说的所有“未来”都包含“现在”。</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>但并不说明 $q$ 成立之后 $p$ 一定就不成立了。</p>
 </div>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-          <i class="far fa-sun"></i><span class="date">2021年01月12日</span>
+          <i class="far fa-sun"></i><span class="date">2022年07月03日</span>
         
         
           <i class="fas fa-tags"></i>
@@ -184,7 +164,7 @@ $$</p>
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=重新开始学数学 • 数理逻辑（1）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-1&hashtags=数学,数理逻辑"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=重新开始学数学 • 数理逻辑（4）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-4&hashtags=数学,数理逻辑"></a>
   </div>
 </div>
 
