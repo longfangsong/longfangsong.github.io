@@ -11,6 +11,10 @@
         <loc>https://longfangsong.github.io/about/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/algebraic-structures/</loc>
+        <lastmod>2019-04-09T00:00:00Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/alternating-current/</loc>
         <lastmod>2022-02-28T22:21:20Z</lastmod>
     </url>
@@ -111,11 +115,15 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/restart-math-logic-3/</loc>
-        <lastmod>2021-07-06T06:02:46.315Z</lastmod>
+        <lastmod>2022-07-13T00:19:25Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/restart-math-logic-4/</loc>
         <lastmod>2022-07-03T16:33:08.514Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/restart-math-logic-5/</loc>
+        <lastmod>2022-07-13T00:20:17Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/riscv-rocc/</loc>

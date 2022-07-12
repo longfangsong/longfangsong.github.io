@@ -5,8 +5,84 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-07-11T00:09:54+00:00</updated>
+	<updated>2022-07-13T00:20:17+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>重新开始学数学 • 数理逻辑（5）</title>
+		<published>2022-07-11T16:29:53.671+00:00</published>
+		<updated>2022-07-13T00:20:17+00:00</updated>
+		<link href="https://longfangsong.github.io/restart-math-logic-5/" type="text/html"/>
+		<id>https://longfangsong.github.io/restart-math-logic-5/</id>
+		<content type="html">&lt;p&gt;我们的目标是写出一个函数，输入一个 CTL 模型和一个 Formula，输出模型中所有能 satisfy 这个 Formula 的状态集合。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;satisfiable_states&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;CTLModule, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;formula&lt;&#x2F;span&gt;&lt;span&gt;: CTLFormula)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;根据 CTL 中连接词的定义，我们可以写出：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;satisfiable_states&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;CTLModule, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;formula&lt;&#x2F;span&gt;&lt;span&gt;: CTLFormula) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span&gt; formula {
+&lt;&#x2F;span&gt;&lt;span&gt;        ⊤ =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S,
+&lt;&#x2F;span&gt;&lt;span&gt;        ⊥ =&amp;gt; ∅,
+&lt;&#x2F;span&gt;&lt;span&gt;        Atomic(atomic) =&amp;gt; {s ∈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S | atomic is &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true &lt;&#x2F;span&gt;&lt;span&gt;in state s},
+&lt;&#x2F;span&gt;&lt;span&gt;        Not(inner_formula) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S - model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula),
+&lt;&#x2F;span&gt;&lt;span&gt;        inner_formula1 ∧ inner_formula2 =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) ∩ model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula2),
+&lt;&#x2F;span&gt;&lt;span&gt;        inner_formula1 ∨ inner_formula2 =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) ∪ model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula2),
+&lt;&#x2F;span&gt;&lt;span&gt;        inner_formula1 → inner_formula2 =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula1) ∨ inner_formula2),
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; suppose we want to solve EX instead of AX, following ones are similar
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AX&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EX&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula)))),
+&lt;&#x2F;span&gt;&lt;span&gt;        A[inner_formula1 U inner_formula2] =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(E[Not(inner_formula2) U (Not(inner_formula1) ∧ Not(inner_formula2))] ∨ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EG&lt;&#x2F;span&gt;&lt;span&gt; Not(inner_formula2)))
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EF&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(E[⊤ U inner_formula1])
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EG&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AF&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula1))))
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AG&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EF&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula1))))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EX&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; todo!(),
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AF&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; todo!(),
+&lt;&#x2F;span&gt;&lt;span&gt;        E[inner_formula1 U inner_formula2] =&amp;gt; todo!(),
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now we&#x27;ve done the trivial cases and &amp;quot;merged&amp;quot; the other cases into three.&lt;&#x2F;p&gt;
+&lt;p&gt;然后我们一个个解这三个 case。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ex&quot;&gt;EX&lt;&#x2F;h2&gt;
+&lt;p&gt;能满足 &lt;code&gt;EX(inner_formula)&lt;&#x2F;code&gt; 的状态，也就是“存在一个后继状态满足 &lt;code&gt;inner_formula&lt;&#x2F;code&gt;” 的状态。&lt;&#x2F;p&gt;
+&lt;p&gt;只需要先找出所有能满足 &lt;code&gt;inner_formula&lt;&#x2F;code&gt; 的状态，再找出他们所有的前驱状态即可。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EX&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; direct_satisfy = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula);
+&lt;&#x2F;span&gt;&lt;span&gt;    direct_satisfy
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;satisfying_state&lt;&#x2F;span&gt;&lt;span&gt;| model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;predecessors&lt;&#x2F;span&gt;&lt;span&gt;(satisfying_state))
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;union_all&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;},
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;af&quot;&gt;AF&lt;&#x2F;h2&gt;
+&lt;p&gt;能满足 &lt;code&gt;AF(inner_formula)&lt;&#x2F;code&gt; 的状态，也就是“对于所有从这个点分散出去的 branch，inner_formula 都会在某状态下成立”的状态。&lt;&#x2F;p&gt;
+&lt;p&gt;首先能满足 inner_formula 的所有 state 肯定满足上述条件，然后如果某个 state 的前驱的所有后继也都满足条件，那“这个 state 的前驱”也满足条件。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AF&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; direct_satisfy = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; current_satisfied = direct_satisfy;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied = None;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied != current_satisfied {
+&lt;&#x2F;span&gt;&lt;span&gt;        last_iteration_satisfied = Some(current_satisfied);
+&lt;&#x2F;span&gt;&lt;span&gt;        current_satisfied = current_satisfied.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;union&lt;&#x2F;span&gt;&lt;span&gt;({s ∈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S | forall model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;successor&lt;&#x2F;span&gt;&lt;span&gt;(s), s is in current_satisfied});
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    current_satisfied
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;eu&quot;&gt;EU&lt;&#x2F;h2&gt;
+&lt;p&gt;这个 case 稍微复杂些，&lt;code&gt;E[inner_formula1 U inner_formula2]&lt;&#x2F;code&gt; 的语意是存在某个 path，使得 &lt;code&gt;inner_formula1&lt;&#x2F;code&gt; 至少成立到 &lt;code&gt;inner_formula2&lt;&#x2F;code&gt; 成立为止。&lt;&#x2F;p&gt;
+&lt;p&gt;首先由于 U 对 &lt;code&gt;inner_formula2&lt;&#x2F;code&gt; 成立后 &lt;code&gt;inner_formula1&lt;&#x2F;code&gt; 是否继续成立不做要求，所以所有 &lt;code&gt;inner_formula2&lt;&#x2F;code&gt; 成立的 state 都满足条件。&lt;&#x2F;p&gt;
+&lt;p&gt;接着，对于所有已知满足条件的状态，如果他的前驱能满足 &lt;code&gt;inner_formula1&lt;&#x2F;code&gt;，那么这个状态也满足条件。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;E[inner_formula1 U inner_formula2] =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; satisfy_formula1 = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; satisfy_formula2 = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula2);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; current_satisfied = satisfy_formula2;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied = None;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied != current_satisfied {
+&lt;&#x2F;span&gt;&lt;span&gt;        last_iteration_satisfied = Some(current_satisfied);
+&lt;&#x2F;span&gt;&lt;span&gt;        current_satisfied = current_satisfied.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;union&lt;&#x2F;span&gt;&lt;span&gt;(model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;successor&lt;&#x2F;span&gt;&lt;span&gt;(s).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;intersect&lt;&#x2F;span&gt;&lt;span&gt;(satisfy_formula1));
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;如此一来我们就完成了这整个算法。&lt;&#x2F;p&gt;
+</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>重新开始学数学 • 数理逻辑（4）</title>
 		<published>2022-07-03T16:33:08.514+00:00</published>
@@ -1608,7 +1684,7 @@ $$&lt;&#x2F;p&gt;
 	<entry xml:lang="zh">
 		<title>重新开始学数学 • 数理逻辑（3）</title>
 		<published>2021-07-06T06:02:46.315+00:00</published>
-		<updated>2021-07-06T06:02:46.315+00:00</updated>
+		<updated>2022-07-13T00:19:25+00:00</updated>
 		<link href="https://longfangsong.github.io/restart-math-logic-3/" type="text/html"/>
 		<id>https://longfangsong.github.io/restart-math-logic-3/</id>
 		<content type="html">&lt;h2 id=&quot;model-structure-jie-gou-mo-xing&quot;&gt;Model（Structure、结构、模型）&lt;&#x2F;h2&gt;
@@ -1634,7 +1710,7 @@ $$&lt;&#x2F;p&gt;
 &lt;li&gt;对 $P$ 中每个谓词符号，$A$ 上的一个具体谓词（或者说由这个谓词定义的关系）&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;li&quot;&gt;例&lt;&#x2F;h3&gt;
-&lt;p&gt;这里有一个函数符号集合 $F = \{ i: () \rightarrow Value \}$，&lt;&#x2F;p&gt;
+&lt;p&gt;这里有一个函数符号集合 $F_symbols = \{ i: () \rightarrow Value \}$，&lt;&#x2F;p&gt;
 &lt;p&gt;一个谓词符号集合 $P = \{ R: (Value, Value) \rightarrow bool, F: (Value) \rightarrow bool\}$&lt;&#x2F;p&gt;
 &lt;p&gt;可以利用以上两个集合，加上一个状态集合 $A$，来建立状态机的 model，比如：&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
@@ -3460,6 +3536,199 @@ CAP 中的 C 指的是外部一致性。
 &lt;p&gt;Hope zola will become a better project in the future!&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;Or maybe I misunderstood the &lt;code&gt;pagination&lt;&#x2F;code&gt; feature ...&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
+		<title>代数结构 cheatsheet</title>
+		<published>2019-04-09T00:00:00+00:00</published>
+		<updated>2019-04-09T00:00:00+00:00</updated>
+		<link href="https://longfangsong.github.io/algebraic-structures/" type="text/html"/>
+		<id>https://longfangsong.github.io/algebraic-structures/</id>
+		<content type="html">&lt;h2 id=&quot;yun-suan&quot;&gt;运算&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;er-yuan-yun-suan&quot;&gt;二元运算&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定集合$A$，二元函数$F: A \times A \rightarrow A$称为集合A上的&lt;strong&gt;二元运算&lt;&#x2F;strong&gt;。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;本文中的二元运算使用 $\circ$ 、$\diamond$ &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;表示，同时，集合$A$中的元素用 $a$ ，$b$ ，$c$ 等表示。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;可能使集合具有的特殊元素&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可能使集合具有的特殊元素&quot; title=&quot;可能使集合具有的特殊元素&quot;&gt;&lt;&#x2F;a&gt;可能使集合具有的特殊元素&lt;&#x2F;h3&gt;&lt;h4 id=&quot;幺元-单位元-（identity-element-neutral-element）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺元-单位元-（identity-element-neutral-element）&quot; title=&quot;幺元&#x2F;单位元 （identity element&#x2F;neutral element）&quot;&gt;&lt;&#x2F;a&gt;幺元&#x2F;单位元 （identity element&#x2F;neutral element）&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+i\ \circ\ a = a&lt;&#x2F;script&gt;&lt;p&gt;则 $i$ 是 $\circ$ 在 $A​$ 上的左幺元。&lt;&#x2F;p&gt;
+&lt;p&gt;若对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ i = a&lt;&#x2F;script&gt;&lt;p&gt;则 $i$ 是 $\circ$ 在 $A​$ 上的右幺元。&lt;&#x2F;p&gt;
+&lt;p&gt;幺元 = 左幺元 &amp;amp; 右幺元。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;逆元-（inverse-element）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#逆元-（inverse-element）&quot; title=&quot;逆元 （inverse element）&quot;&gt;&lt;&#x2F;a&gt;逆元 （inverse element）&lt;&#x2F;h4&gt;&lt;p&gt;在已经存在幺元 $i​$ 时，&lt;&#x2F;p&gt;
+&lt;p&gt;若&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ b = i&lt;&#x2F;script&gt;&lt;p&gt;则 $a$ 是 $b$ 在 $\circ$ 上的左逆元，同时 $b$ 也是 $a$ 在 $\circ$ 下的右逆元。&lt;&#x2F;p&gt;
+&lt;p&gt;逆元 = 左逆元 &amp;amp; 右逆元&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;零元（zero-element）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#零元（zero-element）&quot; title=&quot;零元（zero element）&quot;&gt;&lt;&#x2F;a&gt;零元（zero element）&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A​$ 中每个元素 $a​$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+z\ \circ\ a = z&lt;&#x2F;script&gt;&lt;p&gt;则 $z$ 是 $\circ$ 在 $A$ 上的左零元。&lt;&#x2F;p&gt;
+&lt;p&gt;若对 $A​$ 中每个元素 $a​$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ z = z&lt;&#x2F;script&gt;&lt;p&gt;则 $z​$ 是 $\circ​$ 在 $A​$ 上的右零元。&lt;&#x2F;p&gt;
+&lt;p&gt;零元 = 左零元 &amp;amp; 右零元&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;零因子（Zero-divisor）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#零因子（Zero-divisor）&quot; title=&quot;零因子（Zero divisor）&quot;&gt;&lt;&#x2F;a&gt;零因子（Zero divisor）&lt;&#x2F;h4&gt;&lt;p&gt;在已经存在零元 $z$ 时：&lt;&#x2F;p&gt;
+&lt;p&gt;若对 $A​$ 中存在不是零元的元素 $b​$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ b = z&lt;&#x2F;script&gt;&lt;p&gt;则 $a$ 是 $\circ$ 在 $A$ 上的左零因子。&lt;&#x2F;p&gt;
+&lt;p&gt;若对 $A$ 中存在不是零元的元素 $b$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+b\ \circ\ a = z&lt;&#x2F;script&gt;&lt;p&gt;则 $a$ 是 $\circ$ 在 $A$ 上的右零因子。&lt;&#x2F;p&gt;
+&lt;p&gt;零因子 = 左零因子 &amp;amp; 右零因子（也有说法是 零因子 = 左零因子 | 右零因子）&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;可能具有的性质&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可能具有的性质&quot; title=&quot;可能具有的性质&quot;&gt;&lt;&#x2F;a&gt;可能具有的性质&lt;&#x2F;h3&gt;&lt;h4 id=&quot;交换律&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#交换律&quot; title=&quot;交换律&quot;&gt;&lt;&#x2F;a&gt;交换律&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b​$&lt;&#x2F;p&gt;
+&lt;p&gt;$a\ \circ\ b = b\ \circ\ a​$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;结合律&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#结合律&quot; title=&quot;结合律&quot;&gt;&lt;&#x2F;a&gt;结合律&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b$&lt;&#x2F;p&gt;
+&lt;p&gt;$(a\ \circ\ b)\ \circ\ c =a\ \circ\ (b\ \circ\ c) $&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;分配率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#分配率&quot; title=&quot;分配率&quot;&gt;&lt;&#x2F;a&gt;分配率&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b$、$c$&lt;&#x2F;p&gt;
+&lt;p&gt;若&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ (b\ \diamond\ c) = a\ \circ\ b\ \diamond\ a\ \circ\ b&lt;&#x2F;script&gt;&lt;p&gt;称 $\circ$ 对 $\diamond$ 具有左分配率。&lt;&#x2F;p&gt;
+&lt;p&gt;若&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+(b\ \diamond\ c) \circ\ a = b\ \circ\ a\ \diamond\ c\ \circ\ a&lt;&#x2F;script&gt;&lt;p&gt;称 $\circ$ 对 $\diamond​$ 具有右分配率。&lt;&#x2F;p&gt;
+&lt;p&gt;分配率 = 左分配率 &amp;amp; 右分配率&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;幂等率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幂等率&quot; title=&quot;幂等率&quot;&gt;&lt;&#x2F;a&gt;幂等率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ a = a&lt;&#x2F;script&gt;&lt;h4 id=&quot;幂幺率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幂幺率&quot; title=&quot;幂幺率&quot;&gt;&lt;&#x2F;a&gt;幂幺率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个元素 $a​$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ a = i&lt;&#x2F;script&gt;&lt;h4 id=&quot;&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#&quot; title=&quot; &quot;&gt;&lt;&#x2F;a&gt; &lt;&#x2F;h4&gt;&lt;p&gt;其中 $i$ 为幺元。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;幂零率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幂零率&quot; title=&quot;幂零率&quot;&gt;&lt;&#x2F;a&gt;幂零率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ a = z&lt;&#x2F;script&gt;&lt;h4 id=&quot;-1&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#-1&quot; title=&quot; &quot;&gt;&lt;&#x2F;a&gt; &lt;&#x2F;h4&gt;&lt;p&gt;其中 $z$ 为零元。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;吸收率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#吸收率&quot; title=&quot;吸收率&quot;&gt;&lt;&#x2F;a&gt;吸收率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个 $a$ 、$b​$&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \circ\ (a\ \diamond\ b) = a\ \diamond\ (a\ \circ\ b) = a&lt;&#x2F;script&gt;&lt;p&gt;则这两个运算服从吸收率，两种运算被称为对偶对。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;序&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#序&quot; title=&quot;序&quot;&gt;&lt;&#x2F;a&gt;序&lt;&#x2F;h2&gt;&lt;h3 id=&quot;偏序关系&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#偏序关系&quot; title=&quot;偏序关系&quot;&gt;&lt;&#x2F;a&gt;偏序关系&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;全序关系&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#全序关系&quot; title=&quot;全序关系&quot;&gt;&lt;&#x2F;a&gt;全序关系&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;上-下界&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#上-下界&quot; title=&quot;上&#x2F;下界&quot;&gt;&lt;&#x2F;a&gt;上&#x2F;下界&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;上-下确界（全上-下界）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#上-下确界（全上-下界）&quot; title=&quot;上&#x2F;下确界（全上&#x2F;下界）&quot;&gt;&lt;&#x2F;a&gt;上&#x2F;下确界（全上&#x2F;下界）&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;代数结构&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#代数结构&quot; title=&quot;代数结构&quot;&gt;&lt;&#x2F;a&gt;代数结构&lt;&#x2F;h2&gt;&lt;p&gt;来自维基百科（许多东西没有中文译名……）：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img alt=&quot;img1&quot; src=&quot;.&#x2F;img1.png&quot;&#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img alt=&quot;Lattice_v4&quot; src=&quot;.&#x2F;Lattice_v4.png&quot;&#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;原群（magma-groupoid）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#原群（magma-groupoid）&quot; title=&quot;原群（magma&#x2F;groupoid）&quot;&gt;&lt;&#x2F;a&gt;原群（magma&#x2F;groupoid）&lt;&#x2F;h3&gt;&lt;p&gt;有一个集合和一个集合上的二元运算就是原群了。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ni-qun-quasigroup&quot;&gt;拟群（quasigroup）&lt;&#x2F;h3&gt;
+&lt;p&gt;对任意元素 $a$ 和 $b$，有唯一的 $x$ 和 $y$，使得&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+a\ \circ\ x = b \\
+y\ \circ\ a = b
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;我们可以从此定义出 $\circ$ 的逆运算：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+x = a\ \grave{\circ}\ b\\
+y = b\ \acute{\circ}\ a
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$\grave{\circ}$ 常写作 \ ，常被称为左除。&lt;&#x2F;p&gt;
+&lt;p&gt;$\acute{\circ}$ 常写作 &#x2F;，被称为右除。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;半群（semigroup）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#半群（semigroup）&quot; title=&quot;半群（semigroup）&quot;&gt;&lt;&#x2F;a&gt;半群（semigroup）&lt;&#x2F;h3&gt;&lt;p&gt;原群 加&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;运算&lt;ul&gt;
+&lt;li&gt;结合律&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;幺拟群（圈）（loop）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺拟群（圈）（loop）&quot; title=&quot;幺拟群（圈）（loop）&quot;&gt;&lt;&#x2F;a&gt;幺拟群（圈）（loop）&lt;&#x2F;h3&gt;&lt;p&gt;拟群 加上：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;特殊元素&lt;ul&gt;
+&lt;li&gt;幺元&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;幺半群（独异点）（monoid）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺半群（独异点）（monoid）&quot; title=&quot;幺半群（独异点）（monoid）&quot;&gt;&lt;&#x2F;a&gt;幺半群（独异点）（monoid）&lt;&#x2F;h3&gt;&lt;p&gt;半群 加上：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;特殊元素&lt;ul&gt;
+&lt;li&gt;幺元&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;可交换幺半群（阿贝尔幺半群）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可交换幺半群（阿贝尔幺半群）&quot; title=&quot;可交换幺半群（阿贝尔幺半群）&quot;&gt;&lt;&#x2F;a&gt;可交换幺半群（阿贝尔幺半群）&lt;&#x2F;h3&gt;&lt;p&gt;幺半群 加上：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;运算&lt;ul&gt;
+&lt;li&gt;交换律&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;群（group）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#群（group）&quot; title=&quot;群（group）&quot;&gt;&lt;&#x2F;a&gt;群（group）&lt;&#x2F;h3&gt;&lt;p&gt;幺半群 加上：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;特殊元素&lt;ul&gt;
+&lt;li&gt;（对每个元素）逆元&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;可交换群（阿贝尔群）（Abelian-group）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可交换群（阿贝尔群）（Abelian-group）&quot; title=&quot;可交换群（阿贝尔群）（Abelian group）&quot;&gt;&lt;&#x2F;a&gt;可交换群（阿贝尔群）（Abelian group）&lt;&#x2F;h3&gt;&lt;p&gt;群 + 可交换幺半群&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;环（ring）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#环（ring）&quot; title=&quot;环（ring）&quot;&gt;&lt;&#x2F;a&gt;环（ring）&lt;&#x2F;h3&gt;&lt;p&gt;对一种运算（$\circ$）构成可交换群 + 对另一种运算（$\diamond$）构成半群 + $\circ$ 对$\diamond$有分配率&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;幺环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺环&quot; title=&quot;幺环&quot;&gt;&lt;&#x2F;a&gt;幺环&lt;&#x2F;h3&gt;&lt;p&gt;环 + 其中那个半群是含幺半群&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;交换环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#交换环&quot; title=&quot;交换环&quot;&gt;&lt;&#x2F;a&gt;交换环&lt;&#x2F;h3&gt;&lt;p&gt;环 + 其中那个半群是交换半群&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;无零因子环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#无零因子环&quot; title=&quot;无零因子环&quot;&gt;&lt;&#x2F;a&gt;无零因子环&lt;&#x2F;h3&gt;&lt;p&gt;环 + 没有零因子&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;整环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#整环&quot; title=&quot;整环&quot;&gt;&lt;&#x2F;a&gt;整环&lt;&#x2F;h3&gt;&lt;p&gt;交换环 + 幺环 + 无零因子环&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;除环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#除环&quot; title=&quot;除环&quot;&gt;&lt;&#x2F;a&gt;除环&lt;&#x2F;h3&gt;&lt;p&gt;所有元素都在 $\circ$ 上有逆元&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;域（field）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#域（field）&quot; title=&quot;域（field）&quot;&gt;&lt;&#x2F;a&gt;域（field）&lt;&#x2F;h3&gt;&lt;p&gt;交换环 + 除环&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;偏序集（partially-ordered-set）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#偏序集（partially-ordered-set）&quot; title=&quot;偏序集（partially ordered set）&quot;&gt;&lt;&#x2F;a&gt;偏序集（partially ordered set）&lt;&#x2F;h3&gt;&lt;p&gt;定义了偏序的集合&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ban-ge&quot;&gt;半格&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;xu-li-lun-zhong-de-ban-ge-de-ding-yi&quot;&gt;序理论中的半格的定义&lt;&#x2F;h4&gt;
+&lt;p&gt;偏序集 + (最小上界 | 最大上界)&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;chou-xiang-dai-shu-zhong-de-ban-ge-de-ding-yi&quot;&gt;抽象代数中的半格的定义&lt;&#x2F;h4&gt;
+&lt;p&gt;集合 加上&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;运算
+&lt;ul&gt;
+&lt;li&gt;交换律&lt;&#x2F;li&gt;
+&lt;li&gt;结合律&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;ge-lattice&quot;&gt;格（Lattice）&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;xu-li-lun-zhong-de-ge-ding-yi&quot;&gt;序理论中的格定义&lt;&#x2F;h4&gt;
+&lt;p&gt;偏序集 + 最小上界 + 最大上界&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;chou-xiang-dai-shu-zhong-de-ge-ding-yi&quot;&gt;抽象代数中的格定义&lt;&#x2F;h4&gt;
+&lt;p&gt;两个定义在同一个集合上，但运算不同的半格，加上&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;两个运算
+&lt;ul&gt;
+&lt;li&gt;吸收律&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;分配格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#分配格&quot; title=&quot;分配格&quot;&gt;&lt;&#x2F;a&gt;分配格&lt;&#x2F;h3&gt;&lt;p&gt;格 加上&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;运算&lt;ul&gt;
+&lt;li&gt;分配率&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;完全格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#完全格&quot; title=&quot;完全格&quot;&gt;&lt;&#x2F;a&gt;完全格&lt;&#x2F;h3&gt;&lt;p&gt;偏序集 + 所有子集都有上确界和下确界&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;有界格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#有界格&quot; title=&quot;有界格&quot;&gt;&lt;&#x2F;a&gt;有界格&lt;&#x2F;h3&gt;&lt;p&gt;格 加上&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;有全下界和全上界&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;有补格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#有补格&quot; title=&quot;有补格&quot;&gt;&lt;&#x2F;a&gt;有补格&lt;&#x2F;h3&gt;&lt;p&gt;有界格 加上&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;对任意元素均有补元&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;补元&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#补元&quot; title=&quot;补元&quot;&gt;&lt;&#x2F;a&gt;补元&lt;&#x2F;h4&gt;&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \wedge\ b=0&lt;&#x2F;script&gt;&lt;p&gt;且&lt;&#x2F;p&gt;
+&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
+a\ \vee\ b = 1&lt;&#x2F;script&gt;&lt;p&gt;则 $b$ 是 $a$ 的补元。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;海廷代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#海廷代数&quot; title=&quot;海廷代数&quot;&gt;&lt;&#x2F;a&gt;海廷代数&lt;&#x2F;h3&gt;&lt;p&gt;有界格 加上&lt;&#x2F;p&gt;
+&lt;p&gt;对于所有 $a$ 和 $b$，集合中存在最大的 $x$，使得$a \wedge x \leq b$。&lt;&#x2F;p&gt;
+&lt;p&gt;其中 $x$ 称为 $a$ 对 $b$ 的相对伪补元。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;完全海廷代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#完全海廷代数&quot; title=&quot;完全海廷代数&quot;&gt;&lt;&#x2F;a&gt;完全海廷代数&lt;&#x2F;h3&gt;&lt;p&gt;海廷代数 + 完全格&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;布尔代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#布尔代数&quot; title=&quot;布尔代数&quot;&gt;&lt;&#x2F;a&gt;布尔代数&lt;&#x2F;h3&gt;&lt;p&gt;有补格 + 分配格&lt;&#x2F;p&gt;
+&lt;p&gt;或&lt;&#x2F;p&gt;
+&lt;p&gt;海廷代数 将 相对伪补元改为真正的补元。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;完全布尔代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#完全布尔代数&quot; title=&quot;完全布尔代数&quot;&gt;&lt;&#x2F;a&gt;完全布尔代数&lt;&#x2F;h3&gt;&lt;p&gt;布尔代数 + 完全格&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;逻辑代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#逻辑代数&quot; title=&quot;逻辑代数&quot;&gt;&lt;&#x2F;a&gt;逻辑代数&lt;&#x2F;h3&gt;&lt;p&gt;布尔代数 + 二元（集合中元素只有两个）&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;各种材料常常用常见的乘号和加号代表运算，个人并不喜欢这样做，”不同”的东西应该用”不同”的记号。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;（半）格在群论和序理论中代表两个不同的东西，英文名称都叫Lattice，中文名称都叫格。数学家起名字的水平和我五五开。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
 	</entry>
