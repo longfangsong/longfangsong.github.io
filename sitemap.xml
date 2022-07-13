@@ -31,7 +31,7 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/cap-theorem/</loc>
-        <lastmod>2020-04-23T16:09:46.815Z</lastmod>
+        <lastmod>2022-07-13T23:38:26Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/clocks-in-distributed-system/</loc>
@@ -44,6 +44,25 @@
     <url>
         <loc>https://longfangsong.github.io/distributed-system/</loc>
         <lastmod>2020-04-22T16:09:46.815Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/about/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/archive/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/hello-zola/</loc>
+        <lastmod>2020-01-02T15:00:00Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/links/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/page/1/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/flex-layout/</loc>

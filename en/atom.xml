@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+	<title>Blog</title>
+	<subtitle>Und grün des Theorie goldner Baum</subtitle>
+	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://longfangsong.github.io"/>
+	<generator uri="https://www.getzola.org/">Zola</generator>
+	<updated>2020-01-02T15:00:00+00:00</updated>
+	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>Hello zola!</title>
+		<published>2020-01-02T15:00:00+00:00</published>
+		<updated>2020-01-02T15:00:00+00:00</updated>
+		<link href="https://longfangsong.github.io/en/hello-zola/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/hello-zola/</id>
+		<content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
+&lt;p&gt;Here&#x27;s an image from my origin blog, powered by hexo:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Ouch!&lt;&#x2F;p&gt;
+&lt;p&gt;And then, since I&#x27;m a big fan of Rust, I found zola, though this tool is not as complete as hexo, I can use its shortcodes feature to embed different of things to my blog!&lt;&#x2F;p&gt;
+&lt;p&gt;For example, terminal record:&lt;&#x2F;p&gt;
+&lt;script id=&quot;asciicast-9EhVw8rujVjpPVBV5kQMdAIHe&quot; src=&quot;https:&#x2F;&#x2F;asciinema.org&#x2F;a&#x2F;9EhVw8rujVjpPVBV5kQMdAIHe.js&quot; async&gt;&lt;&#x2F;script&gt;
+&lt;p&gt;Which I never imagined when using hexo!&lt;&#x2F;p&gt;
+&lt;p&gt;And zola do make it easier to customize a theme, in hexo, if I want to customize a theme, I have to fork it, and do some edit on it. But in zola I can do this easily by override a template block.&lt;&#x2F;p&gt;
+&lt;p&gt;But there remains some problems:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;translations&lt;&#x2F;code&gt; in a theme cannot be used in the site based on that theme. Hope will fixed after &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;getzola&#x2F;zola&#x2F;pull&#x2F;1148&quot;&gt;#1148&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Cannot paginate over another section.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Anyway, I&#x27;ll absolutly move my blog to zola.&lt;&#x2F;p&gt;
+&lt;p&gt;Also I&#x27;m looking forward to contribute something to this project, and I started with &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;getzola&#x2F;themes&#x2F;pull&#x2F;49&quot;&gt;migrating a theme&lt;&#x2F;a&gt;, which I&#x27;ll also used on my blog.&lt;&#x2F;p&gt;
+&lt;p&gt;Hope zola will become a better project in the future!&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Or maybe I misunderstood the &lt;code&gt;pagination&lt;&#x2F;code&gt; feature ...&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+</feed>
