@@ -5,8 +5,80 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2020-01-02T15:00:00+00:00</updated>
+	<updated>2022-07-14T02:51:09.783+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>HoTTEST Summer School Notes 1</title>
+		<published>2022-07-14T02:51:09.783+00:00</published>
+		<updated>2022-07-14T02:51:09.783+00:00</updated>
+		<link href="https://longfangsong.github.io/en/hottest-notes-1/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/hottest-notes-1/</id>
+		<content type="html">&lt;h2 id=&quot;natural-deduction&quot;&gt;Natural deduction&lt;&#x2F;h2&gt;
+&lt;p&gt;Trivial, not necessary to say too much here.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;simple-typed-lambda-calculus-stlc-or-stlc&quot;&gt;Simple typed lambda calculus (STλC or STLC)&lt;&#x2F;h2&gt;
+&lt;p&gt;Still trivial, just need to clarify some notations the teacher is using.&lt;&#x2F;p&gt;
+&lt;p&gt;$pr_1 (p, q)$ means take the first element out from pair $(p, q)$, which is always write as $(p, q).1$, eg.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{p: P}
+\AxiomC{q: Q}
+\BinaryInfC{$pr_1 (p, q) \doteq p: P$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Here $\doteq$ is by definition equal&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, which I always use $\equiv$.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dependent-type-theory&quot;&gt;Dependent type theory&lt;&#x2F;h2&gt;
+&lt;p&gt;Tough I had some basic knowledge of this before (eg. Dependent types can be viewed as predicates due to Curry-Howard Corresponding), but I do learned some more.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;the-meaning-of-the-word-dependent&quot;&gt;The meaning of the word &amp;quot;dependent&amp;quot;&lt;&#x2F;h3&gt;
+&lt;p&gt;I used to understand this in an intuitive way, in the class the teacher introduced a semi-formal definition of &amp;quot;dependent&amp;quot;, ie. the items on the right side of $\vdash$ depends on those on the left side.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;rules-of-p-types&quot;&gt;Rules of π-types&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\pi-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma ,x:P \vdash Q\ type$}
+\UnaryInfC{$\Gamma \vdash \Pi_{x:P} Q\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\pi-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma ,x:P \vdash q:Q$}
+\UnaryInfC{$\Gamma \vdash \lambda x.q: \Pi_{x:P} Q$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\pi-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash f:\Pi_{x:P} Q$}
+\AxiomC{$\Gamma \vdash p:P$}
+\BinaryInfC{$\Gamma \vdash f\ p:Q[p&#x2F;x]$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\pi-comp-\beta: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma ,x:P \vdash q:Q$}
+\AxiomC{$\Gamma \vdash p:P$}
+\BinaryInfC{$\Gamma \vdash (\lambda x.q) p \doteq q[p&#x2F;x]:Q[p&#x2F;x]$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\pi-comp-\eta: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash f:\Pi_{x:P} Q$}
+\UnaryInfC{$\Gamma \vdash \lambda x.f\ x\doteq f:\Pi_{x:P} Q$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>Hello zola!</title>
 		<published>2020-01-02T15:00:00+00:00</published>
