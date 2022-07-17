@@ -5,14 +5,296 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-07-14T02:51:09.783+00:00</updated>
+	<updated>2022-07-16T05:45:57.294+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
 	<entry xml:lang="en">
-		<title>HoTTEST Summer School Notes 1</title>
+		<title>HoTTEST Summer School HoTT Notes 2</title>
+		<published>2022-07-16T05:45:57.294+00:00</published>
+		<updated>2022-07-16T05:45:57.294+00:00</updated>
+		<link href="https://longfangsong.github.io/en/hottest-notes-hott-2/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/hottest-notes-hott-2/</id>
+		<content type="html">&lt;h2 id=&quot;inductive-types&quot;&gt;Inductive Types&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In type theory, a system has inductive types if it has facilities for creating a new type from constants and functions that create terms of that type. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;eg.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span&gt;data Bool: Type where
+&lt;&#x2F;span&gt;&lt;span&gt;  true false: Bool
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;bool&quot;&gt;bool&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+bool-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash bool\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+bool-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash true:bool$}
+\end{prooftree}
+\ \ \ \ 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash false:bool$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+bool-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(true)$}
+\AxiomC{$\Gamma \vdash a: D(false)$}
+\TrinaryInfC{$\Gamma,x:bool \vdash ind_{bool}(a,b,x):D(x)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+bool-comp: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(true)$}
+\AxiomC{$\Gamma \vdash a: D(false)$}
+\TrinaryInfC{$\displaylines {\Gamma \vdash ind_{bool}(a,b,true) \doteq a:D(true)\\ \Gamma \vdash ind_{bool}(a,b,false) \doteq b:D(false)}$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;coproduct&quot;&gt;Coproduct&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
++-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash P\ type$}
+\AxiomC{$\Gamma \vdash Q\ type$}
+\BinaryInfC{$\Gamma \vdash P+Q\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
++-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash p:P$}
+\UnaryInfC{$\Gamma \vdash inl(p):P+Q$}
+\end{prooftree}
+\ \ \ \ 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash q:Q$}
+\UnaryInfC{$\Gamma \vdash inr(q):P+Q$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
++-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(inl(p))$}
+\AxiomC{$\Gamma \vdash b: D(inr(q))$}
+\TrinaryInfC{$\Gamma,x:P+Q \vdash ind_+(a,b,x):D(x)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
++-comp: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(inl(p))$}
+\AxiomC{$\Gamma \vdash b: D(inr(q))$}
+\TrinaryInfC{$\displaylines {\Gamma \vdash ind_+(a,b,inl(p)) \doteq a:D(inl(p))\\ \Gamma \vdash ind_+(a,b,inr(q)) \doteq b:D(inr(q))}$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;proving-example&quot;&gt;Proving example&lt;&#x2F;h5&gt;
+&lt;p&gt;Prove: For any types A,B,C, there&#x27;s a function $A\times B + A\times C \rightarrow A \times (B+C)$.&lt;&#x2F;p&gt;
+&lt;p&gt;We start from writing what we want to prove down:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\vdash\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;When we want to construct a term which is of type $P\rightarrow Q$, the most natural way is to use the $\rightarrow-intro$ rule, ie. assume there exists a term which is of type $A\times B + A\times C$.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Now on the left side of $\vdash$, we have a term in the form of $P + Q$, which leads us to use
+$+-elim$.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash\ ?\ : A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash\ ?\ : A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s take the left one for example, to construct a term in type $A \times (B+C)$, we can just use pairing to construct a term in type $P\times Q$.&lt;&#x2F;p&gt;
+&lt;p&gt;So now we just need to construct a term like $(p, q): (A, B+C)$, note $()$s here means pair.&lt;&#x2F;p&gt;
+&lt;p&gt;For the first element of the pair, which type is A, we just need to take the first element of the pair $x_1$, ie $pr_1x_1$.&lt;&#x2F;p&gt;
+&lt;p&gt;And for the second element, which type is B+C, we should use the $+-intro$ rule and put the second element of the pair $x_2$ in with $inl$.&lt;&#x2F;p&gt;
+&lt;p&gt;And this is what we got:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash\ ?\ : A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;The similar technique can be used on the right side:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash(pr_1x_2, inr(pr_2x_2)): A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Then fill the hole we left when applying $+-elim$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash(pr_1x_2, inr(pr_2x_2)): A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x) : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Now fill the last hole by introducing a $λ$ and we are done:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash(pr_1x_2, inr(pr_2x_2)): A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x) : A \times (B+C)$}
+\UnaryInfC{$\vdash\ \lambda\ x. ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x): A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;dependent-pair-type-s-type&quot;&gt;Dependent Pair Type (Σ type)&lt;&#x2F;h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In computer science, a tagged union, also called a variant, variant record, choice type, discriminated union, disjoint union, sum type or coproduct, is a data structure used to hold a value that could take on several different, but fixed, types. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;$$
+\Sigma-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma, x: P \vdash Q(x)$}
+\UnaryInfC{$\Gamma \vdash \Sigma_{(x:P)} Q(x)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Sigma-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash p:P$}
+\AxiomC{$\Gamma \vdash q:Q(p)$}
+\BinaryInfC{$\Gamma \vdash pair(p, q):\Sigma_{(x:P)} Q(x)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Sigma-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
+\AxiomC{$\Gamma,x:P,y:Q(x) \vdash a: D(pair(x,y))$}
+\BinaryInfC{$\Gamma,z:\Sigma_{(x:P)} \vdash ind_{\Sigma}(a,z):D(z)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Sigma-comp: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
+\AxiomC{$\Gamma,x:P,y:Q(x) \vdash a: D(pair(x,y))$}
+\BinaryInfC{$\Gamma,x:P,y:Q(x) \vdash ind_{\Sigma} (a, pair(x,y)) \doteq a:D(pair(x,y))$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;how-to-view-s-type&quot;&gt;How to view Σ type&lt;&#x2F;h5&gt;
+&lt;p&gt;Assume there&#x27;s a set named as P and a predicate named as Q, then $\Sigma_{(x:P)}Q(x)$ means there &lt;strong&gt;exists&lt;&#x2F;strong&gt; an element $x$ in $P$ such that $Q(x)$ holds, ie. we can regard Σ in types as ∃ in logic.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;proving-example-1&quot;&gt;Proving example&lt;&#x2F;h5&gt;
+&lt;p&gt;Prove: for any $x:P\vdash Q(x)\ type$, there exists a projection function $\pi : \Sigma_{(x:P)} Q(x) \rightarrow P$.&lt;&#x2F;p&gt;
+&lt;p&gt;By using $\rightarrow-intro$ and $\Sigma-elim$, we can prove it like this:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x:P,y:Q(x) \vdash x:P$}
+\UnaryInfC{$z:\Sigma_{(x:P)}Q(x)\vdash ind_{\Sigma}(x,z):P$}
+\UnaryInfC{$\vdash \lambda z.ind_{\Sigma}(x,z):\Sigma_{(x:P)}Q(x)\rightarrow P$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;natural-numbers&quot;&gt;Natural Numbers&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+\mathbb N-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash \mathbb N\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\mathbb N-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash 0:\mathbb N$}
+\end{prooftree}
+\ \ \ \ 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash n:\mathbb N$}
+\UnaryInfC{$\Gamma \vdash succ(n):\mathbb N$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\mathbb N-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a:D(0)$}
+\AxiomC{$\Gamma,x:\mathbb N,y:D(x) \vdash b: D(succ(x))$}
+\TrinaryInfC{$\Gamma,x:\mathbb N \vdash ind_{\mathbb N}(a,b,x):D(x)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\mathbb N-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a:D(0)$}
+\AxiomC{$\Gamma,x:\mathbb N,y:D(x) \vdash b: D(succ(x))$}
+\TrinaryInfC{$\displaylines {\Gamma \vdash ind_{\mathbb N}(a,b,0) \doteq a:D(0)\\ \Gamma,x:\mathbb N \vdash ind_{\mathbb N}(a,b,succ(x)) \doteq b[ind_{\mathbb N}(a,b,x)&#x2F;y]:D(succ(x))}$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;materials&quot;&gt;Materials&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;lecture-note&quot;&gt;Lecture Note&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_2.pdf&quot;&gt;HoTTEST_Lecture_2.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
+&lt;div &gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;GW0jV0l5NB4&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
+		<title>HoTTEST Summer School HoTT Notes 1</title>
 		<published>2022-07-14T02:51:09.783+00:00</published>
 		<updated>2022-07-14T02:51:09.783+00:00</updated>
-		<link href="https://longfangsong.github.io/en/hottest-notes-1/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hottest-notes-1/</id>
+		<link href="https://longfangsong.github.io/en/hottest-notes-hott-1/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/hottest-notes-hott-1/</id>
 		<content type="html">&lt;h2 id=&quot;natural-deduction&quot;&gt;Natural deduction&lt;&#x2F;h2&gt;
 &lt;p&gt;Trivial, not necessary to say too much here.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;simple-typed-lambda-calculus-stlc-or-stlc&quot;&gt;Simple typed lambda calculus (STλC or STLC)&lt;&#x2F;h2&gt;
@@ -37,7 +319,7 @@ $$&lt;&#x2F;p&gt;
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash Q\ type$}
-\UnaryInfC{$\Gamma \vdash \Pi_{x:P} Q\ type$}
+\UnaryInfC{$\Gamma \vdash \Pi_{(x:P)} Q\ type$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -45,14 +327,14 @@ $$&lt;&#x2F;p&gt;
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash q:Q$}
-\UnaryInfC{$\Gamma \vdash \lambda x.q: \Pi_{x:P} Q$}
+\UnaryInfC{$\Gamma \vdash \lambda x.q: \Pi_{(x:P)} Q$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \pi-elim: 
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$\Gamma \vdash f:\Pi_{x:P} Q$}
+\AxiomC{$\Gamma \vdash f:\Pi_{(x:P)} Q$}
 \AxiomC{$\Gamma \vdash p:P$}
 \BinaryInfC{$\Gamma \vdash f\ p:Q[p&#x2F;x]$}
 \end{prooftree}
@@ -71,9 +353,16 @@ $$&lt;&#x2F;p&gt;
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash f:\Pi_{x:P} Q$}
-\UnaryInfC{$\Gamma \vdash \lambda x.f\ x\doteq f:\Pi_{x:P} Q$}
+\UnaryInfC{$\Gamma \vdash \lambda x.f\ x\doteq f:\Pi_{(x:P)} Q$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;materials&quot;&gt;Materials&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;lecture-note&quot;&gt;Lecture Note&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_1.pdf&quot;&gt;HoTTEST_Lecture_1.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
+&lt;div &gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;HvYYCHMeM-8&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+&lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • HoTTEST Summer School HoTT Notes 2</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-2&#x2F;">HoTTEST Summer School HoTT Notes 2</a></h1>
+  
+  <div class="post-content"><h2 id="inductive-types">Inductive Types</h2>
+<blockquote>
+<p>In type theory, a system has inductive types if it has facilities for creating a new type from constants and functions that create terms of that type. —— Wikipedia</p>
+</blockquote>
+<p>eg.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>data Bool: Type where
+</span><span>  true false: Bool
+</span></code></pre>
+<h3 id="examples">Examples</h3>
+<h4 id="bool">bool</h4>
+<p>$$
+bool-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash bool\ type$}
+\end{prooftree}
+$$</p>
+<p>$$
+bool-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash true:bool$}
+\end{prooftree}
+\ \ \ \ 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash false:bool$}
+\end{prooftree}
+$$</p>
+<p>$$
+bool-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(true)$}
+\AxiomC{$\Gamma \vdash a: D(false)$}
+\TrinaryInfC{$\Gamma,x:bool \vdash ind_{bool}(a,b,x):D(x)$}
+\end{prooftree}
+$$</p>
+<p>$$
+bool-comp: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(true)$}
+\AxiomC{$\Gamma \vdash a: D(false)$}
+\TrinaryInfC{$\displaylines {\Gamma \vdash ind_{bool}(a,b,true) \doteq a:D(true)\\ \Gamma \vdash ind_{bool}(a,b,false) \doteq b:D(false)}$}
+\end{prooftree}
+$$</p>
+<h4 id="coproduct">Coproduct</h4>
+<p>$$
++-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash P\ type$}
+\AxiomC{$\Gamma \vdash Q\ type$}
+\BinaryInfC{$\Gamma \vdash P+Q\ type$}
+\end{prooftree}
+$$</p>
+<p>$$
++-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash p:P$}
+\UnaryInfC{$\Gamma \vdash inl(p):P+Q$}
+\end{prooftree}
+\ \ \ \ 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash q:Q$}
+\UnaryInfC{$\Gamma \vdash inr(q):P+Q$}
+\end{prooftree}
+$$</p>
+<p>$$
++-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(inl(p))$}
+\AxiomC{$\Gamma \vdash b: D(inr(q))$}
+\TrinaryInfC{$\Gamma,x:P+Q \vdash ind_+(a,b,x):D(x)$}
+\end{prooftree}
+$$</p>
+<p>$$
++-comp: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a: D(inl(p))$}
+\AxiomC{$\Gamma \vdash b: D(inr(q))$}
+\TrinaryInfC{$\displaylines {\Gamma \vdash ind_+(a,b,inl(p)) \doteq a:D(inl(p))\\ \Gamma \vdash ind_+(a,b,inr(q)) \doteq b:D(inr(q))}$}
+\end{prooftree}
+$$</p>
+<h5 id="proving-example">Proving example</h5>
+<p>Prove: For any types A,B,C, there's a function $A\times B + A\times C \rightarrow A \times (B+C)$.</p>
+<p>We start from writing what we want to prove down:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\vdash\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$</p>
+<p>When we want to construct a term which is of type $P\rightarrow Q$, the most natural way is to use the $\rightarrow-intro$ rule, ie. assume there exists a term which is of type $A\times B + A\times C$.</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$</p>
+<p>Now on the left side of $\vdash$, we have a term in the form of $P + Q$, which leads us to use
+$+-elim$.</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash\ ?\ : A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash\ ?\ : A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$</p>
+<p>Let's take the left one for example, to construct a term in type $A \times (B+C)$, we can just use pairing to construct a term in type $P\times Q$.</p>
+<p>So now we just need to construct a term like $(p, q): (A, B+C)$, note $()$s here means pair.</p>
+<p>For the first element of the pair, which type is A, we just need to take the first element of the pair $x_1$, ie $pr_1x_1$.</p>
+<p>And for the second element, which type is B+C, we should use the $+-intro$ rule and put the second element of the pair $x_2$ in with $inl$.</p>
+<p>And this is what we got:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash\ ?\ : A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$</p>
+<p>The similar technique can be used on the right side:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash(pr_1x_2, inr(pr_2x_2)): A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash\ ?\ : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$</p>
+<p>Then fill the hole we left when applying $+-elim$:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash(pr_1x_2, inr(pr_2x_2)): A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x) : A \times (B+C)$}
+\UnaryInfC{$\Gamma\ \ ?:A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$</p>
+<p>Now fill the last hole by introducing a $λ$ and we are done:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x_1: A\times B \vdash(pr_1x_1, inl(pr_2x_1)): A \times (B+C)$}
+\AxiomC{$x_2: A\times C \vdash(pr_1x_2, inr(pr_2x_2)): A \times (B+C)$}
+\BinaryInfC{$x:A\times B + A\times C \vdash ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x) : A \times (B+C)$}
+\UnaryInfC{$\vdash\ \lambda\ x. ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x): A\times B + A\times C \rightarrow A \times (B+C)$}
+\end{prooftree}
+$$</p>
+<h4 id="dependent-pair-type-s-type">Dependent Pair Type (Σ type)</h4>
+<blockquote>
+<p>In computer science, a tagged union, also called a variant, variant record, choice type, discriminated union, disjoint union, sum type or coproduct, is a data structure used to hold a value that could take on several different, but fixed, types. —— Wikipedia</p>
+</blockquote>
+<p>$$
+\Sigma-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma, x: P \vdash Q(x)$}
+\UnaryInfC{$\Gamma \vdash \Sigma_{(x:P)} Q(x)$}
+\end{prooftree}
+$$</p>
+<p>$$
+\Sigma-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash p:P$}
+\AxiomC{$\Gamma \vdash q:Q(p)$}
+\BinaryInfC{$\Gamma \vdash pair(p, q):\Sigma_{(x:P)} Q(x)$}
+\end{prooftree}
+$$</p>
+<p>$$
+\Sigma-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
+\AxiomC{$\Gamma,x:P,y:Q(x) \vdash a: D(pair(x,y))$}
+\BinaryInfC{$\Gamma,z:\Sigma_{(x:P)} \vdash ind_{\Sigma}(a,z):D(z)$}
+\end{prooftree}
+$$</p>
+<p>$$
+\Sigma-comp: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
+\AxiomC{$\Gamma,x:P,y:Q(x) \vdash a: D(pair(x,y))$}
+\BinaryInfC{$\Gamma,x:P,y:Q(x) \vdash ind_{\Sigma} (a, pair(x,y)) \doteq a:D(pair(x,y))$}
+\end{prooftree}
+$$</p>
+<h5 id="how-to-view-s-type">How to view Σ type</h5>
+<p>Assume there's a set named as P and a predicate named as Q, then $\Sigma_{(x:P)}Q(x)$ means there <strong>exists</strong> an element $x$ in $P$ such that $Q(x)$ holds, ie. we can regard Σ in types as ∃ in logic.</p>
+<h5 id="proving-example-1">Proving example</h5>
+<p>Prove: for any $x:P\vdash Q(x)\ type$, there exists a projection function $\pi : \Sigma_{(x:P)} Q(x) \rightarrow P$.</p>
+<p>By using $\rightarrow-intro$ and $\Sigma-elim$, we can prove it like this:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x:P,y:Q(x) \vdash x:P$}
+\UnaryInfC{$z:\Sigma_{(x:P)}Q(x)\vdash ind_{\Sigma}(x,z):P$}
+\UnaryInfC{$\vdash \lambda z.ind_{\Sigma}(x,z):\Sigma_{(x:P)}Q(x)\rightarrow P$}
+\end{prooftree}
+$$</p>
+<h4 id="natural-numbers">Natural Numbers</h4>
+<p>$$
+\mathbb N-form: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash \mathbb N\ type$}
+\end{prooftree}
+$$</p>
+<p>$$
+\mathbb N-intro: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\Gamma \vdash 0:\mathbb N$}
+\end{prooftree}
+\ \ \ \ 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma \vdash n:\mathbb N$}
+\UnaryInfC{$\Gamma \vdash succ(n):\mathbb N$}
+\end{prooftree}
+$$</p>
+<p>$$
+\mathbb N-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a:D(0)$}
+\AxiomC{$\Gamma,x:\mathbb N,y:D(x) \vdash b: D(succ(x))$}
+\TrinaryInfC{$\Gamma,x:\mathbb N \vdash ind_{\mathbb N}(a,b,x):D(x)$}
+\end{prooftree}
+$$</p>
+<p>$$
+\mathbb N-elim: 
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
+\AxiomC{$\Gamma \vdash a:D(0)$}
+\AxiomC{$\Gamma,x:\mathbb N,y:D(x) \vdash b: D(succ(x))$}
+\TrinaryInfC{$\displaylines {\Gamma \vdash ind_{\mathbb N}(a,b,0) \doteq a:D(0)\\ \Gamma,x:\mathbb N \vdash ind_{\mathbb N}(a,b,succ(x)) \doteq b[ind_{\mathbb N}(a,b,x)/y]:D(succ(x))}$}
+\end{prooftree}
+$$</p>
+<h2 id="materials">Materials</h2>
+<h3 id="lecture-note">Lecture Note</h3>
+<p><a href="https://github.com/martinescardo/HoTTEST-Summer-School/blob/main/HoTT/HoTTEST_Lecture_2.pdf">HoTTEST_Lecture_2.pdf</a></p>
+<h3 id="record-on-youtube">Record on Youtube</h3>
+<div >
+    <iframe src="https://www.youtube-nocookie.com/embed/GW0jV0l5NB4" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>It's actually judgmentally equal, <a href="https://jozefg.bitbucket.io/posts/2014-08-06-equality.html">ref</a>.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-07-16</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=HoTTEST Summer School HoTT Notes 2&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-2&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
