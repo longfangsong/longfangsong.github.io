@@ -182,6 +182,14 @@ $$&lt;&#x2F;p&gt;
 \UnaryInfC{$\vdash\ \lambda\ x. ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x): A\times B + A\times C \rightarrow A \times (B+C)$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
+&lt;p&gt;In agda:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span&gt;open import Data.Product
+&lt;&#x2F;span&gt;&lt;span&gt;open import Data.Sum renaming (_⊎_ to _+_)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;t : ∀ (A B C : Set) → A × B + A × C → A × (B + C)
+&lt;&#x2F;span&gt;&lt;span&gt;t A B C (inj₁ (fst , snd)) = fst , inj₁ snd
+&lt;&#x2F;span&gt;&lt;span&gt;t A B C (inj₂ (fst , snd)) = fst , inj₂ snd
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;dependent-pair-type-s-type&quot;&gt;Dependent Pair Type (Σ type)&lt;&#x2F;h4&gt;
 &lt;blockquote&gt;
 &lt;p&gt;In computer science, a tagged union, also called a variant, variant record, choice type, discriminated union, disjoint union, sum type or coproduct, is a data structure used to hold a value that could take on several different, but fixed, types. —— Wikipedia&lt;&#x2F;p&gt;
@@ -234,6 +242,10 @@ $$&lt;&#x2F;p&gt;
 \UnaryInfC{$\vdash \lambda z.ind_{\Sigma}(x,z):\Sigma_{(x:P)}Q(x)\rightarrow P$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
+&lt;p&gt;In agda:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span&gt;π : ∀ (A : Set) (B : A → Set) → Σ A B → A
+&lt;&#x2F;span&gt;&lt;span&gt;π A B (fst , snd) = fst
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;natural-numbers&quot;&gt;Natural Numbers&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
 \mathbb N-form: 

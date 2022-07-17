@@ -264,6 +264,14 @@ $$</p>
 \UnaryInfC{$\vdash\ \lambda\ x. ind_+((pr_1x_1, inl(pr_2x_1)), (pr_1x_2, inr(pr_2x_2)), x): A\times B + A\times C \rightarrow A \times (B+C)$}
 \end{prooftree}
 $$</p>
+<p>In agda:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>open import Data.Product
+</span><span>open import Data.Sum renaming (_⊎_ to _+_)
+</span><span>
+</span><span>t : ∀ (A B C : Set) → A × B + A × C → A × (B + C)
+</span><span>t A B C (inj₁ (fst , snd)) = fst , inj₁ snd
+</span><span>t A B C (inj₂ (fst , snd)) = fst , inj₂ snd
+</span></code></pre>
 <h4 id="dependent-pair-type-s-type">Dependent Pair Type (Σ type)</h4>
 <blockquote>
 <p>In computer science, a tagged union, also called a variant, variant record, choice type, discriminated union, disjoint union, sum type or coproduct, is a data structure used to hold a value that could take on several different, but fixed, types. —— Wikipedia</p>
@@ -316,6 +324,10 @@ $$</p>
 \UnaryInfC{$\vdash \lambda z.ind_{\Sigma}(x,z):\Sigma_{(x:P)}Q(x)\rightarrow P$}
 \end{prooftree}
 $$</p>
+<p>In agda:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>π : ∀ (A : Set) (B : A → Set) → Σ A B → A
+</span><span>π A B (fst , snd) = fst
+</span></code></pre>
 <h4 id="natural-numbers">Natural Numbers</h4>
 <p>$$
 \mathbb N-form: 
