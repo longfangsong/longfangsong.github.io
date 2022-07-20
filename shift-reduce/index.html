@@ -24,6 +24,7 @@
 <link rel="manifest" href="https://longfangsong.github.io/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -150,51 +151,51 @@
 <ol>
 <li>
 <p>输入数字1，压入栈中</p>
-<p><img src="i1.svg" alt="i1" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i1.svg" alt="i1" /></p>
 </li>
 <li>
 <p>输入操作符'+'，压入栈中</p>
-<p><img src="i2.svg" alt="i2" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i2.svg" alt="i2" /></p>
 </li>
 <li>
 <p>输入数字2，压入栈中</p>
-<p><img src="i3.svg" alt="i3" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i3.svg" alt="i3" /></p>
 </li>
 <li>
 <p>输入操作符'*'，压入栈中</p>
-<p><img src="i4.svg" alt="i4" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i4.svg" alt="i4" /></p>
 </li>
 <li>
 <p>输入数字3，压入栈中</p>
-<p><img src="i5.svg" alt="i5" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i5.svg" alt="i5" /></p>
 </li>
 <li>
 <p>输入操作符'+'，优先级低于栈中最后一个压入的运算符，先对栈中内容求值，再将'+'压入栈中</p>
 <ul>
 <li>
 <p>'*'优先级高于'+'，求值</p>
-<p><img src="i6.svg" alt="i6" /></p>
-<p><img src="i7.svg" alt="i7" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i6.svg" alt="i6" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i7.svg" alt="i7" /></p>
 </li>
 <li>
 <p>'+'优先级等于'+'，求值</p>
-<p><img src="i8.svg" alt="i8" /></p>
-<p><img src="i9.svg" alt="i9" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i8.svg" alt="i8" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i9.svg" alt="i9" /></p>
 </li>
 <li>
 <p>栈中没有运算符了，压入'+'</p>
-<p><img src="i10.svg" alt="i10" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i10.svg" alt="i10" /></p>
 </li>
 </ul>
 </li>
 <li>
 <p>看到数字4，压入</p>
-<p><img src="i11.svg" alt="i11" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i11.svg" alt="i11" /></p>
 </li>
 <li>
 <p>没有输入了，不断求值直到没有更多运算符</p>
-<p><img src="i12.svg" alt="i12" /></p>
-<p><img src="i13.svg" alt="i13" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i12.svg" alt="i12" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i13.svg" alt="i13" /></p>
 </li>
 </ol>
 <p>这里的11就是我们求得得答案。</p>
@@ -214,11 +215,11 @@ $$
 Expr \rightarrow id | Expr + Expr | Expr * Expr
 $$
 和表达式$a+b*c+d$为例（图中的所有蓝色节点均代表$Expr$，其中复杂$Expr$已经画为AST的样子）：</p>
-<p><img src="i14.svg" alt="i14" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i14.svg" alt="i14" /></p>
 <p>通过简单地将上面求值中的数字改为了文法元素（也即AST的节点），我们容易地将表达式求值的方法扩展到了求表达式对应的AST。</p>
 <h2 id="chong-tu">冲突</h2>
 <p>在移进-归约分析过程中，可能会遇到某些情况下，有多种可能使用的行为，例如：</p>
-<p><img src="i3.svg" alt="i3" /></p>
+<p><img src="https://longfangsong.github.io/shift-reduce/i3.svg" alt="i3" /></p>
 <p>此时是否应当将1+2归约为3？这就要等到下一个操作符到来才能决定。</p>
 <h3 id="yi-jin-gui-yue-chong-tu">移进-归约冲突</h3>
 <p>当某个输入可以选择与栈中内容结合，进行归约，也可以选择直接压入栈，后续再进行归约时，就说我们遇到了一个移进-归约冲突。</p>

@@ -24,6 +24,7 @@
 <link rel="manifest" href="https://longfangsong.github.io/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -97,21 +98,21 @@
   
   <div class="post-content"><h2 id="how-it-looks-like">How it looks like</h2>
 <p>相比一上来就掰扯复杂的数学理论，我们不如先来看看一个使用定理证明器 Lean <sup class="footnote-reference"><a href="#1">1</a></sup> 编写数学定理的证明的实际例子，我们就选择比较容易证明的德摩根定律来证：</p>
-<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span>open Classical
+<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span style="color:#b48ead;">open</span><span> Classical
 </span><span>
-</span><span>theorem deMorgan : ¬(p ∧ q) ↔ ¬p ∨ ¬q :=
+</span><span style="color:#b48ead;">theorem </span><span style="color:#8fa1b3;">deMorgan </span><span>: ¬(p ∧ q) ↔ ¬p ∨ ¬q :=
 </span><span>  Iff.intro
-</span><span>    (λ (left: ¬(p ∧ q)) =&gt; (
+</span><span>    (</span><span style="color:#b48ead;">λ</span><span> (left: ¬(p ∧ q)) =&gt; (
 </span><span>      Or.elim (em p) 
-</span><span>        (λ (hp: p) =&gt; Or.intro_right (¬p) (
-</span><span>          λ (hq: q) =&gt; absurd ⟨ hp, hq ⟩ left
+</span><span>        (</span><span style="color:#b48ead;">λ</span><span> (hp: p) =&gt; Or.intro_right (¬p) (
+</span><span>          </span><span style="color:#b48ead;">λ</span><span> (hq: q) =&gt; absurd ⟨ hp, hq ⟩ left
 </span><span>        ))
-</span><span>        (λ (hnp: ¬p) =&gt; Or.intro_left (¬q) hnp)
+</span><span>        (</span><span style="color:#b48ead;">λ</span><span> (hnp: ¬p) =&gt; Or.intro_left (¬q) hnp)
 </span><span>    ))
-</span><span>    (λ (left: ¬p ∨ ¬q) =&gt; (
+</span><span>    (</span><span style="color:#b48ead;">λ</span><span> (left: ¬p ∨ ¬q) =&gt; (
 </span><span>      Or.elim left
-</span><span>        (λ (hnp: ¬p) (inner: p ∧ q) =&gt; absurd inner.left hnp)
-</span><span>        (λ (hnq: ¬q) (inner: p ∧ q) =&gt; absurd inner.right hnq)
+</span><span>        (</span><span style="color:#b48ead;">λ</span><span> (hnp: ¬p) (inner: p ∧ q) =&gt; absurd inner.left hnp)
+</span><span>        (</span><span style="color:#b48ead;">λ</span><span> (hnq: ¬q) (inner: p ∧ q) =&gt; absurd inner.right hnq)
 </span><span>    ))
 </span></code></pre>
 <p>看起来这个证明好像是由一些 λ（就像 Python 中的 <code>lambda</code>，in case 你没学过“正规”的 FP 语言）和一些高阶函数（比如 <code>Or.elim</code>）组成的。</p>
@@ -134,16 +135,16 @@
 <p>例如我们要在 lean 中证明 <code>(p → (q → r)) → (p ∧ q → r)</code>，或者读作：</p>
 <p>For all proposition p, q, and r, &quot;p → (q → r)&quot; implies &quot;(p ∧ q) → r&quot;.</p>
 <p>根据“程序即证明”的思想接下来我们要写一个类型为 <code>(p → (q → r)) → (p ∧ q → r)</code> 的程序。</p>
-<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span>-- fill &quot;sorry&quot; here
-</span><span>theorem tt: (p → (q → r)) → (p ∧ q → r) := sorry
+<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span style="color:#65737e;">-- fill &quot;sorry&quot; here
+</span><span style="color:#b48ead;">theorem </span><span style="color:#8fa1b3;">tt</span><span>: (p → (q → r)) → (p ∧ q → r) := </span><span style="background-color:#bf616a;color:#2b303b;">sorry</span><span>
 </span></code></pre>
 <p>我们直接创建一个这个类型的匿名函数：</p>
-<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span>theorem tt: (p → (q → r)) → (p ∧ q → r) := 
-</span><span>    λ (lhs: p → (q → r)) (hp_and_q: p ∧ q) =&gt; sorry
+<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span style="color:#b48ead;">theorem </span><span style="color:#8fa1b3;">tt</span><span>: (p → (q → r)) → (p ∧ q → r) := 
+</span><span>    </span><span style="color:#b48ead;">λ</span><span> (lhs: p → (q → r)) (hp_and_q: p ∧ q) =&gt; </span><span style="background-color:#bf616a;color:#2b303b;">sorry</span><span>
 </span></code></pre>
 <p>现在要做的就是填入函数体，考虑到 <code>∧</code> 的性质，直接将其拆分成 <code>left</code> 和 <code>right</code>，然后作为 <code>lhs</code> 的参数（由于 Curry-Howard 同构，lhs 既是类型为 命题 <code>p → (q → r)</code> 对应的类型 的一个函数，也是这个命题的证明）填入即可。</p>
-<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span>theorem tt: (p → (q → r)) → (p ∧ q → r) := 
-</span><span>  λ (lhs: p → (q → r)) (hp_and_q: p ∧ q) =&gt; 
+<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span style="color:#b48ead;">theorem </span><span style="color:#8fa1b3;">tt</span><span>: (p → (q → r)) → (p ∧ q → r) := 
+</span><span>  </span><span style="color:#b48ead;">λ</span><span> (lhs: p → (q → r)) (hp_and_q: p ∧ q) =&gt; 
 </span><span>      lhs hp_and_q.left hp_and_q.right
 </span></code></pre>
 <p>现在，我们写出了一个类型是 <code>(p → (q → r)) → (p ∧ q → r)</code> 的函数，同时也就构造出了对应命题的证明，由于 lean 的类型检查器没有抱怨，我们就可以认为这个证明是正确的。</p>

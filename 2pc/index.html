@@ -24,6 +24,7 @@
 <link rel="manifest" href="https://longfangsong.github.io/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -103,20 +104,20 @@
 <h3 id="cheng-gong-ti-jiao">成功提交</h3>
 <p>在任何一个新的事务到来时，master会先将事务开始的相关信息写入日志。</p>
 <p>注意要 commit 的内容在第一次询问时会被 cache 在各个 node 上，如果决定了 commit，直接做这个 cache 里的内容就好了，这部分 cache 也被用于决定后续的事务是否可以被提交。</p>
-<p><img src="2pc-step1.svg" alt="2pc-step1" /></p>
+<p><img src="https://longfangsong.github.io/2pc/2pc-step1.svg" alt="2pc-step1" /></p>
 <hr />
-<p><img src="2pc-step2-all-agree.svg" alt="2pc-step2-all-agree" /></p>
+<p><img src="https://longfangsong.github.io/2pc/2pc-step2-all-agree.svg" alt="2pc-step2-all-agree" /></p>
 <hr />
-<p><img src="2pc-step3-do-commit.svg" alt="2pc-step3-do-commit" /></p>
+<p><img src="https://longfangsong.github.io/2pc/2pc-step3-do-commit.svg" alt="2pc-step3-do-commit" /></p>
 <hr />
 <p>注意最后的 commit 请求完成后node还需要通知一声master，让master记录此次事务完成。</p>
 <h3 id="shi-bai">失败</h3>
 <p>失败提交的可能场景是某些节点上其他事务（可能是上一步留下来还没有完成提交的事务）和待提交的事务有冲突。</p>
-<p><img src="2pc-step1-8094287.svg" alt="2pc-step1" /></p>
+<p><img src="https://longfangsong.github.io/2pc/2pc-step1-8094287.svg" alt="2pc-step1" /></p>
 <hr />
-<p><img src="2pc-step2-has-disagree.svg" alt="2pc-step2-has-disagree" /></p>
+<p><img src="https://longfangsong.github.io/2pc/2pc-step2-has-disagree.svg" alt="2pc-step2-has-disagree" /></p>
 <hr />
-<p><img src="2pc-step3-do-reject.svg" alt="2pc-step3-do-reject" /></p>
+<p><img src="https://longfangsong.github.io/2pc/2pc-step3-do-reject.svg" alt="2pc-step3-do-reject" /></p>
 <h2 id="yi-chang-qing-kuang-chu-li">异常情况处理</h2>
 <h3 id="dang-ji">宕机</h3>
 <p>宕机恢复后可以通过日志确定自己处于何种状态。</p>

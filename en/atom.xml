@@ -5,21 +5,197 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-07-16T05:45:57.294+00:00</updated>
+	<updated>2022-07-18T05:15:33.302+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>HoTTEST Summer School HoTT Notes 3</title>
+		<published>2022-07-18T05:15:33.302+00:00</published>
+		<updated>2022-07-18T05:15:33.302+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-3/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/hottest-notes-hott-3/</id>
+		<content type="html">&lt;h2 id=&quot;identity-types&quot;&gt;Identity Types&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In intensional type theory under the propositions as types paradigm, an identity type (or equality type) is the incarnation of equality. That is, for any type $A$ and any terms $x,y:A$, the type $Id_A(x,y)$ is “the type of proofs that $x=y$” or “the type of reasons why $x=y$”. —— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;judgemental-equality-vs-propositional-equality&quot;&gt;Judgemental Equality vs Propositional Equality&lt;&#x2F;h3&gt;
+&lt;p&gt;Judgemental equality, or definitional equality since we won&#x27;t pay much attention to the difference in this course, is intensional equality, or equality of meaning (synonymy).
+Or in words understandable for normal human beings, definitional equality is something equals to another thing &amp;quot;magically&amp;quot;, they are equal to each other just because we SAY IT.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, in all the rules mentioned in past several notes and proofs built by these rules, we use judgemental equality $\doteq$.&lt;&#x2F;p&gt;
+&lt;p&gt;As we all see, there are many terms which are judgmental equal and we can prove them, but there&#x27;re also some terms which &amp;quot;should&amp;quot; be equal but we cannot prove, eg. we cannot find a proof for $add(0, x) \doteq x$, and that&#x27;s where propositional equality and identity types come for help, which basically is a type which stands for &amp;quot;equal&amp;quot;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;type-constructors-often-internalize-structure&quot;&gt;Type Constructors Often Internalize Structure&lt;&#x2F;h3&gt;
+&lt;p&gt;(Don&#x27;t really get what the teacher want to show by saying these.)&lt;&#x2F;p&gt;
+&lt;p&gt;Maybe used to show that types are used to describe some certain property of something, so we can think identity types internalize the property that something is propositional equal to another thing.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;rules-on-identity-types&quot;&gt;Rules on Identity Types&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+=-form:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$A\ type\ a:A\ b:A$}
+\UnaryInfC{$a=_A b\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+=-intro:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a:A$}
+\UnaryInfC{$refl_a : a=_A a\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+=-elim:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x:A, y:A, z:x=_A y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
+\BinaryInfC{$x:A, y:A, z:x=_A y \vdash ind_=(d,x,y,z) : D(x,y,z)\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+=-comp:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$x:A, y:A, z:x=_A y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
+\BinaryInfC{$x:A \vdash ind_=(d,x,x,refl_x) \doteq d: D(x,x,refl_x)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;reflexivity&quot;&gt;Reflexivity&lt;&#x2F;h3&gt;
+&lt;p&gt;We can use $refl_x$ to internalize (or &amp;quot;downgrade&amp;quot;, if you prefer human being&#x27;s language) judgmental equality to propositional equality, ie.&lt;&#x2F;p&gt;
+&lt;p&gt;Since we have&lt;&#x2F;p&gt;
+&lt;p&gt;If $a \doteq b : A$, then $(a =_A b) \doteq (a =_A a)$, and&lt;&#x2F;p&gt;
+&lt;p&gt;if $refl_a:a =_A a$ and $(a =_A b) \doteq (a =_A a)$, then $r_a:a=_Ab$.&lt;&#x2F;p&gt;
+&lt;p&gt;So we can internalize $a \doteq b : A$ with $r_a:a=_Ab$.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;functoriality&quot;&gt;Functoriality&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Functoriality means that something is a functor. e.g. when someone asks about the functoriality of some construction, they&#x27;re asking whether or not it can be upgraded to a functor. —— &lt;a href=&quot;https:&#x2F;&#x2F;math.stackexchange.com&#x2F;questions&#x2F;1922113&#x2F;what-exactly-is-functoriality&quot;&gt;stackexchange problem&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;So basically it is the property of whether a construction is a functor.&lt;&#x2F;p&gt;
+&lt;p&gt;Arrrrgh, functor, another classical Haskell thing.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In functional programming, a functor is a design pattern inspired by the definition from category theory, that allows for a generic type to apply a function inside without changing the structure of the generic type. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Or, functors are functions act on paths&#x2F;terms of the identity type.&lt;&#x2F;p&gt;
+&lt;p&gt;For any two types $A$, $B$, any function $f:A\rightarrow B$, and any two terms $a:A, a&#x27;:A$, there exists a functor:
+$$
+ap_f: a=_Aa&#x27; \rightarrow f\ a=_B f\ a&#x27;
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Or in math language:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ap: \Pi_{(f:A\rightarrow B)} \Pi_{(a,a&#x27;:A)} a =_A a&#x27; \rightarrow b =_A b&#x27;
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We can prove this by using $=-elim$ rule.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$f:A\rightarrow B, a:A \vdash refl_{f\ a}:f\ a=_B f\ a$}
+\UnaryInfC{$f:A\rightarrow B, a:A, a&#x27;:A, p: a=_Aa&#x27; \vdash ind_=(refl_{f\ a},a,a&#x27;,p): f\ a =_B f\ a&#x27; $}
+\UnaryInfC{$\lambda f. \lambda a.\lambda a&#x27;. ind_=(refl_{f\ a},a,a&#x27;,p):\Pi_{(f:A\rightarrow B)} \Pi_{(a,a&#x27;:A)} a =_A a&#x27; \rightarrow f\ a =_B f\ a&#x27;$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;proof-example&quot;&gt;Proof Example&lt;&#x2F;h3&gt;
+&lt;p&gt;Prove: $\Pi_{(n:\mathbb N)} add(0,n) = n$.&lt;&#x2F;p&gt;
+&lt;p&gt;You can use the following two judgemental equality rules, which is provable before we have $refl$ or such things:
+$$
+add(n, 0) \doteq n
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+add(n, succ(m)) \doteq succ(add(n, m))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We start as normal:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$$}
+\UnaryInfC{$?:\Pi_{(n:\mathbb N)} add(0,n)=n$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Then let&#x27;s use $\Pi-intro$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$n:\mathbb N \vdash ?:add(0,n)=n$}
+\UnaryInfC{$?:\Pi_{(n:\mathbb N)} add(0,n)=n$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Then $\mathbb N-elim$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$?: add(0,0)=0$}
+\AxiomC{$n:\mathbb N, p: add(0, n)=n \vdash ?: add(0,succ(n))=succ(n)$}
+\BinaryInfC{$n:\mathbb N \vdash ?:add(0,n)=n$}
+\UnaryInfC{$?:\Pi_{(n:\mathbb N)} add(0,n)=n$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;For $add(0,0)=0$, we can downgrade judgemental equal rule $add(n, 0) \doteq n$ where $n=0$ with $refl_0$.&lt;&#x2F;p&gt;
+&lt;p&gt;For $add(0,succ(n))=succ(n)$, we can use $ap_{succ}$ on $p$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+ap_{succ}: a=a&#x27; \rightarrow succ(a)=succ(a&#x27;)\\
+ap_{succ}\ p: (a=a&#x27; \rightarrow succ(a)=succ(a&#x27;))\ (add(0, n)=n)  \\
+ap_{succ}\ p: succ(add(0, n))=succ(n)
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s put them in:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$refl_0: add(0,0)=0$}
+\AxiomC{$n:\mathbb N, p: add(0, n)=n \vdash ap_{succ}\ p: add(0,succ(n))=succ(n)$}
+\BinaryInfC{$n:\mathbb N \vdash ?:add(0,n)=n$}
+\UnaryInfC{$?:\Pi_{(n:\mathbb N)} add(0,n)=n$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And fill the holes:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$refl_0: add(0,0)=0$}
+\AxiomC{$n:\mathbb N, p: add(0, n)=n \vdash ap_{succ}\ p: add(0,succ(n))=succ(n)$}
+\BinaryInfC{$n:\mathbb N \vdash ind_{\mathbb N}(refl_0, ap_{succ}\ p, n):add(0,n)=n$}
+\UnaryInfC{$\lambda n. ind_{\mathbb N}(refl_0, ap_{succ}\ p, n):\Pi_{(n:\mathbb N)} add(0,n)=n$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;In agda, note &lt;code&gt;ap&lt;&#x2F;code&gt; is called &lt;code&gt;cong&lt;&#x2F;code&gt; in agda:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;+ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n zero &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc n&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cong suc refl 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;the-groupoidal-behaviour-of-types&quot;&gt;The Groupoidal Behaviour of Types&lt;&#x2F;h2&gt;
+&lt;p&gt;We can think terms as points, and we can use paths&#x2F;homotopies which stands for identity to connect them.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;.&#x2F;connected.png&quot; alt=&quot;connected&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Here are three terms a, b and c, and a is proportional equal to b and b is proportional equal to c, which we represent with p and q.&lt;&#x2F;p&gt;
+&lt;p&gt;And we can play freely with these terms and equals, eg.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;We can have multiple equalities of the same type
+&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;We can take the inverse of an equality
+&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;We can take composition of equalities
+&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;We can have qualities of equalities
+&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;And that&#x27;s how homotopies in space behave.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;The VSCode spell checker told me this is not even an existing word, and so do many mathematic terms in this article, mathematicians are really good at inventing terms!&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>HoTTEST Summer School HoTT Notes 2</title>
 		<published>2022-07-16T05:45:57.294+00:00</published>
 		<updated>2022-07-16T05:45:57.294+00:00</updated>
-		<link href="https://longfangsong.github.io/en/hottest-notes-hott-2/" type="text/html"/>
+		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-2/" type="text/html"/>
 		<id>https://longfangsong.github.io/en/hottest-notes-hott-2/</id>
 		<content type="html">&lt;h2 id=&quot;inductive-types&quot;&gt;Inductive Types&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;In type theory, a system has inductive types if it has facilities for creating a new type from constants and functions that create terms of that type. —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;eg.&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span&gt;data Bool: Type where
-&lt;&#x2F;span&gt;&lt;span&gt;  true false: Bool
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span&gt;Bool: Type &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;true false&lt;&#x2F;span&gt;&lt;span&gt;: Bool
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h3 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h3&gt;
 &lt;h4 id=&quot;bool&quot;&gt;bool&lt;&#x2F;h4&gt;
@@ -183,12 +359,12 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;In agda:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span&gt;open import Data.Product
-&lt;&#x2F;span&gt;&lt;span&gt;open import Data.Sum renaming (_⊎_ to _+_)
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Data&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Product
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Data&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Sum renaming&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;⊎&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ to _&lt;&#x2F;span&gt;&lt;span&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span&gt;t : ∀ (A B C : Set) → A × B + A × C → A × (B + C)
-&lt;&#x2F;span&gt;&lt;span&gt;t A B C (inj₁ (fst , snd)) = fst , inj₁ snd
-&lt;&#x2F;span&gt;&lt;span&gt;t A B C (inj₂ (fst , snd)) = fst , inj₂ snd
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;t &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B C &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;× &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;+ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;× &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;C &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;× (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;+ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;t &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B C&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inj&lt;&#x2F;span&gt;&lt;span&gt;₁ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd&lt;&#x2F;span&gt;&lt;span&gt;)) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inj&lt;&#x2F;span&gt;&lt;span&gt;₁ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;t &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B C&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inj&lt;&#x2F;span&gt;&lt;span&gt;₂ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd&lt;&#x2F;span&gt;&lt;span&gt;)) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inj&lt;&#x2F;span&gt;&lt;span&gt;₂ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;dependent-pair-type-s-type&quot;&gt;Dependent Pair Type (Σ type)&lt;&#x2F;h4&gt;
 &lt;blockquote&gt;
@@ -243,8 +419,8 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;In agda:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span&gt;π : ∀ (A : Set) (B : A → Set) → Σ A B → A
-&lt;&#x2F;span&gt;&lt;span&gt;π A B (fst , snd) = fst
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;π &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;π &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;natural-numbers&quot;&gt;Natural Numbers&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
@@ -280,7 +456,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\mathbb N-elim: 
+\mathbb N-comp: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
@@ -305,7 +481,7 @@ $$&lt;&#x2F;p&gt;
 		<title>HoTTEST Summer School HoTT Notes 1</title>
 		<published>2022-07-14T02:51:09.783+00:00</published>
 		<updated>2022-07-14T02:51:09.783+00:00</updated>
-		<link href="https://longfangsong.github.io/en/hottest-notes-hott-1/" type="text/html"/>
+		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-1/" type="text/html"/>
 		<id>https://longfangsong.github.io/en/hottest-notes-hott-1/</id>
 		<content type="html">&lt;h2 id=&quot;natural-deduction&quot;&gt;Natural deduction&lt;&#x2F;h2&gt;
 &lt;p&gt;Trivial, not necessary to say too much here.&lt;&#x2F;p&gt;
@@ -327,7 +503,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;I used to understand this in an intuitive way, in the class the teacher introduced a semi-formal definition of &amp;quot;dependent&amp;quot;, ie. the items on the right side of $\vdash$ depends on those on the left side.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;rules-of-p-types&quot;&gt;Rules of π-types&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
-\pi-form: 
+\Pi-form: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash Q\ type$}
@@ -335,7 +511,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\pi-intro: 
+\Pi-intro: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash q:Q$}
@@ -343,7 +519,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\pi-elim: 
+\Pi-elim: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash f:\Pi_{(x:P)} Q$}
@@ -352,7 +528,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\pi-comp-\beta: 
+\Pi-comp-\beta: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash q:Q$}
@@ -361,7 +537,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\pi-comp-\eta: 
+\Pi-comp-\eta: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash f:\Pi_{x:P} Q$}
@@ -384,12 +560,12 @@ $$&lt;&#x2F;p&gt;
 		<title>Hello zola!</title>
 		<published>2020-01-02T15:00:00+00:00</published>
 		<updated>2020-01-02T15:00:00+00:00</updated>
-		<link href="https://longfangsong.github.io/en/hello-zola/" type="text/html"/>
+		<link rel="alternate" href="https://longfangsong.github.io/en/hello-zola/" type="text/html"/>
 		<id>https://longfangsong.github.io/en/hello-zola/</id>
 		<content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
 &lt;p&gt;Here&#x27;s an image from my origin blog, powered by hexo:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;img src=&quot;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hello-zola&#x2F;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;Ouch!&lt;&#x2F;p&gt;
 &lt;p&gt;And then, since I&#x27;m a big fan of Rust, I found zola, though this tool is not as complete as hexo, I can use its shortcodes feature to embed different of things to my blog!&lt;&#x2F;p&gt;

@@ -24,6 +24,7 @@
 <link rel="manifest" href="https://longfangsong.github.io/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -106,15 +107,15 @@
 <ul>
 <li>
 <p>如果要保证可用性（A）和分区容错性（P），那么在网络出现分区时，无论用户的请求被发送到了两个节点中的任何一个，无论如何都要做出相应，而在一个节点上的插入请求无法被另一个节点知道，这样两个节点间不可能保持一致性，即放弃了C。</p>
-<p><img src="AP.png" alt="AP" /></p>
+<p><img src="https://longfangsong.github.io/cap-theorem/AP.png" alt="AP" /></p>
 </li>
 <li>
 <p>如果要保证一致性（C）和分区容错性（P），那么为了修正上一个系统的问题，对在插入某个数据时没有得到插入的节点，或者其上对应数据不是最新的节点，在被请求这个数据时只能返回错误，这就放弃了A。</p>
-<p><img src="CP.png" alt="CP" /></p>
+<p><img src="https://longfangsong.github.io/cap-theorem/CP.png" alt="CP" /></p>
 </li>
 <li>
 <p>如果要保证一致性（C）和可用性（A），那么不得不允许两个节点之间可以通信，在每次插入时将数据分发到每一个节点上，但此时如果节点之间网络不可达，那么这个分发操作就不可行。</p>
-<p><img src="CA.png" alt="CA" /></p>
+<p><img src="https://longfangsong.github.io/cap-theorem/CA.png" alt="CA" /></p>
 </li>
 </ul>
 <h2 id="chang-jian-wu-qu">常见误区</h2>

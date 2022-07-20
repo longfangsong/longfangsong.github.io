@@ -24,6 +24,7 @@
 <link rel="manifest" href="https://longfangsong.github.io/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -101,7 +102,7 @@
 </blockquote>
 <p>由于 FPGA 的基本结构是基于 Look Up Table 的，因此 FPGA 里实现组合逻辑的方式非常简单粗暴，就是把真值表非常暴力的存下来然后匹配。</p>
 <p>比如说最简单的与逻辑：</p>
-<pre data-lang="verilog" style="background-color:#2b303b;color:#c0c5ce;" class="language-verilog "><code class="language-verilog" data-lang="verilog"><span>assign C = A &amp; B;
+<pre data-lang="verilog" style="background-color:#2b303b;color:#c0c5ce;" class="language-verilog "><code class="language-verilog" data-lang="verilog"><span style="color:#b48ead;">assign </span><span style="color:#d08770;">C </span><span>= </span><span style="color:#d08770;">A </span><span>&amp; </span><span style="color:#d08770;">B</span><span>;
 </span></code></pre>
 <p>其真值表：</p>
 <table><thead><tr><th></th><th>0</th><th>1</th></tr></thead><tbody>

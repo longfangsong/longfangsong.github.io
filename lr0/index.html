@@ -24,6 +24,7 @@
 <link rel="manifest" href="https://longfangsong.github.io/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
@@ -177,7 +178,7 @@ $$</p>
 <p>那么项集闭包有啥用呢？我们仍然举上面文法的例子：</p>
 <p>比如现在栈中有$...T*$，我们在 $T \rightarrow T*\cdot F$ 状态，我们看到前面有一个$'('$，此时我们就可以根据这个$'('$ 和项集闭包中的$F \rightarrow \cdot(E)$，转到$F \rightarrow (\cdot E)$ 状态，然后去匹配出一个 $F$，放到栈顶，然后进行 $T$ 的归约。</p>
 <p>把所有的项、对应的项集闭包以及状态之间的转换关系列出来，我们就可以建立起一个 LR(0) 状态机：</p>
-<p><img src="i100.png" alt="i100" /></p>
+<p><img src="https://longfangsong.github.io/lr0/i100.png" alt="i100" /></p>
 <p>可以看到每一个产生式对应的所有项都会出现在这个状态机里面，而每条边上则指示了在栈顶又被压入某个符号时的状态转换。</p>
 <p>其中$E'$是为了标记我们最终匹配到什么而设置的，其实这个例子来讲说到底就是$E$。</p>
 <h4 id="shang-shu-guo-cheng-de-suan-fa-miao-shu">上述过程的算法描述</h4>
