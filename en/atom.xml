@@ -174,12 +174,63 @@ $$&lt;&#x2F;p&gt;
 &lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;We can take composition of equalities
 &lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;We can have qualities of equalities
+&lt;li&gt;We can have equalities of equalities
 &lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;And that&#x27;s how homotopies in space behave.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;proof-of-these-properties&quot;&gt;Proof of these properties&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;inverse-of-an-equality&quot;&gt;Inverse of an Equality&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a:A\vdash refl_a:a=_A a$}
+\UnaryInfC{$a,b:A, p: a=_A b \vdash ind_=(refl_a,a,b,p):b=_A a$}
+\UnaryInfC{$\lambda a,b,p. ind_=(refl_a,a,b,p):\Pi_{(a,b:A)}a=_Ab \rightarrow b=_Aa$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;composition-of-equalities&quot;&gt;Composition of Equalities&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a,c:A\vdash \lambda x.x: a=_Ac \rightarrow a=_A c$}
+\UnaryInfC{$a,b,c:A, p:a=_Ab \vdash ind_=(\lambda x.x, a, b,p):b=_Ac \rightarrow a=_Ac$}
+\UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a=_Ab \rightarrow b=_Ac \rightarrow a=_Ac$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;composition-of-equalities-1&quot;&gt;Composition of Equalities&lt;&#x2F;h4&gt;
+&lt;h2 id=&quot;the-space-interpretation-of-types&quot;&gt;The Space Interpretation of Types&lt;&#x2F;h2&gt;
+&lt;p&gt;There&#x27;s an interpretation of dependent type theory into space (the category of Kan complexes&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;) in which:&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Type theory&lt;&#x2F;th&gt;&lt;th&gt;Homotopy theory&lt;&#x2F;th&gt;&lt;th&gt;Kan complexes&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;Types&lt;&#x2F;td&gt;&lt;td&gt;Spaces&lt;&#x2F;td&gt;&lt;td&gt;Kan complexes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Terms&lt;&#x2F;td&gt;&lt;td&gt;Points&lt;&#x2F;td&gt;&lt;td&gt;0-Cells&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Equalities&lt;&#x2F;td&gt;&lt;td&gt;Path fibration&lt;&#x2F;td&gt;&lt;td&gt;0-Cells of path object&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$\pi: \Sigma_{(b:B)}E(b)\rightarrow B$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;Kan fibrations&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$\pi: \Pi_{(b:B)}E(b)$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;The space of sections of $\pi: \Pi_{(b:B)}E(b)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Dependent types&lt;&#x2F;td&gt;&lt;td&gt;Fibrations&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Dependent pair type&lt;&#x2F;td&gt;&lt;td&gt;Total Space&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h2 id=&quot;transport&quot;&gt;Transport&lt;&#x2F;h2&gt;
+&lt;p&gt;For any dependent type $x:B\vdash E(B)\ type$,
+any terms $b,b&#x27;:B$ and any equality $p:b=_Bb&#x27;$, there is
+a function $tr_B:E(b)\rightarrow E(b&#x27;)$&lt;&#x2F;p&gt;
+&lt;p&gt;Basically it means propositional qquality remains when apply some dependent type &amp;quot;over&amp;quot; it.&lt;&#x2F;p&gt;
+&lt;p&gt;This is part of a more sophisticated relationship between type theory and homotopy theory (Quillen model category theory)
+Transport says
+that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;proof&quot;&gt;Proof&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$b:B\vdash \lambda x.x: E(b) \rightarrow E(b)$}
+\UnaryInfC{$b,b&#x27;:B,p:b=_Bb&#x27;\vdash ind_=(\lambda x.x, b, b&#x27;, p): E(b) \rightarrow E(b&#x27;)$}
+\UnaryInfC{$\lambda b,b,p.ind_=(\lambda x.x, b, b&#x27;, p): \Pi_{(b,b&#x27;:B)}(b=_Bb&#x27;) \rightarrow E(b) \rightarrow E(b&#x27;)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;The VSCode spell checker told me this is not even an existing word, and so do many mathematic terms in this article, mathematicians are really good at inventing terms!&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;WTF is that 😭 TODO: learn it.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
 	</entry>

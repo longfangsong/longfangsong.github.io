@@ -257,12 +257,63 @@ $$</p>
 <img src="https://longfangsong.github.io/en/hottest-notes-hott-3/" alt="" /></li>
 <li>We can take composition of equalities
 <img src="https://longfangsong.github.io/en/hottest-notes-hott-3/" alt="" /></li>
-<li>We can have qualities of equalities
+<li>We can have equalities of equalities
 <img src="https://longfangsong.github.io/en/hottest-notes-hott-3/" alt="" /></li>
 </ul>
 <p>And that's how homotopies in space behave.</p>
+<h3 id="proof-of-these-properties">Proof of these properties</h3>
+<h4 id="inverse-of-an-equality">Inverse of an Equality</h4>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a:A\vdash refl_a:a=_A a$}
+\UnaryInfC{$a,b:A, p: a=_A b \vdash ind_=(refl_a,a,b,p):b=_A a$}
+\UnaryInfC{$\lambda a,b,p. ind_=(refl_a,a,b,p):\Pi_{(a,b:A)}a=_Ab \rightarrow b=_Aa$}
+\end{prooftree}
+$$</p>
+<h4 id="composition-of-equalities">Composition of Equalities</h4>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a,c:A\vdash \lambda x.x: a=_Ac \rightarrow a=_A c$}
+\UnaryInfC{$a,b,c:A, p:a=_Ab \vdash ind_=(\lambda x.x, a, b,p):b=_Ac \rightarrow a=_Ac$}
+\UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a=_Ab \rightarrow b=_Ac \rightarrow a=_Ac$}
+\end{prooftree}
+$$</p>
+<h4 id="composition-of-equalities-1">Composition of Equalities</h4>
+<h2 id="the-space-interpretation-of-types">The Space Interpretation of Types</h2>
+<p>There's an interpretation of dependent type theory into space (the category of Kan complexes<sup class="footnote-reference"><a href="#2">2</a></sup>) in which:</p>
+<table><thead><tr><th>Type theory</th><th>Homotopy theory</th><th>Kan complexes</th></tr></thead><tbody>
+<tr><td>Types</td><td>Spaces</td><td>Kan complexes</td></tr>
+<tr><td>Terms</td><td>Points</td><td>0-Cells</td></tr>
+<tr><td>Equalities</td><td>Path fibration</td><td>0-Cells of path object</td></tr>
+<tr><td>$\pi: \Sigma_{(b:B)}E(b)\rightarrow B$</td><td></td><td>Kan fibrations</td></tr>
+<tr><td>$\pi: \Pi_{(b:B)}E(b)$</td><td></td><td>The space of sections of $\pi: \Pi_{(b:B)}E(b)$</td></tr>
+<tr><td>Dependent types</td><td>Fibrations</td><td></td></tr>
+<tr><td>Dependent pair type</td><td>Total Space</td><td></td></tr>
+</tbody></table>
+<h2 id="transport">Transport</h2>
+<p>For any dependent type $x:B\vdash E(B)\ type$,
+any terms $b,b':B$ and any equality $p:b=_Bb'$, there is
+a function $tr_B:E(b)\rightarrow E(b')$</p>
+<p>Basically it means propositional qquality remains when apply some dependent type &quot;over&quot; it.</p>
+<p>This is part of a more sophisticated relationship between type theory and homotopy theory (Quillen model category theory)
+Transport says
+that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.</p>
+<h3 id="proof">Proof</h3>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$b:B\vdash \lambda x.x: E(b) \rightarrow E(b)$}
+\UnaryInfC{$b,b':B,p:b=_Bb'\vdash ind_=(\lambda x.x, b, b', p): E(b) \rightarrow E(b')$}
+\UnaryInfC{$\lambda b,b,p.ind_=(\lambda x.x, b, b', p): \Pi_{(b,b':B)}(b=_Bb') \rightarrow E(b) \rightarrow E(b')$}
+\end{prooftree}
+$$</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>The VSCode spell checker told me this is not even an existing word, and so do many mathematic terms in this article, mathematicians are really good at inventing terms!</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>WTF is that 😭 TODO: learn it.</p>
 </div>
 </div>
   <div class="post-footer">
