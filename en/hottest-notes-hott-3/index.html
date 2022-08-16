@@ -147,8 +147,8 @@ $$</p>
 <p>We can use $refl_x$ to internalize (or &quot;downgrade&quot;, if you prefer human being's language) judgmental equality to propositional equality, ie.</p>
 <p>Since we have</p>
 <p>If $a \doteq b : A$, then $(a =_A b) \doteq (a =_A a)$, and</p>
-<p>if $refl_a:a =_A a$ and $(a =_A b) \doteq (a =_A a)$, then $r_a:a=_Ab$.</p>
-<p>So we can internalize $a \doteq b : A$ with $r_a:a=_Ab$.</p>
+<p>if $refl_a:a =_A a$ and $(a =_A b) \doteq (a =_A a)$, then $refl_a:a=_Ab$.</p>
+<p>So we can internalize $a \doteq b : A$ with $refl_a:a=_Ab$.</p>
 <h2 id="functoriality">Functoriality<sup class="footnote-reference"><a href="#1">1</a></sup></h2>
 <blockquote>
 <p>Functoriality means that something is a functor. e.g. when someone asks about the functoriality of some construction, they're asking whether or not it can be upgraded to a functor. —— <a href="https://math.stackexchange.com/questions/1922113/what-exactly-is-functoriality">stackexchange problem</a></p>
@@ -280,7 +280,6 @@ $$</p>
 \UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a=_Ab \rightarrow b=_Ac \rightarrow a=_Ac$}
 \end{prooftree}
 $$</p>
-<h4 id="composition-of-equalities-1">Composition of Equalities</h4>
 <h2 id="the-space-interpretation-of-types">The Space Interpretation of Types</h2>
 <p>There's an interpretation of dependent type theory into space (the category of Kan complexes<sup class="footnote-reference"><a href="#2">2</a></sup>) in which:</p>
 <table><thead><tr><th>Type theory</th><th>Homotopy theory</th><th>Kan complexes</th></tr></thead><tbody>
@@ -296,7 +295,7 @@ $$</p>
 <p>For any dependent type $x:B\vdash E(B)\ type$,
 any terms $b,b':B$ and any equality $p:b=_Bb'$, there is
 a function $tr_B:E(b)\rightarrow E(b')$</p>
-<p>Basically it means propositional qquality remains when apply some dependent type &quot;over&quot; it.</p>
+<p>Basically it means propositional equality remains when apply some dependent type &quot;over&quot; it.</p>
 <p>This is part of a more sophisticated relationship between type theory and homotopy theory (Quillen model category theory)
 Transport says
 that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.</p>
@@ -306,7 +305,7 @@ that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.</
 \begin{prooftree}
 \AxiomC{$b:B\vdash \lambda x.x: E(b) \rightarrow E(b)$}
 \UnaryInfC{$b,b':B,p:b=_Bb'\vdash ind_=(\lambda x.x, b, b', p): E(b) \rightarrow E(b')$}
-\UnaryInfC{$\lambda b,b,p.ind_=(\lambda x.x, b, b', p): \Pi_{(b,b':B)}(b=_Bb') \rightarrow E(b) \rightarrow E(b')$}
+\UnaryInfC{$\lambda b,b',p.ind_=(\lambda x.x, b, b', p): \Pi_{(b,b':B)}(b=_Bb') \rightarrow E(b) \rightarrow E(b')$}
 \end{prooftree}
 $$</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>

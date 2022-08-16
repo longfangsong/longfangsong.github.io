@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <title>Blog • HoTTEST Summer School HoTT Notes 4</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-4&#x2F;">HoTTEST Summer School HoTT Notes 4</a></h1>
+  
+  <div class="post-content"><h2 id="universes">Universes</h2>
+<h3 id="why">Why</h3>
+<ul>
+<li>We need to define type families by induction, so that we can prove things like
+$$
+0 =_{\mathbb{N}} 1 \rightarrow \varnothing
+$$</li>
+<li>We should have a method to abstract over types, eg.
+instead of writing $id_A:A\rightarrow A$ for each type, we can write $id^{\mathcal{U}}:\Pi_{(X:\mathcal{U})} \mathcal{T}(X) \rightarrow \mathcal{T}(X)$</li>
+<li>To do category theory in a streamlined way. (Grothendieck universe<sup class="footnote-reference"><a href="#1">1</a></sup>)</li>
+</ul>
+<h3 id="what-is-a-universe">What is a Universe?</h3>
+<blockquote>
+<p>In some type theories, especially in systems with dependent types, types themselves can be regarded as terms. There is a type called the universe (often denoted $\mathcal {U}$) which has types as its elements. To avoid paradoxes such as Girard's paradox (an analogue of Russell's paradox for type theory), type theories are often equipped with a countably infinite hierarchy of such universes, with each universe being a term of the next one. —— Wikipedia</p>
+</blockquote>
+<p>Basically it is type of types.</p>
+<p>A universe in type theory is a type $\mathcal{U}$ in the empty context, equipped with a type family<sup class="footnote-reference"><a href="#2">2</a></sup> $\mathcal{T}$<sup class="footnote-reference"><a href="#3">3</a></sup> over $\mathcal{U}$ called a universal family, that is closed under the type forming operations in the sense that it comes equipped with many existing structures<sup class="footnote-reference"><a href="#4">4</a></sup>.</p>
+<h3 id="how-we-prevent-russell-s-paradox">How we prevent Russell’s paradox</h3>
+<p>As I mentioned before, universe is type of types, so a universe can technically in another universe, and this leads to the famous Russell’s paradox.</p>
+<p>To prevent this paradox from happening, and keep enough universes to use meanwhile, we organize the universes and types in them in this way:</p>
+<ul>
+<li>
+<p>For every finite list of types：
+$$
+\Gamma_1 \vdash A_1\ type\ \ \ \ \cdots \ \ \ \ \Gamma_n \vdash A_n\ type 
+$$
+there is a universe $\mathcal{U}$ that contains each $A_i$ in the sense that $\mathcal{U}$ comes equipped with 
+$$
+\Gamma_i\vdash \check{A_i}:U
+$$
+for which the judgement 
+$$
+\Gamma_i\vdash \mathcal{T}(\check{A_i}) \doteq A_i\ type
+$$
+holds.</p>
+</li>
+<li>
+<p>$\mathcal{U_0}$ is the universe which contains no types.</p>
+</li>
+<li>
+<p>For each universe $\mathcal{U}$, there is a successor universe $\mathcal{U^+}$ that
+$$
+\vdash \mathcal{U}\ type
+$$
+$$
+X: \mathcal{U} \vdash \mathcal{T}(X)\ type
+$$
+$$
+\vdash \check{\mathcal{U}}: \mathcal{U^+}
+$$
+$$
+\vdash \mathcal{T}^+(\check{\mathcal{U}})\doteq \mathcal{U}\ type 
+$$
+$$
+X:\mathcal{U} \vdash \check{\mathcal{T}}(X): \mathcal{U^+} 
+$$
+$$
+X:\mathcal{U} \vdash \mathcal{T}^+(\check{\mathcal{T}}(X)) \doteq \mathcal{T}(X)\ type
+$$
+We can have an infinite tower with these universes:
+$$
+\mathcal{U}, \mathcal{U^+}, \mathcal{U^{++}}, \mathcal{U^{+++}}, \cdots
+$$
+and each universe is contained in the next.</p>
+</li>
+<li>
+<p>We can join universes, ie.
+$\mathcal{U} \sqcup \mathcal{V}$ contains all types in $\mathcal{U}$ and $\mathcal{V}$.</p>
+</li>
+</ul>
+<h3 id="example">Example</h3>
+<p>Now we'll show why we need these universes.</p>
+<p>We'll prove:</p>
+<p>$$
+true \neq_{bool} false
+$$</p>
+<p>or in other words:</p>
+<p>$$
+true =_{bool} false \rightarrow \varnothing
+$$</p>
+<p>So what we want to do is find a term:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC {}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing $}
+\end{prooftree}
+$$</p>
+<p>Start with $\rightarrow-intro$ as usual:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC {$t: true =_{bool} false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$</p>
+<p>We need a term of $\varnothing$, which can be constructed with &quot;proof with contradiction&quot;, we pick $True → False$ and $\neg(True → False)$.</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash\ ? :True → False$}
+\AxiomC{$?:\neg(True → False)$}
+\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$</p>
+<p>For $True → False$, we can use transport we mentioned in last lecture with a function (or dependent type constructor) $boolToType$. And you'll see why we need universes here, we need it to write the return type of this function.</p>
+<p>$$
+\displaylines {
+boolToType : Bool \rightarrow \mathcal{U}\\
+boolToType true \doteq \mathbb{1}\\
+boolToType false \doteq \varnothing\\
+}
+$$</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$?:\neg(True → False)$}
+\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$</p>
+<p>For $\neg(True → False)$, it's quiet easy to construct a term.</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
+\BinaryInfC {$t: true =_{bool} false, h:True \rightarrow False \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$</p>
+<p>And fill the $?$s:</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
+\BinaryInfC {$t: true =_{bool} false \vdash absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)):\varnothing$}
+\UnaryInfC{$\lambda t.absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)): true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$</p>
+<p>In lean, I won't use Agda this time since in Agda a simple <code>λ ()</code> will do the prove, it's convenient but too far from what we want to show here:</p>
+<pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">boolToType x </span><span>:=
+</span><span>  </span><span style="color:#b48ead;">match</span><span> x </span><span style="color:#b48ead;">with
+</span><span>  | true   =&gt; True
+</span><span>  | false  =&gt; False
+</span><span>
+</span><span style="color:#b48ead;">theorem </span><span style="color:#8fa1b3;">notTrueImpliesFalseType </span><span>: ¬(True → False) :=
+</span><span>  </span><span style="color:#b48ead;">λ</span><span> (h: True → False) =&gt; False.elim (h True.intro)
+</span><span>
+</span><span style="color:#b48ead;">theorem </span><span style="color:#8fa1b3;">trueIsNotFalse </span><span>: true ≠ false :=
+</span><span>  Ne.intro
+</span><span>    </span><span style="color:#b48ead;">λ</span><span> (t: true = false) =&gt; absurd (Eq.mp (congrArg boolToType t)) notTrueImpliesFalseType
+</span></code></pre>
+<h3 id="observational-equality-of-the-natural-numbers">Observational equality of the natural numbers</h3>
+<blockquote>
+<p>In dependent type theory, sometimes one could inductively define an equality type directly on an inductive type, rather than using Martin-Loef’s identity types using the j-rule. This equality type is called observational equality. —— nLab</p>
+</blockquote>
+<p>We define the observational equality of natural numbers like:</p>
+<p>$$
+Eq_{\mathbb{N}} : \mathbb{N} → (\mathbb{N} → \mathcal{U}_0)
+$$</p>
+<p>$$
+Eq_{\mathbb{N}}\ 0\ 0 \doteq \mathbb{1}
+$$</p>
+<p>$$
+Eq_{\mathbb{N}}\ succ(n)\ 0 \doteq \varnothing
+$$</p>
+<p>$$
+Eq_{\mathbb{N}}\ 0\ succ(n) \doteq \varnothing
+$$</p>
+<p>$$
+Eq_{\mathbb{N}}\ succ(m)\ succ(n) \doteq Eq_{\mathbb{N}}\ m\ n
+$$</p>
+<h2 id="curry-howard-interpretation">Curry-Howard interpretation</h2>
+<p>Definition omitted, since we've already very familiar with it.</p>
+<h3 id="example-1">Example</h3>
+<p>We define: if $d, n: \mathbb{N}$, 
+then we can say d divides n if there exists an element of type</p>
+<p>$$
+m | n := \Sigma_{(k:ℕ)}{k \times m = n}
+$$</p>
+<p>And we can write some properties of division like:</p>
+<h4 id="every-natural-number-is-divisible-by-1-and-itself">Every natural number is divisible by 1 and itself</h4>
+<p>$$
+\Pi_{(n:ℕ)}{1 | n ∧ n | n}
+$$</p>
+<p>Proof<sup class="footnote-reference"><a href="#5">5</a></sup>:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">open </span><span style="color:#b48ead;">import </span><span style="color:#bf616a;">Data</span><span>.</span><span style="color:#bf616a;">Nat using</span><span> (</span><span style="color:#b48ead;">ℕ</span><span>; </span><span style="color:#bf616a;">_</span><span>+</span><span style="color:#bf616a;">_</span><span>; </span><span style="color:#bf616a;">_</span><span>*</span><span style="color:#bf616a;">_</span><span>)
+</span><span style="color:#bf616a;">open </span><span style="color:#b48ead;">import </span><span style="color:#bf616a;">Data</span><span>.</span><span style="color:#bf616a;">Nat</span><span>.</span><span style="color:#bf616a;">Divisibility using</span><span> (</span><span style="color:#bf616a;">_</span><span>∣</span><span style="color:#bf616a;">_</span><span>; </span><span style="color:#bf616a;">divides</span><span>)
+</span><span style="color:#bf616a;">open </span><span style="color:#b48ead;">import </span><span style="color:#bf616a;">Data</span><span>.</span><span style="color:#bf616a;">Nat</span><span>.</span><span style="color:#bf616a;">Properties using</span><span> (*-</span><span style="color:#bf616a;">identityʳ</span><span>; *-</span><span style="color:#bf616a;">identityˡ</span><span>)
+</span><span style="color:#bf616a;">open </span><span style="color:#b48ead;">import </span><span style="color:#bf616a;">Relation</span><span>.</span><span style="color:#bf616a;">Binary</span><span>.</span><span style="color:#bf616a;">PropositionalEquality using</span><span> (</span><span style="color:#bf616a;">sym</span><span>)
+</span><span style="color:#bf616a;">open </span><span style="color:#b48ead;">import </span><span style="color:#bf616a;">Data</span><span>.</span><span style="color:#bf616a;">Product renaming</span><span> (</span><span style="color:#bf616a;">_</span><span>×</span><span style="color:#bf616a;">_ to _</span><span>∧</span><span style="color:#bf616a;">_</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">div1 </span><span>: </span><span style="color:#b48ead;">∀</span><span> (</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">ℕ</span><span>) → </span><span style="color:#d08770;">1 </span><span>∣ </span><span style="color:#bf616a;">n
+</span><span style="color:#bf616a;">div1 n </span><span>= </span><span style="color:#bf616a;">divides n</span><span> (</span><span style="color:#bf616a;">sym</span><span> (*-</span><span style="color:#bf616a;">identityʳ n</span><span>)) 
+</span><span>
+</span><span style="color:#bf616a;">divn </span><span>: </span><span style="color:#b48ead;">∀</span><span> (</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">ℕ</span><span>) → </span><span style="color:#bf616a;">n </span><span>∣ </span><span style="color:#bf616a;">n
+</span><span style="color:#bf616a;">divn n </span><span>= </span><span style="color:#bf616a;">divides </span><span style="color:#d08770;">1</span><span> (</span><span style="color:#bf616a;">sym</span><span> (*-</span><span style="color:#bf616a;">identityˡ n</span><span>))
+</span><span>
+</span><span style="color:#bf616a;">div1n </span><span>: </span><span style="color:#b48ead;">∀</span><span> (</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">ℕ</span><span>) → (</span><span style="color:#d08770;">1 </span><span>∣ </span><span style="color:#bf616a;">n</span><span>) ∧ (</span><span style="color:#bf616a;">n </span><span>∣ </span><span style="color:#bf616a;">n</span><span>)
+</span><span style="color:#bf616a;">div1n n </span><span>= (</span><span style="color:#bf616a;">div1 n</span><span>) , (</span><span style="color:#bf616a;">divn n</span><span>)
+</span></code></pre>
+<h4 id="every-natural-number-divides-0">Every natural number divides 0</h4>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">div0 </span><span>: </span><span style="color:#b48ead;">∀</span><span> (</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">ℕ</span><span>) → </span><span style="color:#bf616a;">n </span><span>∣ </span><span style="color:#d08770;">0
+</span><span style="color:#bf616a;">div0 n </span><span>= </span><span style="color:#bf616a;">divides zero refl
+</span></code></pre>
+<h2 id="axiom-of-choice-in-type-theory">Axiom of Choice in Type Theory</h2>
+<p>I knew what AC is intuitively, it means we can find a choice function for any set in a collection of sets to select an element of it out, now I'll show the formalized form:</p>
+<p>$$
+\forall X [\varnothing \notin X \Rightarrow \exists f:X\rightarrow \bigcup X \ \ \ \ \forall A \in X(f(A) \in A)]
+$$</p>
+<p>Or in type theory:</p>
+<p>$$
+\Pi_{(x:A)}\Sigma_{(y:B)}R(x, y) \rightarrow \Sigma_{(f: A\rightarrow B)} \Pi_{(x:A)} R(x, f(x))
+$$</p>
+<p>This is actually provable:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">open </span><span style="color:#b48ead;">import </span><span style="color:#bf616a;">Data</span><span>.</span><span style="color:#bf616a;">Product
+</span><span>
+</span><span style="color:#bf616a;">choice </span><span>: {</span><span style="color:#b48ead;">A B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#b48ead;">R </span><span>: </span><span style="color:#b48ead;">A </span><span>-&gt; </span><span style="color:#b48ead;">B </span><span>-&gt; </span><span style="color:#b48ead;">Set</span><span>) -&gt;
+</span><span>   ((</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) -&gt; </span><span style="color:#b48ead;">Σ B</span><span> (</span><span style="color:#bf616a;">λ y </span><span>-&gt; </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">x y</span><span>)) -&gt;
+</span><span>   </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">A </span><span>-&gt; </span><span style="color:#b48ead;">B</span><span>) (</span><span style="color:#bf616a;">λ f </span><span>-&gt; (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) -&gt; </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">x</span><span> (</span><span style="color:#bf616a;">f x</span><span>))
+</span><span style="color:#bf616a;">choice </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">h </span><span>= (</span><span style="color:#bf616a;">λ z </span><span>→ </span><span style="color:#bf616a;">proj</span><span>₁ (</span><span style="color:#bf616a;">h z</span><span>)) , (</span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">proj</span><span>₂ (</span><span style="color:#bf616a;">h x</span><span>))
+</span></code></pre>
+<p>And the reverse proposition is also provable:</p>
+<p>$$
+\Sigma_{(f: A\rightarrow B)} \Pi_{(x:A)} R(x, f(x)) \rightarrow \Pi_{(x:A)}\Sigma_{(y:B)}R(x, y)
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">choice</span><span>-</span><span style="color:#bf616a;">rev </span><span>: {</span><span style="color:#b48ead;">A B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#b48ead;">R </span><span>: </span><span style="color:#b48ead;">A </span><span>-&gt; </span><span style="color:#b48ead;">B </span><span>-&gt; </span><span style="color:#b48ead;">Set</span><span>) -&gt;
+</span><span>   </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">A </span><span>-&gt; </span><span style="color:#b48ead;">B</span><span>) (</span><span style="color:#bf616a;">λ f </span><span>-&gt; (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) -&gt; </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">x</span><span> (</span><span style="color:#bf616a;">f x</span><span>)) -&gt;
+</span><span>   ((</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) -&gt; </span><span style="color:#b48ead;">Σ B</span><span> (</span><span style="color:#bf616a;">λ y </span><span>-&gt; </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">x y</span><span>))
+</span><span style="color:#bf616a;">choice</span><span>-</span><span style="color:#bf616a;">rev </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">h&#39; </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ (</span><span style="color:#bf616a;">proj</span><span>₁ </span><span style="color:#bf616a;">h&#39; x</span><span>) , (</span><span style="color:#bf616a;">proj</span><span>₂ </span><span style="color:#bf616a;">h&#39; x</span><span>)
+</span></code></pre>
+<p>However this direct &quot;Curry-Howard translation&quot; of AC is not as powerful as it is in set theory, I guess we move the complexity of AC to somewhere else in the type theory. Anyway, we'll see a more complex form of AC representing in later courses.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://en.wikipedia.org/wiki/Grothendieck_universe">ref</a>, <code>to_learn++</code>.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>In computer science, a type family associates data types with other data types, using a type-level function defined by an open-ended collection of valid instances of input types and the corresponding output types. —— Wikipedia</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Seems the book of this course is using a “Tarski-style universes”, personally I think “Russell-style universes”, which doesn't have $\mathcal{T}$, is more easy to understand. The origin <a href="https://en.wikipedia.org/wiki/Homotopy_type_theory"><em>HoTT Book</em></a> uses Russell-style universes. I guess the reason we are using “Tarski-style universes” here might be that in “Tarski-style universes” we can separate types and terms, ie. universe is still a type which contains terms, and $\mathcal{T}$, as a dependent function, is used to mapping these terms to actual types. After all, even if we are using Tarski-style universes in this course, in most of times $\mathcal{T}$s and  $\check{\ }$s are omitted and won't cause any problem.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>Ref section 6.1 of the book <em>Introduction to Homotopy Type Theory</em> by Egbert Rijke for these structures, I'm too tired to type all these with latex.</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>Unless necessary, I'll write all proofs in Agda in the future, since typing proof tree in latex is too tiring.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-07-20</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=HoTTEST Summer School HoTT Notes 4&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-4&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

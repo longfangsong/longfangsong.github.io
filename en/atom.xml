@@ -5,8 +5,267 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-07-18T05:15:33.302+00:00</updated>
+	<updated>2022-07-20T16:35:09.859+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>HoTTEST Summer School HoTT Notes 4</title>
+		<published>2022-07-20T16:35:09.859+00:00</published>
+		<updated>2022-07-20T16:35:09.859+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-4/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/hottest-notes-hott-4/</id>
+		<content type="html">&lt;h2 id=&quot;universes&quot;&gt;Universes&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;why&quot;&gt;Why&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;We need to define type families by induction, so that we can prove things like
+$$
+0 =_{\mathbb{N}} 1 \rightarrow \varnothing
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;We should have a method to abstract over types, eg.
+instead of writing $id_A:A\rightarrow A$ for each type, we can write $id^{\mathcal{U}}:\Pi_{(X:\mathcal{U})} \mathcal{T}(X) \rightarrow \mathcal{T}(X)$&lt;&#x2F;li&gt;
+&lt;li&gt;To do category theory in a streamlined way. (Grothendieck universe&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;what-is-a-universe&quot;&gt;What is a Universe?&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In some type theories, especially in systems with dependent types, types themselves can be regarded as terms. There is a type called the universe (often denoted $\mathcal {U}$) which has types as its elements. To avoid paradoxes such as Girard&#x27;s paradox (an analogue of Russell&#x27;s paradox for type theory), type theories are often equipped with a countably infinite hierarchy of such universes, with each universe being a term of the next one. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Basically it is type of types.&lt;&#x2F;p&gt;
+&lt;p&gt;A universe in type theory is a type $\mathcal{U}$ in the empty context, equipped with a type family&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; $\mathcal{T}$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; over $\mathcal{U}$ called a universal family, that is closed under the type forming operations in the sense that it comes equipped with many existing structures&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;how-we-prevent-russell-s-paradox&quot;&gt;How we prevent Russell’s paradox&lt;&#x2F;h3&gt;
+&lt;p&gt;As I mentioned before, universe is type of types, so a universe can technically in another universe, and this leads to the famous Russell’s paradox.&lt;&#x2F;p&gt;
+&lt;p&gt;To prevent this paradox from happening, and keep enough universes to use meanwhile, we organize the universes and types in them in this way:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;For every finite list of types：
+$$
+\Gamma_1 \vdash A_1\ type\ \ \ \ \cdots \ \ \ \ \Gamma_n \vdash A_n\ type 
+$$
+there is a universe $\mathcal{U}$ that contains each $A_i$ in the sense that $\mathcal{U}$ comes equipped with 
+$$
+\Gamma_i\vdash \check{A_i}:U
+$$
+for which the judgement 
+$$
+\Gamma_i\vdash \mathcal{T}(\check{A_i}) \doteq A_i\ type
+$$
+holds.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$\mathcal{U_0}$ is the universe which contains no types.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;For each universe $\mathcal{U}$, there is a successor universe $\mathcal{U^+}$ that
+$$
+\vdash \mathcal{U}\ type
+$$
+$$
+X: \mathcal{U} \vdash \mathcal{T}(X)\ type
+$$
+$$
+\vdash \check{\mathcal{U}}: \mathcal{U^+}
+$$
+$$
+\vdash \mathcal{T}^+(\check{\mathcal{U}})\doteq \mathcal{U}\ type 
+$$
+$$
+X:\mathcal{U} \vdash \check{\mathcal{T}}(X): \mathcal{U^+} 
+$$
+$$
+X:\mathcal{U} \vdash \mathcal{T}^+(\check{\mathcal{T}}(X)) \doteq \mathcal{T}(X)\ type
+$$
+We can have an infinite tower with these universes:
+$$
+\mathcal{U}, \mathcal{U^+}, \mathcal{U^{++}}, \mathcal{U^{+++}}, \cdots
+$$
+and each universe is contained in the next.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;We can join universes, ie.
+$\mathcal{U} \sqcup \mathcal{V}$ contains all types in $\mathcal{U}$ and $\mathcal{V}$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;Now we&#x27;ll show why we need these universes.&lt;&#x2F;p&gt;
+&lt;p&gt;We&#x27;ll prove:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+true \neq_{bool} false
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;or in other words:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+true =_{bool} false \rightarrow \varnothing
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;So what we want to do is find a term:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC {}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing $}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Start with $\rightarrow-intro$ as usual:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC {$t: true =_{bool} false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We need a term of $\varnothing$, which can be constructed with &amp;quot;proof with contradiction&amp;quot;, we pick $True → False$ and $\neg(True → False)$.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash\ ? :True → False$}
+\AxiomC{$?:\neg(True → False)$}
+\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;For $True → False$, we can use transport we mentioned in last lecture with a function (or dependent type constructor) $boolToType$. And you&#x27;ll see why we need universes here, we need it to write the return type of this function.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+boolToType : Bool \rightarrow \mathcal{U}\\
+boolToType true \doteq \mathbb{1}\\
+boolToType false \doteq \varnothing\\
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$?:\neg(True → False)$}
+\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;For $\neg(True → False)$, it&#x27;s quiet easy to construct a term.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
+\BinaryInfC {$t: true =_{bool} false, h:True \rightarrow False \vdash ?:\varnothing$}
+\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And fill the $?$s:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
+\BinaryInfC {$t: true =_{bool} false \vdash absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)):\varnothing$}
+\UnaryInfC{$\lambda t.absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)): true =_{bool} false \rightarrow \varnothing$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;In lean, I won&#x27;t use Agda this time since in Agda a simple &lt;code&gt;λ ()&lt;&#x2F;code&gt; will do the prove, it&#x27;s convenient but too far from what we want to show here:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;lean&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-lean &quot;&gt;&lt;code class=&quot;language-lean&quot; data-lang=&quot;lean&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;def &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;boolToType x &lt;&#x2F;span&gt;&lt;span&gt;:=
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span&gt; x &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;with
+&lt;&#x2F;span&gt;&lt;span&gt;  | true   =&amp;gt; True
+&lt;&#x2F;span&gt;&lt;span&gt;  | false  =&amp;gt; False
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;theorem &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;notTrueImpliesFalseType &lt;&#x2F;span&gt;&lt;span&gt;: ¬(True → False) :=
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;λ&lt;&#x2F;span&gt;&lt;span&gt; (h: True → False) =&amp;gt; False.elim (h True.intro)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;theorem &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;trueIsNotFalse &lt;&#x2F;span&gt;&lt;span&gt;: true ≠ false :=
+&lt;&#x2F;span&gt;&lt;span&gt;  Ne.intro
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;λ&lt;&#x2F;span&gt;&lt;span&gt; (t: true = false) =&amp;gt; absurd (Eq.mp (congrArg boolToType t)) notTrueImpliesFalseType
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;observational-equality-of-the-natural-numbers&quot;&gt;Observational equality of the natural numbers&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In dependent type theory, sometimes one could inductively define an equality type directly on an inductive type, rather than using Martin-Loef’s identity types using the j-rule. This equality type is called observational equality. —— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;We define the observational equality of natural numbers like:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Eq_{\mathbb{N}} : \mathbb{N} → (\mathbb{N} → \mathcal{U}_0)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Eq_{\mathbb{N}}\ 0\ 0 \doteq \mathbb{1}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Eq_{\mathbb{N}}\ succ(n)\ 0 \doteq \varnothing
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Eq_{\mathbb{N}}\ 0\ succ(n) \doteq \varnothing
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Eq_{\mathbb{N}}\ succ(m)\ succ(n) \doteq Eq_{\mathbb{N}}\ m\ n
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;curry-howard-interpretation&quot;&gt;Curry-Howard interpretation&lt;&#x2F;h2&gt;
+&lt;p&gt;Definition omitted, since we&#x27;ve already very familiar with it.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;example-1&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;We define: if $d, n: \mathbb{N}$, 
+then we can say d divides n if there exists an element of type&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+m | n := \Sigma_{(k:ℕ)}{k \times m = n}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And we can write some properties of division like:&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;every-natural-number-is-divisible-by-1-and-itself&quot;&gt;Every natural number is divisible by 1 and itself&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+\Pi_{(n:ℕ)}{1 | n ∧ n | n}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Proof&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#5&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Data&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Nat using&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Data&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Nat&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Divisibility using&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;∣&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;divides&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Data&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Nat&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Properties using&lt;&#x2F;span&gt;&lt;span&gt; (*-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;identityʳ&lt;&#x2F;span&gt;&lt;span&gt;; *-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;identityˡ&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Relation&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Binary&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;PropositionalEquality using&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sym&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Data&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Product renaming&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;×&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ to _&lt;&#x2F;span&gt;&lt;span&gt;∧&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;div1 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;∣ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;div1 n &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;divides n&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sym&lt;&#x2F;span&gt;&lt;span&gt; (*-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;identityʳ n&lt;&#x2F;span&gt;&lt;span&gt;)) 
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;divn &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;∣ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;divn n &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;divides &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sym&lt;&#x2F;span&gt;&lt;span&gt; (*-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;identityˡ n&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;div1n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;) → (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;∣ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;) ∧ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;∣ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;div1n n &lt;&#x2F;span&gt;&lt;span&gt;= (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;div1 n&lt;&#x2F;span&gt;&lt;span&gt;) , (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;divn n&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;every-natural-number-divides-0&quot;&gt;Every natural number divides 0&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;div0 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;∣ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;div0 n &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;divides zero refl
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;axiom-of-choice-in-type-theory&quot;&gt;Axiom of Choice in Type Theory&lt;&#x2F;h2&gt;
+&lt;p&gt;I knew what AC is intuitively, it means we can find a choice function for any set in a collection of sets to select an element of it out, now I&#x27;ll show the formalized form:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\forall X [\varnothing \notin X \Rightarrow \exists f:X\rightarrow \bigcup X \ \ \ \ \forall A \in X(f(A) \in A)]
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Or in type theory:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Pi_{(x:A)}\Sigma_{(y:B)}R(x, y) \rightarrow \Sigma_{(f: A\rightarrow B)} \Pi_{(x:A)} R(x, f(x))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;This is actually provable:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;open &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;import &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Data&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Product
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;choice &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;   ((&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ B&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ y &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x y&lt;&#x2F;span&gt;&lt;span&gt;)) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ f &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f x&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;choice &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h &lt;&#x2F;span&gt;&lt;span&gt;= (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ z &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proj&lt;&#x2F;span&gt;&lt;span&gt;₁ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h z&lt;&#x2F;span&gt;&lt;span&gt;)) , (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ x &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proj&lt;&#x2F;span&gt;&lt;span&gt;₂ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h x&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And the reverse proposition is also provable:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Sigma_{(f: A\rightarrow B)} \Pi_{(x:A)} R(x, f(x)) \rightarrow \Pi_{(x:A)}\Sigma_{(y:B)}R(x, y)
+$$&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;choice&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rev &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ f &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f x&lt;&#x2F;span&gt;&lt;span&gt;)) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;   ((&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ B&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ y &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x y&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;choice&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rev &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ x &lt;&#x2F;span&gt;&lt;span&gt;→ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proj&lt;&#x2F;span&gt;&lt;span&gt;₁ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h&amp;#39; x&lt;&#x2F;span&gt;&lt;span&gt;) , (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proj&lt;&#x2F;span&gt;&lt;span&gt;₂ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h&amp;#39; x&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;However this direct &amp;quot;Curry-Howard translation&amp;quot; of AC is not as powerful as it is in set theory, I guess we move the complexity of AC to somewhere else in the type theory. Anyway, we&#x27;ll see a more complex form of AC representing in later courses.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Grothendieck_universe&quot;&gt;ref&lt;&#x2F;a&gt;, &lt;code&gt;to_learn++&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;In computer science, a type family associates data types with other data types, using a type-level function defined by an open-ended collection of valid instances of input types and the corresponding output types. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;Seems the book of this course is using a “Tarski-style universes”, personally I think “Russell-style universes”, which doesn&#x27;t have $\mathcal{T}$, is more easy to understand. The origin &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Homotopy_type_theory&quot;&gt;&lt;em&gt;HoTT Book&lt;&#x2F;em&gt;&lt;&#x2F;a&gt; uses Russell-style universes. I guess the reason we are using “Tarski-style universes” here might be that in “Tarski-style universes” we can separate types and terms, ie. universe is still a type which contains terms, and $\mathcal{T}$, as a dependent function, is used to mapping these terms to actual types. After all, even if we are using Tarski-style universes in this course, in most of times $\mathcal{T}$s and  $\check{\ }$s are omitted and won&#x27;t cause any problem.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;Ref section 6.1 of the book &lt;em&gt;Introduction to Homotopy Type Theory&lt;&#x2F;em&gt; by Egbert Rijke for these structures, I&#x27;m too tired to type all these with latex.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;Unless necessary, I&#x27;ll write all proofs in Agda in the future, since typing proof tree in latex is too tiring.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>HoTTEST Summer School HoTT Notes 3</title>
 		<published>2022-07-18T05:15:33.302+00:00</published>
@@ -64,8 +323,8 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;We can use $refl_x$ to internalize (or &amp;quot;downgrade&amp;quot;, if you prefer human being&#x27;s language) judgmental equality to propositional equality, ie.&lt;&#x2F;p&gt;
 &lt;p&gt;Since we have&lt;&#x2F;p&gt;
 &lt;p&gt;If $a \doteq b : A$, then $(a =_A b) \doteq (a =_A a)$, and&lt;&#x2F;p&gt;
-&lt;p&gt;if $refl_a:a =_A a$ and $(a =_A b) \doteq (a =_A a)$, then $r_a:a=_Ab$.&lt;&#x2F;p&gt;
-&lt;p&gt;So we can internalize $a \doteq b : A$ with $r_a:a=_Ab$.&lt;&#x2F;p&gt;
+&lt;p&gt;if $refl_a:a =_A a$ and $(a =_A b) \doteq (a =_A a)$, then $refl_a:a=_Ab$.&lt;&#x2F;p&gt;
+&lt;p&gt;So we can internalize $a \doteq b : A$ with $refl_a:a=_Ab$.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;functoriality&quot;&gt;Functoriality&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Functoriality means that something is a functor. e.g. when someone asks about the functoriality of some construction, they&#x27;re asking whether or not it can be upgraded to a functor. —— &lt;a href=&quot;https:&#x2F;&#x2F;math.stackexchange.com&#x2F;questions&#x2F;1922113&#x2F;what-exactly-is-functoriality&quot;&gt;stackexchange problem&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
@@ -197,7 +456,6 @@ $$&lt;&#x2F;p&gt;
 \UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a=_Ab \rightarrow b=_Ac \rightarrow a=_Ac$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;composition-of-equalities-1&quot;&gt;Composition of Equalities&lt;&#x2F;h4&gt;
 &lt;h2 id=&quot;the-space-interpretation-of-types&quot;&gt;The Space Interpretation of Types&lt;&#x2F;h2&gt;
 &lt;p&gt;There&#x27;s an interpretation of dependent type theory into space (the category of Kan complexes&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;) in which:&lt;&#x2F;p&gt;
 &lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Type theory&lt;&#x2F;th&gt;&lt;th&gt;Homotopy theory&lt;&#x2F;th&gt;&lt;th&gt;Kan complexes&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
@@ -213,7 +471,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;For any dependent type $x:B\vdash E(B)\ type$,
 any terms $b,b&#x27;:B$ and any equality $p:b=_Bb&#x27;$, there is
 a function $tr_B:E(b)\rightarrow E(b&#x27;)$&lt;&#x2F;p&gt;
-&lt;p&gt;Basically it means propositional qquality remains when apply some dependent type &amp;quot;over&amp;quot; it.&lt;&#x2F;p&gt;
+&lt;p&gt;Basically it means propositional equality remains when apply some dependent type &amp;quot;over&amp;quot; it.&lt;&#x2F;p&gt;
 &lt;p&gt;This is part of a more sophisticated relationship between type theory and homotopy theory (Quillen model category theory)
 Transport says
 that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.&lt;&#x2F;p&gt;
@@ -223,7 +481,7 @@ that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.&l
 \begin{prooftree}
 \AxiomC{$b:B\vdash \lambda x.x: E(b) \rightarrow E(b)$}
 \UnaryInfC{$b,b&#x27;:B,p:b=_Bb&#x27;\vdash ind_=(\lambda x.x, b, b&#x27;, p): E(b) \rightarrow E(b&#x27;)$}
-\UnaryInfC{$\lambda b,b,p.ind_=(\lambda x.x, b, b&#x27;, p): \Pi_{(b,b&#x27;:B)}(b=_Bb&#x27;) \rightarrow E(b) \rightarrow E(b&#x27;)$}
+\UnaryInfC{$\lambda b,b&#x27;,p.ind_=(\lambda x.x, b, b&#x27;, p): \Pi_{(b,b&#x27;:B)}(b=_Bb&#x27;) \rightarrow E(b) \rightarrow E(b&#x27;)$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
