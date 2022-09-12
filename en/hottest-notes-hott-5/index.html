@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • HoTTEST Summer School HoTT Notes 5</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-5&#x2F;">HoTTEST Summer School HoTT Notes 5</a></h1>
+  
+  <div class="post-content"><h2 id="homotopies">Homotopies</h2>
+<p>Let's consider the type theory represent of proposition &quot;$f: A → B$ is surjective&quot;:</p>
+<p>$$
+\Pi_{(y:B)}\Sigma_{(x:A)} f(x) = y
+$$</p>
+<p>Note $=$ (or we should use $=_B$) here stands for this is an instance of &quot;identity type&quot;.</p>
+<p>Apply AC we introduced in last course:</p>
+<p>$$
+\Sigma_{(g: B\rightarrow A)} \Pi_{(y:B)} f(g(y)) = y
+$$</p>
+<p><img src="https://longfangsong.github.io/en/hottest-notes-hott-5/./1.svg" alt="" /></p>
+<p>So we can see there's some relation between $f \cdot g$ and $id_B$, this relation is similar, but weaker than $f \cdot g \underset{B → B}{=} id_B$.</p>
+<p>And this relation is what we call homotopy.</p>
+<p>Here we can say $g$ is a section of $f$ and $f$ is a retraction of $g$, we'll introduce these concepts later.</p>
+<p>Here is another example:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool </span><span>: Bool → Bool
+</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool true </span><span>= </span><span style="color:#bf616a;">false
+</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool false </span><span>= </span><span style="color:#bf616a;">true
+</span></code></pre>
+<p>There's no way can we prove:</p>
+<p>$$
+neg\text{-}bool \cdot neg\text{-}bool ≐ id_{Bool}
+$$</p>
+<p>Instead, we can define a pointwise identification between the values of $neg\text{-}bool \cdot neg\text{-}bool$ and $id_{Bool}$.</p>
+<p>We name this kind of notion of sameness of maps a name &quot;homotopy&quot;.</p>
+<h3 id="formal-definition">Formal definition</h3>
+<p>For two dependent functions $f$ and $g$,</p>
+<p>$$
+f \sim g := \Pi_{(x:A)} f(x) = g(x)
+$$</p>
+<p>Here $f \sim g$ is the type of homotopies from $f$ to $g$.</p>
+<h4 id="commutativity-of-diagrams">Commutativity of Diagrams<sup class="footnote-reference"><a href="#1">1</a></sup></h4>
+<p>We can use homotopies to express the commutativity of diagrams.</p>
+<p>For example, we say that a triangle commutes if it comes equipped with a homotopy $H: f \sim g \cdot h$.</p>
+<p>$$
+\require{amscd}
+\require{cancel}
+\def\diaguparrow#1{\smash{\raise.6em\rlap{\ \ \scriptstyle #1}
+\lower.6em{\cancelto{}{\Space{2em}{1.7em}{0px}}}}}
+\begin{CD}
+A @&gt;f&gt;&gt;X\\
+@VhVV \diaguparrow{g}\\
+B 
+\end{CD}
+$$</p>
+<p>A square is similar:</p>
+<p>$$
+\require{amscd}
+\begin{CD}
+A @&gt;g&gt;&gt; A'\\
+@VfVV  @Vf'VV\\
+B @&gt;h&gt;&gt; B'
+\end{CD}
+$$</p>
+<p>Here $h \cdot f \sim f' \cdot g$.</p>
+<p>And we can have homotopies between homotopies:</p>
+<p>If $H, K: f \sim g$ are two homotopies, ie</p>
+<p>$$
+f,g: \Pi_{(x:A)}B(x)
+$$
+$$
+H,K: f \sim g
+$$</p>
+<p>then the type of homotopies $f \sim g$ between them is just the type</p>
+<p>$$
+\alpha: \Pi_{(x:A)}H(x) = K(x)
+$$</p>
+<p>And we can push this further, homotopies of homotopies of homotopies, homotopies<sup>4</sup>, etc.</p>
+<p><img src="https://longfangsong.github.io/en/hottest-notes-hott-5/./2.svg" alt="" /></p>
+<h3 id="operations-on-homotopies">Operations on Homotopies</h3>
+<p>refl-htpy: $\Pi_{(f:\Pi_{(x:A)}B(x))} f \sim f$</p>
+<p>inv-htpy: $\Pi_{(f,g:\Pi_{(x:A)}B(x))} (f \sim g) → (g \sim f)$</p>
+<p>concat-htpy: $\Pi_{(f,g,h:\Pi_{(x:A)}B(x))} (f \sim g) → (g \sim h) \rightarrow (f \sim h)$</p>
+<p>We will often write $H^{-1}$ for $inv\text{-}htpy(H)$, and $H \cdot K$ for $concat\text{-}htpy(H, K)$</p>
+<h3 id="laws-of-homotopies">Laws of Homotopies</h3>
+<p>Homotopies satisfy the groupoid laws, ie. associative, has left and right unit (refl-htpy), left and right inverse law.</p>
+<h4 id="whiskering">Whiskering</h4>
+<p>Whiskering operations are operations that allow us to compose homotopies with functions.</p>
+<ul>
+<li>Suppose $H: f \sim g$ for two functions $f,g: A → B$, and let $h:B→C$. We define</li>
+</ul>
+<p>$$
+h \cdot H := λx.ap_h(H(x)) : h \cdot f \sim h \cdot g
+$$</p>
+<ul>
+<li>Suppose $f: A → B$ and $H: g \sim h$ for two functions $g,h:B→C$. We define</li>
+</ul>
+<p>$$
+H \cdot f := λx.H(f(x)) : h \cdot f \sim g \cdot f
+$$</p>
+<h3 id="bi-invertible-maps">Bi-invertible maps</h3>
+<p>We can use homotopies to define sections, retractions and equivalence of a map.</p>
+<ul>
+<li>
+<p>A section is a right inverse of some morphism.</p>
+<p>$$
+sec(f) := \Sigma_{(g:B\rightarrow A)} f\cdot g \sim id_B
+$$</p>
+<p>For any equivalence $e : 𝐴 ≃ 𝐵$ we define $e^{-1}$ to be the section of $e$.</p>
+</li>
+<li>
+<p>A retraction is a left inverse of some morphism.</p>
+<p>$$
+retr(f) := \Sigma_{(h:B\rightarrow A)} h\cdot f \sim id_A
+$$</p>
+</li>
+<li>
+<p>equivalence = section + retraction</p>
+<p>$$
+is\text{-}equiv(f) := sec(f) × retr(f)
+$$</p>
+<p>Or &quot;f is bi-invertible&quot;.</p>
+<p>We will write $A ≃ B$ for the type $\Sigma_{(f:A→B)} is\text{-}equiv(f)$ of all equivalences from $A$ to $B$. </p>
+</li>
+<li>
+<p>Besides, we can define $has\text{-}inverse$:</p>
+<p>$$
+has\text{-}inverse(f) := \Sigma_{(g:B→A)} (f\cdot g \sim id_B) \times (g\cdot f \sim id_A)
+$$</p>
+<p>We can know $has\text{-}inverse(f) \leftrightarrow is\text{-}equiv(f)$</p>
+</li>
+</ul>
+<h4 id="example-of-equivalences">Example of Equivalences</h4>
+<p>Ref section 9.2.9 and 9.2.10 of the book <em>Introduction to Homotopy Type Theory</em></p>
+<h4 id="laws-operations-on-equivalences">Laws &amp; operations on Equivalences</h4>
+<p>We have $refl\text{-}eqiv$, $inv\text{-}eqiv$ and $concat\text{-}eqiv$.</p>
+<h3 id="function-extensionality-univalence-axiom">Function Extensionality &amp; Univalence Axiom</h3>
+<p>Let $P := \Pi_{(x:A)}B(x)$, because both $\sim$ and $≃$ are refl. we get</p>
+<p>$$
+id\text{-}to\text{-}\sim: \Pi_{(f,g:P)}(f \underset{P}{=} g \rightarrow f \sim g)
+$$</p>
+<p>$$
+id\text{-}to\text{-}≃: \Pi_{(A,B:\mathcal{U})}(A\underset{\mathcal{U}}{=}B \rightarrow A ≃ B)
+$$</p>
+<p>With these, we can define function extensionality:</p>
+<blockquote>
+<p>The principle of functional extensionality states that two functions are equal if their values are equal at every argument. —— nLab</p>
+</blockquote>
+<p>$$
+funext:\Pi_{(f,g:P)}is\text{-}equiv(id\text{-}to\text{-}\sim(f, g))
+$$</p>
+<p>Similarly, we can define the univalence axiom (UA):</p>
+<blockquote>
+<p>In intensional type theory, identity types behave like path space objects; this viewpoint is called homotopy type theory. This induces furthermore a notion of homotopy fibers, hence of homotopy equivalences between types.</p>
+</blockquote>
+<blockquote>
+<p>On the other hand, if type theory contains a universe Type, so that types can be considered as points of TypeType, then between two types we also have an identity type Paths Type(X,Y)Paths_{Type}(X,Y). The univalence axiom says that these two notions of “sameness” for types are the same. —— nLab</p>
+</blockquote>
+<p>$$
+UA^{\mathcal{U}}:\Pi_{(A,B:\mathcal{U})}is\text{-}eqiv(id\text{-}to\text{-}≃(A,B))
+$$</p>
+<h2 id="identification-in-s-types">Identification in Σ-types</h2>
+<p>We can characterize the identity type of Σ-type as a Σ-type of identity types.</p>
+<p>Fix an $A$ type, $x: A ⊢ B(x)\ \ type$, $S := Σ_{(x:A)}B(x)$,
+we want a reflexive relation $z, z': S ⊢ R(z,z')\ \ type$, we can call this type $Eq\text{-}Σ$</p>
+<p>Assume</p>
+<p>$$
+z ≐ (x, y)
+$$</p>
+<p>$$
+z' ≐ (x', y')
+$$</p>
+<p>By $ap_{pr_{1}}$<sup class="footnote-reference"><a href="#2">2</a></sup> we should have a $p: x \underset{A}= x'$</p>
+<p>Recall the $tr_B$ function we <a href="https://longfangsong.github.io/en/hottest-notes-hott-3/#transport">mentioned before</a>, with this, we can define &quot;type of identifications of $y$ with $y'$ over $p$&quot;:</p>
+<p>$$
+(y \overset{B}{\underset{p}=} y') := (tr_B(p,y) \underset{B(x')}{=} y')
+$$</p>
+<p>And we can then define $Eq\text{-}Σ$:</p>
+<p>$$
+Eq\text{-}Σ(z, z') := Σ_{(p:x=x')} (y \overset{B}{\underset{p}=} y')
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">z </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>) (</span><span style="color:#bf616a;">z&#39; </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">z z&#39; </span><span>= </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#96b5b4;">fst </span><span style="color:#bf616a;">z </span><span>≡ </span><span style="color:#96b5b4;">fst </span><span style="color:#bf616a;">z&#39;</span><span>) (</span><span style="color:#bf616a;">λ p </span><span>→ </span><span style="color:#bf616a;">transport </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">p</span><span> (</span><span style="color:#96b5b4;">snd </span><span style="color:#bf616a;">z</span><span>) ≡ </span><span style="color:#96b5b4;">snd </span><span style="color:#bf616a;">z&#39;</span><span>)
+</span></code></pre>
+<p>To show this is reflexive, we should have a term:</p>
+<p>$$
+refl\text{-}Eq\text{-}Σ : \Pi_{(z:S)}Eq\text{-}\Sigma(z, z)
+$$</p>
+<p>This is easy to construct such a term with a pair of <code>refl</code> (notice <code>fst</code> <code>refl</code> and <code>snd</code> <code>refl</code> in this pair is in different types <sup class="footnote-reference"><a href="#3">3</a></sup>):</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span>: </span><span style="color:#b48ead;">∀</span><span>{</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">z </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>) → </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span style="color:#bf616a;">z z
+</span><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span style="color:#bf616a;">z </span><span>= </span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl
+</span></code></pre>
+<p>With path induction<sup class="footnote-reference"><a href="#4">4</a></sup>, we can push this a step further to:</p>
+<p>$$
+pair\text{-}Eq : \Pi_{(z,z':S)} ((z\underset{S}=z') \rightarrow Eq\text{-}\Sigma(z, z'))
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">pair</span><span>-</span><span style="color:#ebcb8b;">Eq </span><span>: </span><span style="color:#b48ead;">∀</span><span>{</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">z </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} {</span><span style="color:#bf616a;">z&#39; </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} →
+</span><span>    (</span><span style="color:#bf616a;">z </span><span>≡ </span><span style="color:#bf616a;">z&#39;</span><span>) → </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span style="color:#bf616a;">z z&#39;
+</span><span style="color:#bf616a;">pair</span><span>-</span><span style="color:#ebcb8b;">Eq </span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">z</span><span>} </span><span style="color:#bf616a;">refl </span><span>= </span><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span style="color:#bf616a;">z
+</span></code></pre>
+<p>And reversely:</p>
+<p>$$
+Eq\text{-}pair : \Pi_{(z,z':S)} (Eq\text{-}\Sigma(z, z') \rightarrow (z\underset{S}=z'))
+$$
+<sup class="footnote-reference"><a href="#5">5</a></sup></p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#bf616a;">pair </span><span>: </span><span style="color:#b48ead;">∀</span><span>{</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">z </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} {</span><span style="color:#bf616a;">z&#39; </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} →
+</span><span>    </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span style="color:#bf616a;">z z&#39; </span><span>→ (</span><span style="color:#bf616a;">z </span><span>≡ </span><span style="color:#bf616a;">z&#39;</span><span>)
+</span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#bf616a;">pair</span><span> (</span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl</span><span>) = </span><span style="color:#bf616a;">refl
+</span></code></pre>
+<p>And we can find that $Eq\text{-}pair$ and $pair\text{-}Eq$ are &quot;inverse&quot; of each other:</p>
+<p>$$
+\Pi_{(z,z':S)} \Pi_{(w:Eq\text{-}Σ(z,z'))} Eq\text{-}pair(pair\text{-}Eq(w)) = w
+$$</p>
+<p>$$
+\Pi_{(z,z':S)} \Pi_{(r:z=z')} pair\text{-}Eq(Eq\text{-}pair(w)) = w
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">l </span><span>: </span><span style="color:#b48ead;">∀</span><span>{</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">z </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} {</span><span style="color:#bf616a;">z&#39; </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} (</span><span style="color:#bf616a;">w </span><span>: </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span style="color:#bf616a;">z z&#39;</span><span>) →
+</span><span>    </span><span style="color:#bf616a;">pair</span><span>-</span><span style="color:#ebcb8b;">Eq</span><span> ( </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#bf616a;">pair w</span><span> ) ≡ </span><span style="color:#bf616a;">w
+</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">l</span><span> (</span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl</span><span>) = </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">r </span><span>: </span><span style="color:#b48ead;">∀</span><span>{</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">z </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} {</span><span style="color:#bf616a;">z&#39; </span><span>: </span><span style="color:#b48ead;">Σ A B</span><span>} (</span><span style="color:#bf616a;">r </span><span>: </span><span style="color:#bf616a;">z </span><span>≡ </span><span style="color:#bf616a;">z&#39;</span><span>) →
+</span><span>     </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#bf616a;">pair</span><span> ( </span><span style="color:#bf616a;">pair</span><span>-</span><span style="color:#ebcb8b;">Eq </span><span style="color:#bf616a;">r</span><span> ) ≡ </span><span style="color:#bf616a;">r
+</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">r refl </span><span>= </span><span style="color:#bf616a;">refl
+</span></code></pre>
+<p>So we can find out that $Eq\text{-}pair$ is a section of $pair\text{-}Eq$ and $pair\text{-}Eq$ is a retraction of $Eq\text{-}pair$.</p>
+<p>Thus we can form an equivalence between $z = z'$ and $Eq\text{-}Σ(z, z')$:</p>
+<p>$$
+(z \underset{S}= z') ≃ Eq\text{-}Σ(z, z')
+$$</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>todo: <strong>DO</strong> learn the category theory.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>Ref <a href="https://longfangsong.github.io/en/hottest-notes-hott-3/#functoriality">Note 3</a> if you forget the definition of $ap$.</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>You may see a lot of proofs in this section of course are just simple combination of <code>refl</code>s in different types. When writing Agda code, <code>refl</code>s' types are often omitted. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? I mean, should the IDE at least &quot;expand&quot; the type when human beings are reading the code?</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://planetmath.org/1121pathinduction">Ref</a></p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>It is so easy to write such a proof in Agda, comparing with the difficulty of writing a proof with hands (thinking about applying path induction again and again). I can hardly believe that this proof is correct, but it is just identical to the term on the book, those proof assistant tools are all magic.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-08-17</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=HoTTEST Summer School HoTT Notes 5&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-5&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+    <a id="comments"></a>
+    <div id="vcomments" style="margin: 30px;"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+    <script>
+      var valine = new Valine({
+        el: "#vcomments",
+        notify: "false" || false,
+        verify: "false" || false,
+        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
+        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
+        placeholder: "随便说点啥吧……",
+        path: window.location.pathname,
+        avatar: "mm"
+      });
+    </script>
+
+
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -101,7 +101,7 @@
 <ul>
 <li>We need to define type families by induction, so that we can prove things like
 $$
-0 =_{\mathbb{N}} 1 \rightarrow \varnothing
+0 \underset{\mathbb{N}}{=} 1 \rightarrow \varnothing
 $$</li>
 <li>We should have a method to abstract over types, eg.
 instead of writing $id_A:A\rightarrow A$ for each type, we can write $id^{\mathcal{U}}:\Pi_{(X:\mathcal{U})} \mathcal{T}(X) \rightarrow \mathcal{T}(X)$</li>
@@ -174,32 +174,32 @@ true \neq_{bool} false
 $$</p>
 <p>or in other words:</p>
 <p>$$
-true =_{bool} false \rightarrow \varnothing
+true \underset{bool}{=} false \rightarrow \varnothing
 $$</p>
 <p>So what we want to do is find a term:</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC {}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing $}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing $}
 \end{prooftree}
 $$</p>
 <p>Start with $\rightarrow-intro$ as usual:</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC {$t: true =_{bool} false \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\AxiomC {$t: true \underset{bool}{=}false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$</p>
 <p>We need a term of $\varnothing$, which can be constructed with &quot;proof with contradiction&quot;, we pick $True → False$ and $\neg(True → False)$.</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash\ ? :True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash\ ? :True → False$}
 \AxiomC{$?:\neg(True → False)$}
-\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$</p>
 <p>For $True → False$, we can use transport we mentioned in last lecture with a function (or dependent type constructor) $boolToType$. And you'll see why we need universes here, we need it to write the return type of this function.</p>
@@ -213,30 +213,30 @@ $$</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash tr_{bool}(t): True → False$}
 \AxiomC{$?:\neg(True → False)$}
-\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$</p>
 <p>For $\neg(True → False)$, it's quiet easy to construct a term.</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash tr_{bool}(t): True → False$}
 \AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
-\BinaryInfC {$t: true =_{bool} false, h:True \rightarrow False \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false, h:True \rightarrow False \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$</p>
 <p>And fill the $?$s:</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash tr_{bool}(t): True → False$}
 \AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
-\BinaryInfC {$t: true =_{bool} false \vdash absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)):\varnothing$}
-\UnaryInfC{$\lambda t.absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)): true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false \vdash absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)):\varnothing$}
+\UnaryInfC{$\lambda t.absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)): true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$</p>
 <p>In lean, I won't use Agda this time since in Agda a simple <code>λ ()</code> will do the prove, it's convenient but too far from what we want to show here:</p>

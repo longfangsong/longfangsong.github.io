@@ -5,8 +5,250 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-07-20T16:35:09.859+00:00</updated>
+	<updated>2022-08-17T06:28:35.637+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>HoTTEST Summer School HoTT Notes 5</title>
+		<published>2022-08-17T06:28:35.637+00:00</published>
+		<updated>2022-08-17T06:28:35.637+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-5/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/hottest-notes-hott-5/</id>
+		<content type="html">&lt;h2 id=&quot;homotopies&quot;&gt;Homotopies&lt;&#x2F;h2&gt;
+&lt;p&gt;Let&#x27;s consider the type theory represent of proposition &amp;quot;$f: A → B$ is surjective&amp;quot;:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Pi_{(y:B)}\Sigma_{(x:A)} f(x) = y
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Note $=$ (or we should use $=_B$) here stands for this is an instance of &amp;quot;identity type&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;Apply AC we introduced in last course:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Sigma_{(g: B\rightarrow A)} \Pi_{(y:B)} f(g(y)) = y
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-5&#x2F;.&#x2F;1.svg&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;So we can see there&#x27;s some relation between $f \cdot g$ and $id_B$, this relation is similar, but weaker than $f \cdot g \underset{B → B}{=} id_B$.&lt;&#x2F;p&gt;
+&lt;p&gt;And this relation is what we call homotopy.&lt;&#x2F;p&gt;
+&lt;p&gt;Here we can say $g$ is a section of $f$ and $f$ is a retraction of $g$, we&#x27;ll introduce these concepts later.&lt;&#x2F;p&gt;
+&lt;p&gt;Here is another example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bool &lt;&#x2F;span&gt;&lt;span&gt;: Bool → Bool
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bool true &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;false
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bool false &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;true
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;There&#x27;s no way can we prove:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+neg\text{-}bool \cdot neg\text{-}bool ≐ id_{Bool}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Instead, we can define a pointwise identification between the values of $neg\text{-}bool \cdot neg\text{-}bool$ and $id_{Bool}$.&lt;&#x2F;p&gt;
+&lt;p&gt;We name this kind of notion of sameness of maps a name &amp;quot;homotopy&amp;quot;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;formal-definition&quot;&gt;Formal definition&lt;&#x2F;h3&gt;
+&lt;p&gt;For two dependent functions $f$ and $g$,&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f \sim g := \Pi_{(x:A)} f(x) = g(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Here $f \sim g$ is the type of homotopies from $f$ to $g$.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;commutativity-of-diagrams&quot;&gt;Commutativity of Diagrams&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h4&gt;
+&lt;p&gt;We can use homotopies to express the commutativity of diagrams.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, we say that a triangle commutes if it comes equipped with a homotopy $H: f \sim g \cdot h$.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{amscd}
+\require{cancel}
+\def\diaguparrow#1{\smash{\raise.6em\rlap{\ \ \scriptstyle #1}
+\lower.6em{\cancelto{}{\Space{2em}{1.7em}{0px}}}}}
+\begin{CD}
+A @&amp;gt;f&amp;gt;&amp;gt;X\\
+@VhVV \diaguparrow{g}\\
+B 
+\end{CD}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;A square is similar:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\require{amscd}
+\begin{CD}
+A @&amp;gt;g&amp;gt;&amp;gt; A&#x27;\\
+@VfVV  @Vf&#x27;VV\\
+B @&amp;gt;h&amp;gt;&amp;gt; B&#x27;
+\end{CD}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Here $h \cdot f \sim f&#x27; \cdot g$.&lt;&#x2F;p&gt;
+&lt;p&gt;And we can have homotopies between homotopies:&lt;&#x2F;p&gt;
+&lt;p&gt;If $H, K: f \sim g$ are two homotopies, ie&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f,g: \Pi_{(x:A)}B(x)
+$$
+$$
+H,K: f \sim g
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;then the type of homotopies $f \sim g$ between them is just the type&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\alpha: \Pi_{(x:A)}H(x) = K(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And we can push this further, homotopies of homotopies of homotopies, homotopies&lt;sup&gt;4&lt;&#x2F;sup&gt;, etc.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-5&#x2F;.&#x2F;2.svg&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;operations-on-homotopies&quot;&gt;Operations on Homotopies&lt;&#x2F;h3&gt;
+&lt;p&gt;refl-htpy: $\Pi_{(f:\Pi_{(x:A)}B(x))} f \sim f$&lt;&#x2F;p&gt;
+&lt;p&gt;inv-htpy: $\Pi_{(f,g:\Pi_{(x:A)}B(x))} (f \sim g) → (g \sim f)$&lt;&#x2F;p&gt;
+&lt;p&gt;concat-htpy: $\Pi_{(f,g,h:\Pi_{(x:A)}B(x))} (f \sim g) → (g \sim h) \rightarrow (f \sim h)$&lt;&#x2F;p&gt;
+&lt;p&gt;We will often write $H^{-1}$ for $inv\text{-}htpy(H)$, and $H \cdot K$ for $concat\text{-}htpy(H, K)$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;laws-of-homotopies&quot;&gt;Laws of Homotopies&lt;&#x2F;h3&gt;
+&lt;p&gt;Homotopies satisfy the groupoid laws, ie. associative, has left and right unit (refl-htpy), left and right inverse law.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;whiskering&quot;&gt;Whiskering&lt;&#x2F;h4&gt;
+&lt;p&gt;Whiskering operations are operations that allow us to compose homotopies with functions.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Suppose $H: f \sim g$ for two functions $f,g: A → B$, and let $h:B→C$. We define&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;$$
+h \cdot H := λx.ap_h(H(x)) : h \cdot f \sim h \cdot g
+$$&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Suppose $f: A → B$ and $H: g \sim h$ for two functions $g,h:B→C$. We define&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;$$
+H \cdot f := λx.H(f(x)) : h \cdot f \sim g \cdot f
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;bi-invertible-maps&quot;&gt;Bi-invertible maps&lt;&#x2F;h3&gt;
+&lt;p&gt;We can use homotopies to define sections, retractions and equivalence of a map.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A section is a right inverse of some morphism.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+sec(f) := \Sigma_{(g:B\rightarrow A)} f\cdot g \sim id_B
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;For any equivalence $e : 𝐴 ≃ 𝐵$ we define $e^{-1}$ to be the section of $e$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;A retraction is a left inverse of some morphism.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+retr(f) := \Sigma_{(h:B\rightarrow A)} h\cdot f \sim id_A
+$$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;equivalence = section + retraction&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+is\text{-}equiv(f) := sec(f) × retr(f)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Or &amp;quot;f is bi-invertible&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;We will write $A ≃ B$ for the type $\Sigma_{(f:A→B)} is\text{-}equiv(f)$ of all equivalences from $A$ to $B$. &lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Besides, we can define $has\text{-}inverse$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+has\text{-}inverse(f) := \Sigma_{(g:B→A)} (f\cdot g \sim id_B) \times (g\cdot f \sim id_A)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We can know $has\text{-}inverse(f) \leftrightarrow is\text{-}equiv(f)$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;example-of-equivalences&quot;&gt;Example of Equivalences&lt;&#x2F;h4&gt;
+&lt;p&gt;Ref section 9.2.9 and 9.2.10 of the book &lt;em&gt;Introduction to Homotopy Type Theory&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;laws-operations-on-equivalences&quot;&gt;Laws &amp;amp; operations on Equivalences&lt;&#x2F;h4&gt;
+&lt;p&gt;We have $refl\text{-}eqiv$, $inv\text{-}eqiv$ and $concat\text{-}eqiv$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;function-extensionality-univalence-axiom&quot;&gt;Function Extensionality &amp;amp; Univalence Axiom&lt;&#x2F;h3&gt;
+&lt;p&gt;Let $P := \Pi_{(x:A)}B(x)$, because both $\sim$ and $≃$ are refl. we get&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+id\text{-}to\text{-}\sim: \Pi_{(f,g:P)}(f \underset{P}{=} g \rightarrow f \sim g)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+id\text{-}to\text{-}≃: \Pi_{(A,B:\mathcal{U})}(A\underset{\mathcal{U}}{=}B \rightarrow A ≃ B)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;With these, we can define function extensionality:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The principle of functional extensionality states that two functions are equal if their values are equal at every argument. —— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;$$
+funext:\Pi_{(f,g:P)}is\text{-}equiv(id\text{-}to\text{-}\sim(f, g))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Similarly, we can define the univalence axiom (UA):&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In intensional type theory, identity types behave like path space objects; this viewpoint is called homotopy type theory. This induces furthermore a notion of homotopy fibers, hence of homotopy equivalences between types.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;On the other hand, if type theory contains a universe Type, so that types can be considered as points of TypeType, then between two types we also have an identity type Paths Type(X,Y)Paths_{Type}(X,Y). The univalence axiom says that these two notions of “sameness” for types are the same. —— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;$$
+UA^{\mathcal{U}}:\Pi_{(A,B:\mathcal{U})}is\text{-}eqiv(id\text{-}to\text{-}≃(A,B))
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;identification-in-s-types&quot;&gt;Identification in Σ-types&lt;&#x2F;h2&gt;
+&lt;p&gt;We can characterize the identity type of Σ-type as a Σ-type of identity types.&lt;&#x2F;p&gt;
+&lt;p&gt;Fix an $A$ type, $x: A ⊢ B(x)\ \ type$, $S := Σ_{(x:A)}B(x)$,
+we want a reflexive relation $z, z&#x27;: S ⊢ R(z,z&#x27;)\ \ type$, we can call this type $Eq\text{-}Σ$&lt;&#x2F;p&gt;
+&lt;p&gt;Assume&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+z ≐ (x, y)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+z&#x27; ≐ (x&#x27;, y&#x27;)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;By $ap_{pr_{1}}$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; we should have a $p: x \underset{A}= x&#x27;$&lt;&#x2F;p&gt;
+&lt;p&gt;Recall the $tr_B$ function we &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;#transport&quot;&gt;mentioned before&lt;&#x2F;a&gt;, with this, we can define &amp;quot;type of identifications of $y$ with $y&#x27;$ over $p$&amp;quot;:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(y \overset{B}{\underset{p}=} y&#x27;) := (tr_B(p,y) \underset{B(x&#x27;)}{=} y&#x27;)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;And we can then define $Eq\text{-}Σ$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Eq\text{-}Σ(z, z&#x27;) := Σ_{(p:x=x&#x27;)} (y \overset{B}{\underset{p}=} y&#x27;)
+$$&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ p &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;transport &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&lt;&#x2F;span&gt;&lt;span&gt;) ≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;To show this is reflexive, we should have a term:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+refl\text{-}Eq\text{-}Σ : \Pi_{(z:S)}Eq\text{-}\Sigma(z, z)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;This is easy to construct such a term with a pair of &lt;code&gt;refl&lt;&#x2F;code&gt; (notice &lt;code&gt;fst&lt;&#x2F;code&gt; &lt;code&gt;refl&lt;&#x2F;code&gt; and &lt;code&gt;snd&lt;&#x2F;code&gt; &lt;code&gt;refl&lt;&#x2F;code&gt; in this pair is in different types &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;):&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z z
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;With path induction&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, we can push this a step further to:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+pair\text{-}Eq : \Pi_{(z,z&#x27;:S)} ((z\underset{S}=z&#x27;) \rightarrow Eq\text{-}\Sigma(z, z&#x27;))
+$$&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} →
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z z&amp;#39;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And reversely:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Eq\text{-}pair : \Pi_{(z,z&#x27;:S)} (Eq\text{-}\Sigma(z, z&#x27;) \rightarrow (z\underset{S}=z&#x27;))
+$$
+&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#5&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} →
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;→ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And we can find that $Eq\text{-}pair$ and $pair\text{-}Eq$ are &amp;quot;inverse&amp;quot; of each other:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Pi_{(z,z&#x27;:S)} \Pi_{(w:Eq\text{-}Σ(z,z&#x27;))} Eq\text{-}pair(pair\text{-}Eq(w)) = w
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\Pi_{(z,z&#x27;:S)} \Pi_{(r:z=z&#x27;)} pair\text{-}Eq(Eq\text{-}pair(w)) = w
+$$&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inv&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;l &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;w &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z z&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) →
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt; ( &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair w&lt;&#x2F;span&gt;&lt;span&gt; ) ≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;w
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inv&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;l&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inv&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;r &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀&lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A B&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;r &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) →
+&lt;&#x2F;span&gt;&lt;span&gt;     &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair&lt;&#x2F;span&gt;&lt;span&gt; ( &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;r&lt;&#x2F;span&gt;&lt;span&gt; ) ≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;r
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;inv&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;r refl &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;So we can find out that $Eq\text{-}pair$ is a section of $pair\text{-}Eq$ and $pair\text{-}Eq$ is a retraction of $Eq\text{-}pair$.&lt;&#x2F;p&gt;
+&lt;p&gt;Thus we can form an equivalence between $z = z&#x27;$ and $Eq\text{-}Σ(z, z&#x27;)$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(z \underset{S}= z&#x27;) ≃ Eq\text{-}Σ(z, z&#x27;)
+$$&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;todo: &lt;strong&gt;DO&lt;&#x2F;strong&gt; learn the category theory.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;Ref &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;#functoriality&quot;&gt;Note 3&lt;&#x2F;a&gt; if you forget the definition of $ap$.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;You may see a lot of proofs in this section of course are just simple combination of &lt;code&gt;refl&lt;&#x2F;code&gt;s in different types. When writing Agda code, &lt;code&gt;refl&lt;&#x2F;code&gt;s&#x27; types are often omitted. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? I mean, should the IDE at least &amp;quot;expand&amp;quot; the type when human beings are reading the code?&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;planetmath.org&#x2F;1121pathinduction&quot;&gt;Ref&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;It is so easy to write such a proof in Agda, comparing with the difficulty of writing a proof with hands (thinking about applying path induction again and again). I can hardly believe that this proof is correct, but it is just identical to the term on the book, those proof assistant tools are all magic.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>HoTTEST Summer School HoTT Notes 4</title>
 		<published>2022-07-20T16:35:09.859+00:00</published>
@@ -18,7 +260,7 @@
 &lt;ul&gt;
 &lt;li&gt;We need to define type families by induction, so that we can prove things like
 $$
-0 =_{\mathbb{N}} 1 \rightarrow \varnothing
+0 \underset{\mathbb{N}}{=} 1 \rightarrow \varnothing
 $$&lt;&#x2F;li&gt;
 &lt;li&gt;We should have a method to abstract over types, eg.
 instead of writing $id_A:A\rightarrow A$ for each type, we can write $id^{\mathcal{U}}:\Pi_{(X:\mathcal{U})} \mathcal{T}(X) \rightarrow \mathcal{T}(X)$&lt;&#x2F;li&gt;
@@ -91,32 +333,32 @@ true \neq_{bool} false
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;or in other words:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-true =_{bool} false \rightarrow \varnothing
+true \underset{bool}{=} false \rightarrow \varnothing
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;So what we want to do is find a term:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC {}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing $}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing $}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;Start with $\rightarrow-intro$ as usual:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC {$t: true =_{bool} false \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\AxiomC {$t: true \underset{bool}{=}false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;We need a term of $\varnothing$, which can be constructed with &amp;quot;proof with contradiction&amp;quot;, we pick $True → False$ and $\neg(True → False)$.&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash\ ? :True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash\ ? :True → False$}
 \AxiomC{$?:\neg(True → False)$}
-\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;For $True → False$, we can use transport we mentioned in last lecture with a function (or dependent type constructor) $boolToType$. And you&#x27;ll see why we need universes here, we need it to write the return type of this function.&lt;&#x2F;p&gt;
@@ -130,30 +372,30 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash tr_{bool}(t): True → False$}
 \AxiomC{$?:\neg(True → False)$}
-\BinaryInfC {$t: true =_{bool} false \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;For $\neg(True → False)$, it&#x27;s quiet easy to construct a term.&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash tr_{bool}(t): True → False$}
 \AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
-\BinaryInfC {$t: true =_{bool} false, h:True \rightarrow False \vdash ?:\varnothing$}
-\UnaryInfC{$?: true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false, h:True \rightarrow False \vdash ?:\varnothing$}
+\UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;And fill the $?$s:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$t: true =_{bool} false \vdash tr_{bool}(t): True → False$}
+\AxiomC{$t: true \underset{bool}{=}false \vdash tr_{bool}(t): True → False$}
 \AxiomC{$h: True \rightarrow False \vdash ind_{\varnothing}(h\ True):(True → False) → False$}
-\BinaryInfC {$t: true =_{bool} false \vdash absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)):\varnothing$}
-\UnaryInfC{$\lambda t.absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)): true =_{bool} false \rightarrow \varnothing$}
+\BinaryInfC {$t: true \underset{bool}{=}false \vdash absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)):\varnothing$}
+\UnaryInfC{$\lambda t.absurd(tr_{bool}(t), \lambda h.ind_{\varnothing}(h\ True)): true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;In lean, I won&#x27;t use Agda this time since in Agda a simple &lt;code&gt;λ ()&lt;&#x2F;code&gt; will do the prove, it&#x27;s convenient but too far from what we want to show here:&lt;&#x2F;p&gt;
@@ -286,35 +528,35 @@ Or in words understandable for normal human beings, definitional equality is som
 &lt;p&gt;Maybe used to show that types are used to describe some certain property of something, so we can think identity types internalize the property that something is propositional equal to another thing.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;rules-on-identity-types&quot;&gt;Rules on Identity Types&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
-=-form:
+=\text{-}form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$A\ type\ a:A\ b:A$}
-\UnaryInfC{$a=_A b\ type$}
+\UnaryInfC{$a\underset{A}{=} b\ type$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-=-intro:
+=\text{-}intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$a:A$}
-\UnaryInfC{$refl_a : a=_A a\ type$}
+\UnaryInfC{$refl_a : a\underset{A}{=} a\ type$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-=-elim:
+=\text{-}elim:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x=_A y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
-\BinaryInfC{$x:A, y:A, z:x=_A y \vdash ind_=(d,x,y,z) : D(x,y,z)\ type$}
+\BinaryInfC{$x:A, y:A, z:x\underset{A}{=} y \vdash ind_=(d,x,y,z) : D(x,y,z)\ type$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-=-comp:
+=\text{-}comp:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x=_A y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
 \BinaryInfC{$x:A \vdash ind_=(d,x,x,refl_x) \doteq d: D(x,x,refl_x)$}
 \end{prooftree}
@@ -322,9 +564,9 @@ $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;reflexivity&quot;&gt;Reflexivity&lt;&#x2F;h3&gt;
 &lt;p&gt;We can use $refl_x$ to internalize (or &amp;quot;downgrade&amp;quot;, if you prefer human being&#x27;s language) judgmental equality to propositional equality, ie.&lt;&#x2F;p&gt;
 &lt;p&gt;Since we have&lt;&#x2F;p&gt;
-&lt;p&gt;If $a \doteq b : A$, then $(a =_A b) \doteq (a =_A a)$, and&lt;&#x2F;p&gt;
-&lt;p&gt;if $refl_a:a =_A a$ and $(a =_A b) \doteq (a =_A a)$, then $refl_a:a=_Ab$.&lt;&#x2F;p&gt;
-&lt;p&gt;So we can internalize $a \doteq b : A$ with $refl_a:a=_Ab$.&lt;&#x2F;p&gt;
+&lt;p&gt;If $a \doteq b : A$, then $(a \underset{A}{=} b) \doteq (a \underset{A}{=} a)$, and&lt;&#x2F;p&gt;
+&lt;p&gt;if $refl_a:a \underset{A}{=} a$ and $(a \underset{A}{=} b) \doteq (a \underset{A}{=} a)$, then $refl_a:a=_Ab$.&lt;&#x2F;p&gt;
+&lt;p&gt;So we can internalize $a \doteq b : A$ with $refl_a:a\underset{A}{=}b$.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;functoriality&quot;&gt;Functoriality&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Functoriality means that something is a functor. e.g. when someone asks about the functoriality of some construction, they&#x27;re asking whether or not it can be upgraded to a functor. —— &lt;a href=&quot;https:&#x2F;&#x2F;math.stackexchange.com&#x2F;questions&#x2F;1922113&#x2F;what-exactly-is-functoriality&quot;&gt;stackexchange problem&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
@@ -337,19 +579,19 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Or, functors are functions act on paths&#x2F;terms of the identity type.&lt;&#x2F;p&gt;
 &lt;p&gt;For any two types $A$, $B$, any function $f:A\rightarrow B$, and any two terms $a:A, a&#x27;:A$, there exists a functor:
 $$
-ap_f: a=_Aa&#x27; \rightarrow f\ a=_B f\ a&#x27;
+ap_f: a\underset{A}{=}a&#x27; \rightarrow f\ a\underset{B}{=} f\ a&#x27;
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;Or in math language:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-ap: \Pi_{(f:A\rightarrow B)} \Pi_{(a,a&#x27;:A)} a =_A a&#x27; \rightarrow b =_A b&#x27;
+ap: \Pi_{(f:A\rightarrow B)} \Pi_{(a,a&#x27;:A)} a \underset{A}{=} a&#x27; \rightarrow b \underset{A}{=} b&#x27;
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;We can prove this by using $=-elim$ rule.&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$f:A\rightarrow B, a:A \vdash refl_{f\ a}:f\ a=_B f\ a$}
-\UnaryInfC{$f:A\rightarrow B, a:A, a&#x27;:A, p: a=_Aa&#x27; \vdash ind_=(refl_{f\ a},a,a&#x27;,p): f\ a =_B f\ a&#x27; $}
-\UnaryInfC{$\lambda f. \lambda a.\lambda a&#x27;. ind_=(refl_{f\ a},a,a&#x27;,p):\Pi_{(f:A\rightarrow B)} \Pi_{(a,a&#x27;:A)} a =_A a&#x27; \rightarrow f\ a =_B f\ a&#x27;$}
+\AxiomC{$f:A\rightarrow B, a:A \vdash refl_{f\ a}:f\ a\underset{B}{=} f\ a$}
+\UnaryInfC{$f:A\rightarrow B, a:A, a&#x27;:A, p: a\underset{A}{=}a&#x27; \vdash ind_=(refl_{f\ a},a,a&#x27;,p): f\ a \underset{B}{=} f\ a&#x27; $}
+\UnaryInfC{$\lambda f. \lambda a.\lambda a&#x27;. ind_=(refl_{f\ a},a,a&#x27;,p):\Pi_{(f:A\rightarrow B)} \Pi_{(a,a&#x27;:A)} a \underset{A}{=} a&#x27; \rightarrow f\ a \underset{B}{=} f\ a&#x27;$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;proof-example&quot;&gt;Proof Example&lt;&#x2F;h3&gt;
@@ -442,18 +684,18 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$a:A\vdash refl_a:a=_A a$}
-\UnaryInfC{$a,b:A, p: a=_A b \vdash ind_=(refl_a,a,b,p):b=_A a$}
-\UnaryInfC{$\lambda a,b,p. ind_=(refl_a,a,b,p):\Pi_{(a,b:A)}a=_Ab \rightarrow b=_Aa$}
+\AxiomC{$a:A\vdash refl_a:a\underset{A}{=} a$}
+\UnaryInfC{$a,b:A, p: a\underset{A}{=} b \vdash ind_=(refl_a,a,b,p):b\underset{A}{=} a$}
+\UnaryInfC{$\lambda a,b,p. ind_=(refl_a,a,b,p):\Pi_{(a,b:A)}a\underset{A}{=}b \rightarrow b\underset{A}{=}a$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;composition-of-equalities&quot;&gt;Composition of Equalities&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$a,c:A\vdash \lambda x.x: a=_Ac \rightarrow a=_A c$}
-\UnaryInfC{$a,b,c:A, p:a=_Ab \vdash ind_=(\lambda x.x, a, b,p):b=_Ac \rightarrow a=_Ac$}
-\UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a=_Ab \rightarrow b=_Ac \rightarrow a=_Ac$}
+\AxiomC{$a,c:A\vdash \lambda x.x: a\underset{A}{=}c \rightarrow a\underset{A}{=} c$}
+\UnaryInfC{$a,b,c:A, p:a\underset{A}{=}b \vdash ind_=(\lambda x.x, a, b,p):b\underset{A}{=}c \rightarrow a\underset{A}{=}c$}
+\UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a\underset{A}{=}b \rightarrow b\underset{A}{=}c \rightarrow a\underset{A}{=}c$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;the-space-interpretation-of-types&quot;&gt;The Space Interpretation of Types&lt;&#x2F;h2&gt;
@@ -480,10 +722,24 @@ that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.&l
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$b:B\vdash \lambda x.x: E(b) \rightarrow E(b)$}
-\UnaryInfC{$b,b&#x27;:B,p:b=_Bb&#x27;\vdash ind_=(\lambda x.x, b, b&#x27;, p): E(b) \rightarrow E(b&#x27;)$}
-\UnaryInfC{$\lambda b,b&#x27;,p.ind_=(\lambda x.x, b, b&#x27;, p): \Pi_{(b,b&#x27;:B)}(b=_Bb&#x27;) \rightarrow E(b) \rightarrow E(b&#x27;)$}
+\UnaryInfC{$b,b&#x27;:B,p:b\underset{B}{=}b&#x27;\vdash ind_=(\lambda x.x, b, b&#x27;, p): E(b) \rightarrow E(b&#x27;)$}
+\UnaryInfC{$\lambda b,b&#x27;,p.ind_=(\lambda x.x, b, b&#x27;, p): \Pi_{(b,b&#x27;:B)}(b\underset{B}{=}b&#x27;) \rightarrow E(b) \rightarrow E(b&#x27;)$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;transport &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b b&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;            (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&amp;#39;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;transport &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ x &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;materials&quot;&gt;Materials&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;lecture-note&quot;&gt;Lecture Note&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_3.pdf&quot;&gt;HoTTEST_Lecture_3.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
+&lt;div &gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;oMKl7pBRg1E&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;The VSCode spell checker told me this is not even an existing word, and so do many mathematic terms in this article, mathematicians are really good at inventing terms!&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
@@ -509,7 +765,7 @@ $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h3&gt;
 &lt;h4 id=&quot;bool&quot;&gt;bool&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
-bool-form: 
+bool\text{-}form: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -517,7 +773,7 @@ bool-form:
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-bool-intro: 
+bool\text{-}intro: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -531,7 +787,7 @@ bool-intro:
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-bool-elim: 
+bool\text{-}elim: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
@@ -541,7 +797,7 @@ bool-elim:
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-bool-comp: 
+bool\text{-}comp: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
@@ -552,7 +808,7 @@ bool-comp:
 $$&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;coproduct&quot;&gt;Coproduct&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
-+-form: 
++\text{-}form: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash P\ type$}
@@ -561,7 +817,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-+-intro: 
++\text{-}intro: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash p:P$}
@@ -575,7 +831,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-+-elim: 
++\text{-}elim: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
@@ -585,7 +841,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-+-comp: 
++\text{-}comp: 
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}

@@ -110,35 +110,35 @@ Or in words understandable for normal human beings, definitional equality is som
 <p>Maybe used to show that types are used to describe some certain property of something, so we can think identity types internalize the property that something is propositional equal to another thing.</p>
 <h3 id="rules-on-identity-types">Rules on Identity Types</h3>
 <p>$$
-=-form:
+=\text{-}form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$A\ type\ a:A\ b:A$}
-\UnaryInfC{$a=_A b\ type$}
+\UnaryInfC{$a\underset{A}{=} b\ type$}
 \end{prooftree}
 $$</p>
 <p>$$
-=-intro:
+=\text{-}intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$a:A$}
-\UnaryInfC{$refl_a : a=_A a\ type$}
+\UnaryInfC{$refl_a : a\underset{A}{=} a\ type$}
 \end{prooftree}
 $$</p>
 <p>$$
-=-elim:
+=\text{-}elim:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x=_A y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
-\BinaryInfC{$x:A, y:A, z:x=_A y \vdash ind_=(d,x,y,z) : D(x,y,z)\ type$}
+\BinaryInfC{$x:A, y:A, z:x\underset{A}{=} y \vdash ind_=(d,x,y,z) : D(x,y,z)\ type$}
 \end{prooftree}
 $$</p>
 <p>$$
-=-comp:
+=\text{-}comp:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x=_A y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
 \BinaryInfC{$x:A \vdash ind_=(d,x,x,refl_x) \doteq d: D(x,x,refl_x)$}
 \end{prooftree}
@@ -146,9 +146,9 @@ $$</p>
 <h3 id="reflexivity">Reflexivity</h3>
 <p>We can use $refl_x$ to internalize (or &quot;downgrade&quot;, if you prefer human being's language) judgmental equality to propositional equality, ie.</p>
 <p>Since we have</p>
-<p>If $a \doteq b : A$, then $(a =_A b) \doteq (a =_A a)$, and</p>
-<p>if $refl_a:a =_A a$ and $(a =_A b) \doteq (a =_A a)$, then $refl_a:a=_Ab$.</p>
-<p>So we can internalize $a \doteq b : A$ with $refl_a:a=_Ab$.</p>
+<p>If $a \doteq b : A$, then $(a \underset{A}{=} b) \doteq (a \underset{A}{=} a)$, and</p>
+<p>if $refl_a:a \underset{A}{=} a$ and $(a \underset{A}{=} b) \doteq (a \underset{A}{=} a)$, then $refl_a:a=_Ab$.</p>
+<p>So we can internalize $a \doteq b : A$ with $refl_a:a\underset{A}{=}b$.</p>
 <h2 id="functoriality">Functoriality<sup class="footnote-reference"><a href="#1">1</a></sup></h2>
 <blockquote>
 <p>Functoriality means that something is a functor. e.g. when someone asks about the functoriality of some construction, they're asking whether or not it can be upgraded to a functor. —— <a href="https://math.stackexchange.com/questions/1922113/what-exactly-is-functoriality">stackexchange problem</a></p>
@@ -161,19 +161,19 @@ $$</p>
 <p>Or, functors are functions act on paths/terms of the identity type.</p>
 <p>For any two types $A$, $B$, any function $f:A\rightarrow B$, and any two terms $a:A, a':A$, there exists a functor:
 $$
-ap_f: a=_Aa' \rightarrow f\ a=_B f\ a'
+ap_f: a\underset{A}{=}a' \rightarrow f\ a\underset{B}{=} f\ a'
 $$</p>
 <p>Or in math language:</p>
 <p>$$
-ap: \Pi_{(f:A\rightarrow B)} \Pi_{(a,a':A)} a =_A a' \rightarrow b =_A b'
+ap: \Pi_{(f:A\rightarrow B)} \Pi_{(a,a':A)} a \underset{A}{=} a' \rightarrow b \underset{A}{=} b'
 $$</p>
 <p>We can prove this by using $=-elim$ rule.</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$f:A\rightarrow B, a:A \vdash refl_{f\ a}:f\ a=_B f\ a$}
-\UnaryInfC{$f:A\rightarrow B, a:A, a':A, p: a=_Aa' \vdash ind_=(refl_{f\ a},a,a',p): f\ a =_B f\ a' $}
-\UnaryInfC{$\lambda f. \lambda a.\lambda a'. ind_=(refl_{f\ a},a,a',p):\Pi_{(f:A\rightarrow B)} \Pi_{(a,a':A)} a =_A a' \rightarrow f\ a =_B f\ a'$}
+\AxiomC{$f:A\rightarrow B, a:A \vdash refl_{f\ a}:f\ a\underset{B}{=} f\ a$}
+\UnaryInfC{$f:A\rightarrow B, a:A, a':A, p: a\underset{A}{=}a' \vdash ind_=(refl_{f\ a},a,a',p): f\ a \underset{B}{=} f\ a' $}
+\UnaryInfC{$\lambda f. \lambda a.\lambda a'. ind_=(refl_{f\ a},a,a',p):\Pi_{(f:A\rightarrow B)} \Pi_{(a,a':A)} a \underset{A}{=} a' \rightarrow f\ a \underset{B}{=} f\ a'$}
 \end{prooftree}
 $$</p>
 <h3 id="proof-example">Proof Example</h3>
@@ -266,18 +266,18 @@ $$</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$a:A\vdash refl_a:a=_A a$}
-\UnaryInfC{$a,b:A, p: a=_A b \vdash ind_=(refl_a,a,b,p):b=_A a$}
-\UnaryInfC{$\lambda a,b,p. ind_=(refl_a,a,b,p):\Pi_{(a,b:A)}a=_Ab \rightarrow b=_Aa$}
+\AxiomC{$a:A\vdash refl_a:a\underset{A}{=} a$}
+\UnaryInfC{$a,b:A, p: a\underset{A}{=} b \vdash ind_=(refl_a,a,b,p):b\underset{A}{=} a$}
+\UnaryInfC{$\lambda a,b,p. ind_=(refl_a,a,b,p):\Pi_{(a,b:A)}a\underset{A}{=}b \rightarrow b\underset{A}{=}a$}
 \end{prooftree}
 $$</p>
 <h4 id="composition-of-equalities">Composition of Equalities</h4>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$a,c:A\vdash \lambda x.x: a=_Ac \rightarrow a=_A c$}
-\UnaryInfC{$a,b,c:A, p:a=_Ab \vdash ind_=(\lambda x.x, a, b,p):b=_Ac \rightarrow a=_Ac$}
-\UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a=_Ab \rightarrow b=_Ac \rightarrow a=_Ac$}
+\AxiomC{$a,c:A\vdash \lambda x.x: a\underset{A}{=}c \rightarrow a\underset{A}{=} c$}
+\UnaryInfC{$a,b,c:A, p:a\underset{A}{=}b \vdash ind_=(\lambda x.x, a, b,p):b\underset{A}{=}c \rightarrow a\underset{A}{=}c$}
+\UnaryInfC{$\lambda a,b,c,p. ind_=(\lambda x.x, a, b,p): \Pi_{(a,b,c:A)} a\underset{A}{=}b \rightarrow b\underset{A}{=}c \rightarrow a\underset{A}{=}c$}
 \end{prooftree}
 $$</p>
 <h2 id="the-space-interpretation-of-types">The Space Interpretation of Types</h2>
@@ -304,10 +304,24 @@ that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.</
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$b:B\vdash \lambda x.x: E(b) \rightarrow E(b)$}
-\UnaryInfC{$b,b':B,p:b=_Bb'\vdash ind_=(\lambda x.x, b, b', p): E(b) \rightarrow E(b')$}
-\UnaryInfC{$\lambda b,b',p.ind_=(\lambda x.x, b, b', p): \Pi_{(b,b':B)}(b=_Bb') \rightarrow E(b) \rightarrow E(b')$}
+\UnaryInfC{$b,b':B,p:b\underset{B}{=}b'\vdash ind_=(\lambda x.x, b, b', p): E(b) \rightarrow E(b')$}
+\UnaryInfC{$\lambda b,b',p.ind_=(\lambda x.x, b, b', p): \Pi_{(b,b':B)}(b\underset{B}{=}b') \rightarrow E(b) \rightarrow E(b')$}
 \end{prooftree}
 $$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">transport </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#b48ead;">E </span><span>: </span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">Set</span><span>) {</span><span style="color:#bf616a;">b b&#39; </span><span>: </span><span style="color:#b48ead;">A</span><span>}
+</span><span>            (</span><span style="color:#bf616a;">p </span><span>: </span><span style="color:#bf616a;">b </span><span>≡ </span><span style="color:#bf616a;">b&#39;</span><span>) → </span><span style="color:#b48ead;">E </span><span style="color:#bf616a;">b </span><span>→ </span><span style="color:#b48ead;">E </span><span style="color:#bf616a;">b&#39;
+</span><span style="color:#bf616a;">transport </span><span style="color:#b48ead;">E </span><span style="color:#bf616a;">refl </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">x
+</span></code></pre>
+<h2 id="materials">Materials</h2>
+<h3 id="lecture-note">Lecture Note</h3>
+<p><a href="https://github.com/martinescardo/HoTTEST-Summer-School/blob/main/HoTT/HoTTEST_Lecture_3.pdf">HoTTEST_Lecture_3.pdf</a></p>
+<h3 id="record-on-youtube">Record on Youtube</h3>
+<div >
+    <iframe src="https://www.youtube-nocookie.com/embed/oMKl7pBRg1E" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>It's actually judgmentally equal, <a href="https://jozefg.bitbucket.io/posts/2014-08-06-equality.html">ref</a>.</p>
+</div>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>The VSCode spell checker told me this is not even an existing word, and so do many mathematic terms in this article, mathematicians are really good at inventing terms!</p>
 </div>
