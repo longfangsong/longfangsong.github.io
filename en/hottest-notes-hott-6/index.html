@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • HoTTEST Summer School HoTT Notes 6</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-6&#x2F;">HoTTEST Summer School HoTT Notes 6</a></h1>
+  
+  <div class="post-content"><h2 id="contractable-types">Contractable Types</h2>
+<blockquote>
+<p>A contractible type is a type which has, up to identification, only one element. In other words, a contractible type is a type that comes equipped with a point, and an identification of this point with any point. —— Introduction to Homotopy Type Theory</p>
+</blockquote>
+<p>Basically I think a contractible type is a type that all instances of it are equal.</p>
+<p>Formally, we def:</p>
+<p>$$
+is\text{-}contr(A) := Σ_{(c:A)}\Pi_{(x:A)} c=x
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">Σ A</span><span> (</span><span style="color:#bf616a;">λ c </span><span>→ (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">c</span><span>)
+</span></code></pre>
+<p>We call $c$ here the <strong>center of contraction</strong>, and call the 
+$$
+C: \Pi_{(x:A)} c=x
+$$
+part the <strong>contraction</strong> of $A$.</p>
+<p>$C$ is a homotopy from the constant function to the identity function.</p>
+<p>$$
+const_C \sim id_A
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39; </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">Σ A</span><span> (</span><span style="color:#bf616a;">λ c </span><span>→ </span><span style="color:#96b5b4;">const </span><span style="color:#bf616a;">c </span><span>~ </span><span style="color:#96b5b4;">id</span><span>)
+</span><span>
+</span><span style="color:#65737e;">-- prove these two definitions are same
+</span><span>
+</span><span style="color:#65737e;">-- helper functions
+</span><span style="color:#96b5b4;">id</span><span>-</span><span style="color:#bf616a;">eq </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#96b5b4;">id </span><span style="color:#bf616a;">x
+</span><span style="color:#96b5b4;">id</span><span>-</span><span style="color:#bf616a;">eq </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">x </span><span>= </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">eq </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">c x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">c </span><span>≡ </span><span style="color:#96b5b4;">const </span><span style="color:#bf616a;">c x
+</span><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">eq </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">c x </span><span>= </span><span style="color:#bf616a;">refl
+</span><span style="color:#65737e;">-- helper functions end
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">def</span><span>-</span><span style="color:#bf616a;">eq</span><span>-</span><span style="color:#bf616a;">l </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39; </span><span style="color:#b48ead;">A
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">def</span><span>-</span><span style="color:#bf616a;">eq</span><span>-</span><span style="color:#bf616a;">l</span><span> (</span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#b48ead;">Cdef1</span><span>) = </span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#bf616a;">λ x </span><span>→ 
+</span><span>    </span><span style="color:#bf616a;">sym </span><span>$
+</span><span>    </span><span style="color:#bf616a;">trans 
+</span><span>        (</span><span style="color:#bf616a;">trans 
+</span><span>            (</span><span style="color:#bf616a;">sym</span><span> (</span><span style="color:#96b5b4;">id</span><span>-</span><span style="color:#bf616a;">eq x</span><span>)) 
+</span><span>            (</span><span style="color:#b48ead;">Cdef1 </span><span style="color:#bf616a;">x</span><span>))
+</span><span>        (</span><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">eq c x</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">def</span><span>-</span><span style="color:#bf616a;">eq</span><span>-</span><span style="color:#bf616a;">r </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39; </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">def</span><span>-</span><span style="color:#bf616a;">eq</span><span>-</span><span style="color:#bf616a;">r</span><span> (</span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#b48ead;">Cdef2</span><span>) = </span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#bf616a;">λ x </span><span>→ 
+</span><span>    </span><span style="color:#bf616a;">sym </span><span>$ 
+</span><span>    </span><span style="color:#bf616a;">trans
+</span><span>        (</span><span style="color:#bf616a;">trans 
+</span><span>            (</span><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">eq c x</span><span>) 
+</span><span>            (</span><span style="color:#b48ead;">Cdef2 </span><span style="color:#bf616a;">x</span><span>))
+</span><span>        (</span><span style="color:#bf616a;">sym</span><span> (</span><span style="color:#96b5b4;">id</span><span>-</span><span style="color:#bf616a;">eq x</span><span>))
+</span></code></pre>
+<p>Examples of contractible types includes the unit type and the type $\Sigma_{(x:A)}a=x$.</p>
+<p>A type $A$ is contractible if and only if the map $const_{tt} : A \rightarrow \bf{1}$ is an equivalence.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">tt </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → </span><span style="color:#b48ead;">A </span><span>→ ⊤
+</span><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">tt _ </span><span>= </span><span style="color:#bf616a;">tt
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">l </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv</span><span> (</span><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">tt </span><span>{</span><span style="color:#b48ead;">A</span><span>})) → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39; </span><span style="color:#b48ead;">A</span><span>)
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">l</span><span> (</span><span style="color:#bf616a;">_ </span><span>, (</span><span style="color:#bf616a;">h </span><span>, </span><span style="color:#bf616a;">retrPart</span><span>)) = </span><span style="color:#bf616a;">h tt </span><span>, </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">retrPart x
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">r </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39; </span><span style="color:#b48ead;">A</span><span>) → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv</span><span> (</span><span style="color:#96b5b4;">const</span><span>-</span><span style="color:#bf616a;">tt </span><span>{</span><span style="color:#b48ead;">A</span><span>}))
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">r</span><span> (</span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#b48ead;">C</span><span>) = (</span><span style="color:#96b5b4;">const </span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">refl</span><span>) , (</span><span style="color:#96b5b4;">const </span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#b48ead;">C </span><span style="color:#bf616a;">x</span><span>)
+</span></code></pre>
+<h3 id="singleton-induction">Singleton induction</h3>
+<p>Let $A$ be a type with an element $a$, we said $A$ satisfies singleton induction if for every type family $B$ over $A$, the map defined by $ev-pt(f) := f(a)$ where</p>
+<p>$$
+ev\text{-}pt : (\Pi_{(x:A)} B(x)) → B(a)
+$$
+<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">ev</span><span>-</span><span style="color:#bf616a;">pt </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">a </span><span>: </span><span style="color:#b48ead;">A</span><span>) → ((</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">a
+</span><span style="color:#bf616a;">ev</span><span>-</span><span style="color:#bf616a;">pt a f </span><span>= </span><span style="color:#bf616a;">f a
+</span></code></pre>
+<p>has a section, ie. has</p>
+<p>$$
+ind\text{-}sing_a : B(a) → \Pi_{(x:A)} B(x)
+$$</p>
+<p>$$
+comp\text{-}sing_a : ev\text{-}pt \cdot ind\text{-}sing_a \sim id
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">singleton </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">c </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">Set</span><span>₁
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">singleton </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">c </span><span>= (</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#bf616a;">sec</span><span> (</span><span style="color:#bf616a;">ev</span><span>-</span><span style="color:#bf616a;">pt </span><span>{</span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">c</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">ind</span><span>-</span><span style="color:#bf616a;">sing </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">a </span><span>: </span><span style="color:#b48ead;">A</span><span>) → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">singleton </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">a</span><span>) → 
+</span><span>  (</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">a </span><span>→ (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x
+</span><span style="color:#bf616a;">ind</span><span>-</span><span style="color:#bf616a;">sing </span><span>= </span><span style="color:#bf616a;">λ c is</span><span>-</span><span style="color:#bf616a;">sing </span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#96b5b4;">fst</span><span> (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">sing </span><span style="color:#b48ead;">B</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">comp</span><span>-</span><span style="color:#bf616a;">sing </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">a </span><span>: </span><span style="color:#b48ead;">A</span><span>) → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">sing </span><span>: </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">singleton </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">a</span><span>) → 
+</span><span>    (</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>) → (</span><span style="color:#bf616a;">ev</span><span>-</span><span style="color:#bf616a;">pt </span><span>{</span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">a </span><span>∘ </span><span style="color:#bf616a;">ind</span><span>-</span><span style="color:#bf616a;">sing a is</span><span>-</span><span style="color:#bf616a;">sing </span><span style="color:#b48ead;">B</span><span>) ~ </span><span style="color:#96b5b4;">id
+</span><span style="color:#bf616a;">comp</span><span>-</span><span style="color:#bf616a;">sing </span><span>= </span><span style="color:#bf616a;">λ a is</span><span>-</span><span style="color:#bf616a;">sing </span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#96b5b4;">snd</span><span> (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">sing </span><span style="color:#b48ead;">B</span><span>) 
+</span></code></pre>
+<p>And $is-contr A$ is iff to $A$ satisfied to $ind\text{-}sing_a$ with some $a:A$.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39;&#39;&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set</span><span>₁
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39;&#39;&#39; </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">Σ A </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">singleton
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">ind</span><span>-</span><span style="color:#bf616a;">l </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39;&#39;&#39; </span><span style="color:#b48ead;">A</span><span>) → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39; </span><span style="color:#b48ead;">A</span><span>)
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">ind</span><span>-</span><span style="color:#bf616a;">l</span><span> (</span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#b48ead;">Cdef3</span><span>) = </span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#96b5b4;">fst</span><span> (</span><span style="color:#b48ead;">Cdef3</span><span> (</span><span style="color:#bf616a;">_</span><span>≡</span><span style="color:#bf616a;">_ c</span><span>)) </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>} (</span><span style="color:#bf616a;">p </span><span>: </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>) → (</span><span style="color:#bf616a;">trans p</span><span> (</span><span style="color:#bf616a;">sym p</span><span>)) ≡ </span><span style="color:#bf616a;">refl
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv refl </span><span>= </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">ind</span><span>-</span><span style="color:#bf616a;">r </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A</span><span>) → (</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr&#39;&#39;&#39; </span><span style="color:#b48ead;">A</span><span>)
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span>-</span><span style="color:#bf616a;">equ</span><span>-</span><span style="color:#bf616a;">ind</span><span>-</span><span style="color:#bf616a;">r</span><span> (</span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#b48ead;">Cdef1</span><span>) = </span><span style="color:#bf616a;">c </span><span>, </span><span style="color:#bf616a;">λ </span><span style="color:#b48ead;">B </span><span>→ 
+</span><span>    (</span><span style="color:#bf616a;">λ bc x </span><span>→ </span><span style="color:#bf616a;">transport </span><span style="color:#b48ead;">B</span><span> (</span><span style="color:#bf616a;">trans</span><span> (</span><span style="color:#b48ead;">Cdef1 </span><span style="color:#bf616a;">c</span><span>) (</span><span style="color:#bf616a;">sym</span><span> (</span><span style="color:#b48ead;">Cdef1 </span><span style="color:#bf616a;">x</span><span>))) </span><span style="color:#bf616a;">bc</span><span>) , 
+</span><span>    </span><span style="color:#bf616a;">λ bc </span><span>→ </span><span style="color:#bf616a;">cong</span><span> (</span><span style="color:#bf616a;">λ t </span><span>→ </span><span style="color:#bf616a;">transport </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">t bc</span><span>) (</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv</span><span> (</span><span style="color:#b48ead;">Cdef1 </span><span style="color:#bf616a;">c</span><span>))
+</span></code></pre>
+<h2 id="fiber">Fiber</h2>
+<blockquote>
+<p>The fiber of a morphism or bundle $f : E → B$ over a point of B is the collection of elements of E that are mapped by f to this point. —— nLab</p>
+</blockquote>
+<p>$$
+fib_f(b) := Σ_{(a:A)}f(a) = b
+$$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">fib </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) (</span><span style="color:#bf616a;">b </span><span>: </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">fib </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">f b </span><span>= </span><span style="color:#b48ead;">Σ A</span><span> (</span><span style="color:#bf616a;">λ a </span><span>→ </span><span style="color:#bf616a;">f a </span><span>≡ </span><span style="color:#bf616a;">b</span><span>)
+</span></code></pre>
+<p>And it can be regarded as type version of prop &quot;b is in the image of f&quot;.</p>
+<h3 id="identification-of-points-in-the-fiber">Identification of points in the fiber</h3>
+<p>For all $(a, q)$ and $(a', q')$ of type $fib_f(b)$ we have</p>
+<p>$$
+((a,q)=(a',q')) ≃ Σ_{(p:a=a')} q = ap_f p \cdot q'
+$$
+<sup class="footnote-reference"><a href="#1">1</a></sup>: $ev-pt$ is abbreviation for &quot;evaluate at point&quot;</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-09-12</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=HoTTEST Summer School HoTT Notes 6&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-6&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="preferred-color-scheme"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

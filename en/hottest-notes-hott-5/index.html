@@ -109,8 +109,18 @@ $$</p>
 <p><img src="https://longfangsong.github.io/en/hottest-notes-hott-5/./1.svg" alt="" /></p>
 <p>So we can see there's some relation between $f \cdot g$ and $id_B$, this relation is similar, but weaker than $f \cdot g \underset{B → B}{=} id_B$.</p>
 <p>And this relation is what we call homotopy.</p>
+<h3 id="formal-definition">Formal definition</h3>
+<p>For two dependent functions $f$ and $g$,</p>
+<p>$$
+f \sim g := \Pi_{(x:A)} f(x) = g(x)
+$$</p>
+<p>Here $f \sim g$ is the type of homotopies from $f$ to $g$.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">module </span><span style="color:#bf616a;">_ </span><span>{</span><span style="color:#bf616a;">l1 l2</span><span>} {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l1</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l2</span><span>} </span><span style="color:#b48ead;">where
+</span><span>    </span><span style="color:#bf616a;">_</span><span>~</span><span style="color:#bf616a;">_ </span><span>: (</span><span style="color:#bf616a;">f g </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x</span><span>) → </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">l1 </span><span>⊔ </span><span style="color:#bf616a;">l2</span><span>)
+</span><span>    </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g </span><span>= (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">f x </span><span>≡ </span><span style="color:#bf616a;">g x
+</span></code></pre>
 <p>Here we can say $g$ is a section of $f$ and $f$ is a retraction of $g$, we'll introduce these concepts later.</p>
-<p>Here is another example:</p>
+<h3 id="example">Example</h3>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool </span><span>: Bool → Bool
 </span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool true </span><span>= </span><span style="color:#bf616a;">false
 </span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool false </span><span>= </span><span style="color:#bf616a;">true
@@ -120,14 +130,11 @@ $$</p>
 neg\text{-}bool \cdot neg\text{-}bool ≐ id_{Bool}
 $$</p>
 <p>Instead, we can define a pointwise identification between the values of $neg\text{-}bool \cdot neg\text{-}bool$ and $id_{Bool}$.</p>
-<p>We name this kind of notion of sameness of maps a name &quot;homotopy&quot;.</p>
-<h3 id="formal-definition">Formal definition</h3>
-<p>For two dependent functions $f$ and $g$,</p>
-<p>$$
-f \sim g := \Pi_{(x:A)} f(x) = g(x)
-$$</p>
-<p>Here $f \sim g$ is the type of homotopies from $f$ to $g$.</p>
-<h4 id="commutativity-of-diagrams">Commutativity of Diagrams<sup class="footnote-reference"><a href="#1">1</a></sup></h4>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool </span><span>: (</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool </span><span>∘ </span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool</span><span>) ~ </span><span style="color:#96b5b4;">id
+</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool false </span><span>= </span><span style="color:#bf616a;">refl
+</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">bool true </span><span>= </span><span style="color:#bf616a;">refl
+</span></code></pre>
+<h3 id="commutativity-of-diagrams">Commutativity of Diagrams<sup class="footnote-reference"><a href="#1">1</a></sup></h3>
 <p>We can use homotopies to express the commutativity of diagrams.</p>
 <p>For example, we say that a triangle commutes if it comes equipped with a homotopy $H: f \sim g \cdot h$.</p>
 <p>$$
@@ -170,8 +177,44 @@ $$</p>
 <p>inv-htpy: $\Pi_{(f,g:\Pi_{(x:A)}B(x))} (f \sim g) → (g \sim f)$</p>
 <p>concat-htpy: $\Pi_{(f,g,h:\Pi_{(x:A)}B(x))} (f \sim g) → (g \sim h) \rightarrow (f \sim h)$</p>
 <p>We will often write $H^{-1}$ for $inv\text{-}htpy(H)$, and $H \cdot K$ for $concat\text{-}htpy(H, K)$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">f </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x</span><span>) → </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">f
+</span><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#bf616a;">htpy </span><span>= </span><span style="color:#bf616a;">λ f x </span><span>→ </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x</span><span>} → </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g </span><span>→ </span><span style="color:#bf616a;">g </span><span>~ </span><span style="color:#bf616a;">f
+</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy htpy </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">sym</span><span> (</span><span style="color:#bf616a;">htpy x</span><span>)
+</span><span>
+</span><span style="color:#96b5b4;">concat</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g h </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x</span><span>} → </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g </span><span>→ </span><span style="color:#bf616a;">g </span><span>~ </span><span style="color:#bf616a;">h </span><span>→ </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">h
+</span><span style="color:#96b5b4;">concat</span><span>-</span><span style="color:#bf616a;">htpy htpy1 htpy2 </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">trans</span><span> (</span><span style="color:#bf616a;">htpy1 x</span><span>) (</span><span style="color:#bf616a;">htpy2 x</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">_</span><span>·</span><span style="color:#bf616a;">_ </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g h </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x</span><span>} → </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g </span><span>→ </span><span style="color:#bf616a;">g </span><span>~ </span><span style="color:#bf616a;">h </span><span>→ </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">h
+</span><span style="color:#bf616a;">_</span><span>·</span><span style="color:#bf616a;">_ </span><span>= </span><span style="color:#96b5b4;">concat</span><span>-</span><span style="color:#bf616a;">htpy
+</span></code></pre>
 <h3 id="laws-of-homotopies">Laws of Homotopies</h3>
 <p>Homotopies satisfy the groupoid laws, ie. associative, has left and right unit (refl-htpy), left and right inverse law.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">assoc</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g h i </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} (</span><span style="color:#b48ead;">H </span><span>: </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g</span><span>) (</span><span style="color:#b48ead;">K </span><span>: </span><span style="color:#bf616a;">g </span><span>~ </span><span style="color:#bf616a;">h</span><span>) (</span><span style="color:#b48ead;">L </span><span>: </span><span style="color:#bf616a;">h </span><span>~ </span><span style="color:#bf616a;">i</span><span>) → (((</span><span style="color:#b48ead;">H </span><span>· </span><span style="color:#b48ead;">K</span><span>) · </span><span style="color:#b48ead;">L</span><span>) ~ (</span><span style="color:#b48ead;">H </span><span>· (</span><span style="color:#b48ead;">K </span><span>· </span><span style="color:#b48ead;">L</span><span>)))
+</span><span style="color:#bf616a;">assoc</span><span>-</span><span style="color:#bf616a;">htpy </span><span style="color:#b48ead;">H K L </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">trans</span><span>-</span><span style="color:#bf616a;">assoc</span><span> (</span><span style="color:#b48ead;">H </span><span style="color:#bf616a;">x</span><span>) {</span><span style="color:#b48ead;">K </span><span style="color:#bf616a;">x</span><span>} {</span><span style="color:#b48ead;">L </span><span style="color:#bf616a;">x</span><span>}
+</span><span>
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">unit</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} (</span><span style="color:#b48ead;">H </span><span>: </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g</span><span>) → ((</span><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#bf616a;">htpy f </span><span>· </span><span style="color:#b48ead;">H</span><span>) ~ </span><span style="color:#b48ead;">H</span><span>)
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">unit</span><span>-</span><span style="color:#bf616a;">htpy </span><span style="color:#b48ead;">H </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">unit </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#bf616a;">p </span><span>: </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>} → (</span><span style="color:#bf616a;">trans p</span><span> (</span><span style="color:#bf616a;">refl </span><span>{</span><span style="color:#bf616a;">x </span><span>= </span><span style="color:#bf616a;">y</span><span>})) ≡ </span><span style="color:#bf616a;">p
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">unit </span><span>{</span><span style="color:#bf616a;">p </span><span>= </span><span style="color:#bf616a;">refl</span><span>} = </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">unit</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} (</span><span style="color:#b48ead;">H </span><span>: </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g</span><span>) → ((</span><span style="color:#b48ead;">H </span><span>· (</span><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#bf616a;">htpy g</span><span>)) ~ </span><span style="color:#b48ead;">H</span><span>)
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">unit</span><span>-</span><span style="color:#bf616a;">htpy </span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">f</span><span>} {</span><span style="color:#bf616a;">g</span><span>} </span><span style="color:#b48ead;">H </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">unit
+</span><span>
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">inv </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>} (</span><span style="color:#bf616a;">p </span><span>: </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>) → (</span><span style="color:#bf616a;">trans p</span><span> (</span><span style="color:#bf616a;">sym p</span><span>)) ≡ </span><span style="color:#bf616a;">refl
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">inv refl </span><span>= </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>} (</span><span style="color:#bf616a;">p </span><span>: </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>) → (</span><span style="color:#bf616a;">trans</span><span> (</span><span style="color:#bf616a;">sym p</span><span>) </span><span style="color:#bf616a;">p</span><span>) ≡ </span><span style="color:#bf616a;">refl
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv refl </span><span>= </span><span style="color:#bf616a;">refl
+</span><span>
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} (</span><span style="color:#b48ead;">H </span><span>: </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g</span><span>) → (((</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy </span><span style="color:#b48ead;">H</span><span>) · </span><span style="color:#b48ead;">H</span><span>) ~ (</span><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#bf616a;">htpy g</span><span>))
+</span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy </span><span style="color:#b48ead;">H </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">left</span><span>-</span><span style="color:#bf616a;">inv</span><span> (</span><span style="color:#b48ead;">H </span><span style="color:#bf616a;">x</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy </span><span>: {</span><span style="color:#b48ead;">A B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} (</span><span style="color:#b48ead;">H </span><span>: </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g</span><span>) → ((</span><span style="color:#b48ead;">H </span><span>· (</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy </span><span style="color:#b48ead;">H</span><span>)) ~ (</span><span style="color:#bf616a;">refl</span><span>-</span><span style="color:#bf616a;">htpy f</span><span>))
+</span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy </span><span style="color:#b48ead;">H </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">right</span><span>-</span><span style="color:#bf616a;">inv</span><span> (</span><span style="color:#b48ead;">H </span><span style="color:#bf616a;">x</span><span>)
+</span></code></pre>
 <h4 id="whiskering">Whiskering</h4>
 <p>Whiskering operations are operations that allow us to compose homotopies with functions.</p>
 <ul>
@@ -180,12 +223,18 @@ $$</p>
 <p>$$
 h \cdot H := λx.ap_h(H(x)) : h \cdot f \sim h \cdot g
 $$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">f</span><span>-</span><span style="color:#bf616a;">chain</span><span>-</span><span style="color:#b48ead;">H </span><span>: {</span><span style="color:#b48ead;">A B C </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f g </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} (</span><span style="color:#bf616a;">h </span><span>: </span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">C</span><span>) (</span><span style="color:#b48ead;">H </span><span>: </span><span style="color:#bf616a;">f </span><span>~ </span><span style="color:#bf616a;">g</span><span>) → ((</span><span style="color:#bf616a;">h </span><span>∘ </span><span style="color:#bf616a;">f</span><span>) ~ (</span><span style="color:#bf616a;">h </span><span>∘ </span><span style="color:#bf616a;">g</span><span>))
+</span><span style="color:#bf616a;">f</span><span>-</span><span style="color:#bf616a;">chain</span><span>-</span><span style="color:#b48ead;">H </span><span style="color:#bf616a;">h </span><span style="color:#b48ead;">H </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">cong h</span><span> (</span><span style="color:#b48ead;">H </span><span style="color:#bf616a;">x</span><span>)
+</span></code></pre>
 <ul>
 <li>Suppose $f: A → B$ and $H: g \sim h$ for two functions $g,h:B→C$. We define</li>
 </ul>
 <p>$$
 H \cdot f := λx.H(f(x)) : h \cdot f \sim g \cdot f
 $$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">H</span><span>-</span><span style="color:#bf616a;">chain</span><span>-</span><span style="color:#bf616a;">f </span><span>: {</span><span style="color:#b48ead;">A B C </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">g h </span><span>: </span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">C</span><span>} (</span><span style="color:#b48ead;">H </span><span>: </span><span style="color:#bf616a;">g </span><span>~ </span><span style="color:#bf616a;">h</span><span>) (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) → ((</span><span style="color:#bf616a;">h </span><span>∘ </span><span style="color:#bf616a;">f</span><span>) ~ (</span><span style="color:#bf616a;">g </span><span>∘ </span><span style="color:#bf616a;">f</span><span>))
+</span><span style="color:#b48ead;">H</span><span>-</span><span style="color:#bf616a;">chain</span><span>-</span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">H </span><span style="color:#bf616a;">f </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">sym</span><span> (</span><span style="color:#b48ead;">H</span><span> (</span><span style="color:#bf616a;">f x</span><span>))
+</span></code></pre>
 <h3 id="bi-invertible-maps">Bi-invertible maps</h3>
 <p>We can use homotopies to define sections, retractions and equivalence of a map.</p>
 <ul>
@@ -195,29 +244,54 @@ $$</p>
 sec(f) := \Sigma_{(g:B\rightarrow A)} f\cdot g \sim id_B
 $$</p>
 <p>For any equivalence $e : 𝐴 ≃ 𝐵$ we define $e^{-1}$ to be the section of $e$.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">sec </span><span>: {</span><span style="color:#bf616a;">l1 l2 </span><span>: </span><span style="color:#b48ead;">Level</span><span>} {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l1</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l2</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">l1 </span><span>⊔ </span><span style="color:#bf616a;">l2</span><span>)
+</span><span style="color:#bf616a;">sec </span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">f </span><span>= </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">A</span><span>) (</span><span style="color:#bf616a;">λ g </span><span>→ ((</span><span style="color:#bf616a;">f </span><span>∘ </span><span style="color:#bf616a;">g</span><span>) ~ </span><span style="color:#96b5b4;">id</span><span>))
+</span></code></pre>
 </li>
 <li>
 <p>A retraction is a left inverse of some morphism.</p>
 <p>$$
 retr(f) := \Sigma_{(h:B\rightarrow A)} h\cdot f \sim id_A
 $$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">retr </span><span>: {</span><span style="color:#bf616a;">l1 l2 </span><span>: </span><span style="color:#b48ead;">Level</span><span>} {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l1</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l2</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">l1 </span><span>⊔ </span><span style="color:#bf616a;">l2</span><span>)
+</span><span style="color:#bf616a;">retr </span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">f </span><span>= </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">A</span><span>) (</span><span style="color:#bf616a;">λ h </span><span>→ ((</span><span style="color:#bf616a;">h </span><span>∘ </span><span style="color:#bf616a;">f</span><span>) ~ </span><span style="color:#96b5b4;">id</span><span>))
+</span></code></pre>
 </li>
 <li>
 <p>equivalence = section + retraction</p>
 <p>$$
 is\text{-}equiv(f) := sec(f) × retr(f)
 $$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv </span><span>: {</span><span style="color:#bf616a;">l1 l2 </span><span>: </span><span style="color:#b48ead;">Level</span><span>} {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l1</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l2</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">l1 </span><span>⊔ </span><span style="color:#bf616a;">l2</span><span>)
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv </span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">f </span><span>= </span><span style="color:#bf616a;">sec f </span><span>× </span><span style="color:#bf616a;">retr f
+</span></code></pre>
 <p>Or &quot;f is bi-invertible&quot;.</p>
-<p>We will write $A ≃ B$ for the type $\Sigma_{(f:A→B)} is\text{-}equiv(f)$ of all equivalences from $A$ to $B$. </p>
+<p>We will write $A ≃ B$ for the type $\Sigma_{(f:A→B)} is\text{-}equiv(f)$ of all equivalences from $A$ to $B$.</p>
 </li>
 <li>
 <p>Besides, we can define $has\text{-}inverse$:</p>
 <p>$$
 has\text{-}inverse(f) := \Sigma_{(g:B→A)} (f\cdot g \sim id_B) \times (g\cdot f \sim id_A)
 $$</p>
-<p>We can know $has\text{-}inverse(f) \leftrightarrow is\text{-}equiv(f)$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse </span><span>: {</span><span style="color:#bf616a;">l1 l2 </span><span>: </span><span style="color:#b48ead;">Level</span><span>} {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l1</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l2</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">l1 </span><span>⊔ </span><span style="color:#bf616a;">l2</span><span>)
+</span><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse</span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">f </span><span>= </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">A</span><span>) (</span><span style="color:#bf616a;">λ g </span><span>→ ((</span><span style="color:#bf616a;">f </span><span>∘ </span><span style="color:#bf616a;">g</span><span>) ~ </span><span style="color:#96b5b4;">id</span><span>) × ((</span><span style="color:#bf616a;">g </span><span>∘ </span><span style="color:#bf616a;">f</span><span>) ~ </span><span style="color:#96b5b4;">id</span><span>))
+</span></code></pre>
 </li>
 </ul>
+<p>We can prove that $has\text{-}inverse(f) \leftrightarrow is\text{-}equiv(f)$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv</span><span>-</span><span style="color:#bf616a;">to</span><span>-</span><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv f </span><span>→ </span><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse f
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv</span><span>-</span><span style="color:#bf616a;">to</span><span>-</span><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse </span><span>{</span><span style="color:#bf616a;">f </span><span>= </span><span style="color:#bf616a;">f</span><span>} ((</span><span style="color:#bf616a;">r</span><span>-</span><span style="color:#bf616a;">inv </span><span>, </span><span style="color:#bf616a;">r</span><span>-</span><span style="color:#bf616a;">homo</span><span>), (</span><span style="color:#bf616a;">l</span><span>-</span><span style="color:#bf616a;">inv </span><span>, </span><span style="color:#bf616a;">l</span><span>-</span><span style="color:#bf616a;">homo</span><span>)) = 
+</span><span>    </span><span style="color:#bf616a;">r</span><span>-</span><span style="color:#bf616a;">inv </span><span>, (</span><span style="color:#bf616a;">r</span><span>-</span><span style="color:#bf616a;">homo </span><span>, 
+</span><span>        </span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy</span><span> (</span><span style="color:#bf616a;">inv</span><span>-</span><span style="color:#bf616a;">htpy 
+</span><span>            </span><span style="color:#bf616a;">l</span><span>-</span><span style="color:#bf616a;">homo </span><span>· (
+</span><span>                </span><span style="color:#b48ead;">H</span><span>-</span><span style="color:#bf616a;">chain</span><span>-</span><span style="color:#bf616a;">f</span><span> (</span><span style="color:#b48ead;">H</span><span>-</span><span style="color:#bf616a;">chain</span><span>-</span><span style="color:#bf616a;">f l</span><span>-</span><span style="color:#bf616a;">homo r</span><span>-</span><span style="color:#bf616a;">inv </span><span>· </span><span style="color:#bf616a;">f</span><span>-</span><span style="color:#bf616a;">chain</span><span>-</span><span style="color:#b48ead;">H </span><span style="color:#bf616a;">l</span><span>-</span><span style="color:#bf616a;">inv r</span><span>-</span><span style="color:#bf616a;">homo</span><span>) </span><span style="color:#bf616a;">f
+</span><span>            )
+</span><span>        )
+</span><span>    )
+</span><span>
+</span><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse</span><span>-</span><span style="color:#bf616a;">to</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>} → </span><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse f </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv f
+</span><span style="color:#bf616a;">has</span><span>-</span><span style="color:#bf616a;">inverse</span><span>-</span><span style="color:#bf616a;">to</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv</span><span> (</span><span style="color:#bf616a;">inv </span><span>, (</span><span style="color:#bf616a;">r</span><span>-</span><span style="color:#bf616a;">homo </span><span>, </span><span style="color:#bf616a;">l</span><span>-</span><span style="color:#bf616a;">homo</span><span>)) = (</span><span style="color:#bf616a;">inv </span><span>, </span><span style="color:#bf616a;">r</span><span>-</span><span style="color:#bf616a;">homo</span><span>) , (</span><span style="color:#bf616a;">inv </span><span>, </span><span style="color:#bf616a;">l</span><span>-</span><span style="color:#bf616a;">homo</span><span>)
+</span></code></pre>
 <h4 id="example-of-equivalences">Example of Equivalences</h4>
 <p>Ref section 9.2.9 and 9.2.10 of the book <em>Introduction to Homotopy Type Theory</em></p>
 <h4 id="laws-operations-on-equivalences">Laws &amp; operations on Equivalences</h4>
@@ -242,7 +316,7 @@ $$</p>
 <p>In intensional type theory, identity types behave like path space objects; this viewpoint is called homotopy type theory. This induces furthermore a notion of homotopy fibers, hence of homotopy equivalences between types.</p>
 </blockquote>
 <blockquote>
-<p>On the other hand, if type theory contains a universe Type, so that types can be considered as points of TypeType, then between two types we also have an identity type Paths Type(X,Y)Paths_{Type}(X,Y). The univalence axiom says that these two notions of “sameness” for types are the same. —— nLab</p>
+<p>On the other hand, if type theory contains a universe Type, so that types can be considered as points of Type, then between two types we also have an identity type Paths $Paths_{Type}(X,Y)$. The univalence axiom says that these two notions of “sameness” for types are the same. —— nLab</p>
 </blockquote>
 <p>$$
 UA^{\mathcal{U}}:\Pi_{(A,B:\mathcal{U})}is\text{-}eqiv(id\text{-}to\text{-}≃(A,B))
@@ -263,6 +337,7 @@ $$</p>
 <p>$$
 (y \overset{B}{\underset{p}=} y') := (tr_B(p,y) \underset{B(x')}{=} y')
 $$</p>
+<p><img src="https://longfangsong.github.io/en/hottest-notes-hott-5/./3.svg" alt="" /></p>
 <p>And we can then define $Eq\text{-}Σ$:</p>
 <p>$$
 Eq\text{-}Σ(z, z') := Σ_{(p:x=x')} (y \overset{B}{\underset{p}=} y')
@@ -315,6 +390,13 @@ $$</p>
 <p>$$
 (z \underset{S}= z') ≃ Eq\text{-}Σ(z, z')
 $$</p>
+<h2 id="materials">Materials</h2>
+<h3 id="lecture-note">Lecture Note</h3>
+<p><a href="https://github.com/martinescardo/HoTTEST-Summer-School/blob/main/HoTT/HoTTEST_Lecture_5.pdf">HoTTEST_Lecture_5.pdf</a></p>
+<h3 id="record-on-youtube">Record on Youtube</h3>
+<div >
+    <iframe src="https://www.youtube-nocookie.com/embed/M5BD5BvQCjw" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>todo: <strong>DO</strong> learn the category theory.</p>
 </div>
@@ -322,7 +404,7 @@ $$</p>
 <p>Ref <a href="https://longfangsong.github.io/en/hottest-notes-hott-3/#functoriality">Note 3</a> if you forget the definition of $ap$.</p>
 </div>
 <div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
-<p>You may see a lot of proofs in this section of course are just simple combination of <code>refl</code>s in different types. When writing Agda code, <code>refl</code>s' types are often omitted. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? I mean, should the IDE at least &quot;expand&quot; the type when human beings are reading the code?</p>
+<p>You may see a lot of proofs in this section of course are just simple combination of <code>refl</code>s in different types. When writing Agda code, <code>refl</code>s' types are omitted, one need to read the type signature of the whole function. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? Or, should the IDE at least &quot;expand&quot; the type when human beings are reading the code?</p>
 </div>
 <div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
 <p><a href="https://planetmath.org/1121pathinduction">Ref</a></p>
@@ -360,24 +442,15 @@ $$</p>
 
 
 
-    <a id="comments"></a>
-    <div id="vcomments" style="margin: 30px;"></div>
-    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-    <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-    <script>
-      var valine = new Valine({
-        el: "#vcomments",
-        notify: "false" || false,
-        verify: "false" || false,
-        app_id: "HcCTt2sXmRChcaE4nMoSibwJ-gzGzoHsz",
-        app_key: "6eevqWRr7jsWPUavkkAQjIMi",
-        placeholder: "随便说点啥吧……",
-        path: window.location.pathname,
-        avatar: "mm"
-      });
-    </script>
 
 
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="preferred-color-scheme"
+    crossorigin="anonymous"
+    async>
+  </script>
 
 
 
