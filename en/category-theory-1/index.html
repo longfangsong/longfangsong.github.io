@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Category theory Notes 1</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-1&#x2F;">Category theory Notes 1</a></h1>
+  
+  <div class="post-content"><h2 id="what-is-category-theory-all-about">What is category theory all about</h2>
+<p>Category theory is all about structures and relations.</p>
+<blockquote>
+<p>... category theory is the mathematical study of (abstract) algebras of functions. —— <em>Category Theory</em> by <em>Steve Awodey</em>, </p>
+</blockquote>
+<p>For me, learning category theory enables me to understand what on earth is &quot;a monoid in the category of endofunctors&quot;, and it helps me to learn HoTT.</p>
+<h2 id="function-of-sets">Function of Sets</h2>
+<p>Nothing to much to say here, only some notations here.</p>
+<p>Identity function in the books I am using (primary <em>Category Theory</em> by <em>Steve Awodey</em>, but I'm also referring to <em>Beginning Category Theory</em> by <em>Peter Smith</em>) is written as</p>
+<p>$$
+1_A : A \rightarrow A
+$$</p>
+<h2 id="definition-of-category">Definition of Category</h2>
+<p>Basically a category is anything which </p>
+<ul>
+<li>Contains objects and arrows (you can consider arrow as something like function since it make it simpler, but they don't have to be functions actually) between them</li>
+<li>The arrows can composite with each other and obey the associativity rule</li>
+<li>For each object there exists an identity arrow, which also the &quot;unit&quot; arrow when compositing with other arrows.</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<p>The book gives us some examples of categories, I'll just take some interesting ones here</p>
+<h3 id="rel">Rel</h3>
+<p>Object : Sets
+Arrows : Binary Relations ($f : A → B$, $f ⊆ A×B$)
+Identity Arrow : 
+$$
+1_A = {(a,a) ∈ A×A | a∈A} ⊆ A×A
+$$</p>
+<p>We need to prove $f ◦ 1_A = f = 1_B ◦ f$, which is easy to do by introducing $(a,b) \in f ◦ 1_A$ so there must exists a $p$, and $(a, p) \in 1_A$ ,$(p, b) \in f$, since $1_A$ is by definition $(a,a)$, so $p$ is $a$, so $(a,b) \in f$. Proof of $f = 1_B ◦ f$ is similar.<sup class="footnote-reference"><a href="#1">1</a></sup></p>
+<p>Composite of Arrows : function composition, obvious
+We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.</p>
+<p>This proof is easy, just assume $(a,b)$, $(b,c)$, $(c,d)$ and apply the definition of composite will lead us to the result.</p>
+<h3 id="partially-ordered-set-poset">Partially ordered set (Poset)</h3>
+<p>Object : element in the set</p>
+<p>Arrows : $\leq$</p>
+<p>Identity Arrow : $a \leq a$</p>
+<p>Composite of Arrows : $a \leq b\ \ and\ \ b \leq c \Rightarrow a \leq c$</p>
+<p>Category can be considered as a kind of <em>generalized poset</em> with more structure than just $p \leq q$. And functor can be regarded as a generalized monotone map.</p>
+<h3 id="monoid">Monoid</h3>
+<p>A monoid is a category with only one object, and the arrows are the monoid's elements. The identity arrow is the unit element, and the composite of arrows is the monoid's operation.</p>
+<p>For any object $C$ in any category $\textbf{C}$, the set of arrows from $C$ to $C$, written as $Hom_{\textbf{C}}(C,C)$, is a monoid under the composition operation of $\textbf{C}$</p>
+<p>Monoids are structured sets, there ise a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.</p>
+<p>A <a href="https://ncatlab.org/nlab/show/homomorphism">homomorphism</a> from $M$ to $N$ is the same thing as a functor from &quot;$M$ as category&quot; to &quot;$N$ as category&quot;, so:</p>
+<p>Category can be considered as a kind of <em>generalized monoid</em> . And functor can be regarded as a generalized homomorphisms.</p>
+<h2 id="isomorphism">Isomorphism</h2>
+<p>In a category, an arrow can be called as an isomorphism if it has an inverse.</p>
+<p>If there exists an isomorphism between object $A$ and $B$ in category $C$, we say $A$ is isomorphic to $B$, and write $A \cong B$.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>I'm considering to do these kind of proof in Agda, however I'm not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-09-29</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Math">&nbsp;Math</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Category theory Notes 1&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-1&hashtags=Math,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

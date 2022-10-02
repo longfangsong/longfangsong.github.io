@@ -5,8 +5,111 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-09-12T14:59:04.234+00:00</updated>
+	<updated>2022-10-02T07:42:40.869+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>Restart learning math • Mathematical logic (6)</title>
+		<published>2022-10-02T07:42:40.869+00:00</published>
+		<updated>2022-10-02T07:42:40.869+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/restart-math-logic-6/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/restart-math-logic-6/</id>
+		<content type="html">&lt;p&gt;Personally I don&#x27;t like model based correctness checking methods, they just check every possible states in a system in brute force, without generating any insight (eg. how each statement in a program helps it to reach the overall correctness) of the system or human readable&#x2F;understandable proof of the correctness, which IMO is very disgraceful.&lt;&#x2F;p&gt;
+&lt;p&gt;So I think a more reasonable way is using a proof based checking method, which the book explains in chapter 4.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;hoare-triples&quot;&gt;Hoare triples&lt;&#x2F;h2&gt;
+&lt;p&gt;A Hoare triple is a triple of the form&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(|\phi|) P (|\psi|)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Which means in a state where $\phi$ holds, executing $P$ will lead to a state where $\psi$ holds.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, if the program $P$ calculate a number whose square is less than $x$, so when input is $x$ and output is $y$, we have&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(|x &amp;gt; 0|) P (|y\times y &amp;lt; x|)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;So to prove the correctness of any program P, we need to assume a $\phi$ and get a $\psi$ with $P$ in some certain ways.&lt;&#x2F;p&gt;
+&lt;p&gt;However, the possible result of P executing in $\phi$ is not just $\psi$ or $\neg\psi$, it&#x27;s also possible that P never terminates (if you are using a turing complete language, it is totally possible to write a dead loop), so we can distinguish partial correctness and complete correctness, which . &lt;&#x2F;p&gt;
+&lt;h3 id=&quot;proof-calculus-for-partial-correctness&quot;&gt;Proof calculus for partial correctness&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;rules&quot;&gt;Rules&lt;&#x2F;h4&gt;
+&lt;p&gt;Ref figure 4.1 of the book.&lt;&#x2F;p&gt;
+&lt;p&gt;Note in &amp;quot;Implied&amp;quot; rule &amp;quot;AR&amp;quot; means arithmetic&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;weakest-precondition&quot;&gt;Weakest Precondition&lt;&#x2F;h4&gt;
+&lt;p&gt;For each $\psi&#x27;$ after a $C$, we can get a $\psi$ before $C$, which can lead to $\psi&#x27;$ after $C$ by using one of the rules.&lt;&#x2F;p&gt;
+&lt;p&gt;The only difficult rule to apply here is the &amp;quot;Partial-while&amp;quot; rule. Which needs part of $\psi&#x27;$ is a &amp;quot;loop invariant&amp;quot;, which holds before each iteration of the loop starts and still holds after the whole loop.&lt;&#x2F;p&gt;
+&lt;p&gt;Unfortunately, finding such a loop invariant is not easy, it needs &amp;quot;intelligence and ingenuity&amp;quot;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;proof-calculus-for-total-correctness&quot;&gt;Proof calculus for total correctness&lt;&#x2F;h3&gt;
+&lt;p&gt;Proof calculus for total correctness is similar to partial correctness, we just need to add a proof to show the loops will eventually terminated, this is usually done by &amp;quot;identify an integer expression whose value can be shown to decrease every time we execute the body of the while-statement in question, but which is always non-negative&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;However it is not always possible to find such a proof, for example, I believe Collatz program terminates, but human beings haven&#x27;t found a way to show it terminates. &lt;&#x2F;p&gt;
+&lt;h3 id=&quot;programming-by-contract&quot;&gt;Programming by contract&lt;&#x2F;h3&gt;
+&lt;p&gt;Good methodology, not feasible in most commercial softwares nowadays.&lt;&#x2F;p&gt;
+&lt;p&gt;Nowadays there do exists some languages that support programming by contract, like &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dafny-lang&#x2F;dafny&quot;&gt;Dafny&lt;&#x2F;a&gt;, but they are not widely used. It&#x27;s understandable, because it costs too much effort to practice. Most software just want to hit the market fast and get quick responses rather than being correct at the first place.&lt;&#x2F;p&gt;
+&lt;p&gt;It might be a serious problem for program verification, few programs can be &amp;quot;specified&amp;quot; before being written, and since requirements changes rapidly, it&#x27;s hard to keep the specification, the requirements and the program in sync. And all the verification work is quiet hard and requires &amp;quot;intelligence and ingenuity&amp;quot;, a verification checker is sometimes annoying&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, even if it is, in most of times, correct.&lt;&#x2F;p&gt;
+&lt;p&gt;Honestly, though I love the idea of programming by contract (and I always add as much asserts I can in my programs), I have to admit it&#x27;s not a good idea for nowadays software industry, which develops in a crazy speed. We just pile up shitty code to satisfied the customer. Correctness is not the most important thing here, but profitable is.&lt;&#x2F;p&gt;
+&lt;p&gt;Personally I think a gradual way of introducing verification into industrial languages might be a feasible approach. We can provide tools in language to enable the programmer to proof only the core logic of a program, and maybe with several &amp;quot;sorry&amp;quot; or &amp;quot;trustMe&amp;quot; for complex details.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Why you mathematician guys love using abbreviation.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;Many programmers think the convenience of piling up shitty code is an advantage. For example, some people in a company I used to work in prefer Go to Rust, because Go is easier to compile. You don&#x27;t have to fight with the compiler. Most people just want to see the result fast and get into the edit-debug loop fast, instead of understand the whole problem. I cannot blame them of doing so, because sometimes I have such feelings also. Maybe that&#x27;s how human beings are designed, impatience, lazy, and hate deep thinking. Sign.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
+		<title>Category theory Notes 1</title>
+		<published>2022-09-29T03:43:34.088+00:00</published>
+		<updated>2022-09-29T03:43:34.088+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/category-theory-1/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/category-theory-1/</id>
+		<content type="html">&lt;h2 id=&quot;what-is-category-theory-all-about&quot;&gt;What is category theory all about&lt;&#x2F;h2&gt;
+&lt;p&gt;Category theory is all about structures and relations.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;... category theory is the mathematical study of (abstract) algebras of functions. —— &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;, &lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;For me, learning category theory enables me to understand what on earth is &amp;quot;a monoid in the category of endofunctors&amp;quot;, and it helps me to learn HoTT.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;function-of-sets&quot;&gt;Function of Sets&lt;&#x2F;h2&gt;
+&lt;p&gt;Nothing to much to say here, only some notations here.&lt;&#x2F;p&gt;
+&lt;p&gt;Identity function in the books I am using (primary &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;, but I&#x27;m also referring to &lt;em&gt;Beginning Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Peter Smith&lt;&#x2F;em&gt;) is written as&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+1_A : A \rightarrow A
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;definition-of-category&quot;&gt;Definition of Category&lt;&#x2F;h2&gt;
+&lt;p&gt;Basically a category is anything which &lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Contains objects and arrows (you can consider arrow as something like function since it make it simpler, but they don&#x27;t have to be functions actually) between them&lt;&#x2F;li&gt;
+&lt;li&gt;The arrows can composite with each other and obey the associativity rule&lt;&#x2F;li&gt;
+&lt;li&gt;For each object there exists an identity arrow, which also the &amp;quot;unit&amp;quot; arrow when compositing with other arrows.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h2&gt;
+&lt;p&gt;The book gives us some examples of categories, I&#x27;ll just take some interesting ones here&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;rel&quot;&gt;Rel&lt;&#x2F;h3&gt;
+&lt;p&gt;Object : Sets
+Arrows : Binary Relations ($f : A → B$, $f ⊆ A×B$)
+Identity Arrow : 
+$$
+1_A = {(a,a) ∈ A×A | a∈A} ⊆ A×A
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We need to prove $f ◦ 1_A = f = 1_B ◦ f$, which is easy to do by introducing $(a,b) \in f ◦ 1_A$ so there must exists a $p$, and $(a, p) \in 1_A$ ,$(p, b) \in f$, since $1_A$ is by definition $(a,a)$, so $p$ is $a$, so $(a,b) \in f$. Proof of $f = 1_B ◦ f$ is similar.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Composite of Arrows : function composition, obvious
+We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.&lt;&#x2F;p&gt;
+&lt;p&gt;This proof is easy, just assume $(a,b)$, $(b,c)$, $(c,d)$ and apply the definition of composite will lead us to the result.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;partially-ordered-set-poset&quot;&gt;Partially ordered set (Poset)&lt;&#x2F;h3&gt;
+&lt;p&gt;Object : element in the set&lt;&#x2F;p&gt;
+&lt;p&gt;Arrows : $\leq$&lt;&#x2F;p&gt;
+&lt;p&gt;Identity Arrow : $a \leq a$&lt;&#x2F;p&gt;
+&lt;p&gt;Composite of Arrows : $a \leq b\ \ and\ \ b \leq c \Rightarrow a \leq c$&lt;&#x2F;p&gt;
+&lt;p&gt;Category can be considered as a kind of &lt;em&gt;generalized poset&lt;&#x2F;em&gt; with more structure than just $p \leq q$. And functor can be regarded as a generalized monotone map.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;monoid&quot;&gt;Monoid&lt;&#x2F;h3&gt;
+&lt;p&gt;A monoid is a category with only one object, and the arrows are the monoid&#x27;s elements. The identity arrow is the unit element, and the composite of arrows is the monoid&#x27;s operation.&lt;&#x2F;p&gt;
+&lt;p&gt;For any object $C$ in any category $\textbf{C}$, the set of arrows from $C$ to $C$, written as $Hom_{\textbf{C}}(C,C)$, is a monoid under the composition operation of $\textbf{C}$&lt;&#x2F;p&gt;
+&lt;p&gt;Monoids are structured sets, there ise a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.&lt;&#x2F;p&gt;
+&lt;p&gt;A &lt;a href=&quot;https:&#x2F;&#x2F;ncatlab.org&#x2F;nlab&#x2F;show&#x2F;homomorphism&quot;&gt;homomorphism&lt;&#x2F;a&gt; from $M$ to $N$ is the same thing as a functor from &amp;quot;$M$ as category&amp;quot; to &amp;quot;$N$ as category&amp;quot;, so:&lt;&#x2F;p&gt;
+&lt;p&gt;Category can be considered as a kind of &lt;em&gt;generalized monoid&lt;&#x2F;em&gt; . And functor can be regarded as a generalized homomorphisms.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;isomorphism&quot;&gt;Isomorphism&lt;&#x2F;h2&gt;
+&lt;p&gt;In a category, an arrow can be called as an isomorphism if it has an inverse.&lt;&#x2F;p&gt;
+&lt;p&gt;If there exists an isomorphism between object $A$ and $B$ in category $C$, we say $A$ is isomorphic to $B$, and write $A \cong B$.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;I&#x27;m considering to do these kind of proof in Agda, however I&#x27;m not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>HoTTEST Summer School HoTT Notes 6</title>
 		<published>2022-09-12T14:59:04.234+00:00</published>

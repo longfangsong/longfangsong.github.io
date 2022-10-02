@@ -55,6 +55,10 @@
         <loc>https://longfangsong.github.io/en/archive/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/category-theory-1/</loc>
+        <lastmod>2022-09-29T03:43:34.088Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/hello-zola/</loc>
         <lastmod>2020-01-02T15:00:00Z</lastmod>
     </url>
@@ -87,6 +91,10 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/page/1/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/restart-math-logic-6/</loc>
+        <lastmod>2022-10-02T07:42:40.869Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/flex-layout/</loc>
@@ -169,6 +177,10 @@
         <lastmod>2022-07-13T00:20:17Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/restart-math-logic-6/</loc>
+        <lastmod>2022-07-13T00:20:17Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/riscv-rocc/</loc>
         <lastmod>2021-04-19T15:45:33.706Z</lastmod>
     </url>
@@ -214,6 +226,12 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/macos/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/math/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/mathematical-logic/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/notes/</loc>

@@ -84,6 +84,82 @@
 </content>
 	</entry>
 	<entry xml:lang="zh">
+		<title>重新开始学数学 • 数理逻辑（5）</title>
+		<published>2022-07-11T16:29:53.671+00:00</published>
+		<updated>2022-07-13T00:20:17+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-6/" type="text/html"/>
+		<id>https://longfangsong.github.io/restart-math-logic-6/</id>
+		<content type="html">&lt;p&gt;我们的目标是写出一个函数，输入一个 CTL 模型和一个 Formula，输出模型中所有能 satisfy 这个 Formula 的状态集合。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;satisfiable_states&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;CTLModule, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;formula&lt;&#x2F;span&gt;&lt;span&gt;: CTLFormula)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;根据 CTL 中连接词的定义，我们可以写出：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;satisfiable_states&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;CTLModule, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;formula&lt;&#x2F;span&gt;&lt;span&gt;: CTLFormula) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span&gt; formula {
+&lt;&#x2F;span&gt;&lt;span&gt;        ⊤ =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S,
+&lt;&#x2F;span&gt;&lt;span&gt;        ⊥ =&amp;gt; ∅,
+&lt;&#x2F;span&gt;&lt;span&gt;        Atomic(atomic) =&amp;gt; {s ∈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S | atomic is &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true &lt;&#x2F;span&gt;&lt;span&gt;in state s},
+&lt;&#x2F;span&gt;&lt;span&gt;        Not(inner_formula) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S - model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula),
+&lt;&#x2F;span&gt;&lt;span&gt;        inner_formula1 ∧ inner_formula2 =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) ∩ model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula2),
+&lt;&#x2F;span&gt;&lt;span&gt;        inner_formula1 ∨ inner_formula2 =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) ∪ model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula2),
+&lt;&#x2F;span&gt;&lt;span&gt;        inner_formula1 → inner_formula2 =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula1) ∨ inner_formula2),
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; suppose we want to solve EX instead of AX, following ones are similar
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AX&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EX&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula)))),
+&lt;&#x2F;span&gt;&lt;span&gt;        A[inner_formula1 U inner_formula2] =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(E[Not(inner_formula2) U (Not(inner_formula1) ∧ Not(inner_formula2))] ∨ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EG&lt;&#x2F;span&gt;&lt;span&gt; Not(inner_formula2)))
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EF&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(E[⊤ U inner_formula1])
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EG&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AF&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula1))))
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AG&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1) =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(Not(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EF&lt;&#x2F;span&gt;&lt;span&gt;(Not(inner_formula1))))
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EX&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; todo!(),
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AF&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; todo!(),
+&lt;&#x2F;span&gt;&lt;span&gt;        E[inner_formula1 U inner_formula2] =&amp;gt; todo!(),
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Now we&#x27;ve done the trivial cases and &amp;quot;merged&amp;quot; the other cases into three.&lt;&#x2F;p&gt;
+&lt;p&gt;然后我们一个个解这三个 case。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ex&quot;&gt;EX&lt;&#x2F;h2&gt;
+&lt;p&gt;能满足 &lt;code&gt;EX(inner_formula)&lt;&#x2F;code&gt; 的状态，也就是“存在一个后继状态满足 &lt;code&gt;inner_formula&lt;&#x2F;code&gt;” 的状态。&lt;&#x2F;p&gt;
+&lt;p&gt;只需要先找出所有能满足 &lt;code&gt;inner_formula&lt;&#x2F;code&gt; 的状态，再找出他们所有的前驱状态即可。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;EX&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; direct_satisfy = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula);
+&lt;&#x2F;span&gt;&lt;span&gt;    direct_satisfy
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;satisfying_state&lt;&#x2F;span&gt;&lt;span&gt;| model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;predecessors&lt;&#x2F;span&gt;&lt;span&gt;(satisfying_state))
+&lt;&#x2F;span&gt;&lt;span&gt;        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;union_all&lt;&#x2F;span&gt;&lt;span&gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;},
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;af&quot;&gt;AF&lt;&#x2F;h2&gt;
+&lt;p&gt;能满足 &lt;code&gt;AF(inner_formula)&lt;&#x2F;code&gt; 的状态，也就是“对于所有从这个点分散出去的 branch，inner_formula 都会在某状态下成立”的状态。&lt;&#x2F;p&gt;
+&lt;p&gt;首先能满足 inner_formula 的所有 state 肯定满足上述条件，然后如果某个 state 的前驱的所有后继也都满足条件，那“这个 state 的前驱”也满足条件。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;AF&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula) =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; direct_satisfy = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; current_satisfied = direct_satisfy;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied = None;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied != current_satisfied {
+&lt;&#x2F;span&gt;&lt;span&gt;        last_iteration_satisfied = Some(current_satisfied);
+&lt;&#x2F;span&gt;&lt;span&gt;        current_satisfied = current_satisfied.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;union&lt;&#x2F;span&gt;&lt;span&gt;({s ∈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;.S | forall model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;successor&lt;&#x2F;span&gt;&lt;span&gt;(s), s is in current_satisfied});
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    current_satisfied
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;eu&quot;&gt;EU&lt;&#x2F;h2&gt;
+&lt;p&gt;这个 case 稍微复杂些，&lt;code&gt;E[inner_formula1 U inner_formula2]&lt;&#x2F;code&gt; 的语意是存在某个 path，使得 &lt;code&gt;inner_formula1&lt;&#x2F;code&gt; 至少成立到 &lt;code&gt;inner_formula2&lt;&#x2F;code&gt; 成立为止。&lt;&#x2F;p&gt;
+&lt;p&gt;首先由于 U 对 &lt;code&gt;inner_formula2&lt;&#x2F;code&gt; 成立后 &lt;code&gt;inner_formula1&lt;&#x2F;code&gt; 是否继续成立不做要求，所以所有 &lt;code&gt;inner_formula2&lt;&#x2F;code&gt; 成立的 state 都满足条件。&lt;&#x2F;p&gt;
+&lt;p&gt;接着，对于所有已知满足条件的状态，如果他的前驱能满足 &lt;code&gt;inner_formula1&lt;&#x2F;code&gt;，那么这个状态也满足条件。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;E[inner_formula1 U inner_formula2] =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; satisfy_formula1 = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula1);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; satisfy_formula2 = model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sat&lt;&#x2F;span&gt;&lt;span&gt;(inner_formula2);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; current_satisfied = satisfy_formula2;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied = None;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; last_iteration_satisfied != current_satisfied {
+&lt;&#x2F;span&gt;&lt;span&gt;        last_iteration_satisfied = Some(current_satisfied);
+&lt;&#x2F;span&gt;&lt;span&gt;        current_satisfied = current_satisfied.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;union&lt;&#x2F;span&gt;&lt;span&gt;(model.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;successor&lt;&#x2F;span&gt;&lt;span&gt;(s).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;intersect&lt;&#x2F;span&gt;&lt;span&gt;(satisfy_formula1));
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;如此一来我们就完成了这整个算法。&lt;&#x2F;p&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
 		<title>重新开始学数学 • 数理逻辑（4）</title>
 		<published>2022-07-03T16:33:08.514+00:00</published>
 		<updated>2022-07-03T16:33:08.514+00:00</updated>
