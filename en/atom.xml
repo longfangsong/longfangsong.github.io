@@ -1921,4 +1921,387 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
 	</entry>
+	<entry xml:lang="en">
+		<title>How to implement an easiest compiler</title>
+		<published>2019-05-21T16:39:56.026+00:00</published>
+		<updated>2019-05-21T16:39:56.026+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/</id>
+		<content type="html">&lt;p&gt;This article will lead the reader to make a simple C-like (but much simpler than C) language&#x27;s compiler.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;toylang&#x2F;tree&#x2F;db02558dd658c0cf667f60c822eb4bd42ecb9ee7&quot;&gt;Here&lt;&#x2F;a&gt;, is the reference code.&lt;&#x2F;p&gt;
+&lt;p&gt;This language supports:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;2 basic types: &lt;code&gt;int&lt;&#x2F;code&gt; and &lt;code&gt;double&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;Arrays in these basic types&lt;&#x2F;li&gt;
+&lt;li&gt;2 kinds of control flow statements &lt;code&gt;if&lt;&#x2F;code&gt; (with optionally &lt;code&gt;else&lt;&#x2F;code&gt;) and &lt;code&gt;while&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;Basic mathematical operators &lt;code&gt;+&lt;&#x2F;code&gt;、&lt;code&gt;-&lt;&#x2F;code&gt;、&lt;code&gt;*&lt;&#x2F;code&gt;、&lt;code&gt;&#x2F;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;=&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;=&lt;&#x2F;code&gt;、&lt;code&gt;==&lt;&#x2F;code&gt;、&lt;code&gt;!=&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The author assume the user has a good command of C language&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; and knows how to use regex, flex and bison.&lt;&#x2F;p&gt;
+&lt;p&gt;If you are not familiar with flex and bison, refer to &lt;a href=&quot;.&quot;&gt;another article of mine&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-whole-compiling-process&quot;&gt;The whole compiling process&lt;&#x2F;h2&gt;
+&lt;p&gt;The compiler follows the following process&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&#x2F;routine.en.svg&quot; alt=&quot;routine&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Obviously there are a lot of code which we don&#x27;t need to write, and it is both fortunate and unfortunate for us to be born in such an era with rich tools.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;lexical-analysis&quot;&gt;Lexical Analysis&lt;&#x2F;h3&gt;
+&lt;p&gt;Here is the key part of flex code:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;l&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-l &quot;&gt;&lt;code class=&quot;language-l&quot; data-lang=&quot;l&quot;&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;char&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                      {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=Char; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                       {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=Int; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;double&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                    {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=Double; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                    {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=String; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; IF;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                      {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; ELSE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                     {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; WHILE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;print&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                     {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; PRINT;}
+&lt;&#x2F;span&gt;&lt;span&gt;([-])?[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;]+                {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;int_value&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;atoi&lt;&#x2F;span&gt;&lt;span&gt;(yytext); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; INT_LITERAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;([-])?[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;]+\.[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;]*        {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;double_value&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;atof&lt;&#x2F;span&gt;&lt;span&gt;(yytext); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; DOUBLE_LITERAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;[a-zA-Z][&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-9a-zA-Z_]*       {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;string_value&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;strdup&lt;&#x2F;span&gt;&lt;span&gt;(yytext); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; IDENTIFY;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;==&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; EQUAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;!=&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; NONEQUAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;=&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; LESSEQ;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;=&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; GREATEREQ;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;-&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;[ \t]                       {}
+&lt;&#x2F;span&gt;&lt;span&gt;.                           {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;gramma-analysis&quot;&gt;Gramma analysis&lt;&#x2F;h3&gt;
+&lt;p&gt;Here is the key part of the bison code:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span&gt;program:
+&lt;&#x2F;span&gt;&lt;span&gt;    program statement           
+&lt;&#x2F;span&gt;&lt;span&gt;    |                          
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;assign:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;=&amp;#39; expression             
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;defineStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    TYPE IDENTIFY &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    | TYPE IDENTIFY &amp;#39;[&amp;#39; INT_LITERAL &amp;#39;]&amp;#39; &amp;#39;;&amp;#39; 
+&lt;&#x2F;span&gt;&lt;span&gt;    | TYPE IDENTIFY assign &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;assignStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    referenceExpression assign &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;statementList:
+&lt;&#x2F;span&gt;&lt;span&gt;    statementList statement                 
+&lt;&#x2F;span&gt;&lt;span&gt;    |                                       
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;block:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;{&amp;#39; statementList &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; 
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;ifStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    IF expression block                   
+&lt;&#x2F;span&gt;&lt;span&gt;    | IF expression block ELSE block        
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;whileStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    WHILE expression block                  
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;printStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    PRINT &amp;#39;(&amp;#39; expression &amp;#39;)&amp;#39; &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;statement:
+&lt;&#x2F;span&gt;&lt;span&gt;    defineStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | assignStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | block
+&lt;&#x2F;span&gt;&lt;span&gt;    | ifStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | whileStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | printStatement
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;referenceExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    IDENTIFY 
+&lt;&#x2F;span&gt;&lt;span&gt;    | IDENTIFY &amp;#39;[&amp;#39; expression &amp;#39;]&amp;#39; 
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;atomExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    INT_LITERAL                            
+&lt;&#x2F;span&gt;&lt;span&gt;    | DOUBLE_LITERAL                      
+&lt;&#x2F;span&gt;&lt;span&gt;    | referenceExpression                  
+&lt;&#x2F;span&gt;&lt;span&gt;    | &amp;#39;(&amp;#39; expression &amp;#39;)&amp;#39;                  
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;unaryOperator:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;+&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    | &amp;#39;-&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    | &amp;#39;!&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;unaryExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    atomExpression                        
+&lt;&#x2F;span&gt;&lt;span&gt;    | unaryOperator atomExpression         
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;binaryOrAtomExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    unaryExpression                                    
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;+&amp;#39; unaryExpression       
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;-&amp;#39; unaryExpression   
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;*&amp;#39; unaryExpression        
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&#x2F;&amp;#39; unaryExpression      
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;lt;&amp;#39; unaryExpression       
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;gt;&amp;#39; unaryExpression       
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression LESSEQ     unaryExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression GREATEREQ  unaryExpression
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression EQUAL      unaryExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression NONEQUAL   unaryExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;expression:
+&lt;&#x2F;span&gt;&lt;span&gt;    binaryOrAtomExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Note that the corresponding behavior code is not given here, because we need to understand AST  first to understand these behaviors.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ast-abstract-syntax-tree&quot;&gt;AST（abstract syntax tree）&lt;&#x2F;h3&gt;
+&lt;p&gt;An abstract syntax tree organizes the parsed syntax units into a tree.&lt;&#x2F;p&gt;
+&lt;p&gt;Basically each statement and expression has a correspond node on the AST.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;ast-design-of-this-compiler&quot;&gt;AST design of this compiler&lt;&#x2F;h4&gt;
+&lt;p&gt;Some key concepts are borrowed from LLVM&#x27;s AST design.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&#x2F;AST.svg&quot; alt=&quot;ast&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;So we have &lt;code&gt;%union&lt;&#x2F;code&gt; and &lt;code&gt;%type&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%union &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    int int_value;
+&lt;&#x2F;span&gt;&lt;span&gt;    double double_value;
+&lt;&#x2F;span&gt;&lt;span&gt;    char* string_value;
+&lt;&#x2F;span&gt;&lt;span&gt;    ASTNode* node;
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolType type;
+&lt;&#x2F;span&gt;&lt;span&gt;};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; TYPE
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;string_value&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; IDENTIFY
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int_value&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; INT_LITERAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;double_value&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; DOUBLE_LITERAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; STRING INT DOUBLE
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; IF ELSE WHILE FOR
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; LESSEQ GREATEREQ EQUAL NONEQUAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; PRINT
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%left &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; LESSEQ GREATEREQ EQUAL NONEQUAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%left &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;-&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%left &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%type &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; statement assignStatement statementList block ifStatement whileStatement defineStatement printStatement
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%type &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; expression referenceExpression assign atomExpression unaryExpression binaryOrAtomExpression
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%type &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; program
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;The whole program is a &lt;code&gt;CompoundStatement&lt;&#x2F;code&gt;, we need to store the result in a global variable:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span&gt;CompoundStatement *result;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Then we can finally add the behavior part in the &lt;code&gt;bison&lt;&#x2F;code&gt; code, take &lt;code&gt;program&lt;&#x2F;code&gt; and &lt;code&gt;binaryOrAtomExpression&lt;&#x2F;code&gt; as an example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span&gt;program:
+&lt;&#x2F;span&gt;&lt;span&gt;    program statement           {add_statement((CompoundStatement *)$1, (Statement*)$2);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    |                           {result=create_compound_statement(); $$=(ASTNode*)result;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;binaryOrAtomExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    unaryExpression                                     {$$=$1;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;+&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;+&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;-&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;-&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;*&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;*&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&#x2F;&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;&#x2F;&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;lt;&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;&amp;lt;&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;gt;&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;&amp;gt;&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression LESSEQ     unaryExpression {$$=(ASTNode*)create_binary_operation_result(LESSEQ, (RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression GREATEREQ  unaryExpression {$$=(ASTNode*)create_binary_operation_result(GREATEREQ,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression EQUAL      unaryExpression {$$=(ASTNode*)create_binary_operation_result(EQUAL, (RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression NONEQUAL   unaryExpression {$$=(ASTNode*)create_binary_operation_result(NONEQUAL, (RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;symbol-table-and-scope&quot;&gt;Symbol Table and Scope&lt;&#x2F;h3&gt;
+&lt;p&gt;Since this compiler does not support multiple source files and we don&#x27;t have complex data types, design of symbol table here is relatively simple, and a global symbol table stack can be maintained to handle scopes:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef enum &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    Bool,
+&lt;&#x2F;span&gt;&lt;span&gt;    Int,
+&lt;&#x2F;span&gt;&lt;span&gt;    String,
+&lt;&#x2F;span&gt;&lt;span&gt;    Double,
+&lt;&#x2F;span&gt;&lt;span&gt;    Array
+&lt;&#x2F;span&gt;&lt;span&gt;} SymbolType;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolType type;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;bool&lt;&#x2F;span&gt;&lt;span&gt; mutable;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*name;
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t namespace_id;
+&lt;&#x2F;span&gt;&lt;span&gt;} Symbol;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    Symbol base;
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolType elementType;
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t length;
+&lt;&#x2F;span&gt;&lt;span&gt;} ArraySymbol;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t length;
+&lt;&#x2F;span&gt;&lt;span&gt;    Symbol **symbols;
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t namespace_id;
+&lt;&#x2F;span&gt;&lt;span&gt;} SymbolTableFrame;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t length;
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolTableFrame **frames;
+&lt;&#x2F;span&gt;&lt;span&gt;} SymbolTableStack;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;SymbolTableStack symbol_table_stack = {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;NULL&lt;&#x2F;span&gt;&lt;span&gt;};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;push_frame&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;pop_frame&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;add_symbol&lt;&#x2F;span&gt;&lt;span&gt;(Symbol *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;symbol&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Symbol *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get_symbol&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;get_symbol&lt;&#x2F;code&gt; look for symbol which name is &lt;code&gt;name&lt;&#x2F;code&gt; for the top to button of the stack.&lt;&#x2F;p&gt;
+&lt;p&gt;On &lt;code&gt;add_symbol&lt;&#x2F;code&gt;, the &lt;code&gt;namespace_id&lt;&#x2F;code&gt; of &lt;code&gt;symbol&lt;&#x2F;code&gt; is set to the &lt;code&gt;namespace_id&lt;&#x2F;code&gt; of &lt;code&gt;frame&lt;&#x2F;code&gt;, which appears as part of the variable name during code generation.&lt;&#x2F;p&gt;
+&lt;p&gt;When parsing:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span&gt;block:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;{&amp;#39; {push_frame();&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt; statementList &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;   {$$=$3;pop_frame();&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;在使用 &lt;code&gt;symbol&lt;&#x2F;code&gt; 时，由于刚刚进入的 &lt;code&gt;block&lt;&#x2F;code&gt; 对应的 &lt;code&gt;frame&lt;&#x2F;code&gt; 在栈顶附近，故会优先在这个 &lt;code&gt;frame&lt;&#x2F;code&gt; 中寻找名字为 &lt;code&gt;name&lt;&#x2F;code&gt;的符号，在这个 &lt;code&gt;frame&lt;&#x2F;code&gt; 中找不到时才会逐级向上寻找，这样就实现了作用域。&lt;&#x2F;p&gt;
+&lt;p&gt;Every time we encounter a &lt;code&gt;block&lt;&#x2F;code&gt;, just &lt;code&gt;push&lt;&#x2F;code&gt; a &lt;code&gt;frame&lt;&#x2F;code&gt;, and when you leave the &lt;code&gt;block&lt;&#x2F;code&gt;, you &lt;code&gt;pop&lt;&#x2F;code&gt; the &lt;code&gt;frame&lt;&#x2F;code&gt; out, so that the &lt;code&gt;symbol&lt;&#x2F;code&gt; declared in the &lt;code&gt;block&lt;&#x2F;code&gt; will get the corresponding &lt;code&gt;block&lt;&#x2F;code&gt;&#x27;s &lt;code&gt;namespace_id&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;When using &lt;code&gt;symbol&lt;&#x2F;code&gt;, since the &lt;code&gt;frame&lt;&#x2F;code&gt; corresponding to the &lt;code&gt;block&lt;&#x2F;code&gt; you just entered is near the top of the stack, the symbol named &lt;code&gt;name&lt;&#x2F;code&gt; will be searched first in this &lt;code&gt;frame&lt;&#x2F;code&gt;, and searched up level by level if not found. In such a way we implemented scoping of variables.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;target-code-generation&quot;&gt;Target Code Generation&lt;&#x2F;h3&gt;
+&lt;p&gt;In order to let our software cross-platform and make use of llvm&#x27;s excellent code optimization capabilities&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, our target code is LLVM IR.&lt;&#x2F;p&gt;
+&lt;p&gt;LLVM IR兼有高级语言和汇编的特点，比如：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLVM IR is strongly typed&lt;&#x2F;li&gt;
+&lt;li&gt;Many control structures in LLVM IR are similar to assembly, such as if, while and other control structures are represented by &lt;code&gt;br&lt;&#x2F;code&gt; jumps&lt;&#x2F;li&gt;
+&lt;li&gt;The &amp;quot;local variable&amp;quot; in LLVM IR is quite a &amp;quot;register&amp;quot;, but LLVM IR has an infinite number of such kind of &amp;quot;registers&amp;quot;&lt;&#x2F;li&gt;
+&lt;li&gt;LLVM IR is an SSA form of IR, so a &amp;quot;register&amp;quot; can only be assigned a value once.&lt;&#x2F;li&gt;
+&lt;li&gt;Many operations of LLVM are similar to assembly code, for example &lt;code&gt;%a = add i32 1, %b&lt;&#x2F;code&gt; is similar to &lt;code&gt;add %a, 1, %b&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;variable-definition&quot;&gt;Variable definition&lt;&#x2F;h4&gt;
+&lt;p&gt;Use &lt;code&gt;alloca&lt;&#x2F;code&gt; to allocate a space on stack:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%i_0 = alloca i32
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Note &lt;code&gt;alloca&lt;&#x2F;code&gt; returns an address.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;assign-value-to-variable&quot;&gt;Assign value to variable&lt;&#x2F;h4&gt;
+&lt;p&gt;Use &lt;code&gt;store&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;store i32 0, i32* %i_0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It means we put &lt;code&gt;0&lt;&#x2F;code&gt; into the space pointed by &lt;code&gt;%i_0&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;read-the-value-of-variable&quot;&gt;Read the value of variable&lt;&#x2F;h4&gt;
+&lt;p&gt;Use &lt;code&gt;load&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp = load i32, i32* %i_0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Which means take the value in the space pointed by &lt;code&gt;%i_0&lt;&#x2F;code&gt; to register &lt;code&gt;%temp&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;calculation&quot;&gt;Calculation&lt;&#x2F;h4&gt;
+&lt;p&gt;Take &lt;code&gt;+&lt;&#x2F;code&gt; as an example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_22 = add i32 %temp_21, 1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Which means put &lt;code&gt;%temp_21 + 1&lt;&#x2F;code&gt; into &lt;code&gt;%temp_22&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;For float numbers, use &lt;code&gt;fadd&lt;&#x2F;code&gt; instead of &lt;code&gt;add&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;compare&quot;&gt;Compare&lt;&#x2F;h4&gt;
+&lt;p&gt;Use &lt;code&gt;icmp&lt;&#x2F;code&gt; and the way you want to compare:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_2 = icmp slt i32 %temp_1, 10
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;slt&lt;&#x2F;code&gt; is &amp;quot;Signed Less Than&amp;quot;, ie. &lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;For floats, there are &lt;code&gt;fcmp&lt;&#x2F;code&gt;, &lt;code&gt;olt&lt;&#x2F;code&gt;, etc.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;jump&quot;&gt;Jump&lt;&#x2F;h4&gt;
+&lt;p&gt;Use &lt;code&gt;br&lt;&#x2F;code&gt; for jumping&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;conditionless&quot;&gt;Conditionless&lt;&#x2F;h5&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br label %label1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h5 id=&quot;with-condition&quot;&gt;With condition&lt;&#x2F;h5&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br i1 %condition, label %condition_true, label %condition_false
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;That&#x27;s all we need to know for accomplishing our task.&lt;&#x2F;p&gt;
+&lt;p&gt;Then let&#x27;s do the code generation.&lt;&#x2F;p&gt;
+&lt;p&gt;Take variable declaration as an example:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_code&lt;&#x2F;span&gt;&lt;span&gt;(DeclareStatement *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%%%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%zu&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = alloca &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, node-&amp;gt;variable-&amp;gt;name, node-&amp;gt;variable-&amp;gt;namespace_id, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_name&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;variable));
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Generate an assign statement if there is an initial value
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;initial != &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;NULL&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        ((Statement *) (node-&amp;gt;initial))-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;generate_code&lt;&#x2F;span&gt;&lt;span&gt;((Statement *) (node-&amp;gt;initial));
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Assign:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_code&lt;&#x2F;span&gt;&lt;span&gt;(AssignStatement *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    ((LValue *) (node-&amp;gt;lhs))-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;generate_lvalue_code&lt;&#x2F;span&gt;&lt;span&gt;((LValue *) (node-&amp;gt;lhs));
+&lt;&#x2F;span&gt;&lt;span&gt;    node-&amp;gt;rhs-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;generate_rvalue_code&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;rhs);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*rvalue_ir = node-&amp;gt;rhs-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;rhs);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*lvalue_ir = node-&amp;gt;lhs-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;lhs);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;store &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s %s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_string&lt;&#x2F;span&gt;&lt;span&gt;(((RValue *) (node-&amp;gt;lhs))-&amp;gt;type),
+&lt;&#x2F;span&gt;&lt;span&gt;           rvalue_ir,
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_string&lt;&#x2F;span&gt;&lt;span&gt;(((RValue *) (node-&amp;gt;lhs))-&amp;gt;type),
+&lt;&#x2F;span&gt;&lt;span&gt;           lvalue_ir);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(rvalue_ir);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(lvalue_ir);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;For an expression we heed to handle it&#x27;s rvalue and lvalue separately.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; rvalue needs to read to the register first
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_rvalue_code&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*rvalue_ir_string = ((RValue *) rValue)-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;((RValue*) rValue);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*lvalue_ir_string = ((LValue*) rValue)-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;((LValue *) rValue);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = load &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;           rvalue_ir_string,
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_name&lt;&#x2F;span&gt;&lt;span&gt;(rValue-&amp;gt;variable),
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_name&lt;&#x2F;span&gt;&lt;span&gt;(rValue-&amp;gt;variable),
+&lt;&#x2F;span&gt;&lt;span&gt;           lvalue_ir_string);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(rvalue_ir_string);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(lvalue_ir_string);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; while lvalue doesn&amp;#39;t
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_lvalue_code&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; variable name when it is used as a lvalue
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static char &lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;lvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*result = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;malloc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;128&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sprintf&lt;&#x2F;span&gt;&lt;span&gt;(result, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%%%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%zu&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, lValue-&amp;gt;variable-&amp;gt;name, lValue-&amp;gt;variable-&amp;gt;namespace_id);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; result;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; variable name when it is used as a rvalue
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static char &lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;rvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*result = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;malloc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;128&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sprintf&lt;&#x2F;span&gt;&lt;span&gt;(result, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%%&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%zu&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, rValue-&amp;gt;temp_register_id);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; result;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;How to generate other codes can be easily figured out by the reader. If you are interested in my implementation, please &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;toylang&#x2F;tree&#x2F;deprecated&quot;&gt;read the code&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;references&quot;&gt;References&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;compilation-principle&quot;&gt;Compilation principle&lt;&#x2F;h3&gt;
+&lt;p&gt;Three famous animal books:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;quot;Compilers: Principles, Techniques, and Tools&amp;quot; - &amp;quot;Dragon Book&amp;quot;&lt;&#x2F;li&gt;
+&lt;li&gt;&amp;quot;Modern Compiler Implementation&amp;quot; - &amp;quot;Tiger Book&amp;quot;&lt;&#x2F;li&gt;
+&lt;li&gt;&amp;quot;Advanced Compiler Design and Implementation&amp;quot; - &amp;quot;Whale Book&amp;quot;, however this book is mostly about backend optimization&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;lex-grammar-you-may-refer-to&quot;&gt;Lex &amp;amp; Grammar you may refer to&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.lysator.liu.se&#x2F;c&#x2F;ANSI-C-grammar-l.html&quot;&gt;Lex for C&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.lysator.liu.se&#x2F;c&#x2F;ANSI-C-grammar-y.html&quot;&gt;Grammar for C&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;llvm-ir&quot;&gt;LLVM IR&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;llvm.org&#x2F;&quot;&gt;llvm official cite&lt;&#x2F;a&gt;, especially its &lt;a href=&quot;https:&#x2F;&#x2F;llvm.org&#x2F;docs&#x2F;LangRef.html&quot;&gt;language reference&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mapping-high-level-constructs-to-llvm-ir.readthedocs.io&#x2F;&quot;&gt;mapping high level constructs to llvm ir&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;The code will use object-oriented programming in C language, see &lt;a href=&quot;.&quot;&gt;Implementing object-oriented programming in pure C&lt;&#x2F;a&gt;. Using this technique makes me feel that using C language is far more better than using C++ (Linus is not wrong at all).&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;In fact, I did a little bit of semantic analysis when constructing the AST.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;Actually it&#x27;s because I&#x27;m lazy. ;)&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 </feed>

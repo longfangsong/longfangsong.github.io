@@ -3540,6 +3540,388 @@ CAP 中的 C 指的是外部一致性。
 </content>
 	</entry>
 	<entry xml:lang="zh">
+		<title>一个最简单的编译器的实现</title>
+		<published>2019-05-21T16:39:56.026+00:00</published>
+		<updated>2019-05-21T16:39:56.026+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/" type="text/html"/>
+		<id>https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/</id>
+		<content type="html">&lt;p&gt;本文将会带领读者做出一个简单的类C（但比C简单无数倍）语言的编译器。&lt;&#x2F;p&gt;
+&lt;p&gt;参考代码在这里，本文完成时的版本是这个。&lt;&#x2F;p&gt;
+&lt;p&gt;这个语言支持：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;两种基本数据类型：&lt;code&gt;int&lt;&#x2F;code&gt; 和 &lt;code&gt;double&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;上述数据类型的数组&lt;&#x2F;li&gt;
+&lt;li&gt;两种控制结构：&lt;code&gt;if&lt;&#x2F;code&gt;（当然可以有可选的 &lt;code&gt;else&lt;&#x2F;code&gt;）和 &lt;code&gt;while&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;基本数学和关系运算：&lt;code&gt;+&lt;&#x2F;code&gt;、&lt;code&gt;-&lt;&#x2F;code&gt;、&lt;code&gt;*&lt;&#x2F;code&gt;、&lt;code&gt;&#x2F;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;=&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;=&lt;&#x2F;code&gt;、&lt;code&gt;==&lt;&#x2F;code&gt;、&lt;code&gt;!=&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;本文假设读者是一个比较熟练的C语言&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;程序猿，并具有基本的正则表达式知识。&lt;&#x2F;p&gt;
+&lt;p&gt;同时本文读者应当熟悉 flex &amp;amp; bison 的基本使用，如果你对此不熟悉，可以参考我的 &lt;a href=&quot;.&quot;&gt;另一篇文章&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bian-yi-guo-cheng&quot;&gt;编译过程&lt;&#x2F;h2&gt;
+&lt;p&gt;首先本文中所述的编译器编译一个程序的过程如下&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&#x2F;routine.svg&quot; alt=&quot;routine&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;显然很多代码都不用我们自己写，生在这样一个有丰富工具的时代既是幸运，也是一种不幸。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ci-fa-fen-xi&quot;&gt;词法分析&lt;&#x2F;h3&gt;
+&lt;p&gt;在此给出 flex 的关键部分代码：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;l&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-l &quot;&gt;&lt;code class=&quot;language-l&quot; data-lang=&quot;l&quot;&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;char&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                      {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=Char; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                       {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=Int; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;double&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                    {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=Double; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;string&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                    {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;=String; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; TYPE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; IF;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                      {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; ELSE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                     {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; WHILE;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;print&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                     {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; PRINT;}
+&lt;&#x2F;span&gt;&lt;span&gt;([-])?[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;]+                {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;int_value&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;atoi&lt;&#x2F;span&gt;&lt;span&gt;(yytext); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; INT_LITERAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;([-])?[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;]+\.[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;9&lt;&#x2F;span&gt;&lt;span&gt;]*        {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;double_value&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;atof&lt;&#x2F;span&gt;&lt;span&gt;(yytext); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; DOUBLE_LITERAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;[a-zA-Z][&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;-9a-zA-Z_]*       {yylval.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;string_value&lt;&#x2F;span&gt;&lt;span&gt;=&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;strdup&lt;&#x2F;span&gt;&lt;span&gt;(yytext); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; IDENTIFY;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;==&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; EQUAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;!=&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; NONEQUAL;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;=&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; LESSEQ;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;=&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                        {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; GREATEREQ;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;-&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;[&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;]&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;                         {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;span&gt;[ \t]                       {}
+&lt;&#x2F;span&gt;&lt;span&gt;.                           {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;*yytext;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;yu-fa-fen-xi&quot;&gt;语法分析&lt;&#x2F;h3&gt;
+&lt;p&gt;在此给出 bison 的关键部分代码：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span&gt;program:
+&lt;&#x2F;span&gt;&lt;span&gt;    program statement           
+&lt;&#x2F;span&gt;&lt;span&gt;    |                          
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;assign:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;=&amp;#39; expression             
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;defineStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    TYPE IDENTIFY &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    | TYPE IDENTIFY &amp;#39;[&amp;#39; INT_LITERAL &amp;#39;]&amp;#39; &amp;#39;;&amp;#39; 
+&lt;&#x2F;span&gt;&lt;span&gt;    | TYPE IDENTIFY assign &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;assignStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    referenceExpression assign &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;statementList:
+&lt;&#x2F;span&gt;&lt;span&gt;    statementList statement                 
+&lt;&#x2F;span&gt;&lt;span&gt;    |                                       
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;block:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;{&amp;#39; statementList &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; 
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;ifStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    IF expression block                   
+&lt;&#x2F;span&gt;&lt;span&gt;    | IF expression block ELSE block        
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;whileStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    WHILE expression block                  
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;printStatement:
+&lt;&#x2F;span&gt;&lt;span&gt;    PRINT &amp;#39;(&amp;#39; expression &amp;#39;)&amp;#39; &amp;#39;;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;statement:
+&lt;&#x2F;span&gt;&lt;span&gt;    defineStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | assignStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | block
+&lt;&#x2F;span&gt;&lt;span&gt;    | ifStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | whileStatement
+&lt;&#x2F;span&gt;&lt;span&gt;    | printStatement
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;referenceExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    IDENTIFY 
+&lt;&#x2F;span&gt;&lt;span&gt;    | IDENTIFY &amp;#39;[&amp;#39; expression &amp;#39;]&amp;#39; 
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;atomExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    INT_LITERAL                            
+&lt;&#x2F;span&gt;&lt;span&gt;    | DOUBLE_LITERAL                      
+&lt;&#x2F;span&gt;&lt;span&gt;    | referenceExpression                  
+&lt;&#x2F;span&gt;&lt;span&gt;    | &amp;#39;(&amp;#39; expression &amp;#39;)&amp;#39;                  
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;unaryOperator:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;+&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    | &amp;#39;-&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    | &amp;#39;!&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;unaryExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    atomExpression                        
+&lt;&#x2F;span&gt;&lt;span&gt;    | unaryOperator atomExpression         
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;binaryOrAtomExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    unaryExpression                                    
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;+&amp;#39; unaryExpression       
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;-&amp;#39; unaryExpression   
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;*&amp;#39; unaryExpression        
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&#x2F;&amp;#39; unaryExpression      
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;lt;&amp;#39; unaryExpression       
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;gt;&amp;#39; unaryExpression       
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression LESSEQ     unaryExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression GREATEREQ  unaryExpression
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression EQUAL      unaryExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression NONEQUAL   unaryExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;expression:
+&lt;&#x2F;span&gt;&lt;span&gt;    binaryOrAtomExpression 
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;注意此处没有给出相应的行为代码，因为首先需要理解AST才能明白这些行为。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ast-chou-xiang-yu-fa-shu&quot;&gt;AST（抽象语法树）&lt;&#x2F;h3&gt;
+&lt;p&gt;抽象语法树将语法分析得到的语法单元组织成树状。&lt;&#x2F;p&gt;
+&lt;p&gt;基本上每个statement和expression都可以对应AST上的一个node。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;ben-bian-yi-qi-de-astshe-ji&quot;&gt;本编译器的AST设计&lt;&#x2F;h4&gt;
+&lt;p&gt;部分参考了llvm的AST设计。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&#x2F;AST.svg&quot; alt=&quot;ast&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;因此我们就能写出 &lt;code&gt;%union&lt;&#x2F;code&gt; 和 &lt;code&gt;%type&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%union &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    int int_value;
+&lt;&#x2F;span&gt;&lt;span&gt;    double double_value;
+&lt;&#x2F;span&gt;&lt;span&gt;    char* string_value;
+&lt;&#x2F;span&gt;&lt;span&gt;    ASTNode* node;
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolType type;
+&lt;&#x2F;span&gt;&lt;span&gt;};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; TYPE
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;string_value&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; IDENTIFY
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int_value&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; INT_LITERAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;double_value&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; DOUBLE_LITERAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;type&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; STRING INT DOUBLE
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; IF ELSE WHILE FOR
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; LESSEQ GREATEREQ EQUAL NONEQUAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%token &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; PRINT
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%left &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; LESSEQ GREATEREQ EQUAL NONEQUAL
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%left &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;+&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;-&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%left &lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%type &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; statement assignStatement statementList block ifStatement whileStatement defineStatement printStatement
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%type &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; expression referenceExpression assign atomExpression unaryExpression binaryOrAtomExpression
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;%type &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; program
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;整个程序是一个 &lt;code&gt;CompoundStatement&lt;&#x2F;code&gt;，我们要把结果存在一个全局变量中：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span&gt;CompoundStatement *result;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;然后向 &lt;code&gt;bison&lt;&#x2F;code&gt; 代码中加入行为部分，以 &lt;code&gt;program&lt;&#x2F;code&gt; 和 &lt;code&gt;binaryOrAtomExpression&lt;&#x2F;code&gt; 为例：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span&gt;program:
+&lt;&#x2F;span&gt;&lt;span&gt;    program statement           {add_statement((CompoundStatement *)$1, (Statement*)$2);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    |                           {result=create_compound_statement(); $$=(ASTNode*)result;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;binaryOrAtomExpression:
+&lt;&#x2F;span&gt;&lt;span&gt;    unaryExpression                                     {$$=$1;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;+&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;+&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;-&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;-&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;*&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;*&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&#x2F;&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;&#x2F;&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;lt;&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;&amp;lt;&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression &amp;#39;&amp;gt;&amp;#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&amp;#39;&amp;gt;&amp;#39;,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression LESSEQ     unaryExpression {$$=(ASTNode*)create_binary_operation_result(LESSEQ, (RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression GREATEREQ  unaryExpression {$$=(ASTNode*)create_binary_operation_result(GREATEREQ,(RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression EQUAL      unaryExpression {$$=(ASTNode*)create_binary_operation_result(EQUAL, (RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    | binaryOrAtomExpression NONEQUAL   unaryExpression {$$=(ASTNode*)create_binary_operation_result(NONEQUAL, (RValue*)$1,(RValue*)$3);&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;fu-hao-biao-yu-zuo-yong-yu&quot;&gt;符号表与作用域&lt;&#x2F;h3&gt;
+&lt;p&gt;这个编译器由于不涉及多文件，也没有复杂类型，符号表的设计较为简单，维护一个全局符号表栈即可：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef enum &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    Bool,
+&lt;&#x2F;span&gt;&lt;span&gt;    Int,
+&lt;&#x2F;span&gt;&lt;span&gt;    String,
+&lt;&#x2F;span&gt;&lt;span&gt;    Double,
+&lt;&#x2F;span&gt;&lt;span&gt;    Array
+&lt;&#x2F;span&gt;&lt;span&gt;} SymbolType;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolType type;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;bool&lt;&#x2F;span&gt;&lt;span&gt; mutable;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*name;
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t namespace_id;
+&lt;&#x2F;span&gt;&lt;span&gt;} Symbol;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    Symbol base;
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolType elementType;
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t length;
+&lt;&#x2F;span&gt;&lt;span&gt;} ArraySymbol;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t length;
+&lt;&#x2F;span&gt;&lt;span&gt;    Symbol **symbols;
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t namespace_id;
+&lt;&#x2F;span&gt;&lt;span&gt;} SymbolTableFrame;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;typedef struct &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    size_t length;
+&lt;&#x2F;span&gt;&lt;span&gt;    SymbolTableFrame **frames;
+&lt;&#x2F;span&gt;&lt;span&gt;} SymbolTableStack;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;SymbolTableStack symbol_table_stack = {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;NULL&lt;&#x2F;span&gt;&lt;span&gt;};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;push_frame&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;pop_frame&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;add_symbol&lt;&#x2F;span&gt;&lt;span&gt;(Symbol *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;symbol&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;Symbol *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;get_symbol&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;name&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其中 &lt;code&gt;get_symbol&lt;&#x2F;code&gt; 从栈顶向栈底寻找名字为 &lt;code&gt;name&lt;&#x2F;code&gt; 的符号。&lt;&#x2F;p&gt;
+&lt;p&gt;在 &lt;code&gt;add_symbol&lt;&#x2F;code&gt; 时，会设置 &lt;code&gt;symbol&lt;&#x2F;code&gt; 的 &lt;code&gt;namespace_id&lt;&#x2F;code&gt; 为 &lt;code&gt;frame&lt;&#x2F;code&gt; 的 &lt;code&gt;namespace_id&lt;&#x2F;code&gt;，这在代码生成时会作为变量名称的一部分出现。&lt;&#x2F;p&gt;
+&lt;p&gt;在语法分析时：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;bison&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-bison &quot;&gt;&lt;code class=&quot;language-bison&quot; data-lang=&quot;bison&quot;&gt;&lt;span&gt;block:
+&lt;&#x2F;span&gt;&lt;span&gt;    &amp;#39;{&amp;#39; {push_frame();&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt; statementList &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;   {$$=$3;pop_frame();&lt;&#x2F;span&gt;&lt;span style=&quot;background-color:#bf616a;color:#2b303b;&quot;&gt;}&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    ;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;每遇到一个 &lt;code&gt;block&lt;&#x2F;code&gt;，就 &lt;code&gt;push&lt;&#x2F;code&gt; 一个 &lt;code&gt;frame&lt;&#x2F;code&gt;，离开 &lt;code&gt;block&lt;&#x2F;code&gt; 时 &lt;code&gt;pop&lt;&#x2F;code&gt; 即可，这样这个 &lt;code&gt;block&lt;&#x2F;code&gt; 内声明的 &lt;code&gt;symbol&lt;&#x2F;code&gt; 就会获得一个和这个 &lt;code&gt;block&lt;&#x2F;code&gt; 对应的 &lt;code&gt;namespace_id&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;在使用 &lt;code&gt;symbol&lt;&#x2F;code&gt; 时，由于刚刚进入的 &lt;code&gt;block&lt;&#x2F;code&gt; 对应的 &lt;code&gt;frame&lt;&#x2F;code&gt; 在栈顶附近，故会优先在这个 &lt;code&gt;frame&lt;&#x2F;code&gt; 中寻找名字为 &lt;code&gt;name&lt;&#x2F;code&gt;的符号，在这个 &lt;code&gt;frame&lt;&#x2F;code&gt; 中找不到时才会逐级向上寻找，这样就实现了作用域。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;mu-biao-dai-ma-sheng-cheng&quot;&gt;目标代码生成&lt;&#x2F;h3&gt;
+&lt;p&gt;为了方便代码跨平台和借用 llvm 的优秀的代码优化能力&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，我们的目标代码是 LLVM IR。&lt;&#x2F;p&gt;
+&lt;p&gt;LLVM IR兼有高级语言和汇编的特点，比如：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;LLVM IR 是强类型的&lt;&#x2F;li&gt;
+&lt;li&gt;LLVM IR 中的许多控制结构类似汇编，如 if、while 等控制结构都通过 br 跳转来表示&lt;&#x2F;li&gt;
+&lt;li&gt;LLVM IR 中的”局部变量”相当程度上是一个”寄存器”，但 LLVM IR 逻辑上有无限多的这种”寄存器”，需要注意的是 LLVM IR是一种 SSA 形式的 IR，所以一个”寄存器”只能赋值一次。&lt;&#x2F;li&gt;
+&lt;li&gt;LLVM 的很多操作都类似汇编的格式，如：&lt;code&gt;%a = add i32 1, %b&lt;&#x2F;code&gt; 类似 &lt;code&gt;add %a, 1, %b&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;在此讲一些我们用到的 LLVM IR：&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;bian-liang-ding-yi&quot;&gt;变量定义&lt;&#x2F;h4&gt;
+&lt;p&gt;用 &lt;code&gt;alloca&lt;&#x2F;code&gt; 在栈上开辟一块空间：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%i_0 = alloca i32
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;注意 &lt;code&gt;alloca&lt;&#x2F;code&gt; 返回的是一个指针。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;bian-liang-de-fu-zhi&quot;&gt;变量的赋值&lt;&#x2F;h4&gt;
+&lt;p&gt;使用 &lt;code&gt;store&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;store i32 0, i32* %i_0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;即将 &lt;code&gt;0&lt;&#x2F;code&gt; 放入 &lt;code&gt;%i_0&lt;&#x2F;code&gt; 所指的变量中。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;du-qu-bian-liang-de-zhi&quot;&gt;读取变量的值&lt;&#x2F;h4&gt;
+&lt;p&gt;用 &lt;code&gt;load&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp = load i32, i32* %i_0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;即将 &lt;code&gt;%i_0&lt;&#x2F;code&gt; 所指的变量中的值放入 &lt;code&gt;%temp&lt;&#x2F;code&gt; 寄存器中。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;yun-suan&quot;&gt;运算&lt;&#x2F;h4&gt;
+&lt;p&gt;以加法为例：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_22 = add i32 %temp_21, 1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;即将 &lt;code&gt;%temp_21 + 1&lt;&#x2F;code&gt; 的值放入 &lt;code&gt;%temp_22&lt;&#x2F;code&gt; 中。&lt;&#x2F;p&gt;
+&lt;p&gt;对于浮点数，用 &lt;code&gt;fadd&lt;&#x2F;code&gt; 代替 &lt;code&gt;add&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;bi-jiao&quot;&gt;比较&lt;&#x2F;h4&gt;
+&lt;p&gt;使用 &lt;code&gt;icmp&lt;&#x2F;code&gt; 与比较类型：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_2 = icmp slt i32 %temp_1, 10
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其中 &lt;code&gt;slt&lt;&#x2F;code&gt; 是“Signed Less Than”，即&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;浮点相应的有 &lt;code&gt;fcmp&lt;&#x2F;code&gt; 、&lt;code&gt;olt&lt;&#x2F;code&gt;等。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;tiao-zhuan&quot;&gt;跳转&lt;&#x2F;h4&gt;
+&lt;p&gt;使用 &lt;code&gt;br&lt;&#x2F;code&gt; 进行跳转：&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;wu-tiao-jian&quot;&gt;无条件&lt;&#x2F;h5&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br label %label1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h5 id=&quot;you-tiao-jian&quot;&gt;有条件&lt;&#x2F;h5&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br i1 %condition, label %condition_true, label %condition_false
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;有这些个东西就够了。&lt;&#x2F;p&gt;
+&lt;p&gt;然后我们就可以进行代码生成了。&lt;&#x2F;p&gt;
+&lt;p&gt;例如变量声明：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_code&lt;&#x2F;span&gt;&lt;span&gt;(DeclareStatement *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%%%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%zu&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = alloca &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, node-&amp;gt;variable-&amp;gt;name, node-&amp;gt;variable-&amp;gt;namespace_id, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_name&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;variable));
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 带初始化，则再生成一个赋值语句
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;initial != &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;NULL&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;        ((Statement *) (node-&amp;gt;initial))-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;generate_code&lt;&#x2F;span&gt;&lt;span&gt;((Statement *) (node-&amp;gt;initial));
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;赋值：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_code&lt;&#x2F;span&gt;&lt;span&gt;(AssignStatement *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;node&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    ((LValue *) (node-&amp;gt;lhs))-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;generate_lvalue_code&lt;&#x2F;span&gt;&lt;span&gt;((LValue *) (node-&amp;gt;lhs));
+&lt;&#x2F;span&gt;&lt;span&gt;    node-&amp;gt;rhs-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;generate_rvalue_code&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;rhs);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*rvalue_ir = node-&amp;gt;rhs-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;rhs);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*lvalue_ir = node-&amp;gt;lhs-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(node-&amp;gt;lhs);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;store &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s %s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_string&lt;&#x2F;span&gt;&lt;span&gt;(((RValue *) (node-&amp;gt;lhs))-&amp;gt;type),
+&lt;&#x2F;span&gt;&lt;span&gt;           rvalue_ir,
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_string&lt;&#x2F;span&gt;&lt;span&gt;(((RValue *) (node-&amp;gt;lhs))-&amp;gt;type),
+&lt;&#x2F;span&gt;&lt;span&gt;           lvalue_ir);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(rvalue_ir);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(lvalue_ir);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;对expression来说，左值右值要分开，以普通变量为例：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 右值需从变量读取到寄存器才能使用
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_rvalue_code&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*rvalue_ir_string = ((RValue *) rValue)-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;((RValue*) rValue);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*lvalue_ir_string = ((LValue*) rValue)-&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;((LValue *) rValue);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;printf&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; = load &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\n&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;,
+&lt;&#x2F;span&gt;&lt;span&gt;           rvalue_ir_string,
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_name&lt;&#x2F;span&gt;&lt;span&gt;(rValue-&amp;gt;variable),
+&lt;&#x2F;span&gt;&lt;span&gt;           &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;type_name&lt;&#x2F;span&gt;&lt;span&gt;(rValue-&amp;gt;variable),
+&lt;&#x2F;span&gt;&lt;span&gt;           lvalue_ir_string);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(rvalue_ir_string);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;free&lt;&#x2F;span&gt;&lt;span&gt;(lvalue_ir_string);
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 左值无需读取出来
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;generate_lvalue_code&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 做左值时ir中的变量名
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static char &lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;lvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*result = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;malloc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;128&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sprintf&lt;&#x2F;span&gt;&lt;span&gt;(result, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%%%s&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%zu&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, lValue-&amp;gt;variable-&amp;gt;name, lValue-&amp;gt;variable-&amp;gt;namespace_id);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; result;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 做右值时ir中的变量名
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;static char &lt;&#x2F;span&gt;&lt;span&gt;*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;rvalue_ir&lt;&#x2F;span&gt;&lt;span&gt;(VariableReference *&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rValue&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;char &lt;&#x2F;span&gt;&lt;span&gt;*result = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;malloc&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;128&lt;&#x2F;span&gt;&lt;span&gt;);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;sprintf&lt;&#x2F;span&gt;&lt;span&gt;(result, &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%%&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;temp_&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;%zu&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, rValue-&amp;gt;temp_register_id);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; result;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;其他代码如何生成可以由读者自己想出来，对我的实现感兴趣的话请自行&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;toylang&#x2F;tree&#x2F;deprecated&quot;&gt;阅读代码&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;can-kao-zi-liao&quot;&gt;参考资料&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;bian-yi-yuan-li&quot;&gt;编译原理&lt;&#x2F;h3&gt;
+&lt;p&gt;龙虎鲸三连：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;《编译原理》——“龙书”&lt;&#x2F;li&gt;
+&lt;li&gt;《现代编译原理：Ｃ语言描述》——“虎书”&lt;&#x2F;li&gt;
+&lt;li&gt;《高级编译器设计与实现》——“鲸书”&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;can-kao-ci-fa-wen-fa&quot;&gt;参考词法 &amp;amp; 文法&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.lysator.liu.se&#x2F;c&#x2F;ANSI-C-grammar-l.html&quot;&gt;C语言的词法&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;http:&#x2F;&#x2F;www.lysator.liu.se&#x2F;c&#x2F;ANSI-C-grammar-y.html&quot;&gt;C语言的文法&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;llvm-ir&quot;&gt;LLVM IR&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;llvm.org&#x2F;&quot;&gt;llvm 官方网站&lt;&#x2F;a&gt;，尤其是其&lt;a href=&quot;https:&#x2F;&#x2F;llvm.org&#x2F;docs&#x2F;LangRef.html&quot;&gt;语言参考&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mapping-high-level-constructs-to-llvm-ir.readthedocs.io&#x2F;&quot;&gt;mapping high level constructs to llvm ir&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;代码中将会使用C语言的面向对象编程，见用&lt;a href=&quot;.&quot;&gt;纯C实现面向对象编程&lt;&#x2F;a&gt;。这东西用多了就有一种C语言远比C++好用的感觉（Linus一点都没说错）。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;其实在构造AST里我偷偷摸摸做了一丁点语义分析。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;其实是因为我懒。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="zh">
 		<title>代数结构 cheatsheet</title>
 		<published>2019-04-09T00:00:00+00:00</published>
 		<updated>2019-04-09T00:00:00+00:00</updated>

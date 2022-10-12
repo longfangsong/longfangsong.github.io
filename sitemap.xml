@@ -30,6 +30,10 @@
         <lastmod>2021-07-22T10:55:33.427Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/</loc>
+        <lastmod>2019-05-21T16:39:56.026Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/cap-theorem/</loc>
         <lastmod>2022-07-13T23:38:26Z</lastmod>
     </url>
@@ -53,6 +57,10 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/archive/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/</loc>
+        <lastmod>2019-05-21T16:39:56.026Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/category-theory-1/</loc>
@@ -206,6 +214,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/cheatsheet/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/compiling/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/css/</loc>

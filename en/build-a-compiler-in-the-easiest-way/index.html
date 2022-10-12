@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • How to implement an easiest compiler</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;">How to implement an easiest compiler</a></h1>
+  
+  <div class="post-content"><p>This article will lead the reader to make a simple C-like (but much simpler than C) language's compiler.</p>
+<p><a href="https://github.com/longfangsong/toylang/tree/db02558dd658c0cf667f60c822eb4bd42ecb9ee7">Here</a>, is the reference code.</p>
+<p>This language supports:</p>
+<ul>
+<li>2 basic types: <code>int</code> and <code>double</code></li>
+<li>Arrays in these basic types</li>
+<li>2 kinds of control flow statements <code>if</code> (with optionally <code>else</code>) and <code>while</code></li>
+<li>Basic mathematical operators <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>&lt;</code>、<code>&lt;=</code>、<code>&gt;</code>、<code>&gt;=</code>、<code>==</code>、<code>!=</code></li>
+</ul>
+<p>The author assume the user has a good command of C language<sup class="footnote-reference"><a href="#1">1</a></sup> and knows how to use regex, flex and bison.</p>
+<p>If you are not familiar with flex and bison, refer to <a href=".">another article of mine</a>。</p>
+<h2 id="the-whole-compiling-process">The whole compiling process</h2>
+<p>The compiler follows the following process<sup class="footnote-reference"><a href="#2">2</a></sup>：</p>
+<p><img src="https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/./routine.en.svg" alt="routine" /></p>
+<p>Obviously there are a lot of code which we don't need to write, and it is both fortunate and unfortunate for us to be born in such an era with rich tools.</p>
+<h3 id="lexical-analysis">Lexical Analysis</h3>
+<p>Here is the key part of flex code:</p>
+<pre data-lang="l" style="background-color:#2b303b;color:#c0c5ce;" class="language-l "><code class="language-l" data-lang="l"><span>&quot;</span><span style="color:#a3be8c;">char</span><span>&quot;                      {yylval.</span><span style="color:#bf616a;">type</span><span>=Char; </span><span style="color:#b48ead;">return</span><span> TYPE;}
+</span><span>&quot;</span><span style="color:#a3be8c;">int</span><span>&quot;                       {yylval.</span><span style="color:#bf616a;">type</span><span>=Int; </span><span style="color:#b48ead;">return</span><span> TYPE;}
+</span><span>&quot;</span><span style="color:#a3be8c;">double</span><span>&quot;                    {yylval.</span><span style="color:#bf616a;">type</span><span>=Double; </span><span style="color:#b48ead;">return</span><span> TYPE;}
+</span><span>&quot;</span><span style="color:#a3be8c;">string</span><span>&quot;                    {yylval.</span><span style="color:#bf616a;">type</span><span>=String; </span><span style="color:#b48ead;">return</span><span> TYPE;}
+</span><span>&quot;</span><span style="color:#a3be8c;">if</span><span>&quot;                        {</span><span style="color:#b48ead;">return</span><span> IF;}
+</span><span>&quot;</span><span style="color:#a3be8c;">else</span><span>&quot;                      {</span><span style="color:#b48ead;">return</span><span> ELSE;}
+</span><span>&quot;</span><span style="color:#a3be8c;">while</span><span>&quot;                     {</span><span style="color:#b48ead;">return</span><span> WHILE;}
+</span><span>&quot;</span><span style="color:#a3be8c;">print</span><span>&quot;                     {</span><span style="color:#b48ead;">return</span><span> PRINT;}
+</span><span>([-])?[</span><span style="color:#d08770;">0</span><span>-</span><span style="color:#d08770;">9</span><span>]+                {yylval.</span><span style="color:#bf616a;">int_value</span><span>=</span><span style="color:#96b5b4;">atoi</span><span>(yytext); </span><span style="color:#b48ead;">return</span><span> INT_LITERAL;}
+</span><span>([-])?[</span><span style="color:#d08770;">0</span><span>-</span><span style="color:#d08770;">9</span><span>]+\.[</span><span style="color:#d08770;">0</span><span>-</span><span style="color:#d08770;">9</span><span>]*        {yylval.</span><span style="color:#bf616a;">double_value</span><span>=</span><span style="color:#96b5b4;">atof</span><span>(yytext); </span><span style="color:#b48ead;">return</span><span> DOUBLE_LITERAL;}
+</span><span>[a-zA-Z][</span><span style="color:#d08770;">0</span><span>-9a-zA-Z_]*       {yylval.</span><span style="color:#bf616a;">string_value</span><span>=</span><span style="color:#bf616a;">strdup</span><span>(yytext); </span><span style="color:#b48ead;">return</span><span> IDENTIFY;}
+</span><span>&quot;</span><span style="color:#a3be8c;">==</span><span>&quot;                        {</span><span style="color:#b48ead;">return</span><span> EQUAL;}
+</span><span>&quot;</span><span style="color:#a3be8c;">!=</span><span>&quot;                        {</span><span style="color:#b48ead;">return</span><span> NONEQUAL;}
+</span><span>&quot;</span><span style="color:#a3be8c;">&lt;</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>&quot;</span><span style="color:#a3be8c;">&lt;=</span><span>&quot;                        {</span><span style="color:#b48ead;">return</span><span> LESSEQ;}
+</span><span>&quot;</span><span style="color:#a3be8c;">&gt;</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>&quot;</span><span style="color:#a3be8c;">&gt;=</span><span>&quot;                        {</span><span style="color:#b48ead;">return</span><span> GREATEREQ;}
+</span><span>&quot;</span><span style="color:#a3be8c;">+</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>&quot;</span><span style="color:#a3be8c;">-</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>&quot;</span><span style="color:#a3be8c;">*</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>&quot;</span><span style="color:#a3be8c;">/</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>&quot;</span><span style="color:#a3be8c;">[</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>&quot;</span><span style="color:#a3be8c;">]</span><span>&quot;                         {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span><span>[ \t]                       {}
+</span><span>.                           {</span><span style="color:#b48ead;">return </span><span>*yytext;}
+</span></code></pre>
+<h3 id="gramma-analysis">Gramma analysis</h3>
+<p>Here is the key part of the bison code:</p>
+<pre data-lang="bison" style="background-color:#2b303b;color:#c0c5ce;" class="language-bison "><code class="language-bison" data-lang="bison"><span>program:
+</span><span>    program statement           
+</span><span>    |                          
+</span><span>    ;
+</span><span>
+</span><span>assign:
+</span><span>    &#39;=&#39; expression             
+</span><span>    ;
+</span><span>
+</span><span>defineStatement:
+</span><span>    TYPE IDENTIFY &#39;;&#39;
+</span><span>    | TYPE IDENTIFY &#39;[&#39; INT_LITERAL &#39;]&#39; &#39;;&#39; 
+</span><span>    | TYPE IDENTIFY assign &#39;;&#39;
+</span><span>    ;
+</span><span>
+</span><span>assignStatement:
+</span><span>    referenceExpression assign &#39;;&#39;
+</span><span>    ;
+</span><span>
+</span><span>statementList:
+</span><span>    statementList statement                 
+</span><span>    |                                       
+</span><span>    ;
+</span><span>
+</span><span>block:
+</span><span>    &#39;{&#39; statementList &#39;</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>&#39; 
+</span><span>    ;
+</span><span>
+</span><span>ifStatement:
+</span><span>    IF expression block                   
+</span><span>    | IF expression block ELSE block        
+</span><span>    ;
+</span><span>
+</span><span>whileStatement:
+</span><span>    WHILE expression block                  
+</span><span>;
+</span><span>
+</span><span>printStatement:
+</span><span>    PRINT &#39;(&#39; expression &#39;)&#39; &#39;;&#39;
+</span><span>;
+</span><span>
+</span><span>statement:
+</span><span>    defineStatement
+</span><span>    | assignStatement
+</span><span>    | block
+</span><span>    | ifStatement
+</span><span>    | whileStatement
+</span><span>    | printStatement
+</span><span>;
+</span><span>
+</span><span>referenceExpression:
+</span><span>    IDENTIFY 
+</span><span>    | IDENTIFY &#39;[&#39; expression &#39;]&#39; 
+</span><span>
+</span><span>atomExpression:
+</span><span>    INT_LITERAL                            
+</span><span>    | DOUBLE_LITERAL                      
+</span><span>    | referenceExpression                  
+</span><span>    | &#39;(&#39; expression &#39;)&#39;                  
+</span><span>    ;
+</span><span>
+</span><span>unaryOperator:
+</span><span>    &#39;+&#39;
+</span><span>    | &#39;-&#39;
+</span><span>    | &#39;!&#39;
+</span><span>    ;
+</span><span>
+</span><span>unaryExpression:
+</span><span>    atomExpression                        
+</span><span>    | unaryOperator atomExpression         
+</span><span>;
+</span><span>
+</span><span>binaryOrAtomExpression:
+</span><span>    unaryExpression                                    
+</span><span>    | binaryOrAtomExpression &#39;+&#39; unaryExpression       
+</span><span>    | binaryOrAtomExpression &#39;-&#39; unaryExpression   
+</span><span>    | binaryOrAtomExpression &#39;*&#39; unaryExpression        
+</span><span>    | binaryOrAtomExpression &#39;/&#39; unaryExpression      
+</span><span>    | binaryOrAtomExpression &#39;&lt;&#39; unaryExpression       
+</span><span>    | binaryOrAtomExpression &#39;&gt;&#39; unaryExpression       
+</span><span>    | binaryOrAtomExpression LESSEQ     unaryExpression 
+</span><span>    | binaryOrAtomExpression GREATEREQ  unaryExpression
+</span><span>    | binaryOrAtomExpression EQUAL      unaryExpression 
+</span><span>    | binaryOrAtomExpression NONEQUAL   unaryExpression 
+</span><span>;
+</span><span>
+</span><span>expression:
+</span><span>    binaryOrAtomExpression 
+</span><span>    ;
+</span></code></pre>
+<p>Note that the corresponding behavior code is not given here, because we need to understand AST  first to understand these behaviors.</p>
+<h3 id="ast-abstract-syntax-tree">AST（abstract syntax tree）</h3>
+<p>An abstract syntax tree organizes the parsed syntax units into a tree.</p>
+<p>Basically each statement and expression has a correspond node on the AST.</p>
+<h4 id="ast-design-of-this-compiler">AST design of this compiler</h4>
+<p>Some key concepts are borrowed from LLVM's AST design.</p>
+<p><img src="https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/./AST.svg" alt="ast" /></p>
+<p>So we have <code>%union</code> and <code>%type</code>:</p>
+<pre data-lang="bison" style="background-color:#2b303b;color:#c0c5ce;" class="language-bison "><code class="language-bison" data-lang="bison"><span style="color:#b48ead;">%union </span><span>{
+</span><span>    int int_value;
+</span><span>    double double_value;
+</span><span>    char* string_value;
+</span><span>    ASTNode* node;
+</span><span>    SymbolType type;
+</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">type</span><span>&gt; TYPE
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">string_value</span><span>&gt; IDENTIFY
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">int_value</span><span>&gt; INT_LITERAL
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">double_value</span><span>&gt; DOUBLE_LITERAL
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">type</span><span>&gt; STRING INT DOUBLE
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">void</span><span>&gt; IF ELSE WHILE FOR
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">void</span><span>&gt; LESSEQ GREATEREQ EQUAL NONEQUAL
+</span><span style="color:#b48ead;">%token </span><span>&lt;</span><span style="color:#b48ead;">void</span><span>&gt; PRINT
+</span><span>
+</span><span style="color:#b48ead;">%left </span><span>&#39;</span><span style="color:#a3be8c;">&gt;</span><span>&#39; &#39;</span><span style="color:#a3be8c;">&lt;</span><span>&#39; LESSEQ GREATEREQ EQUAL NONEQUAL
+</span><span style="color:#b48ead;">%left </span><span>&#39;</span><span style="color:#a3be8c;">+</span><span>&#39; &#39;</span><span style="color:#a3be8c;">-</span><span>&#39;
+</span><span style="color:#b48ead;">%left </span><span>&#39;</span><span style="color:#a3be8c;">*</span><span>&#39; &#39;</span><span style="color:#a3be8c;">/</span><span>&#39;
+</span><span>
+</span><span style="color:#b48ead;">%type </span><span>&lt;</span><span style="color:#b48ead;">node</span><span>&gt; statement assignStatement statementList block ifStatement whileStatement defineStatement printStatement
+</span><span style="color:#b48ead;">%type </span><span>&lt;</span><span style="color:#b48ead;">node</span><span>&gt; expression referenceExpression assign atomExpression unaryExpression binaryOrAtomExpression
+</span><span style="color:#b48ead;">%type </span><span>&lt;</span><span style="color:#b48ead;">node</span><span>&gt; program
+</span></code></pre>
+<p>The whole program is a <code>CompoundStatement</code>, we need to store the result in a global variable:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span>CompoundStatement *result;
+</span></code></pre>
+<p>Then we can finally add the behavior part in the <code>bison</code> code, take <code>program</code> and <code>binaryOrAtomExpression</code> as an example:</p>
+<pre data-lang="bison" style="background-color:#2b303b;color:#c0c5ce;" class="language-bison "><code class="language-bison" data-lang="bison"><span>program:
+</span><span>    program statement           {add_statement((CompoundStatement *)$1, (Statement*)$2);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    |                           {result=create_compound_statement(); $$=(ASTNode*)result;</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    ;
+</span><span>
+</span><span>binaryOrAtomExpression:
+</span><span>    unaryExpression                                     {$$=$1;</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression &#39;+&#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&#39;+&#39;,(RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression &#39;-&#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&#39;-&#39;,(RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression &#39;*&#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&#39;*&#39;,(RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression &#39;/&#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&#39;/&#39;,(RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression &#39;&lt;&#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&#39;&lt;&#39;,(RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression &#39;&gt;&#39; unaryExpression        {$$=(ASTNode*)create_binary_operation_result(&#39;&gt;&#39;,(RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression LESSEQ     unaryExpression {$$=(ASTNode*)create_binary_operation_result(LESSEQ, (RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression GREATEREQ  unaryExpression {$$=(ASTNode*)create_binary_operation_result(GREATEREQ,(RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression EQUAL      unaryExpression {$$=(ASTNode*)create_binary_operation_result(EQUAL, (RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    | binaryOrAtomExpression NONEQUAL   unaryExpression {$$=(ASTNode*)create_binary_operation_result(NONEQUAL, (RValue*)$1,(RValue*)$3);</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span></code></pre>
+<h3 id="symbol-table-and-scope">Symbol Table and Scope</h3>
+<p>Since this compiler does not support multiple source files and we don't have complex data types, design of symbol table here is relatively simple, and a global symbol table stack can be maintained to handle scopes:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">typedef enum </span><span>{
+</span><span>    Bool,
+</span><span>    Int,
+</span><span>    String,
+</span><span>    Double,
+</span><span>    Array
+</span><span>} SymbolType;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    SymbolType type;
+</span><span>    </span><span style="color:#b48ead;">bool</span><span> mutable;
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*name;
+</span><span>    size_t namespace_id;
+</span><span>} Symbol;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    Symbol base;
+</span><span>    SymbolType elementType;
+</span><span>    size_t length;
+</span><span>} ArraySymbol;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    size_t length;
+</span><span>    Symbol **symbols;
+</span><span>    size_t namespace_id;
+</span><span>} SymbolTableFrame;
+</span><span>
+</span><span style="color:#b48ead;">typedef struct </span><span>{
+</span><span>    size_t length;
+</span><span>    SymbolTableFrame **frames;
+</span><span>} SymbolTableStack;
+</span><span>
+</span><span>SymbolTableStack symbol_table_stack = {</span><span style="color:#d08770;">0</span><span>, </span><span style="color:#d08770;">NULL</span><span>};
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">push_frame</span><span>();
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">pop_frame</span><span>();
+</span><span>
+</span><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">add_symbol</span><span>(Symbol *</span><span style="color:#bf616a;">symbol</span><span>);
+</span><span>
+</span><span>Symbol *</span><span style="color:#8fa1b3;">get_symbol</span><span>(</span><span style="color:#b48ead;">char </span><span>*</span><span style="color:#bf616a;">name</span><span>);
+</span></code></pre>
+<p><code>get_symbol</code> look for symbol which name is <code>name</code> for the top to button of the stack.</p>
+<p>On <code>add_symbol</code>, the <code>namespace_id</code> of <code>symbol</code> is set to the <code>namespace_id</code> of <code>frame</code>, which appears as part of the variable name during code generation.</p>
+<p>When parsing:</p>
+<pre data-lang="bison" style="background-color:#2b303b;color:#c0c5ce;" class="language-bison "><code class="language-bison" data-lang="bison"><span>block:
+</span><span>    &#39;{&#39; {push_frame();</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span> statementList &#39;</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>&#39;   {$$=$3;pop_frame();</span><span style="background-color:#bf616a;color:#2b303b;">}</span><span>
+</span><span>    ;
+</span></code></pre>
+<p>在使用 <code>symbol</code> 时，由于刚刚进入的 <code>block</code> 对应的 <code>frame</code> 在栈顶附近，故会优先在这个 <code>frame</code> 中寻找名字为 <code>name</code>的符号，在这个 <code>frame</code> 中找不到时才会逐级向上寻找，这样就实现了作用域。</p>
+<p>Every time we encounter a <code>block</code>, just <code>push</code> a <code>frame</code>, and when you leave the <code>block</code>, you <code>pop</code> the <code>frame</code> out, so that the <code>symbol</code> declared in the <code>block</code> will get the corresponding <code>block</code>'s <code>namespace_id</code>.</p>
+<p>When using <code>symbol</code>, since the <code>frame</code> corresponding to the <code>block</code> you just entered is near the top of the stack, the symbol named <code>name</code> will be searched first in this <code>frame</code>, and searched up level by level if not found. In such a way we implemented scoping of variables.</p>
+<h3 id="target-code-generation">Target Code Generation</h3>
+<p>In order to let our software cross-platform and make use of llvm's excellent code optimization capabilities<sup class="footnote-reference"><a href="#3">3</a></sup>, our target code is LLVM IR.</p>
+<p>LLVM IR兼有高级语言和汇编的特点，比如：</p>
+<ul>
+<li>LLVM IR is strongly typed</li>
+<li>Many control structures in LLVM IR are similar to assembly, such as if, while and other control structures are represented by <code>br</code> jumps</li>
+<li>The &quot;local variable&quot; in LLVM IR is quite a &quot;register&quot;, but LLVM IR has an infinite number of such kind of &quot;registers&quot;</li>
+<li>LLVM IR is an SSA form of IR, so a &quot;register&quot; can only be assigned a value once.</li>
+<li>Many operations of LLVM are similar to assembly code, for example <code>%a = add i32 1, %b</code> is similar to <code>add %a, 1, %b</code></li>
+</ul>
+<h4 id="variable-definition">Variable definition</h4>
+<p>Use <code>alloca</code> to allocate a space on stack:</p>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%i_0 = alloca i32
+</span></code></pre>
+<p>Note <code>alloca</code> returns an address.</p>
+<h4 id="assign-value-to-variable">Assign value to variable</h4>
+<p>Use <code>store</code>：</p>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>store i32 0, i32* %i_0
+</span></code></pre>
+<p>It means we put <code>0</code> into the space pointed by <code>%i_0</code>.</p>
+<h4 id="read-the-value-of-variable">Read the value of variable</h4>
+<p>Use <code>load</code>：</p>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp = load i32, i32* %i_0
+</span></code></pre>
+<p>Which means take the value in the space pointed by <code>%i_0</code> to register <code>%temp</code>.</p>
+<h4 id="calculation">Calculation</h4>
+<p>Take <code>+</code> as an example:</p>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp_22 = add i32 %temp_21, 1
+</span></code></pre>
+<p>Which means put <code>%temp_21 + 1</code> into <code>%temp_22</code>.</p>
+<p>For float numbers, use <code>fadd</code> instead of <code>add</code>.</p>
+<h4 id="compare">Compare</h4>
+<p>Use <code>icmp</code> and the way you want to compare:</p>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp_2 = icmp slt i32 %temp_1, 10
+</span></code></pre>
+<p><code>slt</code> is &quot;Signed Less Than&quot;, ie. <code>&lt;</code>.</p>
+<p>For floats, there are <code>fcmp</code>, <code>olt</code>, etc.</p>
+<h4 id="jump">Jump</h4>
+<p>Use <code>br</code> for jumping</p>
+<h5 id="conditionless">Conditionless</h5>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>br label %label1
+</span></code></pre>
+<h5 id="with-condition">With condition</h5>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>br i1 %condition, label %condition_true, label %condition_false
+</span></code></pre>
+<p>That's all we need to know for accomplishing our task.</p>
+<p>Then let's do the code generation.</p>
+<p>Take variable declaration as an example:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">generate_code</span><span>(DeclareStatement *</span><span style="color:#bf616a;">node</span><span>) {
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#d08770;">%%%s</span><span style="color:#a3be8c;">_</span><span style="color:#d08770;">%zu</span><span style="color:#a3be8c;"> = alloca </span><span style="color:#d08770;">%s</span><span style="color:#96b5b4;">\n</span><span>&quot;, node-&gt;variable-&gt;name, node-&gt;variable-&gt;namespace_id, </span><span style="color:#bf616a;">type_name</span><span>(node-&gt;variable));
+</span><span>    </span><span style="color:#65737e;">// Generate an assign statement if there is an initial value
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(node-&gt;initial != </span><span style="color:#d08770;">NULL</span><span>) {
+</span><span>        ((Statement *) (node-&gt;initial))-&gt;</span><span style="color:#bf616a;">generate_code</span><span>((Statement *) (node-&gt;initial));
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>Assign:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">generate_code</span><span>(AssignStatement *</span><span style="color:#bf616a;">node</span><span>) {
+</span><span>    ((LValue *) (node-&gt;lhs))-&gt;</span><span style="color:#bf616a;">generate_lvalue_code</span><span>((LValue *) (node-&gt;lhs));
+</span><span>    node-&gt;rhs-&gt;</span><span style="color:#bf616a;">generate_rvalue_code</span><span>(node-&gt;rhs);
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*rvalue_ir = node-&gt;rhs-&gt;</span><span style="color:#bf616a;">rvalue_ir</span><span>(node-&gt;rhs);
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*lvalue_ir = node-&gt;lhs-&gt;</span><span style="color:#bf616a;">lvalue_ir</span><span>(node-&gt;lhs);
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#a3be8c;">store </span><span style="color:#d08770;">%s %s</span><span style="color:#a3be8c;">, </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">* </span><span style="color:#d08770;">%s</span><span style="color:#96b5b4;">\n</span><span>&quot;,
+</span><span>           </span><span style="color:#bf616a;">type_string</span><span>(((RValue *) (node-&gt;lhs))-&gt;type),
+</span><span>           rvalue_ir,
+</span><span>           </span><span style="color:#bf616a;">type_string</span><span>(((RValue *) (node-&gt;lhs))-&gt;type),
+</span><span>           lvalue_ir);
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(rvalue_ir);
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(lvalue_ir);
+</span><span>}
+</span></code></pre>
+<p>For an expression we heed to handle it's rvalue and lvalue separately.</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#65737e;">// rvalue needs to read to the register first
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">generate_rvalue_code</span><span>(VariableReference *</span><span style="color:#bf616a;">rValue</span><span>) {
+</span><span style="color:#b48ead;">char </span><span>*rvalue_ir_string = ((RValue *) rValue)-&gt;</span><span style="color:#bf616a;">rvalue_ir</span><span>((RValue*) rValue);
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*lvalue_ir_string = ((LValue*) rValue)-&gt;</span><span style="color:#bf616a;">lvalue_ir</span><span>((LValue *) rValue);
+</span><span>    </span><span style="color:#96b5b4;">printf</span><span>(&quot;</span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;"> = load </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">, </span><span style="color:#d08770;">%s</span><span style="color:#a3be8c;">* </span><span style="color:#d08770;">%s</span><span style="color:#96b5b4;">\n</span><span>&quot;,
+</span><span>           rvalue_ir_string,
+</span><span>           </span><span style="color:#bf616a;">type_name</span><span>(rValue-&gt;variable),
+</span><span>           </span><span style="color:#bf616a;">type_name</span><span>(rValue-&gt;variable),
+</span><span>           lvalue_ir_string);
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(rvalue_ir_string);
+</span><span>    </span><span style="color:#96b5b4;">free</span><span>(lvalue_ir_string);
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// while lvalue doesn&#39;t
+</span><span style="color:#b48ead;">static void </span><span style="color:#8fa1b3;">generate_lvalue_code</span><span>(VariableReference *</span><span style="color:#bf616a;">lValue</span><span>) {
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// variable name when it is used as a lvalue
+</span><span style="color:#b48ead;">static char </span><span>*</span><span style="color:#8fa1b3;">lvalue_ir</span><span>(VariableReference *</span><span style="color:#bf616a;">lValue</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*result = </span><span style="color:#96b5b4;">malloc</span><span>(</span><span style="color:#d08770;">128</span><span>);
+</span><span>    </span><span style="color:#96b5b4;">sprintf</span><span>(result, &quot;</span><span style="color:#d08770;">%%%s</span><span style="color:#a3be8c;">_</span><span style="color:#d08770;">%zu</span><span>&quot;, lValue-&gt;variable-&gt;name, lValue-&gt;variable-&gt;namespace_id);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> result;
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// variable name when it is used as a rvalue
+</span><span style="color:#b48ead;">static char </span><span>*</span><span style="color:#8fa1b3;">rvalue_ir</span><span>(VariableReference *</span><span style="color:#bf616a;">rValue</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">char </span><span>*result = </span><span style="color:#96b5b4;">malloc</span><span>(</span><span style="color:#d08770;">128</span><span>);
+</span><span>    </span><span style="color:#96b5b4;">sprintf</span><span>(result, &quot;</span><span style="color:#d08770;">%%</span><span style="color:#a3be8c;">temp_</span><span style="color:#d08770;">%zu</span><span>&quot;, rValue-&gt;temp_register_id);
+</span><span>    </span><span style="color:#b48ead;">return</span><span> result;
+</span><span>}
+</span></code></pre>
+<p>How to generate other codes can be easily figured out by the reader. If you are interested in my implementation, please <a href="https://github.com/longfangsong/toylang/tree/deprecated">read the code</a>.</p>
+<h2 id="references">References</h2>
+<h3 id="compilation-principle">Compilation principle</h3>
+<p>Three famous animal books:</p>
+<ul>
+<li>&quot;Compilers: Principles, Techniques, and Tools&quot; - &quot;Dragon Book&quot;</li>
+<li>&quot;Modern Compiler Implementation&quot; - &quot;Tiger Book&quot;</li>
+<li>&quot;Advanced Compiler Design and Implementation&quot; - &quot;Whale Book&quot;, however this book is mostly about backend optimization</li>
+</ul>
+<h3 id="lex-grammar-you-may-refer-to">Lex &amp; Grammar you may refer to</h3>
+<ul>
+<li><a href="http://www.lysator.liu.se/c/ANSI-C-grammar-l.html">Lex for C</a></li>
+<li><a href="http://www.lysator.liu.se/c/ANSI-C-grammar-y.html">Grammar for C</a></li>
+</ul>
+<h3 id="llvm-ir">LLVM IR</h3>
+<ul>
+<li><a href="https://llvm.org/">llvm official cite</a>, especially its <a href="https://llvm.org/docs/LangRef.html">language reference</a></li>
+<li><a href="https://mapping-high-level-constructs-to-llvm-ir.readthedocs.io/">mapping high level constructs to llvm ir</a></li>
+</ul>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>The code will use object-oriented programming in C language, see <a href=".">Implementing object-oriented programming in pure C</a>. Using this technique makes me feel that using C language is far more better than using C++ (Linus is not wrong at all).</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>In fact, I did a little bit of semantic analysis when constructing the AST.</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Actually it's because I'm lazy. ;)</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2019-05-21</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/compiling">&nbsp;compiling</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=How to implement an easiest compiler&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&hashtags=compiling"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
