@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Restart learning math • Mathematical logic (8)</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-8&#x2F;">Restart learning math • Mathematical logic (8)</a></h1>
+  
+  <div class="post-content"><p>I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$. </p>
+<p>I'll start with the algorithms for OBDDs because the definition of BDD and OBDD is simple and intuitive, but I'll still put the code which implements this data structure here.</p>
+<p>(All BDDs in this article are ordered.)</p>
+<p>You can view code of a working implementation <a href="https://github.com/longfangsong/logic-lab/blob/main/src/binary_decision_diagram.rs">here</a>.</p>
+<h3 id="convert-from-formulas">Convert from formulas</h3>
+<p>Though the book didn't mention this algorithm, I still want to write this, 
+because in real life, most of times we get logic formulas instead of BDDs as user input.</p>
+<p>So suppose we already have a (parsed) logic formula $f$, and we can have all atom variables inside it $v$, we can have a recursive algorithm to convert it into a BDD.</p>
+<ul>
+<li>if $v$ is empty, then the all variables must have had their values assigned, so we can just wrap the value of $f$ in a node and return it.</li>
+<li>else, we take the first variable $v_1$ from $v$, generate a node $n$ for it, and then we can have two subformulas $f_1$ and $f_2$ by replacing $v_1$ with $true$ and $false$ respectively, which we can recursive call to get their BDDs' root $b_1$ and $b_0$. Then connect $n$ to $b_1$ and $b_0$ and return $n$.</li>
+</ul>
+<p>In pseudo code:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from_formula</span><span>(</span><span style="color:#bf616a;">formula</span><span>: &amp;Expression) -&gt; BDD {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">from_formula_recursive</span><span>(
+</span><span>        </span><span style="color:#bf616a;">formula</span><span>: &amp;Expression, 
+</span><span>        </span><span style="color:#bf616a;">tree</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> Graph, 
+</span><span>        </span><span style="color:#bf616a;">known_values</span><span>: &amp;</span><span style="color:#b48ead;">mut </span><span>Map&lt;Atom, </span><span style="color:#b48ead;">bool</span><span>&gt;,
+</span><span>        </span><span style="color:#bf616a;">remain_values</span><span>: &amp;[Atom]
+</span><span>    ) -&gt; NodeRef {
+</span><span>        </span><span style="color:#b48ead;">if</span><span> remain_values.</span><span style="color:#96b5b4;">is_empty</span><span>() {
+</span><span>            </span><span style="color:#b48ead;">let</span><span> new_node = tree.</span><span style="color:#96b5b4;">add_node</span><span>(formula.</span><span style="color:#96b5b4;">eval</span><span>(known_values));
+</span><span>            new_node
+</span><span>        } </span><span style="color:#b48ead;">else if let </span><span>((consider_variable, remain_values)) = remain_values.</span><span style="color:#96b5b4;">split_first</span><span>() {
+</span><span>            known_values.</span><span style="color:#96b5b4;">insert</span><span>(consider_variable, </span><span style="color:#d08770;">false</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> b_0 = </span><span style="color:#96b5b4;">from_formula_recursive</span><span>(formula, tree, known_values, remain_values);
+</span><span>            known_values.</span><span style="color:#96b5b4;">insert</span><span>(consider_variable, </span><span style="color:#d08770;">true</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> b_1 = </span><span style="color:#96b5b4;">from_formula_recursive</span><span>(formula, tree, known_values, remain_values);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> new_node = tree.</span><span style="color:#96b5b4;">add_node</span><span>(consider_variable);
+</span><span>            tree.</span><span style="color:#96b5b4;">add_edge</span><span>(new_node, b_0, </span><span style="color:#d08770;">false</span><span>);
+</span><span>            tree.</span><span style="color:#96b5b4;">add_edge</span><span>(new_node, b_1, </span><span style="color:#d08770;">true</span><span>);
+</span><span>            new_node
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> tree = Graph::new();
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> known_values = Map::new();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> remain_values = formula.</span><span style="color:#96b5b4;">all_atoms</span><span>();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> root = </span><span style="color:#96b5b4;">from_formula_recursive</span><span>(formula, &amp;</span><span style="color:#b48ead;">mut</span><span> tree, &amp;</span><span style="color:#b48ead;">mut</span><span> known_values, &amp;remain_values);
+</span><span>    </span><span style="color:#d08770;">BDD </span><span>{ root, tree }
+</span><span>}
+</span></code></pre>
+<p>Actually this algorithm is similar with &quot;recursive Shannon expansion&quot;, which we'll use again in <code>apply</code>.</p>
+<h4 id="complexity">Complexity</h4>
+<p>Once the formula's variables count increased by 1, we need to do 2 more recursive calls with 1 less variable.</p>
+<p>Presume the graph is implemented in an efficient enough way, we have $T(n)=2T(n-1)+O(1)$, which lead us to $O(2^n)$, where $n$ is variable count.</p>
+<h3 id="reduce">Reduce</h3>
+<blockquote>
+<p>The algorithm reduce now traverses B layer by layer in a bottom-up fashion, beginning with the terminal nodes. In traversing B, it assigns an integer label id(n) to each node n of B, in such a way that the subOBDDs with root nodes n and m denote the same boolean function if, and only if, id(n) equals id(m).</p>
+</blockquote>
+<p>I'll write the pseudo code here, with a little more details:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">reduce</span><span>(</span><span style="color:#bf616a;">bdd</span><span>: &amp;BDD) -&gt; BDD {
+</span><span>    </span><span style="color:#65737e;">// first we need to aggregate the terminal nodes
+</span><span>    </span><span style="color:#b48ead;">let</span><span> true_nodes = bdd.tree.</span><span style="color:#96b5b4;">all_nodes</span><span>().</span><span style="color:#96b5b4;">filter</span><span>(|</span><span style="color:#bf616a;">n</span><span>| n.value == </span><span style="color:#d08770;">true</span><span>);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> false_nodes = bdd.tree.</span><span style="color:#96b5b4;">all_nodes</span><span>().</span><span style="color:#96b5b4;">filter</span><span>(|</span><span style="color:#bf616a;">n</span><span>| n.value == </span><span style="color:#d08770;">false</span><span>);
+</span><span>    </span><span style="color:#b48ead;">if</span><span> true_nodes.</span><span style="color:#96b5b4;">empty</span><span>() &amp;&amp; false_nodes.</span><span style="color:#96b5b4;">empty</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">BDD</span><span>::Empty;
+</span><span>    } </span><span style="color:#b48ead;">else if</span><span> true_nodes.</span><span style="color:#96b5b4;">empty</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">BDD</span><span>::</span><span style="color:#d08770;">B0</span><span>;
+</span><span>    } </span><span style="color:#b48ead;">else if</span><span> false_nodes.</span><span style="color:#96b5b4;">empty</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">BDD</span><span>::</span><span style="color:#d08770;">B1</span><span>;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> new_tree = Graph::new();
+</span><span>    </span><span style="color:#65737e;">// map from &quot;node in old graph&quot; to &quot;node in new graph&quot;
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> node_map = Map::new();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> new_true_node = new_tree.</span><span style="color:#96b5b4;">add_node</span><span>(</span><span style="color:#d08770;">true</span><span>);
+</span><span>    </span><span style="color:#b48ead;">let</span><span> new_false_node = new_tree.</span><span style="color:#96b5b4;">add_node</span><span>(</span><span style="color:#d08770;">false</span><span>);
+</span><span>    true_nodes.</span><span style="color:#96b5b4;">for_each</span><span>(|</span><span style="color:#bf616a;">n</span><span>| node_map.</span><span style="color:#96b5b4;">insert</span><span>(n, new_true_node));
+</span><span>    false_nodes.</span><span style="color:#96b5b4;">for_each</span><span>(|</span><span style="color:#bf616a;">n</span><span>| node_map.</span><span style="color:#96b5b4;">insert</span><span>(n, new_false_node));
+</span><span>    </span><span style="color:#65737e;">// Since the node with smaller variable may depend on the larger variables,
+</span><span>    </span><span style="color:#65737e;">// we need to use BinaryHeap here, so larger variables could be handled first
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> nodes_to_consider: BinaryHeap&lt;_, </span><span style="background-color:#bf616a;color:#2b303b;">|</span><span>it| it.</span><span style="color:#96b5b4;">value</span><span>()&gt; = true_nodes.</span><span style="color:#96b5b4;">chain</span><span>(false_nodes)
+</span><span>        .</span><span style="color:#96b5b4;">map</span><span>(|</span><span style="color:#bf616a;">it</span><span>| it.</span><span style="color:#96b5b4;">parent</span><span>())
+</span><span>        .</span><span style="color:#96b5b4;">collect</span><span>();
+</span><span>    </span><span style="color:#b48ead;">while let </span><span>(node_to_consider, nodes_to_consider) = nodes_to_consider.</span><span style="color:#96b5b4;">split_first</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">if</span><span> node_map.</span><span style="color:#96b5b4;">contains_key</span><span>(node_to_consider) {
+</span><span>            </span><span style="color:#b48ead;">continue</span><span>;
+</span><span>        }
+</span><span>        </span><span style="color:#b48ead;">let</span><span> false_child_in_old_tree = node_to_consider.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">false</span><span>);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> false_child_in_new_tree = node_map.</span><span style="color:#96b5b4;">get</span><span>(false_child_in_old_tree);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> true_child_in_old_tree = node_to_consider.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">true</span><span>);
+</span><span>        </span><span style="color:#b48ead;">let</span><span> true_child_in_new_tree = node_map.</span><span style="color:#96b5b4;">get</span><span>(true_child_in_old_tree);
+</span><span>        </span><span style="color:#b48ead;">if</span><span> false_child_in_new_tree == true_child_in_new_tree {
+</span><span>            </span><span style="color:#65737e;">// this node doesn&#39;t make any difference
+</span><span>            node_map.</span><span style="color:#96b5b4;">insert</span><span>(node_to_consider, false_child_in_new_tree);
+</span><span>        } </span><span style="color:#b48ead;">else if let </span><span>Some(equiv_node) = false_child_in_new_tree.</span><span style="color:#96b5b4;">parents_on_side</span><span>(</span><span style="color:#d08770;">false</span><span>).</span><span style="color:#96b5b4;">intersection</span><span>(true_child_in_new_tree.</span><span style="color:#96b5b4;">parents_on_side</span><span>(</span><span style="color:#d08770;">true</span><span>)) {
+</span><span>            </span><span style="color:#65737e;">// we can keep a &quot;(new_tree.parent_on_side(false), new_tree.parent_on_side(true)) -&gt; node&quot; map to speed up this
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// this node is equivalent to another node
+</span><span>            node_map.</span><span style="color:#96b5b4;">insert</span><span>(node_to_consider, equiv_node)
+</span><span>        } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>            </span><span style="color:#65737e;">// this node is unique
+</span><span>            </span><span style="color:#b48ead;">let</span><span> new_node = new_tree.</span><span style="color:#96b5b4;">add_node</span><span>(node_to_consider.value);
+</span><span>            new_tree.</span><span style="color:#96b5b4;">add_edge</span><span>(new_node, false_child_in_new_tree, </span><span style="color:#d08770;">false</span><span>);
+</span><span>            new_tree.</span><span style="color:#96b5b4;">add_edge</span><span>(new_node, true_child_in_new_tree, </span><span style="color:#d08770;">true</span><span>);
+</span><span>            node_map.</span><span style="color:#96b5b4;">insert</span><span>(node_to_consider, new_node);
+</span><span>        }
+</span><span>        nodes_to_consider.</span><span style="color:#96b5b4;">extend</span><span>(node_to_consider.</span><span style="color:#96b5b4;">parents</span><span>());
+</span><span>    }
+</span><span>    </span><span style="color:#d08770;">BDD </span><span>{ root: new_tree.</span><span style="color:#96b5b4;">root</span><span>(), tree: new_tree }
+</span><span>}
+</span></code></pre>
+<h4 id="complexity-1">Complexity</h4>
+<p>This algorithm considers each node once, and for <code>BinaryHeap</code> &quot;Insertion and popping the largest element have O(log(n)) time complexity&quot;, so the complexity is $O(nlogn)$, where $n$ is the origin BDD's node count.</p>
+<h3 id="apply">Apply</h3>
+<p>We can view this operation as an abstract over $\text{&amp;}$ and $|$ operations on boolean functions, ie. <strong>apply</strong> a <code>fn (bool, bool) -&gt; bool</code> to two boolean functions.</p>
+<p>So basically we just split the <code>true</code> and <code>false</code> case for every single variable, and apply the function to the rest of the function.</p>
+<p>Pseudo code:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">apply</span><span>(</span><span style="color:#bf616a;">lhs</span><span>: &amp;BDD, </span><span style="color:#bf616a;">rhs</span><span>: &amp;BDD, </span><span style="color:#bf616a;">f</span><span>: </span><span style="color:#b48ead;">fn</span><span>(</span><span style="color:#b48ead;">bool</span><span>, </span><span style="color:#b48ead;">bool</span><span>) -&gt; </span><span style="color:#b48ead;">bool</span><span>) -&gt; BDD {
+</span><span>    </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">apply_recursive</span><span>(
+</span><span>        </span><span style="color:#bf616a;">result_tree</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> Graph,
+</span><span>        </span><span style="color:#bf616a;">lhs</span><span>: &amp;BDD, 
+</span><span>        </span><span style="color:#bf616a;">rhs</span><span>: &amp;BDD, 
+</span><span>        </span><span style="color:#bf616a;">f</span><span>: </span><span style="color:#b48ead;">fn</span><span>(</span><span style="color:#b48ead;">bool</span><span>, </span><span style="color:#b48ead;">bool</span><span>) -&gt; </span><span style="color:#b48ead;">bool</span><span>,
+</span><span>        </span><span style="color:#bf616a;">lhs_node</span><span>: NodeRef, 
+</span><span>        </span><span style="color:#bf616a;">rhs_node</span><span>: NodeRef, 
+</span><span>    ) -&gt; NodeRef {
+</span><span>        </span><span style="color:#65737e;">// these three are helper functions
+</span><span>        </span><span style="color:#65737e;">// view the large match first
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">explore_left</span><span>(</span><span style="color:#bf616a;">lhs_variable</span><span>: Atom) -&gt; NodeRef {
+</span><span>            </span><span style="color:#b48ead;">let</span><span> node = result_tree.</span><span style="color:#96b5b4;">add_node</span><span>(lhs_variable);
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// solve the problem when lhs_variable is false
+</span><span>            </span><span style="color:#b48ead;">let</span><span> next_lhs_node = lhs_node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">false</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> lhs_node_left = </span><span style="color:#96b5b4;">apply_recursive</span><span>(result_tree, lhs, rhs, f, next_lhs_node, rhs_node);
+</span><span>            result_tree.</span><span style="color:#96b5b4;">add_edge</span><span>(node, lhs_node_left, </span><span style="color:#d08770;">false</span><span>);
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// solve the problem when lhs_variable is true
+</span><span>            </span><span style="color:#b48ead;">let</span><span> next_lhs_node = lhs_node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">true</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> lhs_node_right = </span><span style="color:#96b5b4;">apply_recursive</span><span>(result_tree, lhs, rhs, f, next_lhs_node, rhs_node);
+</span><span>            result_tree.</span><span style="color:#96b5b4;">add_edge</span><span>(node, lhs_node_right, </span><span style="color:#d08770;">true</span><span>);
+</span><span>
+</span><span>            node
+</span><span>        }
+</span><span>        
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">explore_right</span><span>(</span><span style="color:#bf616a;">lhs_variable</span><span>: Atom) -&gt; NodeRef {
+</span><span>            </span><span style="color:#65737e;">// symmetric to explore_left
+</span><span>            </span><span style="color:#65737e;">// omitted
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">explore_both</span><span>(</span><span style="color:#bf616a;">variable</span><span>: Atom) -&gt; NodeRef {
+</span><span>            </span><span style="color:#b48ead;">let</span><span> node = result_tree.</span><span style="color:#96b5b4;">add_node</span><span>(variable);
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// solve the problem when variable is false
+</span><span>            </span><span style="color:#b48ead;">let</span><span> next_lhs_node = lhs_node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">false</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> next_rhs_node = rhs_node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">false</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> node_left = </span><span style="color:#96b5b4;">apply_recursive</span><span>(result_tree, lhs, rhs, f, next_lhs_node, next_rhs_node);
+</span><span>            result_tree.</span><span style="color:#96b5b4;">add_edge</span><span>(node, node_left, </span><span style="color:#d08770;">false</span><span>);
+</span><span>            </span><span style="color:#65737e;">// solve the problem when variable is true
+</span><span>            </span><span style="color:#b48ead;">let</span><span> next_lhs_node = lhs_node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">true</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> next_rhs_node = rhs_node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">true</span><span>);
+</span><span>            </span><span style="color:#b48ead;">let</span><span> node_left = </span><span style="color:#96b5b4;">apply_recursive</span><span>(result_tree, lhs, rhs, f, next_lhs_node, next_rhs_node);
+</span><span>            result_tree.</span><span style="color:#96b5b4;">add_edge</span><span>(node, node_left, </span><span style="color:#d08770;">true</span><span>);
+</span><span>
+</span><span>            node
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#b48ead;">match </span><span>(lhs_node.</span><span style="color:#96b5b4;">value</span><span>(), rhs_node.</span><span style="color:#96b5b4;">value</span><span>()) {
+</span><span>            (</span><span style="color:#b48ead;">bool</span><span>, </span><span style="color:#b48ead;">bool</span><span>) =&gt; {
+</span><span>                </span><span style="color:#b48ead;">let</span><span> result = </span><span style="color:#96b5b4;">f</span><span>(lhs_node.</span><span style="color:#96b5b4;">value</span><span>(), rhs_node.</span><span style="color:#96b5b4;">value</span><span>());
+</span><span>                graph.</span><span style="color:#96b5b4;">add_node</span><span>(result)
+</span><span>            },
+</span><span>            (lhs_variable: Atom, </span><span style="color:#b48ead;">bool</span><span>) | ((lhs_variable: Atom, rhs_variable: Atom) </span><span style="color:#b48ead;">if</span><span> lhs_variable &lt; rhs_variable) =&gt; {
+</span><span>                </span><span style="color:#65737e;">// variable only exists in lhs
+</span><span>                </span><span style="color:#65737e;">// so we can just dig in on the left side
+</span><span>                </span><span style="color:#96b5b4;">explore_left</span><span>(lhs_variable)
+</span><span>            }
+</span><span>            (</span><span style="color:#b48ead;">bool</span><span>, rhs_variable: Atom) | ((lhs_variable: Atom, rhs_variable: Atom) </span><span style="color:#b48ead;">if</span><span> lhs_variable &gt; rhs_variable) =&gt; {
+</span><span>                </span><span style="color:#65737e;">// symmetric to the above
+</span><span>                </span><span style="color:#96b5b4;">explore_right</span><span>(rhs_variable)
+</span><span>            }
+</span><span>            (variable: Atom, _) =&gt; {
+</span><span>                </span><span style="color:#65737e;">// both lhs and rhs have this variable, so we need to explore both sides
+</span><span>                </span><span style="color:#96b5b4;">explore_both</span><span>(variable)
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> new_graph = Graph::new();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> lhs_node = lhs.</span><span style="color:#96b5b4;">root</span><span>();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> rhs_node = rhs.</span><span style="color:#96b5b4;">root</span><span>();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> new_root = </span><span style="color:#96b5b4;">apply_recursive</span><span>(&amp;</span><span style="color:#b48ead;">mut</span><span> new_graph, lhs, rhs, f, lhs_node, rhs_node);
+</span><span>    </span><span style="color:#d08770;">BDD </span><span>{ root: new_root, tree: new_graph }
+</span><span>}
+</span></code></pre>
+<p>Memoization can be added to <code>apply_recursive</code> to speed up the algorithm.</p>
+<h4 id="complexity-2">Complexity</h4>
+<p>Assume there are $m$ nodes in <code>lhs</code> and $n$ in <code>rhs</code>, each time the recursive function split the problem into two sub-problems which are 1 element less of the original problem (suppose <code>explore_both</code> happens every time), ie. $T(m,n) = T(m-1, n-1) + O(1)$, which is $O(2^{mn})$, however, many of these sub-problems are duplicated. With memoization, we just need to consider each pair of <code>(lhs_node, rhs_node)</code> once, so the complexity is actually $O(mn)$.</p>
+<h3 id="restrict">Restrict</h3>
+<p>Restrict is an operation which gives a new BDD which is the same as the original one, except that one of the variables is forced to be a certain value.</p>
+<p>This is quite easy to implement, just connect the parent of the node of variable to the corresponding child of the node directly.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">pub fn </span><span style="color:#8fa1b3;">restrict</span><span>(</span><span style="color:#bf616a;">bdd</span><span>: BDD, </span><span style="color:#bf616a;">variable</span><span>: Atom, </span><span style="color:#bf616a;">variable_value</span><span>: </span><span style="color:#b48ead;">bool</span><span>) -&gt; BDD {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> result = bdd.</span><span style="color:#96b5b4;">clone</span><span>();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> variable_nodes = result.tree.</span><span style="color:#96b5b4;">nodes</span><span>(value == variable);
+</span><span>    </span><span style="color:#b48ead;">for</span><span> node in variable_nodes {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> redirect_to = node.</span><span style="color:#96b5b4;">child</span><span>(variable_value);
+</span><span>        </span><span style="color:#b48ead;">for</span><span> edge in node.</span><span style="color:#96b5b4;">incoming_edges</span><span>() {
+</span><span>            result.graph.</span><span style="color:#96b5b4;">add_edge</span><span>(edge.</span><span style="color:#96b5b4;">source</span><span>(), redirect_to, edge.</span><span style="color:#96b5b4;">value</span><span>());
+</span><span>            result.graph.</span><span style="color:#96b5b4;">remove_edge</span><span>(edge);
+</span><span>        }
+</span><span>        result.graph.</span><span style="color:#96b5b4;">remove_node</span><span>(node);
+</span><span>    }
+</span><span>    result
+</span><span>}
+</span></code></pre>
+<h4 id="complexity-3">Complexity</h4>
+<p>If the data structure is efficient enough, this operation's complexity is $O(n\cdot e_{avg})$, where $n$ is the count of nodes of this variable, and $e_{avg}$ is the average incoming edge count of these nodes.</p>
+<p>However we always needs to <code>reduce</code> once after <code>restrict</code>, which is usually more expensive than <code>restrict</code> itself.</p>
+<h3 id="exists">Exists</h3>
+<p>$∃x.f$ means &quot;whether $f$ can be true by make $x$ be true or false&quot;.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#96b5b4;">exists</span><span>(bdd, x) = </span><span style="color:#96b5b4;">restrict</span><span>(bdd, x, </span><span style="color:#d08770;">false</span><span>) | </span><span style="color:#96b5b4;">restrict</span><span>(bdd, x, </span><span style="color:#d08770;">true</span><span>)
+</span></code></pre>
+<p>So a naive method is simply calculate <code>restrict(bdd, x, false)</code> and <code>restrict(bdd, x, true)</code>, then apply <code>|</code> on the results.</p>
+<p>An possible optimization is that since the structure &quot;before&quot; x in the BDDs are identical, we just needs to do <code>restrict(bdd rooted in x, x, false) | restrict(bdd rooted in x, x, false)</code>, and <code>restrict(bdd rooted in x, x, bool)</code> is actually the left/right child of <code>bdd rooted in x</code>.</p>
+<p>So the algorithm is:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">exists</span><span>(</span><span style="color:#bf616a;">bdd</span><span>: BDD, </span><span style="color:#bf616a;">variable</span><span>: Atom) -&gt; BDD {
+</span><span>    </span><span style="color:#b48ead;">let</span><span> result = bdd.</span><span style="color:#96b5b4;">clone</span><span>();
+</span><span>    </span><span style="color:#b48ead;">let</span><span> variable_nodes = result.tree.</span><span style="color:#96b5b4;">nodes</span><span>(value == variable);
+</span><span>    </span><span style="color:#b48ead;">for</span><span> node in variable_nodes {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> lhs = result.</span><span style="color:#96b5b4;">subtree</span><span>(node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">false</span><span>));
+</span><span>        </span><span style="color:#b48ead;">let</span><span> rhs = result.</span><span style="color:#96b5b4;">subtree</span><span>(node.</span><span style="color:#96b5b4;">child</span><span>(</span><span style="color:#d08770;">true</span><span>));
+</span><span>        result.</span><span style="color:#96b5b4;">replace_subtree</span><span>(result.</span><span style="color:#96b5b4;">subtree</span><span>(node), </span><span style="color:#96b5b4;">apply</span><span>(lhs, rhs, |));
+</span><span>    }
+</span><span>    result
+</span><span>}
+</span></code></pre>
+<h2 id="live-demo">Live demo</h2>
+<input id="lhs">
+<select id="op">
+<option value="&" selected>&</option>
+<option value="|">|</option>
+</select>
+<input id="rhs">
+<div id="lhs-display"></div>
+<div id="rhs-display"></div>
+<div id="result-display"></div>
+<script src="https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.min.js"></script>
+<script  type="module">
+    import init, { BinaryDecisionDiagram } from './logic-lab-wasm/logic_lab.js';
+    const hpccWasm = window["@hpcc-js/wasm"];
+    (async () => {
+        document.getElementById("lhs").value = "";
+        document.getElementById("rhs").value = "";
+        await init();
+        async function calculate() {
+            try {
+                let lhs_formula = document.getElementById("lhs").value;
+                let lhs_bdd = BinaryDecisionDiagram.from_str(lhs_formula);
+                let reduced_lhs = lhs_bdd.reduce();
+                let dot_lhs = reduced_lhs.dot();
+                document.getElementById("lhs-display").innerHTML = await hpccWasm.graphviz.layout(dot_lhs, "svg", "dot");
+                let rhs_formula = document.getElementById("rhs").value;
+                let rhs_bdd = BinaryDecisionDiagram.from_str(rhs_formula);
+                let reduced_rhs = rhs_bdd.reduce();
+                let dot_rhs = reduced_rhs.dot();
+                document.getElementById("rhs-display").innerHTML = await hpccWasm.graphviz.layout(dot_rhs, "svg", "dot");
+                let op = document.getElementById("op").value;
+                let result;
+                console.log(reduced_lhs, op, reduced_rhs);
+                if (op === "&") {
+                    result = reduced_lhs.and(reduced_rhs);
+                } else {
+                    result = reduced_lhs.or(reduced_rhs);
+                }
+                let dot = result.reduce().dot();
+                document.getElementById("result-display").innerHTML = await hpccWasm.graphviz.layout(dot, "svg", "dot");
+            } catch (e) {
+                console.log(e);
+            }
+        }
+        document.getElementById("lhs").onkeyup = async (event) => {
+            await calculate();
+        }
+        document.getElementById("rhs").onkeyup = async (event) => {
+            await calculate();
+        }
+        document.getElementById("op").onchange = async (event) => {
+            await calculate();
+        }
+    })();
+</script></div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-10-05</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Math">&nbsp;Math</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Mathematical logic">&nbsp;Mathematical logic</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Restart learning math • Mathematical logic (8)&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-8&hashtags=Math,Mathematical logic"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

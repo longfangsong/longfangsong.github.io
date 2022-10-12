@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • Restart learning math • Mathematical logic (6)</title>
+  <title>Blog • Restart learning math • Mathematical logic (7)</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
@@ -94,51 +94,52 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-6&#x2F;">Restart learning math • Mathematical logic (6)</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-7&#x2F;">Restart learning math • Mathematical logic (7)</a></h1>
   
-  <div class="post-content"><p>Personally I don't like model based correctness checking methods, they just check every possible states in a system in brute force, without generating any insight (eg. how each statement in a program helps it to reach the overall correctness) of the system or human readable/understandable proof of the correctness, which IMO is very disgraceful.</p>
-<p>So I think a more reasonable way is using a proof based checking method, which the book explains in chapter 4.</p>
-<h2 id="hoare-triples">Hoare triples</h2>
-<p>A Hoare triple is a triple of the form</p>
+  <div class="post-content"><p>Modal logic in the book is very different from what I thought. It turns out what I thought is modal logic is just one kind of its interpreting ($\square$ means always, and $\diamond$ means occasionally).</p>
+<h2 id="basic-modal-logic">Basic modal logic</h2>
+<p>The language of basic modal logic is simple, just add unary connective $\square$ and $\diamond$ to propositional logic then we are done.</p>
+<p>The model (Kripke model) of basic modal logic is specified by</p>
+<ul>
+<li>A world set $W$</li>
+<li>A relation $R$ on $W$</li>
+<li>A function $L : W → \mathcal{P}(Atoms)$, called the labelling function, basically this function give us information about which atom props are true.</li>
+</ul>
+<p>Definition 5.4 on the book gives us a method on how we can use the model, basically $x \Vdash \phi$ means &quot;$\phi$ is true in world x&quot;, and we have a bunch of structural induction rules to form such a formula.</p>
+<p>A model $\mathcal{M} = (W, R, L)$ of basic modal logic is said to satisfy a formula if every state in the model satisfies it.</p>
+<h3 id="formula-scheme">Formula scheme</h3>
+<p>All formulas which are same with each other on several top levels in their parsing tree are in the same formula scheme.</p>
+<p>eg.</p>
 <p>$$
-(|\phi|) P (|\psi|)
+\phi \rightarrow \square \phi \wedge \phi
 $$</p>
-<p>Which means in a state where $\phi$ holds, executing $P$ will lead to a state where $\psi$ holds.</p>
-<p>For example, if the program $P$ calculate a number whose square is less than $x$, so when input is $x$ and output is $y$, we have</p>
+<p>is a scheme which contains</p>
 <p>$$
-(|x &gt; 0|) P (|y\times y &lt; x|)
+p \rightarrow \square q \wedge r
 $$</p>
-<p>So to prove the correctness of any program P, we need to assume a $\phi$ and get a $\psi$ with $P$ in some certain ways.</p>
-<p>However, the possible result of P executing in $\phi$ is not just $\psi$ or $\neg\psi$, it's also possible that P never terminates (if you are using a turing complete language, it is totally possible to write a dead loop), so we can distinguish partial correctness, which just assume the program will eventually terminate, and complete correctness, which needs a proof of it. </p>
-<h3 id="proof-calculus-for-partial-correctness">Proof calculus for partial correctness</h3>
-<h4 id="rules">Rules</h4>
-<p>Ref figure 4.1 of the book.</p>
-<p>Note in &quot;Implied&quot; rule &quot;AR&quot; means arithmetic<sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
-<h4 id="weakest-precondition">Weakest Precondition</h4>
-<p>For each $\psi'$ after a $C$, we can get a $\psi$ before $C$, which can lead to $\psi'$ after $C$ by using one of the rules.</p>
-<p>The only difficult rule to apply here is the &quot;Partial-while&quot; rule. Which needs part of $\psi'$ is a &quot;loop invariant&quot;, which holds before each iteration of the loop starts and still holds after the whole loop.</p>
-<p>Unfortunately, finding such a loop invariant is not easy, it needs &quot;intelligence and ingenuity&quot;.</p>
-<h3 id="proof-calculus-for-total-correctness">Proof calculus for total correctness</h3>
-<p>Proof calculus for total correctness is similar to partial correctness, we just need to add a proof to show the loops will eventually terminated, this is usually done by &quot;identify an integer expression whose value can be shown to decrease every time we execute the body of the while-statement in question, but which is always non-negative&quot;.</p>
-<p>However it is not always possible to find such a proof, for example, I believe Collatz program terminates, but human beings haven't found a way to show it terminates. </p>
-<h3 id="programming-by-contract">Programming by contract</h3>
-<p>Good methodology, not feasible in most commercial softwares nowadays.</p>
-<p>Nowadays there do exists some languages that support programming by contract, like <a href="https://github.com/dafny-lang/dafny">Dafny</a>, but they are not widely used. It's understandable, because it costs too much effort to practice. Most software just want to hit the market fast and get quick responses rather than being correct at the first place.</p>
-<p>It might be a serious problem for program verification, few programs can be &quot;specified&quot; before being written, and since requirements changes rapidly, it's hard to keep the specification, the requirements and the program in sync. And all the verification work is quiet hard and requires &quot;intelligence and ingenuity&quot;, a verification checker is sometimes annoying<sup class="footnote-reference"><a href="#2">2</a></sup>, even if it is, in most of times, correct.</p>
-<p>Honestly, though I love the idea of programming by contract (and I always add as much asserts I can in my programs), I have to admit it's not a good idea for nowadays software industry, which develops in a crazy speed. We just pile up shitty code to satisfied the customer. Correctness is not the most important thing here, but profitable is.</p>
-<p>Personally I think a gradual way of introducing verification into industrial languages might be a feasible approach. We can provide tools in language to enable the programmer to proof only the core logic of a program, and maybe with several &quot;sorry&quot; or &quot;trustMe&quot; for complex details.</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>Why you mathematician guys love using abbreviation.</p>
-</div>
-<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p>Many programmers think the convenience of piling up shitty code is an advantage. For example, some people in a company I used to work in prefer Go to Rust, because Go is easier to compile. You don't have to fight with the compiler. Most people just want to see the result fast and get into the edit-debug loop fast, instead of understand the whole problem. I cannot blame them of doing so, because sometimes I have such feelings also. Maybe that's how human beings are designed, impatience, lazy, and hate deep thinking. Sign.</p>
-</div>
+<p>and</p>
+<p>$$
+q \rightarrow \square p \wedge r
+$$</p>
+<p>and</p>
+<p>$$
+(p \vee q) \rightarrow \square (r \vee s) \wedge (u \vee v)
+$$</p>
+<h3 id="equivalences-between-modal-formulas">Equivalences between modal formulas</h3>
+<p>In any world $x$ of any model $\mathcal{M}=(W,R,L)$, for all $\phi \in \Gamma$, $x ⊫ \phi \rightarrow x ⊫ \psi$, we write this as $\Gamma \models ψ$, which means $\Gamma$ of basic modal logic semantically entails a formula $ψ$ of basic modal logic.</p>
+<p>If $\phi \models ψ$ and $\phi \models \psi$, we say $\phi \equiv \psi$.</p>
+<h3 id="valid-formulas">Valid formulas</h3>
+<blockquote>
+<p>A formula $\phi$ of basic modal logic is said to be valid if it is true in every world of every model, i.e. iff $(nothing) \models \phi$ holds.</p>
+</blockquote>
+<h2 id="logic-engineering">Logic engineering</h2>
+<p>(Actually this chapter made feel strange, why we re-engineer basic modal logic instead of inventing new logic? These logic seems not that similar.)</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-          <i class="far fa-sun"></i><span class="date">2022-10-02</span>
+          <i class="far fa-sun"></i><span class="date">2022-10-03</span>
         
         
           <i class="fas fa-tags"></i>
@@ -157,7 +158,7 @@ $$</p>
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=Restart learning math • Mathematical logic (6)&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-6&hashtags=Math,Mathematical logic"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Restart learning math • Mathematical logic (7)&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-7&hashtags=Math,Mathematical logic"></a>
   </div>
 </div>
 

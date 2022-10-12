@@ -1,0 +1,12 @@
+{
+  "name": "logic-lab",
+  "version": "0.1.0",
+  "files": [
+    "logic_lab_bg.wasm",
+    "logic_lab.js",
+    "logic_lab.d.ts"
+  ],
+  "module": "logic_lab.js",
+  "types": "logic_lab.d.ts",
+  "sideEffects": false
+}
