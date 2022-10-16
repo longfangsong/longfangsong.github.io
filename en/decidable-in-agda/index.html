@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • How to prove 2 &lt; 3 in Agda</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;decidable-in-agda&#x2F;">How to prove 2 &lt; 3 in Agda</a></h1>
+  
+  <div class="post-content"><p>I'm currently playing Euclidean geometry with Agda, and sometimes, I need to give an <strong>evidence</strong> for relations like:</p>
+<p>$$
+1 + 1 &gt; 1
+$$</p>
+<p>(This one is used in proving there have to be two different intersection points for two 1 radius circles when proving Proposition 1 in Στοιχεῖα)</p>
+<p>In fact, when met up with this problem first time, I felt hard to prove this &quot;obvious&quot; proposition<sup class="footnote-reference"><a href="#1">1</a></sup>, especially when these <code>1</code>s are actually <code>1ℚ</code>. I tried hard to find out a tool to do this in the stdlib and finally I get to those <code>Decidable</code> related things.</p>
+<h2 id="how-to-prove-2-3">How to prove 2 &lt; 3</h2>
+<p>Let's start small, how can we give an <em>evidence</em> for <code>2 ≤ 3</code>, when <code>2</code> and <code>3</code> are <code>ℕ</code>s in Agda?</p>
+<p>View the definition of <code>≤</code> in <code>Data.Nat.Base</code>:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data </span><span style="color:#bf616a;">_</span><span>≤</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Rel ℕ </span><span style="color:#d08770;">0</span><span style="color:#bf616a;">ℓ </span><span style="color:#b48ead;">where
+</span><span>  </span><span style="color:#bf616a;">z</span><span>≤</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#bf616a;">n</span><span>}                 → </span><span style="color:#bf616a;">zero  </span><span>≤ </span><span style="color:#bf616a;">n
+</span><span>  </span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#bf616a;">m n</span><span>} (</span><span style="color:#bf616a;">m</span><span>≤</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#bf616a;">m </span><span>≤ </span><span style="color:#bf616a;">n</span><span>) → </span><span style="color:#bf616a;">suc m </span><span>≤ </span><span style="color:#bf616a;">suc n
+</span></code></pre>
+<p>So <code>z≤n</code> is the evidence for <code>0 ≤ n</code>, and <code>s≤s</code> is the evidence for <code>m ≤ n</code> when <code>m ≤ n</code> is given. So we can prove <code>2 ≤ 3</code> by using <code>s≤s</code> twice on <code>z≤n</code>:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#d08770;">2</span><span>≤</span><span style="color:#d08770;">3 </span><span>: </span><span style="color:#d08770;">2 </span><span>≤ </span><span style="color:#d08770;">3
+</span><span style="color:#d08770;">2</span><span>≤</span><span style="color:#d08770;">3 </span><span>= </span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s</span><span> (</span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s z</span><span>≤</span><span style="color:#bf616a;">n</span><span>)
+</span></code></pre>
+<h2 id="push-it-further">Push it further</h2>
+<p>This seems easy, right? But what if we want to prove, say <code>99 ≤ 100</code>? It's insane to use <code>s≤s</code> 99 times, right?</p>
+<p>We can also find another version of <code>≤</code>, which returns <code>Bool</code>s in <code>Data.Nat</code>:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>≤ᵇ</span><span style="color:#bf616a;">_ </span><span>: (</span><span style="color:#bf616a;">m n </span><span>: </span><span style="color:#b48ead;">ℕ</span><span>) → Bool
+</span><span style="color:#bf616a;">zero  </span><span>≤ᵇ </span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#bf616a;">true
+</span><span style="color:#bf616a;">suc m </span><span>≤ᵇ </span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#bf616a;">m </span><span>&lt;ᵇ </span><span style="color:#bf616a;">n
+</span></code></pre>
+<p>where</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>&lt;ᵇ</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Nat </span><span>→ </span><span style="color:#b48ead;">Nat </span><span>→ Bool
+</span><span style="color:#bf616a;">_     </span><span>&lt;ᵇ </span><span style="color:#bf616a;">zero  </span><span>= </span><span style="color:#bf616a;">false
+</span><span style="color:#bf616a;">zero  </span><span>&lt;ᵇ </span><span style="color:#bf616a;">suc _ </span><span>= </span><span style="color:#bf616a;">true
+</span><span style="color:#bf616a;">suc n </span><span>&lt;ᵇ </span><span style="color:#bf616a;">suc m </span><span>= </span><span style="color:#bf616a;">n </span><span>&lt; </span><span style="color:#bf616a;">m
+</span></code></pre>
+<p>So we know the value of term <code>99 ≤ᵇ 100</code> is (<code>≡</code>) <code>true</code>, the <em>computation</em> process of<code>≤ᵇ</code>seems somehow like, or at least related to an <em>evidence</em> of<code>99 \leq 100</code>.</p>
+<p>And here's where <code>Decidable</code> things can help.</p>
+<p>The proof of <code>99 ≤ 100</code> can be written like:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#d08770;">99</span><span>≤</span><span style="color:#d08770;">100 </span><span>: </span><span style="color:#d08770;">99 </span><span>≤ </span><span style="color:#d08770;">100
+</span><span style="color:#d08770;">99</span><span>≤</span><span style="color:#d08770;">100 </span><span>= ≤ᵇ⇒≤ </span><span style="color:#d08770;">99 100 </span><span style="color:#bf616a;">tt
+</span></code></pre>
+<p>So what is <code>≤ᵇ⇒≤</code>? Why we need to pass a <code>tt</code> here? Let's read the definition of <code>≤ᵇ⇒≤</code>.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>≤ᵇ⇒≤ : </span><span style="color:#b48ead;">∀ </span><span style="color:#bf616a;">m n </span><span>→ </span><span style="color:#b48ead;">T</span><span> (</span><span style="color:#bf616a;">m </span><span>≤ᵇ </span><span style="color:#bf616a;">n</span><span>) → </span><span style="color:#bf616a;">m </span><span>≤ </span><span style="color:#bf616a;">n
+</span><span>≤ᵇ⇒≤ </span><span style="color:#bf616a;">zero    n m</span><span>≤</span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#bf616a;">z</span><span>≤</span><span style="color:#bf616a;">n
+</span><span>≤ᵇ⇒≤ (</span><span style="color:#bf616a;">suc m</span><span>) </span><span style="color:#bf616a;">n m</span><span>≤</span><span style="color:#bf616a;">n </span><span>= &lt;ᵇ⇒&lt; </span><span style="color:#bf616a;">m n m</span><span>≤</span><span style="color:#bf616a;">n
+</span></code></pre>
+<p>where</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>&lt;⇒&lt;ᵇ : </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#bf616a;">m n</span><span>} → </span><span style="color:#bf616a;">m </span><span>&lt; </span><span style="color:#bf616a;">n </span><span>→ </span><span style="color:#b48ead;">T</span><span> (</span><span style="color:#bf616a;">m </span><span>&lt;ᵇ </span><span style="color:#bf616a;">n</span><span>)
+</span><span>&lt;⇒&lt;ᵇ (</span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s z</span><span>≤</span><span style="color:#bf616a;">n</span><span>)       = </span><span style="color:#bf616a;">tt
+</span><span>&lt;⇒&lt;ᵇ (</span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s</span><span> (</span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s m</span><span>&lt;</span><span style="color:#bf616a;">n</span><span>)) = &lt;⇒&lt;ᵇ (</span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s m</span><span>&lt;</span><span style="color:#bf616a;">n</span><span>)
+</span></code></pre>
+<p>and</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">T </span><span>: Bool → </span><span style="color:#b48ead;">Set
+</span><span style="color:#b48ead;">T </span><span style="color:#bf616a;">true  </span><span>= ⊤
+</span><span style="color:#b48ead;">T </span><span style="color:#bf616a;">false </span><span>= ⊥
+</span></code></pre>
+<p>So for <code>≤ᵇ⇒≤</code>, we put the numbers we want to compare in, and then feed a <code>tt</code> to the type checker, which will check whether <code>T (m ≤ᵇ n)</code> is <code>tt</code>. If it is, then we get the evidence of <code>m ≤ n</code>, otherwise the type checker will complain.</p>
+<p>All other details in <code>≤ᵇ⇒≤</code> are trivial, just naive pattern matchings.</p>
+<h3 id="decidable">Decidable</h3>
+<p>You may see another kind of <code>≤</code> : <code>≤?</code>, what's this for? Let's view its definition.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>≤?</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Decidable </span><span style="color:#bf616a;">_</span><span>≤</span><span style="color:#bf616a;">_
+</span><span style="color:#bf616a;">m </span><span>≤? </span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#96b5b4;">map</span><span>′ (≤ᵇ⇒≤ </span><span style="color:#bf616a;">m n</span><span>) ≤⇒≤ᵇ (</span><span style="color:#b48ead;">T</span><span>? (</span><span style="color:#bf616a;">m </span><span>≤ᵇ </span><span style="color:#bf616a;">n</span><span>))
+</span></code></pre>
+<p>There're several things we are not familiar with in this definition, let's check them one by one.</p>
+<h3 id="decidable-1"><code>Decidable</code></h3>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">Decidable </span><span>: </span><span style="color:#b48ead;">REL A B </span><span style="color:#bf616a;">ℓ </span><span>→ </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">_
+</span><span style="color:#b48ead;">Decidable </span><span style="color:#bf616a;">_</span><span>∼</span><span style="color:#bf616a;">_ </span><span>= </span><span style="color:#b48ead;">∀ </span><span style="color:#bf616a;">x y </span><span>→ </span><span style="color:#b48ead;">Dec</span><span> (</span><span style="color:#bf616a;">x </span><span>∼ </span><span style="color:#bf616a;">y</span><span>)
+</span></code></pre>
+<p><code>REL</code> here is an abstract of binary relations between two types (in another word, Heterogeneous binary relations). So <code>Decidable</code> means for each <code>x</code> and <code>y</code> in <code>A</code> and <code>B</code>, we have <code>Dec (x op y)</code>.</p>
+<p>And the real interesting part is <code>Dec</code>, which is a record type:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">record </span><span style="color:#b48ead;">Dec </span><span>{</span><span style="color:#bf616a;">p</span><span>} (</span><span style="color:#b48ead;">P </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">p</span><span>) : </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">p </span><span style="color:#b48ead;">where
+</span><span>  </span><span style="color:#bf616a;">constructor _because_
+</span><span>  </span><span style="color:#bf616a;">field
+</span><span>    </span><span style="color:#bf616a;">does  </span><span>: Bool
+</span><span>    </span><span style="color:#bf616a;">proof </span><span>: </span><span style="color:#b48ead;">Reflects P </span><span style="color:#bf616a;">does
+</span></code></pre>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data Reflects </span><span>{</span><span style="color:#bf616a;">p</span><span>} (</span><span style="color:#b48ead;">P </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">p</span><span>) : Bool → </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">p </span><span style="color:#b48ead;">where
+</span><span>  </span><span style="color:#bf616a;">ofʸ </span><span>: ( </span><span style="color:#bf616a;">p </span><span>:   </span><span style="color:#b48ead;">P</span><span>) → </span><span style="color:#b48ead;">Reflects P </span><span style="color:#bf616a;">true
+</span><span>  </span><span style="color:#bf616a;">ofⁿ </span><span>: (¬</span><span style="color:#bf616a;">p </span><span>: ¬ </span><span style="color:#b48ead;">P</span><span>) → </span><span style="color:#b48ead;">Reflects P </span><span style="color:#bf616a;">false
+</span><span>``
+</span><span>
+</span><span>`</span><span style="color:#b48ead;">Reflects</span><span>` </span><span style="color:#b48ead;">type </span><span style="color:#bf616a;">means the prop</span><span> `</span><span style="color:#b48ead;">P</span><span>`&#39;</span><span style="color:#bf616a;">s truth value is reflected</span><span> (</span><span style="color:#96b5b4;">or</span><span>, </span><span style="color:#b48ead;">in </span><span style="color:#bf616a;">another word</span><span>, </span><span style="color:#bf616a;">decided</span><span>) </span><span style="color:#bf616a;">by the</span><span> `Bool` </span><span style="color:#bf616a;">value</span><span>, </span><span style="color:#bf616a;">it has two constructors</span><span>, `</span><span style="color:#bf616a;">ofʸ</span><span>` </span><span style="color:#bf616a;">means</span><span> `</span><span style="color:#b48ead;">P</span><span>` </span><span style="color:#bf616a;">is true</span><span>, </span><span style="color:#96b5b4;">and</span><span> `</span><span style="color:#bf616a;">ofⁿ</span><span>` </span><span style="color:#bf616a;">means</span><span> `</span><span style="color:#b48ead;">P</span><span>` </span><span style="color:#bf616a;">is false</span><span>.
+</span><span>
+</span><span>`</span><span style="color:#b48ead;">Reflects P </span><span style="color:#bf616a;">b</span><span>` </span><span style="color:#bf616a;">is equivalent to</span><span> `</span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">then P else </span><span>¬ </span><span style="color:#b48ead;">P</span><span>`, </span><span style="color:#96b5b4;">and </span><span style="color:#bf616a;">these two forms can be casted back </span><span style="color:#96b5b4;">and </span><span style="color:#bf616a;">forth with these two functions</span><span>;
+</span><span>
+</span><span>```</span><span style="color:#bf616a;">agda
+</span><span style="color:#b48ead;">of </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#bf616a;">b</span><span>} → </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">then P else </span><span>¬ </span><span style="color:#b48ead;">P </span><span>→ </span><span style="color:#b48ead;">Reflects P </span><span style="color:#bf616a;">b
+</span><span style="color:#b48ead;">of </span><span>{</span><span style="color:#bf616a;">b </span><span>= </span><span style="color:#bf616a;">false</span><span>} ¬</span><span style="color:#bf616a;">p </span><span>= </span><span style="color:#bf616a;">ofⁿ </span><span>¬</span><span style="color:#bf616a;">p
+</span><span style="color:#b48ead;">of </span><span>{</span><span style="color:#bf616a;">b </span><span>= </span><span style="color:#bf616a;">true </span><span>}  </span><span style="color:#bf616a;">p </span><span>= </span><span style="color:#bf616a;">ofʸ p
+</span><span>
+</span><span style="color:#bf616a;">invert </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#bf616a;">b</span><span>} → </span><span style="color:#b48ead;">Reflects P </span><span style="color:#bf616a;">b </span><span>→ </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">then P else </span><span>¬ </span><span style="color:#b48ead;">P
+</span><span style="color:#bf616a;">invert</span><span> (</span><span style="color:#bf616a;">ofʸ  p</span><span>) = </span><span style="color:#bf616a;">p
+</span><span style="color:#bf616a;">invert</span><span> (</span><span style="color:#bf616a;">ofⁿ </span><span>¬</span><span style="color:#bf616a;">p</span><span>) = ¬</span><span style="color:#bf616a;">p
+</span></code></pre>
+<p>And <code>Dec</code> is just a combination of a <code>Bool</code> and the proof that a prop <code>P</code>'s truth value is reflected by the <code>Bool</code>.</p>
+<p>There also exists two patterns:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">pattern yes p </span><span>=  </span><span style="color:#bf616a;">true because ofʸ  p
+</span><span style="color:#bf616a;">pattern no </span><span>¬</span><span style="color:#bf616a;">p </span><span>= </span><span style="color:#bf616a;">false because ofⁿ </span><span>¬</span><span style="color:#bf616a;">p
+</span></code></pre>
+<p>which can be understand from their literal meaning.</p>
+<p>Now we know <code>Decidable</code> means for each <code>x</code> and <code>y</code> in <code>A</code> and <code>B</code>, there is a <code>Bool</code> which reflects <code>x op y</code>.</p>
+<h3 id="t"><code>T?</code></h3>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">T</span><span>? : </span><span style="color:#bf616a;">Relation</span><span>.</span><span style="color:#bf616a;">Unary</span><span>.</span><span style="color:#b48ead;">Decidable T
+</span><span style="color:#bf616a;">does</span><span>  (</span><span style="color:#b48ead;">T</span><span>? </span><span style="color:#bf616a;">b</span><span>) = </span><span style="color:#bf616a;">b
+</span><span style="color:#bf616a;">proof</span><span> (</span><span style="color:#b48ead;">T</span><span>? </span><span style="color:#bf616a;">true</span><span> ) = </span><span style="color:#bf616a;">ofʸ _
+</span><span style="color:#bf616a;">proof</span><span> (</span><span style="color:#b48ead;">T</span><span>? </span><span style="color:#bf616a;">false</span><span>) = </span><span style="color:#bf616a;">ofⁿ λ</span><span>()
+</span></code></pre>
+<p><code>Relation.Unary.Decidable</code> is the unary version of <code>Decidable</code> we mentioned above (<code>Decidable P = ∀ x → Dec (P x)</code>).</p>
+<p>So <code>T?</code> is a function which takes a <code>Bool</code> and returns an instance of <code>Decidable</code>, which is a term that shows some certain prop's truth value is reflected by that <code>Bool</code></p>
+<h3 id=""><code>≤⇒≤ᵇ</code></h3>
+<p>Just a reverse of <code>≤ᵇ⇒≤</code>.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>≤⇒≤ᵇ : </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#bf616a;">m n</span><span>} → </span><span style="color:#bf616a;">m </span><span>≤ </span><span style="color:#bf616a;">n </span><span>→ </span><span style="color:#b48ead;">T</span><span> (</span><span style="color:#bf616a;">m </span><span>≤ᵇ </span><span style="color:#bf616a;">n</span><span>)
+</span><span>≤⇒≤ᵇ </span><span style="color:#bf616a;">z</span><span>≤</span><span style="color:#bf616a;">n         </span><span>= </span><span style="color:#bf616a;">tt
+</span><span>≤⇒≤ᵇ </span><span style="color:#bf616a;">m</span><span>≤</span><span style="color:#bf616a;">n</span><span>@(</span><span style="color:#bf616a;">s</span><span>≤</span><span style="color:#bf616a;">s _</span><span>) = &lt;⇒&lt;ᵇ </span><span style="color:#bf616a;">m</span><span>≤</span><span style="color:#bf616a;">n
+</span></code></pre>
+<h3 id="map"><code>map′</code></h3>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#96b5b4;">map</span><span>′ : (</span><span style="color:#b48ead;">P </span><span>→ </span><span style="color:#b48ead;">Q</span><span>) → (</span><span style="color:#b48ead;">Q </span><span>→ </span><span style="color:#b48ead;">P</span><span>) → </span><span style="color:#b48ead;">Dec P </span><span>→ </span><span style="color:#b48ead;">Dec Q
+</span><span style="color:#bf616a;">does</span><span>  (</span><span style="color:#96b5b4;">map</span><span>′ </span><span style="color:#b48ead;">P</span><span>→</span><span style="color:#b48ead;">Q Q</span><span>→</span><span style="color:#b48ead;">P </span><span style="color:#bf616a;">p</span><span>?)                   = </span><span style="color:#bf616a;">does p</span><span>?
+</span><span style="color:#bf616a;">proof</span><span> (</span><span style="color:#96b5b4;">map</span><span>′ </span><span style="color:#b48ead;">P</span><span>→</span><span style="color:#b48ead;">Q Q</span><span>→</span><span style="color:#b48ead;">P</span><span> (</span><span style="color:#bf616a;">true  because</span><span>  [</span><span style="color:#bf616a;">p</span><span>])) = </span><span style="color:#bf616a;">ofʸ</span><span> (</span><span style="color:#b48ead;">P</span><span>→</span><span style="color:#b48ead;">Q</span><span> (</span><span style="color:#bf616a;">invert</span><span> [</span><span style="color:#bf616a;">p</span><span>]))
+</span><span style="color:#bf616a;">proof</span><span> (</span><span style="color:#96b5b4;">map</span><span>′ </span><span style="color:#b48ead;">P</span><span>→</span><span style="color:#b48ead;">Q Q</span><span>→</span><span style="color:#b48ead;">P</span><span> (</span><span style="color:#bf616a;">false because</span><span> [¬</span><span style="color:#bf616a;">p</span><span>])) = </span><span style="color:#bf616a;">ofⁿ</span><span> (</span><span style="color:#bf616a;">invert</span><span> [¬</span><span style="color:#bf616a;">p</span><span>] ∘ </span><span style="color:#b48ead;">Q</span><span>→</span><span style="color:#b48ead;">P</span><span>)
+</span></code></pre>
+<p>So <code>map′</code> means if two props are in &quot;iff&quot; relation, and one of them is <code>Dec</code>, we know the other is also <code>Dec</code>.</p>
+<p>Now we can come back to <code>≤?</code> and understand what is:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>≤?</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Decidable </span><span style="color:#bf616a;">_</span><span>≤</span><span style="color:#bf616a;">_
+</span><span style="color:#bf616a;">m </span><span>≤? </span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#96b5b4;">map</span><span>′ (≤ᵇ⇒≤ </span><span style="color:#bf616a;">m n</span><span>) ≤⇒≤ᵇ (</span><span style="color:#b48ead;">T</span><span>? (</span><span style="color:#bf616a;">m </span><span>≤ᵇ </span><span style="color:#bf616a;">n</span><span>))
+</span></code></pre>
+<p>Since <code>≤ᵇ⇒≤</code> and <code>≤⇒≤ᵇ</code> are inverse function of each other, and <code>T? (m ≤ᵇ n)</code> is a <code>Dec</code> instance for <code>m ≤ᵇ n</code>, so we can get a <code>Dec</code> instance for <code>m ≤ n</code>.</p>
+<p>So what's the benefit of adopting <code>≤?</code>?</p>
+<p>Well, we can get both <code>Bool</code> value out of a <code>Dec</code>:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">Dec</span><span>.</span><span style="color:#bf616a;">does</span><span> (</span><span style="color:#d08770;">2 </span><span>≤? </span><span style="color:#d08770;">1</span><span>)
+</span><span style="color:#65737e;">-- or
+</span><span style="color:#bf616a;">isYes</span><span> (</span><span style="color:#d08770;">2 </span><span>≤? </span><span style="color:#d08770;">1</span><span>)
+</span><span style="color:#65737e;">-- or
+</span><span>⌊ </span><span style="color:#d08770;">2 </span><span>≤? </span><span style="color:#d08770;">1 </span><span>⌋
+</span></code></pre>
+<p>The beneficial of <code>isYes</code> and the <code>⌊⌋</code> operator is they can keep the typing information, while <code>Dec.does</code> is a naive <code>Bool</code>.</p>
+<p>And we can also get the evidence out with a function named <code>toWitness</code>:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#d08770;">99</span><span>≤</span><span style="color:#d08770;">100</span><span>&#39; : </span><span style="color:#d08770;">99 </span><span>≤ </span><span style="color:#d08770;">100
+</span><span style="color:#d08770;">99</span><span>≤</span><span style="color:#d08770;">100</span><span>&#39; = </span><span style="color:#bf616a;">toWitness </span><span>{</span><span style="color:#b48ead;">Q </span><span>= </span><span style="color:#d08770;">99 </span><span>≤? </span><span style="color:#d08770;">100</span><span>} </span><span style="color:#bf616a;">tt
+</span></code></pre>
+<p>where:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">toWitness </span><span>: {</span><span style="color:#b48ead;">Q </span><span>: </span><span style="color:#b48ead;">Dec P</span><span>} → True </span><span style="color:#b48ead;">Q </span><span>→ </span><span style="color:#b48ead;">P
+</span><span style="color:#bf616a;">toWitness </span><span>{</span><span style="color:#b48ead;">Q </span><span>= </span><span style="color:#bf616a;">true  because </span><span>[</span><span style="color:#bf616a;">p</span><span>]} </span><span style="color:#bf616a;">_  </span><span>= </span><span style="color:#bf616a;">invert</span><span> [</span><span style="color:#bf616a;">p</span><span>]
+</span><span style="color:#bf616a;">toWitness </span><span>{</span><span style="color:#b48ead;">Q </span><span>= </span><span style="color:#bf616a;">false because  _ </span><span>} ()
+</span></code></pre>
+<p>where</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>True : </span><span style="color:#b48ead;">Dec P </span><span>→ </span><span style="color:#b48ead;">Set
+</span><span>True </span><span style="color:#b48ead;">Q </span><span>= </span><span style="color:#b48ead;">T</span><span> (</span><span style="color:#bf616a;">isYes </span><span style="color:#b48ead;">Q</span><span>)
+</span></code></pre>
+<p>We can see <code>Decidable</code> can be used in both places where <code>Bool</code> or an evidence is needed.
+So it is always preferred to use <code>Decidable</code> instead of <code>Bool</code> when we can.</p>
+<h2 id="usecases">Usecases</h2>
+<p>Take a constructor of <code>ℚ</code> for an example:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>/</span><span style="color:#bf616a;">_ </span><span>: (</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">ℤ</span><span>) (</span><span style="color:#bf616a;">d </span><span>: </span><span style="color:#b48ead;">ℕ</span><span>) → {</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0 </span><span>: </span><span style="color:#bf616a;">d </span><span>≢</span><span style="color:#d08770;">0</span><span>} → </span><span style="color:#b48ead;">ℚ
+</span><span>(+ </span><span style="color:#bf616a;">n      </span><span>/ </span><span style="color:#bf616a;">d</span><span>) {</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0</span><span>} =   </span><span style="color:#bf616a;">normalize n       d </span><span>{</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0</span><span>}
+</span><span>(-[</span><span style="color:#d08770;">1</span><span>+ </span><span style="color:#bf616a;">n</span><span> ] / </span><span style="color:#bf616a;">d</span><span>) {</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0</span><span>} = - </span><span style="color:#bf616a;">normalize</span><span> (</span><span style="color:#bf616a;">suc n</span><span>) </span><span style="color:#bf616a;">d </span><span>{</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0</span><span>}
+</span></code></pre>
+<p>Here <code>{d≢0 : d ≢0}</code> requires denominator of a rational number should not be zero.</p>
+<p><code>≢0</code> is defined as</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">n </span><span>≢</span><span style="color:#d08770;">0 </span><span>= False (</span><span style="color:#bf616a;">n ℕ</span><span>.≟ </span><span style="color:#d08770;">0</span><span>)
+</span></code></pre>
+<p>And <code>ℕ.≟</code> is very similar with <code>≤?</code>:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>≟</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Decidable </span><span>{</span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">ℕ</span><span>} </span><span style="color:#bf616a;">_</span><span>≡</span><span style="color:#bf616a;">_
+</span><span style="color:#bf616a;">m </span><span>≟ </span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#96b5b4;">map</span><span>′ (≡ᵇ⇒≡ </span><span style="color:#bf616a;">m n</span><span>) (≡⇒≡ᵇ </span><span style="color:#bf616a;">m n</span><span>) (</span><span style="color:#b48ead;">T</span><span>? (</span><span style="color:#bf616a;">m </span><span>≡ᵇ </span><span style="color:#bf616a;">n</span><span>))
+</span></code></pre>
+<p>By requiring an <code>≢0</code> instance (instead of requiring a &quot;real&quot; evidence of <code>n ≢ 0</code>), we can omit the proof when we are using number literals:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">half </span><span>: </span><span style="color:#b48ead;">ℚ
+</span><span style="color:#bf616a;">half </span><span>= </span><span style="color:#d08770;">1</span><span style="color:#b48ead;">ℤ </span><span>/ </span><span style="color:#d08770;">2
+</span></code></pre>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>I do can write a Agda representation of Common Notion 5 in Στοιχεῖα, however I I'll always try to use, and more importantly, understand the stdlib when possible.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-10-14</span>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=How to prove 2 &lt; 3 in Agda&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;decidable-in-agda"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
