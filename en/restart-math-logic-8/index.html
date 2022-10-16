@@ -99,7 +99,7 @@
   <div class="post-content"><p>I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$. </p>
 <p>I'll start with the algorithms for OBDDs because the definition of BDD and OBDD is simple and intuitive, but I'll still put the code which implements this data structure here.</p>
 <p>(All BDDs in this article are ordered.)</p>
-<p>You can view code of a working implementation <a href="https://github.com/longfangsong/logic-lab/blob/main/src/binary_decision_diagram.rs">here</a>.</p>
+<p>You can view code of a working implementation <a href="https://github.com/longfangsong/logic-lab/blob/main/src/binary_decision_diagram.rs">here</a>. And there's also a demo of the code (ported to the browser via wasm) by the end of this article.</p>
 <h3 id="convert-from-formulas">Convert from formulas</h3>
 <p>Though the book didn't mention this algorithm, I still want to write this, 
 because in real life, most of times we get logic formulas instead of BDDs as user input.</p>
@@ -358,7 +358,6 @@ because in real life, most of times we get logic formulas instead of BDDs as use
                 document.getElementById("rhs-display").innerHTML = await hpccWasm.graphviz.layout(dot_rhs, "svg", "dot");
                 let op = document.getElementById("op").value;
                 let result;
-                console.log(reduced_lhs, op, reduced_rhs);
                 if (op === "&") {
                     result = reduced_lhs.and(reduced_rhs);
                 } else {
