@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • How to prove 2 &lt; 3 in Agda</title>
+  <title>Blog • How to prove 2 ≤ 3 in Agda</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
@@ -94,7 +94,7 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;decidable-in-agda&#x2F;">How to prove 2 &lt; 3 in Agda</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;decidable-in-agda&#x2F;">How to prove 2 ≤ 3 in Agda</a></h1>
   
   <div class="post-content"><p>I'm currently playing Euclidean geometry with Agda, and sometimes, I need to give an <strong>evidence</strong> for relations like:</p>
 <p>$$
@@ -102,7 +102,7 @@
 $$</p>
 <p>(This one is used in proving there have to be two different intersection points for two 1 radius circles when proving Proposition 1 in Στοιχεῖα)</p>
 <p>In fact, when met up with this problem first time, I felt hard to prove this &quot;obvious&quot; proposition<sup class="footnote-reference"><a href="#1">1</a></sup>, especially when these <code>1</code>s are actually <code>1ℚ</code>. I tried hard to find out a tool to do this in the stdlib and finally I get to those <code>Decidable</code> related things.</p>
-<h2 id="how-to-prove-2-3">How to prove 2 &lt; 3</h2>
+<h2 id="how-to-prove-2-3">How to prove 2 ≤ 3</h2>
 <p>Let's start small, how can we give an <em>evidence</em> for <code>2 ≤ 3</code>, when <code>2</code> and <code>3</code> are <code>ℕ</code>s in Agda?</p>
 <p>View the definition of <code>≤</code> in <code>Data.Nat.Base</code>:</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data </span><span style="color:#bf616a;">_</span><span>≤</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Rel ℕ </span><span style="color:#d08770;">0</span><span style="color:#bf616a;">ℓ </span><span style="color:#b48ead;">where
@@ -238,7 +238,7 @@ $$</p>
 </span></code></pre>
 <p>We can see <code>Decidable</code> can be used in both places where <code>Bool</code> or an evidence is needed.
 So it is always preferred to use <code>Decidable</code> instead of <code>Bool</code> when we can.</p>
-<h2 id="usecases">Usecases</h2>
+<h2 id="use-cases">Use cases</h2>
 <p>Take a constructor of <code>ℚ</code> for an example:</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>/</span><span style="color:#bf616a;">_ </span><span>: (</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">ℤ</span><span>) (</span><span style="color:#bf616a;">d </span><span>: </span><span style="color:#b48ead;">ℕ</span><span>) → {</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0 </span><span>: </span><span style="color:#bf616a;">d </span><span>≢</span><span style="color:#d08770;">0</span><span>} → </span><span style="color:#b48ead;">ℚ
 </span><span>(+ </span><span style="color:#bf616a;">n      </span><span>/ </span><span style="color:#bf616a;">d</span><span>) {</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0</span><span>} =   </span><span style="color:#bf616a;">normalize n       d </span><span>{</span><span style="color:#bf616a;">d</span><span>≢</span><span style="color:#d08770;">0</span><span>}
@@ -276,7 +276,7 @@ So it is always preferred to use <code>Decidable</code> instead of <code>Bool</c
     <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=How to prove 2 &lt; 3 in Agda&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;decidable-in-agda"></a>
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=How to prove 2 ≤ 3 in Agda&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;decidable-in-agda"></a>
   </div>
 </div>
 

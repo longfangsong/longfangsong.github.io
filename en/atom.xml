@@ -8,7 +8,7 @@
 	<updated>2022-10-14T16:58:06.023+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
 	<entry xml:lang="en">
-		<title>How to prove 2 &lt; 3 in Agda</title>
+		<title>How to prove 2 ≤ 3 in Agda</title>
 		<published>2022-10-14T16:58:06.023+00:00</published>
 		<updated>2022-10-14T16:58:06.023+00:00</updated>
 		<link rel="alternate" href="https://longfangsong.github.io/en/decidable-in-agda/" type="text/html"/>
@@ -19,7 +19,7 @@
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;(This one is used in proving there have to be two different intersection points for two 1 radius circles when proving Proposition 1 in Στοιχεῖα)&lt;&#x2F;p&gt;
 &lt;p&gt;In fact, when met up with this problem first time, I felt hard to prove this &amp;quot;obvious&amp;quot; proposition&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, especially when these &lt;code&gt;1&lt;&#x2F;code&gt;s are actually &lt;code&gt;1ℚ&lt;&#x2F;code&gt;. I tried hard to find out a tool to do this in the stdlib and finally I get to those &lt;code&gt;Decidable&lt;&#x2F;code&gt; related things.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;how-to-prove-2-3&quot;&gt;How to prove 2 &amp;lt; 3&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;how-to-prove-2-3&quot;&gt;How to prove 2 ≤ 3&lt;&#x2F;h2&gt;
 &lt;p&gt;Let&#x27;s start small, how can we give an &lt;em&gt;evidence&lt;&#x2F;em&gt; for &lt;code&gt;2 ≤ 3&lt;&#x2F;code&gt;, when &lt;code&gt;2&lt;&#x2F;code&gt; and &lt;code&gt;3&lt;&#x2F;code&gt; are &lt;code&gt;ℕ&lt;&#x2F;code&gt;s in Agda?&lt;&#x2F;p&gt;
 &lt;p&gt;View the definition of &lt;code&gt;≤&lt;&#x2F;code&gt; in &lt;code&gt;Data.Nat.Base&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;≤&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Rel ℕ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ℓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
@@ -155,7 +155,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;We can see &lt;code&gt;Decidable&lt;&#x2F;code&gt; can be used in both places where &lt;code&gt;Bool&lt;&#x2F;code&gt; or an evidence is needed.
 So it is always preferred to use &lt;code&gt;Decidable&lt;&#x2F;code&gt; instead of &lt;code&gt;Bool&lt;&#x2F;code&gt; when we can.&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;usecases&quot;&gt;Usecases&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;use-cases&quot;&gt;Use cases&lt;&#x2F;h2&gt;
 &lt;p&gt;Take a constructor of &lt;code&gt;ℚ&lt;&#x2F;code&gt; for an example:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℤ&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;) → {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;≢&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d &lt;&#x2F;span&gt;&lt;span&gt;≢&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;} → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℚ
 &lt;&#x2F;span&gt;&lt;span&gt;(+ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n      &lt;&#x2F;span&gt;&lt;span&gt;&#x2F; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;≢&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;} =   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;normalize n       d &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;≢&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;}
