@@ -222,7 +222,7 @@ $$</p>
 </span><span style="color:#65737e;">-- or
 </span><span>⌊ </span><span style="color:#d08770;">2 </span><span>≤? </span><span style="color:#d08770;">1 </span><span>⌋
 </span></code></pre>
-<p>The beneficial of <code>isYes</code> and the <code>⌊⌋</code> operator is they can keep the typing information, while <code>Dec.does</code> is a naive <code>Bool</code>.</p>
+<p>The benefit of <code>isYes</code> and the <code>⌊⌋</code> operator is they can keep the typing information, while <code>Dec.does</code> is a naive <code>Bool</code>.</p>
 <p>And we can also get the evidence out with a function named <code>toWitness</code>:</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#d08770;">99</span><span>≤</span><span style="color:#d08770;">100</span><span>&#39; : </span><span style="color:#d08770;">99 </span><span>≤ </span><span style="color:#d08770;">100
 </span><span style="color:#d08770;">99</span><span>≤</span><span style="color:#d08770;">100</span><span>&#39; = </span><span style="color:#bf616a;">toWitness </span><span>{</span><span style="color:#b48ead;">Q </span><span>= </span><span style="color:#d08770;">99 </span><span>≤? </span><span style="color:#d08770;">100</span><span>} </span><span style="color:#bf616a;">tt
