@@ -71,6 +71,10 @@
         <lastmod>2022-10-14T16:58:06.023Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/elementary-geometry-in-agda/</loc>
+        <lastmod>2022-10-24T03:35:10.362Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/hello-zola/</loc>
         <lastmod>2020-01-02T15:00:00Z</lastmod>
     </url>
@@ -209,6 +213,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/agda/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/bian-cheng-yu-yan-li-lun/</loc>

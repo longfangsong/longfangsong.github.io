@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Elementary Geometry In Agda</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;elementary-geometry-in-agda&#x2F;">Elementary Geometry In Agda</a></h1>
+  
+  <div class="post-content"><p>I'm playing with Agda recently, and since some of my friends' teacher are working on human understandable AI assisted theory proving. And IMO type theory base theorem prover is a better way than algebra-based proof methods (eg. Wenjun Wu's method) to generate human understandable proofs. And I do hope we can have an AI version of <a href="https://agda.readthedocs.io/en/latest/tools/auto.html">Agsy</a><sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
+<p>I'll start with <em>Στοιχεῖα</em>, the source of geometry.</p>
+<p>I'll show how to prove Proposition 1, and introduce how to represent the definitions and postulates here.</p>
+<blockquote>
+<p>To(We can) construct an equilateral triangle on a given finite straight-line. —— <em>Στοιχεῖα</em></p>
+</blockquote>
+<p>So we need to define what is a finite straight-line, and what is an equilateral triangle.</p>
+<p>And the proof process use circles, which also needs to be defined.</p>
+<h2 id="definitions">Definitions</h2>
+<h3 id="point">Point</h3>
+<p>So let's start with the most basic thing: a point.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">record </span><span style="color:#b48ead;">Point </span><span>: </span><span style="color:#b48ead;">Set where
+</span><span>    </span><span style="color:#bf616a;">constructor newPoint
+</span><span>    </span><span style="color:#bf616a;">field
+</span><span>        </span><span style="color:#bf616a;">pointId </span><span>: </span><span style="color:#b48ead;">ℕ
+</span></code></pre>
+<p>We give each point an id here, to disguise different points.</p>
+<p>And we can represent the proportion two points are identical by the following type:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data PointEq</span><span> (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">Point</span><span>) : </span><span style="color:#b48ead;">Point </span><span>→ </span><span style="color:#b48ead;">Set where
+</span><span>  </span><span style="color:#bf616a;">refl </span><span>: </span><span style="color:#b48ead;">PointEq </span><span style="color:#bf616a;">x x
+</span></code></pre>
+<h3 id="line-segment">Line Segment</h3>
+<p>Now we can define a line segment:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">record </span><span style="color:#b48ead;">LineSegment </span><span>: </span><span style="color:#b48ead;">Set where
+</span><span>    </span><span style="color:#bf616a;">constructor lineSeg
+</span><span>    </span><span style="color:#bf616a;">field
+</span><span>        </span><span style="color:#bf616a;">from </span><span>: </span><span style="color:#b48ead;">Point
+</span><span>        </span><span style="color:#bf616a;">to </span><span>: </span><span style="color:#b48ead;">Point
+</span><span>        </span><span style="color:#bf616a;">lineLength </span><span>: </span><span style="color:#b48ead;">ℚ
+</span><span>        </span><span style="color:#bf616a;">nonNegative </span><span>: </span><span style="color:#b48ead;">NonNegative </span><span style="color:#bf616a;">lineLength
+</span></code></pre>
+<p>Note we require the length of the line segment's length to be a non-negative rational number.</p>
+<p>We use rational number here, because we often needs to take point of n-section on a line segment, since rational number is almost closed under division, it's convenient to represent line length in this way.</p>
+<p>Though not used in this post, we can define a function to cast zero-length line segment back and forth to a single point.</p>
+<p>And we can &quot;reverse&quot; a line:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">line</span><span>-</span><span style="color:#bf616a;">sym </span><span>: (</span><span style="color:#b48ead;">LineSegment</span><span>) → </span><span style="color:#b48ead;">LineSegment
+</span><span style="color:#bf616a;">line</span><span>-</span><span style="color:#bf616a;">sym ls </span><span>= </span><span style="color:#bf616a;">lineSeg</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to ls</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from ls</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength ls</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">nonNegative ls</span><span>)
+</span></code></pre>
+<h3 id="circle">Circle</h3>
+<p>Similarly, we can define a circle:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">record </span><span style="color:#b48ead;">Circle </span><span>: </span><span style="color:#b48ead;">Set where
+</span><span>    </span><span style="color:#bf616a;">constructor circle
+</span><span>    </span><span style="color:#bf616a;">field
+</span><span>        </span><span style="color:#bf616a;">center </span><span>: </span><span style="color:#b48ead;">Point
+</span><span>        </span><span style="color:#bf616a;">radius </span><span>: </span><span style="color:#b48ead;">ℚ
+</span><span>        </span><span style="color:#bf616a;">nonNegative </span><span>: </span><span style="color:#b48ead;">NonNegative </span><span style="color:#bf616a;">radius
+</span></code></pre>
+<h3 id="triangle">Triangle</h3>
+<p>I adopt the edge based definition of triangle here, which is more easy to use.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">record </span><span style="color:#b48ead;">Triangle </span><span>: </span><span style="color:#b48ead;">Set where
+</span><span>  </span><span style="color:#bf616a;">constructor from</span><span>-</span><span style="color:#bf616a;">edges
+</span><span>  </span><span style="color:#bf616a;">field
+</span><span>    </span><span style="color:#bf616a;">edge0 </span><span>: </span><span style="color:#b48ead;">LineSegment
+</span><span>    </span><span style="color:#bf616a;">edge1 </span><span>: </span><span style="color:#b48ead;">LineSegment
+</span><span>    </span><span style="color:#bf616a;">edge2 </span><span>: </span><span style="color:#b48ead;">LineSegment
+</span><span>    .</span><span style="color:#bf616a;">edgesConnected </span><span>: 
+</span><span>        (</span><span style="color:#b48ead;">PointEq</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to edge0</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from edge1</span><span>)) ×
+</span><span>        (</span><span style="color:#b48ead;">PointEq</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to edge1</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from edge2</span><span>)) ×
+</span><span>        (</span><span style="color:#b48ead;">PointEq</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to edge2</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from edge0</span><span>))
+</span></code></pre>
+<p>And we can define equilateral triangle like this:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equilateral </span><span>: (</span><span style="color:#bf616a;">t </span><span>: </span><span style="color:#b48ead;">Triangle</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equilateral</span><span> (</span><span style="color:#bf616a;">from</span><span>-</span><span style="color:#bf616a;">edges edge0 edge1 edge2 _</span><span>) = 
+</span><span>    (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength edge0 ℚ</span><span>.≃ </span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength edge1</span><span>) ×
+</span><span>     (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength edge0 ℚ</span><span>.≃ </span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength edge2</span><span>)
+</span></code></pre>
+<h2 id="postulates">Postulates</h2>
+<p>There are two postulates in <em>Στοιχεῖα</em> hidden in these definitions:</p>
+<ul>
+<li>We can draw a straight-line from any point to any point.</li>
+<li>We can draw a circle with any center and radius.</li>
+</ul>
+<p>These two are all we need this time.</p>
+<p>However, there's several missing postulates in <em>Στοιχεῖα</em>, which made the proof in it not very rigorous, we'll see later.</p>
+<h2 id="common-notions">Common Notions</h2>
+<p>These are basically equivalent to the propositions in Agda's stdlib, especially <a href="https://agda.github.io/agda-stdlib/Data.Rational.Properties.html">Data.Rational.Properties</a>.</p>
+<h2 id="the-proof">The proof</h2>
+<h3 id="the-proposition">The proposition</h3>
+<p>We can write it as:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">equilateral</span><span>-</span><span style="color:#bf616a;">triangle </span><span>: (</span><span style="color:#bf616a;">line </span><span>: </span><span style="color:#b48ead;">LineSegment</span><span>) → .{ </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ </span><span>&lt; </span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line </span><span>}
+</span><span>    → </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">Triangle</span><span>) (</span><span style="color:#bf616a;">λ t </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equilateral t</span><span>)
+</span></code></pre>
+<p>Which can be read as:</p>
+<p>Given a line segment <code>line</code>, which length is <code>&gt; 0</code>, there exist a triangle which is equilateral.</p>
+<p>And it's equivalent to the origin proposition.</p>
+<p>According to the book, we can draw two circles and use the intersection point as the third  vertex of the triangle, however, Εὐκλείδης made a mistake here, since there's no way to proof intersection point exists.</p>
+<p>Let's just posulate it:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">circle</span><span>-</span><span style="color:#bf616a;">intersection </span><span>: (</span><span style="color:#bf616a;">c1 c2 </span><span>: </span><span style="color:#b48ead;">Circle</span><span>) 
+</span><span>    → (</span><span style="color:#bf616a;">connectMidLine </span><span>: </span><span style="color:#b48ead;">LineSegment</span><span>)
+</span><span>    → (</span><span style="color:#b48ead;">PointEq</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">center c1</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from connectMidLine</span><span>)) 
+</span><span>    → (</span><span style="color:#b48ead;">PointEq</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">center c2</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to connectMidLine</span><span>))
+</span><span>    → .{
+</span><span>        (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength connectMidLine</span><span>) &lt; (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c1</span><span>) + (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c2</span><span>)
+</span><span>    }
+</span><span>    → .{
+</span><span>        ∣ (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c1</span><span>) - (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c2</span><span>) ∣ &lt; (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength connectMidLine</span><span>)
+</span><span>    }
+</span><span>    → (</span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">Point </span><span>× </span><span style="color:#b48ead;">Point</span><span>) (</span><span style="color:#bf616a;">λ</span><span> (</span><span style="color:#bf616a;">p1 </span><span>, </span><span style="color:#bf616a;">p2</span><span>) →
+</span><span>        (</span><span style="color:#b48ead;">LineSegment </span><span>× </span><span style="color:#b48ead;">LineSegment</span><span>) × (</span><span style="color:#b48ead;">LineSegment </span><span>× </span><span style="color:#b48ead;">LineSegment</span><span>)
+</span><span>    ))
+</span><span>
+</span><span style="color:#bf616a;">circle</span><span>-</span><span style="color:#bf616a;">intersection c1 c2 connectMidLine c1Mid c2Mid </span><span>= 
+</span><span>    </span><span style="color:#b48ead;">let </span><span style="color:#bf616a;">p0 </span><span>= </span><span style="color:#bf616a;">newPoint </span><span style="color:#d08770;">0
+</span><span>        </span><span style="color:#bf616a;">p1 </span><span>= </span><span style="color:#bf616a;">newPoint </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#b48ead;">in</span><span> (</span><span style="color:#bf616a;">p0 </span><span>, </span><span style="color:#bf616a;">p1</span><span>) , (
+</span><span>        ((</span><span style="color:#bf616a;">lineSeg</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">center c1</span><span>) </span><span style="color:#bf616a;">p0</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c1</span><span>) (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">nonNegative c1</span><span>)) , 
+</span><span>         (</span><span style="color:#bf616a;">lineSeg</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">center c2</span><span>) </span><span style="color:#bf616a;">p0</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c2</span><span>)) (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">nonNegative c2</span><span>)), 
+</span><span>        ((</span><span style="color:#bf616a;">lineSeg</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">center c1</span><span>) </span><span style="color:#bf616a;">p1</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c1</span><span>) (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">nonNegative c1</span><span>)) , 
+</span><span>         (</span><span style="color:#bf616a;">lineSeg</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">center c2</span><span>) </span><span style="color:#bf616a;">p1</span><span> (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">radius c2</span><span>)) (</span><span style="color:#bf616a;">Circle</span><span>.</span><span style="color:#bf616a;">nonNegative c2</span><span>))
+</span><span>    )
+</span></code></pre>
+<p>Note we have to provide evidence here that the length of the connecting-circle-center line is less than the sum of the radius of the two circles, and abs(difference of the radius of the two circles) is less than the length of the connecting line, so there can be two intersection points exists.</p>
+<p>So basically the proof can be written as:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">equilateral</span><span>-</span><span style="color:#bf616a;">triangle line </span><span>{</span><span style="color:#bf616a;">p</span><span>} = 
+</span><span>    </span><span style="color:#b48ead;">let </span><span style="color:#bf616a;">c1 </span><span>= </span><span style="color:#bf616a;">circle</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">nonNegative line</span><span>)
+</span><span>        </span><span style="color:#bf616a;">c2 </span><span>= </span><span style="color:#bf616a;">circle</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">nonNegative line</span><span>)
+</span><span>        ((</span><span style="color:#bf616a;">p0 </span><span>, </span><span style="color:#bf616a;">p1</span><span>) , ((</span><span style="color:#bf616a;">l0 </span><span>, </span><span style="color:#bf616a;">l1</span><span>), </span><span style="color:#bf616a;">_</span><span>)) = </span><span style="color:#bf616a;">circle</span><span>-</span><span style="color:#bf616a;">intersection c1 c2 line PointEq</span><span>.</span><span style="color:#bf616a;">refl PointEq</span><span>.</span><span style="color:#bf616a;">refl </span><span>{?} {?}
+</span><span>    </span><span style="color:#b48ead;">in
+</span><span>        (</span><span style="color:#bf616a;">from</span><span>-</span><span style="color:#bf616a;">edges line l1</span><span> (</span><span style="color:#bf616a;">line</span><span>-</span><span style="color:#bf616a;">sym l0</span><span>) (</span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl</span><span>)) , (</span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl</span><span>)
+</span></code></pre>
+<p><code>refl</code>s here are just proofs for things that are obviously equal.</p>
+<p>For the <code>?</code> parts, we need to fill in evidence for <code>lineLength line + lineLength line &gt; lineLength line</code> and <code>∣ lineLength line - lineLength line ∣ &lt; lineLength line</code>, which is surprisingly hard:</p>
+<p>For <code>lineLength line + lineLength line &gt; lineLength line</code>, which is actually means for a positive numbers, sum of two such numbers is greater than itself, we need to use the <code>monoˡ</code> property of <code>+</code> on rational number, which is equivalent with <em>Common Notion 5</em> of the book.</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">x</span><span>&lt;</span><span style="color:#bf616a;">x</span><span>+</span><span style="color:#bf616a;">x </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">ℚ</span><span>) → </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ </span><span>&lt; </span><span style="color:#bf616a;">x </span><span>→ (</span><span style="color:#bf616a;">x </span><span>&lt; </span><span style="color:#bf616a;">x </span><span>+ </span><span style="color:#bf616a;">x</span><span>)
+</span><span style="color:#bf616a;">x</span><span>&lt;</span><span style="color:#bf616a;">x</span><span>+</span><span style="color:#bf616a;">x x p </span><span>= (</span><span style="color:#bf616a;">begin</span><span>-</span><span style="color:#bf616a;">strict
+</span><span>        </span><span style="color:#bf616a;">x       </span><span>≡⟨ (</span><span style="color:#bf616a;">sym </span><span>∘ +-</span><span style="color:#bf616a;">identityˡ</span><span>) </span><span style="color:#bf616a;">x </span><span>⟩
+</span><span>        </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ </span><span>+ </span><span style="color:#bf616a;">x  </span><span>&lt;⟨ +-</span><span style="color:#bf616a;">monoˡ</span><span>-&lt; </span><span style="color:#bf616a;">x p </span><span>⟩
+</span><span>        </span><span style="color:#bf616a;">x </span><span>+ </span><span style="color:#bf616a;">x
+</span><span>    ∎)
+</span><span>    </span><span style="color:#b48ead;">where </span><span style="color:#bf616a;">open ℚ</span><span>.≤-</span><span style="color:#b48ead;">Reasoning
+</span></code></pre>
+<p>For <code>∣ lineLength line - lineLength line ∣ &lt; lineLength line</code>, first we prove <code>∣x - x∣ ≡ 0</code></p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">x</span><span>-</span><span style="color:#bf616a;">x</span><span>≡</span><span style="color:#d08770;">0 </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">ℚ</span><span>) → (</span><span style="color:#bf616a;">x </span><span>- </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ</span><span>)
+</span><span style="color:#bf616a;">x</span><span>-</span><span style="color:#bf616a;">x</span><span>≡</span><span style="color:#d08770;">0 </span><span style="color:#bf616a;">x </span><span>= (</span><span style="color:#bf616a;">begin
+</span><span>    </span><span style="color:#bf616a;">x </span><span>- </span><span style="color:#bf616a;">x   </span><span>≡⟨ +-</span><span style="color:#bf616a;">comm</span><span> (</span><span style="color:#bf616a;">x</span><span>) (- </span><span style="color:#bf616a;">x</span><span>) ⟩
+</span><span>    - </span><span style="color:#bf616a;">x </span><span>+ </span><span style="color:#bf616a;">x </span><span>≡⟨ +-</span><span style="color:#bf616a;">inverseˡ x </span><span>⟩
+</span><span>    </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ      </span><span>∎)
+</span><span>    </span><span style="color:#b48ead;">where </span><span style="color:#bf616a;">open </span><span>≡-</span><span style="color:#b48ead;">Reasoning
+</span><span>
+</span><span style="color:#bf616a;">p</span><span>≡</span><span style="color:#d08770;">0</span><span>⇒∣</span><span style="color:#bf616a;">p</span><span>∣≡</span><span style="color:#d08770;">0 </span><span>: {</span><span style="color:#bf616a;">p </span><span>: </span><span style="color:#b48ead;">ℚ</span><span>} → </span><span style="color:#bf616a;">p </span><span>≡ </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ </span><span>→ ∣ </span><span style="color:#bf616a;">p </span><span>∣ ≡ </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ
+</span><span style="color:#bf616a;">p</span><span>≡</span><span style="color:#d08770;">0</span><span>⇒∣</span><span style="color:#bf616a;">p</span><span>∣≡</span><span style="color:#d08770;">0 </span><span style="color:#bf616a;">eqz </span><span>= </span><span style="color:#bf616a;">trans</span><span> (</span><span style="color:#bf616a;">ℚ</span><span>.</span><span style="color:#d08770;">0</span><span>≤</span><span style="color:#bf616a;">p</span><span>⇒∣</span><span style="color:#bf616a;">p</span><span>∣≡</span><span style="color:#bf616a;">p</span><span> (≤-</span><span style="color:#bf616a;">reflexive</span><span> (</span><span style="color:#bf616a;">sym eqz</span><span>))) </span><span style="color:#bf616a;">eqz
+</span></code></pre>
+<p>And then:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>∣</span><span style="color:#bf616a;">x</span><span>-</span><span style="color:#bf616a;">x</span><span>∣&lt;</span><span style="color:#bf616a;">x </span><span>: (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">ℚ</span><span>) → </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ </span><span>&lt; </span><span style="color:#bf616a;">x </span><span>→ ∣ </span><span style="color:#bf616a;">x </span><span>- </span><span style="color:#bf616a;">x </span><span>∣ &lt; </span><span style="color:#bf616a;">x
+</span><span>∣</span><span style="color:#bf616a;">x</span><span>-</span><span style="color:#bf616a;">x</span><span>∣&lt;</span><span style="color:#bf616a;">x x p </span><span>= (</span><span style="color:#bf616a;">begin</span><span>-</span><span style="color:#bf616a;">strict
+</span><span>    ∣ </span><span style="color:#bf616a;">x </span><span>- </span><span style="color:#bf616a;">x </span><span>∣   ≡⟨ </span><span style="color:#bf616a;">p</span><span>≡</span><span style="color:#d08770;">0</span><span>⇒∣</span><span style="color:#bf616a;">p</span><span>∣≡</span><span style="color:#d08770;">0</span><span> (</span><span style="color:#bf616a;">x</span><span>-</span><span style="color:#bf616a;">x</span><span>≡</span><span style="color:#d08770;">0 </span><span style="color:#bf616a;">x</span><span>) ⟩
+</span><span>    </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ          </span><span>&lt;⟨ </span><span style="color:#bf616a;">p </span><span>⟩
+</span><span>    </span><span style="color:#bf616a;">x           </span><span>∎)
+</span><span>    </span><span style="color:#b48ead;">where </span><span style="color:#bf616a;">open ℚ</span><span>.≤-</span><span style="color:#b48ead;">Reasoning
+</span></code></pre>
+<p>Then we can fill the <code>?</code>s, and get the final proof:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">equilateral</span><span>-</span><span style="color:#bf616a;">triangle </span><span>: (</span><span style="color:#bf616a;">line </span><span>: </span><span style="color:#b48ead;">LineSegment</span><span>) → .{ </span><span style="color:#d08770;">0</span><span style="color:#b48ead;">ℚ </span><span>&lt; </span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line </span><span>}
+</span><span>    → </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">Triangle</span><span>) (</span><span style="color:#bf616a;">λ t </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equilateral t</span><span>)
+</span><span style="color:#bf616a;">equilateral</span><span>-</span><span style="color:#bf616a;">triangle line </span><span>{</span><span style="color:#bf616a;">p</span><span>} = 
+</span><span>    </span><span style="color:#b48ead;">let </span><span style="color:#bf616a;">c1 </span><span>= </span><span style="color:#bf616a;">circle</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">nonNegative line</span><span>)
+</span><span>        </span><span style="color:#bf616a;">c2 </span><span>= </span><span style="color:#bf616a;">circle</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">nonNegative line</span><span>)
+</span><span>        ((</span><span style="color:#bf616a;">p0 </span><span>, </span><span style="color:#bf616a;">p1</span><span>) , ((</span><span style="color:#bf616a;">l0 </span><span>, </span><span style="color:#bf616a;">l1</span><span>), </span><span style="color:#bf616a;">_</span><span>)) = </span><span style="color:#bf616a;">circle</span><span>-</span><span style="color:#bf616a;">intersection c1 c2 line PointEq</span><span>.</span><span style="color:#bf616a;">refl PointEq</span><span>.</span><span style="color:#bf616a;">refl </span><span>{</span><span style="color:#bf616a;">x</span><span>&lt;</span><span style="color:#bf616a;">x</span><span>+</span><span style="color:#bf616a;">x </span><span>(</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line</span><span>) </span><span style="color:#bf616a;">p</span><span>} {∣</span><span style="color:#bf616a;">x</span><span>-</span><span style="color:#bf616a;">x</span><span>∣&lt;</span><span style="color:#bf616a;">x </span><span>(</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength line</span><span>) </span><span style="color:#bf616a;">p</span><span>}
+</span><span>    </span><span style="color:#b48ead;">in
+</span><span>        (</span><span style="color:#bf616a;">from</span><span>-</span><span style="color:#bf616a;">edges line l1</span><span> (</span><span style="color:#bf616a;">line</span><span>-</span><span style="color:#bf616a;">sym l0</span><span>) (</span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl</span><span>)) , (</span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl</span><span>)
+</span></code></pre>
+<p>Now you see the basic idea of how to use the agda to prove propositions in elementary geometry.</p>
+<h2 id="what-s-next">What's next?</h2>
+<p>There remains a lot of work to do. For example, how to define angles (I may use <code>1ℚ</code> as right angle because postulates in the book are based on right angles.), and how to present the relations of lines and points (maybe <code>intersect-on-point</code> and <code>parallel</code>, etc).</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Sometimes even GitHub copilot can generate some correct proof code. But what I had in mind is some kind of AI assisted heuristically proof searching, instead of blindly NLP like code generation.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-10-24</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/Agda">&nbsp;Agda</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Elementary Geometry In Agda&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;elementary-geometry-in-agda&hashtags=Agda"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
