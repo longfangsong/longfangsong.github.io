@@ -34,14 +34,13 @@
 
   gtag('config', 'G-YG5Z4J086Y');
 </script>
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker
-        .register("/serviceWorker.js")
-        .then(res => console.log("service worker registered"))
-        .catch(err => console.log("service worker register failed", err))
-    })
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator) {
+    const wb = new Workbox('/serviceWorker.js');
+
+    wb.register();
   }
 </script>
 
