@@ -393,7 +393,7 @@ flowchart TD
 <p>Then we go to <code>bb3</code>, similar to <code>bb2</code>, we can replace <code>%a1</code> with <code>%t0</code>, and update the value stack to <code>[(bb1, 1), (bb2, %t0), (bb3, %t1)]</code>.</p>
 <div class="mermaid">
 flowchart TD
-    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %a1, %a1]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %t0, %t0]
 </div>
 <p>And then we are led back to <code>bb2</code>, since <code>bb2</code> is already visited, we just need to update <code>phi</code>'s from with the current value of <code>a</code> now.</p>
 <div class="mermaid">
@@ -413,7 +413,7 @@ flowchart TD
     id0(Entry)
     id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n ...]
     id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi bb1.1&lt;&#x2F;p&gt; %t0 = add 1, 1]
-    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %a1, %a1]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %t0, %t0]
     id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
     id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n...]
     id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n...]

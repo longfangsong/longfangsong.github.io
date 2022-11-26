@@ -310,7 +310,7 @@ flowchart TD
 &lt;p&gt;Then we go to &lt;code&gt;bb3&lt;&#x2F;code&gt;, similar to &lt;code&gt;bb2&lt;&#x2F;code&gt;, we can replace &lt;code&gt;%a1&lt;&#x2F;code&gt; with &lt;code&gt;%t0&lt;&#x2F;code&gt;, and update the value stack to &lt;code&gt;[(bb1, 1), (bb2, %t0), (bb3, %t1)]&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
-    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %a1, %a1]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %t0, %t0]
 &lt;&#x2F;div&gt;
 &lt;p&gt;And then we are led back to &lt;code&gt;bb2&lt;&#x2F;code&gt;, since &lt;code&gt;bb2&lt;&#x2F;code&gt; is already visited, we just need to update &lt;code&gt;phi&lt;&#x2F;code&gt;&#x27;s from with the current value of &lt;code&gt;a&lt;&#x2F;code&gt; now.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
@@ -330,7 +330,7 @@ flowchart TD
     id0(Entry)
     id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n ...]
     id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi bb1.1&amp;lt;&amp;#x2F;p&amp;gt; %t0 = add 1, 1]
-    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %a1, %a1]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %t0, %t0]
     id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
     id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n...]
     id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n...]
