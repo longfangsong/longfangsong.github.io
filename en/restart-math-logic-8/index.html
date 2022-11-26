@@ -37,7 +37,7 @@
 <script type="module">
   import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
 
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
     const wb = new Workbox('/serviceWorker.js');
 
     wb.register();
@@ -347,26 +347,26 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 <div id="rhs-display"></div>
 <p>result:</p>
 <div id="result-display"></div>
-<script src="https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/index.min.js"></script>
 <script type="module">
+    import { Graphviz } from "https://cdn.jsdelivr.net/npm/@hpcc-js/wasm/dist/graphviz.js";
     import init, { BinaryDecisionDiagram } from './logic-lab-wasm/logic_lab.js';
-    const hpccWasm = window["@hpcc-js/wasm"];
     (async () => {
         document.getElementById("lhs").value = "";
         document.getElementById("rhs").value = "";
-        await init();
+        const graphvizPromise = Graphviz.load();
+        const [graphviz, _] = await Promise.all([graphvizPromise, init()]);
         async function calculate() {
             try {
                 let lhs_formula = document.getElementById("lhs").value;
                 let lhs_bdd = BinaryDecisionDiagram.from_str(lhs_formula);
                 let reduced_lhs = lhs_bdd.reduce();
                 let dot_lhs = reduced_lhs.dot();
-                document.getElementById("lhs-display").innerHTML = await hpccWasm.graphviz.layout(dot_lhs, "svg", "dot");
+                document.getElementById("lhs-display").innerHTML = await graphviz.layout(dot_lhs, "svg", "dot");
                 let rhs_formula = document.getElementById("rhs").value;
                 let rhs_bdd = BinaryDecisionDiagram.from_str(rhs_formula);
                 let reduced_rhs = rhs_bdd.reduce();
                 let dot_rhs = reduced_rhs.dot();
-                document.getElementById("rhs-display").innerHTML = await hpccWasm.graphviz.layout(dot_rhs, "svg", "dot");
+                document.getElementById("rhs-display").innerHTML = await graphviz.layout(dot_rhs, "svg", "dot");
                 let op = document.getElementById("op").value;
                 let result;
                 if (op === "&") {
@@ -375,7 +375,7 @@ because in real life, most of times we get logic formulas instead of BDDs as use
                     result = reduced_lhs.or(reduced_rhs);
                 }
                 let dot = result.reduce().dot();
-                document.getElementById("result-display").innerHTML = await hpccWasm.graphviz.layout(dot, "svg", "dot");
+                document.getElementById("result-display").innerHTML = await graphviz.layout(dot, "svg", "dot");
             } catch (e) {
                 console.log(e);
             }
