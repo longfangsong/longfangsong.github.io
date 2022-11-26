@@ -99,52 +99,88 @@
   <div class="post-content"><h2 id="what-is-category-theory-all-about">What is category theory all about</h2>
 <p>Category theory is all about structures and relations.</p>
 <blockquote>
-<p>... category theory is the mathematical study of (abstract) algebras of functions. —— <em>Category Theory</em> by <em>Steve Awodey</em>, </p>
+<p>... category theory is the mathematical study of (abstract) algebras of functions. —— <em>Category Theory</em> by <em>Steve Awodey</em></p>
 </blockquote>
 <p>For me, learning category theory enables me to understand what on earth is &quot;a monoid in the category of endofunctors&quot;, and it helps me to learn HoTT.</p>
 <h2 id="function-of-sets">Function of Sets</h2>
-<p>Nothing to much to say here, only some notations here.</p>
+<p>Nothing too much to say here, only some notations here.</p>
 <p>Identity function in the books I am using (primary <em>Category Theory</em> by <em>Steve Awodey</em>, but I'm also referring to <em>Beginning Category Theory</em> by <em>Peter Smith</em>) is written as</p>
 <p>$$
 1_A : A \rightarrow A
 $$</p>
 <h2 id="definition-of-category">Definition of Category</h2>
-<p>Basically a category is anything which </p>
+<p>Basically, a category is anything which</p>
 <ul>
-<li>Contains objects and arrows (you can consider arrow as something like function since it make it simpler, but they don't have to be functions actually) between them</li>
+<li>Contains objects and arrows (you can consider arrows as something like functions since it makes it simpler, but they don't have to be functions actually) between them</li>
 <li>The arrows can composite with each other and obey the associativity rule</li>
-<li>For each object there exists an identity arrow, which also the &quot;unit&quot; arrow when compositing with other arrows.</li>
+<li>For each object, there exists an identity arrow, which is also the &quot;unit&quot; arrow when compositing with other arrows.</li>
 </ul>
+<p>In Agda, simplified:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">record </span><span style="color:#b48ead;">Category</span><span> (</span><span style="color:#bf616a;">o ℓ e </span><span>: </span><span style="color:#b48ead;">Level</span><span>) : </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">suc</span><span> (</span><span style="color:#bf616a;">o </span><span>⊔ </span><span style="color:#bf616a;">ℓ </span><span>⊔ </span><span style="color:#bf616a;">e</span><span>)) </span><span style="color:#b48ead;">where
+</span><span>  </span><span style="color:#bf616a;">field
+</span><span>    </span><span style="color:#b48ead;">Obj </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">o
+</span><span>    </span><span style="color:#bf616a;">_</span><span>⇒</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Rel Obj </span><span style="color:#bf616a;">ℓ
+</span><span>    </span><span style="color:#bf616a;">_</span><span>≈</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">A B</span><span>} → </span><span style="color:#b48ead;">Rel</span><span> (</span><span style="color:#b48ead;">A </span><span>⇒ </span><span style="color:#b48ead;">B</span><span>) </span><span style="color:#bf616a;">e
+</span><span>
+</span><span>    </span><span style="color:#96b5b4;">id  </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">A</span><span>} → (</span><span style="color:#b48ead;">A </span><span>⇒ </span><span style="color:#b48ead;">A</span><span>)
+</span><span>    </span><span style="color:#bf616a;">_</span><span>∘</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">A B C</span><span>} → (</span><span style="color:#b48ead;">B </span><span>⇒ </span><span style="color:#b48ead;">C</span><span>) → (</span><span style="color:#b48ead;">A </span><span>⇒ </span><span style="color:#b48ead;">B</span><span>) → (</span><span style="color:#b48ead;">A </span><span>⇒ </span><span style="color:#b48ead;">C</span><span>)
+</span><span>    </span><span style="color:#bf616a;">assoc     </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">A B C D</span><span>} {</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>⇒ </span><span style="color:#b48ead;">B</span><span>} {</span><span style="color:#bf616a;">g </span><span>: </span><span style="color:#b48ead;">B </span><span>⇒ </span><span style="color:#b48ead;">C</span><span>} {</span><span style="color:#bf616a;">h </span><span>: </span><span style="color:#b48ead;">C </span><span>⇒ </span><span style="color:#b48ead;">D</span><span>} → (</span><span style="color:#bf616a;">h </span><span>∘ </span><span style="color:#bf616a;">g</span><span>) ∘ </span><span style="color:#bf616a;">f </span><span>≈ </span><span style="color:#bf616a;">h </span><span>∘ (</span><span style="color:#bf616a;">g </span><span>∘ </span><span style="color:#bf616a;">f</span><span>)
+</span><span>    </span><span style="color:#bf616a;">identityˡ </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">A B</span><span>} {</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>⇒ </span><span style="color:#b48ead;">B</span><span>} → </span><span style="color:#96b5b4;">id </span><span>∘ </span><span style="color:#bf616a;">f </span><span>≈ </span><span style="color:#bf616a;">f
+</span><span>    </span><span style="color:#bf616a;">identityʳ </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">A B</span><span>} {</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>⇒ </span><span style="color:#b48ead;">B</span><span>} → </span><span style="color:#bf616a;">f </span><span>∘ </span><span style="color:#96b5b4;">id </span><span>≈ </span><span style="color:#bf616a;">f
+</span></code></pre>
 <h2 id="examples">Examples</h2>
 <p>The book gives us some examples of categories, I'll just take some interesting ones here</p>
 <h3 id="rel">Rel</h3>
 <p>Object : Sets
 Arrows : Binary Relations ($f : A → B$, $f ⊆ A×B$)
-Identity Arrow : 
+Identity Arrow :
 $$
 1_A = {(a,a) ∈ A×A | a∈A} ⊆ A×A
 $$</p>
 <p>We need to prove $f ◦ 1_A = f = 1_B ◦ f$, which is easy to do by introducing $(a,b) \in f ◦ 1_A$ so there must exists a $p$, and $(a, p) \in 1_A$ ,$(p, b) \in f$, since $1_A$ is by definition $(a,a)$, so $p$ is $a$, so $(a,b) \in f$. Proof of $f = 1_B ◦ f$ is similar.<sup class="footnote-reference"><a href="#1">1</a></sup></p>
-<p>Composite of Arrows : function composition, obvious
+<p>Composite of Arrows: function composition, obvious
 We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.</p>
 <p>This proof is easy, just assume $(a,b)$, $(b,c)$, $(c,d)$ and apply the definition of composite will lead us to the result.</p>
+<p>You can find the definition of <a href="https://agda.github.io/agda-categories/Categories.Category.Instance.Rels.html"><code>Rels</code> category in Agda</a>.</p>
 <h3 id="partially-ordered-set-poset">Partially ordered set (Poset)</h3>
-<p>Object : element in the set</p>
+<p>Object: element in the set</p>
 <p>Arrows : $\leq$</p>
 <p>Identity Arrow : $a \leq a$</p>
 <p>Composite of Arrows : $a \leq b\ \ and\ \ b \leq c \Rightarrow a \leq c$</p>
 <p>Category can be considered as a kind of <em>generalized poset</em> with more structure than just $p \leq q$. And functor can be regarded as a generalized monotone map.</p>
+<p><a href="https://agda.github.io/agda-categories/Categories.Category.Instance.Posets.html">Poset category in Agda</a></p>
 <h3 id="monoid">Monoid</h3>
 <p>A monoid is a category with only one object, and the arrows are the monoid's elements. The identity arrow is the unit element, and the composite of arrows is the monoid's operation.</p>
 <p>For any object $C$ in any category $\textbf{C}$, the set of arrows from $C$ to $C$, written as $Hom_{\textbf{C}}(C,C)$, is a monoid under the composition operation of $\textbf{C}$</p>
-<p>Monoids are structured sets, there ise a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.</p>
+<p>Monoids are structured sets, there is a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.</p>
 <p>A <a href="https://ncatlab.org/nlab/show/homomorphism">homomorphism</a> from $M$ to $N$ is the same thing as a functor from &quot;$M$ as category&quot; to &quot;$N$ as category&quot;, so:</p>
-<p>Category can be considered as a kind of <em>generalized monoid</em> . And functor can be regarded as a generalized homomorphisms.</p>
+<p>Category can be considered as a kind of <em>generalized monoid</em>. And functor can be regarded as a generalized homomorphism.</p>
+<h3 id="free-category">Free category</h3>
+<blockquote>
+<p>The free category on a “set of arrows”, hence on a directed graph, is the category whose morphisms are the tuples of composable arrows, hence the morphisms freely generated from these arrows. These morphisms may also be thought of as the “paths” that one may trace out in the directed graph by traversing in each step along an arrow, and therefore free categories are also called path categories. ——— nLab</p>
+</blockquote>
+<p>With any directed graph, we can make it a category by adding more arrows:</p>
+<ul>
+<li>For each node, add an identity arrow</li>
+<li>For any two composable arrows, add the composite result arrow</li>
+</ul>
+<p>Then this category is called the <em>free category</em> generated by the directed graph.</p>
 <h2 id="isomorphism">Isomorphism</h2>
-<p>In a category, an arrow can be called as an isomorphism if it has an inverse.</p>
+<p>In a category, an arrow can be called an isomorphism if it has an inverse.</p>
 <p>If there exists an isomorphism between object $A$ and $B$ in category $C$, we say $A$ is isomorphic to $B$, and write $A \cong B$.</p>
+<p>Intuitively we can think isomorphism is a way to say that two objects are &quot;similar&quot;.</p>
+<h2 id="large-small-category">Large/Small Category</h2>
+<blockquote>
+<p>A category is small if it has a small set of objects and a small set of morphisms. —— nLab</p>
+</blockquote>
+<p>Where a small set is <strong>really</strong> a set instead of a proper class<sup class="footnote-reference"><a href="#2">2</a></sup>.</p>
+<blockquote>
+<p>A category is said to be locally small if each of its hom-sets is a small set. —— nLab</p>
+</blockquote>
+<p>And large categories are those which are not small.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>I'm considering to do these kind of proof in Agda, however I'm not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)</p>
+<p><del>I'm considering doing these kinds of proof in Agda, however, I'm not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)</del> I think it is OK to do so, ref <a href="https://arxiv.org/pdf/2005.07059.pdf">this paper</a>. I'll use the <code>agda-categories</code> library for explanation.
+<sup class="footnote-reference"><a href="#2">2</a></sup>: For example, the class of all sets is not a set, but a proper class.</p>
 </div>
 </div>
   <div class="post-footer">

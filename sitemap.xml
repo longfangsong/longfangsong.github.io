@@ -106,6 +106,10 @@
         <loc>https://longfangsong.github.io/en/links/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/mem2reg-made-simple/</loc>
+        <lastmod>2022-11-16T15:17:53.579Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/page/1/</loc>
     </url>
     <url>
@@ -227,6 +231,9 @@
         <loc>https://longfangsong.github.io/tags/cheatsheet/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/tags/compiler/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/tags/compiling/</loc>
     </url>
     <url>
@@ -264,6 +271,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/notes/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/optimization/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/plt/</loc>

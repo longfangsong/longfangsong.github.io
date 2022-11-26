@@ -352,38 +352,38 @@
 </ul>
 <h4 id="variable-definition">Variable definition</h4>
 <p>Use <code>alloca</code> to allocate a space on stack:</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%i_0 = alloca i32
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%i_0</span><span> = </span><span style="color:#b48ead;">alloca i32
 </span></code></pre>
 <p>Note <code>alloca</code> returns an address.</p>
 <h4 id="assign-value-to-variable">Assign value to variable</h4>
 <p>Use <code>store</code>：</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>store i32 0, i32* %i_0
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#b48ead;">store i32 </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#b48ead;">i32* </span><span style="color:#bf616a;">%i_0
 </span></code></pre>
 <p>It means we put <code>0</code> into the space pointed by <code>%i_0</code>.</p>
 <h4 id="read-the-value-of-variable">Read the value of variable</h4>
 <p>Use <code>load</code>：</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp = load i32, i32* %i_0
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%temp</span><span> = </span><span style="color:#b48ead;">load i32</span><span>, </span><span style="color:#b48ead;">i32* </span><span style="color:#bf616a;">%i_0
 </span></code></pre>
 <p>Which means take the value in the space pointed by <code>%i_0</code> to register <code>%temp</code>.</p>
 <h4 id="calculation">Calculation</h4>
 <p>Take <code>+</code> as an example:</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp_22 = add i32 %temp_21, 1
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%temp_22</span><span> = </span><span style="color:#b48ead;">add i32 </span><span style="color:#bf616a;">%temp_21</span><span>, </span><span style="color:#d08770;">1
 </span></code></pre>
 <p>Which means put <code>%temp_21 + 1</code> into <code>%temp_22</code>.</p>
 <p>For float numbers, use <code>fadd</code> instead of <code>add</code>.</p>
 <h4 id="compare">Compare</h4>
 <p>Use <code>icmp</code> and the way you want to compare:</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp_2 = icmp slt i32 %temp_1, 10
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%temp_2</span><span> = </span><span style="color:#b48ead;">icmp slt i32 </span><span style="color:#bf616a;">%temp_1</span><span>, </span><span style="color:#d08770;">10
 </span></code></pre>
 <p><code>slt</code> is &quot;Signed Less Than&quot;, ie. <code>&lt;</code>.</p>
 <p>For floats, there are <code>fcmp</code>, <code>olt</code>, etc.</p>
 <h4 id="jump">Jump</h4>
 <p>Use <code>br</code> for jumping</p>
 <h5 id="conditionless">Conditionless</h5>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>br label %label1
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#b48ead;">br label </span><span style="color:#bf616a;">%label1
 </span></code></pre>
 <h5 id="with-condition">With condition</h5>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>br i1 %condition, label %condition_true, label %condition_false
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#b48ead;">br i1 </span><span style="color:#bf616a;">%condition</span><span>, </span><span style="color:#b48ead;">label </span><span style="color:#bf616a;">%condition_true</span><span>, </span><span style="color:#b48ead;">label </span><span style="color:#bf616a;">%condition_false
 </span></code></pre>
 <p>That's all we need to know for accomplishing our task.</p>
 <p>Then let's do the code generation.</p>

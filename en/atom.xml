@@ -5,8 +5,384 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-10-24T03:35:10.362+00:00</updated>
+	<updated>2022-11-16T15:17:53.579+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>mem2reg made simple</title>
+		<published>2022-11-16T15:17:53.579+00:00</published>
+		<updated>2022-11-16T15:17:53.579+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/mem2reg-made-simple/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/mem2reg-made-simple/</id>
+		<content type="html">&lt;h2 id=&quot;nb&quot;&gt;NB&lt;&#x2F;h2&gt;
+&lt;p&gt;This article presumes you know what is:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;(LLVM-liked) SSA form IR.&lt;&#x2F;li&gt;
+&lt;li&gt;Control-flow graph.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This article will &lt;strong&gt;not&lt;&#x2F;strong&gt; cover:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;How&lt;&#x2F;strong&gt; to find out the dominant relation between nodes.&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;strong&gt;How&lt;&#x2F;strong&gt; to find the dominance frontier for nodes.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;I think they are just implementation details, anyone can find out an algorithm to achieve these goals (though might be not very efficient), and there exists some library for out-of-the-box use. If you are implementing your own compiler and do want to implement an efficient algorithm by yourself, you may refer to the paper &lt;a href=&quot;https:&#x2F;&#x2F;www.cs.rice.edu&#x2F;~keith&#x2F;Embed&#x2F;dom.pdf&quot;&gt;&lt;em&gt;A Simple, Fast Dominance Algorithm&lt;&#x2F;em&gt;&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Instead, this article will focus on:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;What&lt;&#x2F;strong&gt; is the dominance frontier and &lt;strong&gt;why&lt;&#x2F;strong&gt; do we need it?&lt;&#x2F;li&gt;
+&lt;li&gt;Giving &lt;strong&gt;examples&lt;&#x2F;strong&gt; on how to use the dominance frontier to convert memory access to register operation, especially insert phi nodes.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;the-problem&quot;&gt;The problem&lt;&#x2F;h2&gt;
+&lt;p&gt;When compiling a high-level language function into LLVM IR, a variable may be used as l-value in different branches:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; c;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(a &amp;lt; b) {
+&lt;&#x2F;span&gt;&lt;span&gt;        c = a;
+&lt;&#x2F;span&gt;&lt;span&gt;    } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        c = b;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; c;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Which can be translated into some IR&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; like this:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;fn f(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%b&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c.addr&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;alloca i32
+&lt;&#x2F;span&gt;&lt;span&gt;    blt &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%b&lt;&#x2F;span&gt;&lt;span&gt;, if_taken, if_not_taken
+&lt;&#x2F;span&gt;&lt;span&gt;if_taken:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;store &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c.addr
+&lt;&#x2F;span&gt;&lt;span&gt;    j if_end
+&lt;&#x2F;span&gt;&lt;span&gt;if_not_taken:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;store &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%b&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c.addr
+&lt;&#x2F;span&gt;&lt;span&gt;if_end:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;load &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c.addr
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ret &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This IR is correct, but you may see that to prevent assigning to &lt;code&gt;c&lt;&#x2F;code&gt; in two different basic blocks, which makes it no longer a valid SSA, we &amp;quot;cheat&amp;quot; by &amp;quot;leaking&amp;quot; it to the memory and using &lt;code&gt;load&lt;&#x2F;code&gt; and &lt;code&gt;store&lt;&#x2F;code&gt; to access it. You may do this for every local variable you faced when translating a high-level language to SSA-like IR, I can promise the functions will work as expected.&lt;&#x2F;p&gt;
+&lt;p&gt;However, memory access is always much slower than register access. So we do want to try to move those in-memory variables to the registers&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; and keep it an SSA meanwhile.&lt;&#x2F;p&gt;
+&lt;p&gt;So those crazy computer scientists invented the infamous &lt;code&gt;phi&lt;&#x2F;code&gt; node.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;PHINode - The PHINode class is used to represent the magical mystical PHI node, that can not exist in nature, but can be synthesized in a computer scientist&#x27;s overactive imagination. —— LLVM project, comment of the PHINode class&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;With &lt;code&gt;phi&lt;&#x2F;code&gt; node, we can make the ir into:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;fn f(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%b&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c.addr&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;alloca i32
+&lt;&#x2F;span&gt;&lt;span&gt;    blt &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%a&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%b&lt;&#x2F;span&gt;&lt;span&gt;, if_taken, if_not_taken
+&lt;&#x2F;span&gt;&lt;span&gt;if_taken:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c0&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%a
+&lt;&#x2F;span&gt;&lt;span&gt;    j if_end
+&lt;&#x2F;span&gt;&lt;span&gt;if_not_taken:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c1&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%b
+&lt;&#x2F;span&gt;&lt;span&gt;if_end:
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;phi&lt;&#x2F;span&gt;&lt;span&gt; if_taken.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c0&lt;&#x2F;span&gt;&lt;span&gt;, if_not_taken.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c1
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ret &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;%c = phi if_taken.%c0, if_not_taken.%c1&lt;&#x2F;code&gt; means &lt;code&gt;%c&lt;&#x2F;code&gt; equals &lt;code&gt;%c0&lt;&#x2F;code&gt; or &lt;code&gt;%c1&lt;&#x2F;code&gt;, depending which basic block the control flow comes from.&lt;&#x2F;p&gt;
+&lt;p&gt;So what a compiler needs to do is find out a way to generate this kind of phi node.&lt;&#x2F;p&gt;
+&lt;p&gt;A dumb way is, for each basic block that has multiple predecessors, replace each &lt;code&gt;load&lt;&#x2F;code&gt; with a phi node, and search along the predecessor chain for the source.&lt;&#x2F;p&gt;
+&lt;p&gt;However this algorithm is very inefficient, luckily, there&#x27;s an alternative, efficient way to archive this goal.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;where-to-put-phi-nodes-dominance-frontier&quot;&gt;Where to put &lt;code&gt;phi&lt;&#x2F;code&gt; nodes ——— Dominance Frontier&lt;&#x2F;h2&gt;
+&lt;p&gt;Let&#x27;s re-consider where we need to put a phi node.&lt;&#x2F;p&gt;
+&lt;p&gt;We can start with a trivial judgment:&lt;&#x2F;p&gt;
+&lt;p&gt;For an existing &lt;code&gt;load&lt;&#x2F;code&gt; statement, if the last &lt;code&gt;store&lt;&#x2F;code&gt; statement can be in two (or more) different basic blocks, then we have to insert a phi node for it&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Then the problem is how to judge whether &amp;quot;the last &lt;code&gt;store&lt;&#x2F;code&gt; statement can be in two (or more) different basic blocks&amp;quot;.
+By using a control-flow graph, we can express this as:&lt;&#x2F;p&gt;
+&lt;p&gt;There exist two different paths from the entry block to the basic block the &lt;code&gt;load&lt;&#x2F;code&gt; statement is in, and the last &lt;code&gt;store&lt;&#x2F;code&gt;s on these paths are different.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s switch to the &lt;code&gt;store&lt;&#x2F;code&gt;&#x27;s perspective:&lt;&#x2F;p&gt;
+&lt;p&gt;A phi node needs to be placed for this &lt;code&gt;store&lt;&#x2F;code&gt; in some basic block that contains a &lt;code&gt;load&lt;&#x2F;code&gt; to the same address when:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;There exists a path that comes from the entry, passes the basic block this &lt;code&gt;store&lt;&#x2F;code&gt; is in, and finally reaches the basic block the &lt;code&gt;load&lt;&#x2F;code&gt; is in.&lt;&#x2F;li&gt;
+&lt;li&gt;There also exists a path that comes from the entry, but &lt;strong&gt;not&lt;&#x2F;strong&gt; passing the basic block this &lt;code&gt;store&lt;&#x2F;code&gt; is in and reaches the basic block the &lt;code&gt;load&lt;&#x2F;code&gt; is in.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;And obviously, the phi node should be placed at the basic node where these two paths meet with each other.&lt;&#x2F;p&gt;
+&lt;p&gt;Note that newly generated phi nodes will create a new register, which is necessary to be considered (regarded as a &lt;code&gt;store&lt;&#x2F;code&gt;) when trying to insert other phi nodes. You may also do this by calculating the dominant frontier closure of the basic block of the &lt;code&gt;store&lt;&#x2F;code&gt; basic block.&lt;&#x2F;p&gt;
+&lt;p&gt;Such a basic block is exactly one of the elements in the &lt;strong&gt;dominance frontier&lt;&#x2F;strong&gt; of the basic block the &lt;code&gt;store&lt;&#x2F;code&gt; statement is in.&lt;&#x2F;p&gt;
+&lt;p&gt;So the process of finding places to insert &lt;code&gt;phi&lt;&#x2F;code&gt; nodes is simple:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; return a map which stands for:
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F;     variable -&amp;gt; basic blocks which need to insert a phi node for this variable
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;phi_insert_positions&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;function&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;Function) -&amp;gt; Map&amp;lt;Variable, Set&amp;lt;&amp;amp;BasicBlock&amp;gt;&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; result = Map::new();
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; variable in function.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;alloca_variables&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; blocks_contain_store = function.blocks
+&lt;&#x2F;span&gt;&lt;span&gt;            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;filter&lt;&#x2F;span&gt;&lt;span&gt;(|&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;block&lt;&#x2F;span&gt;&lt;span&gt;| block.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;contains_store_to&lt;&#x2F;span&gt;&lt;span&gt;(variable));
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; blocks_to_consider = blocks_contain_store.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;clone&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while &lt;&#x2F;span&gt;&lt;span&gt;!blocks_to_consider.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;empty&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; considering_block = block_to_consider.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; dominator_frontier in considering_block.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;dorminate_frontiers&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;                result[variable].&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span&gt;(dominator_frontier);
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;!blocks_contain_store.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;contains&lt;&#x2F;span&gt;&lt;span&gt;(dominator_frontier) {
+&lt;&#x2F;span&gt;&lt;span&gt;                    blocks_to_consider.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span&gt;(dominator_frontier);
+&lt;&#x2F;span&gt;&lt;span&gt;                }
+&lt;&#x2F;span&gt;&lt;span&gt;            }
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    result
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;Here is a simple example, let&#x27;s find out where to insert phi nodes for the variable &lt;code&gt;a&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id0(Entry)
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n store a, 1]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;\n %a0 = load a\n store a, %t0]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n%a1 = load a\n store a, %t1]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n%a2 = load a\n store a, 2]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n%a3 = load a\n store a, 3]
+    id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;\n%a4 = load a]
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;\n%a5 = load a]
+    id9(End)
+    id0 --&amp;gt; id1
+    id1 --&amp;gt; id2
+    id1 --&amp;gt; id4
+    id2 --&amp;gt; id3
+    id3 --&amp;gt; id2
+    id3 --&amp;gt; id8
+    id4 --&amp;gt; id5
+    id4 --&amp;gt; id6
+    id5 --&amp;gt; id7
+    id6 --&amp;gt; id7
+    id7 --&amp;gt; id8
+    id8 --&amp;gt; id9
+&lt;&#x2F;div&gt;
+&lt;p&gt;So initially we need to consider &lt;code&gt;bb1&lt;&#x2F;code&gt;, &lt;code&gt;bb2&lt;&#x2F;code&gt;, &lt;code&gt;bb3&lt;&#x2F;code&gt;, &lt;code&gt;bb5&lt;&#x2F;code&gt; and &lt;code&gt;bb6&lt;&#x2F;code&gt;, which contain &lt;code&gt;store&lt;&#x2F;code&gt; statements to &lt;code&gt;a&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;For &lt;code&gt;bb1&lt;&#x2F;code&gt;, its domination frontiers set is empty, so nothing to do for it.&lt;&#x2F;p&gt;
+&lt;p&gt;For &lt;code&gt;bb2&lt;&#x2F;code&gt;, its domination frontiers set is {&lt;code&gt;bb2&lt;&#x2F;code&gt;, &lt;code&gt;bb8&lt;&#x2F;code&gt;}, note &lt;code&gt;bb2&lt;&#x2F;code&gt; itself is in the set, because we can reach &lt;code&gt;bb2&lt;&#x2F;code&gt; in the path &lt;code&gt;Entry&lt;&#x2F;code&gt; → &lt;code&gt;bb1&lt;&#x2F;code&gt; → &lt;code&gt;bb2&lt;&#x2F;code&gt;, which doesn&#x27;t pass &lt;code&gt;bb2&lt;&#x2F;code&gt;, and in the path &lt;code&gt;Entry&lt;&#x2F;code&gt; → &lt;code&gt;bb1&lt;&#x2F;code&gt; → &lt;code&gt;bb2&lt;&#x2F;code&gt; → &lt;code&gt;bb3&lt;&#x2F;code&gt; → &lt;code&gt;bb2&lt;&#x2F;code&gt;, which passes &lt;code&gt;bb2&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;So we insert &lt;code&gt;phi&lt;&#x2F;code&gt; nodes in &lt;code&gt;bb2&lt;&#x2F;code&gt; and &lt;code&gt;bb8&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a\n store a, %t0]
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a5 = load a]
+&lt;&#x2F;div&gt;
+&lt;p&gt;Note we neither fill the source value for &lt;code&gt;phi&lt;&#x2F;code&gt; nodes nor remove the &lt;code&gt;load&lt;&#x2F;code&gt; and &lt;code&gt;store&lt;&#x2F;code&gt; statements here, we&#x27;ll talk about these operations later.&lt;&#x2F;p&gt;
+&lt;p&gt;Here &lt;code&gt;bb8&lt;&#x2F;code&gt; is not in our &lt;code&gt;blocks_contain_store&lt;&#x2F;code&gt;, we need to add it to the consideration list. So our remaining consider list is &lt;code&gt;[bb3, bb5, bb6, bb8]&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;bb3&lt;&#x2F;code&gt;&#x27;s domination frontiers set is also {&lt;code&gt;bb2&lt;&#x2F;code&gt;, &lt;code&gt;bb8&lt;&#x2F;code&gt;}, so nothing meaningful is done here.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;bb5&lt;&#x2F;code&gt;&#x27;s domination frontiers set is {&lt;code&gt;bb7&lt;&#x2F;code&gt;}, so we add a &lt;code&gt;phi&lt;&#x2F;code&gt; node to &lt;code&gt;bb7&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb7 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a4 = load a]
+&lt;&#x2F;div&gt;
+&lt;p&gt;Also, &lt;code&gt;bb7&lt;&#x2F;code&gt; needs to be pushed to the consideration list.&lt;&#x2F;p&gt;
+&lt;p&gt;Now the consideration list is &lt;code&gt;[bb6, bb8, bb7]&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;bb6&lt;&#x2F;code&gt;&#x27;s domination frontiers set is also {&lt;code&gt;bb7&lt;&#x2F;code&gt;}, so nothing to do.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;bb8&lt;&#x2F;code&gt;&#x27;s domination frontier is empty, also nothing to do.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;bb7&lt;&#x2F;code&gt;&#x27;s domination frontier is {&lt;code&gt;bb8&lt;&#x2F;code&gt;}, which is already considered, so nothing to do.&lt;&#x2F;p&gt;
+&lt;p&gt;After this process, we have found all places which need to put a &lt;code&gt;phi&lt;&#x2F;code&gt; node:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id0(Entry)
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n store a, 1]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a\n store a, %t0]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n%a1 = load a\n store a, %t1]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n%a2 = load a\n store a, 2]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n%a3 = load a\n store a, 3]
+    id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb7 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a4 = load a]
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a5 = load a]
+    id9(End)
+    id0 --&amp;gt; id1
+    id1 --&amp;gt; id2
+    id1 --&amp;gt; id4
+    id2 --&amp;gt; id3
+    id3 --&amp;gt; id2
+    id3 --&amp;gt; id8
+    id4 --&amp;gt; id5
+    id4 --&amp;gt; id6
+    id5 --&amp;gt; id7
+    id6 --&amp;gt; id7
+    id7 --&amp;gt; id8
+    id8 --&amp;gt; id9
+&lt;&#x2F;div&gt;&lt;h3 id=&quot;decide-which-value-to-use&quot;&gt;Decide which value to use&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;Now we should decide the &amp;quot;sources&amp;quot; of the &lt;code&gt;phi&lt;&#x2F;code&gt; nodes, and in the meantime, we can also&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;remove the &lt;code&gt;load&lt;&#x2F;code&gt;s to the variable and replace it with the values generated by &lt;code&gt;phi&lt;&#x2F;code&gt; or &lt;code&gt;store&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;remove the &lt;code&gt;store&lt;&#x2F;code&gt;s.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;We can do this by doing DFS over the control flow graph, and keeping track of the current value of each variable.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;enum &lt;&#x2F;span&gt;&lt;span&gt;Value {
+&lt;&#x2F;span&gt;&lt;span&gt;    Constant(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i64&lt;&#x2F;span&gt;&lt;span&gt;),
+&lt;&#x2F;span&gt;&lt;span&gt;    Register(Register),
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; decide a variable&amp;#39;s current value with a variable value stack
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;decide_variable_value&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;variable&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;Variable,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;current_variable_value&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;Stack&amp;lt;Map&amp;lt;Variable, (&amp;amp;BasicBlock, Value)&amp;gt;&amp;gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; (&amp;amp;BasicBlock, Value) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; frame in current_variable_value.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rev&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if let &lt;&#x2F;span&gt;&lt;span&gt;Some(value) = frame.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;get&lt;&#x2F;span&gt;&lt;span&gt;(variable_name) {
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; value;
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;decide_values_start_from&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;function&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span&gt; Function,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;block&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span&gt; BasicBlock,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;visited&lt;&#x2F;span&gt;&lt;span&gt;: Set&amp;lt;&amp;amp;BasicBlock&amp;gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;current_variable_value&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut &lt;&#x2F;span&gt;&lt;span&gt;Stack&amp;lt;Map&amp;lt;Variable, (&amp;amp;BasicBlock, Value)&amp;gt;&amp;gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; we presume phi nodes have already inserted before calling this function
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; now we should insert phi sources
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; phi in &amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span&gt; block.phis {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span&gt;(current_value_from, current_value) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;decide_variable_value&lt;&#x2F;span&gt;&lt;span&gt;(phi.variable, current_variable_value);
+&lt;&#x2F;span&gt;&lt;span&gt;        phi.from.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span&gt;((current_value_from, current_value));
+&lt;&#x2F;span&gt;&lt;span&gt;        current_variable_value.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;top&lt;&#x2F;span&gt;&lt;span&gt;()[phi.variable] = (block, phi.to);
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; it&amp;#39;s necessary to revisit a visited block when inserting phi nodes
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; so we need to put the visited check after the phi source putting
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; visited.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;contains&lt;&#x2F;span&gt;&lt;span&gt;(block) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    visited.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;insert&lt;&#x2F;span&gt;&lt;span&gt;(block);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; statement in block {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;match&lt;&#x2F;span&gt;&lt;span&gt; statement {
+&lt;&#x2F;span&gt;&lt;span&gt;            Load { to, from_variable, .. } =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span&gt;(_, load_value) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;decide_variable_value&lt;&#x2F;span&gt;&lt;span&gt;(from_variable, current_variable_value);
+&lt;&#x2F;span&gt;&lt;span&gt;                block.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;remove&lt;&#x2F;span&gt;&lt;span&gt;(statement);
+&lt;&#x2F;span&gt;&lt;span&gt;                function.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;replace&lt;&#x2F;span&gt;&lt;span&gt;(to, load_value);
+&lt;&#x2F;span&gt;&lt;span&gt;            },
+&lt;&#x2F;span&gt;&lt;span&gt;            Store { value, to_variable, .. } =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;                current_variable_value.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;last_mut&lt;&#x2F;span&gt;&lt;span&gt;()[to_variable] = value;
+&lt;&#x2F;span&gt;&lt;span&gt;                block.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;remove&lt;&#x2F;span&gt;&lt;span&gt;(statement);
+&lt;&#x2F;span&gt;&lt;span&gt;            },
+&lt;&#x2F;span&gt;&lt;span&gt;            Branch { success_block, fail_block, .. } =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;                current_variable_value.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span&gt;(Map::new());
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;decide_values_start_from&lt;&#x2F;span&gt;&lt;span&gt;(function, success_block, visited, current_variable_value);
+&lt;&#x2F;span&gt;&lt;span&gt;                current_variable_value.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                current_variable_value.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;push&lt;&#x2F;span&gt;&lt;span&gt;(Map::new());
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;decide_values_start_from&lt;&#x2F;span&gt;&lt;span&gt;(function, fail_block, visited, current_variable_value);
+&lt;&#x2F;span&gt;&lt;span&gt;                current_variable_value.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;pop&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;            }
+&lt;&#x2F;span&gt;&lt;span&gt;            Jump { to_block, .. } =&amp;gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;decide_values_start_from&lt;&#x2F;span&gt;&lt;span&gt;(function, to_block, visited, current_variable_value);
+&lt;&#x2F;span&gt;&lt;span&gt;            },
+&lt;&#x2F;span&gt;&lt;span&gt;            _ =&amp;gt; (),
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;example-1&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;We still use the control flow graph mentioned in the &lt;code&gt;phi&lt;&#x2F;code&gt;-inserting process, this time I&#x27;ll add some statements that &amp;quot;use&amp;quot; the variable &lt;code&gt;a&lt;&#x2F;code&gt; to show the variable value replacement result.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id0(Entry)
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n store a, 1]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a\n %t0 = add %a0, 1 \n store a, %t0]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n%a1 = load a\n %t1 = add %a1, %a1 \n store a, %t1]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n%a2 = load a\n store a, 2]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n%a3 = load a\n store a, 3]
+    id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb7 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a4 = load a]
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a5 = load a\n ret %a5]
+    id9(End)
+    id0 --&amp;gt; id1
+    id1 --&amp;gt; id2
+    id1 --&amp;gt; id4
+    id2 --&amp;gt; id3
+    id3 --&amp;gt; id2
+    id3 --&amp;gt; id8
+    id4 --&amp;gt; id5
+    id4 --&amp;gt; id6
+    id5 --&amp;gt; id7
+    id6 --&amp;gt; id7
+    id7 --&amp;gt; id8
+    id8 --&amp;gt; id9
+&lt;&#x2F;div&gt;
+&lt;p&gt;We start the DFS process from &lt;code&gt;bb1&lt;&#x2F;code&gt;, currently, the value stack of a is &lt;code&gt;[]&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;When visiting &lt;code&gt;bb1&lt;&#x2F;code&gt;, we meet up with a &lt;code&gt;store&lt;&#x2F;code&gt; that set &lt;code&gt;a&lt;&#x2F;code&gt; to &lt;code&gt;1&lt;&#x2F;code&gt;, so after visiting &lt;code&gt;bb1&lt;&#x2F;code&gt;, the value stack of &lt;code&gt;a&lt;&#x2F;code&gt; is &lt;code&gt;[(bb1, 1)]&lt;&#x2F;code&gt;. And the &lt;code&gt;store&lt;&#x2F;code&gt; statement is removed.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+&lt;&#x2F;div&gt;
+&lt;p&gt;&lt;code&gt;bb1&lt;&#x2F;code&gt; ends with a &lt;code&gt;Branch&lt;&#x2F;code&gt; (didn&#x27;t show on the graph, but you can tell that because the node has two outgoing edges).&lt;&#x2F;p&gt;
+&lt;p&gt;First, we visit &lt;code&gt;bb2&lt;&#x2F;code&gt;, and we&#x27;ll come back to &lt;code&gt;bb4&lt;&#x2F;code&gt; later.&lt;&#x2F;p&gt;
+&lt;p&gt;In &lt;code&gt;bb2&lt;&#x2F;code&gt; we first met up with a &lt;code&gt;phi&lt;&#x2F;code&gt; node, so we add the current value of &lt;code&gt;a&lt;&#x2F;code&gt; (1, from &lt;code&gt;bb1&lt;&#x2F;code&gt;) to its &lt;code&gt;from&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Then we meet a &lt;code&gt;load&lt;&#x2F;code&gt;, which put the value of &lt;code&gt;a&lt;&#x2F;code&gt; to &lt;code&gt;a0&lt;&#x2F;code&gt;, since &lt;code&gt;a&lt;&#x2F;code&gt; is currently &lt;code&gt;1&lt;&#x2F;code&gt;, we can remove this &lt;code&gt;load&lt;&#x2F;code&gt; and use &lt;code&gt;1&lt;&#x2F;code&gt; to replace all occurrences of &lt;code&gt;a0&lt;&#x2F;code&gt;, this is just what we want to do for the next statement.&lt;&#x2F;p&gt;
+&lt;p&gt;And then we have a &lt;code&gt;store&lt;&#x2F;code&gt;, which updates the value stack to &lt;code&gt;[(bb1, 1), (bb2, %t0)]&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;After all these things, we now have:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi bb1.1&amp;lt;&amp;#x2F;p&amp;gt; %t0 = add 1, 1]
+&lt;&#x2F;div&gt;
+&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#5&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Then we go to &lt;code&gt;bb3&lt;&#x2F;code&gt;, similar to &lt;code&gt;bb2&lt;&#x2F;code&gt;, we can replace &lt;code&gt;%a1&lt;&#x2F;code&gt; with &lt;code&gt;%t0&lt;&#x2F;code&gt;, and update the value stack to &lt;code&gt;[(bb1, 1), (bb2, %t0), (bb3, %t1)]&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %a1, %a1]
+&lt;&#x2F;div&gt;
+&lt;p&gt;And then we are led back to &lt;code&gt;bb2&lt;&#x2F;code&gt;, since &lt;code&gt;bb2&lt;&#x2F;code&gt; is already visited, we just need to update &lt;code&gt;phi&lt;&#x2F;code&gt;&#x27;s from with the current value of &lt;code&gt;a&lt;&#x2F;code&gt; now.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi bb1.1, bb3.%t1 &amp;lt;&amp;#x2F;p&amp;gt; %t0 = add 1, 1]
+&lt;&#x2F;div&gt;
+&lt;p&gt;And then we come back to &lt;code&gt;bb3&lt;&#x2F;code&gt; and take another branch, which leads us to &lt;code&gt;bb8&lt;&#x2F;code&gt;, and make it:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi bb3.%t1&amp;lt;&amp;#x2F;p&amp;gt;ret %a_bb8]
+&lt;&#x2F;div&gt;
+&lt;p&gt;(Remember the value stack becomes &lt;code&gt;[(bb1, 1), (bb2, %t0), (bb3, %t1), (bb8, %a_bb8)]&lt;&#x2F;code&gt; after visiting the &lt;code&gt;phi&lt;&#x2F;code&gt; statement.)&lt;&#x2F;p&gt;
+&lt;p&gt;Then we go back to visit &lt;code&gt;bb4&lt;&#x2F;code&gt; from &lt;code&gt;bb1&lt;&#x2F;code&gt;, and then &lt;code&gt;bb5&lt;&#x2F;code&gt;, &lt;code&gt;bb7&lt;&#x2F;code&gt; and &lt;code&gt;bb6&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Finally, we&#x27;ll get:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id0(Entry)
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n ...]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi bb1.1&amp;lt;&amp;#x2F;p&amp;gt; %t0 = add 1, 1]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %a1, %a1]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb7 = phi bb5.2, bb6.3&amp;lt;&amp;#x2F;p&amp;gt;]
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi bb3.%t1, bb7.%a_bb7&amp;lt;&amp;#x2F;p&amp;gt;ret %a_bb8]
+    id9(End)
+    id0 --&amp;gt; id1
+    id1 --&amp;gt; id2
+    id1 --&amp;gt; id4
+    id2 --&amp;gt; id3
+    id3 --&amp;gt; id2
+    id3 --&amp;gt; id8
+    id4 --&amp;gt; id5
+    id4 --&amp;gt; id6
+    id5 --&amp;gt; id7
+    id6 --&amp;gt; id7
+    id7 --&amp;gt; id8
+    id8 --&amp;gt; id9
+&lt;&#x2F;div&gt;
+&lt;p&gt;Now all &lt;code&gt;load&lt;&#x2F;code&gt;s and &lt;code&gt;store&lt;&#x2F;code&gt;s for variable &lt;code&gt;a&lt;&#x2F;code&gt; are eliminated, and we no longer need &lt;code&gt;alloca&lt;&#x2F;code&gt; for variable &lt;code&gt;a&lt;&#x2F;code&gt;. And the function is ready for further optimization.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;&#x2F;h2&gt;
+&lt;p&gt;This article introduces how to promote variables in memory to register, ie. eliminate &lt;code&gt;load&lt;&#x2F;code&gt;s and &lt;code&gt;store&lt;&#x2F;code&gt;s and insert &lt;code&gt;phi&lt;&#x2F;code&gt;s in SSA form IR. And give a detailed example to show how to do it.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;This is an LLVM-like IR, &lt;code&gt;alloca&lt;&#x2F;code&gt; here means we will save some space on the stack, and we can &lt;code&gt;store&lt;&#x2F;code&gt; values into this space and &lt;code&gt;load&lt;&#x2F;code&gt; from it, I assume every other thing is simple enough to be understood by anyone who knows what SSA is.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;Though these registers are just logical, i.e. they can still be leaked to the stack when doing codegen, optimizing them into logical registers can engage these variables in further optimization and make the codegen process much easier.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;Note the phi node doesn&#x27;t have to be put in the basic block the &lt;code&gt;load&lt;&#x2F;code&gt; statement is in, we can put it in a basic block that after this store but dominate this &lt;code&gt;load&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;LLVM calls this process &amp;quot;renaming&amp;quot;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;Here we have a good example of why mem2reg is important: obviously, &lt;code&gt;t0&lt;&#x2F;code&gt; can be replaced with constant value &lt;code&gt;2&lt;&#x2F;code&gt;, which is hard to be discovered before mem2reg.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;style&gt;
+.nodeLabel &gt; span {
+    color: white !important;
+    font-size: 10px;
+    background: #666;
+    padding: 4px;
+    border-radius: 8px;
+}
+.nodeLabel &gt; p {
+    color: red;
+    margin: 0;
+    font-size: 16px;
+}
+&lt;&#x2F;style&gt;</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>Elementary Geometry In Agda</title>
 		<published>2022-10-24T03:35:10.362+00:00</published>
@@ -743,52 +1119,88 @@ $$&lt;&#x2F;p&gt;
 		<content type="html">&lt;h2 id=&quot;what-is-category-theory-all-about&quot;&gt;What is category theory all about&lt;&#x2F;h2&gt;
 &lt;p&gt;Category theory is all about structures and relations.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;... category theory is the mathematical study of (abstract) algebras of functions. —— &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;, &lt;&#x2F;p&gt;
+&lt;p&gt;... category theory is the mathematical study of (abstract) algebras of functions. —— &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;For me, learning category theory enables me to understand what on earth is &amp;quot;a monoid in the category of endofunctors&amp;quot;, and it helps me to learn HoTT.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;function-of-sets&quot;&gt;Function of Sets&lt;&#x2F;h2&gt;
-&lt;p&gt;Nothing to much to say here, only some notations here.&lt;&#x2F;p&gt;
+&lt;p&gt;Nothing too much to say here, only some notations here.&lt;&#x2F;p&gt;
 &lt;p&gt;Identity function in the books I am using (primary &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;, but I&#x27;m also referring to &lt;em&gt;Beginning Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Peter Smith&lt;&#x2F;em&gt;) is written as&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 1_A : A \rightarrow A
 $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;definition-of-category&quot;&gt;Definition of Category&lt;&#x2F;h2&gt;
-&lt;p&gt;Basically a category is anything which &lt;&#x2F;p&gt;
+&lt;p&gt;Basically, a category is anything which&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;Contains objects and arrows (you can consider arrow as something like function since it make it simpler, but they don&#x27;t have to be functions actually) between them&lt;&#x2F;li&gt;
+&lt;li&gt;Contains objects and arrows (you can consider arrows as something like functions since it makes it simpler, but they don&#x27;t have to be functions actually) between them&lt;&#x2F;li&gt;
 &lt;li&gt;The arrows can composite with each other and obey the associativity rule&lt;&#x2F;li&gt;
-&lt;li&gt;For each object there exists an identity arrow, which also the &amp;quot;unit&amp;quot; arrow when compositing with other arrows.&lt;&#x2F;li&gt;
+&lt;li&gt;For each object, there exists an identity arrow, which is also the &amp;quot;unit&amp;quot; arrow when compositing with other arrows.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
+&lt;p&gt;In Agda, simplified:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;record &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Category&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;o ℓ e &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Level&lt;&#x2F;span&gt;&lt;span&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;o &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ℓ &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;field
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Obj &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;o
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;⇒&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Rel Obj &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ℓ
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;≈&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B&lt;&#x2F;span&gt;&lt;span&gt;} → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Rel&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;id  &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;} → (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;∘&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B C&lt;&#x2F;span&gt;&lt;span&gt;} → (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;) → (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) → (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;assoc     &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B C D&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;g &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;C&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;C &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;D&lt;&#x2F;span&gt;&lt;span&gt;} → (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h &lt;&#x2F;span&gt;&lt;span&gt;∘ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;g&lt;&#x2F;span&gt;&lt;span&gt;) ∘ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;≈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h &lt;&#x2F;span&gt;&lt;span&gt;∘ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;g &lt;&#x2F;span&gt;&lt;span&gt;∘ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;identityˡ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;} → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;id &lt;&#x2F;span&gt;&lt;span&gt;∘ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;≈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;identityʳ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A B&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;} → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;∘ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;id &lt;&#x2F;span&gt;&lt;span&gt;≈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h2 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h2&gt;
 &lt;p&gt;The book gives us some examples of categories, I&#x27;ll just take some interesting ones here&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;rel&quot;&gt;Rel&lt;&#x2F;h3&gt;
 &lt;p&gt;Object : Sets
 Arrows : Binary Relations ($f : A → B$, $f ⊆ A×B$)
-Identity Arrow : 
+Identity Arrow :
 $$
 1_A = {(a,a) ∈ A×A | a∈A} ⊆ A×A
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;We need to prove $f ◦ 1_A = f = 1_B ◦ f$, which is easy to do by introducing $(a,b) \in f ◦ 1_A$ so there must exists a $p$, and $(a, p) \in 1_A$ ,$(p, b) \in f$, since $1_A$ is by definition $(a,a)$, so $p$ is $a$, so $(a,b) \in f$. Proof of $f = 1_B ◦ f$ is similar.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;Composite of Arrows : function composition, obvious
+&lt;p&gt;Composite of Arrows: function composition, obvious
 We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.&lt;&#x2F;p&gt;
 &lt;p&gt;This proof is easy, just assume $(a,b)$, $(b,c)$, $(c,d)$ and apply the definition of composite will lead us to the result.&lt;&#x2F;p&gt;
+&lt;p&gt;You can find the definition of &lt;a href=&quot;https:&#x2F;&#x2F;agda.github.io&#x2F;agda-categories&#x2F;Categories.Category.Instance.Rels.html&quot;&gt;&lt;code&gt;Rels&lt;&#x2F;code&gt; category in Agda&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;partially-ordered-set-poset&quot;&gt;Partially ordered set (Poset)&lt;&#x2F;h3&gt;
-&lt;p&gt;Object : element in the set&lt;&#x2F;p&gt;
+&lt;p&gt;Object: element in the set&lt;&#x2F;p&gt;
 &lt;p&gt;Arrows : $\leq$&lt;&#x2F;p&gt;
 &lt;p&gt;Identity Arrow : $a \leq a$&lt;&#x2F;p&gt;
 &lt;p&gt;Composite of Arrows : $a \leq b\ \ and\ \ b \leq c \Rightarrow a \leq c$&lt;&#x2F;p&gt;
 &lt;p&gt;Category can be considered as a kind of &lt;em&gt;generalized poset&lt;&#x2F;em&gt; with more structure than just $p \leq q$. And functor can be regarded as a generalized monotone map.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;agda.github.io&#x2F;agda-categories&#x2F;Categories.Category.Instance.Posets.html&quot;&gt;Poset category in Agda&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;monoid&quot;&gt;Monoid&lt;&#x2F;h3&gt;
 &lt;p&gt;A monoid is a category with only one object, and the arrows are the monoid&#x27;s elements. The identity arrow is the unit element, and the composite of arrows is the monoid&#x27;s operation.&lt;&#x2F;p&gt;
 &lt;p&gt;For any object $C$ in any category $\textbf{C}$, the set of arrows from $C$ to $C$, written as $Hom_{\textbf{C}}(C,C)$, is a monoid under the composition operation of $\textbf{C}$&lt;&#x2F;p&gt;
-&lt;p&gt;Monoids are structured sets, there ise a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.&lt;&#x2F;p&gt;
+&lt;p&gt;Monoids are structured sets, there is a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.&lt;&#x2F;p&gt;
 &lt;p&gt;A &lt;a href=&quot;https:&#x2F;&#x2F;ncatlab.org&#x2F;nlab&#x2F;show&#x2F;homomorphism&quot;&gt;homomorphism&lt;&#x2F;a&gt; from $M$ to $N$ is the same thing as a functor from &amp;quot;$M$ as category&amp;quot; to &amp;quot;$N$ as category&amp;quot;, so:&lt;&#x2F;p&gt;
-&lt;p&gt;Category can be considered as a kind of &lt;em&gt;generalized monoid&lt;&#x2F;em&gt; . And functor can be regarded as a generalized homomorphisms.&lt;&#x2F;p&gt;
+&lt;p&gt;Category can be considered as a kind of &lt;em&gt;generalized monoid&lt;&#x2F;em&gt;. And functor can be regarded as a generalized homomorphism.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;free-category&quot;&gt;Free category&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The free category on a “set of arrows”, hence on a directed graph, is the category whose morphisms are the tuples of composable arrows, hence the morphisms freely generated from these arrows. These morphisms may also be thought of as the “paths” that one may trace out in the directed graph by traversing in each step along an arrow, and therefore free categories are also called path categories. ——— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;With any directed graph, we can make it a category by adding more arrows:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;For each node, add an identity arrow&lt;&#x2F;li&gt;
+&lt;li&gt;For any two composable arrows, add the composite result arrow&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Then this category is called the &lt;em&gt;free category&lt;&#x2F;em&gt; generated by the directed graph.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;isomorphism&quot;&gt;Isomorphism&lt;&#x2F;h2&gt;
-&lt;p&gt;In a category, an arrow can be called as an isomorphism if it has an inverse.&lt;&#x2F;p&gt;
+&lt;p&gt;In a category, an arrow can be called an isomorphism if it has an inverse.&lt;&#x2F;p&gt;
 &lt;p&gt;If there exists an isomorphism between object $A$ and $B$ in category $C$, we say $A$ is isomorphic to $B$, and write $A \cong B$.&lt;&#x2F;p&gt;
+&lt;p&gt;Intuitively we can think isomorphism is a way to say that two objects are &amp;quot;similar&amp;quot;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;large-small-category&quot;&gt;Large&#x2F;Small Category&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A category is small if it has a small set of objects and a small set of morphisms. —— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Where a small set is &lt;strong&gt;really&lt;&#x2F;strong&gt; a set instead of a proper class&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A category is said to be locally small if each of its hom-sets is a small set. —— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;And large categories are those which are not small.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;I&#x27;m considering to do these kind of proof in Agda, however I&#x27;m not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;del&gt;I&#x27;m considering doing these kinds of proof in Agda, however, I&#x27;m not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)&lt;&#x2F;del&gt; I think it is OK to do so, ref &lt;a href=&quot;https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2005.07059.pdf&quot;&gt;this paper&lt;&#x2F;a&gt;. I&#x27;ll use the &lt;code&gt;agda-categories&lt;&#x2F;code&gt; library for explanation.
+&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: For example, the class of all sets is not a set, but a proper class.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
 	</entry>
@@ -2527,38 +2939,38 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;ul&gt;
 &lt;h4 id=&quot;variable-definition&quot;&gt;Variable definition&lt;&#x2F;h4&gt;
 &lt;p&gt;Use &lt;code&gt;alloca&lt;&#x2F;code&gt; to allocate a space on stack:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%i_0 = alloca i32
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%i_0&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;alloca i32
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;Note &lt;code&gt;alloca&lt;&#x2F;code&gt; returns an address.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;assign-value-to-variable&quot;&gt;Assign value to variable&lt;&#x2F;h4&gt;
 &lt;p&gt;Use &lt;code&gt;store&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;store i32 0, i32* %i_0
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;store i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%i_0
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;It means we put &lt;code&gt;0&lt;&#x2F;code&gt; into the space pointed by &lt;code&gt;%i_0&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;read-the-value-of-variable&quot;&gt;Read the value of variable&lt;&#x2F;h4&gt;
 &lt;p&gt;Use &lt;code&gt;load&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp = load i32, i32* %i_0
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;load i32&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%i_0
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;Which means take the value in the space pointed by &lt;code&gt;%i_0&lt;&#x2F;code&gt; to register &lt;code&gt;%temp&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;calculation&quot;&gt;Calculation&lt;&#x2F;h4&gt;
 &lt;p&gt;Take &lt;code&gt;+&lt;&#x2F;code&gt; as an example:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_22 = add i32 %temp_21, 1
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_22&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;add i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_21&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;Which means put &lt;code&gt;%temp_21 + 1&lt;&#x2F;code&gt; into &lt;code&gt;%temp_22&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;For float numbers, use &lt;code&gt;fadd&lt;&#x2F;code&gt; instead of &lt;code&gt;add&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;compare&quot;&gt;Compare&lt;&#x2F;h4&gt;
 &lt;p&gt;Use &lt;code&gt;icmp&lt;&#x2F;code&gt; and the way you want to compare:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_2 = icmp slt i32 %temp_1, 10
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_2&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;icmp slt i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;&lt;code&gt;slt&lt;&#x2F;code&gt; is &amp;quot;Signed Less Than&amp;quot;, ie. &lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;For floats, there are &lt;code&gt;fcmp&lt;&#x2F;code&gt;, &lt;code&gt;olt&lt;&#x2F;code&gt;, etc.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;jump&quot;&gt;Jump&lt;&#x2F;h4&gt;
 &lt;p&gt;Use &lt;code&gt;br&lt;&#x2F;code&gt; for jumping&lt;&#x2F;p&gt;
 &lt;h5 id=&quot;conditionless&quot;&gt;Conditionless&lt;&#x2F;h5&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br label %label1
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br label &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%label1
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h5 id=&quot;with-condition&quot;&gt;With condition&lt;&#x2F;h5&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br i1 %condition, label %condition_true, label %condition_false
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br i1 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%condition&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;label &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%condition_true&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;label &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%condition_false
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;That&#x27;s all we need to know for accomplishing our task.&lt;&#x2F;p&gt;
 &lt;p&gt;Then let&#x27;s do the code generation.&lt;&#x2F;p&gt;

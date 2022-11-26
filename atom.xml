@@ -3800,38 +3800,38 @@ CAP 中的 C 指的是外部一致性。
 &lt;p&gt;在此讲一些我们用到的 LLVM IR：&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;bian-liang-ding-yi&quot;&gt;变量定义&lt;&#x2F;h4&gt;
 &lt;p&gt;用 &lt;code&gt;alloca&lt;&#x2F;code&gt; 在栈上开辟一块空间：&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%i_0 = alloca i32
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%i_0&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;alloca i32
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;注意 &lt;code&gt;alloca&lt;&#x2F;code&gt; 返回的是一个指针。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;bian-liang-de-fu-zhi&quot;&gt;变量的赋值&lt;&#x2F;h4&gt;
 &lt;p&gt;使用 &lt;code&gt;store&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;store i32 0, i32* %i_0
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;store i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%i_0
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;即将 &lt;code&gt;0&lt;&#x2F;code&gt; 放入 &lt;code&gt;%i_0&lt;&#x2F;code&gt; 所指的变量中。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;du-qu-bian-liang-de-zhi&quot;&gt;读取变量的值&lt;&#x2F;h4&gt;
 &lt;p&gt;用 &lt;code&gt;load&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp = load i32, i32* %i_0
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;load i32&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;i32* &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%i_0
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;即将 &lt;code&gt;%i_0&lt;&#x2F;code&gt; 所指的变量中的值放入 &lt;code&gt;%temp&lt;&#x2F;code&gt; 寄存器中。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;yun-suan&quot;&gt;运算&lt;&#x2F;h4&gt;
 &lt;p&gt;以加法为例：&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_22 = add i32 %temp_21, 1
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_22&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;add i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_21&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;即将 &lt;code&gt;%temp_21 + 1&lt;&#x2F;code&gt; 的值放入 &lt;code&gt;%temp_22&lt;&#x2F;code&gt; 中。&lt;&#x2F;p&gt;
 &lt;p&gt;对于浮点数，用 &lt;code&gt;fadd&lt;&#x2F;code&gt; 代替 &lt;code&gt;add&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;bi-jiao&quot;&gt;比较&lt;&#x2F;h4&gt;
 &lt;p&gt;使用 &lt;code&gt;icmp&lt;&#x2F;code&gt; 与比较类型：&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;%temp_2 = icmp slt i32 %temp_1, 10
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_2&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;icmp slt i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;其中 &lt;code&gt;slt&lt;&#x2F;code&gt; 是“Signed Less Than”，即&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
 &lt;p&gt;浮点相应的有 &lt;code&gt;fcmp&lt;&#x2F;code&gt; 、&lt;code&gt;olt&lt;&#x2F;code&gt;等。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;tiao-zhuan&quot;&gt;跳转&lt;&#x2F;h4&gt;
 &lt;p&gt;使用 &lt;code&gt;br&lt;&#x2F;code&gt; 进行跳转：&lt;&#x2F;p&gt;
 &lt;h5 id=&quot;wu-tiao-jian&quot;&gt;无条件&lt;&#x2F;h5&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br label %label1
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br label &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%label1
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h5 id=&quot;you-tiao-jian&quot;&gt;有条件&lt;&#x2F;h5&gt;
-&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span&gt;br i1 %condition, label %condition_true, label %condition_false
+&lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br i1 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%condition&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;label &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%condition_true&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;label &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%condition_false
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;有这些个东西就够了。&lt;&#x2F;p&gt;
 &lt;p&gt;然后我们就可以进行代码生成了。&lt;&#x2F;p&gt;

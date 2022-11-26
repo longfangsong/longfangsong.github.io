@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • mem2reg made simple</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;mem2reg-made-simple&#x2F;">mem2reg made simple</a></h1>
+  
+  <div class="post-content"><h2 id="nb">NB</h2>
+<p>This article presumes you know what is:</p>
+<ul>
+<li>(LLVM-liked) SSA form IR.</li>
+<li>Control-flow graph.</li>
+</ul>
+<p>This article will <strong>not</strong> cover:</p>
+<ul>
+<li><strong>How</strong> to find out the dominant relation between nodes.</li>
+<li><strong>How</strong> to find the dominance frontier for nodes.</li>
+</ul>
+<p>I think they are just implementation details, anyone can find out an algorithm to achieve these goals (though might be not very efficient), and there exists some library for out-of-the-box use. If you are implementing your own compiler and do want to implement an efficient algorithm by yourself, you may refer to the paper <a href="https://www.cs.rice.edu/~keith/Embed/dom.pdf"><em>A Simple, Fast Dominance Algorithm</em></a>.</p>
+<p>Instead, this article will focus on:</p>
+<ul>
+<li><strong>What</strong> is the dominance frontier and <strong>why</strong> do we need it?</li>
+<li>Giving <strong>examples</strong> on how to use the dominance frontier to convert memory access to register operation, especially insert phi nodes.</li>
+</ul>
+<h2 id="the-problem">The problem</h2>
+<p>When compiling a high-level language function into LLVM IR, a variable may be used as l-value in different branches:</p>
+<pre data-lang="c" style="background-color:#2b303b;color:#c0c5ce;" class="language-c "><code class="language-c" data-lang="c"><span style="color:#b48ead;">int </span><span style="color:#8fa1b3;">f</span><span>(</span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">a</span><span>, </span><span style="color:#b48ead;">int </span><span style="color:#bf616a;">b</span><span>) {
+</span><span>    </span><span style="color:#b48ead;">int</span><span> c;
+</span><span>    </span><span style="color:#b48ead;">if </span><span>(a &lt; b) {
+</span><span>        c = a;
+</span><span>    } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>        c = b;
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> c;
+</span><span>}
+</span></code></pre>
+<p>Which can be translated into some IR<sup class="footnote-reference"><a href="#1">1</a></sup> like this:</p>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>fn f(</span><span style="color:#b48ead;">i32 </span><span style="color:#bf616a;">%a</span><span>, </span><span style="color:#b48ead;">i32 </span><span style="color:#bf616a;">%b</span><span>) -&gt; </span><span style="color:#b48ead;">i32</span><span> {
+</span><span>    </span><span style="color:#bf616a;">%c.addr</span><span> = </span><span style="color:#b48ead;">alloca i32
+</span><span>    blt </span><span style="color:#bf616a;">%a</span><span>, </span><span style="color:#bf616a;">%b</span><span>, if_taken, if_not_taken
+</span><span>if_taken:
+</span><span>    </span><span style="color:#b48ead;">store </span><span style="color:#bf616a;">%a</span><span>, </span><span style="color:#bf616a;">%c.addr
+</span><span>    j if_end
+</span><span>if_not_taken:
+</span><span>    </span><span style="color:#b48ead;">store </span><span style="color:#bf616a;">%b</span><span>, </span><span style="color:#bf616a;">%c.addr
+</span><span>if_end:
+</span><span>    </span><span style="color:#bf616a;">%c</span><span> = </span><span style="color:#b48ead;">load </span><span style="color:#bf616a;">%c.addr
+</span><span>    </span><span style="color:#b48ead;">ret </span><span style="color:#bf616a;">%c
+</span><span>}
+</span></code></pre>
+<p>This IR is correct, but you may see that to prevent assigning to <code>c</code> in two different basic blocks, which makes it no longer a valid SSA, we &quot;cheat&quot; by &quot;leaking&quot; it to the memory and using <code>load</code> and <code>store</code> to access it. You may do this for every local variable you faced when translating a high-level language to SSA-like IR, I can promise the functions will work as expected.</p>
+<p>However, memory access is always much slower than register access. So we do want to try to move those in-memory variables to the registers<sup class="footnote-reference"><a href="#2">2</a></sup> and keep it an SSA meanwhile.</p>
+<p>So those crazy computer scientists invented the infamous <code>phi</code> node.</p>
+<blockquote>
+<p>PHINode - The PHINode class is used to represent the magical mystical PHI node, that can not exist in nature, but can be synthesized in a computer scientist's overactive imagination. —— LLVM project, comment of the PHINode class</p>
+</blockquote>
+<p>With <code>phi</code> node, we can make the ir into:</p>
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>fn f(</span><span style="color:#b48ead;">i32 </span><span style="color:#bf616a;">%a</span><span>, </span><span style="color:#b48ead;">i32 </span><span style="color:#bf616a;">%b</span><span>) -&gt; </span><span style="color:#b48ead;">i32</span><span> {
+</span><span>    </span><span style="color:#bf616a;">%c.addr</span><span> = </span><span style="color:#b48ead;">alloca i32
+</span><span>    blt </span><span style="color:#bf616a;">%a</span><span>, </span><span style="color:#bf616a;">%b</span><span>, if_taken, if_not_taken
+</span><span>if_taken:
+</span><span>    </span><span style="color:#bf616a;">%c0</span><span> = </span><span style="color:#bf616a;">%a
+</span><span>    j if_end
+</span><span>if_not_taken:
+</span><span>    </span><span style="color:#bf616a;">%c1</span><span> = </span><span style="color:#bf616a;">%b
+</span><span>if_end:
+</span><span>    </span><span style="color:#bf616a;">%c</span><span> = </span><span style="color:#b48ead;">phi</span><span> if_taken.</span><span style="color:#bf616a;">%c0</span><span>, if_not_taken.</span><span style="color:#bf616a;">%c1
+</span><span>    </span><span style="color:#b48ead;">ret </span><span style="color:#bf616a;">%c
+</span><span>}
+</span></code></pre>
+<p><code>%c = phi if_taken.%c0, if_not_taken.%c1</code> means <code>%c</code> equals <code>%c0</code> or <code>%c1</code>, depending which basic block the control flow comes from.</p>
+<p>So what a compiler needs to do is find out a way to generate this kind of phi node.</p>
+<p>A dumb way is, for each basic block that has multiple predecessors, replace each <code>load</code> with a phi node, and search along the predecessor chain for the source.</p>
+<p>However this algorithm is very inefficient, luckily, there's an alternative, efficient way to archive this goal.</p>
+<h2 id="where-to-put-phi-nodes-dominance-frontier">Where to put <code>phi</code> nodes ——— Dominance Frontier</h2>
+<p>Let's re-consider where we need to put a phi node.</p>
+<p>We can start with a trivial judgment:</p>
+<p>For an existing <code>load</code> statement, if the last <code>store</code> statement can be in two (or more) different basic blocks, then we have to insert a phi node for it<sup class="footnote-reference"><a href="#3">3</a></sup>.</p>
+<p>Then the problem is how to judge whether &quot;the last <code>store</code> statement can be in two (or more) different basic blocks&quot;.
+By using a control-flow graph, we can express this as:</p>
+<p>There exist two different paths from the entry block to the basic block the <code>load</code> statement is in, and the last <code>store</code>s on these paths are different.</p>
+<p>Let's switch to the <code>store</code>'s perspective:</p>
+<p>A phi node needs to be placed for this <code>store</code> in some basic block that contains a <code>load</code> to the same address when:</p>
+<ul>
+<li>There exists a path that comes from the entry, passes the basic block this <code>store</code> is in, and finally reaches the basic block the <code>load</code> is in.</li>
+<li>There also exists a path that comes from the entry, but <strong>not</strong> passing the basic block this <code>store</code> is in and reaches the basic block the <code>load</code> is in.</li>
+</ul>
+<p>And obviously, the phi node should be placed at the basic node where these two paths meet with each other.</p>
+<p>Note that newly generated phi nodes will create a new register, which is necessary to be considered (regarded as a <code>store</code>) when trying to insert other phi nodes. You may also do this by calculating the dominant frontier closure of the basic block of the <code>store</code> basic block.</p>
+<p>Such a basic block is exactly one of the elements in the <strong>dominance frontier</strong> of the basic block the <code>store</code> statement is in.</p>
+<p>So the process of finding places to insert <code>phi</code> nodes is simple:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// return a map which stands for:
+</span><span style="color:#65737e;">//     variable -&gt; basic blocks which need to insert a phi node for this variable
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">phi_insert_positions</span><span>(</span><span style="color:#bf616a;">function</span><span>: &amp;Function) -&gt; Map&lt;Variable, Set&lt;&amp;BasicBlock&gt;&gt; {
+</span><span>    </span><span style="color:#b48ead;">let mut</span><span> result = Map::new();
+</span><span>    </span><span style="color:#b48ead;">for</span><span> variable in function.</span><span style="color:#96b5b4;">alloca_variables</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">let</span><span> blocks_contain_store = function.blocks
+</span><span>            .</span><span style="color:#96b5b4;">filter</span><span>(|</span><span style="color:#bf616a;">block</span><span>| block.</span><span style="color:#96b5b4;">contains_store_to</span><span>(variable));
+</span><span>        </span><span style="color:#b48ead;">let mut</span><span> blocks_to_consider = blocks_contain_store.</span><span style="color:#96b5b4;">clone</span><span>();
+</span><span>        </span><span style="color:#b48ead;">while </span><span>!blocks_to_consider.</span><span style="color:#96b5b4;">empty</span><span>() {
+</span><span>            </span><span style="color:#b48ead;">let</span><span> considering_block = block_to_consider.</span><span style="color:#96b5b4;">pop</span><span>();
+</span><span>            </span><span style="color:#b48ead;">for</span><span> dominator_frontier in considering_block.</span><span style="color:#96b5b4;">dorminate_frontiers</span><span>() {
+</span><span>                result[variable].</span><span style="color:#96b5b4;">insert</span><span>(dominator_frontier);
+</span><span>                </span><span style="color:#b48ead;">if </span><span>!blocks_contain_store.</span><span style="color:#96b5b4;">contains</span><span>(dominator_frontier) {
+</span><span>                    blocks_to_consider.</span><span style="color:#96b5b4;">push</span><span>(dominator_frontier);
+</span><span>                }
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>    result
+</span><span>}
+</span></code></pre>
+<h3 id="example">Example</h3>
+<p>Here is a simple example, let's find out where to insert phi nodes for the variable <code>a</code>:</p>
+<div class="mermaid">
+flowchart TD
+    id0(Entry)
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n store a, 1]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;\n %a0 = load a\n store a, %t0]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n%a1 = load a\n store a, %t1]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n%a2 = load a\n store a, 2]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n%a3 = load a\n store a, 3]
+    id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;\n%a4 = load a]
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;\n%a5 = load a]
+    id9(End)
+    id0 --&gt; id1
+    id1 --&gt; id2
+    id1 --&gt; id4
+    id2 --&gt; id3
+    id3 --&gt; id2
+    id3 --&gt; id8
+    id4 --&gt; id5
+    id4 --&gt; id6
+    id5 --&gt; id7
+    id6 --&gt; id7
+    id7 --&gt; id8
+    id8 --&gt; id9
+</div>
+<p>So initially we need to consider <code>bb1</code>, <code>bb2</code>, <code>bb3</code>, <code>bb5</code> and <code>bb6</code>, which contain <code>store</code> statements to <code>a</code>.</p>
+<p>For <code>bb1</code>, its domination frontiers set is empty, so nothing to do for it.</p>
+<p>For <code>bb2</code>, its domination frontiers set is {<code>bb2</code>, <code>bb8</code>}, note <code>bb2</code> itself is in the set, because we can reach <code>bb2</code> in the path <code>Entry</code> → <code>bb1</code> → <code>bb2</code>, which doesn't pass <code>bb2</code>, and in the path <code>Entry</code> → <code>bb1</code> → <code>bb2</code> → <code>bb3</code> → <code>bb2</code>, which passes <code>bb2</code>.</p>
+<p>So we insert <code>phi</code> nodes in <code>bb2</code> and <code>bb8</code>:</p>
+<div class="mermaid">
+flowchart TD
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a\n store a, %t0]
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi ...&lt;&#x2F;p&gt; %a5 = load a]
+</div>
+<p>Note we neither fill the source value for <code>phi</code> nodes nor remove the <code>load</code> and <code>store</code> statements here, we'll talk about these operations later.</p>
+<p>Here <code>bb8</code> is not in our <code>blocks_contain_store</code>, we need to add it to the consideration list. So our remaining consider list is <code>[bb3, bb5, bb6, bb8]</code>.</p>
+<p><code>bb3</code>'s domination frontiers set is also {<code>bb2</code>, <code>bb8</code>}, so nothing meaningful is done here.</p>
+<p><code>bb5</code>'s domination frontiers set is {<code>bb7</code>}, so we add a <code>phi</code> node to <code>bb7</code>:</p>
+<div class="mermaid">
+flowchart TD
+    id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;p&gt;%a_bb7 = phi ...&lt;&#x2F;p&gt;%a4 = load a]
+</div>
+<p>Also, <code>bb7</code> needs to be pushed to the consideration list.</p>
+<p>Now the consideration list is <code>[bb6, bb8, bb7]</code>.</p>
+<p><code>bb6</code>'s domination frontiers set is also {<code>bb7</code>}, so nothing to do.</p>
+<p><code>bb8</code>'s domination frontier is empty, also nothing to do.</p>
+<p><code>bb7</code>'s domination frontier is {<code>bb8</code>}, which is already considered, so nothing to do.</p>
+<p>After this process, we have found all places which need to put a <code>phi</code> node:</p>
+<div class="mermaid">
+flowchart TD
+    id0(Entry)
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n store a, 1]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a\n store a, %t0]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n%a1 = load a\n store a, %t1]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n%a2 = load a\n store a, 2]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n%a3 = load a\n store a, 3]
+    id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;p&gt;%a_bb7 = phi ...&lt;&#x2F;p&gt;%a4 = load a]
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi ...&lt;&#x2F;p&gt; %a5 = load a]
+    id9(End)
+    id0 --&gt; id1
+    id1 --&gt; id2
+    id1 --&gt; id4
+    id2 --&gt; id3
+    id3 --&gt; id2
+    id3 --&gt; id8
+    id4 --&gt; id5
+    id4 --&gt; id6
+    id5 --&gt; id7
+    id6 --&gt; id7
+    id7 --&gt; id8
+    id8 --&gt; id9
+</div><h3 id="decide-which-value-to-use">Decide which value to use<sup class="footnote-reference"><a href="#4">4</a></sup></h3>
+<p>Now we should decide the &quot;sources&quot; of the <code>phi</code> nodes, and in the meantime, we can also</p>
+<ul>
+<li>remove the <code>load</code>s to the variable and replace it with the values generated by <code>phi</code> or <code>store</code>.</li>
+<li>remove the <code>store</code>s.</li>
+</ul>
+<p>We can do this by doing DFS over the control flow graph, and keeping track of the current value of each variable.</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">enum </span><span>Value {
+</span><span>    Constant(</span><span style="color:#b48ead;">i64</span><span>),
+</span><span>    Register(Register),
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">// decide a variable&#39;s current value with a variable value stack
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">decide_variable_value</span><span>(
+</span><span>    </span><span style="color:#bf616a;">variable</span><span>: &amp;Variable,
+</span><span>    </span><span style="color:#bf616a;">current_variable_value</span><span>: &amp;Stack&lt;Map&lt;Variable, (&amp;BasicBlock, Value)&gt;&gt;,
+</span><span>) -&gt; (&amp;BasicBlock, Value) {
+</span><span>    </span><span style="color:#b48ead;">for</span><span> frame in current_variable_value.</span><span style="color:#96b5b4;">rev</span><span>() {
+</span><span>        </span><span style="color:#b48ead;">if let </span><span>Some(value) = frame.</span><span style="color:#96b5b4;">get</span><span>(variable_name) {
+</span><span>            </span><span style="color:#b48ead;">return</span><span> value;
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">decide_values_start_from</span><span>(
+</span><span>    </span><span style="color:#bf616a;">function</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> Function,
+</span><span>    </span><span style="color:#bf616a;">block</span><span>: &amp;</span><span style="color:#b48ead;">mut</span><span> BasicBlock,
+</span><span>    </span><span style="color:#bf616a;">visited</span><span>: Set&lt;&amp;BasicBlock&gt;,
+</span><span>    </span><span style="color:#bf616a;">current_variable_value</span><span>: &amp;</span><span style="color:#b48ead;">mut </span><span>Stack&lt;Map&lt;Variable, (&amp;BasicBlock, Value)&gt;&gt;,
+</span><span>) {
+</span><span>    </span><span style="color:#65737e;">// we presume phi nodes have already inserted before calling this function
+</span><span>    </span><span style="color:#65737e;">// now we should insert phi sources
+</span><span>    </span><span style="color:#b48ead;">for</span><span> phi in &amp;</span><span style="color:#b48ead;">mut</span><span> block.phis {
+</span><span>        </span><span style="color:#b48ead;">let </span><span>(current_value_from, current_value) = </span><span style="color:#96b5b4;">decide_variable_value</span><span>(phi.variable, current_variable_value);
+</span><span>        phi.from.</span><span style="color:#96b5b4;">insert</span><span>((current_value_from, current_value));
+</span><span>        current_variable_value.</span><span style="color:#96b5b4;">top</span><span>()[phi.variable] = (block, phi.to);
+</span><span>    }
+</span><span>    </span><span style="color:#65737e;">// it&#39;s necessary to revisit a visited block when inserting phi nodes
+</span><span>    </span><span style="color:#65737e;">// so we need to put the visited check after the phi source putting
+</span><span>    </span><span style="color:#b48ead;">if</span><span> visited.</span><span style="color:#96b5b4;">contains</span><span>(block) {
+</span><span>        </span><span style="color:#b48ead;">return</span><span>;
+</span><span>    }
+</span><span>    visited.</span><span style="color:#96b5b4;">insert</span><span>(block);
+</span><span>    </span><span style="color:#b48ead;">for</span><span> statement in block {
+</span><span>        </span><span style="color:#b48ead;">match</span><span> statement {
+</span><span>            Load { to, from_variable, .. } =&gt; {
+</span><span>                </span><span style="color:#b48ead;">let </span><span>(_, load_value) = </span><span style="color:#96b5b4;">decide_variable_value</span><span>(from_variable, current_variable_value);
+</span><span>                block.</span><span style="color:#96b5b4;">remove</span><span>(statement);
+</span><span>                function.</span><span style="color:#96b5b4;">replace</span><span>(to, load_value);
+</span><span>            },
+</span><span>            Store { value, to_variable, .. } =&gt; {
+</span><span>                current_variable_value.</span><span style="color:#96b5b4;">last_mut</span><span>()[to_variable] = value;
+</span><span>                block.</span><span style="color:#96b5b4;">remove</span><span>(statement);
+</span><span>            },
+</span><span>            Branch { success_block, fail_block, .. } =&gt; {
+</span><span>                current_variable_value.</span><span style="color:#96b5b4;">push</span><span>(Map::new());
+</span><span>                </span><span style="color:#96b5b4;">decide_values_start_from</span><span>(function, success_block, visited, current_variable_value);
+</span><span>                current_variable_value.</span><span style="color:#96b5b4;">pop</span><span>();
+</span><span>
+</span><span>                current_variable_value.</span><span style="color:#96b5b4;">push</span><span>(Map::new());
+</span><span>                </span><span style="color:#96b5b4;">decide_values_start_from</span><span>(function, fail_block, visited, current_variable_value);
+</span><span>                current_variable_value.</span><span style="color:#96b5b4;">pop</span><span>();
+</span><span>            }
+</span><span>            Jump { to_block, .. } =&gt; {
+</span><span>                </span><span style="color:#96b5b4;">decide_values_start_from</span><span>(function, to_block, visited, current_variable_value);
+</span><span>            },
+</span><span>            _ =&gt; (),
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<h3 id="example-1">Example</h3>
+<p>We still use the control flow graph mentioned in the <code>phi</code>-inserting process, this time I'll add some statements that &quot;use&quot; the variable <code>a</code> to show the variable value replacement result.</p>
+<div class="mermaid">
+flowchart TD
+    id0(Entry)
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n store a, 1]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a\n %t0 = add %a0, 1 \n store a, %t0]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n%a1 = load a\n %t1 = add %a1, %a1 \n store a, %t1]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n%a2 = load a\n store a, 2]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n%a3 = load a\n store a, 3]
+    id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;p&gt;%a_bb7 = phi ...&lt;&#x2F;p&gt;%a4 = load a]
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi ...&lt;&#x2F;p&gt;%a5 = load a\n ret %a5]
+    id9(End)
+    id0 --&gt; id1
+    id1 --&gt; id2
+    id1 --&gt; id4
+    id2 --&gt; id3
+    id3 --&gt; id2
+    id3 --&gt; id8
+    id4 --&gt; id5
+    id4 --&gt; id6
+    id5 --&gt; id7
+    id6 --&gt; id7
+    id7 --&gt; id8
+    id8 --&gt; id9
+</div>
+<p>We start the DFS process from <code>bb1</code>, currently, the value stack of a is <code>[]</code>.</p>
+<p>When visiting <code>bb1</code>, we meet up with a <code>store</code> that set <code>a</code> to <code>1</code>, so after visiting <code>bb1</code>, the value stack of <code>a</code> is <code>[(bb1, 1)]</code>. And the <code>store</code> statement is removed.</p>
+<div class="mermaid">
+flowchart TD
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n...]
+</div>
+<p><code>bb1</code> ends with a <code>Branch</code> (didn't show on the graph, but you can tell that because the node has two outgoing edges).</p>
+<p>First, we visit <code>bb2</code>, and we'll come back to <code>bb4</code> later.</p>
+<p>In <code>bb2</code> we first met up with a <code>phi</code> node, so we add the current value of <code>a</code> (1, from <code>bb1</code>) to its <code>from</code>.</p>
+<p>Then we meet a <code>load</code>, which put the value of <code>a</code> to <code>a0</code>, since <code>a</code> is currently <code>1</code>, we can remove this <code>load</code> and use <code>1</code> to replace all occurrences of <code>a0</code>, this is just what we want to do for the next statement.</p>
+<p>And then we have a <code>store</code>, which updates the value stack to <code>[(bb1, 1), (bb2, %t0)]</code>.</p>
+<p>After all these things, we now have:</p>
+<p><div class="mermaid">
+flowchart TD
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi bb1.1&lt;&#x2F;p&gt; %t0 = add 1, 1]
+</div>
+<sup class="footnote-reference"><a href="#5">5</a></sup></p>
+<p>Then we go to <code>bb3</code>, similar to <code>bb2</code>, we can replace <code>%a1</code> with <code>%t0</code>, and update the value stack to <code>[(bb1, 1), (bb2, %t0), (bb3, %t1)]</code>.</p>
+<div class="mermaid">
+flowchart TD
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %a1, %a1]
+</div>
+<p>And then we are led back to <code>bb2</code>, since <code>bb2</code> is already visited, we just need to update <code>phi</code>'s from with the current value of <code>a</code> now.</p>
+<div class="mermaid">
+flowchart TD
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi bb1.1, bb3.%t1 &lt;&#x2F;p&gt; %t0 = add 1, 1]
+</div>
+<p>And then we come back to <code>bb3</code> and take another branch, which leads us to <code>bb8</code>, and make it:</p>
+<div class="mermaid">
+flowchart TD
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi bb3.%t1&lt;&#x2F;p&gt;ret %a_bb8]
+</div>
+<p>(Remember the value stack becomes <code>[(bb1, 1), (bb2, %t0), (bb3, %t1), (bb8, %a_bb8)]</code> after visiting the <code>phi</code> statement.)</p>
+<p>Then we go back to visit <code>bb4</code> from <code>bb1</code>, and then <code>bb5</code>, <code>bb7</code> and <code>bb6</code>.</p>
+<p>Finally, we'll get:</p>
+<div class="mermaid">
+flowchart TD
+    id0(Entry)
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n ...]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi bb1.1&lt;&#x2F;p&gt; %t0 = add 1, 1]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %a1, %a1]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n...]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n...]
+    id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;p&gt;%a_bb7 = phi bb5.2, bb6.3&lt;&#x2F;p&gt;]
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi bb3.%t1, bb7.%a_bb7&lt;&#x2F;p&gt;ret %a_bb8]
+    id9(End)
+    id0 --&gt; id1
+    id1 --&gt; id2
+    id1 --&gt; id4
+    id2 --&gt; id3
+    id3 --&gt; id2
+    id3 --&gt; id8
+    id4 --&gt; id5
+    id4 --&gt; id6
+    id5 --&gt; id7
+    id6 --&gt; id7
+    id7 --&gt; id8
+    id8 --&gt; id9
+</div>
+<p>Now all <code>load</code>s and <code>store</code>s for variable <code>a</code> are eliminated, and we no longer need <code>alloca</code> for variable <code>a</code>. And the function is ready for further optimization.</p>
+<h2 id="summary">Summary</h2>
+<p>This article introduces how to promote variables in memory to register, ie. eliminate <code>load</code>s and <code>store</code>s and insert <code>phi</code>s in SSA form IR. And give a detailed example to show how to do it.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>This is an LLVM-like IR, <code>alloca</code> here means we will save some space on the stack, and we can <code>store</code> values into this space and <code>load</code> from it, I assume every other thing is simple enough to be understood by anyone who knows what SSA is.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>Though these registers are just logical, i.e. they can still be leaked to the stack when doing codegen, optimizing them into logical registers can engage these variables in further optimization and make the codegen process much easier.</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Note the phi node doesn't have to be put in the basic block the <code>load</code> statement is in, we can put it in a basic block that after this store but dominate this <code>load</code>.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>LLVM calls this process &quot;renaming&quot;.</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>Here we have a good example of why mem2reg is important: obviously, <code>t0</code> can be replaced with constant value <code>2</code>, which is hard to be discovered before mem2reg.</p>
+</div>
+<style>
+.nodeLabel > span {
+    color: white !important;
+    font-size: 10px;
+    background: #666;
+    padding: 4px;
+    border-radius: 8px;
+}
+.nodeLabel > p {
+    color: red;
+    margin: 0;
+    font-size: 16px;
+}
+</style></div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2022-11-16</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/compiler">&nbsp;compiler</a>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/optimization">&nbsp;optimization</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=mem2reg made simple&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;mem2reg-made-simple&hashtags=compiler,optimization"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

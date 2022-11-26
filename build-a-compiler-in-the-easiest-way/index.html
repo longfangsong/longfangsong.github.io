@@ -351,38 +351,38 @@
 <p>在此讲一些我们用到的 LLVM IR：</p>
 <h4 id="bian-liang-ding-yi">变量定义</h4>
 <p>用 <code>alloca</code> 在栈上开辟一块空间：</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%i_0 = alloca i32
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%i_0</span><span> = </span><span style="color:#b48ead;">alloca i32
 </span></code></pre>
 <p>注意 <code>alloca</code> 返回的是一个指针。</p>
 <h4 id="bian-liang-de-fu-zhi">变量的赋值</h4>
 <p>使用 <code>store</code>：</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>store i32 0, i32* %i_0
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#b48ead;">store i32 </span><span style="color:#d08770;">0</span><span>, </span><span style="color:#b48ead;">i32* </span><span style="color:#bf616a;">%i_0
 </span></code></pre>
 <p>即将 <code>0</code> 放入 <code>%i_0</code> 所指的变量中。</p>
 <h4 id="du-qu-bian-liang-de-zhi">读取变量的值</h4>
 <p>用 <code>load</code>：</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp = load i32, i32* %i_0
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%temp</span><span> = </span><span style="color:#b48ead;">load i32</span><span>, </span><span style="color:#b48ead;">i32* </span><span style="color:#bf616a;">%i_0
 </span></code></pre>
 <p>即将 <code>%i_0</code> 所指的变量中的值放入 <code>%temp</code> 寄存器中。</p>
 <h4 id="yun-suan">运算</h4>
 <p>以加法为例：</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp_22 = add i32 %temp_21, 1
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%temp_22</span><span> = </span><span style="color:#b48ead;">add i32 </span><span style="color:#bf616a;">%temp_21</span><span>, </span><span style="color:#d08770;">1
 </span></code></pre>
 <p>即将 <code>%temp_21 + 1</code> 的值放入 <code>%temp_22</code> 中。</p>
 <p>对于浮点数，用 <code>fadd</code> 代替 <code>add</code>。</p>
 <h4 id="bi-jiao">比较</h4>
 <p>使用 <code>icmp</code> 与比较类型：</p>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>%temp_2 = icmp slt i32 %temp_1, 10
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%temp_2</span><span> = </span><span style="color:#b48ead;">icmp slt i32 </span><span style="color:#bf616a;">%temp_1</span><span>, </span><span style="color:#d08770;">10
 </span></code></pre>
 <p>其中 <code>slt</code> 是“Signed Less Than”，即<code>&lt;</code>。</p>
 <p>浮点相应的有 <code>fcmp</code> 、<code>olt</code>等。</p>
 <h4 id="tiao-zhuan">跳转</h4>
 <p>使用 <code>br</code> 进行跳转：</p>
 <h5 id="wu-tiao-jian">无条件</h5>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>br label %label1
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#b48ead;">br label </span><span style="color:#bf616a;">%label1
 </span></code></pre>
 <h5 id="you-tiao-jian">有条件</h5>
-<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span>br i1 %condition, label %condition_true, label %condition_false
+<pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#b48ead;">br i1 </span><span style="color:#bf616a;">%condition</span><span>, </span><span style="color:#b48ead;">label </span><span style="color:#bf616a;">%condition_true</span><span>, </span><span style="color:#b48ead;">label </span><span style="color:#bf616a;">%condition_false
 </span></code></pre>
 <p>有这些个东西就够了。</p>
 <p>然后我们就可以进行代码生成了。</p>
