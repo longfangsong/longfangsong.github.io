@@ -37,11 +37,9 @@
 <script type="module">
   import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
 
-  console.log(window.location.href);
-
   if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
     const wb = new Workbox('/serviceWorker.js');
-
+    console.log("load serviceWorker");
     wb.register();
   }
 </script>
