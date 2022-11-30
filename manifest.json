@@ -2,6 +2,7 @@
     "name": "My Blog",
     "short_name": "Blog",
     "display": "standalone",
+    "theme_color": "white",
     "scope": "https://longfangsong.github.io/",
     "start_url": "https://longfangsong.github.io/",
     "icons": [

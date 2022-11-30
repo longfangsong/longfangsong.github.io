@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
 <link rel="manifest" href="https://longfangsong.github.io/manifest.json">
 <script src="//cdn.wordart.com/wordart.min.js" async defer></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
 <meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -188,8 +188,8 @@ By using a control-flow graph, we can express this as:</p>
 <li>There also exists a path that comes from the entry, but <strong>not</strong> passing the basic block this <code>store</code> is in and reaches the basic block the <code>load</code> is in.</li>
 </ul>
 <p>And obviously, the phi node should be placed at the basic node where these two paths meet with each other.</p>
-<p>Note that newly generated phi nodes will create a new register, which is necessary to be considered (regarded as a <code>store</code>) when trying to insert other phi nodes. You may also do this by calculating the dominant frontier closure of the basic block of the <code>store</code> basic block.</p>
 <p>Such a basic block is exactly one of the elements in the <strong>dominance frontier</strong> of the basic block the <code>store</code> statement is in.</p>
+<p>Note that newly generated phi nodes will create a new register, which is necessary to be considered (regarded as a <code>store</code>) when trying to insert other phi nodes. You may also do this by calculating the dominant frontier closure of the basic block of the <code>store</code> basic block.</p>
 <p>So the process of finding places to insert <code>phi</code> nodes is simple:</p>
 <pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// return a map which stands for:
 </span><span style="color:#65737e;">//     variable -&gt; basic blocks which need to insert a phi node for this variable
