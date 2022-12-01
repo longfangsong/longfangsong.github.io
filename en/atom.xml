@@ -329,7 +329,7 @@ flowchart TD
 flowchart TD
     id0(Entry)
     id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n ...]
-    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi bb1.1&amp;lt;&amp;#x2F;p&amp;gt; %t0 = add 1, 1]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi bb1.1, bb3.%t1 &amp;lt;&amp;#x2F;p&amp;gt; %t0 = add 1, 1]
     id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %t0, %t0]
     id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
     id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n...]
