@@ -5,8 +5,77 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-11-16T15:17:53.579+00:00</updated>
+	<updated>2022-12-19T04:59:39.001+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>Category theory Notes 2</title>
+		<published>2022-12-19T04:59:39.001+00:00</published>
+		<updated>2022-12-19T04:59:39.001+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/category-theory-2/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/category-theory-2/</id>
+		<content type="html">&lt;h2 id=&quot;epis-and-monos&quot;&gt;Epis and monos&lt;&#x2F;h2&gt;
+&lt;p&gt;In any category $C$, an arrow $f: A → B$ is called a monomorphism if for any $g, h: C → A$, $f\cdot g = f\cdot h$ implies $g = h$.&lt;&#x2F;p&gt;
+&lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0= --&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0=&amp;embed&quot; width=&quot;688&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;We usually write $f: A ↣ B$ if $f$ is a monomorphism.&lt;&#x2F;p&gt;
+&lt;p&gt;Similarly, an arrow $f: A → B$ is called an epimorphism (or $f$ is monic) if for any $g, h: B → D$, $g \cdot f = h \cdot f$ implies $g = h$.&lt;&#x2F;p&gt;
+&lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFs0LDAsIkQiXSxbMCwxLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwyLCJnIiwwLHsib2Zmc2V0IjotMX1dLFsxLDIsImgiLDIseyJvZmZzZXQiOjF9XV0= --&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFs0LDAsIkQiXSxbMCwxLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwyLCJnIiwwLHsib2Zmc2V0IjotMX1dLFsxLDIsImgiLDIseyJvZmZzZXQiOjF9XV0=&amp;embed&quot; width=&quot;688&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;We usually write $f: A ↠ B$ if $f$ is an epimorphism.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;initial-and-terminal-objects&quot;&gt;Initial and terminal objects&lt;&#x2F;h2&gt;
+&lt;p&gt;In any category $C$, an object 0&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; is initial if for any object A there is a unique morphism&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+0→A
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Or in other words:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The initial object is the object that has one and only one morphism going to any object in the category. —— Category Theory for Programmers, Bartosz Milewski&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Similarly, in any category $C$, an object $1$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; is terminal if for any object $A$ there is a unique morphism&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+A→1
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Or in other words:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The terminal object is the object with one and only one morphism coming to it from any object in the category. —— Category Theory for Programmers, Bartosz Milewski&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Initial (terminal) objects are unique up to isomorphism.&lt;&#x2F;p&gt;
+&lt;p&gt;In agda, the definition of initial (terminal is similar) object is something like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;record &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;IsInitial&lt;&#x2F;span&gt;&lt;span&gt; (⊥ : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;o &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ℓ &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;field
+&lt;&#x2F;span&gt;&lt;span&gt;    ! : {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Obj&lt;&#x2F;span&gt;&lt;span&gt;} → (⊥ ⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    !-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;unique &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;} → (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;: ⊥ ⇒ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) → ! ≈ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;record &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Initial &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;o &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ℓ &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;field
+&lt;&#x2F;span&gt;&lt;span&gt;    ⊥ : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Obj
+&lt;&#x2F;span&gt;&lt;span&gt;    ⊥-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;initial &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;IsInitial &lt;&#x2F;span&gt;&lt;span&gt;⊥
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Here &lt;code&gt;!&lt;&#x2F;code&gt; is the morphism from &lt;code&gt;⊥&lt;&#x2F;code&gt; to &lt;code&gt;A&lt;&#x2F;code&gt;. And &lt;code&gt;!-unique&lt;&#x2F;code&gt; is the proof of the uniqueness, while the definition of &lt;code&gt;≈&lt;&#x2F;code&gt;, which means isomorphism equal, is defined &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;agda&#x2F;agda-categories&#x2F;blob&#x2F;4b93392b7656c6a27c75f05d6eec1b3ceb410af5&#x2F;src&#x2F;Categories&#x2F;Morphism&#x2F;IsoEquiv.agda&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;products-and-coproducts&quot;&gt;Products and Coproducts&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In category theory, the product of two (or more) objects in a category is a notion designed to capture the essence behind constructions in other areas of mathematics such as ... Essentially, the product of a family of objects is the &amp;quot;most general&amp;quot; object which admits a morphism to each of the given objects. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzFcXHRpbWVzIFhfMiJdLFs0LDIsIlhfMiJdLFswLDIsIlhfMSJdLFsyLDAsIlkiXSxbMCwyLCJcXHBpXzEiXSxbMCwxLCJcXHBpXzIiLDJdLFszLDIsImZfMSIsMl0sWzMsMSwiZl8yIl0sWzMsMCwiZiIsMV1d --&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzFcXHRpbWVzIFhfMiJdLFs0LDIsIlhfMiJdLFswLDIsIlhfMSJdLFsyLDAsIlkiXSxbMCwyLCJcXHBpXzEiXSxbMCwxLCJcXHBpXzIiLDJdLFszLDIsImZfMSIsMl0sWzMsMSwiZl8yIl0sWzMsMCwiZiIsMV1d&amp;embed&quot; width=&quot;370&quot; height=&quot;216&quot; style=&quot;border-radius: 8px; border: none; width: 370px; height: 216px;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;In other words:&lt;&#x2F;p&gt;
+&lt;p&gt;A product of two objects $X_1$ and $X_2$ is the object $X_1\times X_2$ equipped with two projections such that for any other object $Y$ equipped with two projections there is a unique morphism $f$ from $Y$ to $X_1\times X_2$ that factorizes those projections.&lt;&#x2F;p&gt;
+&lt;p&gt;Similarly, we can define coproducts:&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The coproduct of a family of objects is essentially the &amp;quot;least specific&amp;quot; object to which each object in the family admits a morphism. It is the category-theoretic dual notion to the categorical product, which means the definition is the same as the product but with all arrows reversed. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzErWF8yIl0sWzAsMiwiWF8xIl0sWzQsMiwiWF8yIl0sWzIsMCwiWSJdLFsxLDAsImlfMSIsMl0sWzIsMCwiaV8yIl0sWzAsMywiZiIsMV0sWzEsMywiZl8xIl0sWzIsMywiZl8yIiwyXV0= --&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzErWF8yIl0sWzAsMiwiWF8xIl0sWzQsMiwiWF8yIl0sWzIsMCwiWSJdLFsxLDAsImlfMSIsMl0sWzIsMCwiaV8yIl0sWzAsMywiZiIsMV0sWzEsMywiZl8xIl0sWzIsMywiZl8yIiwyXV0=&amp;embed&quot; width=&quot;370&quot; height=&quot;216&quot; style=&quot;border-radius: 8px; border: none; width: 370px; height: 216px;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;In other words:&lt;&#x2F;p&gt;
+&lt;p&gt;A coproduct of two objects $X_1$ and $X_2$ is the object $X_1 + X_2$ equipped with two injections such that for any other object $Y$ equipped with two injections there is a unique morphism $f$ from $X_1 + X_2$ to $Y$ that factorizes those injections.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Also can be written as &lt;code&gt;Void&lt;&#x2F;code&gt; or $⊥$.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;Also can be written as &lt;code&gt;()&lt;&#x2F;code&gt; or $⊤$.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>mem2reg made simple</title>
 		<published>2022-11-16T15:17:53.579+00:00</published>
@@ -1151,9 +1220,9 @@ $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h2&gt;
 &lt;p&gt;The book gives us some examples of categories, I&#x27;ll just take some interesting ones here&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;rel&quot;&gt;Rel&lt;&#x2F;h3&gt;
-&lt;p&gt;Object : Sets
-Arrows : Binary Relations ($f : A → B$, $f ⊆ A×B$)
-Identity Arrow :
+&lt;p&gt;Object: Sets&lt;&#x2F;p&gt;
+&lt;p&gt;Arrows : Binary Relations ($f : A → B$, $f ⊆ A×B$)&lt;&#x2F;p&gt;
+&lt;p&gt;Identity Arrow :
 $$
 1_A = {(a,a) ∈ A×A | a∈A} ⊆ A×A
 $$&lt;&#x2F;p&gt;
