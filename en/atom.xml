@@ -5,8 +5,543 @@
 	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-12-19T04:59:39.001+00:00</updated>
+	<updated>2023-02-04T17:59:47.582+00:00</updated>
 	<id>https://longfangsong.github.io/en/atom.xml</id>
+	<entry xml:lang="en">
+		<title>Compile LLVM style IR to web assembly</title>
+		<published>2023-02-04T17:59:47.582+00:00</published>
+		<updated>2023-02-04T17:59:47.582+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/ssa-to-stackvm/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/ssa-to-stackvm/</id>
+		<content type="html">&lt;h2 id=&quot;nb&quot;&gt;NB&lt;&#x2F;h2&gt;
+&lt;p&gt;This article presumes you know what is:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;(LLVM-liked) SSA form IR.&lt;&#x2F;li&gt;
+&lt;li&gt;Control-flow graph.&lt;&#x2F;li&gt;
+&lt;li&gt;WASM and its text form WAT.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;the-basic-idea-of-wasm-s-control-flow-instructions&quot;&gt;The basic idea of WASM&#x27;s control flow instructions&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;if-then-else&quot;&gt;if-then-else&lt;&#x2F;h3&gt;
+&lt;p&gt;Just like high-level languages, wasm supports if-then-else statements:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span&gt;(local &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;$var &lt;&#x2F;span&gt;&lt;span&gt;i32)
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then
+&lt;&#x2F;span&gt;&lt;span&gt;    (local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$var &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;))) 
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;    (local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$var &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;)))
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;the &lt;code&gt;else&lt;&#x2F;code&gt; part can be omitted.&lt;&#x2F;p&gt;
+&lt;p&gt;Note though we fold the expressions in this way, the wasm instructions are actually organized in such a way&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span&gt;(local &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;$var &lt;&#x2F;span&gt;&lt;span&gt;i32)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;span&gt;local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$var
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$var
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And that&#x27;s also how we need to emit our wasm code.&lt;&#x2F;p&gt;
+&lt;p&gt;(Note &lt;code&gt;end&lt;&#x2F;code&gt; instruction is omitted when we fold the expressions)&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;loop-br&quot;&gt;&lt;code&gt;loop&lt;&#x2F;code&gt; + &lt;code&gt;br&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;loop&lt;&#x2F;code&gt; means in the following code until the corresponding &lt;code&gt;end&lt;&#x2F;code&gt;, we can jump to the top of the block by &lt;code&gt;br&lt;&#x2F;code&gt; instruction.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; do something
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$my_loop &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; continue the loop
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;If no &lt;code&gt;br&lt;&#x2F;code&gt; is executed, the loop will terminate when we reach end of its content.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;block-br&quot;&gt;&lt;code&gt;block&lt;&#x2F;code&gt; + &lt;code&gt;br&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;block&lt;&#x2F;code&gt; means in the following code until the corresponding &lt;code&gt;end&lt;&#x2F;code&gt;, we can jump out of the block by &lt;code&gt;br&lt;&#x2F;code&gt; instruction.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$my_block
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; do something
+&lt;&#x2F;span&gt;&lt;span&gt;  (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br_if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$my_block &lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.lt_s &lt;&#x2F;span&gt;&lt;span&gt;(global.get &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$i&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;  ))
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; do other things, will not be executed if br_if is taken
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;block&lt;&#x2F;code&gt; and &lt;code&gt;loop&lt;&#x2F;code&gt; themselves don&#x27;t have any special usage, they just change the meaning of &lt;code&gt;br&lt;&#x2F;code&gt; inside them.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;br-br-if&quot;&gt;br&#x2F;br_if&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; are used to jump to a &amp;quot;label&amp;quot;, which can be either a &lt;code&gt;loop&lt;&#x2F;code&gt; or a &lt;code&gt;block&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;br_if&lt;&#x2F;code&gt; is used to jump to a label only if the condition (the value on top of the stack) is true.&lt;&#x2F;p&gt;
+&lt;p&gt;Note &lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; can only break&#x2F;continue a loop&#x2F;block they are &lt;strong&gt;in&lt;&#x2F;strong&gt;, they cannot jump to an arbitrary place.&lt;&#x2F;p&gt;
+&lt;p&gt;There are also some other instructions like &lt;code&gt;br_table&lt;&#x2F;code&gt; and &lt;code&gt;return&lt;&#x2F;code&gt;, but they are not important for this article, so I will not mention them here.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-key-problem-cannot-branch-to-arbitrary-place&quot;&gt;The key problem: cannot branch to arbitrary place&lt;&#x2F;h2&gt;
+&lt;p&gt;LLVM ir has &lt;code&gt;br&lt;&#x2F;code&gt; instruction, which can jump to an arbitrary place, so this CFG is easily representable in LLVM:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    id0(Entry)
+    id0 --&amp;gt; A
+    A --&amp;gt; B
+    B --&amp;gt; C
+    F --&amp;gt; D
+    B --&amp;gt; D
+    D --&amp;gt; E
+    C --&amp;gt; E
+    C --&amp;gt; F
+    D --&amp;gt; G
+    E --&amp;gt; B
+    E --&amp;gt; G
+    F --&amp;gt; H
+    G --&amp;gt; H
+&lt;&#x2F;div&gt;
+&lt;p&gt;But it is not representable in WASM with &lt;strong&gt;only&lt;&#x2F;strong&gt; control flow instructions we have.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Luckily, there exists a very simple method to represent any CFGs by adding a &amp;quot;next block&amp;quot; variable, and wrap the whole program in a &lt;code&gt;loop&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-naive-algorithm&quot;&gt;The naive algorithm&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#6&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
+&lt;p&gt;The basic idea of this method is that we can just forget everything about these fancy features about control flow instructions of wasm, and control everything by ourselves.&lt;&#x2F;p&gt;
+&lt;p&gt;We can just put everything in a loop, and use a variable to record the next block to execute, and use &lt;code&gt;br&lt;&#x2F;code&gt; to jump to the next block:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span&gt;(local &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;$next_block &lt;&#x2F;span&gt;&lt;span&gt;i32)
+&lt;&#x2F;span&gt;&lt;span&gt;(local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;    (local.get &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.eq &lt;&#x2F;span&gt;&lt;span&gt;(local.get &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;)) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; A content here
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; $next_block = B
+&lt;&#x2F;span&gt;&lt;span&gt;        (local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;    ))
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.eq &lt;&#x2F;span&gt;&lt;span&gt;(local.get &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; B content here
+&lt;&#x2F;span&gt;&lt;span&gt;        (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(local.get &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$cond_1&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; $next_block = C
+&lt;&#x2F;span&gt;&lt;span&gt;            (local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;)))
+&lt;&#x2F;span&gt;&lt;span&gt;        (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; $next_block = D
+&lt;&#x2F;span&gt;&lt;span&gt;            (local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;)))
+&lt;&#x2F;span&gt;&lt;span&gt;        )
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;    ))
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.eq &lt;&#x2F;span&gt;&lt;span&gt;(local.get &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;)) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; C content here
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; omitted
+&lt;&#x2F;span&gt;&lt;span&gt;    ))
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.eq &lt;&#x2F;span&gt;&lt;span&gt;(local.get &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;)) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; D content here
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; omitted
+&lt;&#x2F;span&gt;&lt;span&gt;    ))
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; rest omitted
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;You can easily see the problem of this algorithm: the generated code contains a lot of (unnecessary) access to &lt;code&gt;$next_block&lt;&#x2F;code&gt; variable and condition judgement. It would be better to have another algorithm which can make use of the control flow instructions provided by wasm.&lt;&#x2F;p&gt;
+&lt;p&gt;In &lt;a href=&quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;emscripten-core&#x2F;emscripten&#x2F;main&#x2F;docs&#x2F;paper.pdf&quot;&gt;the paper of Emscripten&lt;&#x2F;a&gt;, such an algorithm is introduced.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;the-relooper-algorithm&quot;&gt;The Relooper algorithm&lt;&#x2F;h2&gt;
+&lt;p&gt;Basic idea of the relooper algorithm is to record some certain patterns in the control flow graph, and generate code to handle these patterns.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;find-a-simple-loop-in-cfg&quot;&gt;Find a (simple) loop in CFG&lt;&#x2F;h3&gt;
+&lt;p&gt;A simple loop, which can be represented with a &lt;code&gt;loop&lt;&#x2F;code&gt; with several &lt;code&gt;br&lt;&#x2F;code&gt;s, can be recognized by finding cycles&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#5&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; in the CFG, which has:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;only one way to exit the loop&lt;&#x2F;li&gt;
+&lt;li&gt;only one way to enter the loop&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;eg.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart LR
+    subgraph From
+        Entry(...)
+    end
+    subgraph To
+        F(...)
+    end
+    subgraph Content
+        A
+        B
+        C
+        D
+        E
+    end
+    Entry --&amp;gt; A
+    A --&amp;gt; B
+    B --&amp;gt; C
+    C --&amp;gt; D
+    D --&amp;gt; E(...)
+    E --&amp;gt; A
+    A --&amp;gt; F
+&lt;&#x2F;div&gt;
+&lt;p&gt;Can be translated into:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `From`
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `A`
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; we presume basic block `A` put branch condition onto top of the stack
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; load from stack top
+&lt;&#x2F;span&gt;&lt;span&gt;        (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then 
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `B`
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `C`
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `D`
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; ...
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;        )
+&lt;&#x2F;span&gt;&lt;span&gt;    )
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `To`
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;it&#x27;s also possible that the entry of the loop is different from the exit of the loop, eg.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart LR
+    subgraph From
+        Entry(...)
+    end
+    subgraph To
+        F(...)
+    end
+    subgraph Content
+        A
+        B
+        C
+        D
+        E
+    end
+    Entry --&amp;gt; A
+    A --&amp;gt; B
+    B --&amp;gt; C
+    C --&amp;gt; D
+    D --&amp;gt; E(...)
+    E --&amp;gt; A
+    C --&amp;gt; F
+&lt;&#x2F;div&gt;
+&lt;p&gt;can be translated to:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `From`
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `A`
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `B`
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `C`
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; we presume basic block `C` put branch condition onto top of the stack
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; load from stack top
+&lt;&#x2F;span&gt;&lt;span&gt;        (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then 
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `D`
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; ...
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$my_loop
+&lt;&#x2F;span&gt;&lt;span&gt;        )
+&lt;&#x2F;span&gt;&lt;span&gt;    )
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `To`
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;find-a-condition-branch-in-cfg&quot;&gt;Find a condition branch in CFG&lt;&#x2F;h3&gt;
+&lt;p&gt;A condition branch, which can be represented with a &lt;code&gt;if-then-else&lt;&#x2F;code&gt;, can be recognized by finding a node which:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;have two different groups of successors, which
+&lt;ul&gt;
+&lt;li&gt;the one and only entry of each group of successor is the node itself&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;6&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;the successor groups can &amp;quot;meet&amp;quot; after leaving their exit node&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Note one of the groups can be empty.&lt;&#x2F;p&gt;
+&lt;p&gt;eg.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    subgraph From
+        FromNode(...)
+    end
+    subgraph To
+        ToNode(...)
+    end
+    subgraph Content1
+        B --&amp;gt; C
+    end
+    subgraph Content2
+        D --&amp;gt; E
+    end
+    FromNode --&amp;gt; A
+    A --&amp;gt; B
+    A --&amp;gt; D
+    C --&amp;gt; ToNode
+    E --&amp;gt; ToNode
+&lt;&#x2F;div&gt;
+&lt;p&gt;can be translated to:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `From`
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `A`
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; we presume basic block `A` put branch condition onto top of the stack
+&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; load from stack top
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then 
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `B`
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `C`
+&lt;&#x2F;span&gt;&lt;span&gt;    )
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else 
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `D`
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `E`
+&lt;&#x2F;span&gt;&lt;span&gt;    )
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; wasm corresponding to `To`
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;combine-them-together&quot;&gt;Combine them together&lt;&#x2F;h3&gt;
+&lt;p&gt;So what we needs to do is to recognize these two patterns in a CFG, and emit codes for them.&lt;&#x2F;p&gt;
+&lt;p&gt;We can recognize the nodes one by one:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;If we can reach only one other node from this node, and we can never come back, we can just emit code for this node and continue to the next node.&lt;&#x2F;li&gt;
+&lt;li&gt;If the node is the entry node of some (simple) loop, we can emit the code according to the algorithm about loop above, and continue to the next node.&lt;&#x2F;li&gt;
+&lt;li&gt;If the node is the entry node of some condition branch, we can emit the code according to the algorithm about condition branch above, and continue to the next node.&lt;&#x2F;li&gt;
+&lt;li&gt;Else we can fallback to the naive algorithm for all blocks which can reached from this node.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;And that&#x27;s the basic idea of the Relooper algorithm.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;disadvantages&quot;&gt;Disadvantages&lt;&#x2F;h3&gt;
+&lt;p&gt;The problem is, wasm&#x27;s control flow instructions are more powerful than the code relooper can generate, for example:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    A --&amp;gt; B
+    A --&amp;gt; C
+    A --&amp;gt; D
+    A --&amp;gt; E
+    B --&amp;gt; C
+    C --&amp;gt; D
+    D --&amp;gt; E
+&lt;&#x2F;div&gt;
+&lt;p&gt;For this CFG, the relooper algorithm can do nothing but falling back to the naive algorithm, however, it can be translated into wasm in such a way:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$before_E
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$before_D
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; A content here
+&lt;&#x2F;span&gt;&lt;span&gt;        (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$before_C
+&lt;&#x2F;span&gt;&lt;span&gt;            (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; should branch to B
+&lt;&#x2F;span&gt;&lt;span&gt;                (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; B content here
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$before_C&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;            (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; should branch to C
+&lt;&#x2F;span&gt;&lt;span&gt;                (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$before_C&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;            (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; should branch to D
+&lt;&#x2F;span&gt;&lt;span&gt;                (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$before_D&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;            (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; should branch to E
+&lt;&#x2F;span&gt;&lt;span&gt;                (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then br &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$before_E&lt;&#x2F;span&gt;&lt;span&gt;))
+&lt;&#x2F;span&gt;&lt;span&gt;        )
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; C content here
+&lt;&#x2F;span&gt;&lt;span&gt;    )
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; D content here
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; E content here
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;the-stackifier-algorithm&quot;&gt;The stackifier algorithm&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;part-1-how-to-deal-with-cycles-with-multiple-entries&quot;&gt;Part 1: How to deal with cycles with multiple entries?&lt;&#x2F;h3&gt;
+&lt;p&gt;During observations above, we may find that we cannot handle cycles with multiple entries, for example:&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    A --&amp;gt; B
+    B --&amp;gt; C
+    C --&amp;gt; D
+    D --&amp;gt; B
+    A --&amp;gt; E
+    E --&amp;gt; D
+    D --&amp;gt; F
+&lt;&#x2F;div&gt;
+&lt;p&gt;In this CFG, we can find a cycle &lt;code&gt;B-&amp;gt;C-&amp;gt;D-&amp;gt;B&lt;&#x2F;code&gt; with multiple entries (&lt;code&gt;A-&amp;gt;B&lt;&#x2F;code&gt; and &lt;code&gt;E-&amp;gt;D&lt;&#x2F;code&gt;), which is hard to be handled.&lt;&#x2F;p&gt;
+&lt;p&gt;In relooper algorithm, we just fallback to the naive algorithm for all blocks which can reached from this node.&lt;&#x2F;p&gt;
+&lt;p&gt;However, we may not apply the naive algorithm to all blocks, instead, we may use the idea of using labels to &amp;quot;branch&amp;quot; only to the entry nodes of the cycle.&lt;&#x2F;p&gt;
+&lt;p&gt;We can add a dispatcher node, and redirect all the incoming edges of &lt;code&gt;B&lt;&#x2F;code&gt; and &lt;code&gt;D&lt;&#x2F;code&gt; to the dispatcher node.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    A --&amp;gt; Dispatcher
+    B --&amp;gt; C
+    C --&amp;gt; D
+    D --&amp;gt; Dispatcher
+    A --&amp;gt; E
+    E --&amp;gt; Dispatcher
+    Dispatcher --&amp;gt; B
+    Dispatcher --&amp;gt; D
+    D --&amp;gt; F
+&lt;&#x2F;div&gt;
+&lt;p&gt;Dispatcher will create a label variable, and:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;A&lt;&#x2F;code&gt; will set it to &lt;code&gt;B&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;E&lt;&#x2F;code&gt; will set it to &lt;code&gt;D&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;C&lt;&#x2F;code&gt; will set it to &lt;code&gt;B&lt;&#x2F;code&gt; (&lt;code&gt;C&lt;&#x2F;code&gt; will jump to &lt;code&gt;D&lt;&#x2F;code&gt; by itself, so we don&#x27;t set it to &lt;code&gt;D&lt;&#x2F;code&gt;)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;After this transformation, we can handle the CFG as if it&#x27;s a cycle with only one entry node.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;part-2-how-to-deal-with-the-cfg-without-cycles-with-multiple-entries&quot;&gt;Part 2: How to deal with the CFG without cycles with multiple entries?&lt;&#x2F;h3&gt;
+&lt;p&gt;The rest part can also be handled by the relooper algorithm, but you may find out that the relooper algorithm is a greedy algorithm which may not provide the best result, because it cannot assume there are no cycles with multiple entries in the CFG.&lt;&#x2F;p&gt;
+&lt;p&gt;After removing cycles with multiple entries, the stackifier algorithm can now provide a better solution to this problem.&lt;&#x2F;p&gt;
+&lt;!-- We can enter a loop only by enter its entry node. --&gt;
+&lt;h4 id=&quot;topological-ordering&quot;&gt;Topological Ordering&lt;&#x2F;h4&gt;
+&lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Topological_sorting&quot;&gt;Topological sort&lt;&#x2F;a&gt; is a useful tool when doing stuff with codes scheduling, basically it just make sure if a node &lt;code&gt;A&lt;&#x2F;code&gt; is reached before &lt;code&gt;B&lt;&#x2F;code&gt;, then it is ordered prior to &lt;code&gt;B&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;We cannot perform tradition topological sort algorithm on a CFG, because it&#x27;s not a DAG.&lt;&#x2F;p&gt;
+&lt;p&gt;However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. And stackifier algorithm add another requirement: the entry node of th loop must ordered before ALL the nodes in the loop &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Then the process is easy, just:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Wrap each loop in &lt;code&gt;loop&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;For each forward edge which source and destination blocks are not consecutive, we can put put &lt;code&gt;block&lt;&#x2F;code&gt; at the beginning of the function&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#8&quot;&gt;8&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, use &lt;code&gt;break&lt;&#x2F;code&gt; to jump to the destination block, and put &lt;code&gt;end&lt;&#x2F;code&gt; before the target block.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    Entry --&amp;gt; A
+    A --&amp;gt; B
+    B --&amp;gt; C
+    C --&amp;gt; D
+    D --&amp;gt; E
+    E --&amp;gt; G
+    E --&amp;gt; F
+    F --&amp;gt; C
+    G --&amp;gt; B
+    G --&amp;gt; O
+    A --&amp;gt; H
+    H --&amp;gt; I
+    I --&amp;gt; K
+    K --&amp;gt; L
+    H --&amp;gt; J
+    J --&amp;gt; L
+    L --&amp;gt; M
+    M --&amp;gt; N
+    L --&amp;gt; N
+    N --&amp;gt; O
+    O --&amp;gt; Exit
+&lt;&#x2F;div&gt;
+&lt;p&gt;After topo-sort, the blocks order is &lt;code&gt;ABCDEFGHIKJLMNO&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;First just wrap the loops in &lt;code&gt;loops&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
+flowchart TD
+    Entry --&amp;gt; A
+    A --&amp;gt; B
+    subgraph Loop2
+        B --&amp;gt; C
+        subgraph Loop1
+            C --&amp;gt; D
+            D --&amp;gt; E
+            E --&amp;gt; F
+        end
+        E --&amp;gt; G
+        F --&amp;gt; C
+        G --&amp;gt; B
+    end
+    G --&amp;gt; O
+    A --&amp;gt; H
+    H --&amp;gt; I
+    I --&amp;gt; K
+    K --&amp;gt; L
+    H --&amp;gt; J
+    J --&amp;gt; L
+    L --&amp;gt; M
+    M --&amp;gt; N
+    L --&amp;gt; N
+    N --&amp;gt; O
+    O --&amp;gt; Exit
+&lt;&#x2F;div&gt;
+&lt;p&gt;And current generated code is something like:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; A
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop2
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; B 
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop1
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; C
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; D
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; E
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; F 
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; G
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; HIKJLMNO
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;A -&amp;gt; H&lt;&#x2F;code&gt;, &lt;code&gt;H -&amp;gt; J&lt;&#x2F;code&gt;, &lt;code&gt;L -&amp;gt; N&lt;&#x2F;code&gt; are forward edges which from and two are not consecutive, we create blocks for them one by one.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$AH
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; A
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br_if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$AH
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop2
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; B 
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop1
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; C
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; D
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; E
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; F 
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; G
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; H
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; IKJLMNO
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$HJ
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$AH
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; A
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br_if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$AH
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop2
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; B 
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop1
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; C
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; D
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; E
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; F 
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; G
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; H
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br_if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$HJ
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; I
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; K
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; J
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; LMNO
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$LN
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$HJ
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;block &lt;&#x2F;span&gt;&lt;span&gt;$AH
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; A
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br_if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$AH
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop2
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; B 
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop1
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; C
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; D
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; E
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; F 
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; G
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; H
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br_if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$HJ
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; I
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; K
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; J
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; L
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;br_if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$LN
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; M
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;end
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; N
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; O
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;And now we can translate the CFG into wasm by simply filling the content of basic blocks.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Personally I think how wasm does control flow is a little bit weird, &lt;code&gt;block&lt;&#x2F;code&gt; is a real instruction instead of some meta information on the code, &lt;code&gt;br&lt;&#x2F;code&gt; can mean either &lt;code&gt;break&lt;&#x2F;code&gt; or &lt;code&gt;continue&lt;&#x2F;code&gt; depending on its in a &lt;code&gt;block&lt;&#x2F;code&gt; or &lt;code&gt;loop&lt;&#x2F;code&gt;, but it cannot be used to &amp;quot;branch&amp;quot; to an arbitrary place, and wasm provides both &lt;code&gt;br_if&lt;&#x2F;code&gt; and &lt;code&gt;if&lt;&#x2F;code&gt;, which seems non-orthogonal.
+Though &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;design&#x2F;issues&#x2F;796&quot;&gt;many developers are asking for arbitrary labels and gotos&lt;&#x2F;a&gt; added into wasm, I think it&#x27;s hopeless because wasm is already going too far to adopt such a large design change.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;Yes, &lt;code&gt;if&lt;&#x2F;code&gt;, &lt;code&gt;else&lt;&#x2F;code&gt;, and even &lt;code&gt;end&lt;&#x2F;code&gt; is a &amp;quot;real&amp;quot; instruction, which has a corresponding binary form. It&#x27;s quite strange for an &amp;quot;asm&amp;quot; to have these structures, but that&#x27;s how wasm does things, and they &lt;strong&gt;are&lt;&#x2F;strong&gt; useful for a stack based vm.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;For those who are very familiar with the properties of CFG, you may have known that this is because the CFG is not reducible.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;6&lt;&#x2F;sup&gt;
+&lt;p&gt;Or, the node &amp;quot;dominates&amp;quot; every node in the group of successor.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;Or, in a more professional statement, strongly connected component, because there can be sub-cycles inside the outer cycle.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;6&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;This algorithm is first introduced by &lt;a href=&quot;https:&#x2F;&#x2F;dl.acm.org&#x2F;doi&#x2F;pdf&#x2F;10.1145&#x2F;355609.362337&quot;&gt;a paper in 1973&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;7&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;7&lt;&#x2F;sup&gt;
+&lt;p&gt;This means you should visit everything inside the loop first before going out of the loop when applying a DFS based topo-sort algorithm.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;8&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;8&lt;&#x2F;sup&gt;
+&lt;p&gt;wasm seems doesn&#x27;t care much about how deep blocks are nested.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+	</entry>
+	<entry xml:lang="en">
+		<title>Category theory Notes 3</title>
+		<published>2023-01-30T17:46:45.264+00:00</published>
+		<updated>2023-01-30T17:46:45.264+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/en/category-theory-3/" type="text/html"/>
+		<id>https://longfangsong.github.io/en/category-theory-3/</id>
+		<content type="html">&lt;h2 id=&quot;functor&quot;&gt;Functor&lt;&#x2F;h2&gt;
+&lt;p&gt;Initually, functor is a mapping from one category to another, which preserves the structure of the origin one.&lt;&#x2F;p&gt;
+&lt;p&gt;Formally, functor is defined as&lt;&#x2F;p&gt;
+&lt;p&gt;A functor $F:C→D$ between categories $C$ and $D$ is a mapping of objects to objects and
+arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$F(f:A→B)=F(f):F(A)→F(B)$&lt;&#x2F;li&gt;
+&lt;li&gt;$F(g\cdot f)=F(g)\cdot F(f)$&lt;&#x2F;li&gt;
+&lt;li&gt;$F(1_A)=1_{F(A)}$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+	</entry>
 	<entry xml:lang="en">
 		<title>Category theory Notes 2</title>
 		<published>2022-12-19T04:59:39.001+00:00</published>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Compile LLVM style IR to web assembly</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;ssa-to-stackvm&#x2F;">Compile LLVM style IR to web assembly</a></h1>
+  
+  <div class="post-content"><h2 id="nb">NB</h2>
+<p>This article presumes you know what is:</p>
+<ul>
+<li>(LLVM-liked) SSA form IR.</li>
+<li>Control-flow graph.</li>
+<li>WASM and its text form WAT.</li>
+</ul>
+<h2 id="the-basic-idea-of-wasm-s-control-flow-instructions">The basic idea of WASM's control flow instructions<sup class="footnote-reference"><a href="#1">1</a></sup></h2>
+<h3 id="if-then-else">if-then-else</h3>
+<p>Just like high-level languages, wasm supports if-then-else statements:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span>(local </span><span style="color:#b48ead;">$var </span><span>i32)
+</span><span>(</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">0</span><span>) (</span><span style="color:#b48ead;">then
+</span><span>    (local.set </span><span style="color:#bf616a;">$var </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">1</span><span>))) 
+</span><span>(</span><span style="color:#b48ead;">else
+</span><span>    (local.set </span><span style="color:#bf616a;">$var </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">0</span><span>)))
+</span><span>)
+</span></code></pre>
+<p>the <code>else</code> part can be omitted.</p>
+<p>Note though we fold the expressions in this way, the wasm instructions are actually organized in such a way<sup class="footnote-reference"><a href="#2">2</a></sup>:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span>(local </span><span style="color:#b48ead;">$var </span><span>i32)
+</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">0
+</span><span style="color:#b48ead;">if
+</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">1
+</span><span>local.set </span><span style="color:#bf616a;">$var
+</span><span style="color:#b48ead;">else
+</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">0
+</span><span>local.set </span><span style="color:#bf616a;">$var
+</span><span style="color:#b48ead;">end
+</span></code></pre>
+<p>And that's also how we need to emit our wasm code.</p>
+<p>(Note <code>end</code> instruction is omitted when we fold the expressions)</p>
+<h3 id="loop-br"><code>loop</code> + <code>br</code></h3>
+<p><code>loop</code> means in the following code until the corresponding <code>end</code>, we can jump to the top of the block by <code>br</code> instruction.</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span>(</span><span style="color:#b48ead;">loop </span><span>$my_loop
+</span><span>    </span><span style="color:#65737e;">;; do something
+</span><span>    </span><span style="color:#b48ead;">br </span><span style="color:#bf616a;">$my_loop </span><span style="color:#65737e;">;; continue the loop
+</span><span>)
+</span></code></pre>
+<p>If no <code>br</code> is executed, the loop will terminate when we reach end of its content.</p>
+<h3 id="block-br"><code>block</code> + <code>br</code></h3>
+<p><code>block</code> means in the following code until the corresponding <code>end</code>, we can jump out of the block by <code>br</code> instruction.</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span>(</span><span style="color:#b48ead;">block </span><span>$my_block
+</span><span>  </span><span style="color:#65737e;">;; do something
+</span><span>  (</span><span style="color:#b48ead;">br_if </span><span style="color:#bf616a;">$my_block </span><span>(
+</span><span>        </span><span style="color:#96b5b4;">i32.lt_s </span><span>(global.get </span><span style="color:#bf616a;">$i</span><span>) (</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">10</span><span>)
+</span><span>  ))
+</span><span>  </span><span style="color:#65737e;">;; do other things, will not be executed if br_if is taken
+</span><span>)
+</span></code></pre>
+<p><code>block</code> and <code>loop</code> themselves don't have any special usage, they just change the meaning of <code>br</code> inside them.</p>
+<h3 id="br-br-if">br/br_if</h3>
+<p><code>br</code> and <code>br_if</code> are used to jump to a &quot;label&quot;, which can be either a <code>loop</code> or a <code>block</code>.</p>
+<p><code>br_if</code> is used to jump to a label only if the condition (the value on top of the stack) is true.</p>
+<p>Note <code>br</code> and <code>br_if</code> can only break/continue a loop/block they are <strong>in</strong>, they cannot jump to an arbitrary place.</p>
+<p>There are also some other instructions like <code>br_table</code> and <code>return</code>, but they are not important for this article, so I will not mention them here.</p>
+<h2 id="the-key-problem-cannot-branch-to-arbitrary-place">The key problem: cannot branch to arbitrary place</h2>
+<p>LLVM ir has <code>br</code> instruction, which can jump to an arbitrary place, so this CFG is easily representable in LLVM:</p>
+<div class="mermaid">
+flowchart TD
+    id0(Entry)
+    id0 --&gt; A
+    A --&gt; B
+    B --&gt; C
+    F --&gt; D
+    B --&gt; D
+    D --&gt; E
+    C --&gt; E
+    C --&gt; F
+    D --&gt; G
+    E --&gt; B
+    E --&gt; G
+    F --&gt; H
+    G --&gt; H
+</div>
+<p>But it is not representable in WASM with <strong>only</strong> control flow instructions we have.<sup class="footnote-reference"><a href="#3">3</a></sup></p>
+<p>Luckily, there exists a very simple method to represent any CFGs by adding a &quot;next block&quot; variable, and wrap the whole program in a <code>loop</code>:</p>
+<h2 id="the-naive-algorithm">The naive algorithm<sup class="footnote-reference"><a href="#6">4</a></sup></h2>
+<p>The basic idea of this method is that we can just forget everything about these fancy features about control flow instructions of wasm, and control everything by ourselves.</p>
+<p>We can just put everything in a loop, and use a variable to record the next block to execute, and use <code>br</code> to jump to the next block:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span>(local </span><span style="color:#b48ead;">$next_block </span><span>i32)
+</span><span>(local.set </span><span style="color:#bf616a;">$next_block </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">0</span><span>))
+</span><span>(</span><span style="color:#b48ead;">loop </span><span>$my_loop
+</span><span>    (local.get </span><span style="color:#bf616a;">$next_block</span><span>)
+</span><span>    (</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#96b5b4;">i32.eq </span><span>(local.get </span><span style="color:#bf616a;">$next_block</span><span>) (</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">0</span><span>)) (</span><span style="color:#b48ead;">then
+</span><span>        </span><span style="color:#65737e;">;; A content here
+</span><span>        </span><span style="color:#65737e;">;; $next_block = B
+</span><span>        (local.set </span><span style="color:#bf616a;">$next_block </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">1</span><span>))
+</span><span>        </span><span style="color:#b48ead;">br </span><span style="color:#bf616a;">$my_loop
+</span><span>    ))
+</span><span>    (</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#96b5b4;">i32.eq </span><span>(local.get </span><span style="color:#bf616a;">$next_block</span><span>) (</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">1</span><span>)) (</span><span style="color:#b48ead;">then
+</span><span>        </span><span style="color:#65737e;">;; B content here
+</span><span>        (</span><span style="color:#b48ead;">if </span><span>(local.get </span><span style="color:#bf616a;">$cond_1</span><span>) (</span><span style="color:#b48ead;">then
+</span><span>            </span><span style="color:#65737e;">;; $next_block = C
+</span><span>            (local.set </span><span style="color:#bf616a;">$next_block </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">2</span><span>)))
+</span><span>        (</span><span style="color:#b48ead;">else
+</span><span>            </span><span style="color:#65737e;">;; $next_block = D
+</span><span>            (local.set </span><span style="color:#bf616a;">$next_block </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">3</span><span>)))
+</span><span>        )
+</span><span>        </span><span style="color:#b48ead;">br </span><span style="color:#bf616a;">$my_loop
+</span><span>    ))
+</span><span>    (</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#96b5b4;">i32.eq </span><span>(local.get </span><span style="color:#bf616a;">$next_block</span><span>) (</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">2</span><span>)) (</span><span style="color:#b48ead;">then
+</span><span>        </span><span style="color:#65737e;">;; C content here
+</span><span>        </span><span style="color:#65737e;">;; omitted
+</span><span>    ))
+</span><span>    (</span><span style="color:#b48ead;">if </span><span>(</span><span style="color:#96b5b4;">i32.eq </span><span>(local.get </span><span style="color:#bf616a;">$next_block</span><span>) (</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">3</span><span>)) (</span><span style="color:#b48ead;">then
+</span><span>        </span><span style="color:#65737e;">;; D content here
+</span><span>        </span><span style="color:#65737e;">;; omitted
+</span><span>    ))
+</span><span>    </span><span style="color:#65737e;">;; rest omitted
+</span><span>)
+</span></code></pre>
+<p>You can easily see the problem of this algorithm: the generated code contains a lot of (unnecessary) access to <code>$next_block</code> variable and condition judgement. It would be better to have another algorithm which can make use of the control flow instructions provided by wasm.</p>
+<p>In <a href="https://raw.githubusercontent.com/emscripten-core/emscripten/main/docs/paper.pdf">the paper of Emscripten</a>, such an algorithm is introduced.</p>
+<h2 id="the-relooper-algorithm">The Relooper algorithm</h2>
+<p>Basic idea of the relooper algorithm is to record some certain patterns in the control flow graph, and generate code to handle these patterns.</p>
+<h3 id="find-a-simple-loop-in-cfg">Find a (simple) loop in CFG</h3>
+<p>A simple loop, which can be represented with a <code>loop</code> with several <code>br</code>s, can be recognized by finding cycles<sup class="footnote-reference"><a href="#5">5</a></sup> in the CFG, which has:</p>
+<ul>
+<li>only one way to exit the loop</li>
+<li>only one way to enter the loop</li>
+</ul>
+<p>eg.</p>
+<div class="mermaid">
+flowchart LR
+    subgraph From
+        Entry(...)
+    end
+    subgraph To
+        F(...)
+    end
+    subgraph Content
+        A
+        B
+        C
+        D
+        E
+    end
+    Entry --&gt; A
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E(...)
+    E --&gt; A
+    A --&gt; F
+</div>
+<p>Can be translated into:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#65737e;">;; wasm corresponding to `From`
+</span><span>(</span><span style="color:#b48ead;">loop </span><span>$my_loop
+</span><span>    </span><span style="color:#65737e;">;; wasm corresponding to `A`
+</span><span>    </span><span style="color:#65737e;">;; we presume basic block `A` put branch condition onto top of the stack
+</span><span>    (</span><span style="color:#b48ead;">if </span><span style="color:#65737e;">;; load from stack top
+</span><span>        (</span><span style="color:#b48ead;">then 
+</span><span>            </span><span style="color:#65737e;">;; wasm corresponding to `B`
+</span><span>            </span><span style="color:#65737e;">;; wasm corresponding to `C`
+</span><span>            </span><span style="color:#65737e;">;; wasm corresponding to `D`
+</span><span>            </span><span style="color:#65737e;">;; ...
+</span><span>            </span><span style="color:#b48ead;">br </span><span style="color:#bf616a;">$my_loop
+</span><span>        )
+</span><span>    )
+</span><span>)
+</span><span style="color:#65737e;">;; wasm corresponding to `To`
+</span></code></pre>
+<p>it's also possible that the entry of the loop is different from the exit of the loop, eg.</p>
+<div class="mermaid">
+flowchart LR
+    subgraph From
+        Entry(...)
+    end
+    subgraph To
+        F(...)
+    end
+    subgraph Content
+        A
+        B
+        C
+        D
+        E
+    end
+    Entry --&gt; A
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E(...)
+    E --&gt; A
+    C --&gt; F
+</div>
+<p>can be translated to:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#65737e;">;; wasm corresponding to `From`
+</span><span>(</span><span style="color:#b48ead;">loop </span><span>$my_loop
+</span><span>    </span><span style="color:#65737e;">;; wasm corresponding to `A`
+</span><span>    </span><span style="color:#65737e;">;; wasm corresponding to `B`
+</span><span>    </span><span style="color:#65737e;">;; wasm corresponding to `C`
+</span><span>    </span><span style="color:#65737e;">;; we presume basic block `C` put branch condition onto top of the stack
+</span><span>    (</span><span style="color:#b48ead;">if </span><span style="color:#65737e;">;; load from stack top
+</span><span>        (</span><span style="color:#b48ead;">then 
+</span><span>            </span><span style="color:#65737e;">;; wasm corresponding to `D`
+</span><span>            </span><span style="color:#65737e;">;; ...
+</span><span>            </span><span style="color:#b48ead;">br </span><span style="color:#bf616a;">$my_loop
+</span><span>        )
+</span><span>    )
+</span><span>)
+</span><span style="color:#65737e;">;; wasm corresponding to `To`
+</span></code></pre>
+<h3 id="find-a-condition-branch-in-cfg">Find a condition branch in CFG</h3>
+<p>A condition branch, which can be represented with a <code>if-then-else</code>, can be recognized by finding a node which:</p>
+<ul>
+<li>have two different groups of successors, which
+<ul>
+<li>the one and only entry of each group of successor is the node itself<sup class="footnote-reference"><a href="#4">6</a></sup></li>
+<li>the successor groups can &quot;meet&quot; after leaving their exit node</li>
+</ul>
+</li>
+</ul>
+<p>Note one of the groups can be empty.</p>
+<p>eg.</p>
+<div class="mermaid">
+flowchart TD
+    subgraph From
+        FromNode(...)
+    end
+    subgraph To
+        ToNode(...)
+    end
+    subgraph Content1
+        B --&gt; C
+    end
+    subgraph Content2
+        D --&gt; E
+    end
+    FromNode --&gt; A
+    A --&gt; B
+    A --&gt; D
+    C --&gt; ToNode
+    E --&gt; ToNode
+</div>
+<p>can be translated to:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#65737e;">;; wasm corresponding to `From`
+</span><span style="color:#65737e;">;; wasm corresponding to `A`
+</span><span style="color:#65737e;">;; we presume basic block `A` put branch condition onto top of the stack
+</span><span>(</span><span style="color:#b48ead;">if </span><span style="color:#65737e;">;; load from stack top
+</span><span>    (</span><span style="color:#b48ead;">then 
+</span><span>        </span><span style="color:#65737e;">;; wasm corresponding to `B`
+</span><span>        </span><span style="color:#65737e;">;; wasm corresponding to `C`
+</span><span>    )
+</span><span>    (</span><span style="color:#b48ead;">else 
+</span><span>        </span><span style="color:#65737e;">;; wasm corresponding to `D`
+</span><span>        </span><span style="color:#65737e;">;; wasm corresponding to `E`
+</span><span>    )
+</span><span>)
+</span><span style="color:#65737e;">;; wasm corresponding to `To`
+</span></code></pre>
+<h3 id="combine-them-together">Combine them together</h3>
+<p>So what we needs to do is to recognize these two patterns in a CFG, and emit codes for them.</p>
+<p>We can recognize the nodes one by one:</p>
+<ul>
+<li>If we can reach only one other node from this node, and we can never come back, we can just emit code for this node and continue to the next node.</li>
+<li>If the node is the entry node of some (simple) loop, we can emit the code according to the algorithm about loop above, and continue to the next node.</li>
+<li>If the node is the entry node of some condition branch, we can emit the code according to the algorithm about condition branch above, and continue to the next node.</li>
+<li>Else we can fallback to the naive algorithm for all blocks which can reached from this node.</li>
+</ul>
+<p>And that's the basic idea of the Relooper algorithm.</p>
+<h3 id="disadvantages">Disadvantages</h3>
+<p>The problem is, wasm's control flow instructions are more powerful than the code relooper can generate, for example:</p>
+<div class="mermaid">
+flowchart TD
+    A --&gt; B
+    A --&gt; C
+    A --&gt; D
+    A --&gt; E
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E
+</div>
+<p>For this CFG, the relooper algorithm can do nothing but falling back to the naive algorithm, however, it can be translated into wasm in such a way:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span>(</span><span style="color:#b48ead;">block </span><span>$before_E
+</span><span>    (</span><span style="color:#b48ead;">block </span><span>$before_D
+</span><span>        </span><span style="color:#65737e;">;; A content here
+</span><span>        (</span><span style="color:#b48ead;">block </span><span>$before_C
+</span><span>            (</span><span style="color:#b48ead;">if </span><span style="color:#65737e;">;; should branch to B
+</span><span>                (</span><span style="color:#b48ead;">then
+</span><span>                    </span><span style="color:#65737e;">;; B content here
+</span><span>                    </span><span style="color:#b48ead;">br </span><span style="color:#bf616a;">$before_C</span><span>))
+</span><span>            (</span><span style="color:#b48ead;">if </span><span style="color:#65737e;">;; should branch to C
+</span><span>                (</span><span style="color:#b48ead;">then br </span><span style="color:#bf616a;">$before_C</span><span>))
+</span><span>            (</span><span style="color:#b48ead;">if </span><span style="color:#65737e;">;; should branch to D
+</span><span>                (</span><span style="color:#b48ead;">then br </span><span style="color:#bf616a;">$before_D</span><span>))
+</span><span>            (</span><span style="color:#b48ead;">if </span><span style="color:#65737e;">;; should branch to E
+</span><span>                (</span><span style="color:#b48ead;">then br </span><span style="color:#bf616a;">$before_E</span><span>))
+</span><span>        )
+</span><span>        </span><span style="color:#65737e;">;; C content here
+</span><span>    )
+</span><span>    </span><span style="color:#65737e;">;; D content here
+</span><span>)
+</span><span style="color:#65737e;">;; E content here
+</span></code></pre>
+<h2 id="the-stackifier-algorithm">The stackifier algorithm</h2>
+<h3 id="part-1-how-to-deal-with-cycles-with-multiple-entries">Part 1: How to deal with cycles with multiple entries?</h3>
+<p>During observations above, we may find that we cannot handle cycles with multiple entries, for example:</p>
+<div class="mermaid">
+flowchart TD
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; B
+    A --&gt; E
+    E --&gt; D
+    D --&gt; F
+</div>
+<p>In this CFG, we can find a cycle <code>B-&gt;C-&gt;D-&gt;B</code> with multiple entries (<code>A-&gt;B</code> and <code>E-&gt;D</code>), which is hard to be handled.</p>
+<p>In relooper algorithm, we just fallback to the naive algorithm for all blocks which can reached from this node.</p>
+<p>However, we may not apply the naive algorithm to all blocks, instead, we may use the idea of using labels to &quot;branch&quot; only to the entry nodes of the cycle.</p>
+<p>We can add a dispatcher node, and redirect all the incoming edges of <code>B</code> and <code>D</code> to the dispatcher node.</p>
+<div class="mermaid">
+flowchart TD
+    A --&gt; Dispatcher
+    B --&gt; C
+    C --&gt; D
+    D --&gt; Dispatcher
+    A --&gt; E
+    E --&gt; Dispatcher
+    Dispatcher --&gt; B
+    Dispatcher --&gt; D
+    D --&gt; F
+</div>
+<p>Dispatcher will create a label variable, and:</p>
+<ul>
+<li><code>A</code> will set it to <code>B</code></li>
+<li><code>E</code> will set it to <code>D</code></li>
+<li><code>C</code> will set it to <code>B</code> (<code>C</code> will jump to <code>D</code> by itself, so we don't set it to <code>D</code>)</li>
+</ul>
+<p>After this transformation, we can handle the CFG as if it's a cycle with only one entry node.</p>
+<h3 id="part-2-how-to-deal-with-the-cfg-without-cycles-with-multiple-entries">Part 2: How to deal with the CFG without cycles with multiple entries?</h3>
+<p>The rest part can also be handled by the relooper algorithm, but you may find out that the relooper algorithm is a greedy algorithm which may not provide the best result, because it cannot assume there are no cycles with multiple entries in the CFG.</p>
+<p>After removing cycles with multiple entries, the stackifier algorithm can now provide a better solution to this problem.</p>
+<!-- We can enter a loop only by enter its entry node. -->
+<h4 id="topological-ordering">Topological Ordering</h4>
+<p><a href="https://en.wikipedia.org/wiki/Topological_sorting">Topological sort</a> is a useful tool when doing stuff with codes scheduling, basically it just make sure if a node <code>A</code> is reached before <code>B</code>, then it is ordered prior to <code>B</code>.</p>
+<p>We cannot perform tradition topological sort algorithm on a CFG, because it's not a DAG.</p>
+<p>However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. And stackifier algorithm add another requirement: the entry node of th loop must ordered before ALL the nodes in the loop <sup class="footnote-reference"><a href="#7">7</a></sup>.</p>
+<p>Then the process is easy, just:</p>
+<ul>
+<li>Wrap each loop in <code>loop</code>.</li>
+<li>For each forward edge which source and destination blocks are not consecutive, we can put put <code>block</code> at the beginning of the function<sup class="footnote-reference"><a href="#8">8</a></sup>, use <code>break</code> to jump to the destination block, and put <code>end</code> before the target block.</li>
+</ul>
+<h3 id="example">Example</h3>
+<div class="mermaid">
+flowchart TD
+    Entry --&gt; A
+    A --&gt; B
+    B --&gt; C
+    C --&gt; D
+    D --&gt; E
+    E --&gt; G
+    E --&gt; F
+    F --&gt; C
+    G --&gt; B
+    G --&gt; O
+    A --&gt; H
+    H --&gt; I
+    I --&gt; K
+    K --&gt; L
+    H --&gt; J
+    J --&gt; L
+    L --&gt; M
+    M --&gt; N
+    L --&gt; N
+    N --&gt; O
+    O --&gt; Exit
+</div>
+<p>After topo-sort, the blocks order is <code>ABCDEFGHIKJLMNO</code>.</p>
+<p>First just wrap the loops in <code>loops</code>.</p>
+<div class="mermaid">
+flowchart TD
+    Entry --&gt; A
+    A --&gt; B
+    subgraph Loop2
+        B --&gt; C
+        subgraph Loop1
+            C --&gt; D
+            D --&gt; E
+            E --&gt; F
+        end
+        E --&gt; G
+        F --&gt; C
+        G --&gt; B
+    end
+    G --&gt; O
+    A --&gt; H
+    H --&gt; I
+    I --&gt; K
+    K --&gt; L
+    H --&gt; J
+    J --&gt; L
+    L --&gt; M
+    M --&gt; N
+    L --&gt; N
+    N --&gt; O
+    O --&gt; Exit
+</div>
+<p>And current generated code is something like:</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#65737e;">;; A
+</span><span style="color:#b48ead;">loop </span><span>$loop2
+</span><span>    </span><span style="color:#65737e;">;; B 
+</span><span>    </span><span style="color:#b48ead;">loop </span><span>$loop1
+</span><span>        </span><span style="color:#65737e;">;; C
+</span><span>        </span><span style="color:#65737e;">;; D
+</span><span>        </span><span style="color:#65737e;">;; E
+</span><span>        </span><span style="color:#65737e;">;; F 
+</span><span>    </span><span style="color:#b48ead;">end
+</span><span>    </span><span style="color:#65737e;">;; G
+</span><span style="color:#b48ead;">end
+</span><span style="color:#65737e;">;; HIKJLMNO
+</span></code></pre>
+<p><code>A -&gt; H</code>, <code>H -&gt; J</code>, <code>L -&gt; N</code> are forward edges which from and two are not consecutive, we create blocks for them one by one.</p>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#b48ead;">block </span><span>$AH
+</span><span>    </span><span style="color:#65737e;">;; A
+</span><span>    </span><span style="color:#b48ead;">br_if </span><span style="color:#bf616a;">$AH
+</span><span>    </span><span style="color:#b48ead;">loop </span><span>$loop2
+</span><span>        </span><span style="color:#65737e;">;; B 
+</span><span>        </span><span style="color:#b48ead;">loop </span><span>$loop1
+</span><span>            </span><span style="color:#65737e;">;; C
+</span><span>            </span><span style="color:#65737e;">;; D
+</span><span>            </span><span style="color:#65737e;">;; E
+</span><span>            </span><span style="color:#65737e;">;; F 
+</span><span>        </span><span style="color:#b48ead;">end
+</span><span>        </span><span style="color:#65737e;">;; G
+</span><span>    </span><span style="color:#b48ead;">end
+</span><span style="color:#b48ead;">end
+</span><span style="color:#65737e;">;; H
+</span><span style="color:#65737e;">;; IKJLMNO
+</span></code></pre>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#b48ead;">block </span><span>$HJ
+</span><span>    </span><span style="color:#b48ead;">block </span><span>$AH
+</span><span>        </span><span style="color:#65737e;">;; A
+</span><span>        </span><span style="color:#b48ead;">br_if </span><span style="color:#bf616a;">$AH
+</span><span>        </span><span style="color:#b48ead;">loop </span><span>$loop2
+</span><span>            </span><span style="color:#65737e;">;; B 
+</span><span>            </span><span style="color:#b48ead;">loop </span><span>$loop1
+</span><span>                </span><span style="color:#65737e;">;; C
+</span><span>                </span><span style="color:#65737e;">;; D
+</span><span>                </span><span style="color:#65737e;">;; E
+</span><span>                </span><span style="color:#65737e;">;; F 
+</span><span>            </span><span style="color:#b48ead;">end
+</span><span>            </span><span style="color:#65737e;">;; G
+</span><span>        </span><span style="color:#b48ead;">end
+</span><span>    </span><span style="color:#b48ead;">end
+</span><span>    </span><span style="color:#65737e;">;; H
+</span><span>    </span><span style="color:#b48ead;">br_if </span><span style="color:#bf616a;">$HJ
+</span><span>    </span><span style="color:#65737e;">;; I
+</span><span>    </span><span style="color:#65737e;">;; K
+</span><span style="color:#b48ead;">end
+</span><span style="color:#65737e;">;; J
+</span><span style="color:#65737e;">;; LMNO
+</span></code></pre>
+<pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#b48ead;">block </span><span>$LN
+</span><span>    </span><span style="color:#b48ead;">block </span><span>$HJ
+</span><span>        </span><span style="color:#b48ead;">block </span><span>$AH
+</span><span>            </span><span style="color:#65737e;">;; A
+</span><span>            </span><span style="color:#b48ead;">br_if </span><span style="color:#bf616a;">$AH
+</span><span>            </span><span style="color:#b48ead;">loop </span><span>$loop2
+</span><span>                </span><span style="color:#65737e;">;; B 
+</span><span>                </span><span style="color:#b48ead;">loop </span><span>$loop1
+</span><span>                    </span><span style="color:#65737e;">;; C
+</span><span>                    </span><span style="color:#65737e;">;; D
+</span><span>                    </span><span style="color:#65737e;">;; E
+</span><span>                    </span><span style="color:#65737e;">;; F 
+</span><span>                </span><span style="color:#b48ead;">end
+</span><span>                </span><span style="color:#65737e;">;; G
+</span><span>            </span><span style="color:#b48ead;">end
+</span><span>        </span><span style="color:#b48ead;">end
+</span><span>        </span><span style="color:#65737e;">;; H
+</span><span>        </span><span style="color:#b48ead;">br_if </span><span style="color:#bf616a;">$HJ
+</span><span>        </span><span style="color:#65737e;">;; I
+</span><span>        </span><span style="color:#65737e;">;; K
+</span><span>    </span><span style="color:#b48ead;">end
+</span><span>    </span><span style="color:#65737e;">;; J
+</span><span>    </span><span style="color:#65737e;">;; L
+</span><span>    </span><span style="color:#b48ead;">br_if </span><span style="color:#bf616a;">$LN
+</span><span>    </span><span style="color:#65737e;">;; M
+</span><span style="color:#b48ead;">end
+</span><span style="color:#65737e;">;; N
+</span><span style="color:#65737e;">;; O
+</span></code></pre>
+<p>And now we can translate the CFG into wasm by simply filling the content of basic blocks.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Personally I think how wasm does control flow is a little bit weird, <code>block</code> is a real instruction instead of some meta information on the code, <code>br</code> can mean either <code>break</code> or <code>continue</code> depending on its in a <code>block</code> or <code>loop</code>, but it cannot be used to &quot;branch&quot; to an arbitrary place, and wasm provides both <code>br_if</code> and <code>if</code>, which seems non-orthogonal.
+Though <a href="https://github.com/WebAssembly/design/issues/796">many developers are asking for arbitrary labels and gotos</a> added into wasm, I think it's hopeless because wasm is already going too far to adopt such a large design change.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>Yes, <code>if</code>, <code>else</code>, and even <code>end</code> is a &quot;real&quot; instruction, which has a corresponding binary form. It's quite strange for an &quot;asm&quot; to have these structures, but that's how wasm does things, and they <strong>are</strong> useful for a stack based vm.</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>For those who are very familiar with the properties of CFG, you may have known that this is because the CFG is not reducible.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">6</sup>
+<p>Or, the node &quot;dominates&quot; every node in the group of successor.</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>Or, in a more professional statement, strongly connected component, because there can be sub-cycles inside the outer cycle.</p>
+</div>
+<div class="footnote-definition" id="6"><sup class="footnote-definition-label">4</sup>
+<p>This algorithm is first introduced by <a href="https://dl.acm.org/doi/pdf/10.1145/355609.362337">a paper in 1973</a>.</p>
+</div>
+<div class="footnote-definition" id="7"><sup class="footnote-definition-label">7</sup>
+<p>This means you should visit everything inside the loop first before going out of the loop when applying a DFS based topo-sort algorithm.</p>
+</div>
+<div class="footnote-definition" id="8"><sup class="footnote-definition-label">8</sup>
+<p>wasm seems doesn't care much about how deep blocks are nested.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+          <i class="far fa-sun"></i><span class="date">2023-02-04</span>
+        
+        
+          <i class="fas fa-tags"></i>
+          
+            <a class="tag" href="https://longfangsong.github.io/en/tags/compiler">&nbsp;compiler</a>
+          
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter" href="http://twitter.com/share?text=Compile LLVM style IR to web assembly&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;ssa-to-stackvm&hashtags=compiler"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({startOnLoad:true});</script>
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
