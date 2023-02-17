@@ -192,6 +192,9 @@
         <loc>https://longfangsong.github.io/page/3/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/page/4/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/parsing-combinator/</loc>
         <lastmod>2020-05-17T16:30:31.045Z</lastmod>
     </url>
@@ -226,6 +229,10 @@
     <url>
         <loc>https://longfangsong.github.io/shift-reduce/</loc>
         <lastmod>2020-05-22T22:56:58.045Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/ssa-to-stackvm/</loc>
+        <lastmod>2023-02-04T17:59:47.582Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/</loc>

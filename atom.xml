@@ -5,8 +5,17 @@
 	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
   <link href="https://longfangsong.github.io"/>
 	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2022-07-14T22:29:27+00:00</updated>
+	<updated>2023-02-04T17:59:47.582+00:00</updated>
 	<id>https://longfangsong.github.io/atom.xml</id>
+	<entry xml:lang="zh">
+		<title>LLVM style IR to stack based vm assembly</title>
+		<published>2023-02-04T17:59:47.582+00:00</published>
+		<updated>2023-02-04T17:59:47.582+00:00</updated>
+		<link rel="alternate" href="https://longfangsong.github.io/ssa-to-stackvm/" type="text/html"/>
+		<id>https://longfangsong.github.io/ssa-to-stackvm/</id>
+		<content type="html">&lt;p&gt;正在从英文翻译……&lt;&#x2F;p&gt;
+</content>
+	</entry>
 	<entry xml:lang="zh">
 		<title>重新开始学数学 • 数理逻辑（5）</title>
 		<published>2022-07-11T16:29:53.671+00:00</published>

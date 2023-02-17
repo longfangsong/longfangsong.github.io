@@ -63,10 +63,10 @@
 &lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;&lt;code&gt;block&lt;&#x2F;code&gt; and &lt;code&gt;loop&lt;&#x2F;code&gt; themselves don&#x27;t have any special usage, they just change the meaning of &lt;code&gt;br&lt;&#x2F;code&gt; inside them.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;br-br-if&quot;&gt;br&#x2F;br_if&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;br-br-if&quot;&gt;&lt;code&gt;br&lt;&#x2F;code&gt;&#x2F;&lt;code&gt;br_if&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
 &lt;p&gt;&lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; are used to jump to a &amp;quot;label&amp;quot;, which can be either a &lt;code&gt;loop&lt;&#x2F;code&gt; or a &lt;code&gt;block&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;code&gt;br_if&lt;&#x2F;code&gt; is used to jump to a label only if the condition (the value on top of the stack) is true.&lt;&#x2F;p&gt;
-&lt;p&gt;Note &lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; can only break&#x2F;continue a loop&#x2F;block they are &lt;strong&gt;in&lt;&#x2F;strong&gt;, they cannot jump to an arbitrary place.&lt;&#x2F;p&gt;
+&lt;p&gt;Note &lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; can only break&#x2F;continue a loop&#x2F;block they are &lt;strong&gt;in&lt;&#x2F;strong&gt;, they cannot jump to an arbitrary place. Because in binary code level, the argument of &lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; is how many levels of &lt;code&gt;loop&lt;&#x2F;code&gt; and &lt;code&gt;block&lt;&#x2F;code&gt; we need to jump out of.&lt;&#x2F;p&gt;
 &lt;p&gt;There are also some other instructions like &lt;code&gt;br_table&lt;&#x2F;code&gt; and &lt;code&gt;return&lt;&#x2F;code&gt;, but they are not important for this article, so I will not mention them here.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;the-key-problem-cannot-branch-to-arbitrary-place&quot;&gt;The key problem: cannot branch to arbitrary place&lt;&#x2F;h2&gt;
 &lt;p&gt;LLVM ir has &lt;code&gt;br&lt;&#x2F;code&gt; instruction, which can jump to an arbitrary place, so this CFG is easily representable in LLVM:&lt;&#x2F;p&gt;
@@ -90,7 +90,7 @@ flowchart TD
 &lt;p&gt;But it is not representable in WASM with &lt;strong&gt;only&lt;&#x2F;strong&gt; control flow instructions we have.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;Luckily, there exists a very simple method to represent any CFGs by adding a &amp;quot;next block&amp;quot; variable, and wrap the whole program in a &lt;code&gt;loop&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;the-naive-algorithm&quot;&gt;The naive algorithm&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#6&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
-&lt;p&gt;The basic idea of this method is that we can just forget everything about these fancy features about control flow instructions of wasm, and control everything by ourselves.&lt;&#x2F;p&gt;
+&lt;p&gt;The basic idea of this method is that we can just forget everything about these fancy control flow instructions provided by wasm, and control everything by ourselves.&lt;&#x2F;p&gt;
 &lt;p&gt;We can just put everything in a loop, and use a variable to record the next block to execute, and use &lt;code&gt;br&lt;&#x2F;code&gt; to jump to the next block:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span&gt;(local &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;$next_block &lt;&#x2F;span&gt;&lt;span&gt;i32)
 &lt;&#x2F;span&gt;&lt;span&gt;(local.set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$next_block &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;i32.const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;))
@@ -347,7 +347,6 @@ flowchart TD
 &lt;h3 id=&quot;part-2-how-to-deal-with-the-cfg-without-cycles-with-multiple-entries&quot;&gt;Part 2: How to deal with the CFG without cycles with multiple entries?&lt;&#x2F;h3&gt;
 &lt;p&gt;The rest part can also be handled by the relooper algorithm, but you may find out that the relooper algorithm is a greedy algorithm which may not provide the best result, because it cannot assume there are no cycles with multiple entries in the CFG.&lt;&#x2F;p&gt;
 &lt;p&gt;After removing cycles with multiple entries, the stackifier algorithm can now provide a better solution to this problem.&lt;&#x2F;p&gt;
-&lt;!-- We can enter a loop only by enter its entry node. --&gt;
 &lt;h4 id=&quot;topological-ordering&quot;&gt;Topological Ordering&lt;&#x2F;h4&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Topological_sorting&quot;&gt;Topological sort&lt;&#x2F;a&gt; is a useful tool when doing stuff with codes scheduling, basically it just make sure if a node &lt;code&gt;A&lt;&#x2F;code&gt; is reached before &lt;code&gt;B&lt;&#x2F;code&gt;, then it is ordered prior to &lt;code&gt;B&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;We cannot perform tradition topological sort algorithm on a CFG, because it&#x27;s not a DAG.&lt;&#x2F;p&gt;
@@ -497,6 +496,10 @@ flowchart TD
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; O
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;And now we can translate the CFG into wasm by simply filling the content of basic blocks.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;generating-more-human-readable-wat&quot;&gt;Generating more human-readable WAT&lt;&#x2F;h3&gt;
+&lt;p&gt;Tough we have done generating the wasm code, the control flow structure we are using (&lt;code&gt;br_if&lt;&#x2F;code&gt;) to represent condition branches is not an easily understandable one for human beings, we prefer if-else.&lt;&#x2F;p&gt;
+&lt;p&gt;We can observe if a block has only one forward predecessor, and the predecessor is a branch block, it can be nested into the &lt;code&gt;if&lt;&#x2F;code&gt; or &lt;code&gt;else&lt;&#x2F;code&gt; branch of this predecessor.&lt;&#x2F;p&gt;
+&lt;p&gt;So when topo-sorting the blocks, after we add a block, we first visit the successors which the block is their only forward predecessor. This make it possible to be nested in branches of this block.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;Personally I think how wasm does control flow is a little bit weird, &lt;code&gt;block&lt;&#x2F;code&gt; is a real instruction instead of some meta information on the code, &lt;code&gt;br&lt;&#x2F;code&gt; can mean either &lt;code&gt;break&lt;&#x2F;code&gt; or &lt;code&gt;continue&lt;&#x2F;code&gt; depending on its in a &lt;code&gt;block&lt;&#x2F;code&gt; or &lt;code&gt;loop&lt;&#x2F;code&gt;, but it cannot be used to &amp;quot;branch&amp;quot; to an arbitrary place, and wasm provides both &lt;code&gt;br_if&lt;&#x2F;code&gt; and &lt;code&gt;if&lt;&#x2F;code&gt;, which seems non-orthogonal.
 Though &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;design&#x2F;issues&#x2F;796&quot;&gt;many developers are asking for arbitrary labels and gotos&lt;&#x2F;a&gt; added into wasm, I think it&#x27;s hopeless because wasm is already going too far to adopt such a large design change.&lt;&#x2F;p&gt;

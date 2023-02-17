@@ -157,10 +157,10 @@
 </span><span>)
 </span></code></pre>
 <p><code>block</code> and <code>loop</code> themselves don't have any special usage, they just change the meaning of <code>br</code> inside them.</p>
-<h3 id="br-br-if">br/br_if</h3>
+<h3 id="br-br-if"><code>br</code>/<code>br_if</code></h3>
 <p><code>br</code> and <code>br_if</code> are used to jump to a &quot;label&quot;, which can be either a <code>loop</code> or a <code>block</code>.</p>
 <p><code>br_if</code> is used to jump to a label only if the condition (the value on top of the stack) is true.</p>
-<p>Note <code>br</code> and <code>br_if</code> can only break/continue a loop/block they are <strong>in</strong>, they cannot jump to an arbitrary place.</p>
+<p>Note <code>br</code> and <code>br_if</code> can only break/continue a loop/block they are <strong>in</strong>, they cannot jump to an arbitrary place. Because in binary code level, the argument of <code>br</code> and <code>br_if</code> is how many levels of <code>loop</code> and <code>block</code> we need to jump out of.</p>
 <p>There are also some other instructions like <code>br_table</code> and <code>return</code>, but they are not important for this article, so I will not mention them here.</p>
 <h2 id="the-key-problem-cannot-branch-to-arbitrary-place">The key problem: cannot branch to arbitrary place</h2>
 <p>LLVM ir has <code>br</code> instruction, which can jump to an arbitrary place, so this CFG is easily representable in LLVM:</p>
@@ -184,7 +184,7 @@ flowchart TD
 <p>But it is not representable in WASM with <strong>only</strong> control flow instructions we have.<sup class="footnote-reference"><a href="#3">3</a></sup></p>
 <p>Luckily, there exists a very simple method to represent any CFGs by adding a &quot;next block&quot; variable, and wrap the whole program in a <code>loop</code>:</p>
 <h2 id="the-naive-algorithm">The naive algorithm<sup class="footnote-reference"><a href="#6">4</a></sup></h2>
-<p>The basic idea of this method is that we can just forget everything about these fancy features about control flow instructions of wasm, and control everything by ourselves.</p>
+<p>The basic idea of this method is that we can just forget everything about these fancy control flow instructions provided by wasm, and control everything by ourselves.</p>
 <p>We can just put everything in a loop, and use a variable to record the next block to execute, and use <code>br</code> to jump to the next block:</p>
 <pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span>(local </span><span style="color:#b48ead;">$next_block </span><span>i32)
 </span><span>(local.set </span><span style="color:#bf616a;">$next_block </span><span>(</span><span style="color:#96b5b4;">i32.const </span><span style="color:#d08770;">0</span><span>))
@@ -441,7 +441,6 @@ flowchart TD
 <h3 id="part-2-how-to-deal-with-the-cfg-without-cycles-with-multiple-entries">Part 2: How to deal with the CFG without cycles with multiple entries?</h3>
 <p>The rest part can also be handled by the relooper algorithm, but you may find out that the relooper algorithm is a greedy algorithm which may not provide the best result, because it cannot assume there are no cycles with multiple entries in the CFG.</p>
 <p>After removing cycles with multiple entries, the stackifier algorithm can now provide a better solution to this problem.</p>
-<!-- We can enter a loop only by enter its entry node. -->
 <h4 id="topological-ordering">Topological Ordering</h4>
 <p><a href="https://en.wikipedia.org/wiki/Topological_sorting">Topological sort</a> is a useful tool when doing stuff with codes scheduling, basically it just make sure if a node <code>A</code> is reached before <code>B</code>, then it is ordered prior to <code>B</code>.</p>
 <p>We cannot perform tradition topological sort algorithm on a CFG, because it's not a DAG.</p>
@@ -591,6 +590,10 @@ flowchart TD
 </span><span style="color:#65737e;">;; O
 </span></code></pre>
 <p>And now we can translate the CFG into wasm by simply filling the content of basic blocks.</p>
+<h3 id="generating-more-human-readable-wat">Generating more human-readable WAT</h3>
+<p>Tough we have done generating the wasm code, the control flow structure we are using (<code>br_if</code>) to represent condition branches is not an easily understandable one for human beings, we prefer if-else.</p>
+<p>We can observe if a block has only one forward predecessor, and the predecessor is a branch block, it can be nested into the <code>if</code> or <code>else</code> branch of this predecessor.</p>
+<p>So when topo-sorting the blocks, after we add a block, we first visit the successors which the block is their only forward predecessor. This make it possible to be nested in branches of this block.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>Personally I think how wasm does control flow is a little bit weird, <code>block</code> is a real instruction instead of some meta information on the code, <code>br</code> can mean either <code>break</code> or <code>continue</code> depending on its in a <code>block</code> or <code>loop</code>, but it cannot be used to &quot;branch&quot; to an arbitrary place, and wasm provides both <code>br_if</code> and <code>if</code>, which seems non-orthogonal.
 Though <a href="https://github.com/WebAssembly/design/issues/796">many developers are asking for arbitrary labels and gotos</a> added into wasm, I think it's hopeless because wasm is already going too far to adopt such a large design change.</p>
@@ -621,13 +624,13 @@ Though <a href="https://github.com/WebAssembly/design/issues/796">many developer
     <div class="meta">
       <div class="info">
         
-          <i class="far fa-sun"></i><span class="date">2023-02-04</span>
+        <i class="far fa-sun"></i><span class="date">2023-02-04</span>
         
         
-          <i class="fas fa-tags"></i>
-          
-            <a class="tag" href="https://longfangsong.github.io/en/tags/compiler">&nbsp;compiler</a>
-          
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/ @/_index.mdtags/compiler">&nbsp;compiler</a>
+        
         
       </div>
     </div>
@@ -635,10 +638,12 @@ Though <a href="https://github.com/WebAssembly/design/issues/796">many developer
 </article>
 <div class="share">
   <div class="weibo">
-    <a class="fab fa-weibo" href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
   </div>
   <div class="twitter">
-    <a class="fab fa-twitter" href="http://twitter.com/share?text=Compile LLVM style IR to web assembly&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;ssa-to-stackvm&hashtags=compiler"></a>
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Compile LLVM style IR to web assembly&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;ssa-to-stackvm&#x2F;&hashtags=compiler"></a>
   </div>
 </div>
 
@@ -657,8 +662,9 @@ Though <a href="https://github.com/WebAssembly/design/issues/796">many developer
 
 
 
+
 <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-<script>mermaid.initialize({startOnLoad:true});</script>
+<script>mermaid.initialize({ startOnLoad: true });</script>
 
 
       </div>
