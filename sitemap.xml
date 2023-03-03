@@ -111,6 +111,10 @@
         <lastmod>2022-09-12T14:59:04.234Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/image-to-rgb565/</loc>
+        <lastmod>2023-03-03T16:58:21.033Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/links/</loc>
     </url>
     <url>
@@ -154,6 +158,10 @@
     <url>
         <loc>https://longfangsong.github.io/hello-zola/</loc>
         <lastmod>2020-01-02T15:00:00Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/image-to-rgb565/</loc>
+        <lastmod>2023-03-03T16:58:21.033Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/inline-asm-cheatsheet/</loc>
@@ -231,10 +239,6 @@
         <lastmod>2020-05-22T22:56:58.045Z</lastmod>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/ssa-to-stackvm/</loc>
-        <lastmod>2023-02-04T17:59:47.582Z</lastmod>
-    </url>
-    <url>
         <loc>https://longfangsong.github.io/tags/</loc>
     </url>
     <url>
@@ -266,6 +270,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/fpga/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/gong-ju/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/h5app/</loc>
@@ -314,6 +321,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/ti-xi-jie-gou/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/tools/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/wu-li/</loc>

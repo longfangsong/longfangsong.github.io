@@ -12,10 +12,10 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • LLVM style IR to stack based vm assembly</title>
+  <title>Blog • Image to RGB565 converter</title>
   
   
-  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
   
   
   
@@ -51,9 +51,9 @@
     <div class="logo-title">
       <div class="title">
         <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
-        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
         <div class="description">
-          <p>生命是灰色的，而理论之树常青</p>
+          <p>Und grün des Theorie goldner Baum</p>
         </div>
       </div>
     </div>
@@ -76,9 +76,9 @@
         
         
         
-        <li><a  href="https://longfangsong.github.io/">首页</a></li>
-        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
-            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
       <div class="information">
         <div class="back_btn">
           <a onclick="window.history.go(-1)" ><i
@@ -93,7 +93,7 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -105,20 +105,71 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;ssa-to-stackvm&#x2F;">LLVM style IR to stack based vm assembly</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;image-to-rgb565&#x2F;">Image to RGB565 converter</a></h1>
   
-  <div class="post-content"><p>正在从英文翻译……</p>
-</div>
+  <div class="post-content"><h1 id="just-use-it">Just use it</h1>
+<input type="file" id="imageInput">
+<h1 id="why">Why</h1>
+<p>RGB565 format is useful for embedded systems. Many lcd displays use this format.</p>
+<h1 id="how">How</h1>
+<p>Basically, just use <code>canvas</code> to get the pixel data and convert it to rgb565.</p>
+<p>Some of the code is provided by Bing powered by GPT, though I made some edits to make it work.</p>
+<p>The result is in little-endian.</p>
+<script>
+function rgbToRgb565(r, g, b) {
+    const red = r >> 3;
+    const green = g >> 2;
+    const blue = b >> 3;
+    return (red << 11) | (green << 5) | blue;
+}
+
+function download(uint16Array, filename) {
+    var blob = new Blob([uint16Array], {type: 'application/octet-stream'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+}
+let img = new Image();
+let canvas = document.createElement('canvas');
+let ctx = canvas.getContext('2d');
+img.onload = function() {
+    ctx.canvas.width = img.width;
+    ctx.canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    console.log(imgData);
+    let rgb565Data = new ArrayBuffer(imgData.length / 4 * 2);
+    let view = new DataView(rgb565Data);
+    for (let i = 0; i < imgData.length; i += 4) {
+        const r = imgData[i];
+        const g = imgData[i + 1];
+        const b = imgData[i + 2];
+        console.log(rgbToRgb565(r, g, b));
+        view.setUint16(i / 4 * 2, rgbToRgb565(r, g, b), true);
+    }
+    download(rgb565Data, 'rgb565data.bin');
+}
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+});
+</script></div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2023年02月04日</span>
+        <i class="far fa-sun"></i><span class="date">2023-03-03</span>
         
         
         <i class="fas fa-tags"></i>
         
-        <a class="tag" href="https://longfangsong.github.io/ @/_index.mdtags/">&nbsp;</a>
+        <a class="tag" href="https://longfangsong.github.io/en/ @/_index.mdtags/tools">&nbsp;tools</a>
         
         
       </div>
@@ -132,7 +183,7 @@
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=LLVM style IR to stack based vm assembly&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;ssa-to-stackvm&#x2F;&hashtags="></a>
+      href="http://twitter.com/share?text=Image to RGB565 converter&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;image-to-rgb565&#x2F;&hashtags=tools"></a>
   </div>
 </div>
 
@@ -149,19 +200,6 @@
   </script>
 
 
-
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script>
-  MathJax = {
-    tex: {
-      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
-    }
-  };
-</script>
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
 
 
 

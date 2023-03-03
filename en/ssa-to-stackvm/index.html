@@ -436,6 +436,7 @@ flowchart TD
 <li><code>A</code> will set it to <code>B</code></li>
 <li><code>E</code> will set it to <code>D</code></li>
 <li><code>C</code> will set it to <code>B</code> (<code>C</code> will jump to <code>D</code> by itself, so we don't set it to <code>D</code>)</li>
+<li><code>D</code> will set it according to the condition judgement.</li>
 </ul>
 <p>After this transformation, we can handle the CFG as if it's a cycle with only one entry node.</p>
 <h3 id="part-2-how-to-deal-with-the-cfg-without-cycles-with-multiple-entries">Part 2: How to deal with the CFG without cycles with multiple entries?</h3>
@@ -444,7 +445,7 @@ flowchart TD
 <h4 id="topological-ordering">Topological Ordering</h4>
 <p><a href="https://en.wikipedia.org/wiki/Topological_sorting">Topological sort</a> is a useful tool when doing stuff with codes scheduling, basically it just make sure if a node <code>A</code> is reached before <code>B</code>, then it is ordered prior to <code>B</code>.</p>
 <p>We cannot perform tradition topological sort algorithm on a CFG, because it's not a DAG.</p>
-<p>However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. And stackifier algorithm add another requirement: the entry node of th loop must ordered before ALL the nodes in the loop <sup class="footnote-reference"><a href="#7">7</a></sup>.</p>
+<p>However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. And stackifier algorithm add another requirement: the entry node of the loop must ordered before ALL the nodes in the loop <sup class="footnote-reference"><a href="#7">7</a></sup>.</p>
 <p>Then the process is easy, just:</p>
 <ul>
 <li>Wrap each loop in <code>loop</code>.</li>

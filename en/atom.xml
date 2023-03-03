@@ -1,19 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
-	<title>Blog</title>
-	<subtitle>Und grün des Theorie goldner Baum</subtitle>
-	<link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
-  <link href="https://longfangsong.github.io"/>
-	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2023-02-04T17:59:47.582+00:00</updated>
-	<id>https://longfangsong.github.io/en/atom.xml</id>
-	<entry xml:lang="en">
-		<title>Compile LLVM style IR to web assembly</title>
-		<published>2023-02-04T17:59:47.582+00:00</published>
-		<updated>2023-02-04T17:59:47.582+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/ssa-to-stackvm/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/ssa-to-stackvm/</id>
-		<content type="html">&lt;h2 id=&quot;nb&quot;&gt;NB&lt;&#x2F;h2&gt;
+    <title>Blog</title>
+    <subtitle>Und grün des Theorie goldner Baum</subtitle>
+    <link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
+    <link href="https://longfangsong.github.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2023-03-03T16:58:21.033+00:00</updated>
+    <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Image to RGB565 converter</title>
+        <published>2023-03-03T16:58:21.033+00:00</published>
+        <updated>2023-03-03T16:58:21.033+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/image-to-rgb565/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/image-to-rgb565/</id>
+        <content type="html">&lt;h1 id=&quot;just-use-it&quot;&gt;Just use it&lt;&#x2F;h1&gt;
+&lt;input type=&quot;file&quot; id=&quot;imageInput&quot;&gt;
+&lt;h1 id=&quot;why&quot;&gt;Why&lt;&#x2F;h1&gt;
+&lt;p&gt;RGB565 format is useful for embedded systems. Many lcd displays use this format.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;how&quot;&gt;How&lt;&#x2F;h1&gt;
+&lt;p&gt;Basically, just use &lt;code&gt;canvas&lt;&#x2F;code&gt; to get the pixel data and convert it to rgb565.&lt;&#x2F;p&gt;
+&lt;p&gt;Some of the code is provided by Bing powered by GPT, though I made some edits to make it work.&lt;&#x2F;p&gt;
+&lt;p&gt;The result is in little-endian.&lt;&#x2F;p&gt;
+&lt;script&gt;
+function rgbToRgb565(r, g, b) {
+    const red = r &gt;&gt; 3;
+    const green = g &gt;&gt; 2;
+    const blue = b &gt;&gt; 3;
+    return (red &lt;&lt; 11) | (green &lt;&lt; 5) | blue;
+}
+
+function download(uint16Array, filename) {
+    var blob = new Blob([uint16Array], {type: &#x27;application&#x2F;octet-stream&#x27;});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement(&#x27;a&#x27;);
+    a.href = url;
+    a.download = filename;
+    a.click();
+}
+let img = new Image();
+let canvas = document.createElement(&#x27;canvas&#x27;);
+let ctx = canvas.getContext(&#x27;2d&#x27;);
+img.onload = function() {
+    ctx.canvas.width = img.width;
+    ctx.canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    console.log(imgData);
+    let rgb565Data = new ArrayBuffer(imgData.length &#x2F; 4 * 2);
+    let view = new DataView(rgb565Data);
+    for (let i = 0; i &lt; imgData.length; i += 4) {
+        const r = imgData[i];
+        const g = imgData[i + 1];
+        const b = imgData[i + 2];
+        console.log(rgbToRgb565(r, g, b));
+        view.setUint16(i &#x2F; 4 * 2, rgbToRgb565(r, g, b), true);
+    }
+    download(rgb565Data, &#x27;rgb565data.bin&#x27;);
+}
+document.getElementById(&#x27;imageInput&#x27;).addEventListener(&#x27;change&#x27;, function(e) {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+});
+&lt;&#x2F;script&gt;</content>
+    </entry>
+    <entry xml:lang="en">
+        <title>Compile LLVM style IR to web assembly</title>
+        <published>2023-02-04T17:59:47.582+00:00</published>
+        <updated>2023-02-04T17:59:47.582+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/ssa-to-stackvm/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/ssa-to-stackvm/</id>
+        <content type="html">&lt;h2 id=&quot;nb&quot;&gt;NB&lt;&#x2F;h2&gt;
 &lt;p&gt;This article presumes you know what is:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;(LLVM-liked) SSA form IR.&lt;&#x2F;li&gt;
@@ -342,6 +408,7 @@ flowchart TD
 &lt;li&gt;&lt;code&gt;A&lt;&#x2F;code&gt; will set it to &lt;code&gt;B&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;code&gt;E&lt;&#x2F;code&gt; will set it to &lt;code&gt;D&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;&lt;code&gt;C&lt;&#x2F;code&gt; will set it to &lt;code&gt;B&lt;&#x2F;code&gt; (&lt;code&gt;C&lt;&#x2F;code&gt; will jump to &lt;code&gt;D&lt;&#x2F;code&gt; by itself, so we don&#x27;t set it to &lt;code&gt;D&lt;&#x2F;code&gt;)&lt;&#x2F;li&gt;
+&lt;li&gt;&lt;code&gt;D&lt;&#x2F;code&gt; will set it according to the condition judgement.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;After this transformation, we can handle the CFG as if it&#x27;s a cycle with only one entry node.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;part-2-how-to-deal-with-the-cfg-without-cycles-with-multiple-entries&quot;&gt;Part 2: How to deal with the CFG without cycles with multiple entries?&lt;&#x2F;h3&gt;
@@ -350,7 +417,7 @@ flowchart TD
 &lt;h4 id=&quot;topological-ordering&quot;&gt;Topological Ordering&lt;&#x2F;h4&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Topological_sorting&quot;&gt;Topological sort&lt;&#x2F;a&gt; is a useful tool when doing stuff with codes scheduling, basically it just make sure if a node &lt;code&gt;A&lt;&#x2F;code&gt; is reached before &lt;code&gt;B&lt;&#x2F;code&gt;, then it is ordered prior to &lt;code&gt;B&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;We cannot perform tradition topological sort algorithm on a CFG, because it&#x27;s not a DAG.&lt;&#x2F;p&gt;
-&lt;p&gt;However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. And stackifier algorithm add another requirement: the entry node of th loop must ordered before ALL the nodes in the loop &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. And stackifier algorithm add another requirement: the entry node of the loop must ordered before ALL the nodes in the loop &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;Then the process is easy, just:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;Wrap each loop in &lt;code&gt;loop&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
@@ -526,14 +593,17 @@ Though &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;desig
 &lt;p&gt;wasm seems doesn&#x27;t care much about how deep blocks are nested.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Category theory Notes 3</title>
-		<published>2023-01-30T17:46:45.264+00:00</published>
-		<updated>2023-01-30T17:46:45.264+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/category-theory-3/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/category-theory-3/</id>
-		<content type="html">&lt;h2 id=&quot;functor&quot;&gt;Functor&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Category theory Notes 3</title>
+        <published>2023-01-30T17:46:45.264+00:00</published>
+        <updated>2023-01-30T17:46:45.264+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/category-theory-3/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/category-theory-3/</id>
+        <content type="html">&lt;h2 id=&quot;functor&quot;&gt;Functor&lt;&#x2F;h2&gt;
 &lt;p&gt;Initually, functor is a mapping from one category to another, which preserves the structure of the origin one.&lt;&#x2F;p&gt;
 &lt;p&gt;Formally, functor is defined as&lt;&#x2F;p&gt;
 &lt;p&gt;A functor $F:C→D$ between categories $C$ and $D$ is a mapping of objects to objects and
@@ -544,14 +614,17 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;li&gt;$F(1_A)=1_{F(A)}$&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Category theory Notes 2</title>
-		<published>2022-12-19T04:59:39.001+00:00</published>
-		<updated>2022-12-19T04:59:39.001+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/category-theory-2/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/category-theory-2/</id>
-		<content type="html">&lt;h2 id=&quot;epis-and-monos&quot;&gt;Epis and monos&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Category theory Notes 2</title>
+        <published>2022-12-19T04:59:39.001+00:00</published>
+        <updated>2022-12-19T04:59:39.001+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/category-theory-2/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/category-theory-2/</id>
+        <content type="html">&lt;h2 id=&quot;epis-and-monos&quot;&gt;Epis and monos&lt;&#x2F;h2&gt;
 &lt;p&gt;In any category $C$, an arrow $f: A → B$ is called a monomorphism if for any $g, h: C → A$, $f\cdot g = f\cdot h$ implies $g = h$.&lt;&#x2F;p&gt;
 &lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0= --&gt;
 &lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0=&amp;embed&quot; width=&quot;688&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px;&quot;&gt;&lt;&#x2F;iframe&gt;
@@ -613,14 +686,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Also can be written as &lt;code&gt;()&lt;&#x2F;code&gt; or $⊤$.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>mem2reg made simple</title>
-		<published>2022-11-16T15:17:53.579+00:00</published>
-		<updated>2022-11-16T15:17:53.579+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/mem2reg-made-simple/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/mem2reg-made-simple/</id>
-		<content type="html">&lt;h2 id=&quot;nb&quot;&gt;NB&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>mem2reg made simple</title>
+        <published>2022-11-16T15:17:53.579+00:00</published>
+        <updated>2022-11-16T15:17:53.579+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/mem2reg-made-simple/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/mem2reg-made-simple/</id>
+        <content type="html">&lt;h2 id=&quot;nb&quot;&gt;NB&lt;&#x2F;h2&gt;
 &lt;p&gt;This article presumes you know what is:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;(LLVM-liked) SSA form IR.&lt;&#x2F;li&gt;
@@ -989,14 +1065,17 @@ flowchart TD
     font-size: 16px;
 }
 &lt;&#x2F;style&gt;</content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Elementary Geometry In Agda</title>
-		<published>2022-10-24T03:35:10.362+00:00</published>
-		<updated>2022-10-24T03:35:10.362+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/elementary-geometry-in-agda/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/elementary-geometry-in-agda/</id>
-		<content type="html">&lt;p&gt;I&#x27;m playing with Agda recently, and since some of my friends&#x27; teacher are working on human understandable AI assisted theory proving. And IMO type theory base theorem prover is a better way than algebra-based proof methods (eg. Wenjun Wu&#x27;s method) to generate human understandable proofs. And I do hope we can have an AI version of &lt;a href=&quot;https:&#x2F;&#x2F;agda.readthedocs.io&#x2F;en&#x2F;latest&#x2F;tools&#x2F;auto.html&quot;&gt;Agsy&lt;&#x2F;a&gt;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Elementary Geometry In Agda</title>
+        <published>2022-10-24T03:35:10.362+00:00</published>
+        <updated>2022-10-24T03:35:10.362+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/elementary-geometry-in-agda/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/elementary-geometry-in-agda/</id>
+        <content type="html">&lt;p&gt;I&#x27;m playing with Agda recently, and since some of my friends&#x27; teacher are working on human understandable AI assisted theory proving. And IMO type theory base theorem prover is a better way than algebra-based proof methods (eg. Wenjun Wu&#x27;s method) to generate human understandable proofs. And I do hope we can have an AI version of &lt;a href=&quot;https:&#x2F;&#x2F;agda.readthedocs.io&#x2F;en&#x2F;latest&#x2F;tools&#x2F;auto.html&quot;&gt;Agsy&lt;&#x2F;a&gt;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;ll start with &lt;em&gt;Στοιχεῖα&lt;&#x2F;em&gt;, the source of geometry.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;ll show how to prove Proposition 1, and introduce how to represent the definitions and postulates here.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
@@ -1163,14 +1242,17 @@ flowchart TD
 &lt;p&gt;Sometimes even GitHub copilot can generate some correct proof code. But what I had in mind is some kind of AI assisted heuristically proof searching, instead of blindly NLP like code generation.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>How to prove 2 ≤ 3 in Agda</title>
-		<published>2022-10-14T16:58:06.023+00:00</published>
-		<updated>2022-10-14T16:58:06.023+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/decidable-in-agda/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/decidable-in-agda/</id>
-		<content type="html">&lt;p&gt;I&#x27;m currently playing Euclidean geometry with Agda, and sometimes, I need to give an &lt;strong&gt;evidence&lt;&#x2F;strong&gt; for relations like:&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>How to prove 2 ≤ 3 in Agda</title>
+        <published>2022-10-14T16:58:06.023+00:00</published>
+        <updated>2022-10-14T16:58:06.023+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/decidable-in-agda/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/decidable-in-agda/</id>
+        <content type="html">&lt;p&gt;I&#x27;m currently playing Euclidean geometry with Agda, and sometimes, I need to give an &lt;strong&gt;evidence&lt;&#x2F;strong&gt; for relations like:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 1 + 1 &amp;gt; 1
 $$&lt;&#x2F;p&gt;
@@ -1334,14 +1416,17 @@ So it is always preferred to use &lt;code&gt;Decidable&lt;&#x2F;code&gt; instead
 &lt;p&gt;I do can write a Agda representation of Common Notion 5 in Στοιχεῖα, however I I&#x27;ll always try to use, and more importantly, understand the stdlib when possible.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Restart learning math • Mathematical logic (8)</title>
-		<published>2022-10-05T04:43:34.167+00:00</published>
-		<updated>2022-10-05T04:43:34.167+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/restart-math-logic-8/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/restart-math-logic-8/</id>
-		<content type="html">&lt;p&gt;I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$. &lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Restart learning math • Mathematical logic (8)</title>
+        <published>2022-10-05T04:43:34.167+00:00</published>
+        <updated>2022-10-05T04:43:34.167+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/restart-math-logic-8/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/restart-math-logic-8/</id>
+        <content type="html">&lt;p&gt;I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$. &lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;ll start with the algorithms for OBDDs because the definition of BDD and OBDD is simple and intuitive, but I&#x27;ll still put the code which implements this data structure here.&lt;&#x2F;p&gt;
 &lt;p&gt;(All BDDs in this article are ordered.)&lt;&#x2F;p&gt;
 &lt;p&gt;You can view code of a working implementation &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;logic-lab&#x2F;blob&#x2F;main&#x2F;src&#x2F;binary_decision_diagram.rs&quot;&gt;here&lt;&#x2F;a&gt;. And there&#x27;s also a demo of the code (ported to the browser via wasm) by the end of this article.&lt;&#x2F;p&gt;
@@ -1625,14 +1710,17 @@ because in real life, most of times we get logic formulas instead of BDDs as use
         }
     })();
 &lt;&#x2F;script&gt;</content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Restart learning math • Mathematical logic (7)</title>
-		<published>2022-10-03T04:43:34.167+00:00</published>
-		<updated>2022-10-03T04:43:34.167+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/restart-math-logic-7/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/restart-math-logic-7/</id>
-		<content type="html">&lt;p&gt;Modal logic in the book is very different from what I thought. It turns out what I thought is modal logic is just one kind of its interpreting ($\square$ means always, and $\diamond$ means occasionally).&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Restart learning math • Mathematical logic (7)</title>
+        <published>2022-10-03T04:43:34.167+00:00</published>
+        <updated>2022-10-03T04:43:34.167+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/restart-math-logic-7/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/restart-math-logic-7/</id>
+        <content type="html">&lt;p&gt;Modal logic in the book is very different from what I thought. It turns out what I thought is modal logic is just one kind of its interpreting ($\square$ means always, and $\diamond$ means occasionally).&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;basic-modal-logic&quot;&gt;Basic modal logic&lt;&#x2F;h2&gt;
 &lt;p&gt;The language of basic modal logic is simple, just add unary connective $\square$ and $\diamond$ to propositional logic then we are done.&lt;&#x2F;p&gt;
 &lt;p&gt;The model (Kripke model) of basic modal logic is specified by&lt;&#x2F;p&gt;
@@ -1671,14 +1759,17 @@ $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;logic-engineering&quot;&gt;Logic engineering&lt;&#x2F;h2&gt;
 &lt;p&gt;(Actually this chapter made feel strange, why we re-engineer basic modal logic instead of inventing new logic? These logic seems not that similar.)&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Restart learning math • Mathematical logic (6)</title>
-		<published>2022-10-02T07:42:40.869+00:00</published>
-		<updated>2022-10-02T07:42:40.869+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/restart-math-logic-6/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/restart-math-logic-6/</id>
-		<content type="html">&lt;p&gt;Personally I don&#x27;t like model based correctness checking methods, they just check every possible states in a system in brute force, without generating any insight (eg. how each statement in a program helps it to reach the overall correctness) of the system or human readable&#x2F;understandable proof of the correctness, which IMO is very disgraceful.&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Restart learning math • Mathematical logic (6)</title>
+        <published>2022-10-02T07:42:40.869+00:00</published>
+        <updated>2022-10-02T07:42:40.869+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/restart-math-logic-6/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/restart-math-logic-6/</id>
+        <content type="html">&lt;p&gt;Personally I don&#x27;t like model based correctness checking methods, they just check every possible states in a system in brute force, without generating any insight (eg. how each statement in a program helps it to reach the overall correctness) of the system or human readable&#x2F;understandable proof of the correctness, which IMO is very disgraceful.&lt;&#x2F;p&gt;
 &lt;p&gt;So I think a more reasonable way is using a proof based checking method, which the book explains in chapter 4.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;hoare-triples&quot;&gt;Hoare triples&lt;&#x2F;h2&gt;
 &lt;p&gt;A Hoare triple is a triple of the form&lt;&#x2F;p&gt;
@@ -1716,14 +1807,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Many programmers think the convenience of piling up shitty code is an advantage. For example, some people in a company I used to work in prefer Go to Rust, because Go is easier to compile. You don&#x27;t have to fight with the compiler. Most people just want to see the result fast and get into the edit-debug loop fast, instead of understand the whole problem. I cannot blame them of doing so, because sometimes I have such feelings also. Maybe that&#x27;s how human beings are designed, impatience, lazy, and hate deep thinking. Sign.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Category theory Notes 1</title>
-		<published>2022-09-29T03:43:34.088+00:00</published>
-		<updated>2022-09-29T03:43:34.088+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/category-theory-1/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/category-theory-1/</id>
-		<content type="html">&lt;h2 id=&quot;what-is-category-theory-all-about&quot;&gt;What is category theory all about&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Category theory Notes 1</title>
+        <published>2022-09-29T03:43:34.088+00:00</published>
+        <updated>2022-09-29T03:43:34.088+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/category-theory-1/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/category-theory-1/</id>
+        <content type="html">&lt;h2 id=&quot;what-is-category-theory-all-about&quot;&gt;What is category theory all about&lt;&#x2F;h2&gt;
 &lt;p&gt;Category theory is all about structures and relations.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;... category theory is the mathematical study of (abstract) algebras of functions. —— &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
@@ -1810,14 +1904,17 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.&lt;&#x2F;p&gt;
 &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: For example, the class of all sets is not a set, but a proper class.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>HoTTEST Summer School HoTT Notes 6</title>
-		<published>2022-09-12T14:59:04.234+00:00</published>
-		<updated>2022-09-12T14:59:04.234+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-6/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hottest-notes-hott-6/</id>
-		<content type="html">&lt;h2 id=&quot;contractable-types&quot;&gt;Contractable Types&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>HoTTEST Summer School HoTT Notes 6</title>
+        <published>2022-09-12T14:59:04.234+00:00</published>
+        <updated>2022-09-12T14:59:04.234+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-6/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hottest-notes-hott-6/</id>
+        <content type="html">&lt;h2 id=&quot;contractable-types&quot;&gt;Contractable Types&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A contractible type is a type which has, up to identification, only one element. In other words, a contractible type is a type that comes equipped with a point, and an identification of this point with any point. —— Introduction to Homotopy Type Theory&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -2050,14 +2147,17 @@ H(y)
 $$
 &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: $ev\text{-}pt$ is abbreviation for &amp;quot;evaluate at point&amp;quot;&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>HoTTEST Summer School HoTT Notes 5</title>
-		<published>2022-08-17T06:28:35.637+00:00</published>
-		<updated>2022-08-17T06:28:35.637+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-5/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hottest-notes-hott-5/</id>
-		<content type="html">&lt;h2 id=&quot;homotopies&quot;&gt;Homotopies&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>HoTTEST Summer School HoTT Notes 5</title>
+        <published>2022-08-17T06:28:35.637+00:00</published>
+        <updated>2022-08-17T06:28:35.637+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-5/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hottest-notes-hott-5/</id>
+        <content type="html">&lt;h2 id=&quot;homotopies&quot;&gt;Homotopies&lt;&#x2F;h2&gt;
 &lt;p&gt;Let&#x27;s consider the type theory represent of proposition &amp;quot;$f: A → B$ is surjective&amp;quot;:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \Pi_{(y:B)}\Sigma_{(x:A)} f(x) = y
@@ -2356,7 +2456,9 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_5.pdf&quot;&gt;HoTTEST_Lecture_5.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
 &lt;div &gt;
-    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;M5BD5BvQCjw&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;M5BD5BvQCjw&quot; webkitallowfullscreen
+        mozallowfullscreen allowfullscreen&gt;
+    &lt;&#x2F;iframe&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;todo: &lt;strong&gt;DO&lt;&#x2F;strong&gt; learn the category theory.&lt;&#x2F;p&gt;
@@ -2374,14 +2476,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;It is so easy to write such a proof in Agda, comparing with the difficulty of writing a proof with hands (thinking about applying path induction again and again). I can hardly believe that this proof is correct, but it is just identical to the term on the book, those proof assistant tools are all magic.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>HoTTEST Summer School HoTT Notes 4</title>
-		<published>2022-07-20T16:35:09.859+00:00</published>
-		<updated>2022-07-20T16:35:09.859+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-4/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hottest-notes-hott-4/</id>
-		<content type="html">&lt;h2 id=&quot;universes&quot;&gt;Universes&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>HoTTEST Summer School HoTT Notes 4</title>
+        <published>2022-07-20T16:35:09.859+00:00</published>
+        <updated>2022-07-20T16:35:09.859+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-4/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hottest-notes-hott-4/</id>
+        <content type="html">&lt;h2 id=&quot;universes&quot;&gt;Universes&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;why&quot;&gt;Why&lt;&#x2F;h3&gt;
 &lt;ul&gt;
 &lt;li&gt;We need to define type families by induction, so that we can prove things like
@@ -2622,7 +2727,9 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_4.pdf&quot;&gt;HoTTEST_Lecture_4.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
 &lt;div &gt;
-    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;Pjgath72Ja0&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;Pjgath72Ja0&quot; webkitallowfullscreen
+        mozallowfullscreen allowfullscreen&gt;
+    &lt;&#x2F;iframe&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Grothendieck_universe&quot;&gt;ref&lt;&#x2F;a&gt;, &lt;code&gt;to_learn++&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
@@ -2640,14 +2747,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Unless necessary, I&#x27;ll write all proofs in Agda in the future, since typing proof tree in latex is too tiring.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>HoTTEST Summer School HoTT Notes 3</title>
-		<published>2022-07-18T05:15:33.302+00:00</published>
-		<updated>2022-07-18T05:15:33.302+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-3/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hottest-notes-hott-3/</id>
-		<content type="html">&lt;h2 id=&quot;identity-types&quot;&gt;Identity Types&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>HoTTEST Summer School HoTT Notes 3</title>
+        <published>2022-07-18T05:15:33.302+00:00</published>
+        <updated>2022-07-18T05:15:33.302+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-3/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hottest-notes-hott-3/</id>
+        <content type="html">&lt;h2 id=&quot;identity-types&quot;&gt;Identity Types&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;In intensional type theory under the propositions as types paradigm, an identity type (or equality type) is the incarnation of equality. That is, for any type $A$ and any terms $x,y:A$, the type $Id_A(x,y)$ is “the type of proofs that $x=y$” or “the type of reasons why $x=y$”. —— nLab&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -2868,7 +2978,9 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_3.pdf&quot;&gt;HoTTEST_Lecture_3.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
 &lt;div &gt;
-    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;oMKl7pBRg1E&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;oMKl7pBRg1E&quot; webkitallowfullscreen
+        mozallowfullscreen allowfullscreen&gt;
+    &lt;&#x2F;iframe&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
@@ -2880,14 +2992,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;WTF is that 😭 TODO: learn it.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>HoTTEST Summer School HoTT Notes 2</title>
-		<published>2022-07-16T05:45:57.294+00:00</published>
-		<updated>2022-07-16T05:45:57.294+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-2/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hottest-notes-hott-2/</id>
-		<content type="html">&lt;h2 id=&quot;inductive-types&quot;&gt;Inductive Types&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>HoTTEST Summer School HoTT Notes 2</title>
+        <published>2022-07-16T05:45:57.294+00:00</published>
+        <updated>2022-07-16T05:45:57.294+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-2/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hottest-notes-hott-2/</id>
+        <content type="html">&lt;h2 id=&quot;inductive-types&quot;&gt;Inductive Types&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;In type theory, a system has inductive types if it has facilities for creating a new type from constants and functions that create terms of that type. —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -3168,20 +3283,25 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_2.pdf&quot;&gt;HoTTEST_Lecture_2.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
 &lt;div &gt;
-    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;GW0jV0l5NB4&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;GW0jV0l5NB4&quot; webkitallowfullscreen
+        mozallowfullscreen allowfullscreen&gt;
+    &lt;&#x2F;iframe&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>HoTTEST Summer School HoTT Notes 1</title>
-		<published>2022-07-14T02:51:09.783+00:00</published>
-		<updated>2022-07-14T02:51:09.783+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-1/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hottest-notes-hott-1/</id>
-		<content type="html">&lt;h2 id=&quot;natural-deduction&quot;&gt;Natural deduction&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>HoTTEST Summer School HoTT Notes 1</title>
+        <published>2022-07-14T02:51:09.783+00:00</published>
+        <updated>2022-07-14T02:51:09.783+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hottest-notes-hott-1/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hottest-notes-hott-1/</id>
+        <content type="html">&lt;h2 id=&quot;natural-deduction&quot;&gt;Natural deduction&lt;&#x2F;h2&gt;
 &lt;p&gt;Trivial, not necessary to say too much here.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;simple-typed-lambda-calculus-stlc-or-stlc&quot;&gt;Simple typed lambda calculus (STλC or STLC)&lt;&#x2F;h2&gt;
 &lt;p&gt;Still trivial, just need to clarify some notations the teacher is using.&lt;&#x2F;p&gt;
@@ -3247,20 +3367,25 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_1.pdf&quot;&gt;HoTTEST_Lecture_1.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;record-on-youtube&quot;&gt;Record on Youtube&lt;&#x2F;h3&gt;
 &lt;div &gt;
-    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube-nocookie.com&#x2F;embed&#x2F;HvYYCHMeM-8&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;&#x2F;iframe&gt;
+    &lt;iframe src=&quot;https:&#x2F;&#x2F;www.youtube.com&#x2F;embed&#x2F;HvYYCHMeM-8&quot; webkitallowfullscreen
+        mozallowfullscreen allowfullscreen&gt;
+    &lt;&#x2F;iframe&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>Hello zola!</title>
-		<published>2020-01-02T15:00:00+00:00</published>
-		<updated>2020-01-02T15:00:00+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/hello-zola/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/hello-zola/</id>
-		<content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>Hello zola!</title>
+        <published>2020-01-02T15:00:00+00:00</published>
+        <updated>2020-01-02T15:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hello-zola/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hello-zola/</id>
+        <content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
 &lt;p&gt;Here&#x27;s an image from my origin blog, powered by hexo:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hello-zola&#x2F;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
@@ -3283,14 +3408,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Or maybe I misunderstood the &lt;code&gt;pagination&lt;&#x2F;code&gt; feature ...&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="en">
-		<title>How to implement an easiest compiler</title>
-		<published>2019-05-21T16:39:56.026+00:00</published>
-		<updated>2019-05-21T16:39:56.026+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/" type="text/html"/>
-		<id>https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/</id>
-		<content type="html">&lt;p&gt;This article will lead the reader to make a simple C-like (but much simpler than C) language&#x27;s compiler.&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="en">
+        <title>How to implement an easiest compiler</title>
+        <published>2019-05-21T16:39:56.026+00:00</published>
+        <updated>2019-05-21T16:39:56.026+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/</id>
+        <content type="html">&lt;p&gt;This article will lead the reader to make a simple C-like (but much simpler than C) language&#x27;s compiler.&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;toylang&#x2F;tree&#x2F;db02558dd658c0cf667f60c822eb4bd42ecb9ee7&quot;&gt;Here&lt;&#x2F;a&gt;, is the reference code.&lt;&#x2F;p&gt;
 &lt;p&gt;This language supports:&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -3300,7 +3428,7 @@ $$&lt;&#x2F;p&gt;
 &lt;li&gt;Basic mathematical operators &lt;code&gt;+&lt;&#x2F;code&gt;、&lt;code&gt;-&lt;&#x2F;code&gt;、&lt;code&gt;*&lt;&#x2F;code&gt;、&lt;code&gt;&#x2F;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;=&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;=&lt;&#x2F;code&gt;、&lt;code&gt;==&lt;&#x2F;code&gt;、&lt;code&gt;!=&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;The author assume the user has a good command of C language&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; and knows how to use regex, flex and bison.&lt;&#x2F;p&gt;
-&lt;p&gt;If you are not familiar with flex and bison, refer to &lt;a href=&quot;.&quot;&gt;another article of mine&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;If you are not familiar with flex and bison, refer to &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&quot;&gt;another article of mine&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;the-whole-compiling-process&quot;&gt;The whole compiling process&lt;&#x2F;h2&gt;
 &lt;p&gt;The compiler follows the following process&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&#x2F;routine.en.svg&quot; alt=&quot;routine&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
@@ -3657,7 +3785,7 @@ $$&lt;&#x2F;p&gt;
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mapping-high-level-constructs-to-llvm-ir.readthedocs.io&#x2F;&quot;&gt;mapping high level constructs to llvm ir&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;The code will use object-oriented programming in C language, see &lt;a href=&quot;.&quot;&gt;Implementing object-oriented programming in pure C&lt;&#x2F;a&gt;. Using this technique makes me feel that using C language is far more better than using C++ (Linus is not wrong at all).&lt;&#x2F;p&gt;
+&lt;p&gt;The code will use object-oriented programming in C language, see &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&quot;&gt;Implementing object-oriented programming in pure C&lt;&#x2F;a&gt;. Using this technique makes me feel that using C language is far more better than using C++ (Linus is not wrong at all).&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
 &lt;p&gt;In fact, I did a little bit of semantic analysis when constructing the AST.&lt;&#x2F;p&gt;
@@ -3666,5 +3794,5 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Actually it&#x27;s because I&#x27;m lazy. ;)&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
+    </entry>
 </feed>

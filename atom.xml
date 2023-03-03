@@ -1,28 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh">
-	<title>Blog</title>
-	<subtitle>生命是灰色的，而理论之树常青</subtitle>
-	<link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
-  <link href="https://longfangsong.github.io"/>
-	<generator uri="https://www.getzola.org/">Zola</generator>
-	<updated>2023-02-04T17:59:47.582+00:00</updated>
-	<id>https://longfangsong.github.io/atom.xml</id>
-	<entry xml:lang="zh">
-		<title>LLVM style IR to stack based vm assembly</title>
-		<published>2023-02-04T17:59:47.582+00:00</published>
-		<updated>2023-02-04T17:59:47.582+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/ssa-to-stackvm/" type="text/html"/>
-		<id>https://longfangsong.github.io/ssa-to-stackvm/</id>
-		<content type="html">&lt;p&gt;正在从英文翻译……&lt;&#x2F;p&gt;
+    <title>Blog</title>
+    <subtitle>生命是灰色的，而理论之树常青</subtitle>
+    <link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
+    <link href="https://longfangsong.github.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2023-03-03T16:58:21.033+00:00</updated>
+    <id>https://longfangsong.github.io/atom.xml</id>
+    <entry xml:lang="zh">
+        <title>Image 转 RGB565 工具</title>
+        <published>2023-03-03T16:58:21.033+00:00</published>
+        <updated>2023-03-03T16:58:21.033+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/image-to-rgb565/" type="text/html"/>
+        <id>https://longfangsong.github.io/image-to-rgb565/</id>
+        <content type="html">&lt;h1 id=&quot;just-use-it&quot;&gt;Just use it&lt;&#x2F;h1&gt;
+&lt;input type=&quot;file&quot; id=&quot;imageInput&quot;&gt;
+&lt;h1 id=&quot;why&quot;&gt;Why&lt;&#x2F;h1&gt;
+&lt;p&gt;RGB565 格式在 embedded systems 中非常有用，可以直接喂给大部分 lcd 屏幕吃。&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;how&quot;&gt;How&lt;&#x2F;h1&gt;
+&lt;p&gt;Basically，先用 &lt;code&gt;canvas&lt;&#x2F;code&gt; 得到每个 pixel 的 RGBA，然后直接位操作。&lt;&#x2F;p&gt;
+&lt;p&gt;部分代码由 new Bing 的 AI 提供，但我还是做了些修改才达到效果。&lt;&#x2F;p&gt;
+&lt;p&gt;结果为 little-endian。&lt;&#x2F;p&gt;
+&lt;script&gt;
+function rgbToRgb565(r, g, b) {
+    const red = r &gt;&gt; 3;
+    const green = g &gt;&gt; 2;
+    const blue = b &gt;&gt; 3;
+    return (red &lt;&lt; 11) | (green &lt;&lt; 5) | blue;
+}
+
+function download(uint16Array, filename) {
+    var blob = new Blob([uint16Array], {type: &#x27;application&#x2F;octet-stream&#x27;});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement(&#x27;a&#x27;);
+    a.href = url;
+    a.download = filename;
+    a.click();
+}
+let img = new Image();
+let canvas = document.createElement(&#x27;canvas&#x27;);
+let ctx = canvas.getContext(&#x27;2d&#x27;);
+img.onload = function() {
+    ctx.canvas.width = img.width;
+    ctx.canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    console.log(imgData);
+    let rgb565Data = new ArrayBuffer(imgData.length &#x2F; 4 *2);
+    let view = new DataView(rgb565Data);
+    for (let i = 0; i &lt; imgData.length; i += 4) {
+        const r = imgData[i];
+        const g = imgData[i + 1];
+        const b = imgData[i + 2];
+        console.log(rgbToRgb565(r, g, b));
+        view.setUint16(i &#x2F; 4* 2, rgbToRgb565(r, g, b), true);
+    }
+    download(rgb565Data, &#x27;rgb565data.bin&#x27;);
+}
+
+document.getElementById(&#x27;imageInput&#x27;).addEventListener(&#x27;change&#x27;, function(e) {
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+});
+
+&lt;&#x2F;script&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>重新开始学数学 • 数理逻辑（5）</title>
-		<published>2022-07-11T16:29:53.671+00:00</published>
-		<updated>2022-07-13T00:20:17+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-5/" type="text/html"/>
-		<id>https://longfangsong.github.io/restart-math-logic-5/</id>
-		<content type="html">&lt;p&gt;我们的目标是写出一个函数，输入一个 CTL 模型和一个 Formula，输出模型中所有能 satisfy 这个 Formula 的状态集合。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 数理逻辑（5）</title>
+        <published>2022-07-11T16:29:53.671+00:00</published>
+        <updated>2022-07-13T00:20:17+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-5/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-logic-5/</id>
+        <content type="html">&lt;p&gt;我们的目标是写出一个函数，输入一个 CTL 模型和一个 Formula，输出模型中所有能 satisfy 这个 Formula 的状态集合。&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;satisfiable_states&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;CTLModule, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;formula&lt;&#x2F;span&gt;&lt;span&gt;: CTLFormula)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;根据 CTL 中连接词的定义，我们可以写出：&lt;&#x2F;p&gt;
@@ -91,14 +151,17 @@
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;如此一来我们就完成了这整个算法。&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>重新开始学数学 • 数理逻辑（4）</title>
-		<published>2022-07-03T16:33:08.514+00:00</published>
-		<updated>2022-07-03T16:33:08.514+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-4/" type="text/html"/>
-		<id>https://longfangsong.github.io/restart-math-logic-4/</id>
-		<content type="html">&lt;h2 id=&quot;shi-xu-luo-ji&quot;&gt;时序逻辑&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 数理逻辑（4）</title>
+        <published>2022-07-03T16:33:08.514+00:00</published>
+        <updated>2022-07-03T16:33:08.514+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-4/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-logic-4/</id>
+        <content type="html">&lt;h2 id=&quot;shi-xu-luo-ji&quot;&gt;时序逻辑&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;在逻辑中，术语时间逻辑被用来描述为表现和推理关于时间限定的命题的规则和符号化的任何系统。 —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -162,14 +225,17 @@ E 是 there Exists one path，即后面的 LTL-like 的公式在某条路径上�
 &lt;p&gt;但并不说明 $q$ 成立之后 $p$ 一定就不成立了。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>定理证明器背后的数学原理</title>
-		<published>2022-06-24T08:10:17.031+00:00</published>
-		<updated>2022-06-30T13:04:33+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/why-lean-proof/" type="text/html"/>
-		<id>https://longfangsong.github.io/why-lean-proof/</id>
-		<content type="html">&lt;h2 id=&quot;how-it-looks-like&quot;&gt;How it looks like&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>定理证明器背后的数学原理</title>
+        <published>2022-06-24T08:10:17.031+00:00</published>
+        <updated>2022-06-30T13:04:33+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/why-lean-proof/" type="text/html"/>
+        <id>https://longfangsong.github.io/why-lean-proof/</id>
+        <content type="html">&lt;h2 id=&quot;how-it-looks-like&quot;&gt;How it looks like&lt;&#x2F;h2&gt;
 &lt;p&gt;相比一上来就掰扯复杂的数学理论，我们不如先来看看一个使用定理证明器 Lean &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 编写数学定理的证明的实际例子，我们就选择比较容易证明的德摩根定律来证：&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;lean&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-lean &quot;&gt;&lt;code class=&quot;language-lean&quot; data-lang=&quot;lean&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;open&lt;&#x2F;span&gt;&lt;span&gt; Classical
 &lt;&#x2F;span&gt;&lt;span&gt;
@@ -247,14 +313,17 @@ E 是 there Exists one path，即后面的 LTL-like 的公式在某条路径上�
 &lt;p&gt;假设所有函数都是科里化的，即 &lt;code&gt;Fn(a: T1) -&amp;gt; Fn(b: T2)&lt;&#x2F;code&gt; 和 &lt;code&gt;Fn(a: T1, b: T2)&lt;&#x2F;code&gt; 完全是一回事。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>midi 文件转蜂鸣器乐谱</title>
-		<published>2022-06-05T11:56:50+00:00</published>
-		<updated>2022-06-05T11:56:50+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/midi/" type="text/html"/>
-		<id>https://longfangsong.github.io/midi/</id>
-		<content type="html">&lt;p&gt;本工具可以将 midi 文件重新编码为 (频率[单位 Hz, 16位无符号数], 持续时间 [单位us, 32位无符号数]) 格式的数组。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>midi 文件转蜂鸣器乐谱</title>
+        <published>2022-06-05T11:56:50+00:00</published>
+        <updated>2022-06-05T11:56:50+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/midi/" type="text/html"/>
+        <id>https://longfangsong.github.io/midi/</id>
+        <content type="html">&lt;p&gt;本工具可以将 midi 文件重新编码为 (频率[单位 Hz, 16位无符号数], 持续时间 [单位us, 32位无符号数]) 格式的数组。&lt;&#x2F;p&gt;
 &lt;p&gt;对有多个通道的 midi 文件，只会保留第一个通道的数据。&lt;&#x2F;p&gt;
 &lt;p&gt;对同一时间点的多个音符（柱状和弦），只保留最低音。&lt;&#x2F;p&gt;
 &lt;p&gt;上传文件即可开始转换。&lt;&#x2F;p&gt;
@@ -295,14 +364,17 @@ async function load_wasm() {
 }
 load_wasm();
 &lt;&#x2F;script&gt;</content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>交流电基础</title>
-		<published>2022-02-28T22:21:20+00:00</published>
-		<updated>2022-02-28T22:21:20+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/alternating-current/" type="text/html"/>
-		<id>https://longfangsong.github.io/alternating-current/</id>
-		<content type="html">&lt;blockquote&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>交流电基础</title>
+        <published>2022-02-28T22:21:20+00:00</published>
+        <updated>2022-02-28T22:21:20+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/alternating-current/" type="text/html"/>
+        <id>https://longfangsong.github.io/alternating-current/</id>
+        <content type="html">&lt;blockquote&gt;
 &lt;p&gt;交流电流是指电流强度和电流方向都发生周期性变化的电流，在一个周期内的运行平均值为零。—— 维基百科&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;虽然定义上是这么说的，但是分析交流电的方法也适合分析一些没那么周期性的变化的，平均值不为 0 的电流，比如高速信号的传输。&lt;&#x2F;p&gt;
@@ -846,14 +918,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;中国大陆是这个方案，其实供电方案最奇妙的是日本，关东关西频率不一样可还行，日本电工一定很难受。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>电阻阻值为什么这么奇怪</title>
-		<published>2022-02-28T22:20:50+00:00</published>
-		<updated>2022-02-28T22:20:50+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/resistor-value/" type="text/html"/>
-		<id>https://longfangsong.github.io/resistor-value/</id>
-		<content type="html">&lt;p&gt;如果你去购买电阻，会发现阻值都非常的奇怪，阻值常常是什么 39, 47, 51 之类的，咋就不取个整数呢？&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>电阻阻值为什么这么奇怪</title>
+        <published>2022-02-28T22:20:50+00:00</published>
+        <updated>2022-02-28T22:20:50+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/resistor-value/" type="text/html"/>
+        <id>https://longfangsong.github.io/resistor-value/</id>
+        <content type="html">&lt;p&gt;如果你去购买电阻，会发现阻值都非常的奇怪，阻值常常是什么 39, 47, 51 之类的，咋就不取个整数呢？&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;dian-zu-de-wu-chai&quot;&gt;电阻的误差&lt;&#x2F;h2&gt;
 &lt;p&gt;我们知道因为人类是有极限的，人类造出来的产品也都是有瑕疵的，所以我们人类造出来的电阻也都是有误差的。&lt;&#x2F;p&gt;
 &lt;p&gt;以 10% 的误差为例，假如我们造这种电阻，要覆盖从 10 到 100 的整个数轴，那么我们应该制造的电阻阻值应该符合一个公差为 $10^{\frac {1} {12}}$ 指数等比数列。&lt;&#x2F;p&gt;
@@ -1392,14 +1467,17 @@ document.getElementById(&#x27;expected-result&#x27;).value = &#x27;&#x27;;
 &lt;p&gt;这些数据持久化在你的浏览器的 local storage 里面，只要不清缓存，下次打开该页面也有效。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Contention-Aware Lock Scheduling 和 （b）LDSF 算法</title>
-		<published>2022-02-08T14:56:30+00:00</published>
-		<updated>2022-02-08T14:56:30+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/contention-aware-lock-scheduling/" type="text/html"/>
-		<id>https://longfangsong.github.io/contention-aware-lock-scheduling/</id>
-		<content type="html">&lt;script src=&quot;&#x2F;&#x2F;d3js.org&#x2F;d3.v5.min.js&quot;&gt;&lt;&#x2F;script&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Contention-Aware Lock Scheduling 和 （b）LDSF 算法</title>
+        <published>2022-02-08T14:56:30+00:00</published>
+        <updated>2022-02-08T14:56:30+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/contention-aware-lock-scheduling/" type="text/html"/>
+        <id>https://longfangsong.github.io/contention-aware-lock-scheduling/</id>
+        <content type="html">&lt;script src=&quot;&#x2F;&#x2F;d3js.org&#x2F;d3.v5.min.js&quot;&gt;&lt;&#x2F;script&gt;
 &lt;script src=&quot;https:&#x2F;&#x2F;unpkg.com&#x2F;@hpcc-js&#x2F;wasm@0.3.11&#x2F;dist&#x2F;index.min.js&quot;&gt;&lt;&#x2F;script&gt;
 &lt;script src=&quot;https:&#x2F;&#x2F;unpkg.com&#x2F;d3-graphviz@3.0.5&#x2F;build&#x2F;d3-graphviz.js&quot;&gt;&lt;&#x2F;script&gt;
 &lt;h2 id=&quot;ji-ben-mo-xing&quot;&gt;基本模型&lt;&#x2F;h2&gt;
@@ -1594,14 +1672,17 @@ d3.select(&quot;#graph-2&quot;).graphviz()
 &lt;p&gt;而且这个东西本身我觉得就非常怪异……&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Mitchell Merritt 分布式死锁检测算法</title>
-		<published>2022-01-26T03:35:48.219+00:00</published>
-		<updated>2022-01-26T03:35:48.219+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/mitchell-merritt-algorithm/" type="text/html"/>
-		<id>https://longfangsong.github.io/mitchell-merritt-algorithm/</id>
-		<content type="html">&lt;h2 id=&quot;ji-ben-suan-fa&quot;&gt;基本算法&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Mitchell Merritt 分布式死锁检测算法</title>
+        <published>2022-01-26T03:35:48.219+00:00</published>
+        <updated>2022-01-26T03:35:48.219+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/mitchell-merritt-algorithm/" type="text/html"/>
+        <id>https://longfangsong.github.io/mitchell-merritt-algorithm/</id>
+        <content type="html">&lt;h2 id=&quot;ji-ben-suan-fa&quot;&gt;基本算法&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;mo-xing&quot;&gt;模型&lt;&#x2F;h3&gt;
 &lt;p&gt;采用最基本的 wait-for 图模型，即每个节点是一个 process，每条边代表起点对应的 process 需要的被终点 process 持有。&lt;&#x2F;p&gt;
 &lt;p&gt;对每个节点，有两个 label，一个 public，一个 private。&lt;&#x2F;p&gt;
@@ -1629,14 +1710,17 @@ d3.select(&quot;#graph-2&quot;).graphviz()
 &lt;h2 id=&quot;ping-jie&quot;&gt;评价&lt;&#x2F;h2&gt;
 &lt;p&gt;实践上可能效率还不如直接中心化死锁检测……&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>自动机理论 • 有限状态机</title>
-		<published>2021-07-22T10:55:33.427+00:00</published>
-		<updated>2021-07-22T10:55:33.427+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/automata-2/" type="text/html"/>
-		<id>https://longfangsong.github.io/automata-2/</id>
-		<content type="html">&lt;h2 id=&quot;que-ding-xing-you-xian-zhuang-tai-ji-deterministic-finite-automata-dfa&quot;&gt;确定性有限状态机（Deterministic Finite Automata, DFA）&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>自动机理论 • 有限状态机</title>
+        <published>2021-07-22T10:55:33.427+00:00</published>
+        <updated>2021-07-22T10:55:33.427+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/automata-2/" type="text/html"/>
+        <id>https://longfangsong.github.io/automata-2/</id>
+        <content type="html">&lt;h2 id=&quot;que-ding-xing-you-xian-zhuang-tai-ji-deterministic-finite-automata-dfa&quot;&gt;确定性有限状态机（Deterministic Finite Automata, DFA）&lt;&#x2F;h2&gt;
 &lt;p&gt;DFA包含以下要素：&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;一个有限大小的状态集合，常记为 $Q$。&lt;&#x2F;li&gt;
@@ -1647,14 +1731,17 @@ d3.select(&quot;#graph-2&quot;).graphviz()
 &lt;&#x2F;ul&gt;
 &lt;p&gt;DFA 常常用如上五种要素的元组表示，记为 $A = (Q, \Sigma, \delta, q_0, F)$&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>自动机理论 • 基本概念</title>
-		<published>2021-07-22T08:13:38.757+00:00</published>
-		<updated>2021-07-22T08:13:38.757+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/automata-1/" type="text/html"/>
-		<id>https://longfangsong.github.io/automata-1/</id>
-		<content type="html">&lt;h2 id=&quot;zi-mu-biao-alphabet&quot;&gt;字母表（Alphabet）&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>自动机理论 • 基本概念</title>
+        <published>2021-07-22T08:13:38.757+00:00</published>
+        <updated>2021-07-22T08:13:38.757+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/automata-1/" type="text/html"/>
+        <id>https://longfangsong.github.io/automata-1/</id>
+        <content type="html">&lt;h2 id=&quot;zi-mu-biao-alphabet&quot;&gt;字母表（Alphabet）&lt;&#x2F;h2&gt;
 &lt;p&gt;字母表是一个&lt;strong&gt;有限&lt;&#x2F;strong&gt;、&lt;strong&gt;非空&lt;&#x2F;strong&gt;的符号集合，常用 $\Sigma$ 表示。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;zi-mu-biao-de-mi-power&quot;&gt;字母表的幂（Power）&lt;&#x2F;h3&gt;
 &lt;p&gt;某个字母表 $\Sigma$ 的 $k$ 次幂就是由该字母表中的字母组成的，长度为 $k$ 的所有串组成的集合，记作 $\Sigma^k$。&lt;&#x2F;p&gt;
@@ -1689,14 +1776,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;符号位置数量不等于符号数量，比如串 &amp;quot;101010&amp;quot; 中的符号位置数量为 6，但符号数量（只有 0 和 1 ）为 2。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>重新开始学数学 • 数理逻辑（3）</title>
-		<published>2021-07-06T06:02:46.315+00:00</published>
-		<updated>2022-07-13T00:19:25+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-3/" type="text/html"/>
-		<id>https://longfangsong.github.io/restart-math-logic-3/</id>
-		<content type="html">&lt;h2 id=&quot;model-structure-jie-gou-mo-xing&quot;&gt;Model（Structure、结构、模型）&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 数理逻辑（3）</title>
+        <published>2021-07-06T06:02:46.315+00:00</published>
+        <updated>2022-07-13T00:19:25+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-3/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-logic-3/</id>
+        <content type="html">&lt;h2 id=&quot;model-structure-jie-gou-mo-xing&quot;&gt;Model（Structure、结构、模型）&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;yong-tu&quot;&gt;用途&lt;&#x2F;h3&gt;
 &lt;p&gt;Model 的主要作用是可以在给定一个 Model 的情况下，给一个谓词逻辑表达式求值。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;qian-zhi-ding-yi&quot;&gt;前置定义&lt;&#x2F;h3&gt;
@@ -1754,14 +1844,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;这帮子数学家老喜欢把无参函数和值等价起来，所以书里面这条对有参和无参函数是分开的……我不觉得这么搞很好，函数就是函数，所以就揉在一起了。当然也可以完全分开，即有常量符号但没有无参函数。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>自动逻辑综合原理 • 组合逻辑与 LUT 的最简单的综合</title>
-		<published>2021-04-25T16:09:46.815+00:00</published>
-		<updated>2021-04-25T16:09:46.815+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/fpga-sys-1/" type="text/html"/>
-		<id>https://longfangsong.github.io/fpga-sys-1/</id>
-		<content type="html">&lt;h2 id=&quot;lut&quot;&gt;LUT&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>自动逻辑综合原理 • 组合逻辑与 LUT 的最简单的综合</title>
+        <published>2021-04-25T16:09:46.815+00:00</published>
+        <updated>2021-04-25T16:09:46.815+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/fpga-sys-1/" type="text/html"/>
+        <id>https://longfangsong.github.io/fpga-sys-1/</id>
+        <content type="html">&lt;h2 id=&quot;lut&quot;&gt;LUT&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;一切皆查表。 ——我自己说的&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -2005,14 +2098,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;我们居然这么容易就写出了一个能动的综合器。
 接下来将会介绍更多逻辑综合的相关内容，预定会写更复杂逻辑函数的综合和时序逻辑电路的综合。&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>macOS 用户也要玩 FPGA！</title>
-		<published>2021-04-24T16:53:12.045+00:00</published>
-		<updated>2021-04-24T16:53:12.045+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/macos-fpga/" type="text/html"/>
-		<id>https://longfangsong.github.io/macos-fpga/</id>
-		<content type="html">&lt;p&gt;冲着能用开源工具链入了一块 iCESugar-Pro，本来想着如果 macOS 环境搞不定就下官方的虚拟机，结果居然给我配成了。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>macOS 用户也要玩 FPGA！</title>
+        <published>2021-04-24T16:53:12.045+00:00</published>
+        <updated>2021-04-24T16:53:12.045+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/macos-fpga/" type="text/html"/>
+        <id>https://longfangsong.github.io/macos-fpga/</id>
+        <content type="html">&lt;p&gt;冲着能用开源工具链入了一块 iCESugar-Pro，本来想着如果 macOS 环境搞不定就下官方的虚拟机，结果居然给我配成了。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;ise-vivado-quartus-de-que-dian&quot;&gt;ISE&#x2F;Vivado&#x2F;Quartus 的缺点&lt;&#x2F;h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -2129,14 +2225,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;在 GFW 内约耗时一个世纪。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>RoCC RISC-V 扩展方案</title>
-		<published>2021-04-19T15:45:33.706+00:00</published>
-		<updated>2021-04-19T15:45:33.706+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/riscv-rocc/" type="text/html"/>
-		<id>https://longfangsong.github.io/riscv-rocc/</id>
-		<content type="html">&lt;p&gt;RoCC 是通过向 RISC-V 处理器添加扩展的半官方&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;方案，最早用于 BSD 的 Rocket-core。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>RoCC RISC-V 扩展方案</title>
+        <published>2021-04-19T15:45:33.706+00:00</published>
+        <updated>2021-04-19T15:45:33.706+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/riscv-rocc/" type="text/html"/>
+        <id>https://longfangsong.github.io/riscv-rocc/</id>
+        <content type="html">&lt;p&gt;RoCC 是通过向 RISC-V 处理器添加扩展的半官方&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;方案，最早用于 BSD 的 Rocket-core。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;rocc-gui-ding-de-kuo-zhan-zhi-ling&quot;&gt;RoCC 规定的扩展指令&lt;&#x2F;h2&gt;
 &lt;p&gt;RoCC 使用了 RISCV 标准中预留的所有四个扩展槽位，并规定了如下指令格式：&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;riscv-rocc&#x2F;.&#x2F;rocc-inst.png&quot; alt=&quot;RoCC inst&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
@@ -2161,14 +2260,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;指由 RISC-V 亲爹 BSD 研发。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>内联汇编 cheatsheet</title>
-		<published>2021-04-18T07:34:52.996+00:00</published>
-		<updated>2021-04-18T07:34:52.996+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/inline-asm-cheatsheet/" type="text/html"/>
-		<id>https://longfangsong.github.io/inline-asm-cheatsheet/</id>
-		<content type="html">&lt;h2 id=&quot;ji-ben-yu-fa-mo-ban&quot;&gt;基本语法模版&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>内联汇编 cheatsheet</title>
+        <published>2021-04-18T07:34:52.996+00:00</published>
+        <updated>2021-04-18T07:34:52.996+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/inline-asm-cheatsheet/" type="text/html"/>
+        <id>https://longfangsong.github.io/inline-asm-cheatsheet/</id>
+        <content type="html">&lt;h2 id=&quot;ji-ben-yu-fa-mo-ban&quot;&gt;基本语法模版&lt;&#x2F;h2&gt;
 &lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;asm&lt;&#x2F;span&gt;&lt;span&gt;(
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;代码&amp;gt;:
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;输出到哪些变量&amp;gt;:
@@ -2200,14 +2302,17 @@ $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;fu-zuo-yong-hui-ying-xiang-shi-yao&quot;&gt;副作用会影响什么&lt;&#x2F;h3&gt;
 &lt;p&gt;这里一般就填一些标记寄存器和 &lt;code&gt;memory&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Hack RISC-V 指令集</title>
-		<published>2021-04-17T07:34:52.996+00:00</published>
-		<updated>2021-04-17T07:34:52.996+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/hack-riscv-isa/" type="text/html"/>
-		<id>https://longfangsong.github.io/hack-riscv-isa/</id>
-		<content type="html">&lt;h2 id=&quot;huan-jing&quot;&gt;环境&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Hack RISC-V 指令集</title>
+        <published>2021-04-17T07:34:52.996+00:00</published>
+        <updated>2021-04-17T07:34:52.996+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/hack-riscv-isa/" type="text/html"/>
+        <id>https://longfangsong.github.io/hack-riscv-isa/</id>
+        <content type="html">&lt;h2 id=&quot;huan-jing&quot;&gt;环境&lt;&#x2F;h2&gt;
 &lt;p&gt;本文假设用户使用基于 debian 的 Linux 系统，有 &lt;code&gt;su&lt;&#x2F;code&gt; 或者 &lt;code&gt;sudo&lt;&#x2F;code&gt; 的能力&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，并且用的文件系统是区分大小写&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;的。&lt;&#x2F;p&gt;
 &lt;p&gt;然后请事先安装 &lt;code&gt;git&lt;&#x2F;code&gt; 以及任意文本编辑器。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;gnu-bian-yi-gong-ju-lian&quot;&gt;GNU 编译工具链&lt;&#x2F;h2&gt;
@@ -2410,14 +2515,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;现在我懂为啥 C++ 大型项目为啥要把依赖也搞到项目的 &lt;code&gt;.&#x2F;third_parties&lt;&#x2F;code&gt; 里面一起编译了，否则这个链接、 abi 什么的是真的麻烦。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>重新开始学数学 • 数理逻辑（2）</title>
-		<published>2021-03-25T09:29:44.051+00:00</published>
-		<updated>2021-03-25T09:29:44.051+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-2/" type="text/html"/>
-		<id>https://longfangsong.github.io/restart-math-logic-2/</id>
-		<content type="html">&lt;h2 id=&quot;wei-ci-luo-ji&quot;&gt;谓词逻辑&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 数理逻辑（2）</title>
+        <published>2021-03-25T09:29:44.051+00:00</published>
+        <updated>2021-03-25T09:29:44.051+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-2/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-logic-2/</id>
+        <content type="html">&lt;h2 id=&quot;wei-ci-luo-ji&quot;&gt;谓词逻辑&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;wei-ci&quot;&gt;谓词&lt;&#x2F;h3&gt;
 &lt;p&gt;就是返回 &lt;code&gt;bool&lt;&#x2F;code&gt; 的函数&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;liang-ci&quot;&gt;量词&lt;&#x2F;h3&gt;
@@ -2429,14 +2537,17 @@ $$&lt;&#x2F;p&gt;
 A[t&#x2F;x]
 $$&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>重新开始学数学 • 数理逻辑（1）</title>
-		<published>2021-01-12T10:01:52.110+00:00</published>
-		<updated>2022-07-14T22:29:27+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-1/" type="text/html"/>
-		<id>https://longfangsong.github.io/restart-math-logic-1/</id>
-		<content type="html">&lt;h2 id=&quot;ming-ti-luo-ji&quot;&gt;命题逻辑&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 数理逻辑（1）</title>
+        <published>2021-01-12T10:01:52.110+00:00</published>
+        <updated>2022-07-14T22:29:27+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-1/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-logic-1/</id>
+        <content type="html">&lt;h2 id=&quot;ming-ti-luo-ji&quot;&gt;命题逻辑&lt;&#x2F;h2&gt;
 &lt;p&gt;我们课上学的基本上就是这些了，大部分就是一些 trivial 的是个人都能想通的东西，就是各种箭头（？）的用法容易混淆：&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -2520,14 +2631,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Useless fact: 下面这些横线称为 deduction bar。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>分布式系统 • 时钟</title>
-		<published>2020-12-10T22:42:11.815+00:00</published>
-		<updated>2020-12-10T22:42:11.815+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/clocks-in-distributed-system/" type="text/html"/>
-		<id>https://longfangsong.github.io/clocks-in-distributed-system/</id>
-		<content type="html">&lt;h2 id=&quot;wei-shi-yao-zai-fen-bu-shi-xi-tong-zhong-shi-zhong-hen-zhong-yao&quot;&gt;为什么在分布式系统中时钟很重要&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>分布式系统 • 时钟</title>
+        <published>2020-12-10T22:42:11.815+00:00</published>
+        <updated>2020-12-10T22:42:11.815+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/clocks-in-distributed-system/" type="text/html"/>
+        <id>https://longfangsong.github.io/clocks-in-distributed-system/</id>
+        <content type="html">&lt;h2 id=&quot;wei-shi-yao-zai-fen-bu-shi-xi-tong-zhong-shi-zhong-hen-zhong-yao&quot;&gt;为什么在分布式系统中时钟很重要&lt;&#x2F;h2&gt;
 &lt;p&gt;最简单的一个例子：一个读请求和一个修改请求（在外界观察者眼中）先后来到一个系统中的两个不同的节点上（假设所有节点的存储是通过某些“魔法”手段连在一起的），按道理由于读请求先发生，那么他不应当读到写请求写入的数据。但是如果两个节点上的物理时钟出了问题，处理读请求的时钟快了（认为请求到来时的时间戳比较大），而处理写请求的时钟慢了（认为请求到来时的时间戳比较小），此时按照时钟判断出的读写顺序就和实际不同了，这就会带来读写操作进行的顺序和预期不符。&lt;&#x2F;p&gt;
 &lt;p&gt;即使是同一个节点上也会遇到时钟由于走的太快而被 NTP 这样的时间同步算法回拨，导致的时间戳不唯一的问题。&lt;&#x2F;p&gt;
 &lt;p&gt;可见分布式系统中直接根据物理时钟决定事件发生的先后顺序是不可行的，原因是不同系统中的物理时钟其快慢是无法保证的。&lt;&#x2F;p&gt;
@@ -2680,14 +2794,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;有些人将定理1和2确定出的时间顺序关系称为“因果关系”，但是个人并不觉得这是个好名字，因为这些事件之间并不一定存在谁引起谁，借用这个名词可能会产生误解&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Parsing • LR(0)分析</title>
-		<published>2020-05-22T22:56:58.045+00:00</published>
-		<updated>2020-05-22T22:56:58.045+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/lr0/" type="text/html"/>
-		<id>https://longfangsong.github.io/lr0/</id>
-		<content type="html">&lt;p&gt;如果你已经理解了&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;&quot;&gt;移进-归约分析&lt;&#x2F;a&gt;的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Parsing • LR(0)分析</title>
+        <published>2020-05-22T22:56:58.045+00:00</published>
+        <updated>2020-05-22T22:56:58.045+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/lr0/" type="text/html"/>
+        <id>https://longfangsong.github.io/lr0/</id>
+        <content type="html">&lt;p&gt;如果你已经理解了&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;&quot;&gt;移进-归约分析&lt;&#x2F;a&gt;的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？&lt;&#x2F;p&gt;
 &lt;p&gt;举一个经典的表达式文法的例子：&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 E \rightarrow E+T|T
@@ -2847,14 +2964,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;这里也可以理解成，匹配完了$E+$ 之后，再递归地（用“干净”的栈帧）匹配后面的以$T*$开头的内容&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Parsing • 移进-归约分析</title>
-		<published>2020-05-22T22:56:58.045+00:00</published>
-		<updated>2020-05-22T22:56:58.045+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/shift-reduce/" type="text/html"/>
-		<id>https://longfangsong.github.io/shift-reduce/</id>
-		<content type="html">&lt;p&gt;回忆你很可能在大一大二&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;写过的运用栈进行表达式求值的程序，我们将其简化到只支持加法和乘法，这里给出一个Rust语言的例子（写的比较随意……），太长不看党可以直接跳过看下面的分析：&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Parsing • 移进-归约分析</title>
+        <published>2020-05-22T22:56:58.045+00:00</published>
+        <updated>2020-05-22T22:56:58.045+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/shift-reduce/" type="text/html"/>
+        <id>https://longfangsong.github.io/shift-reduce/</id>
+        <content type="html">&lt;p&gt;回忆你很可能在大一大二&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;写过的运用栈进行表达式求值的程序，我们将其简化到只支持加法和乘法，这里给出一个Rust语言的例子（写的比较随意……），太长不看党可以直接跳过看下面的分析：&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; input = String::new();
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;stdin&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;read_to_string&lt;&#x2F;span&gt;&lt;span&gt;(&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span&gt; input).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span&gt;();
 &lt;&#x2F;span&gt;&lt;span&gt;    input = input.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;trim&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_owned&lt;&#x2F;span&gt;&lt;span&gt;();
@@ -2991,14 +3111,17 @@ $$
 &lt;p&gt;这里要注意其实可以说归约时用的产生式是$Expr+ \rightarrow Expr*Expr+|Expr+Expr+$，这样就没有了优先级这个概念，但这样就是个上下文有关文法了。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</title>
-		<published>2020-05-17T16:37:01.045+00:00</published>
-		<updated>2020-05-17T16:37:01.045+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/ll1/" type="text/html"/>
-		<id>https://longfangsong.github.io/ll1/</id>
-		<content type="html">&lt;h2 id=&quot;wei-shi-yao-xu-yao-firstji-he-followji&quot;&gt;为什么需要First集和Follow集&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</title>
+        <published>2020-05-17T16:37:01.045+00:00</published>
+        <updated>2020-05-17T16:37:01.045+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/ll1/" type="text/html"/>
+        <id>https://longfangsong.github.io/ll1/</id>
+        <content type="html">&lt;h2 id=&quot;wei-shi-yao-xu-yao-firstji-he-followji&quot;&gt;为什么需要First集和Follow集&lt;&#x2F;h2&gt;
 &lt;p&gt;了解&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;parsing-combinator&#x2F;&quot;&gt;带回朔的递归下降文法分析方法&lt;&#x2F;a&gt;的同学可能会发现这种分析法由于在文法中每个出现 &lt;code&gt;|&lt;&#x2F;code&gt; 的点上，都会&lt;strong&gt;尝试&lt;&#x2F;strong&gt;这个点上所有可能的生成式，直到有一个匹配成功为止，这种方案虽然保证了对所有文法中的句子，最终都能通过这种方式构建出其语法树，但由于可能存在的大量回朔，效率就会收到影响。&lt;&#x2F;p&gt;
 &lt;p&gt;那么我们就要想了，有没有什么方法可以选择出这个点上&lt;strong&gt;唯一&lt;&#x2F;strong&gt;的生成式，来消除所有回朔的可能性，这样效率就能大大提升了。&lt;&#x2F;p&gt;
 &lt;p&gt;事实证明，对于一部分文法来说，这么做是可能的。&lt;&#x2F;p&gt;
@@ -3146,14 +3269,17 @@ $$
 &lt;p&gt;注意这里“数次”含0次，所以起始符号自然符合要求&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</title>
-		<published>2020-05-17T16:30:31.045+00:00</published>
-		<updated>2020-05-17T16:30:31.045+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/parsing-combinator/" type="text/html"/>
-		<id>https://longfangsong.github.io/parsing-combinator/</id>
-		<content type="html">&lt;p&gt;如果你听了老师上课讲的那一大坨根本没人听得懂的parse方法之后认为自己这辈子都造不出编译器了，那么本文介绍含回朔的递归自顶而下分析法正是你所需要的，这种方式非常容易想到，也非常容易编写，除了文法分析之外，对于词法分析，这个方法也可以一手包办，而且足以应付绝大多数编程语言的构造。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</title>
+        <published>2020-05-17T16:30:31.045+00:00</published>
+        <updated>2020-05-17T16:30:31.045+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/parsing-combinator/" type="text/html"/>
+        <id>https://longfangsong.github.io/parsing-combinator/</id>
+        <content type="html">&lt;p&gt;如果你听了老师上课讲的那一大坨根本没人听得懂的parse方法之后认为自己这辈子都造不出编译器了，那么本文介绍含回朔的递归自顶而下分析法正是你所需要的，这种方式非常容易想到，也非常容易编写，除了文法分析之外，对于词法分析，这个方法也可以一手包办，而且足以应付绝大多数编程语言的构造。&lt;&#x2F;p&gt;
 &lt;p&gt;我们先结合一个例子来看一下这玩意怎么使的：&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;zhu-yao-si-xiang&quot;&gt;主要思想&lt;&#x2F;h2&gt;
 &lt;p&gt;含回朔的递归自顶而下分析法的主要思想是：将每个非终结符（推导式左边）的分析写成一个函数，将右侧的内容组合写在函数体里面，如果这个函数从左向右匹配某段代码字符串成功，就返回存放了对应信息的结构体和剩下的字符串，否则返回Error。&lt;&#x2F;p&gt;
@@ -3342,14 +3468,17 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;一般的编译器中，文法分析器的性能其实是无需首先考虑的（后端每个步骤的耗时常常是整个前端的耗时的十倍甚至百倍之多），但在部分场合比如数据库中SQL的解释中，较慢的文法分析器可能会带来性能瓶颈。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>分布式系统 • 两阶段提交</title>
-		<published>2020-04-23T16:09:46.815+00:00</published>
-		<updated>2020-04-23T16:09:46.815+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/2pc/" type="text/html"/>
-		<id>https://longfangsong.github.io/2pc/</id>
-		<content type="html">&lt;blockquote&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>分布式系统 • 两阶段提交</title>
+        <published>2020-04-23T16:09:46.815+00:00</published>
+        <updated>2020-04-23T16:09:46.815+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/2pc/" type="text/html"/>
+        <id>https://longfangsong.github.io/2pc/</id>
+        <content type="html">&lt;blockquote&gt;
 &lt;p&gt;经典的分布式数据库模型中，同一个数据库的各个副本运行在不同的节点上，每个副本的数 据要求完全一致。数据库中的操作都是事务 (transaction)，一个事务是一系列读、写操作，事务满足 ACID。每个事务的最终状态要么是提交 (commit)，要么是失败 (abort)。一旦一个事务成功提交，那么这个事务中所有的写操作中成功，否则所有的写操作都失败。&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;为了适应这种 ACID 模型，2PC 提供的解决方案是：首先由一个节点（提议者）询问每个其他节点（参与者）是否同意提交某个事务，如果全部同意，则实际提交这个事务，否则拒绝提交这个事务。&lt;&#x2F;p&gt;
@@ -3415,14 +3544,17 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;这种不断重试的机制决定了2PC如果不加修改的话，A和P都是很糟糕的，不过相应地也换来了完全的C。&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>分布式系统 • CAP 定理</title>
-		<published>2020-04-23T16:09:46.815+00:00</published>
-		<updated>2022-07-13T23:38:26+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/cap-theorem/" type="text/html"/>
-		<id>https://longfangsong.github.io/cap-theorem/</id>
-		<content type="html">&lt;p&gt;CAP 定理是说，对于一个分布式系统来说，不可能同时满足以下三点：&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>分布式系统 • CAP 定理</title>
+        <published>2020-04-23T16:09:46.815+00:00</published>
+        <updated>2022-07-13T23:38:26+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/cap-theorem/" type="text/html"/>
+        <id>https://longfangsong.github.io/cap-theorem/</id>
+        <content type="html">&lt;p&gt;CAP 定理是说，对于一个分布式系统来说，不可能同时满足以下三点：&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;（强外部）一致性（&lt;strong&gt;C&lt;&#x2F;strong&gt;onsistency）&lt;&#x2F;li&gt;
 &lt;li&gt;可用性（&lt;strong&gt;A&lt;&#x2F;strong&gt;vailability）（即每次请求没有物理上不可用的节点时都能获取到非错的响应）&lt;&#x2F;li&gt;
@@ -3447,14 +3579,17 @@ $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;chang-jian-wu-qu&quot;&gt;常见误区&lt;&#x2F;h2&gt;
 &lt;p&gt;要注意的是，实践中并不是说去选择 CAP 中的两个，放弃另外一个。CAP 里的每个标准都不是绝对的“有”或者“没有”的关系，而是一个程度的问题，例如一致性可以降低到任何一个一致性等级，可用性可以做到 n 个 9，而分区容错性可以降低到有“部分”节点和其他部分不能通信时整个系统可用的程度。&lt;&#x2F;p&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>分布式系统 • 基本概念</title>
-		<published>2020-04-22T16:09:46.815+00:00</published>
-		<updated>2020-04-22T16:09:46.815+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/distributed-system/" type="text/html"/>
-		<id>https://longfangsong.github.io/distributed-system/</id>
-		<content type="html">&lt;p&gt;先拜一拜伟大的 &lt;strong&gt;Leslie Lamport&lt;&#x2F;strong&gt; 祖师爷。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>分布式系统 • 基本概念</title>
+        <published>2020-04-22T16:09:46.815+00:00</published>
+        <updated>2020-04-22T16:09:46.815+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/distributed-system/" type="text/html"/>
+        <id>https://longfangsong.github.io/distributed-system/</id>
+        <content type="html">&lt;p&gt;先拜一拜伟大的 &lt;strong&gt;Leslie Lamport&lt;&#x2F;strong&gt; 祖师爷。&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;thumb&#x2F;5&#x2F;50&#x2F;Leslie_Lamport.jpg&#x2F;150px-Leslie_Lamport.jpg&quot; alt=&quot;Leslie Lamport&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;shi-yao-shi-fen-bu-shi-xi-tong&quot;&gt;什么是分布式系统&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
@@ -3517,14 +3652,17 @@ CAP 中的 C 指的是外部一致性。
 &lt;p&gt;有些人称 “XX 共识算法” 为 “XX 一致性算法”，个人觉得可以理解为“用来解决一致性问题的算法”，问题也不大。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Hello zola!</title>
-		<published>2020-01-02T15:00:00+00:00</published>
-		<updated>2020-01-02T15:00:00+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/hello-zola/" type="text/html"/>
-		<id>https://longfangsong.github.io/hello-zola/</id>
-		<content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Hello zola!</title>
+        <published>2020-01-02T15:00:00+00:00</published>
+        <updated>2020-01-02T15:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/hello-zola/" type="text/html"/>
+        <id>https://longfangsong.github.io/hello-zola/</id>
+        <content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
 &lt;p&gt;Here&#x27;s an image from my origin blog, powered by hexo:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hello-zola&#x2F;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
@@ -3547,14 +3685,17 @@ CAP 中的 C 指的是外部一致性。
 &lt;p&gt;Or maybe I misunderstood the &lt;code&gt;pagination&lt;&#x2F;code&gt; feature ...&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>一个最简单的编译器的实现</title>
-		<published>2019-05-21T16:39:56.026+00:00</published>
-		<updated>2019-05-21T16:39:56.026+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/" type="text/html"/>
-		<id>https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/</id>
-		<content type="html">&lt;p&gt;本文将会带领读者做出一个简单的类C（但比C简单无数倍）语言的编译器。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>一个最简单的编译器的实现</title>
+        <published>2019-05-21T16:39:56.026+00:00</published>
+        <updated>2019-05-21T16:39:56.026+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/" type="text/html"/>
+        <id>https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/</id>
+        <content type="html">&lt;p&gt;本文将会带领读者做出一个简单的类C（但比C简单无数倍）语言的编译器。&lt;&#x2F;p&gt;
 &lt;p&gt;参考代码在这里，本文完成时的版本是这个。&lt;&#x2F;p&gt;
 &lt;p&gt;这个语言支持：&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -3564,7 +3705,7 @@ CAP 中的 C 指的是外部一致性。
 &lt;li&gt;基本数学和关系运算：&lt;code&gt;+&lt;&#x2F;code&gt;、&lt;code&gt;-&lt;&#x2F;code&gt;、&lt;code&gt;*&lt;&#x2F;code&gt;、&lt;code&gt;&#x2F;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;=&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;=&lt;&#x2F;code&gt;、&lt;code&gt;==&lt;&#x2F;code&gt;、&lt;code&gt;!=&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;本文假设读者是一个比较熟练的C语言&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;程序猿，并具有基本的正则表达式知识。&lt;&#x2F;p&gt;
-&lt;p&gt;同时本文读者应当熟悉 flex &amp;amp; bison 的基本使用，如果你对此不熟悉，可以参考我的 &lt;a href=&quot;.&quot;&gt;另一篇文章&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;同时本文读者应当熟悉 flex &amp;amp; bison 的基本使用，如果你对此不熟悉，可以参考我的 &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&quot;&gt;另一篇文章&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;bian-yi-guo-cheng&quot;&gt;编译过程&lt;&#x2F;h2&gt;
 &lt;p&gt;首先本文中所述的编译器编译一个程序的过程如下&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&#x2F;routine.svg&quot; alt=&quot;routine&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
@@ -3920,7 +4061,7 @@ CAP 中的 C 指的是外部一致性。
 &lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;mapping-high-level-constructs-to-llvm-ir.readthedocs.io&#x2F;&quot;&gt;mapping high level constructs to llvm ir&lt;&#x2F;a&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;代码中将会使用C语言的面向对象编程，见用&lt;a href=&quot;.&quot;&gt;纯C实现面向对象编程&lt;&#x2F;a&gt;。这东西用多了就有一种C语言远比C++好用的感觉（Linus一点都没说错）。&lt;&#x2F;p&gt;
+&lt;p&gt;代码中将会使用C语言的面向对象编程，见用&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&quot;&gt;纯C实现面向对象编程&lt;&#x2F;a&gt;。这东西用多了就有一种C语言远比C++好用的感觉（Linus一点都没说错）。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
 &lt;p&gt;其实在构造AST里我偷偷摸摸做了一丁点语义分析。&lt;&#x2F;p&gt;
@@ -3929,14 +4070,17 @@ CAP 中的 C 指的是外部一致性。
 &lt;p&gt;其实是因为我懒。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>代数结构 cheatsheet</title>
-		<published>2019-04-09T00:00:00+00:00</published>
-		<updated>2019-04-09T00:00:00+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/algebraic-structures/" type="text/html"/>
-		<id>https://longfangsong.github.io/algebraic-structures/</id>
-		<content type="html">&lt;h2 id=&quot;yun-suan&quot;&gt;运算&lt;&#x2F;h2&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>代数结构 cheatsheet</title>
+        <published>2019-04-09T00:00:00+00:00</published>
+        <updated>2019-04-09T00:00:00+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/algebraic-structures/" type="text/html"/>
+        <id>https://longfangsong.github.io/algebraic-structures/</id>
+        <content type="html">&lt;h2 id=&quot;yun-suan&quot;&gt;运算&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;er-yuan-yun-suan&quot;&gt;二元运算&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定集合$A$，二元函数$F: A \times A \rightarrow A$称为集合A上的&lt;strong&gt;二元运算&lt;&#x2F;strong&gt;。&lt;&#x2F;p&gt;
@@ -4122,14 +4266,17 @@ a\ \vee\ b = 1&lt;&#x2F;script&gt;&lt;p&gt;则 $b$ 是 $a$ 的补元。&lt;&#x2F
 &lt;p&gt;（半）格在群论和序理论中代表两个不同的东西，英文名称都叫Lattice，中文名称都叫格。数学家起名字的水平和我五五开。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
-	</entry>
-	<entry xml:lang="zh">
-		<title>Flexbox 布局 cheatsheet</title>
-		<published>2018-04-09T22:20:50+00:00</published>
-		<updated>2018-04-09T22:20:50+00:00</updated>
-		<link rel="alternate" href="https://longfangsong.github.io/flex-layout/" type="text/html"/>
-		<id>https://longfangsong.github.io/flex-layout/</id>
-		<content type="html">&lt;p&gt;Flexbox 是现代 web 页面布局的一大利器，但是相关属性众多，本人每次使用都要查文档，而且查了多次（≥20）居然一点都没记住。&lt;&#x2F;p&gt;
+    </entry>
+    <entry xml:lang="zh">
+        <title>Flexbox 布局 cheatsheet</title>
+        <published>2018-04-09T22:20:50+00:00</published>
+        <updated>2018-04-09T22:20:50+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/flex-layout/" type="text/html"/>
+        <id>https://longfangsong.github.io/flex-layout/</id>
+        <content type="html">&lt;p&gt;Flexbox 是现代 web 页面布局的一大利器，但是相关属性众多，本人每次使用都要查文档，而且查了多次（≥20）居然一点都没记住。&lt;&#x2F;p&gt;
 &lt;p&gt;所以我就写了这个 cheatsheet，不是因为写了就记住了，而是从自己写的文档里翻东西比较快……&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;display-flex&quot;&gt;&lt;code&gt;display: flex;&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
 &lt;p&gt;在某个元素上设置，这个元素内部使用 Flexbox 布局。&lt;&#x2F;p&gt;
@@ -4166,5 +4313,5 @@ a\ \vee\ b = 1&lt;&#x2F;script&gt;&lt;p&gt;则 $b$ 是 $a$ 的补元。&lt;&#x2F
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;代表元素在flexbox中占的比例。&lt;&#x2F;p&gt;
 </content>
-	</entry>
+    </entry>
 </feed>
