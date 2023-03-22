@@ -110,11 +110,11 @@
   <div class="post-content"><h1 id="just-use-it">Just use it</h1>
 <input type="file" id="imageInput">
 <h1 id="why">Why</h1>
-<p>RGB565 format is useful for embedded systems. Many lcd displays use this format.</p>
+<p>The RGB565 format is useful for embedded systems, as many LCD displays utilize this format.</p>
 <h1 id="how">How</h1>
-<p>Basically, just use <code>canvas</code> to get the pixel data and convert it to rgb565.</p>
-<p>Some of the code is provided by Bing powered by GPT, though I made some edits to make it work.</p>
-<p>The result is in little-endian.</p>
+<p>Essentially, use <code>canvas</code> to obtain the pixel data and convert it to RGB565.</p>
+<p>Some of the code was provided by Bing, powered by GPT, although I made some modifications to ensure it works properly.</p>
+<p>The result is in little-endian format.</p>
 <script>
 function rgbToRgb565(r, g, b) {
     const red = r >> 3;
