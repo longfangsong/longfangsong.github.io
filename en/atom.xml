@@ -491,7 +491,7 @@ graph TD
 &lt;li&gt;For each forward edge where the source and destination blocks are not consecutive, we can put a &lt;code&gt;block&lt;&#x2F;code&gt; at the beginning of the function&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#8&quot;&gt;8&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, use &lt;code&gt;break&lt;&#x2F;code&gt; to jump to the destination block, and put &lt;code&gt;end&lt;&#x2F;code&gt; before the target block.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
-&lt;p&gt;&lt;div class=&quot;mermaid&quot;&gt;
+&lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
     Entry --&amp;gt; A
     A --&amp;gt; B
@@ -515,12 +515,9 @@ flowchart TD
     N --&amp;gt; O
     O --&amp;gt; Exit
 &lt;&#x2F;div&gt;
+&lt;p&gt;After the topological sort, the block order is &lt;code&gt;ABCDEFGHIKJLMNO&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;First, simply wrap the loops in &lt;code&gt;loop&lt;&#x2F;code&gt; instructions.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
-After the topological sort, the block order is `ABCDEFGHIKJLMNO`.
-
-First, simply wrap the loops in `loop` instructions.
-
-{% mermaid() %}
 flowchart TD
     Entry --&amp;gt; A
     A --&amp;gt; B
@@ -547,7 +544,7 @@ flowchart TD
     L --&amp;gt; N
     N --&amp;gt; O
     O --&amp;gt; Exit
-&lt;&#x2F;div&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
 &lt;p&gt;And the currently generated code looks like this:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;wat&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-wat &quot;&gt;&lt;code class=&quot;language-wat&quot; data-lang=&quot;wat&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;;; A
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;loop &lt;&#x2F;span&gt;&lt;span&gt;$loop2

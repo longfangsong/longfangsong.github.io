@@ -516,7 +516,7 @@ graph TD
 <li>For each forward edge where the source and destination blocks are not consecutive, we can put a <code>block</code> at the beginning of the function<sup class="footnote-reference"><a href="#8">8</a></sup>, use <code>break</code> to jump to the destination block, and put <code>end</code> before the target block.</li>
 </ul>
 <h3 id="example">Example</h3>
-<p><div class="mermaid">
+<div class="mermaid">
 flowchart TD
     Entry --&gt; A
     A --&gt; B
@@ -540,12 +540,9 @@ flowchart TD
     N --&gt; O
     O --&gt; Exit
 </div>
+<p>After the topological sort, the block order is <code>ABCDEFGHIKJLMNO</code>.</p>
+<p>First, simply wrap the loops in <code>loop</code> instructions.</p>
 <div class="mermaid">
-After the topological sort, the block order is `ABCDEFGHIKJLMNO`.
-
-First, simply wrap the loops in `loop` instructions.
-
-{% mermaid() %}
 flowchart TD
     Entry --&gt; A
     A --&gt; B
@@ -572,7 +569,7 @@ flowchart TD
     L --&gt; N
     N --&gt; O
     O --&gt; Exit
-</div></p>
+</div>
 <p>And the currently generated code looks like this:</p>
 <pre data-lang="wat" style="background-color:#2b303b;color:#c0c5ce;" class="language-wat "><code class="language-wat" data-lang="wat"><span style="color:#65737e;">;; A
 </span><span style="color:#b48ead;">loop </span><span>$loop2
@@ -697,7 +694,7 @@ Although <a href="https://github.com/WebAssembly/design/issues/796">many develop
         
         <i class="fas fa-tags"></i>
         
-        <a class="tag" href="https://longfangsong.github.io/en/ @/_index.mdtags/compiler">&nbsp;compiler</a>
+        <a class="tag" href="https://longfangsong.github.io/en/tags/compiler">&nbsp;compiler</a>
         
         
       </div>
