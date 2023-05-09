@@ -509,7 +509,7 @@ graph TD
 <h4 id="topological-ordering">Topological Ordering</h4>
 <p><a href="https://en.wikipedia.org/wiki/Topological_sorting">Topological sort</a> is a useful tool when dealing with code scheduling. Basically, it ensures that if a node <code>A</code> is reached before <code>B</code>, then it is ordered prior to <code>B</code>.</p>
 <p>We cannot perform a traditional topological sort algorithm on a CFG, because it's not a DAG.</p>
-<p>However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop<sup class="footnote-reference"><a href="#7">7</a></sup>.</p>
+<p>However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop<sup class="footnote-reference"><a href="#7">7</a></sup>, and we must visit ALL nodes inside a loop before visit any other nodes.</p>
 <p>Then the process is easy, just:</p>
 <ul>
 <li>Wrap each loop in <code>loop</code>.</li>
