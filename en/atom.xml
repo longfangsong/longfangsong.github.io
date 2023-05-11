@@ -672,7 +672,7 @@ Although &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;des
         <link rel="alternate" href="https://longfangsong.github.io/en/category-theory-3/" type="text/html"/>
         <id>https://longfangsong.github.io/en/category-theory-3/</id>
         
-        <content type="html">&lt;h2 id=&quot;functor&quot;&gt;Functor&lt;&#x2F;h2&gt;
+        <content type="html">&lt;h2 id=&quot;covariant-functor&quot;&gt;(Covariant) Functor&lt;&#x2F;h2&gt;
 &lt;p&gt;Initually, functor is a mapping from one category to another, which preserves the structure of the origin one.&lt;&#x2F;p&gt;
 &lt;p&gt;Formally, functor is defined as&lt;&#x2F;p&gt;
 &lt;p&gt;A functor $F:C→D$ between categories $C$ and $D$ is a mapping of objects to objects and
@@ -682,6 +682,48 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;li&gt;$F(g\cdot f)=F(g)\cdot F(f)$&lt;&#x2F;li&gt;
 &lt;li&gt;$F(1_A)=1_{F(A)}$&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
+&lt;p&gt;In Haskell:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Functor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fmap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f b
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;contravariant-functor&quot;&gt;Contravariant&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; Functor&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A contravariant functor is like a functor but it reverses the directions of the morphisms. —— nLab&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Basically it&#x27;s the &amp;quot;reversed&amp;quot; version of covariant functor.&lt;&#x2F;p&gt;
+&lt;p&gt;In Haskell:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Contravariant &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;contramap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f b
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;bi-nary-functor&quot;&gt;Bi(nary )Functor&lt;&#x2F;h2&gt;
+&lt;p&gt;Bifunctor is functor whose domain is the product of two categories.&lt;&#x2F;p&gt;
+&lt;p&gt;ie.&lt;&#x2F;p&gt;
+&lt;p&gt;For $C_1$, $C_2$ and $D$ categories, a functor $F:C_1\times C_2→D$ is a bifunctor.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Bifunctor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;bimap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;c&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f c d
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Examples of bifunctor include &lt;code&gt;Either&lt;&#x2F;code&gt; and &lt;code&gt;(,)&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Bifunctor&lt;&#x2F;span&gt;&lt;span&gt; (,) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;    bimap f g (x , y) = (f x , g y)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Bifunctor Either where
+&lt;&#x2F;span&gt;&lt;span&gt;    bimap f g = either (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Left &lt;&#x2F;span&gt;&lt;span&gt;. f) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Right &lt;&#x2F;span&gt;&lt;span&gt;. g)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;profunctor&quot;&gt;Profunctor&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A Profunctor is just a bifunctor that is contravariant in the first argument and covariant in the second. What&#x27;s the problem? —— &lt;a href=&quot;https:&#x2F;&#x2F;www.schoolofhaskell.com&#x2F;user&#x2F;liyang&#x2F;profunctors#profunctors&quot;&gt;School of Haskell&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;So we just &amp;quot;reverse&amp;quot; the first argument of &lt;code&gt;Bifunctor&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Profunctor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;dimap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;c &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f c d
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;A good example of Profunctor is &lt;code&gt;(-&amp;gt;)&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Profunctor&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where 
+&lt;&#x2F;span&gt;&lt;span&gt;    dimap ca bd ab = bd . ab . ca
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;If you are familiar with &amp;quot;tradition&amp;quot; programming languages like Java or C#, you may have heard of &amp;quot;covariant&amp;quot; and &amp;quot;contravariant&amp;quot; before. For example, if type &lt;code&gt;A&lt;&#x2F;code&gt; is subtype of &lt;code&gt;B&lt;&#x2F;code&gt;, then &lt;code&gt;IEnumerable&amp;lt;A&amp;gt;&lt;&#x2F;code&gt; is subtype of &lt;code&gt;IEnumerable&amp;lt;B&amp;gt;&lt;&#x2F;code&gt;, so &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is covariant on &lt;code&gt;T&lt;&#x2F;code&gt;. And similarly, &lt;code&gt;Action&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is contravariant on &lt;code&gt;T&lt;&#x2F;code&gt;. So we can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary mapping) version of these types.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
 </content>
         
     </entry>

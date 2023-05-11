@@ -107,7 +107,7 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-3&#x2F;">Category theory Notes 3</a></h1>
   
-  <div class="post-content"><h2 id="functor">Functor</h2>
+  <div class="post-content"><h2 id="covariant-functor">(Covariant) Functor</h2>
 <p>Initually, functor is a mapping from one category to another, which preserves the structure of the origin one.</p>
 <p>Formally, functor is defined as</p>
 <p>A functor $F:C→D$ between categories $C$ and $D$ is a mapping of objects to objects and
@@ -117,6 +117,48 @@ arrows to arrows, in such a way that:</p>
 <li>$F(g\cdot f)=F(g)\cdot F(f)$</li>
 <li>$F(1_A)=1_{F(A)}$</li>
 </ul>
+<p>In Haskell:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Functor </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
+</span><span>    </span><span style="color:#8fa1b3;">fmap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">b</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f b
+</span></code></pre>
+<h2 id="contravariant-functor">Contravariant<sup class="footnote-reference"><a href="#1">1</a></sup> Functor</h2>
+<blockquote>
+<p>A contravariant functor is like a functor but it reverses the directions of the morphisms. —— nLab</p>
+</blockquote>
+<p>Basically it's the &quot;reversed&quot; version of covariant functor.</p>
+<p>In Haskell:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#a3be8c;">Contravariant </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
+</span><span>    </span><span style="color:#8fa1b3;">contramap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">a</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f b
+</span></code></pre>
+<h2 id="bi-nary-functor">Bi(nary )Functor</h2>
+<p>Bifunctor is functor whose domain is the product of two categories.</p>
+<p>ie.</p>
+<p>For $C_1$, $C_2$ and $D$ categories, a functor $F:C_1\times C_2→D$ is a bifunctor.</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#a3be8c;">Bifunctor </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
+</span><span>    </span><span style="color:#8fa1b3;">bimap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">c</span><span>) </span><span style="color:#b48ead;">→</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">d</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f c d
+</span></code></pre>
+<p>Examples of bifunctor include <code>Either</code> and <code>(,)</code>.</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">instance Bifunctor</span><span> (,) </span><span style="color:#b48ead;">where
+</span><span>    bimap f g (x , y) = (f x , g y)
+</span><span>
+</span><span style="color:#b48ead;">instance Bifunctor Either where
+</span><span>    bimap f g = either (</span><span style="color:#d08770;">Left </span><span>. f) (</span><span style="color:#d08770;">Right </span><span>. g)
+</span></code></pre>
+<h2 id="profunctor">Profunctor</h2>
+<blockquote>
+<p>A Profunctor is just a bifunctor that is contravariant in the first argument and covariant in the second. What's the problem? —— <a href="https://www.schoolofhaskell.com/user/liyang/profunctors#profunctors">School of Haskell</a></p>
+</blockquote>
+<p>So we just &quot;reverse&quot; the first argument of <code>Bifunctor</code>:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#a3be8c;">Profunctor </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
+</span><span>    </span><span style="color:#8fa1b3;">dimap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">c </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">a</span><span>) </span><span style="color:#b48ead;">→</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">d</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f c d
+</span></code></pre>
+<p>A good example of Profunctor is <code>(-&gt;)</code>:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">instance Profunctor</span><span> (</span><span style="color:#b48ead;">-&gt;</span><span>) </span><span style="color:#b48ead;">where 
+</span><span>    dimap ca bd ab = bd . ab . ca
+</span></code></pre>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>If you are familiar with &quot;tradition&quot; programming languages like Java or C#, you may have heard of &quot;covariant&quot; and &quot;contravariant&quot; before. For example, if type <code>A</code> is subtype of <code>B</code>, then <code>IEnumerable&lt;A&gt;</code> is subtype of <code>IEnumerable&lt;B&gt;</code>, so <code>IEnumerable&lt;T&gt;</code> is covariant on <code>T</code>. And similarly, <code>Action&lt;T&gt;</code> is contravariant on <code>T</code>. So we can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary mapping) version of these types.</p>
+</div>
 </div>
   <div class="post-footer">
     <div class="meta">
