@@ -18,7 +18,7 @@
         <id>https://longfangsong.github.io/en/the-physics-of-semiconductors/</id>
         
         <content type="html">&lt;h2 id=&quot;band-theory&quot;&gt;band theory&lt;&#x2F;h2&gt;
-&lt;p&gt;In a single atom, electrons can only have discrete ranges of energy values. These ranges are called &amp;quot;atomic orbitals&amp;quot;. When we say things like $1s^1$, $1s^22s^22p^2&amp;quot;, we are referring to atomic orbitals, which we learned about in chemistry class.&lt;&#x2F;p&gt;
+&lt;p&gt;In a single atom, electrons can only have discrete ranges of energy values. These ranges are called &amp;quot;atomic orbitals&amp;quot;. When we say things like $1s^1$, $1s^22s^22p^2$, we are referring to atomic orbitals, which we learned about in chemistry class.&lt;&#x2F;p&gt;
 &lt;p&gt;When atoms come together, they affect each other and change how the electrons are distributed. For example, if two identical hydrogen atoms are brought together, the wave functions of the electrons overlap and, due to the exclusion principle, can no longer be in the same quantum state. This splits the original equivalent energy levels into two different energy levels.&lt;&#x2F;p&gt;
 &lt;p&gt;In a solid crystal, the energy levels of the electrons of all the atoms form several energy bands.&lt;&#x2F;p&gt;
 &lt;p&gt;One of them is the &lt;strong&gt;valence band&lt;&#x2F;strong&gt;, which is the highest energy band that contains electrons at 0K.&lt;&#x2F;p&gt;
