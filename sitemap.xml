@@ -144,6 +144,10 @@
         <lastmod>2023-02-04T17:59:47.582Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/the-physics-of-semiconductors/</loc>
+        <lastmod>2023-05-13T17:38:51.465</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/flex-layout/</loc>
         <lastmod>2018-04-09T22:20:50Z</lastmod>
     </url>
@@ -302,6 +306,9 @@
         <loc>https://longfangsong.github.io/tags/optimization/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/tags/physics/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/tags/plt/</loc>
     </url>
     <url>
@@ -309,6 +316,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/risc-v/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/semiconductor/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/shu-ju-ku/</loc>
@@ -333,6 +343,10 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/zola/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/the-physics-of-semiconductors/</loc>
+        <lastmod>2023-02-04T17:59:47.582Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/why-lean-proof/</loc>

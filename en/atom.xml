@@ -5,8 +5,49 @@
     <link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-03-03T16:58:21.033+00:00</updated>
+    <updated>2023-05-13T17:38:51.465+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>The Physics of Semiconductors</title>
+        <published>2023-05-13T17:38:51.465+00:00</published>
+        <updated>2023-05-13T17:38:51.465+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/the-physics-of-semiconductors/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/the-physics-of-semiconductors/</id>
+        
+        <content type="html">&lt;h2 id=&quot;band-theory&quot;&gt;band theory&lt;&#x2F;h2&gt;
+&lt;p&gt;In a single atom, electrons can only have discrete ranges of energy values. These ranges are called &amp;quot;atomic orbitals&amp;quot;. When we say things like $1s^1$, $1s^22s^22p^2&amp;quot;, we are referring to atomic orbitals, which we learned about in chemistry class.&lt;&#x2F;p&gt;
+&lt;p&gt;When atoms come together, they affect each other and change how the electrons are distributed. For example, if two identical hydrogen atoms are brought together, the wave functions of the electrons overlap and, due to the exclusion principle, can no longer be in the same quantum state. This splits the original equivalent energy levels into two different energy levels.&lt;&#x2F;p&gt;
+&lt;p&gt;In a solid crystal, the energy levels of the electrons of all the atoms form several energy bands.&lt;&#x2F;p&gt;
+&lt;p&gt;One of them is the &lt;strong&gt;valence band&lt;&#x2F;strong&gt;, which is the highest energy band that contains electrons at 0K.&lt;&#x2F;p&gt;
+&lt;p&gt;The other one is the &lt;strong&gt;conduction band&lt;&#x2F;strong&gt;, which is the lowest energy band that is empty at 0K. Electrons in this band can move freely in the crystal, and they are responsible for the electric current in the crystal.&lt;&#x2F;p&gt;
+&lt;p&gt;The energy gap between these two bands is called the &lt;strong&gt;band gap&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;1&#x2F;12&#x2F;Semiconductor_band_structure_%28lots_of_bands_2%29.svg&quot; alt=&quot;bands&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;For metals, the valence band and conduction band have some overlap, allowing some electrons to move freely between them, which is why metals are good conductors. In contrast, insulators have a large band gap, making it extremely hard for electrons to move between them, which makes them poor conductors. Semiconductors are something in between; they have a small band gap. If some energy is given to the electrons, they may move between the two bands and conduct electricity.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;c&#x2F;c7&#x2F;Isolator-metal.svg&quot; alt=&quot;Isolator-metal&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;When given some energy, electrons can move from the valence band to the conduction band, leaving a hole in the valence band. The hole can be treated as a positive charge, and it can move freely through the crystal.&lt;&#x2F;p&gt;
+&lt;p&gt;After being given some energy, the electrons can move from the valence band to the conduction band, leaving a hole in the valence band. The hole can be treated as a positive charge, and it can move freely in the crystal.&lt;&#x2F;p&gt;
+&lt;p&gt;The movement of electrons and holes forms a current in semiconductors. Both of them are called &lt;strong&gt;charge carriers&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;doping&quot;&gt;Doping&lt;&#x2F;h2&gt;
+&lt;p&gt;In a pure semiconductor crystal, although some electrons may move to the conduction band, it is still too difficult to form a large enough current.&lt;&#x2F;p&gt;
+&lt;p&gt;By adding a small number of atoms with more or less electrons than the host atoms, we can add more charge carriers into the crystal, making it easier for the crystal to conduct current. This process is called &lt;strong&gt;doping&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;When we add atoms with more electrons than the host atoms, it is called &lt;strong&gt;n-type doping&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;When we add atoms with fewer electrons than the host atoms, it is called &lt;strong&gt;p-type doping&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;The added atom will form a new energy band in the band gap, and electrons can move from or to the new band.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;p-n-junction&quot;&gt;P-N junction&lt;&#x2F;h2&gt;
+&lt;p&gt;When we press a p-type semiconductor and an n-type semiconductor close together, the electrons in the n-type semiconductor will move to the p-type semiconductor and fill the holes there.&lt;&#x2F;p&gt;
+&lt;p&gt;After this:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;There are few charge carriers in this area, making it difficult for current to pass through. This area is called the &lt;strong&gt;depletion region&lt;&#x2F;strong&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;A potential difference will be formed in the junction. This potential difference is called the built-in potential.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;When connecting the p-type semiconductor with the positive terminal of a battery and the n-type semiconductor with the negative terminal of the battery, electrons in the n-type semiconductor and holes in the p-type semiconductor will be pushed towards the depletion region, and the width of the depletion region will be reduced. Thus, current is easier to pass through this area.&lt;&#x2F;p&gt;
+&lt;p&gt;If we connect the battery oppositely, due to similar reasons, the depletion region will be wider, and current is harder to pass through this area.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Image to RGB565 converter</title>
         <published>2023-03-03T16:58:21.033+00:00</published>
@@ -696,7 +737,7 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;contramap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f b
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h2 id=&quot;bi-nary-functor&quot;&gt;Bi(nary )Functor&lt;&#x2F;h2&gt;
-&lt;p&gt;Bifunctor is functor whose domain is the product of two categories.&lt;&#x2F;p&gt;
+&lt;p&gt;Bifunctor is a functor which domain is the product of two categories.&lt;&#x2F;p&gt;
 &lt;p&gt;ie.&lt;&#x2F;p&gt;
 &lt;p&gt;For $C_1$, $C_2$ and $D$ categories, a functor $F:C_1\times C_2→D$ is a bifunctor.&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Bifunctor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
@@ -717,12 +758,12 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Profunctor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;dimap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;c &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f c d
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;A good example of Profunctor is &lt;code&gt;(-&amp;gt;)&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;A good example of profunctor is &lt;code&gt;(-&amp;gt;)&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Profunctor&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where 
 &lt;&#x2F;span&gt;&lt;span&gt;    dimap ca bd ab = bd . ab . ca
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;If you are familiar with &amp;quot;tradition&amp;quot; programming languages like Java or C#, you may have heard of &amp;quot;covariant&amp;quot; and &amp;quot;contravariant&amp;quot; before. For example, if type &lt;code&gt;A&lt;&#x2F;code&gt; is subtype of &lt;code&gt;B&lt;&#x2F;code&gt;, then &lt;code&gt;IEnumerable&amp;lt;A&amp;gt;&lt;&#x2F;code&gt; is subtype of &lt;code&gt;IEnumerable&amp;lt;B&amp;gt;&lt;&#x2F;code&gt;, so &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is covariant on &lt;code&gt;T&lt;&#x2F;code&gt;. And similarly, &lt;code&gt;Action&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is contravariant on &lt;code&gt;T&lt;&#x2F;code&gt;. So we can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary mapping) version of these types.&lt;&#x2F;p&gt;
+&lt;p&gt;If you are familiar with &amp;quot;tradition&amp;quot; programming languages like Java or C#, you may have heard of &amp;quot;covariant&amp;quot; and &amp;quot;contravariant&amp;quot; before. For example, if type &lt;code&gt;A&lt;&#x2F;code&gt; is subtype of &lt;code&gt;B&lt;&#x2F;code&gt;, then &lt;code&gt;IEnumerable&amp;lt;A&amp;gt;&lt;&#x2F;code&gt; is subtype of &lt;code&gt;IEnumerable&amp;lt;B&amp;gt;&lt;&#x2F;code&gt;, so &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is covariant on &lt;code&gt;T&lt;&#x2F;code&gt;. And similarly, &lt;code&gt;Action&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is contravariant on &lt;code&gt;T&lt;&#x2F;code&gt;. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
         

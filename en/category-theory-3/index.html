@@ -131,7 +131,7 @@ arrows to arrows, in such a way that:</p>
 </span><span>    </span><span style="color:#8fa1b3;">contramap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">a</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f b
 </span></code></pre>
 <h2 id="bi-nary-functor">Bi(nary )Functor</h2>
-<p>Bifunctor is functor whose domain is the product of two categories.</p>
+<p>Bifunctor is a functor which domain is the product of two categories.</p>
 <p>ie.</p>
 <p>For $C_1$, $C_2$ and $D$ categories, a functor $F:C_1\times C_2→D$ is a bifunctor.</p>
 <pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#a3be8c;">Bifunctor </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
@@ -152,12 +152,12 @@ arrows to arrows, in such a way that:</p>
 <pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#a3be8c;">Profunctor </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
 </span><span>    </span><span style="color:#8fa1b3;">dimap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">c </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">a</span><span>) </span><span style="color:#b48ead;">→</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">d</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f c d
 </span></code></pre>
-<p>A good example of Profunctor is <code>(-&gt;)</code>:</p>
+<p>A good example of profunctor is <code>(-&gt;)</code>:</p>
 <pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">instance Profunctor</span><span> (</span><span style="color:#b48ead;">-&gt;</span><span>) </span><span style="color:#b48ead;">where 
 </span><span>    dimap ca bd ab = bd . ab . ca
 </span></code></pre>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>If you are familiar with &quot;tradition&quot; programming languages like Java or C#, you may have heard of &quot;covariant&quot; and &quot;contravariant&quot; before. For example, if type <code>A</code> is subtype of <code>B</code>, then <code>IEnumerable&lt;A&gt;</code> is subtype of <code>IEnumerable&lt;B&gt;</code>, so <code>IEnumerable&lt;T&gt;</code> is covariant on <code>T</code>. And similarly, <code>Action&lt;T&gt;</code> is contravariant on <code>T</code>. So we can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary mapping) version of these types.</p>
+<p>If you are familiar with &quot;tradition&quot; programming languages like Java or C#, you may have heard of &quot;covariant&quot; and &quot;contravariant&quot; before. For example, if type <code>A</code> is subtype of <code>B</code>, then <code>IEnumerable&lt;A&gt;</code> is subtype of <code>IEnumerable&lt;B&gt;</code>, so <code>IEnumerable&lt;T&gt;</code> is covariant on <code>T</code>. And similarly, <code>Action&lt;T&gt;</code> is contravariant on <code>T</code>. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.</p>
 </div>
 </div>
   <div class="post-footer">
