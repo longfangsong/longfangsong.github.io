@@ -32,7 +32,7 @@
 &lt;p&gt;The movement of electrons and holes forms a current in semiconductors. Both of them are called &lt;strong&gt;charge carriers&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;doping&quot;&gt;Doping&lt;&#x2F;h2&gt;
 &lt;p&gt;In a pure semiconductor crystal, although some electrons may move to the conduction band, it is still too difficult to form a large enough current.&lt;&#x2F;p&gt;
-&lt;p&gt;By adding a small number of atoms with more or less electrons than the host atoms, we can add more charge carriers into the crystal, making it easier for the crystal to conduct current. This process is called &lt;strong&gt;doping&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;By adding a small number of atoms with more or fewer electrons than the host atoms, we can add more charge carriers into the crystal, making it easier for the crystal to conduct current. This process is called &lt;strong&gt;doping&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;When we add atoms with more electrons than the host atoms, it is called &lt;strong&gt;n-type doping&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;When we add atoms with fewer electrons than the host atoms, it is called &lt;strong&gt;p-type doping&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;The added atom will form a new energy band in the band gap, and electrons can move from or to the new band.&lt;&#x2F;p&gt;
