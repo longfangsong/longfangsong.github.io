@@ -43,7 +43,7 @@
 &lt;li&gt;There are few charge carriers in this area, making it difficult for current to pass through. This area is called the &lt;strong&gt;depletion region&lt;&#x2F;strong&gt;.&lt;&#x2F;li&gt;
 &lt;li&gt;A potential difference will be formed in the junction. This potential difference is called the built-in potential.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;p&gt;When connecting the p-type semiconductor with the positive terminal of a battery and the n-type semiconductor with the negative terminal of the battery, electrons in the n-type semiconductor and holes in the p-type semiconductor will be pushed towards the depletion region, and the width of the depletion region will be reduced. Thus, current is easier to pass through this area.&lt;&#x2F;p&gt;
+&lt;p&gt;When connecting the p-type semiconductor with the positive terminal of a battery and the n-type semiconductor with the negative terminal of the battery, electrons in the n-type semiconductor and holes in the p-type semiconductor will be pushed towards the depletion region, and the width of the depletion region will be reduced. Thus, the current is easier to pass through this area.&lt;&#x2F;p&gt;
 &lt;p&gt;If we connect the battery oppositely, due to similar reasons, the depletion region will be wider, and current is harder to pass through this area.&lt;&#x2F;p&gt;
 </content>
         
@@ -525,7 +525,7 @@ graph TD
 &lt;h4 id=&quot;topological-ordering&quot;&gt;Topological Ordering&lt;&#x2F;h4&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Topological_sorting&quot;&gt;Topological sort&lt;&#x2F;a&gt; is a useful tool when dealing with code scheduling. Basically, it ensures that if a node &lt;code&gt;A&lt;&#x2F;code&gt; is reached before &lt;code&gt;B&lt;&#x2F;code&gt;, then it is ordered prior to &lt;code&gt;B&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;We cannot perform a traditional topological sort algorithm on a CFG, because it&#x27;s not a DAG.&lt;&#x2F;p&gt;
-&lt;p&gt;However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, and we must visit ALL nodes inside a loop before visit any other nodes.&lt;&#x2F;p&gt;
+&lt;p&gt;However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, and we must visit ALL nodes inside a loop before visit any other nodes, so that when generating wasm code, we can &amp;quot;cut&amp;quot; the content of this loop out of the whole block sequence.&lt;&#x2F;p&gt;
 &lt;p&gt;Then the process is easy, just:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;Wrap each loop in &lt;code&gt;loop&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
