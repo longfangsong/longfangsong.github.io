@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="sv">
+    <title>Blogg</title>
+    <subtitle>Und grün des Theorie goldner Baum</subtitle>
+    <link href="https://longfangsong.github.io/sv/atom.xml" rel="self" type="application/atom+xml"/>
+    <link href="https://longfangsong.github.io"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2023-02-04T17:59:47.582+00:00</updated>
+    <id>https://longfangsong.github.io/sv/atom.xml</id>
+    <entry xml:lang="sv">
+        <title>Svenska Läromedel</title>
+        <published>2023-02-04T17:59:47.582+00:00</published>
+        <updated>2023-02-04T17:59:47.582+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/sv/svenska-basic/" type="text/html"/>
+        <id>https://longfangsong.github.io/sv/svenska-basic/</id>
+        
+        <content type="html">&lt;h2 id=&quot;substantiv-noun&quot;&gt;Substantiv (Noun)&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;grundform-basic-form&quot;&gt;grundform (Basic form)&lt;&#x2F;h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Använd &amp;quot;en&amp;quot; eller &amp;quot;ett&amp;quot; för att uttrycka(express) att det är ett sak(thing).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Här är några tumregler(rules of thumb) för att avgöra(determine) om du ska använda &amp;quot;en&amp;quot; eller &amp;quot;ett&amp;quot;, de är inte alltid korrekta, men bättre än ingenting:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;När ett ord slutar med dessa bokstäver (letters):&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;a, särskilt(especially) för de som slutar med ka, la eller na, vilket definitivt är ett &amp;quot;en&amp;quot;-ord
+&lt;ul&gt;
+&lt;li&gt;Undantag(Exceptions): hjärta.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;ng&lt;&#x2F;li&gt;
+&lt;li&gt;re&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;är det mer sannolikt(possible) att det är ett &amp;quot;en&amp;quot;-ord.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;De flesta(most) levande(living) varelser(creatures) är &amp;quot;en&amp;quot;-ord&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Undantag(Exceptions): barn, djur, bi, lejon.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Dagar, månader och årstider(seasons) är &amp;quot;en&amp;quot;-ord&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Undantag(Exceptions): dygn.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;När ett ord slutar med dessa bokstäver (letters):&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;de&lt;&#x2F;li&gt;
+&lt;li&gt;te&lt;&#x2F;li&gt;
+&lt;li&gt;ag&lt;&#x2F;li&gt;
+&lt;li&gt;ek&lt;&#x2F;li&gt;
+&lt;li&gt;em&lt;&#x2F;li&gt;
+&lt;li&gt;iv&lt;&#x2F;li&gt;
+&lt;li&gt;um&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Bokstäver är ett-ord, eg. ett &#x27;a&#x27;&lt;&#x2F;p&gt;
+&lt;p&gt;är det mer sannolikt(possible) att det är ett &amp;quot;ett&amp;quot;-ord.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Namn på kontinenter, länder(countries), provinser och städer är &amp;quot;ett&amp;quot;-ord.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Det är mer &amp;quot;en&amp;quot;-ord än &amp;quot;ett&amp;quot;-ord.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Se &lt;a href=&quot;https:&#x2F;&#x2F;polyglotclub.com&#x2F;wiki&#x2F;Language&#x2F;Swedish&#x2F;Grammar&#x2F;When-use-Ett-or-En#Summary_Table&quot;&gt;denna tabell&lt;&#x2F;a&gt; för mer information.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;pluralform-bestamd-form-definite-form&quot;&gt;Pluralform &amp;amp; Bestämd form (Definite form)&lt;&#x2F;h3&gt;
+&lt;p&gt;Det är fem typer av pluralformer &amp;amp; Bestämd form:&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;n-or-orna&quot;&gt;-n &amp;amp; -or &amp;amp; -orna&lt;&#x2F;h4&gt;
+&lt;p&gt;När ett &amp;quot;en&amp;quot;-ord slutade med &amp;quot;a&amp;quot;, vi kan:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;lägg till(add) ett &amp;quot;n&amp;quot; för att bilda(form) bestämd form singularis&lt;&#x2F;li&gt;
+&lt;li&gt;ta bort(remove) &amp;quot;a&amp;quot; och lägg till &amp;quot;or&amp;quot; för att bilda obestämd(indefinite) form plural&lt;&#x2F;li&gt;
+&lt;li&gt;ta bort(remove) &amp;quot;a&amp;quot; och lägg till &amp;quot;orna&amp;quot; för att bilda bestämd form plural&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;n-andras-inte-doesn-t-change-na&quot;&gt;-n &amp;amp; ändras inte (doesn&#x27;t change) &amp;amp; -na&lt;&#x2F;h4&gt;
+&lt;p&gt;För ett &amp;quot;en&amp;quot;-ord slutade med &amp;quot;are&amp;quot;, vi kan:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;lägg till &amp;quot;n&amp;quot; för att bilda bestämd form singularis&lt;&#x2F;li&gt;
+&lt;li&gt;inte göra någonting för att bilda obestämd form plural&lt;&#x2F;li&gt;
+&lt;li&gt;ta bort(remove) &amp;quot;e&amp;quot; och lägg till &amp;quot;na&amp;quot; för att bilda bestämd form plural&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;en-ar-er-arna-erna&quot;&gt;-en &amp;amp; -ar&#x2F;er &amp;amp; -arna&#x2F;erna&lt;&#x2F;h4&gt;
+&lt;p&gt;För ett &amp;quot;en&amp;quot;-ord, vi kan:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;lägg till &amp;quot;en&amp;quot; för att bilda bestämd form singularis&lt;&#x2F;li&gt;
+&lt;li&gt;lägg till &amp;quot;ar&amp;quot; eller &amp;quot;er&amp;quot; för att bilda obestämd form plural&lt;&#x2F;li&gt;
+&lt;li&gt;lägg till &amp;quot;arna&amp;quot; eller &amp;quot;erna&amp;quot; för att bilda bestämd form plural&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Det finns ingen absolut regel(rules) för att använda &amp;quot;ar&amp;quot; eller &amp;quot;er&amp;quot;, flera tumregler är:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Ett ord slutar med:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;ing&lt;&#x2F;li&gt;
+&lt;li&gt;obetonat(unstressed) -e&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;är definitivt ett &amp;quot;ar&amp;quot;-ord&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;korta(short) ord med en eller två stavelser(syllables) är mer möjligt ett &amp;quot;ar&amp;quot;-ord&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;låneord(loan words) är mer möjligt ett &amp;quot;er&amp;quot;-ord&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;t-n-na&quot;&gt;-t &amp;amp; -n &amp;amp; -na&lt;&#x2F;h4&gt;
+&lt;p&gt;För ett &amp;quot;ett&amp;quot;-ord slutade med en vokal(vowel), vi kan:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;lägg till &amp;quot;t&amp;quot; för att bilda bestämd form singularis&lt;&#x2F;li&gt;
+&lt;li&gt;lägg till &amp;quot;n&amp;quot; för att bilda obestämd form plural&lt;&#x2F;li&gt;
+&lt;li&gt;lägg till &amp;quot;na&amp;quot; för att bilda bestämd form plural&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;et-andras-inte-doesn-t-change-en&quot;&gt;-et &amp;amp; ändras inte (doesn&#x27;t change) &amp;amp; -en&lt;&#x2F;h4&gt;
+&lt;p&gt;För ett &amp;quot;ett&amp;quot;-ord slutade med en konsonant, vi kan:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;lägg till &amp;quot;et&amp;quot; för att bilda bestämd form singularis&lt;&#x2F;li&gt;
+&lt;li&gt;inte göra någonting för att bilda obestämd form plural&lt;&#x2F;li&gt;
+&lt;li&gt;lägg till &amp;quot;en&amp;quot; för att bilda bestämd form plural&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;oregelbunden-irregular&quot;&gt;oregelbunden (irregular)&lt;&#x2F;h4&gt;
+&lt;p&gt;Skit.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>
