@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Haskell与函数式编程</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;haskell-intro&#x2F;">Haskell与函数式编程</a></h1>
+  
+  <div class="post-content"><p>你也许不应该在工作中用一门纯函数式编程语言（那样对大脑太不友好），但你应当学习这样一门语言，因为这将会改变你的思维。
+即使你平常使用的是一些常见的语言，如 C++/Java(8+)/Python/JS，你还是能从这些语言中找到函数式编程的影子。
+另外，函数式编程思想在整体架构的设计上也有很大的作用。</p>
+<h2 id="what-s-the-difference">What’s the difference?</h2>
+<p>（像Haskell这样的）纯函数式编程语言和我们平常使用比较多的命令式编程语言有极大的不同。</p>
+<ul>
+<li>没有变量，一切量都是不变的
+<ul>
+<li>因此也没有循环了</li>
+<li>也没有传统意义上的逻辑判断</li>
+<li>因此函数都是“纯函数”，因为没有变量，所以除非使用特殊结构，否则不可能有副作用</li>
+</ul>
+</li>
+<li>函数是”一等公民”，每个函数都是一个变量，有其类型，能作为其他函数的参数</li>
+</ul>
+<p>看到这里你就意识到了，你需要把你在命令式编程语言界学到的大部分知识全部忘掉。</p>
+<p>确实是这样，因为这完全是两种不同的思维体系。</p>
+<p>你也许会以为没有变量是没有办法编程的，但这是一种常见的误解，你将在下面看到，变量不仅没那么重要，而且有时“可变”只会带来麻烦。</p>
+<h2 id="why-haskell">Why Haskell?</h2>
+<p>Haskell除了是一门纯函数式编程语言外，还有如下特点：</p>
+<ul>
+<li>惰性求值，所有的值不被用到就不会被计算。</li>
+<li>静态强类型，并有着我所见过的，在“能用的”语言中最好的类型系统。</li>
+</ul>
+<h2 id="haskell-li-de-ji-ben-cao-zuo">Haskell 里的基本操作</h2>
+<h3 id="ji-ben-shu-ju-lei-xing">基本数据类型</h3>
+<p>从表面上看，Haskell中的数据类型和C中的大致相同，整数字符浮点数应有尽有。</p>
+<p>此外，Haskell中比较厉害的一个类型是列表类型，下面会说。</p>
+<h3 id="diao-yong-han-shu">调用函数</h3>
+<p>Haskell调用函数的方式和C语言不太一样：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#65737e;">-- 假设有函数 f, g
+</span><span>f x   </span><span style="color:#65737e;">-- 这就是计算f(x)了
+</span><span>g x y </span><span style="color:#65737e;">-- g(x,y)
+</span></code></pre>
+<p>Haskell省去了括号和逗号，这虽然让用惯了 C 系语言的人不太适应，但也部分避免了像 Lisp 那样一屏幕的括号的尴尬。</p>
+<h3 id="ji-ben-yun-suan">基本运算</h3>
+<p><code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>&amp;&amp;</code>、<code>||</code>、<code>==</code> 这些运算符的作用都和C语言一样。</p>
+<p>特别的，取反要用 <code>not</code>（实际上这是个函数，在Haskell中这些运算符本质都是函数），C 中的不等于符号 <code>!=</code>，在这里是 <code>/=</code>。</p>
+<p>求余要用mod函数：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>mod </span><span style="color:#d08770;">3 2
+</span></code></pre>
+<p>如果你想要像 C 语言中的 % 那样中缀调用 <code>mod</code> 的话，你可以使用 ``` 将函数包裹：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#d08770;">3 </span><span style="color:#8fa1b3;">`</span><span>mod</span><span style="color:#8fa1b3;">` </span><span style="color:#d08770;">2
+</span></code></pre>
+<h3 id="lie-biao">列表</h3>
+<p>首先要提一句，Haskell 中所谓的字符串还是字符列表的一个语法糖。</p>
+<p>Haskell 的列表是一个非常强大的玩意，我们可以用和 Python 中制作列表相似的方法做一个 Haskell 列表：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#65737e;">-- 直接使用字面量
+</span><span>[</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>]
+</span><span style="color:#65737e;">-- 使用区间
+</span><span>[</span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">5</span><span>]
+</span><span style="color:#65737e;">-- [1,2,3,4,5]
+</span><span style="color:#65737e;">-- 一般的等差数列都能推出来
+</span><span>[</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">3</span><span>..</span><span style="color:#d08770;">42</span><span>]
+</span><span style="color:#65737e;">-- [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41]
+</span><span style="color:#65737e;">-- 使用列表推导式
+</span><span>[x*</span><span style="color:#d08770;">2 </span><span>| x &lt;- [</span><span style="color:#d08770;">1</span><span>..</span><span style="color:#d08770;">10</span><span>], x*</span><span style="color:#d08770;">2 </span><span>&gt;= </span><span style="color:#d08770;">12</span><span>]
+</span><span style="color:#65737e;">-- 意为：对于在 [1..10] 之中的x，若有 x*2 &gt;= 12，则将x*2放入列表
+</span></code></pre>
+<p>Haskell列表可以被拼接：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>[</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>]++[</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>]++[</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>]
+</span><span style="color:#65737e;">-- [1,2,3,4,5,6]
+</span></code></pre>
+<p>也可以拼一个元素上去：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#d08770;">1</span><span>:[</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>]
+</span><span style="color:#65737e;">-- [1,1,2,3]
+</span><span style="color:#65737e;">-- 注意只能拼在前面
+</span><span style="color:#65737e;">-- [1,2,3]:1 会报错的
+</span></code></pre>
+<p>可以各种取元素：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>take </span><span style="color:#d08770;">3</span><span> [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>,</span><span style="color:#d08770;">7</span><span>]
+</span><span style="color:#65737e;">-- 取前三个，[1,2,3]
+</span><span>drop </span><span style="color:#d08770;">3</span><span> [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>,</span><span style="color:#d08770;">7</span><span>]
+</span><span style="color:#65737e;">-- 取前三个之外的元素，[4,5,6,7]
+</span><span>head [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>,</span><span style="color:#d08770;">7</span><span>]
+</span><span style="color:#65737e;">-- 取第一个，1
+</span><span>tail [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>,</span><span style="color:#d08770;">7</span><span>]
+</span><span style="color:#65737e;">-- 取除第一个之外的元素，[2,3,4,5,6,7]
+</span><span>init [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>,</span><span style="color:#d08770;">7</span><span>]
+</span><span style="color:#65737e;">-- 取最后一个之外的元素，[1,2,3,4,5,6]
+</span><span>last [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>,</span><span style="color:#d08770;">5</span><span>,</span><span style="color:#d08770;">6</span><span>,</span><span style="color:#d08770;">7</span><span>]
+</span><span style="color:#65737e;">-- 最后一个，7
+</span><span style="color:#d08770;">1 </span><span style="color:#8fa1b3;">`</span><span>elem</span><span style="color:#8fa1b3;">`</span><span> [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>]
+</span><span>elem </span><span style="color:#d08770;">1</span><span> [</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>]
+</span><span style="color:#65737e;">-- 判断元素是否在列表中，两句等价，都为True
+</span><span>[</span><span style="color:#d08770;">1</span><span>,</span><span style="color:#d08770;">2</span><span>,</span><span style="color:#d08770;">3</span><span>,</span><span style="color:#d08770;">4</span><span>] !! </span><span style="color:#d08770;">2
+</span><span style="color:#65737e;">-- 取列表的第二个元素，3
+</span><span style="color:#65737e;">-- 用!!有点奇怪不是吗😓
+</span></code></pre>
+<p>由于Haskell的惰性求值特性，你可以构造一个无穷的列表：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>[</span><span style="color:#d08770;">1</span><span>..]
+</span><span style="color:#65737e;">-- 从1开始，到无穷大为止
+</span></code></pre>
+<p>运用这个特点我们能做一些很酷的事情，比如求前10个7的倍数或末尾含7的数：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>take </span><span style="color:#d08770;">10</span><span> [x | x &lt;- [</span><span style="color:#d08770;">1</span><span>..], x </span><span style="color:#8fa1b3;">`</span><span>mod</span><span style="color:#8fa1b3;">` </span><span style="color:#d08770;">7 </span><span>== </span><span style="color:#d08770;">0 </span><span>|| x </span><span style="color:#8fa1b3;">`</span><span>mod</span><span style="color:#8fa1b3;">` </span><span style="color:#d08770;">10 </span><span>== </span><span style="color:#d08770;">7</span><span>]
+</span></code></pre>
+<p>就只有一行代码，简单方便，可读性好。</p>
+<p>你拿命令式语言写，估计得絮絮叨叨写一大坨了吧。</p>
+<h3 id="zi-ji-xie-han-shu">自己写函数</h3>
+<p>Haskell的函数语法非常直白，很像数学中的函数：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>triple x = </span><span style="color:#d08770;">3</span><span> * x
+</span></code></pre>
+<p>就定义好了一个函数triple，它的作用就是返回输入参数的三倍。</p>
+<p>很像数学里的函数的写法：</p>
+<p>$$
+triple(x) = 3*x
+$$</p>
+<p>多个参数：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>length x y = sqrt (x *x + y* y)
+</span></code></pre>
+<p>也很像数学中的函数：</p>
+<p>$$
+length(x, y) = \sqrt{x * x + y * y}
+$$</p>
+<p>如果函数要分类讨论，可以使用“模式匹配”等技巧，它们在函数式编程中替代了逻辑判断：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#65737e;">-- 当参数恰好匹配的时候会返回对应的值
+</span><span>sillyFunction </span><span style="color:#d08770;">0 </span><span>= </span><span style="color:#d08770;">0
+</span><span>sillyFunction -</span><span style="color:#d08770;">1 </span><span>= </span><span style="color:#d08770;">2
+</span><span>sillyFunction </span><span style="color:#d08770;">2 </span><span>= </span><span style="color:#d08770;">3
+</span><span style="color:#65737e;">-- 都没有匹配到，会进入这个默认的匹配
+</span><span>sillyFunction x = x/</span><span style="color:#d08770;">2</span><span>+</span><span style="color:#d08770;">1
+</span></code></pre>
+<p>就像是：</p>
+<p>$$
+sillyFunction(x) =
+\begin{equation}
+\begin{cases}
+0 &amp; x=0 \\
+-1 &amp; x=2 \\
+2 &amp; x=3 \\
+x/2+1 &amp; otherwise
+\end{cases}
+\end{equation}
+$$</p>
+<p>记得匹配的顺序是从上到下，因此如果参数为x的匹配放到第一个那么就会GG。</p>
+<p>这个行为和很多现代 web 框架匹配 URL 的方式很像。</p>
+<p>如果要匹配的是一个范围，那么应当使用“哨卫”语法：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>f x
+</span><span> | x &lt;= </span><span style="color:#d08770;">10 </span><span>= x
+</span><span> | x &lt;= </span><span style="color:#d08770;">20 </span><span>= x/</span><span style="color:#d08770;">2
+</span><span> | x &lt;= </span><span style="color:#d08770;">30 </span><span>= x*x
+</span><span> | otherwise = x*x*x
+</span></code></pre>
+<p>就像是：</p>
+<p>$$
+f(x) =
+\begin{equation}
+\begin{cases}
+x &amp; x &lt; 10 \\
+x/2 &amp; 10 \le x &lt; 20 \\
+x \times x &amp; 20 \le x &lt; 30 \\
+x \times x \times x &amp; otherwise
+\end{cases}
+\end{equation}
+$$</p>
+<p>如果在列表上进行模式匹配，可以这样写：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>listFunction </span><span style="color:#d08770;">[] </span><span>= &quot;</span><span style="color:#a3be8c;">Empty!</span><span>&quot;
+</span><span>listFunction (x:</span><span style="color:#d08770;">[]</span><span>) = &quot;</span><span style="color:#a3be8c;">Only One!</span><span>&quot;
+</span><span>listFunction (x:y:</span><span style="color:#d08770;">[]</span><span>) = &quot;</span><span style="color:#a3be8c;">There are two!</span><span>&quot;
+</span><span style="color:#65737e;">-- 这里要提一下，show 函数返回输入值的字符串表示
+</span><span>listFunction (x:y:_) = &quot;</span><span style="color:#a3be8c;">More than 2! First two are </span><span>&quot; ++ show x ++ &quot;</span><span style="color:#a3be8c;"> and </span><span>&quot; ++ show y
+</span></code></pre>
+<h3 id="di-gui">递归</h3>
+<blockquote>
+<p>想要理解递归，你要先理解递归。</p>
+</blockquote>
+<p>有了上面那一堆东西，大部分命令式语言能实现的东西就能被实现了，但是我们还没讲到一样重要的东西：递归。</p>
+<p>我们来考察“最大值”函数，它应该接受一个列表，返回列表中的最大值。</p>
+<p>在命令式编程中，我们会使用一个循环来实现这一点。</p>
+<p>然而我们没有循环了，该怎么办？</p>
+<p>用递归啊。</p>
+<p>我们可以这样想，如果一个列表里只有一个元素，那么这个元素就是最大的：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>maxInList [x] = x
+</span></code></pre>
+<p>否则，就应该是这个列表第一个值和其余部分中的最大值中比较大的那个</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>maxInList (x:xs) = max x (maxInList xs)
+</span></code></pre>
+<p>于是就这么愉快地写好了，这个函数只有两行，如果使用命令式语言，恐怕很难用两行完成（当然你要是硬是不换行把代码都挤在一行上我也没话说）。</p>
+<p>为了进一步展示函数式编程的美，我们来看看函数式的快速排序：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>quicksort </span><span style="color:#d08770;">[] </span><span>= </span><span style="color:#d08770;">[]
+</span><span>quicksort (x:xs) = (quicksort [y | y &lt;- xs, y &lt; x]) ++ [x] ++ (quicksort [y | y &lt;- xs, y &gt;= x])
+</span></code></pre>
+<p>还是只有两行，爽！</p>
+<h2 id="jin-jie">进阶</h2>
+<h3 id="curry-hua-han-shu-yu-hindley-milner-lei-xing-qian-ming">curry 化函数与 Hindley-Milner 类型签名</h3>
+<p>我们前面说过Haskell中的函数可以带多个参数：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>length x y = sqrt (x * x + y * y)
+</span></code></pre>
+<p>但是我实际上，我要说，所有的Haskell函数都只接受一个参数，返回一个值。</p>
+<p>那上面那个玩意是怎么弄出来的呢？</p>
+<p>我们先看看这个函数的类型（在GHCI中使用 <code>:t length</code>）：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#8fa1b3;">length </span><span style="color:#b48ead;">:: Floating </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">=&gt; </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">a
+</span></code></pre>
+<p>WTF？这是啥神仙玩意？</p>
+<p>实际上这是一个叫 Hindley-Milner 类型签名的东西，Haskell 主要使用这种东西来标记一个函数的类型。</p>
+<p>这个东西这样读：</p>
+<p>Length is a fuction which takes an argument of type “a” and returns a function which (</p>
+<p>takes an argument of type “a” and returns a value of type “a”</p>
+<p>) where “a” is a type of typeclass Floating</p>
+<p>用中文：</p>
+<p>Length函数接受一个”a”类型的值作为参数，返回一个（接受一个”a”类型值作为参数，返回一个”a”类型值的函数），其中”a”是 Floating 类型类下的类型。</p>
+<p>如果你还是觉得有点晕的话，我们给上面的类型打上括号：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#8fa1b3;">length </span><span style="color:#b48ead;">:: Floating </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">=&gt;</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt;</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt;</span><span> (</span><span style="color:#bf616a;">a</span><span>)))
+</span></code></pre>
+<p>可以理解为，这里一共有两个函数，一个是 `length`` 本身，它接受一个”a”类型参数，返回一个类型为</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#d08770;">Floating</span><span> a =&gt; a -&gt; a
+</span></code></pre>
+<p>的函数。</p>
+<p>这个新的函数接受一个”a”类型参数，返回一个”a”类型的值。</p>
+<p>所以一个 Haskell 函数只接受一个参数，然后要么返回一个函数，负责“吃掉”剩下的参数，要么返回一个值，就是函数运行的结果。</p>
+<p>那么这样有什么好处呢？</p>
+<p>一个好处是容易创建偏函数：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>length x y = sqrt (x *x + y* y)
+</span><span>f = length </span><span style="color:#d08770;">2
+</span><span>f </span><span style="color:#d08770;">3 </span><span style="color:#65737e;">-- 即length 2 3
+</span><span>f </span><span style="color:#d08770;">4 </span><span style="color:#65737e;">-- 即length 2 4
+</span></code></pre>
+<p>很多语言中要依赖框架才能做出来的依赖注入功能，Haskell 里很多时候直接用偏函数就解决了。</p>
+<h3 id="typeclass">typeclass</h3>
+<p>看到 <code>typeclass</code> 不要想到某些面向对象语言中的 <code>class</code>，相比之下，<code>typeclass</code> 更像 <code>interface</code> 或 <code>trait</code>，也就是表达“一种类型的能力”（ <code>interface</code> 大概是这个意思）而非“一个对象的能力”（ <code>class</code> 大概是这个意思）。</p>
+<p>有以下一些常见的 <code>typeclass</code>：</p>
+<ul>
+<li>
+<p>Eq 类型类</p>
+<p>可判断相等性的类型，要求类型实现了 == 和 /= 两个函数。</p>
+</li>
+<li>
+<p>Ord 类型类</p>
+<p>可比较大小的类型，要求类型实现了 compare。</p>
+</li>
+<li>
+<p>Show 类型类</p>
+<p>可以转成字符串，也就可以被显示出来的类型，实现show。</p>
+</li>
+<li>
+<p>Read 类型类</p>
+<p>可以从字符转出来的类型，实现 read。</p>
+</li>
+<li>
+<p>Enum 类型类</p>
+<p>可以求其前驱和后继的类型，实现 pred 和 succ。</p>
+</li>
+<li>
+<p>Bounded 类型类</p>
+<p>有界的类型，实现 minBound 和 maxBound。</p>
+</li>
+<li>
+<p>Num 类型类</p>
+<p>表示数值的类型类，基本上就是 Int、Integer、Float、Double。</p>
+</li>
+<li>
+<p>Floating 类型类</p>
+<p>表示浮点数的类型类，基本上就是 Float 和 Double。</p>
+</li>
+<li>
+<p>Integeral 类型类</p>
+<p>表示整数的类型类，基本上就是 Int（会溢出的整数）和 Integer（大整数）。</p>
+</li>
+</ul>
+<p>这些就是一些基本的类型类。</p>
+<p>当然你可以自己做一些类型，并让它们实现某个类型类。</p>
+<p>不过在此还是留下例子：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">data </span><span style="color:#d08770;">TrafficLight </span><span>= </span><span style="color:#d08770;">Red </span><span>| </span><span style="color:#d08770;">Yellow </span><span>| </span><span style="color:#d08770;">Green
+</span><span>
+</span><span style="color:#b48ead;">instance Eq TrafficLight where
+</span><span>　　 </span><span style="color:#d08770;">Red </span><span>== </span><span style="color:#d08770;">Red </span><span>= </span><span style="color:#d08770;">True
+</span><span>　　 </span><span style="color:#d08770;">Green </span><span>== </span><span style="color:#d08770;">Green </span><span>= </span><span style="color:#d08770;">True
+</span><span>　　 </span><span style="color:#d08770;">Yellow </span><span>== </span><span style="color:#d08770;">Yellow </span><span>= </span><span style="color:#d08770;">True
+</span><span>　　 _==_ = </span><span style="color:#d08770;">False
+</span></code></pre>
+<p>如果你学过 Rust, 这就和 <code>impl Eq for TrafficLight</code> 基本上是一个意思。</p>
+<h2 id="shu-xue-jia-de-yi-yu">数学家的呓语</h2>
+<p>在 Haskell 中有几个 <del>臭名昭著</del> 特殊的 typeclass。</p>
+<h3 id="han-zi">函子</h3>
+<p>设 $C$ 和 $D$ 为范畴，从 $C$ 至 $D$ 的函子为一映射F:</p>
+<ul>
+<li>将每个对象 $X \in C$ 映射至一对象 $F(X) \in D$ 上，</li>
+<li>将每个态射 $f:X\rightarrow Y \in C$ 映射至一态射 $F(f):F(X) \rightarrow F(Y) \in D$ 上，使之满足下列条件：
+<ul>
+<li>对任何对象 $X \in C$ ，恒有 ${\displaystyle F(\mathbf {id} _{X})=\mathbf {id} _{F(X)}}$ 。</li>
+<li>对任何态射 $f: X \to Y; g: Y \to Z$，恒有 $F(g \circ f) = F(g) \circ F(f)$。换言之，函子会保持单位态射与态射的复合。</li>
+</ul>
+</li>
+</ul>
+<p>上面这坨都是啥神仙玩意。</p>
+<p><del>数学家就喜欢把其实很简单事情搞得看上去超级复杂，美其名曰“严密”，以凸显其远超常人的智商，实际上我们都知道……好吧他们是真的很聪明TAT。</del></p>
+<p>在实际应用中，函子的概念可以被简单地描述为：</p>
+<p>函子（Functor）就是可以被 map-over（即通过 map 向对象中的子对象应用一个函数）的对象。</p>
+<p>或者，一码胜千言：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Functor </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
+</span><span>　　</span><span style="color:#8fa1b3;">fmap </span><span style="color:#b48ead;">::</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">b</span><span>) </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">f a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">f b
+</span></code></pre>
+<p><code>Functor</code> 是一个类型类，它要求实现了它的类型实现 <code>fmap</code> 函数，它取一个 <code>(a -&gt; b)</code> 和一个 <code>f a</code>（即 <code>f</code> 类型里面的 <code>a</code> 类型）值作为参数，返回一个 <code>f b</code> 的值。</p>
+<p>比如列表就是一个Functor：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#8fa1b3;">map </span><span style="color:#b48ead;">::</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">b</span><span>) </span><span style="color:#b48ead;">-&gt;</span><span> [</span><span style="color:#bf616a;">a</span><span>] </span><span style="color:#b48ead;">-&gt;</span><span> [</span><span style="color:#bf616a;">b</span><span>]
+</span><span>
+</span><span style="color:#b48ead;">instance Functor</span><span> [] </span><span style="color:#b48ead;">where
+</span><span>　　fmap = map
+</span></code></pre>
+<p>另外，Haskell 中的 Set 和 Maybe（可空值）也是Functor。</p>
+<p>Maybe是个好东西，下面就用它讲解了：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">instance Functor Maybe where
+</span><span>    fmap func (</span><span style="color:#d08770;">Just</span><span> x) = </span><span style="color:#d08770;">Just</span><span> (func x)  </span><span style="color:#65737e;">-- 有东西写作 Just xxx, map上去就是Just f(xxx)
+</span><span>    fmap func </span><span style="color:#d08770;">Nothing  </span><span>= </span><span style="color:#d08770;">Nothing  </span><span style="color:#65737e;">-- 没东西写作 Nothing, map上去还是Nothing
+</span></code></pre>
+<p>总的来说，Functor就是表现的像是容器或者上下文的一个类型，你可以通过fmap向容器中的元素应用一个操作。</p>
+<h3 id="applicative">Applicative</h3>
+<p><code>Applicative</code> 是 <code>Functor</code> 的升级版本（也称 Applicative Functor），这是个啥呢？</p>
+<p>我们已经知道了我们可以将一个函数 <code>map</code> 到一个<code>Functor</code> 上，但是如果我们要应用的函数6也在上下文中呢？</p>
+<p>例如 <code>Just (+3)</code> 这种？</p>
+<p>在已经能完成Functor所有功能的基础上，Applicative也会帮我们解开函数的上下文，然后应用：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Functor </span><span style="color:#bf616a;">f</span><span> =&gt; </span><span style="color:#ebcb8b;">Applicative </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where  </span><span style="color:#65737e;">-- Applicative一定是Fuctor
+</span><span>    </span><span style="color:#8fa1b3;">pure </span><span style="color:#b48ead;">:: </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">f a     </span><span style="color:#65737e;">-- 返回一个包裹在上下文中的值
+</span><span>    </span><span style="color:#8fa1b3;">(&lt;*&gt;) </span><span>:: f (a -&gt; b) -&gt; f a -&gt; f b   </span><span style="color:#65737e;">-- 应用上下文中的函数
+</span></code></pre>
+<p>例如 <code>Maybe</code>：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">instance Applicative Maybe where
+</span><span>    pure = </span><span style="color:#d08770;">Just
+</span><span>    </span><span style="color:#d08770;">Nothing </span><span>&lt;*&gt; _ = </span><span style="color:#d08770;">Nothing    </span><span style="color:#65737e;">-- 应用 Nothing 得 Nothing
+</span><span>    (</span><span style="color:#d08770;">Just</span><span> func) &lt;*&gt; something = fmap func something
+</span><span>
+</span></code></pre>
+<h3 id="monad-ah-finally">Monad (Ah! Finally!)</h3>
+<blockquote>
+<p>Monad有啥难的，不过是自函子范畴上的一个幺半群罢了。</p>
+</blockquote>
+<blockquote>
+<p>这么说的都给我拖出去毙了。就你懂群论代数系统范畴论。😠</p>
+</blockquote>
+<p><code>Monad</code> 是 <code>Applicative</code> 的升级版本，它在 <code>Applicative</code> 的基础上，添加了一个“接受一个上下文中的值和一个(接受普通值返回上下文中的值的函数)，返回一个上下文中的值”的功能。</p>
+<p>（简化过的）Monad是这样的：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Applicative </span><span style="color:#bf616a;">m</span><span> =&gt; </span><span style="color:#ebcb8b;">Monad </span><span style="color:#bf616a;">m </span><span style="color:#b48ead;">where
+</span><span> </span><span style="color:#8fa1b3;">return </span><span style="color:#b48ead;">:: </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">m a
+</span><span> </span><span style="color:#8fa1b3;">(&gt;&gt;=) </span><span style="color:#b48ead;">:: </span><span style="color:#bf616a;">m a </span><span style="color:#b48ead;">-&gt;</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">m b</span><span>) </span><span style="color:#b48ead;">-&gt; </span><span style="color:#bf616a;">m b
+</span></code></pre>
+<p><code>&gt;&gt;=</code> 的人话名字叫 flatMap。</p>
+<p>同样看Maybe：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Applicative </span><span style="color:#a3be8c;">Maybe</span><span> =&gt; </span><span style="color:#ebcb8b;">Monad </span><span style="color:#a3be8c;">Maybe </span><span style="color:#b48ead;">where
+</span><span>    </span><span style="color:#8fa1b3;">return </span><span style="color:#b48ead;">:: </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; Maybe </span><span style="color:#bf616a;">a
+</span><span>    </span><span style="color:#8fa1b3;">(&gt;&gt;=) </span><span style="color:#b48ead;">:: Maybe </span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt;</span><span> (</span><span style="color:#bf616a;">a </span><span style="color:#b48ead;">-&gt; Maybe </span><span style="color:#bf616a;">b</span><span>) </span><span style="color:#b48ead;">-&gt; Maybe </span><span style="color:#bf616a;">b
+</span></code></pre>
+<p>用起来是这种感觉的：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>half x = </span><span style="color:#b48ead;">if</span><span> even x
+</span><span>    </span><span style="color:#b48ead;">then </span><span style="color:#d08770;">Just</span><span> (x </span><span style="color:#8fa1b3;">`</span><span>div</span><span style="color:#8fa1b3;">` </span><span style="color:#d08770;">2</span><span>)
+</span><span>    </span><span style="color:#b48ead;">else </span><span style="color:#d08770;">Nothing
+</span></code></pre>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#d08770;">Prelude</span><span>&gt; </span><span style="color:#d08770;">Just 20 </span><span>&gt;&gt;= half      </span><span style="color:#65737e;">-- 把Just 20塞进half函数里
+</span><span style="color:#d08770;">Just 10
+</span><span style="color:#d08770;">Prelude</span><span>&gt; </span><span style="color:#d08770;">Just 20 </span><span>&gt;&gt;= half &gt;&gt;= half    </span><span style="color:#65737e;">-- 把Just 20的结果塞进half函数里
+</span><span style="color:#d08770;">Just 5
+</span><span style="color:#d08770;">Prelude</span><span>&gt; </span><span style="color:#d08770;">Just 20 </span><span>&gt;&gt;= half &gt;&gt;= half &gt;&gt;= half
+</span><span style="color:#d08770;">Nothing
+</span></code></pre>
+<p>链式调用，管道操作，酷毙了。</p>
+<h3 id="zhen-shi-shi-jie-zhong-de-functor-applicative-monad-shi-li">真实世界中的 Functor/Applicative/Monad 实例</h3>
+<h4 id="future-promise">Future/Promise</h4>
+<p>（尤其是写 JS 的）程序员们常用的 Promise/Future 其实是一个 Monad，<code>flatMap</code> 其实就是 <code>then</code>。</p>
+<h4 id="option-maybe-nullable">Option/Maybe/Nullable</h4>
+<p>Scala, Rust 等语言中常见，同 Haskell 的 <code>Maybe</code>。</p>
+<h4 id="result">Result</h4>
+<p>同 <code>Option</code>, 不过是把 <code>None</code> 换成了具体的错误类型。</p>
+<h4 id="array-iterator-stream">Array/Iterator/Stream</h4>
+<p>数组或者任何在空间/时间上构成一个序列的东西也是 Monad, 比如 Rust 的 <code>Iterator</code> trait 就包含了 <code>flat_map</code> 方法。</p>
+<h3 id="wei-shi-yao-yao-jin-yi-bu-chou-xiang-chu-zhe-xie-lei-xing-lei">为什么要进一步抽象出这些类型类</h3>
+<p>这样，一些函数就可以更好容易地被复用<sup class="footnote-reference"><a href="#1">1</a></sup>，比如：</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>double x = </span><span style="color:#d08770;">2</span><span> * x
+</span></code></pre>
+<p>Without concept of <code>Functor</code>:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>doubleArray     </span><span style="color:#d08770;">[] </span><span>= </span><span style="color:#d08770;">[]
+</span><span>doubleArray (x:xs) = double x : doubleArray xs
+</span></code></pre>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>doubleMaybe </span><span style="color:#d08770;">None </span><span>= </span><span style="color:#d08770;">None
+</span><span>doubleMaybe </span><span style="color:#d08770;">Just</span><span> x = double x
+</span></code></pre>
+<p>With concept of <code>Functor</code>:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>doubleArray = fmap double
+</span></code></pre>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>doubleMaybe = fmap double
+</span></code></pre>
+<p>你甚至不再需要分别定义 <code>doubleArray</code> 和 <code>doubleMaybe</code>，直接用 <code>fmap double</code> 就行。</p>
+<h2 id="cong-han-shu-shi-bian-cheng-dao-han-shu-shi-jia-gou">从函数式编程到函数式架构</h2>
+<p>上面这些东西都很不错，但我觉得你很难在“搬砖”的时候用到他们。</p>
+<p>搬砖的时候最多用一下 map、reduce、filter 和少量递归的想法，几乎没有可能会（显式地）用到 Applicative 和 Monad 本身，原因很简单：他们太难了，很多人理解不能。</p>
+<p>但是这些都是微观的函数式编程，我认为函数式思想另外一个用途在于架构上，也就是“宏观的函数式编程”。</p>
+<p>我们想一想我们在函数式编程里学到了什么。</p>
+<ul>
+<li>“可变的”、“副作用”是不好的</li>
+<li>数据流&gt;&gt;函数&gt;&gt;函数&gt;&gt;函数 = 程序的结果</li>
+</ul>
+<p>这些想法在架构中也能用到。</p>
+<ul>
+<li>“可变”、“副作用”会带来管理上的复杂性，每个函数或方法必须明确“调用前要满足的条件”和“调用后会导致的副作用”，而这很可能会导致“认知超载”，故应当限制可变的东西。</li>
+</ul>
+<p>或者说，可以将系统设计为：</p>
+<ul>
+<li>系统状态=f(系统状态，用户行为)</li>
+</ul>
+<p>这样系统状态的改变的唯一原因就是“用户行为”8。</p>
+<ul>
+<li>领域层（这是从 DDD 里借来的词）&gt;&gt; 渲染函数 =表现层</li>
+</ul>
+<p>将他们结合起来，我们可以得到这样一个架构：</p>
+<ul>
+<li>有一个“领域层”</li>
+<li>领域层 = applyAction(领域层,用户行为)</li>
+<li>表现层 = render(领域层)</li>
+</ul>
+<p>那么这样一个架构像什么呢？</p>
+<p>你可以说它像 MVVM：</p>
+<ul>
+<li>“领域层” —— VM层</li>
+<li>render函数——由MVVM框架负责提供。</li>
+<li>用户行为——是指用户修改了VM层的数据</li>
+</ul>
+<p>但我认为它更像是类似 Flux 的状态管理方案：</p>
+<ul>
+<li>“领域层”——Store</li>
+<li>render函数——自己提供</li>
+<li>Action——就是Action</li>
+</ul>
+<p>相比 MVVM，Dispatcher 为 Flux 提供了一个应用 Action 的统一入口，引起 Store 变化的原因被放在 Dispatcher 里面统一管理了起来，显得更加清晰。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>这些类型呈现出的共有数学结构提供给了我们用相同的方式将函数运用于其上的机会。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2021年04月17日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/Haskell">&nbsp;Haskell</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/函数式编程">&nbsp;函数式编程</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Haskell与函数式编程&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;haskell-intro&#x2F;&hashtags=Haskell,函数式编程"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-03-03T16:58:21.033+00:00</updated>
+    <updated>2023-08-18T17:31:19.739+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
     <entry xml:lang="zh">
         <title>Image 转 RGB565 工具</title>
@@ -2546,6 +2546,443 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;7&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;7&lt;&#x2F;sup&gt;
 &lt;p&gt;现在我懂为啥 C++ 大型项目为啥要把依赖也搞到项目的 &lt;code&gt;.&#x2F;third_parties&lt;&#x2F;code&gt; 里面一起编译了，否则这个链接、 abi 什么的是真的麻烦。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="zh">
+        <title>Haskell与函数式编程</title>
+        <published>2021-04-17T07:34:52.996+00:00</published>
+        <updated>2023-08-18T17:31:19.739+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/haskell-intro/" type="text/html"/>
+        <id>https://longfangsong.github.io/haskell-intro/</id>
+        
+        <content type="html">&lt;p&gt;你也许不应该在工作中用一门纯函数式编程语言（那样对大脑太不友好），但你应当学习这样一门语言，因为这将会改变你的思维。
+即使你平常使用的是一些常见的语言，如 C++&#x2F;Java(8+)&#x2F;Python&#x2F;JS，你还是能从这些语言中找到函数式编程的影子。
+另外，函数式编程思想在整体架构的设计上也有很大的作用。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;what-s-the-difference&quot;&gt;What’s the difference?&lt;&#x2F;h2&gt;
+&lt;p&gt;（像Haskell这样的）纯函数式编程语言和我们平常使用比较多的命令式编程语言有极大的不同。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;没有变量，一切量都是不变的
+&lt;ul&gt;
+&lt;li&gt;因此也没有循环了&lt;&#x2F;li&gt;
+&lt;li&gt;也没有传统意义上的逻辑判断&lt;&#x2F;li&gt;
+&lt;li&gt;因此函数都是“纯函数”，因为没有变量，所以除非使用特殊结构，否则不可能有副作用&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;函数是”一等公民”，每个函数都是一个变量，有其类型，能作为其他函数的参数&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;看到这里你就意识到了，你需要把你在命令式编程语言界学到的大部分知识全部忘掉。&lt;&#x2F;p&gt;
+&lt;p&gt;确实是这样，因为这完全是两种不同的思维体系。&lt;&#x2F;p&gt;
+&lt;p&gt;你也许会以为没有变量是没有办法编程的，但这是一种常见的误解，你将在下面看到，变量不仅没那么重要，而且有时“可变”只会带来麻烦。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;why-haskell&quot;&gt;Why Haskell?&lt;&#x2F;h2&gt;
+&lt;p&gt;Haskell除了是一门纯函数式编程语言外，还有如下特点：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;惰性求值，所有的值不被用到就不会被计算。&lt;&#x2F;li&gt;
+&lt;li&gt;静态强类型，并有着我所见过的，在“能用的”语言中最好的类型系统。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;haskell-li-de-ji-ben-cao-zuo&quot;&gt;Haskell 里的基本操作&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;ji-ben-shu-ju-lei-xing&quot;&gt;基本数据类型&lt;&#x2F;h3&gt;
+&lt;p&gt;从表面上看，Haskell中的数据类型和C中的大致相同，整数字符浮点数应有尽有。&lt;&#x2F;p&gt;
+&lt;p&gt;此外，Haskell中比较厉害的一个类型是列表类型，下面会说。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;diao-yong-han-shu&quot;&gt;调用函数&lt;&#x2F;h3&gt;
+&lt;p&gt;Haskell调用函数的方式和C语言不太一样：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 假设有函数 f, g
+&lt;&#x2F;span&gt;&lt;span&gt;f x   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 这就是计算f(x)了
+&lt;&#x2F;span&gt;&lt;span&gt;g x y &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- g(x,y)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Haskell省去了括号和逗号，这虽然让用惯了 C 系语言的人不太适应，但也部分避免了像 Lisp 那样一屏幕的括号的尴尬。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ji-ben-yun-suan&quot;&gt;基本运算&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;+&lt;&#x2F;code&gt;、&lt;code&gt;-&lt;&#x2F;code&gt;、&lt;code&gt;*&lt;&#x2F;code&gt;、&lt;code&gt;&#x2F;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;amp;&amp;amp;&lt;&#x2F;code&gt;、&lt;code&gt;||&lt;&#x2F;code&gt;、&lt;code&gt;==&lt;&#x2F;code&gt; 这些运算符的作用都和C语言一样。&lt;&#x2F;p&gt;
+&lt;p&gt;特别的，取反要用 &lt;code&gt;not&lt;&#x2F;code&gt;（实际上这是个函数，在Haskell中这些运算符本质都是函数），C 中的不等于符号 &lt;code&gt;!=&lt;&#x2F;code&gt;，在这里是 &lt;code&gt;&#x2F;=&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;求余要用mod函数：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;mod &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3 2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;如果你想要像 C 语言中的 % 那样中缀调用 &lt;code&gt;mod&lt;&#x2F;code&gt; 的话，你可以使用 ``` 将函数包裹：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;`&lt;&#x2F;span&gt;&lt;span&gt;mod&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;` &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;lie-biao&quot;&gt;列表&lt;&#x2F;h3&gt;
+&lt;p&gt;首先要提一句，Haskell 中所谓的字符串还是字符列表的一个语法糖。&lt;&#x2F;p&gt;
+&lt;p&gt;Haskell 的列表是一个非常强大的玩意，我们可以用和 Python 中制作列表相似的方法做一个 Haskell 列表：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 直接使用字面量
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 使用区间
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- [1,2,3,4,5]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 一般的等差数列都能推出来
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;42&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 使用列表推导式
+&lt;&#x2F;span&gt;&lt;span&gt;[x*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2 &lt;&#x2F;span&gt;&lt;span&gt;| x &amp;lt;- [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt;], x*&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2 &lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;12&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 意为：对于在 [1..10] 之中的x，若有 x*2 &amp;gt;= 12，则将x*2放入列表
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Haskell列表可以被拼接：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;]++[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;]++[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- [1,2,3,4,5,6]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;也可以拼一个元素上去：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;:[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- [1,1,2,3]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 注意只能拼在前面
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- [1,2,3]:1 会报错的
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;可以各种取元素：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;take &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 取前三个，[1,2,3]
+&lt;&#x2F;span&gt;&lt;span&gt;drop &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 取前三个之外的元素，[4,5,6,7]
+&lt;&#x2F;span&gt;&lt;span&gt;head [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 取第一个，1
+&lt;&#x2F;span&gt;&lt;span&gt;tail [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 取除第一个之外的元素，[2,3,4,5,6,7]
+&lt;&#x2F;span&gt;&lt;span&gt;init [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 取最后一个之外的元素，[1,2,3,4,5,6]
+&lt;&#x2F;span&gt;&lt;span&gt;last [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;5&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 最后一个，7
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;`&lt;&#x2F;span&gt;&lt;span&gt;elem&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;`&lt;&#x2F;span&gt;&lt;span&gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;elem &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 判断元素是否在列表中，两句等价，都为True
+&lt;&#x2F;span&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;,&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4&lt;&#x2F;span&gt;&lt;span&gt;] !! &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 取列表的第二个元素，3
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 用!!有点奇怪不是吗😓
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;由于Haskell的惰性求值特性，你可以构造一个无穷的列表：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..]
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 从1开始，到无穷大为止
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;运用这个特点我们能做一些很酷的事情，比如求前10个7的倍数或末尾含7的数：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;take &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10&lt;&#x2F;span&gt;&lt;span&gt; [x | x &amp;lt;- [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;..], x &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;`&lt;&#x2F;span&gt;&lt;span&gt;mod&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;` &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7 &lt;&#x2F;span&gt;&lt;span&gt;== &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;|| x &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;`&lt;&#x2F;span&gt;&lt;span&gt;mod&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;` &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10 &lt;&#x2F;span&gt;&lt;span&gt;== &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;7&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;就只有一行代码，简单方便，可读性好。&lt;&#x2F;p&gt;
+&lt;p&gt;你拿命令式语言写，估计得絮絮叨叨写一大坨了吧。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zi-ji-xie-han-shu&quot;&gt;自己写函数&lt;&#x2F;h3&gt;
+&lt;p&gt;Haskell的函数语法非常直白，很像数学中的函数：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;triple x = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt; * x
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;就定义好了一个函数triple，它的作用就是返回输入参数的三倍。&lt;&#x2F;p&gt;
+&lt;p&gt;很像数学里的函数的写法：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+triple(x) = 3*x
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;多个参数：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;length x y = sqrt (x *x + y* y)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;也很像数学中的函数：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+length(x, y) = \sqrt{x * x + y * y}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;如果函数要分类讨论，可以使用“模式匹配”等技巧，它们在函数式编程中替代了逻辑判断：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 当参数恰好匹配的时候会返回对应的值
+&lt;&#x2F;span&gt;&lt;span&gt;sillyFunction &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;span&gt;sillyFunction -&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
+&lt;&#x2F;span&gt;&lt;span&gt;sillyFunction &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2 &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 都没有匹配到，会进入这个默认的匹配
+&lt;&#x2F;span&gt;&lt;span&gt;sillyFunction x = x&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;就像是：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+sillyFunction(x) =
+\begin{equation}
+\begin{cases}
+0 &amp;amp; x=0 \\
+-1 &amp;amp; x=2 \\
+2 &amp;amp; x=3 \\
+x&#x2F;2+1 &amp;amp; otherwise
+\end{cases}
+\end{equation}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;记得匹配的顺序是从上到下，因此如果参数为x的匹配放到第一个那么就会GG。&lt;&#x2F;p&gt;
+&lt;p&gt;这个行为和很多现代 web 框架匹配 URL 的方式很像。&lt;&#x2F;p&gt;
+&lt;p&gt;如果要匹配的是一个范围，那么应当使用“哨卫”语法：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;f x
+&lt;&#x2F;span&gt;&lt;span&gt; | x &amp;lt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10 &lt;&#x2F;span&gt;&lt;span&gt;= x
+&lt;&#x2F;span&gt;&lt;span&gt; | x &amp;lt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;20 &lt;&#x2F;span&gt;&lt;span&gt;= x&#x2F;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
+&lt;&#x2F;span&gt;&lt;span&gt; | x &amp;lt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;30 &lt;&#x2F;span&gt;&lt;span&gt;= x*x
+&lt;&#x2F;span&gt;&lt;span&gt; | otherwise = x*x*x
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;就像是：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f(x) =
+\begin{equation}
+\begin{cases}
+x &amp;amp; x &amp;lt; 10 \\
+x&#x2F;2 &amp;amp; 10 \le x &amp;lt; 20 \\
+x \times x &amp;amp; 20 \le x &amp;lt; 30 \\
+x \times x \times x &amp;amp; otherwise
+\end{cases}
+\end{equation}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;如果在列表上进行模式匹配，可以这样写：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;listFunction &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;[] &lt;&#x2F;span&gt;&lt;span&gt;= &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Empty!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;listFunction (x:&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;[]&lt;&#x2F;span&gt;&lt;span&gt;) = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Only One!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;listFunction (x:y:&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;[]&lt;&#x2F;span&gt;&lt;span&gt;) = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;There are two!&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 这里要提一下，show 函数返回输入值的字符串表示
+&lt;&#x2F;span&gt;&lt;span&gt;listFunction (x:y:_) = &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;More than 2! First two are &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; ++ show x ++ &amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt; and &lt;&#x2F;span&gt;&lt;span&gt;&amp;quot; ++ show y
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;di-gui&quot;&gt;递归&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;想要理解递归，你要先理解递归。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;有了上面那一堆东西，大部分命令式语言能实现的东西就能被实现了，但是我们还没讲到一样重要的东西：递归。&lt;&#x2F;p&gt;
+&lt;p&gt;我们来考察“最大值”函数，它应该接受一个列表，返回列表中的最大值。&lt;&#x2F;p&gt;
+&lt;p&gt;在命令式编程中，我们会使用一个循环来实现这一点。&lt;&#x2F;p&gt;
+&lt;p&gt;然而我们没有循环了，该怎么办？&lt;&#x2F;p&gt;
+&lt;p&gt;用递归啊。&lt;&#x2F;p&gt;
+&lt;p&gt;我们可以这样想，如果一个列表里只有一个元素，那么这个元素就是最大的：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;maxInList [x] = x
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;否则，就应该是这个列表第一个值和其余部分中的最大值中比较大的那个&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;maxInList (x:xs) = max x (maxInList xs)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;于是就这么愉快地写好了，这个函数只有两行，如果使用命令式语言，恐怕很难用两行完成（当然你要是硬是不换行把代码都挤在一行上我也没话说）。&lt;&#x2F;p&gt;
+&lt;p&gt;为了进一步展示函数式编程的美，我们来看看函数式的快速排序：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;quicksort &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;[] &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;[]
+&lt;&#x2F;span&gt;&lt;span&gt;quicksort (x:xs) = (quicksort [y | y &amp;lt;- xs, y &amp;lt; x]) ++ [x] ++ (quicksort [y | y &amp;lt;- xs, y &amp;gt;= x])
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;还是只有两行，爽！&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;jin-jie&quot;&gt;进阶&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;curry-hua-han-shu-yu-hindley-milner-lei-xing-qian-ming&quot;&gt;curry 化函数与 Hindley-Milner 类型签名&lt;&#x2F;h3&gt;
+&lt;p&gt;我们前面说过Haskell中的函数可以带多个参数：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;length x y = sqrt (x * x + y * y)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;但是我实际上，我要说，所有的Haskell函数都只接受一个参数，返回一个值。&lt;&#x2F;p&gt;
+&lt;p&gt;那上面那个玩意是怎么弄出来的呢？&lt;&#x2F;p&gt;
+&lt;p&gt;我们先看看这个函数的类型（在GHCI中使用 &lt;code&gt;:t length&lt;&#x2F;code&gt;）：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;length &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:: Floating &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;WTF？这是啥神仙玩意？&lt;&#x2F;p&gt;
+&lt;p&gt;实际上这是一个叫 Hindley-Milner 类型签名的东西，Haskell 主要使用这种东西来标记一个函数的类型。&lt;&#x2F;p&gt;
+&lt;p&gt;这个东西这样读：&lt;&#x2F;p&gt;
+&lt;p&gt;Length is a fuction which takes an argument of type “a” and returns a function which (&lt;&#x2F;p&gt;
+&lt;p&gt;takes an argument of type “a” and returns a value of type “a”&lt;&#x2F;p&gt;
+&lt;p&gt;) where “a” is a type of typeclass Floating&lt;&#x2F;p&gt;
+&lt;p&gt;用中文：&lt;&#x2F;p&gt;
+&lt;p&gt;Length函数接受一个”a”类型的值作为参数，返回一个（接受一个”a”类型值作为参数，返回一个”a”类型值的函数），其中”a”是 Floating 类型类下的类型。&lt;&#x2F;p&gt;
+&lt;p&gt;如果你还是觉得有点晕的话，我们给上面的类型打上括号：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;length &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:: Floating &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;=&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;)))
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;可以理解为，这里一共有两个函数，一个是 `length`` 本身，它接受一个”a”类型参数，返回一个类型为&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Floating&lt;&#x2F;span&gt;&lt;span&gt; a =&amp;gt; a -&amp;gt; a
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;的函数。&lt;&#x2F;p&gt;
+&lt;p&gt;这个新的函数接受一个”a”类型参数，返回一个”a”类型的值。&lt;&#x2F;p&gt;
+&lt;p&gt;所以一个 Haskell 函数只接受一个参数，然后要么返回一个函数，负责“吃掉”剩下的参数，要么返回一个值，就是函数运行的结果。&lt;&#x2F;p&gt;
+&lt;p&gt;那么这样有什么好处呢？&lt;&#x2F;p&gt;
+&lt;p&gt;一个好处是容易创建偏函数：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;length x y = sqrt (x *x + y* y)
+&lt;&#x2F;span&gt;&lt;span&gt;f = length &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
+&lt;&#x2F;span&gt;&lt;span&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 即length 2 3
+&lt;&#x2F;span&gt;&lt;span&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;4 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 即length 2 4
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;很多语言中要依赖框架才能做出来的依赖注入功能，Haskell 里很多时候直接用偏函数就解决了。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;typeclass&quot;&gt;typeclass&lt;&#x2F;h3&gt;
+&lt;p&gt;看到 &lt;code&gt;typeclass&lt;&#x2F;code&gt; 不要想到某些面向对象语言中的 &lt;code&gt;class&lt;&#x2F;code&gt;，相比之下，&lt;code&gt;typeclass&lt;&#x2F;code&gt; 更像 &lt;code&gt;interface&lt;&#x2F;code&gt; 或 &lt;code&gt;trait&lt;&#x2F;code&gt;，也就是表达“一种类型的能力”（ &lt;code&gt;interface&lt;&#x2F;code&gt; 大概是这个意思）而非“一个对象的能力”（ &lt;code&gt;class&lt;&#x2F;code&gt; 大概是这个意思）。&lt;&#x2F;p&gt;
+&lt;p&gt;有以下一些常见的 &lt;code&gt;typeclass&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Eq 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;可判断相等性的类型，要求类型实现了 == 和 &#x2F;= 两个函数。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Ord 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;可比较大小的类型，要求类型实现了 compare。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Show 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;可以转成字符串，也就可以被显示出来的类型，实现show。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Read 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;可以从字符转出来的类型，实现 read。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Enum 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;可以求其前驱和后继的类型，实现 pred 和 succ。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Bounded 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;有界的类型，实现 minBound 和 maxBound。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Num 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;表示数值的类型类，基本上就是 Int、Integer、Float、Double。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Floating 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;表示浮点数的类型类，基本上就是 Float 和 Double。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Integeral 类型类&lt;&#x2F;p&gt;
+&lt;p&gt;表示整数的类型类，基本上就是 Int（会溢出的整数）和 Integer（大整数）。&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;这些就是一些基本的类型类。&lt;&#x2F;p&gt;
+&lt;p&gt;当然你可以自己做一些类型，并让它们实现某个类型类。&lt;&#x2F;p&gt;
+&lt;p&gt;不过在此还是留下例子：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;TrafficLight &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Red &lt;&#x2F;span&gt;&lt;span&gt;| &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Yellow &lt;&#x2F;span&gt;&lt;span&gt;| &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Green
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Eq TrafficLight where
+&lt;&#x2F;span&gt;&lt;span&gt;　　 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Red &lt;&#x2F;span&gt;&lt;span&gt;== &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Red &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True
+&lt;&#x2F;span&gt;&lt;span&gt;　　 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Green &lt;&#x2F;span&gt;&lt;span&gt;== &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Green &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True
+&lt;&#x2F;span&gt;&lt;span&gt;　　 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Yellow &lt;&#x2F;span&gt;&lt;span&gt;== &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Yellow &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True
+&lt;&#x2F;span&gt;&lt;span&gt;　　 _==_ = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;False
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;如果你学过 Rust, 这就和 &lt;code&gt;impl Eq for TrafficLight&lt;&#x2F;code&gt; 基本上是一个意思。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;shu-xue-jia-de-yi-yu&quot;&gt;数学家的呓语&lt;&#x2F;h2&gt;
+&lt;p&gt;在 Haskell 中有几个 &lt;del&gt;臭名昭著&lt;&#x2F;del&gt; 特殊的 typeclass。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;han-zi&quot;&gt;函子&lt;&#x2F;h3&gt;
+&lt;p&gt;设 $C$ 和 $D$ 为范畴，从 $C$ 至 $D$ 的函子为一映射F:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;将每个对象 $X \in C$ 映射至一对象 $F(X) \in D$ 上，&lt;&#x2F;li&gt;
+&lt;li&gt;将每个态射 $f:X\rightarrow Y \in C$ 映射至一态射 $F(f):F(X) \rightarrow F(Y) \in D$ 上，使之满足下列条件：
+&lt;ul&gt;
+&lt;li&gt;对任何对象 $X \in C$ ，恒有 ${\displaystyle F(\mathbf {id} _{X})=\mathbf {id} _{F(X)}}$ 。&lt;&#x2F;li&gt;
+&lt;li&gt;对任何态射 $f: X \to Y; g: Y \to Z$，恒有 $F(g \circ f) = F(g) \circ F(f)$。换言之，函子会保持单位态射与态射的复合。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;上面这坨都是啥神仙玩意。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;del&gt;数学家就喜欢把其实很简单事情搞得看上去超级复杂，美其名曰“严密”，以凸显其远超常人的智商，实际上我们都知道……好吧他们是真的很聪明TAT。&lt;&#x2F;del&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;在实际应用中，函子的概念可以被简单地描述为：&lt;&#x2F;p&gt;
+&lt;p&gt;函子（Functor）就是可以被 map-over（即通过 map 向对象中的子对象应用一个函数）的对象。&lt;&#x2F;p&gt;
+&lt;p&gt;或者，一码胜千言：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Functor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;　　&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fmap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f b
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;Functor&lt;&#x2F;code&gt; 是一个类型类，它要求实现了它的类型实现 &lt;code&gt;fmap&lt;&#x2F;code&gt; 函数，它取一个 &lt;code&gt;(a -&amp;gt; b)&lt;&#x2F;code&gt; 和一个 &lt;code&gt;f a&lt;&#x2F;code&gt;（即 &lt;code&gt;f&lt;&#x2F;code&gt; 类型里面的 &lt;code&gt;a&lt;&#x2F;code&gt; 类型）值作为参数，返回一个 &lt;code&gt;f b&lt;&#x2F;code&gt; 的值。&lt;&#x2F;p&gt;
+&lt;p&gt;比如列表就是一个Functor：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;map &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;::&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;] &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;]
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Functor&lt;&#x2F;span&gt;&lt;span&gt; [] &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;　　fmap = map
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;另外，Haskell 中的 Set 和 Maybe（可空值）也是Functor。&lt;&#x2F;p&gt;
+&lt;p&gt;Maybe是个好东西，下面就用它讲解了：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Functor Maybe where
+&lt;&#x2F;span&gt;&lt;span&gt;    fmap func (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just&lt;&#x2F;span&gt;&lt;span&gt; x) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just&lt;&#x2F;span&gt;&lt;span&gt; (func x)  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 有东西写作 Just xxx, map上去就是Just f(xxx)
+&lt;&#x2F;span&gt;&lt;span&gt;    fmap func &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Nothing  &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Nothing  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 没东西写作 Nothing, map上去还是Nothing
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;总的来说，Functor就是表现的像是容器或者上下文的一个类型，你可以通过fmap向容器中的元素应用一个操作。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;applicative&quot;&gt;Applicative&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;code&gt;Applicative&lt;&#x2F;code&gt; 是 &lt;code&gt;Functor&lt;&#x2F;code&gt; 的升级版本（也称 Applicative Functor），这是个啥呢？&lt;&#x2F;p&gt;
+&lt;p&gt;我们已经知道了我们可以将一个函数 &lt;code&gt;map&lt;&#x2F;code&gt; 到一个&lt;code&gt;Functor&lt;&#x2F;code&gt; 上，但是如果我们要应用的函数6也在上下文中呢？&lt;&#x2F;p&gt;
+&lt;p&gt;例如 &lt;code&gt;Just (+3)&lt;&#x2F;code&gt; 这种？&lt;&#x2F;p&gt;
+&lt;p&gt;在已经能完成Functor所有功能的基础上，Applicative也会帮我们解开函数的上下文，然后应用：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Functor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt; =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Applicative &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- Applicative一定是Fuctor
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;pure &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a     &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 返回一个包裹在上下文中的值
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;(&amp;lt;*&amp;gt;) &lt;&#x2F;span&gt;&lt;span&gt;:: f (a -&amp;gt; b) -&amp;gt; f a -&amp;gt; f b   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 应用上下文中的函数
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;例如 &lt;code&gt;Maybe&lt;&#x2F;code&gt;：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Applicative Maybe where
+&lt;&#x2F;span&gt;&lt;span&gt;    pure = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Nothing &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;*&amp;gt; _ = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Nothing    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 应用 Nothing 得 Nothing
+&lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just&lt;&#x2F;span&gt;&lt;span&gt; func) &amp;lt;*&amp;gt; something = fmap func something
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;monad-ah-finally&quot;&gt;Monad (Ah! Finally!)&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Monad有啥难的，不过是自函子范畴上的一个幺半群罢了。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这么说的都给我拖出去毙了。就你懂群论代数系统范畴论。😠&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;&lt;code&gt;Monad&lt;&#x2F;code&gt; 是 &lt;code&gt;Applicative&lt;&#x2F;code&gt; 的升级版本，它在 &lt;code&gt;Applicative&lt;&#x2F;code&gt; 的基础上，添加了一个“接受一个上下文中的值和一个(接受普通值返回上下文中的值的函数)，返回一个上下文中的值”的功能。&lt;&#x2F;p&gt;
+&lt;p&gt;（简化过的）Monad是这样的：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Applicative &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m&lt;&#x2F;span&gt;&lt;span&gt; =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Monad &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m a
+&lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;(&amp;gt;&amp;gt;=) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m b&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m b
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;&lt;code&gt;&amp;gt;&amp;gt;=&lt;&#x2F;code&gt; 的人话名字叫 flatMap。&lt;&#x2F;p&gt;
+&lt;p&gt;同样看Maybe：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Applicative &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maybe&lt;&#x2F;span&gt;&lt;span&gt; =&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Monad &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Maybe &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; Maybe &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;(&amp;gt;&amp;gt;=) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:: Maybe &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; Maybe &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt; Maybe &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;用起来是这种感觉的：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;half x = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; even x
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just&lt;&#x2F;span&gt;&lt;span&gt; (x &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;`&lt;&#x2F;span&gt;&lt;span&gt;div&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;` &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Nothing
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Prelude&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just 20 &lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;= half      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 把Just 20塞进half函数里
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just 10
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Prelude&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just 20 &lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;= half &amp;gt;&amp;gt;= half    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- 把Just 20的结果塞进half函数里
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just 5
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Prelude&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just 20 &lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;&amp;gt;= half &amp;gt;&amp;gt;= half &amp;gt;&amp;gt;= half
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Nothing
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;链式调用，管道操作，酷毙了。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zhen-shi-shi-jie-zhong-de-functor-applicative-monad-shi-li&quot;&gt;真实世界中的 Functor&#x2F;Applicative&#x2F;Monad 实例&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;future-promise&quot;&gt;Future&#x2F;Promise&lt;&#x2F;h4&gt;
+&lt;p&gt;（尤其是写 JS 的）程序员们常用的 Promise&#x2F;Future 其实是一个 Monad，&lt;code&gt;flatMap&lt;&#x2F;code&gt; 其实就是 &lt;code&gt;then&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;option-maybe-nullable&quot;&gt;Option&#x2F;Maybe&#x2F;Nullable&lt;&#x2F;h4&gt;
+&lt;p&gt;Scala, Rust 等语言中常见，同 Haskell 的 &lt;code&gt;Maybe&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;result&quot;&gt;Result&lt;&#x2F;h4&gt;
+&lt;p&gt;同 &lt;code&gt;Option&lt;&#x2F;code&gt;, 不过是把 &lt;code&gt;None&lt;&#x2F;code&gt; 换成了具体的错误类型。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;array-iterator-stream&quot;&gt;Array&#x2F;Iterator&#x2F;Stream&lt;&#x2F;h4&gt;
+&lt;p&gt;数组或者任何在空间&#x2F;时间上构成一个序列的东西也是 Monad, 比如 Rust 的 &lt;code&gt;Iterator&lt;&#x2F;code&gt; trait 就包含了 &lt;code&gt;flat_map&lt;&#x2F;code&gt; 方法。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wei-shi-yao-yao-jin-yi-bu-chou-xiang-chu-zhe-xie-lei-xing-lei&quot;&gt;为什么要进一步抽象出这些类型类&lt;&#x2F;h3&gt;
+&lt;p&gt;这样，一些函数就可以更好容易地被复用&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，比如：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;double x = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt; * x
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Without concept of &lt;code&gt;Functor&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;doubleArray     &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;[] &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;[]
+&lt;&#x2F;span&gt;&lt;span&gt;doubleArray (x:xs) = double x : doubleArray xs
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;doubleMaybe &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;None &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;None
+&lt;&#x2F;span&gt;&lt;span&gt;doubleMaybe &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Just&lt;&#x2F;span&gt;&lt;span&gt; x = double x
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;With concept of &lt;code&gt;Functor&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;doubleArray = fmap double
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;doubleMaybe = fmap double
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;你甚至不再需要分别定义 &lt;code&gt;doubleArray&lt;&#x2F;code&gt; 和 &lt;code&gt;doubleMaybe&lt;&#x2F;code&gt;，直接用 &lt;code&gt;fmap double&lt;&#x2F;code&gt; 就行。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;cong-han-shu-shi-bian-cheng-dao-han-shu-shi-jia-gou&quot;&gt;从函数式编程到函数式架构&lt;&#x2F;h2&gt;
+&lt;p&gt;上面这些东西都很不错，但我觉得你很难在“搬砖”的时候用到他们。&lt;&#x2F;p&gt;
+&lt;p&gt;搬砖的时候最多用一下 map、reduce、filter 和少量递归的想法，几乎没有可能会（显式地）用到 Applicative 和 Monad 本身，原因很简单：他们太难了，很多人理解不能。&lt;&#x2F;p&gt;
+&lt;p&gt;但是这些都是微观的函数式编程，我认为函数式思想另外一个用途在于架构上，也就是“宏观的函数式编程”。&lt;&#x2F;p&gt;
+&lt;p&gt;我们想一想我们在函数式编程里学到了什么。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;“可变的”、“副作用”是不好的&lt;&#x2F;li&gt;
+&lt;li&gt;数据流&amp;gt;&amp;gt;函数&amp;gt;&amp;gt;函数&amp;gt;&amp;gt;函数 = 程序的结果&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;这些想法在架构中也能用到。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;“可变”、“副作用”会带来管理上的复杂性，每个函数或方法必须明确“调用前要满足的条件”和“调用后会导致的副作用”，而这很可能会导致“认知超载”，故应当限制可变的东西。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;或者说，可以将系统设计为：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;系统状态=f(系统状态，用户行为)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;这样系统状态的改变的唯一原因就是“用户行为”8。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;领域层（这是从 DDD 里借来的词）&amp;gt;&amp;gt; 渲染函数 =表现层&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;将他们结合起来，我们可以得到这样一个架构：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;有一个“领域层”&lt;&#x2F;li&gt;
+&lt;li&gt;领域层 = applyAction(领域层,用户行为)&lt;&#x2F;li&gt;
+&lt;li&gt;表现层 = render(领域层)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;那么这样一个架构像什么呢？&lt;&#x2F;p&gt;
+&lt;p&gt;你可以说它像 MVVM：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;“领域层” —— VM层&lt;&#x2F;li&gt;
+&lt;li&gt;render函数——由MVVM框架负责提供。&lt;&#x2F;li&gt;
+&lt;li&gt;用户行为——是指用户修改了VM层的数据&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;但我认为它更像是类似 Flux 的状态管理方案：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;“领域层”——Store&lt;&#x2F;li&gt;
+&lt;li&gt;render函数——自己提供&lt;&#x2F;li&gt;
+&lt;li&gt;Action——就是Action&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;相比 MVVM，Dispatcher 为 Flux 提供了一个应用 Action 的统一入口，引起 Store 变化的原因被放在 Dispatcher 里面统一管理了起来，显得更加清晰。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;这些类型呈现出的共有数学结构提供给了我们用相同的方式将函数运用于其上的机会。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
         
