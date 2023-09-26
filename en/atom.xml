@@ -2280,7 +2280,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h3 id=&quot;coherently-invertible-maps&quot;&gt;Coherently Invertible Maps&lt;&#x2F;h3&gt;
 &lt;p&gt;Consider an invertible map $f : A → B$, which equipped with an inverse $g : B → A$ and two homotopies : $G : (f ∘ g) \sim id$ and $H : (g ∘ f) \sim id$.&lt;&#x2F;p&gt;
-&lt;p&gt;And if there exists another homotopy $K : G ∘ f ~ f ∘ H$, we call that $f$ is coherently invertible.&lt;&#x2F;p&gt;
+&lt;p&gt;And if there exists another homotopy $K : G ∘ f \sim f ∘ H$, we call that $f$ is coherently invertible.&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;coh&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invertible &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;coh&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invertible &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) 
 &lt;&#x2F;span&gt;&lt;span&gt;    (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ g &lt;&#x2F;span&gt;&lt;span&gt;→ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ&lt;&#x2F;span&gt;&lt;span&gt; ((&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;∘ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;g&lt;&#x2F;span&gt;&lt;span&gt;) ~ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;id&lt;&#x2F;span&gt;&lt;span&gt;) 
@@ -2527,7 +2527,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;example-of-equivalences&quot;&gt;Example of Equivalences&lt;&#x2F;h4&gt;
 &lt;p&gt;Ref section 9.2.9 and 9.2.10 of the book &lt;em&gt;Introduction to Homotopy Type Theory&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;laws-operations-on-equivalences&quot;&gt;Laws &amp;amp; operations on Equivalences&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;laws-operations-on-equivalences&quot;&gt;Laws &amp;amp; Operations on Equivalences&lt;&#x2F;h4&gt;
 &lt;p&gt;We have $refl\text{-}eqiv$, $inv\text{-}eqiv$ and $concat\text{-}eqiv$.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;function-extensionality-univalence-axiom&quot;&gt;Function Extensionality &amp;amp; Univalence Axiom&lt;&#x2F;h3&gt;
 &lt;p&gt;Let $P := \Pi_{(x:A)}B(x)$, because both $\sim$ and $≃$ are refl. we get&lt;&#x2F;p&gt;
@@ -3602,7 +3602,7 @@ $$&lt;&#x2F;p&gt;
         <link rel="alternate" href="https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/" type="text/html"/>
         <id>https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/</id>
         
-        <content type="html">&lt;p&gt;This article will lead the reader to make a simple C-like (but much simpler than C) language&#x27;s compiler.&lt;&#x2F;p&gt;
+        <content type="html">&lt;p&gt;This article will lead the reader to make a simple C-like (but much simpler than C) language compiler.&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;toylang&#x2F;tree&#x2F;db02558dd658c0cf667f60c822eb4bd42ecb9ee7&quot;&gt;Here&lt;&#x2F;a&gt;, is the reference code.&lt;&#x2F;p&gt;
 &lt;p&gt;This language supports:&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -3611,7 +3611,7 @@ $$&lt;&#x2F;p&gt;
 &lt;li&gt;2 kinds of control flow statements &lt;code&gt;if&lt;&#x2F;code&gt; (with optionally &lt;code&gt;else&lt;&#x2F;code&gt;) and &lt;code&gt;while&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;li&gt;Basic mathematical operators &lt;code&gt;+&lt;&#x2F;code&gt;、&lt;code&gt;-&lt;&#x2F;code&gt;、&lt;code&gt;*&lt;&#x2F;code&gt;、&lt;code&gt;&#x2F;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;lt;=&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;&lt;&#x2F;code&gt;、&lt;code&gt;&amp;gt;=&lt;&#x2F;code&gt;、&lt;code&gt;==&lt;&#x2F;code&gt;、&lt;code&gt;!=&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;p&gt;The author assume the user has a good command of C language&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; and knows how to use regex, flex and bison.&lt;&#x2F;p&gt;
+&lt;p&gt;The author assumes the user has a good command of C language&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; and knows how to use regex, flex and bison.&lt;&#x2F;p&gt;
 &lt;p&gt;If you are not familiar with flex and bison, refer to &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;.&quot;&gt;another article of mine&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;the-whole-compiling-process&quot;&gt;The whole compiling process&lt;&#x2F;h2&gt;
 &lt;p&gt;The compiler follows the following process&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;：&lt;&#x2F;p&gt;

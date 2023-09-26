@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • 形式语义学 • 操作语义</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;operational-semantics&#x2F;">形式语义学 • 操作语义</a></h1>
+  
+  <div class="post-content"><h2 id="shi-shi-yao">是什么</h2>
+<p>一种着重于描述语言的执行过程的，对程序语言语义的形式化描述方法。</p>
+<blockquote>
+<p>An operational semantics for a programming language is a mathematical definition of its computation relation, $e ⇒ v$ <sup class="footnote-reference"><a href="#1">1</a></sup>, where e is a program in the language.</p>
+</blockquote>
+<h2 id="wei-shi-yao">为什么</h2>
+<blockquote>
+<p>the goal is to give a precise mathematical model of computations/programs —— Lecture notes of DAT350, Chalmers/GU</p>
+</blockquote>
+<h2 id="cao-zuo-yu-yi-vs-zhi-cheng-yu-yi-vs-gong-li-yu-yi">操作语义 vs 指称语义 vs 公理语义</h2>
+<p>指称语义更重视“找到代表程序所做所为的数学对象”，比如把无类型 lambda 演算映射到 Martin Lof type theory，从而证明这个语言是 soundness 的。</p>
+<p>公理语义的想法是“给出一些公理，以此定义程序的含义”，最常见的例子就是 Hoare logic，可以理解为是关注程序在一些（作为 pre/postcondition 的 ）prediction 上的作用效果。</p>
+<p>操作语义则关注“程序的执行过程”，它的目标是给出一个形式化的执行模型。</p>
+<h2 id="zen-yao-zuo">怎么做</h2>
+<p>比如说我们要给只有整数的数学表达式定义操作语义。</p>
+<p>这个语言的语法是：</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data Nat </span><span>: </span><span style="color:#b48ead;">Set where
+</span><span>    </span><span style="color:#bf616a;">zero </span><span>: </span><span style="color:#b48ead;">Nat
+</span><span>    </span><span style="color:#bf616a;">suc  </span><span>: </span><span style="color:#b48ead;">Nat </span><span>-&gt; </span><span style="color:#b48ead;">Nat
+</span><span>
+</span><span style="color:#b48ead;">data </span><span style="color:#96b5b4;">exp </span><span>: </span><span style="color:#b48ead;">Set where
+</span><span>    </span><span style="color:#b48ead;">Const </span><span>: </span><span style="color:#b48ead;">Nat </span><span>-&gt; </span><span style="color:#96b5b4;">exp
+</span><span>    </span><span style="color:#b48ead;">Add </span><span>: </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#96b5b4;">exp
+</span></code></pre>
+<p>我们可以定义一些语义规则：</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">add </span><span>: </span><span style="color:#b48ead;">Nat </span><span>-&gt; </span><span style="color:#b48ead;">Nat </span><span>-&gt; </span><span style="color:#b48ead;">Nat
+</span><span style="color:#bf616a;">add n zero    </span><span>= </span><span style="color:#bf616a;">n
+</span><span style="color:#bf616a;">add n</span><span> (</span><span style="color:#bf616a;">suc m</span><span>) = </span><span style="color:#bf616a;">suc</span><span> (</span><span style="color:#bf616a;">add n m</span><span>)
+</span><span>
+</span><span style="color:#b48ead;">data </span><span style="color:#bf616a;">_</span><span>=&gt;</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#b48ead;">Set where
+</span><span>    =&gt;</span><span style="color:#b48ead;">A </span><span>: {</span><span style="color:#bf616a;">n0 n1 </span><span>: </span><span style="color:#b48ead;">Nat</span><span>} -&gt; </span><span style="color:#b48ead;">Add</span><span> (</span><span style="color:#b48ead;">Const </span><span style="color:#bf616a;">n0</span><span>) (</span><span style="color:#b48ead;">Const </span><span style="color:#bf616a;">n1</span><span>) =&gt;  </span><span style="color:#b48ead;">Const</span><span> (</span><span style="color:#bf616a;">add n0 n1</span><span>)
+</span><span>
+</span><span>    =&gt;</span><span style="color:#b48ead;">L </span><span>: {</span><span style="color:#bf616a;">e e&#39; e1 </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt;
+</span><span>    </span><span style="color:#bf616a;">e </span><span>=&gt; </span><span style="color:#bf616a;">e&#39;
+</span><span>    -&gt;  </span><span style="color:#b48ead;">Add </span><span style="color:#bf616a;">e e1 </span><span>=&gt; </span><span style="color:#b48ead;">Add </span><span style="color:#bf616a;">e&#39; e1
+</span><span>
+</span><span>    =&gt;</span><span style="color:#b48ead;">R </span><span>: {</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">Nat</span><span>} -&gt; {</span><span style="color:#bf616a;">e e&#39; </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt;
+</span><span>    </span><span style="color:#bf616a;">e </span><span>=&gt; </span><span style="color:#bf616a;">e&#39;
+</span><span>    -&gt;  </span><span style="color:#b48ead;">Add</span><span> (</span><span style="color:#b48ead;">Const </span><span style="color:#bf616a;">n</span><span>) </span><span style="color:#bf616a;">e </span><span>=&gt; </span><span style="color:#b48ead;">Add</span><span> (</span><span style="color:#b48ead;">Const </span><span style="color:#bf616a;">n</span><span>) </span><span style="color:#bf616a;">e&#39;
+</span></code></pre>
+<p>这里的 <code>=&gt;</code> 指是“左边的表达式可以（一步）转化为右边的表达式”。</p>
+<p>这些规则就构成了一个可以用数理逻辑证明程序的各种性质的证明系统。</p>
+<p>比如我们可以证明一个符合这个语法的数学表达式一定是 &quot;progress&quot;<sup class="footnote-reference"><a href="#2">2</a></sup> 的：</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span>-</span><span style="color:#bf616a;">add </span><span>: {</span><span style="color:#bf616a;">e0 e1 </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e0 </span><span>-&gt; </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e1 </span><span>-&gt;
+</span><span>                                   </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span> (</span><span style="color:#b48ead;">Add </span><span style="color:#bf616a;">e0 e1</span><span>)
+</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span>-</span><span style="color:#bf616a;">add isValue isValue </span><span>= </span><span style="color:#bf616a;">hasReduction </span><span>=&gt;</span><span style="color:#b48ead;">A
+</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span>-</span><span style="color:#bf616a;">add isValue</span><span> (</span><span style="color:#bf616a;">hasReduction x</span><span>) = </span><span style="color:#bf616a;">hasReduction</span><span> (=&gt;</span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">x</span><span>)
+</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span>-</span><span style="color:#bf616a;">add</span><span> (</span><span style="color:#bf616a;">hasReduction x</span><span>) </span><span style="color:#bf616a;">progress1 </span><span>= </span><span style="color:#bf616a;">hasReduction</span><span> (=&gt;</span><span style="color:#b48ead;">L </span><span style="color:#bf616a;">x</span><span>)
+</span><span>
+</span><span style="color:#96b5b4;">exp</span><span>-</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress </span><span>: (</span><span style="color:#bf616a;">e </span><span>: </span><span style="color:#96b5b4;">exp</span><span>) -&gt; </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e
+</span><span style="color:#96b5b4;">exp</span><span>-</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span> (</span><span style="color:#b48ead;">Const </span><span style="color:#bf616a;">x</span><span>) = </span><span style="color:#bf616a;">isValue
+</span><span style="color:#96b5b4;">exp</span><span>-</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span> (</span><span style="color:#b48ead;">Add </span><span style="color:#bf616a;">e1 e2</span><span>) = </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span>-</span><span style="color:#bf616a;">add</span><span> (</span><span style="color:#96b5b4;">exp</span><span>-</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e1</span><span>) (</span><span style="color:#96b5b4;">exp</span><span>-</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e2</span><span>) 
+</span></code></pre>
+<p>如果我们无法根据这些语义规则进一步 reduce 某个表达式，这个表达式就称之为“范式”（normal form）。</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data </span><span>⊥ : </span><span style="color:#b48ead;">Set where
+</span><span>
+</span><span style="color:#bf616a;">elim</span><span>-⊥ : {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} -&gt; ⊥ -&gt; </span><span style="color:#b48ead;">A
+</span><span style="color:#bf616a;">elim</span><span>-⊥ {</span><span style="color:#b48ead;">A</span><span>} ()
+</span><span>
+</span><span>¬ : </span><span style="color:#b48ead;">Set </span><span>-&gt; </span><span style="color:#b48ead;">Set
+</span><span>¬ </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">A </span><span>-&gt; ⊥
+</span><span>
+</span><span style="color:#bf616a;">cannot</span><span>-</span><span style="color:#bf616a;">reduce</span><span>-</span><span style="color:#bf616a;">further </span><span>: </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">cannot</span><span>-</span><span style="color:#bf616a;">reduce</span><span>-</span><span style="color:#bf616a;">further e </span><span>= {</span><span style="color:#bf616a;">e&#39; </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; ¬ (</span><span style="color:#bf616a;">e </span><span>=&gt; </span><span style="color:#bf616a;">e&#39;</span><span>)
+</span></code></pre>
+<p>我们可以证明，在这个系统中范式一定是一个值：</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">value </span><span>: </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#b48ead;">Set where
+</span><span> </span><span style="color:#b48ead;">ConstIsVal </span><span>: {</span><span style="color:#bf616a;">n </span><span>: </span><span style="color:#b48ead;">Nat</span><span>} -&gt; </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">value</span><span> (</span><span style="color:#b48ead;">Const </span><span style="color:#bf616a;">n</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">norm</span><span>-</span><span style="color:#bf616a;">form</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">value </span><span>: {</span><span style="color:#bf616a;">e </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; </span><span style="color:#bf616a;">cannot</span><span>-</span><span style="color:#bf616a;">reduce</span><span>-</span><span style="color:#bf616a;">further e </span><span>-&gt; </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">value e
+</span><span style="color:#bf616a;">norm</span><span>-</span><span style="color:#bf616a;">form</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">value </span><span>{</span><span style="color:#bf616a;">e</span><span>} = </span><span style="color:#bf616a;">lemma</span><span> (</span><span style="color:#96b5b4;">exp</span><span>-</span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e</span><span>)
+</span><span>    </span><span style="color:#b48ead;">where </span><span style="color:#bf616a;">lemma </span><span>: {</span><span style="color:#bf616a;">e </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e </span><span>-&gt; </span><span style="color:#bf616a;">cannot</span><span>-</span><span style="color:#bf616a;">reduce</span><span>-</span><span style="color:#bf616a;">further e </span><span>-&gt; </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">value e
+</span><span>        </span><span style="color:#bf616a;">lemma isValue cannotReduceEFurther </span><span>= </span><span style="color:#b48ead;">ConstIsVal
+</span><span>        </span><span style="color:#bf616a;">lemma</span><span> (</span><span style="color:#bf616a;">hasReduction eToe&#39;</span><span>) </span><span style="color:#bf616a;">cannotReduceEFurther </span><span>= </span><span style="color:#bf616a;">elim</span><span>-⊥ (</span><span style="color:#bf616a;">cannotReduceEFurther eToe&#39;</span><span>) </span><span style="color:#65737e;">-- absurd
+</span></code></pre>
+<h3 id="xiao-bu-yu-yi-he-da-bu-yu-yi">小步语义和大步语义</h3>
+<p>上面的例子是小步语义，它是一步一步地描述程序的执行过程。</p>
+<p>而大步语义定义如何从一个表达式或者语句直接得到它的结果。</p>
+<p>例如上面的小步语义对应的大步语义可以是：</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data </span><span style="color:#bf616a;">_</span><span>⇓</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#96b5b4;">exp </span><span>-&gt; </span><span style="color:#b48ead;">Set where
+</span><span>    ⇓</span><span style="color:#bf616a;">suc </span><span>: {</span><span style="color:#bf616a;">e v </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; </span><span style="color:#bf616a;">e </span><span>⇓ </span><span style="color:#bf616a;">v </span><span>-&gt;
+</span><span>        </span><span style="color:#bf616a;">suc e  </span><span>⇓ </span><span style="color:#bf616a;">suc v 
+</span><span>
+</span><span>    ⇓</span><span style="color:#bf616a;">prd0 </span><span>: {</span><span style="color:#bf616a;">e </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; </span><span style="color:#bf616a;">e </span><span>⇓ </span><span style="color:#bf616a;">zero </span><span>-&gt;
+</span><span>        </span><span style="color:#bf616a;">prd e </span><span>⇓ </span><span style="color:#bf616a;">zero
+</span><span>
+</span><span>    ⇓</span><span style="color:#bf616a;">prdS </span><span>: {</span><span style="color:#bf616a;">e v </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; </span><span style="color:#bf616a;">e </span><span>⇓ </span><span style="color:#bf616a;">suc v </span><span>-&gt;
+</span><span>        </span><span style="color:#bf616a;">prd</span><span> (</span><span style="color:#bf616a;">suc e</span><span>) ⇓ </span><span style="color:#bf616a;">v
+</span><span>
+</span><span>    </span><span style="color:#bf616a;">v0 </span><span>: </span><span style="color:#bf616a;">zero </span><span>⇓ </span><span style="color:#bf616a;">zero
+</span></code></pre>
+<p>小步语义相当于为程序实现了一种迭代式的解释器，而大步语义则相当于为程序实现了一种递归式的解释器。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>$v$ 是这个语言中的一个值。</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>progress 的意思是“某个表达式 $e$ 要么是一个值，要么存在 $e'$，使得 $e ⇒ e'$”，可以参考下面 agda 代码中 <code>makes-progress</code> 的定义。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2023年09月25日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/PLT">&nbsp;PLT</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=形式语义学 • 操作语义&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;operational-semantics&#x2F;&hashtags=PLT"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

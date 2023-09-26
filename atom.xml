@@ -5,8 +5,201 @@
     <link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-08-18T17:31:19.739+00:00</updated>
+    <updated>2023-09-25T20:26:11.203+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
+    <entry xml:lang="zh">
+        <title>形式语义学 • 操作语义</title>
+        <published>2023-09-25T20:26:11.203+00:00</published>
+        <updated>2023-09-25T20:26:11.203+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/operational-semantics/" type="text/html"/>
+        <id>https://longfangsong.github.io/operational-semantics/</id>
+        
+        <content type="html">&lt;h2 id=&quot;shi-shi-yao&quot;&gt;是什么&lt;&#x2F;h2&gt;
+&lt;p&gt;一种着重于描述语言的执行过程的，对程序语言语义的形式化描述方法。&lt;&#x2F;p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;An operational semantics for a programming language is a mathematical definition of its computation relation, $e ⇒ v$ &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, where e is a program in the language.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h2 id=&quot;wei-shi-yao&quot;&gt;为什么&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;the goal is to give a precise mathematical model of computations&#x2F;programs —— Lecture notes of DAT350, Chalmers&#x2F;GU&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h2 id=&quot;cao-zuo-yu-yi-vs-zhi-cheng-yu-yi-vs-gong-li-yu-yi&quot;&gt;操作语义 vs 指称语义 vs 公理语义&lt;&#x2F;h2&gt;
+&lt;p&gt;指称语义更重视“找到代表程序所做所为的数学对象”，比如把无类型 lambda 演算映射到 Martin Lof type theory，从而证明这个语言是 soundness 的。&lt;&#x2F;p&gt;
+&lt;p&gt;公理语义的想法是“给出一些公理，以此定义程序的含义”，最常见的例子就是 Hoare logic，可以理解为是关注程序在一些（作为 pre&#x2F;postcondition 的 ）prediction 上的作用效果。&lt;&#x2F;p&gt;
+&lt;p&gt;操作语义则关注“程序的执行过程”，它的目标是给出一个形式化的执行模型。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;zen-yao-zuo&quot;&gt;怎么做&lt;&#x2F;h2&gt;
+&lt;p&gt;比如说我们要给只有整数的数学表达式定义操作语义。&lt;&#x2F;p&gt;
+&lt;p&gt;这个语言的语法是：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data Nat &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc  &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;我们可以定义一些语义规则：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add n zero    &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add n&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc m&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add n m&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
+&lt;&#x2F;span&gt;&lt;span&gt;    =&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n0 n1 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n0&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n1&lt;&#x2F;span&gt;&lt;span&gt;) =&amp;gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add n0 n1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    =&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;L &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e e&amp;#39; e1 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    -&amp;gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e e1 &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&amp;#39; e1
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    =&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e e&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    -&amp;gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&amp;#39;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;这里的 &lt;code&gt;=&amp;gt;&lt;&#x2F;code&gt; 指是“左边的表达式可以（一步）转化为右边的表达式”。&lt;&#x2F;p&gt;
+&lt;p&gt;这些规则就构成了一个可以用数理逻辑证明程序的各种性质的证明系统。&lt;&#x2F;p&gt;
+&lt;p&gt;比如我们可以证明一个符合这个语法的数学表达式一定是 &amp;quot;progress&amp;quot;&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 的：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e0 e1 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress e0 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress e1 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                                   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e0 e1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add isValue isValue &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hasReduction &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add isValue&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hasReduction x&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hasReduction&lt;&#x2F;span&gt;&lt;span&gt; (=&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hasReduction x&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress1 &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hasReduction&lt;&#x2F;span&gt;&lt;span&gt; (=&amp;gt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;L &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;) -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress e
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;isValue
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Add &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e1 e2&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;add&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress e1&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress e2&lt;&#x2F;span&gt;&lt;span&gt;) 
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;如果我们无法根据这些语义规则进一步 reduce 某个表达式，这个表达式就称之为“范式”（normal form）。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span&gt;⊥ : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;elim&lt;&#x2F;span&gt;&lt;span&gt;-⊥ : {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; ⊥ -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;elim&lt;&#x2F;span&gt;&lt;span&gt;-⊥ {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;} ()
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;¬ : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
+&lt;&#x2F;span&gt;&lt;span&gt;¬ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; ⊥
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cannot&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;reduce&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;further &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cannot&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;reduce&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;further e &lt;&#x2F;span&gt;&lt;span&gt;= {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; ¬ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;=&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;我们可以证明，在这个系统中范式一定是一个值：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;value &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
+&lt;&#x2F;span&gt;&lt;span&gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ConstIsVal &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Nat&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;value&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Const &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;norm&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;form&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;value &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cannot&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;reduce&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;further e &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;value e
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;norm&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;form&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;value &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;} = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lemma&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress e&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lemma &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;makes&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;progress e &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cannot&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;reduce&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;further e &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;value e
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lemma isValue cannotReduceEFurther &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ConstIsVal
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lemma&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;hasReduction eToe&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cannotReduceEFurther &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;elim&lt;&#x2F;span&gt;&lt;span&gt;-⊥ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cannotReduceEFurther eToe&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;-- absurd
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;xiao-bu-yu-yi-he-da-bu-yu-yi&quot;&gt;小步语义和大步语义&lt;&#x2F;h3&gt;
+&lt;p&gt;上面的例子是小步语义，它是一步一步地描述程序的执行过程。&lt;&#x2F;p&gt;
+&lt;p&gt;而大步语义定义如何从一个表达式或者语句直接得到它的结果。&lt;&#x2F;p&gt;
+&lt;p&gt;例如上面的小步语义对应的大步语义可以是：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;⇓&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
+&lt;&#x2F;span&gt;&lt;span&gt;    ⇓&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e v &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;⇓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;v &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc e  &lt;&#x2F;span&gt;&lt;span&gt;⇓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc v 
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    ⇓&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prd0 &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;⇓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prd e &lt;&#x2F;span&gt;&lt;span&gt;⇓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    ⇓&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prdS &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e v &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exp&lt;&#x2F;span&gt;&lt;span&gt;} -&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e &lt;&#x2F;span&gt;&lt;span&gt;⇓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc v &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prd&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc e&lt;&#x2F;span&gt;&lt;span&gt;) ⇓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;v
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;v0 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero &lt;&#x2F;span&gt;&lt;span&gt;⇓ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;小步语义相当于为程序实现了一种迭代式的解释器，而大步语义则相当于为程序实现了一种递归式的解释器。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;$v$ 是这个语言中的一个值。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;progress 的意思是“某个表达式 $e$ 要么是一个值，要么存在 $e&#x27;$，使得 $e ⇒ e&#x27;$”，可以参考下面 agda 代码中 &lt;code&gt;makes-progress&lt;&#x2F;code&gt; 的定义。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 贝叶斯（1）</title>
+        <published>2023-09-05T12:40:19+00:00</published>
+        <updated>2023-09-05T12:40:19+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-1/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-stastic-bayesian-1/</id>
+        
+        <content type="html">&lt;h2 id=&quot;fu-hao-biao&quot;&gt;符号表&lt;&#x2F;h2&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;符号&lt;&#x2F;th&gt;&lt;th&gt;中文&lt;&#x2F;th&gt;&lt;th&gt;English&lt;&#x2F;th&gt;&lt;th&gt;例子&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;$A ∼ B$&lt;&#x2F;td&gt;&lt;td&gt;A&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 服从 B 分布&lt;&#x2F;td&gt;&lt;td&gt;A is subject to distribution B&lt;&#x2F;td&gt;&lt;td&gt;$W ∼ Binomial(N, p)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$Pr(E_A)$&lt;&#x2F;td&gt;&lt;td&gt;事件 $E_A$ 的概率分布&lt;&#x2F;td&gt;&lt;td&gt;probability of $E_A$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$Pr(E_A, E_B)$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;td&gt;&lt;td&gt;事件 $E_A$ 和 $E_B$ 的联合概率分布（$E_A$ 且 $E_B$ 的概率分布）&lt;&#x2F;td&gt;&lt;td&gt;joint probability distribution of $E_A$ and $E_B$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$Pr(E_A|E_B)$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;td&gt;&lt;td&gt;确定事件 $E_B$ 发生时 $E_A$ 发生的概率&lt;&#x2F;td&gt;&lt;td&gt;“the conditional probability of $E_A$ given $E_B$” or “the probability of $E_A$ under the condition $E_B$”&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E_A \mathrel{\rlap{\perp}\mkern1mu\perp} E_B$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;td&gt;&lt;td&gt;$E_A$ 和 $E_B$ 无关&lt;&#x2F;td&gt;&lt;td&gt;$E_A$ is independent of $E_B$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$E_A {\llap{\not}}{\mathrel{\rlap{\perp}\mkern1mu\perp}} E_B$&lt;&#x2F;td&gt;&lt;td&gt;$E_A$ 和 $E_B$ 有关&lt;&#x2F;td&gt;&lt;td&gt;$E_A$ is not independent of $E_B$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h2 id=&quot;ming-ci-jie-shi&quot;&gt;名词解释&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;xian-yan-gai-lu-prior-probability&quot;&gt;先验概率&#x2F;Prior (probability)&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在贝叶斯统计中，某一不确定量p的先验概率（Prior probability）分布是在考虑「观测数据」前，能表达p不确定性的概率分布。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A prior probability distribution of an uncertain quantity, often simply called the prior, is its assumed probability distribution before some evidence is taken into account. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;si-ran-han-shu-likelihood-function&quot;&gt;似然函数&#x2F;Likelihood function&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;似然函数（英語：likelihood function）是一种关于统计模型中的参数的函数，表示模型参数中的似然性（英語：likelihood）&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The likelihood function (often simply called the likelihood) is the joint probability (or probability density) of observed data viewed as a function of the parameters of a statistical model.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;hou-yan-gai-lu-posterior-probability&quot;&gt;后验概率&#x2F;Posterior (probability)&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The posterior probability is a type of conditional probability that results from updating the prior probability with information summarized by the likelihood via an application of Bayes&#x27; rule.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在贝叶斯统计中，一个随机事件或者一个不确定事件的后验概率（Posterior probability）是在考虑和给出相关证据或数据后所得到的条件概率。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;duo-zhong-gong-xian-xing-multicollinearity&quot;&gt;多重共线性&#x2F;Multicollinearity&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Multicollinearity means very strong correlation between two or more predictor variables.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In statistics, multicollinearity (also collinearity) is a phenomenon in which one predictor variable in a multiple regression model can be perfectly predicted from the others.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;多重共线性（Multicollinearity）是指多变量线性回归中，变量之间由于存在高度相关关系而使回归估计不准确。在该情况下，多元回归的系数可能会因为模型或数据的微小变化发生剧烈改变。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h2 id=&quot;chang-yong-fen-bu&quot;&gt;常用分布&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;jun-yun-fen-bu-uniform-distribution&quot;&gt;均匀分布&#x2F;Uniform distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Uniform(a, b)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;即等可能地选取 $[a, b]$ 之间的任何一个数所得到的概率分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;er-xiang-fen-bu-binomial-distribution&quot;&gt;二项分布&#x2F;Binomial distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Binomial(N, p)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;即做 $N$ 次试验，每次试验得到“成功”结果的概率为 $p$，“成功”次数的概率分布。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bayes-theorem&quot;&gt;Bayes’theorem&lt;&#x2F;h2&gt;
+&lt;p&gt;$$
+后验概率 = normalize(似然函数 \times 先验概率)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;或者用符号写：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Pr(p|W) = \frac {Pr(W|p)Pr(p)} {Pr(W)}
+$$&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;本文严格区分事件（写作 $E_{大写英文字母}$）和变量（用普通大写英文字母表示），例如 $E_A$ 可能代表事件 $X=1$，同时可以给他分配变量 $A$，因此 $Pr(E_A) \equiv Pr\{X=1\} \equiv Pr(A)$。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;$,$ 的优先级高于 $|$，例如 $Pr(p|W,L)$ 是 $Pr(p|(W,L))$。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;$Y \mathrel{\rlap{\perp}\mkern1mu\perp} X | Z$ 的意义是：除去 $Z$ 的影响后（显示出） $Y$ 与 $X$ 无关，这是一个 conditional independency 的例子。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="zh">
         <title>Image 转 RGB565 工具</title>
         <published>2023-03-03T16:58:21.033+00:00</published>

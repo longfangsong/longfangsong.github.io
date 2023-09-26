@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -113,7 +113,7 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;build-a-compiler-in-the-easiest-way&#x2F;">How to implement an easiest compiler</a></h1>
   
-  <div class="post-content"><p>This article will lead the reader to make a simple C-like (but much simpler than C) language's compiler.</p>
+  <div class="post-content"><p>This article will lead the reader to make a simple C-like (but much simpler than C) language compiler.</p>
 <p><a href="https://github.com/longfangsong/toylang/tree/db02558dd658c0cf667f60c822eb4bd42ecb9ee7">Here</a>, is the reference code.</p>
 <p>This language supports:</p>
 <ul>
@@ -122,7 +122,7 @@
 <li>2 kinds of control flow statements <code>if</code> (with optionally <code>else</code>) and <code>while</code></li>
 <li>Basic mathematical operators <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>&lt;</code>、<code>&lt;=</code>、<code>&gt;</code>、<code>&gt;=</code>、<code>==</code>、<code>!=</code></li>
 </ul>
-<p>The author assume the user has a good command of C language<sup class="footnote-reference"><a href="#1">1</a></sup> and knows how to use regex, flex and bison.</p>
+<p>The author assumes the user has a good command of C language<sup class="footnote-reference"><a href="#1">1</a></sup> and knows how to use regex, flex and bison.</p>
 <p>If you are not familiar with flex and bison, refer to <a href="https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/.">another article of mine</a>。</p>
 <h2 id="the-whole-compiling-process">The whole compiling process</h2>
 <p>The compiler follows the following process<sup class="footnote-reference"><a href="#2">2</a></sup>：</p>

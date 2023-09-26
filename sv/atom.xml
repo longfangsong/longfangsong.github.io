@@ -5,8 +5,44 @@
     <link href="https://longfangsong.github.io/sv/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-02-04T17:59:47.582+00:00</updated>
+    <updated>2023-08-24T18:46:07.134+00:00</updated>
     <id>https://longfangsong.github.io/sv/atom.xml</id>
+    <entry xml:lang="sv">
+        <title>Ortnamn På Svenska</title>
+        <published>2023-08-24T18:46:07.134+00:00</published>
+        <updated>2023-08-24T18:46:07.134+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/sv/ortnamn-pa-svenska/" type="text/html"/>
+        <id>https://longfangsong.github.io/sv/ortnamn-pa-svenska/</id>
+        
+        <content type="html">&lt;h2 id=&quot;fusklapp-cheat-sheet&quot;&gt;Fusklapp (cheat sheet)&lt;&#x2F;h2&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Svenska&lt;&#x2F;th&gt;&lt;th&gt;English&lt;&#x2F;th&gt;&lt;th&gt;Example&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;berg&lt;&#x2F;td&gt;&lt;td&gt;mountain&lt;&#x2F;td&gt;&lt;td&gt;Johanne&lt;strong&gt;berg&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;garage(t)&lt;&#x2F;td&gt;&lt;td&gt;garage&lt;&#x2F;td&gt;&lt;td&gt;Norra Annedals&lt;strong&gt;garaget&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;gård(en)&lt;&#x2F;td&gt;&lt;td&gt;yard&lt;&#x2F;td&gt;&lt;td&gt;Östra kyrko&lt;strong&gt;gården&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;gata(n)&lt;&#x2F;td&gt;&lt;td&gt;street&lt;&#x2F;td&gt;&lt;td&gt;Plejad&lt;strong&gt;gatan&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;hall(en)&lt;&#x2F;td&gt;&lt;td&gt;hall&lt;&#x2F;td&gt;&lt;td&gt;Masthuggs&lt;strong&gt;hallen&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;kvarter&lt;&#x2F;td&gt;&lt;td&gt;city block&lt;&#x2F;td&gt;&lt;td&gt;&lt;strong&gt;Kvarter&lt;&#x2F;strong&gt;etMäkleri&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;kyrka(n)&lt;&#x2F;td&gt;&lt;td&gt;church&lt;&#x2F;td&gt;&lt;td&gt;Johannebergs&lt;strong&gt;kyrkan&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;led(en)&lt;&#x2F;td&gt;&lt;td&gt;track&lt;&#x2F;td&gt;&lt;td&gt;Tvär&lt;strong&gt;leden&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;park(en)&lt;&#x2F;td&gt;&lt;td&gt;park&lt;&#x2F;td&gt;&lt;td&gt;Renströms&lt;strong&gt;parken&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;pir(en)&lt;&#x2F;td&gt;&lt;td&gt;pier&lt;&#x2F;td&gt;&lt;td&gt;Lindhoms&lt;strong&gt;piren&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;skola&lt;&#x2F;td&gt;&lt;td&gt;school&lt;&#x2F;td&gt;&lt;td&gt;Chalmers tekniska hög&lt;strong&gt;skola&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;stad(en)&lt;&#x2F;td&gt;&lt;td&gt;city&lt;&#x2F;td&gt;&lt;td&gt;Nord&lt;strong&gt;staden&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;teater(n)&lt;&#x2F;td&gt;&lt;td&gt;theater&lt;&#x2F;td&gt;&lt;td&gt;Backa &lt;strong&gt;Teater&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;torg(et)&lt;&#x2F;td&gt;&lt;td&gt;square&lt;&#x2F;td&gt;&lt;td&gt;Lilla &lt;strong&gt;torget&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;område&lt;&#x2F;td&gt;&lt;td&gt;area&lt;&#x2F;td&gt;&lt;td&gt;Sisjöns industri&lt;strong&gt;område&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;väg(en)&lt;&#x2F;td&gt;&lt;td&gt;road&lt;&#x2F;td&gt;&lt;td&gt;Sisjö&lt;strong&gt;vägen&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Östra&lt;&#x2F;td&gt;&lt;td&gt;East&lt;&#x2F;td&gt;&lt;td&gt;&lt;strong&gt;Östra&lt;&#x2F;strong&gt; kyrkogården&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Södra&lt;&#x2F;td&gt;&lt;td&gt;South&lt;&#x2F;td&gt;&lt;td&gt;&lt;strong&gt;Södra&lt;&#x2F;strong&gt; Larm Bar &amp;amp; Bistro&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Västra&lt;&#x2F;td&gt;&lt;td&gt;West&lt;&#x2F;td&gt;&lt;td&gt;&lt;strong&gt;Västra&lt;&#x2F;strong&gt; Götalands&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Norra&lt;&#x2F;td&gt;&lt;td&gt;North&lt;&#x2F;td&gt;&lt;td&gt;&lt;strong&gt;Norra&lt;&#x2F;strong&gt; Annedalsgaraget&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="sv">
         <title>Svenska Läromedel</title>
         <published>2023-02-04T17:59:47.582+00:00</published>
