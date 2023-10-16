@@ -119,7 +119,7 @@
         
     </entry>
     <entry xml:lang="zh">
-        <title>重新开始学数学 • 贝叶斯（1）</title>
+        <title>重新开始学数学 • 贝叶斯因果推理（1）</title>
         <published>2023-09-05T12:40:19+00:00</published>
         <updated>2023-09-05T12:40:19+00:00</updated>
         <author>
@@ -170,16 +170,90 @@
 &lt;p&gt;多重共线性（Multicollinearity）是指多变量线性回归中，变量之间由于存在高度相关关系而使回归估计不准确。在该情况下，多元回归的系数可能会因为模型或数据的微小变化发生剧烈改变。&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;h2 id=&quot;chang-yong-fen-bu&quot;&gt;常用分布&lt;&#x2F;h2&gt;
-&lt;h3 id=&quot;jun-yun-fen-bu-uniform-distribution&quot;&gt;均匀分布&#x2F;Uniform distribution&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;jun-yun-fen-bu-uniform-distribution&quot;&gt;均匀分布 &#x2F; Uniform distribution&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 Uniform(a, b)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;即等可能地选取 $[a, b]$ 之间的任何一个数所得到的概率分布。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;er-xiang-fen-bu-binomial-distribution&quot;&gt;二项分布&#x2F;Binomial distribution&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;bo-nu-li-fen-bu-bernoulli-distribution&quot;&gt;伯努利分布 &#x2F; Bernoulli distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Bernoulli(p)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;做试验得到“成功”结果的概率为 $p$，那么做一次实验结果为“成功”的概率分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;categorical-fen-bu&quot;&gt;Categorical 分布&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Categorical(\textbf{p})
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;做试验得到第 i 种结果的概率为 $\textbf{p}_i$，那么做一次实验结果为第 i 种的概率分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;er-xiang-fen-bu-binomial-distribution&quot;&gt;二项分布 &#x2F; Binomial distribution&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 Binomial(N, p)
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;即做 $N$ 次试验，每次试验得到“成功”结果的概率为 $p$，“成功”次数的概率分布。&lt;&#x2F;p&gt;
+&lt;p&gt;每次试验得到“成功”结果的概率为 $p$，做 $N$ 次试验，得到“成功”次数的概率分布。&lt;&#x2F;p&gt;
+&lt;p&gt;$N$ 为 1 时，退化为伯努利分布。&lt;&#x2F;p&gt;
+&lt;p&gt;$N$ 很大而 $p$ 很小时，逼近泊松分布。&lt;&#x2F;p&gt;
+&lt;p&gt;$N$ 很大而 $p$ 接近 0.5 时近似于正态分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;duo-xiang-fen-bu-multinomial-distribution&quot;&gt;多项分布 &#x2F; Multinomial distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Multinomial(N, \textbf{p})
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;每次试验得到第 i 种结果的概率为 $\textbf{p}_i$，做 $N$ 次试验，得到某个值的次数的概率分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;beta-fen-bu-beta-distribution&quot;&gt;$\beta$ 分布 &#x2F; Beta distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Beta(a, b)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;做 $a + b$ 次实验，发现其中 a 次成功，b 次失败则实验本身的成功率 $p$ 的概率分布。&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zhi-shu-fen-bu-exponential-distribution&quot;&gt;指数分布 &#x2F; Exponential distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Exp(λ)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;每单位时间发生某事件 $\lambda$ 次，则 $Exp(λ)$ 代表每次发生的时间间隔的概率分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;bo-song-fen-bu-poisson-distribution&quot;&gt;泊松分布 &#x2F; Poisson distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Poisson(λ)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;随机事件发生次数的数学期望值和方差均为 $\lambda$，则 $Poisson(λ)$ 为单位时间内随机事件发生的次数的概率分布。&lt;&#x2F;p&gt;
+&lt;p&gt;服从泊松分布的随机变量，其数学期望与方差相等，均为 $\lambda$。&lt;&#x2F;p&gt;
+&lt;p&gt;取样样本数很大时将近似正态分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;jia-ma-fen-bu-gamma-distribution&quot;&gt;伽玛分布 &#x2F; Gamma distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Gamma(a, \lambda)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;发生 a 次独立的随机事件，每单位时间发生某事件 $\lambda$ 次，则 $Gamma(a, \lambda)$ 代表这 a 次事件发生总共所用时间的分布。&lt;&#x2F;p&gt;
+&lt;p&gt;a 为 1 时，退化为指数分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ji-he-fen-bu-geometric-distribution&quot;&gt;几何分布 &#x2F; Geometric distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+G(p)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;即不停做实验直到成功为止，做实验的次数的概率分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;fu-er-xiang-fen-bu-negative-binomial-distribution&quot;&gt;负二项分布 &#x2F; Negative binomial distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+NB(r, p)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;即不停做实验直到第 r 次成功为止，做实验的次数的概率分布。&lt;&#x2F;p&gt;
+&lt;p&gt;r 为 1 时，退化为几何分布。&lt;&#x2F;p&gt;
+&lt;p&gt;负二项分布可以看作是 Gamma 分布和 Poisson 分布的组合。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+GammaPoisson(\lambda, \Phi)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;其中：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+r = \frac \lambda \Phi
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+p = \frac 1 {1 + \Phi}
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zheng-tai-fen-bu-normal-distribution&quot;&gt;正态分布 &#x2F; Normal distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+N(\mu, \sigma^2)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;假设一个实验可能有几种等可能的不同的结果，以多个（越多越好）这样的实验为一组，大量做这样的实验，每组实验的结果之和服从正态分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;beta-binomial-fen-bu&quot;&gt;$\beta$-binomial 分布&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+BetaBinomial(N, a, b)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;是 Beta 和 Binomial 组合的结果，当 $p$ 服从 $Beta(a, b)$ 时，$Binomial(N, p)$ 的分布。&lt;&#x2F;p&gt;
+&lt;p&gt;即每次试验得到“成功”结果的概率符合 $Beta(a, b)$，做 $N$ 次试验，得到“成功”次数的概率分布。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;bayes-theorem&quot;&gt;Bayes’theorem&lt;&#x2F;h2&gt;
 &lt;p&gt;$$
 后验概率 = normalize(似然函数 \times 先验概率)
@@ -196,6 +270,9 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
 &lt;p&gt;$Y \mathrel{\rlap{\perp}\mkern1mu\perp} X | Z$ 的意义是：除去 $Z$ 的影响后（显示出） $Y$ 与 $X$ 无关，这是一个 conditional independency 的例子。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;成功率并不一定是 $\frac a (a+b)$！$\frac a (a+b)$ 只是得到的分布中密度最大的点！&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
         

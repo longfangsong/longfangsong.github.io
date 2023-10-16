@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • 重新开始学数学 • 贝叶斯（1）</title>
+  <title>Blog • 重新开始学数学 • 贝叶斯因果推理（1）</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
           </div>
         </div>
@@ -111,7 +111,7 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-1&#x2F;">重新开始学数学 • 贝叶斯（1）</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-1&#x2F;">重新开始学数学 • 贝叶斯因果推理（1）</a></h1>
   
   <div class="post-content"><h2 id="fu-hao-biao">符号表</h2>
 <table><thead><tr><th>符号</th><th>中文</th><th>English</th><th>例子</th></tr></thead><tbody>
@@ -155,16 +155,90 @@
 <p>多重共线性（Multicollinearity）是指多变量线性回归中，变量之间由于存在高度相关关系而使回归估计不准确。在该情况下，多元回归的系数可能会因为模型或数据的微小变化发生剧烈改变。</p>
 </blockquote>
 <h2 id="chang-yong-fen-bu">常用分布</h2>
-<h3 id="jun-yun-fen-bu-uniform-distribution">均匀分布/Uniform distribution</h3>
+<h3 id="jun-yun-fen-bu-uniform-distribution">均匀分布 / Uniform distribution</h3>
 <p>$$
 Uniform(a, b)
 $$</p>
 <p>即等可能地选取 $[a, b]$ 之间的任何一个数所得到的概率分布。</p>
-<h3 id="er-xiang-fen-bu-binomial-distribution">二项分布/Binomial distribution</h3>
+<h3 id="bo-nu-li-fen-bu-bernoulli-distribution">伯努利分布 / Bernoulli distribution</h3>
+<p>$$
+Bernoulli(p)
+$$</p>
+<p>做试验得到“成功”结果的概率为 $p$，那么做一次实验结果为“成功”的概率分布。</p>
+<h3 id="categorical-fen-bu">Categorical 分布</h3>
+<p>$$
+Categorical(\textbf{p})
+$$</p>
+<p>做试验得到第 i 种结果的概率为 $\textbf{p}_i$，那么做一次实验结果为第 i 种的概率分布。</p>
+<h3 id="er-xiang-fen-bu-binomial-distribution">二项分布 / Binomial distribution</h3>
 <p>$$
 Binomial(N, p)
 $$</p>
-<p>即做 $N$ 次试验，每次试验得到“成功”结果的概率为 $p$，“成功”次数的概率分布。</p>
+<p>每次试验得到“成功”结果的概率为 $p$，做 $N$ 次试验，得到“成功”次数的概率分布。</p>
+<p>$N$ 为 1 时，退化为伯努利分布。</p>
+<p>$N$ 很大而 $p$ 很小时，逼近泊松分布。</p>
+<p>$N$ 很大而 $p$ 接近 0.5 时近似于正态分布。</p>
+<h3 id="duo-xiang-fen-bu-multinomial-distribution">多项分布 / Multinomial distribution</h3>
+<p>$$
+Multinomial(N, \textbf{p})
+$$</p>
+<p>每次试验得到第 i 种结果的概率为 $\textbf{p}_i$，做 $N$ 次试验，得到某个值的次数的概率分布。</p>
+<h3 id="beta-fen-bu-beta-distribution">$\beta$ 分布 / Beta distribution</h3>
+<p>$$
+Beta(a, b)
+$$</p>
+<p>做 $a + b$ 次实验，发现其中 a 次成功，b 次失败则实验本身的成功率 $p$ 的概率分布。<sup class="footnote-reference"><a href="#4">4</a></sup></p>
+<h3 id="zhi-shu-fen-bu-exponential-distribution">指数分布 / Exponential distribution</h3>
+<p>$$
+Exp(λ)
+$$</p>
+<p>每单位时间发生某事件 $\lambda$ 次，则 $Exp(λ)$ 代表每次发生的时间间隔的概率分布。</p>
+<h3 id="bo-song-fen-bu-poisson-distribution">泊松分布 / Poisson distribution</h3>
+<p>$$
+Poisson(λ)
+$$</p>
+<p>随机事件发生次数的数学期望值和方差均为 $\lambda$，则 $Poisson(λ)$ 为单位时间内随机事件发生的次数的概率分布。</p>
+<p>服从泊松分布的随机变量，其数学期望与方差相等，均为 $\lambda$。</p>
+<p>取样样本数很大时将近似正态分布。</p>
+<h3 id="jia-ma-fen-bu-gamma-distribution">伽玛分布 / Gamma distribution</h3>
+<p>$$
+Gamma(a, \lambda)
+$$</p>
+<p>发生 a 次独立的随机事件，每单位时间发生某事件 $\lambda$ 次，则 $Gamma(a, \lambda)$ 代表这 a 次事件发生总共所用时间的分布。</p>
+<p>a 为 1 时，退化为指数分布。</p>
+<h3 id="ji-he-fen-bu-geometric-distribution">几何分布 / Geometric distribution</h3>
+<p>$$
+G(p)
+$$</p>
+<p>即不停做实验直到成功为止，做实验的次数的概率分布。</p>
+<h3 id="fu-er-xiang-fen-bu-negative-binomial-distribution">负二项分布 / Negative binomial distribution</h3>
+<p>$$
+NB(r, p)
+$$</p>
+<p>即不停做实验直到第 r 次成功为止，做实验的次数的概率分布。</p>
+<p>r 为 1 时，退化为几何分布。</p>
+<p>负二项分布可以看作是 Gamma 分布和 Poisson 分布的组合。</p>
+<p>$$
+GammaPoisson(\lambda, \Phi)
+$$</p>
+<p>其中：</p>
+<p>$$
+r = \frac \lambda \Phi
+$$</p>
+<p>$$
+p = \frac 1 {1 + \Phi}
+$$</p>
+<h3 id="zheng-tai-fen-bu-normal-distribution">正态分布 / Normal distribution</h3>
+<p>$$
+N(\mu, \sigma^2)
+$$</p>
+<p>假设一个实验可能有几种等可能的不同的结果，以多个（越多越好）这样的实验为一组，大量做这样的实验，每组实验的结果之和服从正态分布。</p>
+<h3 id="beta-binomial-fen-bu">$\beta$-binomial 分布</h3>
+<p>$$
+BetaBinomial(N, a, b)
+$$</p>
+<p>是 Beta 和 Binomial 组合的结果，当 $p$ 服从 $Beta(a, b)$ 时，$Binomial(N, p)$ 的分布。</p>
+<p>即每次试验得到“成功”结果的概率符合 $Beta(a, b)$，做 $N$ 次试验，得到“成功”次数的概率分布。</p>
 <h2 id="bayes-theorem">Bayes’theorem</h2>
 <p>$$
 后验概率 = normalize(似然函数 \times 先验概率)
@@ -181,6 +255,9 @@ $$</p>
 </div>
 <div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
 <p>$Y \mathrel{\rlap{\perp}\mkern1mu\perp} X | Z$ 的意义是：除去 $Z$ 的影响后（显示出） $Y$ 与 $X$ 无关，这是一个 conditional independency 的例子。</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>成功率并不一定是 $\frac a (a+b)$！$\frac a (a+b)$ 只是得到的分布中密度最大的点！</p>
 </div>
 </div>
   <div class="post-footer">
@@ -208,7 +285,7 @@ $$</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=重新开始学数学 • 贝叶斯（1）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-1&#x2F;&hashtags=数学,概率统计"></a>
+      href="http://twitter.com/share?text=重新开始学数学 • 贝叶斯因果推理（1）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-1&#x2F;&hashtags=数学,概率统计"></a>
   </div>
 </div>
 
