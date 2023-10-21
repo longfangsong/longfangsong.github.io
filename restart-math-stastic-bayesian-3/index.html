@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • 重新开始学数学 • 数理逻辑（3）</title>
+  <title>Blog • 重新开始学数学 • 贝叶斯因果推理（3）</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -111,78 +111,116 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-3&#x2F;">重新开始学数学 • 数理逻辑（3）</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-3&#x2F;">重新开始学数学 • 贝叶斯因果推理（3）</a></h1>
   
-  <div class="post-content"><h2 id="model-structure-jie-gou-mo-xing">Model（Structure、结构、模型）</h2>
-<h3 id="yong-tu">用途</h3>
-<p>Model 的主要作用是可以在给定一个 Model 的情况下，给一个谓词逻辑表达式求值。</p>
-<h3 id="qian-zhi-ding-yi">前置定义</h3>
-<h4 id="han-shu-fu-hao-function-symbol">函数符号（function symbol）</h4>
-<blockquote>
-<p>A logical symbol that may be applied to an object term to produce another object term.</p>
-</blockquote>
-<p>按我理解来说就是一个可以应用在某个 term<sup class="footnote-reference"><a href="#1">1</a></sup> 上生成另一个 term 的一个逻辑符号。</p>
-<p>函数符号是一个<strong>符号</strong>，他可以代表，但并不等同于某一个具体函数。</p>
-<h4 id="wei-ci-fu-hao-predicate-symbol">谓词符号（predicate symbol）</h4>
-<blockquote>
-<p>A notation for some concrete predicate or relation.</p>
-</blockquote>
-<p>就是代表 predicate 的<strong>符号</strong>。</p>
-<h3 id="ding-yi">定义</h3>
-<p>设有函数符号集合 $F$ 和谓词符号集合 $P$，一个 Model $M$ 包含：</p>
+  <div class="post-content"><h2 id="bei-xie-si-mo-xing">贝叶斯模型</h2>
+<p>要建立一个贝叶斯模型，我们需要确定模型的<strong>输出</strong>（outcome）符合什么分布，这意味着我们需要选择一个似然函数。</p>
+<p>eg.</p>
+<p>$$
+height \sim Normal(\mu, \sigma)
+$$</p>
+<h3 id="ru-he-xuan-ze-si-ran-han-shu">如何选择似然函数</h3>
+<p>选择似然函数的时候，要考虑：</p>
 <ul>
-<li>一个包含了所有具体值的集合，称为 $A$</li>
-<li>对 $F$ 中每个函数符号，一个（每个参数的）定义域和值域均是 $A$ 的具体函数<sup class="footnote-reference"><a href="#2">2</a></sup></li>
-<li>对 $P$ 中每个谓词符号，$A$ 上的一个具体谓词（或者说由这个谓词定义的关系）</li>
+<li>数据本身的情况，比如是整数还是浮点数，是否有上下界等（Epistemological, which means philosophy behind knowledge）。</li>
+<li>要描述的对象在现实中是如何分布的，比如大量随机影响下，数据常常（天然地）呈正态分布（Ontological, which means the nature of the world）。</li>
 </ul>
-<h3 id="li">例</h3>
-<p>这里有一个函数符号集合 $F_symbols = \{ i: () \rightarrow Value \}$，</p>
-<p>一个谓词符号集合 $P = \{ R: (Value, Value) \rightarrow bool, F: (Value) \rightarrow bool\}$</p>
-<p>可以利用以上两个集合，加上一个状态集合 $A$，来建立状态机的 model，比如：</p>
-<div class="mermaid">
-stateDiagram-v2
-    [*] --&gt; a
-    a --&gt; a
-    a --&gt; b
-    b --&gt; c
-    a --&gt; c
-    c --&gt; c
-    b --&gt; [*]
-    c --&gt; [*]
-</div>
-<p>对以上这一个状态机，对应的模型 M 就是：</p>
+<p>所选择的似然函数常常会需要传入<strong>参数</strong>(parameters)，对于每个参数，我们需要在一开始估计它的分布，这个分布称为这个参数的先验(prior)。</p>
+<p>eg.</p>
+<p>$$
+\sigma \sim Exp(?)
+$$</p>
+<p>有些参数可能和你所知道的其他输入有关，此时，这些输入称为<strong>自变量</strong>（predictor variable）。</p>
+<p>eg.</p>
+<p>$$
+\mu = \alpha + \beta \times (weight - 150)
+$$</p>
+<p>这里的 $\alpha$ 和 $\beta$ 是新增加的参数，而 $weight$ 就是自变量。</p>
+<p>所以我们整个的模型就是：</p>
 <p>$$
 \displaylines {
-M.A = \{a, b, c\} \\
-M.i = a \\
-M.R = \{(a, a), (a, b), (b, c), (a, c), (c, c)\} \\
-M.F = \{b, c\} \\
+height &amp; \sim &amp;  Normal(\mu, \sigma) \\
+\mu &amp; = &amp; \alpha + \beta \times weight \\
+\alpha &amp; \sim &amp;  Normal(?, ?) \\
+\beta &amp; \sim &amp;  Normal(?, ?) \\
+\sigma &amp; \sim &amp; Exp(?)
 }
-$$ </p>
-<p>我们来给以下表达式求值：</p>
-<p>$$
-\forall x \exists y R(x, y)
 $$</p>
-<p>这个表达式意思是从某个状态出去一定能到达其他状态，显然是对的。</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>表示论域内元素的正规表达式。</p>
-</div>
-<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p>这帮子数学家老喜欢把无参函数和值等价起来，所以书里面这条对有参和无参函数是分开的……我不觉得这么搞很好，函数就是函数，所以就揉在一起了。当然也可以完全分开，即有常量符号但没有无参函数。</p>
-</div>
+<p>现在我们需要确定模型中这些 $?$ 的值，并验证这些值是相对好的，这个过程称为 prior predictive check。</p>
+<h3 id="prior-predictive-check">Prior predictive check</h3>
+<p>Prior predictive check 的目的是检查模型中的先验分布是否合理。</p>
+<p>一般来说 prior predictive check 的方法是选定一组 prior，然后用这组 prior 生成一些数据，看这些数据是否合理。</p>
+<p>比如以上面的例子来说，如果取以下的 prior：</p>
+<p>$$
+\displaylines {
+height &amp; \sim &amp; Normal(\mu, \sigma) \\
+\mu &amp; = &amp; \alpha + \beta \times (weight - 150) \\
+\alpha &amp; \sim &amp;  Normal(0, 1) \\
+\beta &amp; \sim &amp;  Normal(0, 1) \\
+\sigma &amp; \sim &amp; Exp(1)
+}
+$$</p>
+<p>那么模型可以生成（大量的）负数的 height，这显然是不合理的。</p>
+<p>根据经验，人的身高大约在 165 厘米左右，且身高和体重呈正相关，因此一组更好的 prior 可以是：</p>
+<p>$$
+\displaylines {
+height &amp; \sim &amp; Normal(\mu, \sigma) \\
+\mu &amp; = &amp; \alpha + \beta \times (weight - 60) \\
+\alpha &amp; \sim &amp; Normal(165, 20) \\
+\beta &amp; \sim &amp;  Normal(0.5, 0.2) \\
+\sigma &amp; \sim &amp; Exp(1)
+}
+$$</p>
+<p>当然你也可以搜集更多的知识选择更好的 prior，或者换用更合理的分布函数，比如让 $\beta &amp; \sim &amp; log-Normal(?, ?)$。</p>
+<h3 id="ru-he-xue-xi-can-shu-de-zhi">如何学习参数的值</h3>
+<p>一个常用的方法是使用 MCMC（Markov chain Monte Carlo）。</p>
+<p>例如，我们对于以下模型：</p>
+<p>$$
+\displaylines {
+W  &amp; \sim &amp; Binomial(9, p) \\
+\p &amp; \sim &amp; Normal(0.5, 0.1)
+}
+$$</p>
+<p>可以使用 MCMC 方法来学习 $p$ 的值，使用 rethinking 包如下：</p>
+<pre data-lang="r" style="background-color:#2b303b;color:#c0c5ce;" class="language-r "><code class="language-r" data-lang="r"><span style="color:#bf616a;">ulam</span><span>(
+</span><span>    </span><span style="color:#96b5b4;">alist</span><span>(
+</span><span>        W </span><span style="color:#b48ead;">~ </span><span style="color:#96b5b4;">dbinom</span><span>(W + L, p), </span><span style="color:#65737e;"># binomial likelihood
+</span><span>        p </span><span style="color:#b48ead;">~ </span><span style="color:#96b5b4;">dnorm</span><span>(</span><span style="color:#d08770;">0.5</span><span>, </span><span style="color:#d08770;">0.1</span><span>) </span><span style="color:#65737e;"># uniform prior
+</span><span>    ),
+</span><span>    </span><span style="color:#bf616a;">data </span><span>= </span><span style="color:#b48ead;">list</span><span>(</span><span style="color:#bf616a;">W </span><span>= </span><span style="color:#d08770;">6</span><span>, </span><span style="color:#bf616a;">L </span><span>= </span><span style="color:#d08770;">3</span><span>)
+</span><span>)
+</span></code></pre>
+<p>功能上相当于：</p>
+<pre data-lang="r" style="background-color:#2b303b;color:#c0c5ce;" class="language-r "><code class="language-r" data-lang="r"><span>W &lt;- </span><span style="color:#d08770;">6
+</span><span>L &lt;- </span><span style="color:#d08770;">3
+</span><span style="color:#65737e;"># MCMC 的一个 chain
+</span><span>n_samples &lt;- </span><span style="color:#d08770;">1000
+</span><span>p &lt;- </span><span style="color:#96b5b4;">rep</span><span>(</span><span style="color:#d08770;">NA</span><span>, n_samples)
+</span><span style="color:#65737e;"># prior
+</span><span>p[</span><span style="color:#d08770;">1</span><span>] &lt;- </span><span style="color:#96b5b4;">rnorm</span><span>(</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">0.5</span><span>, </span><span style="color:#d08770;">0.1</span><span>)
+</span><span style="color:#b48ead;">for </span><span>(i in </span><span style="color:#d08770;">2</span><span style="color:#b48ead;">:</span><span>n_samples) {
+</span><span>    </span><span style="color:#65737e;"># 选取一个新的 p
+</span><span>    p_new &lt;- </span><span style="color:#96b5b4;">rnorm</span><span>(</span><span style="color:#d08770;">1</span><span>, p[i - </span><span style="color:#d08770;">1</span><span>], </span><span style="color:#d08770;">0.1</span><span>)
+</span><span>    </span><span style="color:#65737e;"># 比较新旧 p 的结果
+</span><span>    q0 &lt;- </span><span style="color:#96b5b4;">dbinom</span><span>(W, W + L, p[i - </span><span style="color:#d08770;">1</span><span>])
+</span><span>    q1 &lt;- </span><span style="color:#96b5b4;">dbinom</span><span>(W, W + L, p_new)
+</span><span>    </span><span style="color:#65737e;"># 判断是否接受新的 p
+</span><span>    p[i] &lt;- </span><span style="color:#96b5b4;">ifelse</span><span>(</span><span style="color:#96b5b4;">runif</span><span>(</span><span style="color:#d08770;">1</span><span>) &lt; q1 / q0, p_new, p[i - </span><span style="color:#d08770;">1</span><span>])
+</span><span>}
+</span></code></pre>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2021年07月06日</span>
+        <i class="far fa-sun"></i><span class="date">2023年10月16日</span>
         
         
         <i class="fas fa-tags"></i>
         
         <a class="tag" href="https://longfangsong.github.io/tags/数学">&nbsp;数学</a>
         
-        <a class="tag" href="https://longfangsong.github.io/tags/数理逻辑">&nbsp;数理逻辑</a>
+        <a class="tag" href="https://longfangsong.github.io/tags/概率统计">&nbsp;概率统计</a>
         
         
       </div>
@@ -196,7 +234,7 @@ $$</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=重新开始学数学 • 数理逻辑（3）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-logic-3&#x2F;&hashtags=数学,数理逻辑"></a>
+      href="http://twitter.com/share?text=重新开始学数学 • 贝叶斯因果推理（3）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-3&#x2F;&hashtags=数学,概率统计"></a>
   </div>
 </div>
 
@@ -228,9 +266,6 @@ $$</p>
   </script>
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-<script>mermaid.initialize({ startOnLoad: true });</script>
 
 
       </div>

@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog</title>
+  <title>Blog • 重新开始学数学 • 贝叶斯因果推理（4）</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -79,7 +79,7 @@
         
         
         <li><a  href="https://longfangsong.github.io/">首页</a></li>
-        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a class="current"  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
             href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
       <div class="information">
         <div class="back_btn">
@@ -110,61 +110,117 @@
     <div class="autopagerize_page_element">
       <div class="content">
         
-<div class="archive animated fadeInDown">
-    <ul class="list-with-title">
-        <div class="archive">
-        <div class="listing-title">编译原理</div>
-        <ul class="listing">
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;lr0&#x2F;" title="Parsing • LR(0)分析">Parsing • LR(0)分析</a>
-                    <div class="post-time">
-                        <span class="date">2020年05月22日</span>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;" title="Parsing • 移进-归约分析">Parsing • 移进-归约分析</a>
-                    <div class="post-time">
-                        <span class="date">2020年05月22日</span>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;ll1&#x2F;" title="Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么">Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</a>
-                    <div class="post-time">
-                        <span class="date">2020年05月17日</span>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;parsing-combinator&#x2F;" title="Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析">Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</a>
-                    <div class="post-time">
-                        <span class="date">2020年05月17日</span>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;build-a-compiler-in-the-easiest-way&#x2F;" title="一个最简单的编译器的实现">一个最简单的编译器的实现</a>
-                    <div class="post-time">
-                        <span class="date">2019年05月21日</span>
-                    </div>
-                </div>
-            </div>
-        
-        </ul>
-        </div>
-    </ul>
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-4&#x2F;">重新开始学数学 • 贝叶斯因果推理（4）</a></h1>
+  
+  <div class="post-content"><p>Overfitting 和 Underfitting 的概念大家都很熟悉，就不赘述了。</p>
+<h2 id="ping-gu-mo-xing-hao-pi">评估模型好坏</h2>
+<h3 id="cross-validation">Cross Validation</h3>
+<blockquote>
+<p>test the model’s predictive accuracy on a small part of the sample.</p>
+</blockquote>
+<h3 id="xin-xi-liang-zhun-ze-information-criteria">信息量准则（information criteria）</h3>
+<blockquote>
+<p>likelihood-based measures of model fit that include a penalty for complexity.</p>
+</blockquote>
+<p>AIC、WAIC 等都是信息量准则的例子。</p>
+<h2 id="fang-zhi-overfitting-de-shou-duan">防止 Overfitting 的手段</h2>
+<h3 id="regularizing-prior">regularizing prior</h3>
+<p>简单来说就是选择更“紧”的 prior。</p>
+<h3 id="multilevel-model">Multilevel model</h3>
+<p>有时数据中可以显现出一些明显的分组（cluster）。使用 Multilevel model 可以更好地处理这种情况，防止由于重复采样、不均衡采样导致的 underfit 或 overfit 问题，同时能更好的捕捉组间、组内的差异。</p>
+<h4 id="li-zi">例子</h4>
+<p>比如关于蝌蚪死亡率的模型：</p>
+<p>$$
+\begin{align}
+S_i &amp;\sim Binomial(N_i, p_i) \\
+logit(p_i) &amp;= \alpha_{Tank[i]} \\
+\alpha_{i} &amp;\sim Normal(0, 1.5) \\
+\end{align}
+$$</p>
+<p>我们可以将这个模型“升级”为 Multilevel model：</p>
+<p>$$
+\begin{align}
+S_i &amp;\sim Binomial(N_i, p_i) \\
+logit(p_i) &amp;= \alpha_{Tank[i]} \\
+\alpha_{i} &amp;\sim Normal(\overline \alpha, \sigma) \\
+\overline \alpha &amp;\sim Normal(0, 1.5) \\
+\sigma &amp;\sim Exp(1)
+\end{align}
+$$</p>
+<p>相比于针对每个 Tank 估计一个完全无关 $\alpha$，这个新模型限制了 $\alpha$ 的分布，使得 $\alpha$ 之间的差异更小，同时也更好地捕捉了 $\alpha$ 的分布。</p>
+<h4 id="shrinkage">shrinkage</h4>
+<p>Multilevel model 的一个重要特性是 shrinkage。</p>
+<p>对于每个组，我们都会估计一个 $\alpha$，这些 $\alpha$ 都遵循以 $\overline \alpha$ 为均值的正态分布。</p>
+<p>如果某个组的数据很少，因为这个组的数据对 $\alpha$ 的估计相对不是很可靠，这个组的 $\alpha$ 会更接近利用 $\overline \alpha$ 计算出的值。</p>
+<p>如果某个组的数据很多，因为这个组的数据对 $\alpha$ 的估计相对可靠，这个组的 $\alpha$ 会更接近利用这个组的数据计算出的值。</p>
+<p>但无论如何，所有使用含 $\overline \alpha$ 的 multilevel 模型做出的估计都会比原模型更接近直接 $\overline \alpha$ 代替 $\alpha$ 的估计，这个效应称为 shrinkage。</p>
+<h4 id="pooling">Pooling</h4>
+<ul>
+<li>Complete pooling. This means we assume that the population of clusters is invariant, the same as estimating a common intercept for all clusters.</li>
+<li>No pooling. This means we assume that each cluster tells us nothing about any other cluster.</li>
+<li>Partial pooling. This means using an adaptive regularizing prior.</li>
+</ul>
+<p>一般来说使用 Multilevel model 就是采用了 partial pooling。</p>
 </div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2023年10月19日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/数学">&nbsp;数学</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/概率统计">&nbsp;概率统计</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=重新开始学数学 • 贝叶斯因果推理（4）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-4&#x2F;&hashtags=数学,概率统计"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
 
       </div>
     </div>

@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -130,6 +130,7 @@
 <blockquote>
 <p>A prior probability distribution of an uncertain quantity, often simply called the prior, is its assumed probability distribution before some evidence is taken into account. —— Wikipedia</p>
 </blockquote>
+<p>简单来说就是在考虑观测数据前，对不确定量的概率分布的一个猜测。</p>
 <h3 id="si-ran-han-shu-likelihood-function">似然函数/Likelihood function</h3>
 <blockquote>
 <p>似然函数（英語：likelihood function）是一种关于统计模型中的参数的函数，表示模型参数中的似然性（英語：likelihood）</p>
@@ -137,12 +138,21 @@
 <blockquote>
 <p>The likelihood function (often simply called the likelihood) is the joint probability (or probability density) of observed data viewed as a function of the parameters of a statistical model.</p>
 </blockquote>
+<p>简单来说就是要求不确定量服从的概率分布函数。</p>
 <h3 id="hou-yan-gai-lu-posterior-probability">后验概率/Posterior (probability)</h3>
 <blockquote>
 <p>The posterior probability is a type of conditional probability that results from updating the prior probability with information summarized by the likelihood via an application of Bayes' rule.</p>
 </blockquote>
 <blockquote>
 <p>在贝叶斯统计中，一个随机事件或者一个不确定事件的后验概率（Posterior probability）是在考虑和给出相关证据或数据后所得到的条件概率。</p>
+</blockquote>
+<p>简单来说就是在考虑观测数据后，不确定量的概率分布。</p>
+<h3 id="berkson-s-paradox-selection-distortion-effect">Berkson’s paradox / selection-distortion effect</h3>
+<blockquote>
+<p>(Berkson’s paradox) is a result in conditional probability and statistics which is often found to be counterintuitive, and hence a veridical paradox.</p>
+</blockquote>
+<blockquote>
+<p>是指人们的直觉观察与实际上真实的条件概率和严谨的统计结果不相符，也就是说人们所发现的看似两个相关的因素实际上根本无关。</p>
 </blockquote>
 <h3 id="duo-zhong-gong-xian-xing-multicollinearity">多重共线性/Multicollinearity</h3>
 <blockquote>
@@ -153,6 +163,23 @@
 </blockquote>
 <blockquote>
 <p>多重共线性（Multicollinearity）是指多变量线性回归中，变量之间由于存在高度相关关系而使回归估计不准确。在该情况下，多元回归的系数可能会因为模型或数据的微小变化发生剧烈改变。</p>
+</blockquote>
+<h3 id="kullback-leible-san-du">Kullback-Leible 散度</h3>
+<blockquote>
+<p>The additional uncertainty induced by using probabilities from one distribution to describe another distribution.</p>
+</blockquote>
+<p>即一个概率分布相对于另一个概率分布的差异程度。</p>
+<h3 id="log-pointwise-predictive-density">log-pointwise-predictive-density</h3>
+<blockquote>
+<p>the log of the average probability for each observation i, where the average is taken over the posterior distribution</p>
+</blockquote>
+<h3 id="zui-da-shang-fen-bu">最大熵分布</h3>
+<blockquote>
+<p>a maximum entropy probability distribution has entropy that is at least as great as that of all other members of a specified class of probability distributions</p>
+</blockquote>
+<h3 id="divergent-transitions">divergent transitions</h3>
+<blockquote>
+<p>when the posterior distribution is very steep in some region of parameter space. Steep changes in probability are hard for a discrete physics simulation to follow. When that happens, the algorithm notices by comparing the energy at the start to the energy at the end.</p>
 </blockquote>
 <h2 id="chang-yong-fen-bu">常用分布</h2>
 <h3 id="jun-yun-fen-bu-uniform-distribution">均匀分布 / Uniform distribution</h3>
@@ -239,7 +266,7 @@ BetaBinomial(N, a, b)
 $$</p>
 <p>是 Beta 和 Binomial 组合的结果，当 $p$ 服从 $Beta(a, b)$ 时，$Binomial(N, p)$ 的分布。</p>
 <p>即每次试验得到“成功”结果的概率符合 $Beta(a, b)$，做 $N$ 次试验，得到“成功”次数的概率分布。</p>
-<h2 id="bayes-theorem">Bayes’theorem</h2>
+<h2 id="bayes-theorem">Bayes’ theorem</h2>
 <p>$$
 后验概率 = normalize(似然函数 \times 先验概率)
 $$</p>
@@ -257,7 +284,7 @@ $$</p>
 <p>$Y \mathrel{\rlap{\perp}\mkern1mu\perp} X | Z$ 的意义是：除去 $Z$ 的影响后（显示出） $Y$ 与 $X$ 无关，这是一个 conditional independency 的例子。</p>
 </div>
 <div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
-<p>成功率并不一定是 $\frac a (a+b)$！$\frac a (a+b)$ 只是得到的分布中密度最大的点！</p>
+<p>成功率并不一定是 $\frac a {(a+b)}$！$\frac a {(a+b)}$ 只是得到的分布中密度最大的点！</p>
 </div>
 </div>
   <div class="post-footer">

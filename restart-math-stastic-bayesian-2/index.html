@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • 分布式系统 • 基本概念</title>
+  <title>Blog • 重新开始学数学 • 贝叶斯因果推理（2）</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
           </div>
         </div>
@@ -111,81 +111,68 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;distributed-system&#x2F;">分布式系统 • 基本概念</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-2&#x2F;">重新开始学数学 • 贝叶斯因果推理（2）</a></h1>
   
-  <div class="post-content"><p>先拜一拜伟大的 <strong>Leslie Lamport</strong> 祖师爷。</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Leslie_Lamport.jpg/150px-Leslie_Lamport.jpg" alt="Leslie Lamport" /></p>
-<h2 id="shi-yao-shi-fen-bu-shi-xi-tong">什么是分布式系统</h2>
+  <div class="post-content"><h2 id="yin-guo-guan-xi-tu-causal-graph-causal-dag">因果关系图（Causal graph, Causal DAG）</h2>
 <blockquote>
-<p>分布式系统是一组电脑，透过网络相互连接传递消息与通信后并协调它们的行为而形成的系统。 —— wikipedia</p>
+<p>causal graphs (also known as path diagrams, causal Bayesian networks or DAGs) are probabilistic graphical models used to encode assumptions about the data-generating process.</p>
 </blockquote>
-<p>当然我觉得这个定义有点狭窄了，我扩展范围后的定义是：</p>
 <blockquote>
-<p>分布式系统是一组抽象的计算和存储单元，通过某种方式相互连接传递消息并协调它们的行为而形成的系统。</p>
+<p>The causal graph can be drawn in the following way. Each variable in the model has a corresponding vertex or node and an arrow is drawn from a variable X to a variable Y whenever Y is judged to respond to changes in X when all other variables are being held constant. Variables connected to Y through direct arrows are called parents of Y, or &quot;direct causes of Y,&quot; and are denoted by Pa(Y).</p>
 </blockquote>
-<p>讲道理，单机上的一组进程其实也一定程度上具有分布式系统的功能，也存在分布式系统中的问题，只不过部分问题的发生率降低了而已，因此我觉得将分布式系统窄化到多个物理计算机之间是不甚合理的。<sup class="footnote-reference"><a href="#1">1</a></sup></p>
-<h2 id="fen-bu-shi-xi-tong-de-zuo-yong">分布式系统的作用</h2>
-<p>主要是：</p>
+<p>简单来说就是用来描述因果关系的有向无环图。</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMixbMCwwLCJQcmVkaWN0b3IiXSxbMiwwLCJPdXRjb21lIl0sWzAsMV1d&embed" width="432" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px"></iframe>
+<h3 id="hun-za-confounding">混杂（confounding）</h3>
+<blockquote>
+<p>Let’s define confounding as any context in which the association between an outcome Y and a predictor of interest X is not the same as it would be, if we had experimentally determined the values of X.</p>
+</blockquote>
+<blockquote>
+<p>Let X be some independent variable, and Y some dependent variable. To estimate the effect of X on Y, the statistician must suppress the effects of extraneous variables that influence both X and Y. We say that X and Y are confounded by some other variable Z whenever Z causally influences both X and Y.</p>
+</blockquote>
+<p>简单来说就是，在研究 $X$ 对 $Y$ 的影响时，如果 $X$ 和 $Y$ 之间的关系被其他变量 $Z$ 所影响，那么 $Z$ 就是 $X$ 与 $Y$ 之间的混杂因素。</p>
+<p>存在 4 种基本的混杂情况。</p>
+<h4 id="fork">Fork</h4>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMiwwXSxbMiwxXV0=&embed" width="432" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px"></iframe>
+<h4 id="pipe-mediator">Pipe / Mediator</h4>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZSJdLFswLDJdLFsyLDFdXQ==&embed" width="432" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px"></iframe>
+<h4 id="collider">Collider</h4>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMCwyXSxbMSwyXV0=&embed" width="432" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px"></iframe>
+<h4 id="descendant">Descendant</h4>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsxLDJdLFsyLDNdXQ==&embed" width="432" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px"></iframe>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsyLDNdLFsyLDFdXQ==&embed" width="432" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px"></iframe>
+<p>其中 $ConfoundVariable2$ 是 Descendant 。</p>
+<h3 id="qu-chu-hun-za-dui-bian-liang-jian-yin-guo-guan-xi-de-ying-xiang">去除混杂对变量间因果关系的影响</h3>
+<h4 id="path">Path</h4>
+<p>忽略 DAG 中边的方向，如果能从 $X$ 到达 $Y$，那么称 $X$ 到 $Y$ 有一条路径（path）。</p>
+<h5 id="backdoor-path">Backdoor path</h5>
+<blockquote>
+<p>In a causal DAG, a backdoor path is a noncausal path between treatment and outcome that remains even if all arrows pointing from treatment to other variables (the descendants of treatment) are re- moved. That is, the path has an arrow pointing into treatment.</p>
+</blockquote>
+<p>简单来说就是有箭头指向自变量的路径。</p>
+<h5 id="da-kai-guan-bi-path">打开/关闭 Path</h5>
+<p>如果一个路径上包含了一个 collider，那么这个路径就是关闭的，否则就是打开的。</p>
+<p>在分析 $X$ 到对 $Y$ 的影响时，如果包含了一个打开的 backdoor path，那么这个路径就会干扰我们研究 $X$ 到 $Y$ 的（直接）影响，此时，我们需要关闭这个路径。</p>
+<p>假设路径从 $X$ 到 $Y$， 要关闭一个正打开的路径，有两个方法：</p>
 <ul>
-<li>满足扩展性（Scalability）需求：一台机器吃不消了，多上几台机器就能顶住</li>
-<li>满足高可用性（Availability）需求：某几个机器down了，整个服务不能down</li>
+<li>通过搜集数据、进行实验等方式让 $X$ 随机分布，这样，所有进入 $X$ 的箭头都会被打断，从而关闭路径。</li>
+<li>&quot;condition on&quot; 路径上的 fork 和 pipe，即对 fork 和 pipe 上的变量进行控制（即分别对这个变量为不同的值时的模型进行研究），使其不再影响 $X$ 和 $Y$ 之间的关系。
+对于 descendent，控制 Descendent 节点可以部分关闭路径。</li>
 </ul>
-<h2 id="fen-bu-shi-xi-tong-de-nan-dian">分布式系统的难点</h2>
-<p>分布式系统涉及到多个计算与存储单元（称为节点），故：</p>
-<ul>
-<li>相比单个节点，更容易出现某些节点故障</li>
-<li>节点之间的通信可能出现问题，消息可能会丢失、重复、乱序</li>
-</ul>
-<p>相对来说，分布式“计算”的门槛是相对较低的，如果某个节点烂了直接换个节点算就行了，而存储问题就比较大了。</p>
-<h2 id="chang-yong-gai-nian">常用概念</h2>
-<h3 id="nei-bu-yi-zhi-xing">内部一致性</h3>
-<p>内部一致性（Consistency in ACID）指数据库内部的数据完整性（由各类约束、触发器，再加上数据库的隔离性保证）。</p>
-<p>当我们在说：</p>
-<ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%8F%AF%E4%B8%B2%E8%A1%8C%E6%80%A7">可串行化</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%BF%AB%E7%85%A7%E9%9A%94%E7%A6%BB">快照隔离</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB">可重复读</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E6%8F%90%E4%BA%A4%E8%AF%BB">读已提交</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E6%9C%AA%E6%8F%90%E4%BA%A4%E8%AF%BB">读未提交</a></li>
-<li>脏写</li>
-<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E8%84%8F%E8%AF%BB">脏读</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E4%B8%8D%E5%8F%AF%E9%87%8D%E5%A4%8D%E8%AF%BB">不可重复读</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E4%BA%8B%E5%8B%99%E9%9A%94%E9%9B%A2#%E5%B9%BB%E5%BD%B1%E8%AF%BB">幻读</a></li>
-<li>Read Skew</li>
-<li>Write Skew</li>
-<li>Lost Update</li>
-</ul>
-<p>我们说的就和内部一致性有关。</p>
-<h3 id="wai-bu-yi-zhi-xing">外部一致性</h3>
-<p>指 Read 和 Write 应该遵守怎样的时间线顺序，比如 Linearizability 外部一致性级别就保证了每一个读操作都将返回“（某个标准时钟规定的）最近的写操作”。
-CAP 中的 C 指的是外部一致性。
-当我们在说：</p>
-<ul>
-<li><a href="https://zh.wikipedia.org/wiki/%E7%BA%BF%E6%80%A7%E4%B8%80%E8%87%B4%E6%80%A7">线性一致性</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Sequential_consistency">顺序一致性</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Causal_consistency">因果一致性</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7">最终一致性</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/Raft">Raft 共识算法</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95">Paxos 共识算法</a><sup class="footnote-reference"><a href="#2">2</a></sup></li>
-</ul>
-<p>我们所说的就和外部一致性相关。</p>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>我记得伟大的羊学长说过，集群是操作系统在网络上scale的结果。</p>
-</div>
-<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p>有些人称 “XX 共识算法” 为 “XX 一致性算法”，个人觉得可以理解为“用来解决一致性问题的算法”，问题也不大。</p>
-</div>
+<p>关闭 Path 时，如果 Path 上有多个可以控制的节点，控制其中离 $Y$ 最近的节点对于估计 $X$ 到 $Y$ 之间的影响精度比较有利。</p>
+<p>此外，控制 collider 会打开原本在这个 collider 上关闭的 Path。</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2020年04月22日</span>
+        <i class="far fa-sun"></i><span class="date">2023年10月16日</span>
         
         
         <i class="fas fa-tags"></i>
         
-        <a class="tag" href="https://longfangsong.github.io/tags/分布式系统">&nbsp;分布式系统</a>
+        <a class="tag" href="https://longfangsong.github.io/tags/数学">&nbsp;数学</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/概率统计">&nbsp;概率统计</a>
         
         
       </div>
@@ -199,7 +186,7 @@ CAP 中的 C 指的是外部一致性。
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=分布式系统 • 基本概念&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;distributed-system&#x2F;&hashtags=分布式系统"></a>
+      href="http://twitter.com/share?text=重新开始学数学 • 贝叶斯因果推理（2）&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-2&#x2F;&hashtags=数学,概率统计"></a>
   </div>
 </div>
 
@@ -216,6 +203,19 @@ CAP 中的 C 指的是外部一致性。
   </script>
 
 
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 
 
 

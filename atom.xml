@@ -5,8 +5,238 @@
     <link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-09-25T20:26:11.203+00:00</updated>
+    <updated>2023-10-19T11:58:34.553+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 贝叶斯因果推理（4）</title>
+        <published>2023-10-19T11:58:34.553+00:00</published>
+        <updated>2023-10-19T11:58:34.553+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-4/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-stastic-bayesian-4/</id>
+        
+        <content type="html">&lt;p&gt;Overfitting 和 Underfitting 的概念大家都很熟悉，就不赘述了。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;ping-gu-mo-xing-hao-pi&quot;&gt;评估模型好坏&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;cross-validation&quot;&gt;Cross Validation&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;test the model’s predictive accuracy on a small part of the sample.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;xin-xi-liang-zhun-ze-information-criteria&quot;&gt;信息量准则（information criteria）&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;likelihood-based measures of model fit that include a penalty for complexity.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;AIC、WAIC 等都是信息量准则的例子。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fang-zhi-overfitting-de-shou-duan&quot;&gt;防止 Overfitting 的手段&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;regularizing-prior&quot;&gt;regularizing prior&lt;&#x2F;h3&gt;
+&lt;p&gt;简单来说就是选择更“紧”的 prior。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;multilevel-model&quot;&gt;Multilevel model&lt;&#x2F;h3&gt;
+&lt;p&gt;有时数据中可以显现出一些明显的分组（cluster）。使用 Multilevel model 可以更好地处理这种情况，防止由于重复采样、不均衡采样导致的 underfit 或 overfit 问题，同时能更好的捕捉组间、组内的差异。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;li-zi&quot;&gt;例子&lt;&#x2F;h4&gt;
+&lt;p&gt;比如关于蝌蚪死亡率的模型：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{align}
+S_i &amp;amp;\sim Binomial(N_i, p_i) \\
+logit(p_i) &amp;amp;= \alpha_{Tank[i]} \\
+\alpha_{i} &amp;amp;\sim Normal(0, 1.5) \\
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;我们可以将这个模型“升级”为 Multilevel model：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{align}
+S_i &amp;amp;\sim Binomial(N_i, p_i) \\
+logit(p_i) &amp;amp;= \alpha_{Tank[i]} \\
+\alpha_{i} &amp;amp;\sim Normal(\overline \alpha, \sigma) \\
+\overline \alpha &amp;amp;\sim Normal(0, 1.5) \\
+\sigma &amp;amp;\sim Exp(1)
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;相比于针对每个 Tank 估计一个完全无关 $\alpha$，这个新模型限制了 $\alpha$ 的分布，使得 $\alpha$ 之间的差异更小，同时也更好地捕捉了 $\alpha$ 的分布。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;shrinkage&quot;&gt;shrinkage&lt;&#x2F;h4&gt;
+&lt;p&gt;Multilevel model 的一个重要特性是 shrinkage。&lt;&#x2F;p&gt;
+&lt;p&gt;对于每个组，我们都会估计一个 $\alpha$，这些 $\alpha$ 都遵循以 $\overline \alpha$ 为均值的正态分布。&lt;&#x2F;p&gt;
+&lt;p&gt;如果某个组的数据很少，因为这个组的数据对 $\alpha$ 的估计相对不是很可靠，这个组的 $\alpha$ 会更接近利用 $\overline \alpha$ 计算出的值。&lt;&#x2F;p&gt;
+&lt;p&gt;如果某个组的数据很多，因为这个组的数据对 $\alpha$ 的估计相对可靠，这个组的 $\alpha$ 会更接近利用这个组的数据计算出的值。&lt;&#x2F;p&gt;
+&lt;p&gt;但无论如何，所有使用含 $\overline \alpha$ 的 multilevel 模型做出的估计都会比原模型更接近直接 $\overline \alpha$ 代替 $\alpha$ 的估计，这个效应称为 shrinkage。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;pooling&quot;&gt;Pooling&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Complete pooling. This means we assume that the population of clusters is invariant, the same as estimating a common intercept for all clusters.&lt;&#x2F;li&gt;
+&lt;li&gt;No pooling. This means we assume that each cluster tells us nothing about any other cluster.&lt;&#x2F;li&gt;
+&lt;li&gt;Partial pooling. This means using an adaptive regularizing prior.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;一般来说使用 Multilevel model 就是采用了 partial pooling。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 贝叶斯因果推理（2）</title>
+        <published>2023-10-16T20:52:15.303+00:00</published>
+        <updated>2023-10-16T20:52:15.303+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-2/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-stastic-bayesian-2/</id>
+        
+        <content type="html">&lt;h2 id=&quot;yin-guo-guan-xi-tu-causal-graph-causal-dag&quot;&gt;因果关系图（Causal graph, Causal DAG）&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;causal graphs (also known as path diagrams, causal Bayesian networks or DAGs) are probabilistic graphical models used to encode assumptions about the data-generating process.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The causal graph can be drawn in the following way. Each variable in the model has a corresponding vertex or node and an arrow is drawn from a variable X to a variable Y whenever Y is judged to respond to changes in X when all other variables are being held constant. Variables connected to Y through direct arrows are called parents of Y, or &amp;quot;direct causes of Y,&amp;quot; and are denoted by Pa(Y).&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是用来描述因果关系的有向无环图。&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMixbMCwwLCJQcmVkaWN0b3IiXSxbMiwwLCJPdXRjb21lIl0sWzAsMV1d&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h3 id=&quot;hun-za-confounding&quot;&gt;混杂（confounding）&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Let’s define confounding as any context in which the association between an outcome Y and a predictor of interest X is not the same as it would be, if we had experimentally determined the values of X.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Let X be some independent variable, and Y some dependent variable. To estimate the effect of X on Y, the statistician must suppress the effects of extraneous variables that influence both X and Y. We say that X and Y are confounded by some other variable Z whenever Z causally influences both X and Y.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是，在研究 $X$ 对 $Y$ 的影响时，如果 $X$ 和 $Y$ 之间的关系被其他变量 $Z$ 所影响，那么 $Z$ 就是 $X$ 与 $Y$ 之间的混杂因素。&lt;&#x2F;p&gt;
+&lt;p&gt;存在 4 种基本的混杂情况。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;fork&quot;&gt;Fork&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMiwwXSxbMiwxXV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h4 id=&quot;pipe-mediator&quot;&gt;Pipe &#x2F; Mediator&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZSJdLFswLDJdLFsyLDFdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h4 id=&quot;collider&quot;&gt;Collider&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMCwyXSxbMSwyXV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h4 id=&quot;descendant&quot;&gt;Descendant&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsxLDJdLFsyLDNdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsyLDNdLFsyLDFdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;其中 $ConfoundVariable2$ 是 Descendant 。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;qu-chu-hun-za-dui-bian-liang-jian-yin-guo-guan-xi-de-ying-xiang&quot;&gt;去除混杂对变量间因果关系的影响&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;path&quot;&gt;Path&lt;&#x2F;h4&gt;
+&lt;p&gt;忽略 DAG 中边的方向，如果能从 $X$ 到达 $Y$，那么称 $X$ 到 $Y$ 有一条路径（path）。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;backdoor-path&quot;&gt;Backdoor path&lt;&#x2F;h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In a causal DAG, a backdoor path is a noncausal path between treatment and outcome that remains even if all arrows pointing from treatment to other variables (the descendants of treatment) are re- moved. That is, the path has an arrow pointing into treatment.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是有箭头指向自变量的路径。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;da-kai-guan-bi-path&quot;&gt;打开&#x2F;关闭 Path&lt;&#x2F;h5&gt;
+&lt;p&gt;如果一个路径上包含了一个 collider，那么这个路径就是关闭的，否则就是打开的。&lt;&#x2F;p&gt;
+&lt;p&gt;在分析 $X$ 到对 $Y$ 的影响时，如果包含了一个打开的 backdoor path，那么这个路径就会干扰我们研究 $X$ 到 $Y$ 的（直接）影响，此时，我们需要关闭这个路径。&lt;&#x2F;p&gt;
+&lt;p&gt;假设路径从 $X$ 到 $Y$， 要关闭一个正打开的路径，有两个方法：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过搜集数据、进行实验等方式让 $X$ 随机分布，这样，所有进入 $X$ 的箭头都会被打断，从而关闭路径。&lt;&#x2F;li&gt;
+&lt;li&gt;&amp;quot;condition on&amp;quot; 路径上的 fork 和 pipe，即对 fork 和 pipe 上的变量进行控制（即分别对这个变量为不同的值时的模型进行研究），使其不再影响 $X$ 和 $Y$ 之间的关系。
+对于 descendent，控制 Descendent 节点可以部分关闭路径。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;关闭 Path 时，如果 Path 上有多个可以控制的节点，控制其中离 $Y$ 最近的节点对于估计 $X$ 到 $Y$ 之间的影响精度比较有利。&lt;&#x2F;p&gt;
+&lt;p&gt;此外，控制 collider 会打开原本在这个 collider 上关闭的 Path。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 贝叶斯因果推理（3）</title>
+        <published>2023-10-16T20:52:15.303+00:00</published>
+        <updated>2023-10-16T20:52:15.303+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-3/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-stastic-bayesian-3/</id>
+        
+        <content type="html">&lt;h2 id=&quot;bei-xie-si-mo-xing&quot;&gt;贝叶斯模型&lt;&#x2F;h2&gt;
+&lt;p&gt;要建立一个贝叶斯模型，我们需要确定模型的&lt;strong&gt;输出&lt;&#x2F;strong&gt;（outcome）符合什么分布，这意味着我们需要选择一个似然函数。&lt;&#x2F;p&gt;
+&lt;p&gt;eg.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+height \sim Normal(\mu, \sigma)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ru-he-xuan-ze-si-ran-han-shu&quot;&gt;如何选择似然函数&lt;&#x2F;h3&gt;
+&lt;p&gt;选择似然函数的时候，要考虑：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;数据本身的情况，比如是整数还是浮点数，是否有上下界等（Epistemological, which means philosophy behind knowledge）。&lt;&#x2F;li&gt;
+&lt;li&gt;要描述的对象在现实中是如何分布的，比如大量随机影响下，数据常常（天然地）呈正态分布（Ontological, which means the nature of the world）。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;所选择的似然函数常常会需要传入&lt;strong&gt;参数&lt;&#x2F;strong&gt;(parameters)，对于每个参数，我们需要在一开始估计它的分布，这个分布称为这个参数的先验(prior)。&lt;&#x2F;p&gt;
+&lt;p&gt;eg.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\sigma \sim Exp(?)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;有些参数可能和你所知道的其他输入有关，此时，这些输入称为&lt;strong&gt;自变量&lt;&#x2F;strong&gt;（predictor variable）。&lt;&#x2F;p&gt;
+&lt;p&gt;eg.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\mu = \alpha + \beta \times (weight - 150)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;这里的 $\alpha$ 和 $\beta$ 是新增加的参数，而 $weight$ 就是自变量。&lt;&#x2F;p&gt;
+&lt;p&gt;所以我们整个的模型就是：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+height &amp;amp; \sim &amp;amp;  Normal(\mu, \sigma) \\
+\mu &amp;amp; = &amp;amp; \alpha + \beta \times weight \\
+\alpha &amp;amp; \sim &amp;amp;  Normal(?, ?) \\
+\beta &amp;amp; \sim &amp;amp;  Normal(?, ?) \\
+\sigma &amp;amp; \sim &amp;amp; Exp(?)
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;现在我们需要确定模型中这些 $?$ 的值，并验证这些值是相对好的，这个过程称为 prior predictive check。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;prior-predictive-check&quot;&gt;Prior predictive check&lt;&#x2F;h3&gt;
+&lt;p&gt;Prior predictive check 的目的是检查模型中的先验分布是否合理。&lt;&#x2F;p&gt;
+&lt;p&gt;一般来说 prior predictive check 的方法是选定一组 prior，然后用这组 prior 生成一些数据，看这些数据是否合理。&lt;&#x2F;p&gt;
+&lt;p&gt;比如以上面的例子来说，如果取以下的 prior：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+height &amp;amp; \sim &amp;amp; Normal(\mu, \sigma) \\
+\mu &amp;amp; = &amp;amp; \alpha + \beta \times (weight - 150) \\
+\alpha &amp;amp; \sim &amp;amp;  Normal(0, 1) \\
+\beta &amp;amp; \sim &amp;amp;  Normal(0, 1) \\
+\sigma &amp;amp; \sim &amp;amp; Exp(1)
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;那么模型可以生成（大量的）负数的 height，这显然是不合理的。&lt;&#x2F;p&gt;
+&lt;p&gt;根据经验，人的身高大约在 165 厘米左右，且身高和体重呈正相关，因此一组更好的 prior 可以是：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+height &amp;amp; \sim &amp;amp; Normal(\mu, \sigma) \\
+\mu &amp;amp; = &amp;amp; \alpha + \beta \times (weight - 60) \\
+\alpha &amp;amp; \sim &amp;amp; Normal(165, 20) \\
+\beta &amp;amp; \sim &amp;amp;  Normal(0.5, 0.2) \\
+\sigma &amp;amp; \sim &amp;amp; Exp(1)
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;当然你也可以搜集更多的知识选择更好的 prior，或者换用更合理的分布函数，比如让 $\beta &amp;amp; \sim &amp;amp; log-Normal(?, ?)$。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ru-he-xue-xi-can-shu-de-zhi&quot;&gt;如何学习参数的值&lt;&#x2F;h3&gt;
+&lt;p&gt;一个常用的方法是使用 MCMC（Markov chain Monte Carlo）。&lt;&#x2F;p&gt;
+&lt;p&gt;例如，我们对于以下模型：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\displaylines {
+W  &amp;amp; \sim &amp;amp; Binomial(9, p) \\
+\p &amp;amp; \sim &amp;amp; Normal(0.5, 0.1)
+}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;可以使用 MCMC 方法来学习 $p$ 的值，使用 rethinking 包如下：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;r&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-r &quot;&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ulam&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;alist&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;        W &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;~ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;dbinom&lt;&#x2F;span&gt;&lt;span&gt;(W + L, p), &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# binomial likelihood
+&lt;&#x2F;span&gt;&lt;span&gt;        p &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;~ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;dnorm&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0.5&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0.1&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# uniform prior
+&lt;&#x2F;span&gt;&lt;span&gt;    ),
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;data &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;list&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;W &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;L &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;功能上相当于：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;r&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-r &quot;&gt;&lt;code class=&quot;language-r&quot; data-lang=&quot;r&quot;&gt;&lt;span&gt;W &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;6
+&lt;&#x2F;span&gt;&lt;span&gt;L &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;3
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# MCMC 的一个 chain
+&lt;&#x2F;span&gt;&lt;span&gt;n_samples &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1000
+&lt;&#x2F;span&gt;&lt;span&gt;p &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rep&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;NA&lt;&#x2F;span&gt;&lt;span&gt;, n_samples)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# prior
+&lt;&#x2F;span&gt;&lt;span&gt;p[&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;] &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rnorm&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0.5&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0.1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(i in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;:&lt;&#x2F;span&gt;&lt;span&gt;n_samples) {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 选取一个新的 p
+&lt;&#x2F;span&gt;&lt;span&gt;    p_new &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;rnorm&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, p[i - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;], &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0.1&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 比较新旧 p 的结果
+&lt;&#x2F;span&gt;&lt;span&gt;    q0 &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;dbinom&lt;&#x2F;span&gt;&lt;span&gt;(W, W + L, p[i - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;])
+&lt;&#x2F;span&gt;&lt;span&gt;    q1 &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;dbinom&lt;&#x2F;span&gt;&lt;span&gt;(W, W + L, p_new)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# 判断是否接受新的 p
+&lt;&#x2F;span&gt;&lt;span&gt;    p[i] &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;ifelse&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;runif&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;) &amp;lt; q1 &#x2F; q0, p_new, p[i - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;])
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="zh">
         <title>形式语义学 • 操作语义</title>
         <published>2023-09-25T20:26:11.203+00:00</published>
@@ -145,6 +375,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;A prior probability distribution of an uncertain quantity, often simply called the prior, is its assumed probability distribution before some evidence is taken into account. —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是在考虑观测数据前，对不确定量的概率分布的一个猜测。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;si-ran-han-shu-likelihood-function&quot;&gt;似然函数&#x2F;Likelihood function&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;似然函数（英語：likelihood function）是一种关于统计模型中的参数的函数，表示模型参数中的似然性（英語：likelihood）&lt;&#x2F;p&gt;
@@ -152,12 +383,21 @@
 &lt;blockquote&gt;
 &lt;p&gt;The likelihood function (often simply called the likelihood) is the joint probability (or probability density) of observed data viewed as a function of the parameters of a statistical model.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是要求不确定量服从的概率分布函数。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;hou-yan-gai-lu-posterior-probability&quot;&gt;后验概率&#x2F;Posterior (probability)&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The posterior probability is a type of conditional probability that results from updating the prior probability with information summarized by the likelihood via an application of Bayes&#x27; rule.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;在贝叶斯统计中，一个随机事件或者一个不确定事件的后验概率（Posterior probability）是在考虑和给出相关证据或数据后所得到的条件概率。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是在考虑观测数据后，不确定量的概率分布。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;berkson-s-paradox-selection-distortion-effect&quot;&gt;Berkson’s paradox &#x2F; selection-distortion effect&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;(Berkson’s paradox) is a result in conditional probability and statistics which is often found to be counterintuitive, and hence a veridical paradox.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;是指人们的直觉观察与实际上真实的条件概率和严谨的统计结果不相符，也就是说人们所发现的看似两个相关的因素实际上根本无关。&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;h3 id=&quot;duo-zhong-gong-xian-xing-multicollinearity&quot;&gt;多重共线性&#x2F;Multicollinearity&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
@@ -168,6 +408,23 @@
 &lt;&#x2F;blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;多重共线性（Multicollinearity）是指多变量线性回归中，变量之间由于存在高度相关关系而使回归估计不准确。在该情况下，多元回归的系数可能会因为模型或数据的微小变化发生剧烈改变。&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;kullback-leible-san-du&quot;&gt;Kullback-Leible 散度&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The additional uncertainty induced by using probabilities from one distribution to describe another distribution.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;即一个概率分布相对于另一个概率分布的差异程度。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;log-pointwise-predictive-density&quot;&gt;log-pointwise-predictive-density&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;the log of the average probability for each observation i, where the average is taken over the posterior distribution&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;zui-da-shang-fen-bu&quot;&gt;最大熵分布&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;a maximum entropy probability distribution has entropy that is at least as great as that of all other members of a specified class of probability distributions&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;divergent-transitions&quot;&gt;divergent transitions&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;when the posterior distribution is very steep in some region of parameter space. Steep changes in probability are hard for a discrete physics simulation to follow. When that happens, the algorithm notices by comparing the energy at the start to the energy at the end.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;h2 id=&quot;chang-yong-fen-bu&quot;&gt;常用分布&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;jun-yun-fen-bu-uniform-distribution&quot;&gt;均匀分布 &#x2F; Uniform distribution&lt;&#x2F;h3&gt;
@@ -254,7 +511,7 @@ BetaBinomial(N, a, b)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;是 Beta 和 Binomial 组合的结果，当 $p$ 服从 $Beta(a, b)$ 时，$Binomial(N, p)$ 的分布。&lt;&#x2F;p&gt;
 &lt;p&gt;即每次试验得到“成功”结果的概率符合 $Beta(a, b)$，做 $N$ 次试验，得到“成功”次数的概率分布。&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;bayes-theorem&quot;&gt;Bayes’theorem&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;bayes-theorem&quot;&gt;Bayes’ theorem&lt;&#x2F;h2&gt;
 &lt;p&gt;$$
 后验概率 = normalize(似然函数 \times 先验概率)
 $$&lt;&#x2F;p&gt;
@@ -272,7 +529,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$Y \mathrel{\rlap{\perp}\mkern1mu\perp} X | Z$ 的意义是：除去 $Z$ 的影响后（显示出） $Y$ 与 $X$ 无关，这是一个 conditional independency 的例子。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
-&lt;p&gt;成功率并不一定是 $\frac a (a+b)$！$\frac a (a+b)$ 只是得到的分布中密度最大的点！&lt;&#x2F;p&gt;
+&lt;p&gt;成功率并不一定是 $\frac a {(a+b)}$！$\frac a {(a+b)}$ 只是得到的分布中密度最大的点！&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
         
