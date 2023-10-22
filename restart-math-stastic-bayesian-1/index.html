@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
           </div>
         </div>
@@ -141,10 +141,10 @@
 <p>简单来说就是要求不确定量服从的概率分布函数。</p>
 <h3 id="hou-yan-gai-lu-posterior-probability">后验概率/Posterior (probability)</h3>
 <blockquote>
-<p>The posterior probability is a type of conditional probability that results from updating the prior probability with information summarized by the likelihood via an application of Bayes' rule.</p>
+<p>在贝叶斯统计中，一个随机事件或者一个不确定事件的后验概率（Posterior probability）是在考虑和给出相关证据或数据后所得到的条件概率。</p>
 </blockquote>
 <blockquote>
-<p>在贝叶斯统计中，一个随机事件或者一个不确定事件的后验概率（Posterior probability）是在考虑和给出相关证据或数据后所得到的条件概率。</p>
+<p>The posterior probability is a type of conditional probability that results from updating the prior probability with information summarized by the likelihood via an application of Bayes' rule.</p>
 </blockquote>
 <p>简单来说就是在考虑观测数据后，不确定量的概率分布。</p>
 <h3 id="berkson-s-paradox-selection-distortion-effect">Berkson’s paradox / selection-distortion effect</h3>
@@ -164,11 +164,13 @@
 <blockquote>
 <p>多重共线性（Multicollinearity）是指多变量线性回归中，变量之间由于存在高度相关关系而使回归估计不准确。在该情况下，多元回归的系数可能会因为模型或数据的微小变化发生剧烈改变。</p>
 </blockquote>
+<p>Will produce false inferences about causal effects.</p>
 <h3 id="kullback-leible-san-du">Kullback-Leible 散度</h3>
 <blockquote>
 <p>The additional uncertainty induced by using probabilities from one distribution to describe another distribution.</p>
 </blockquote>
 <p>即一个概率分布相对于另一个概率分布的差异程度。</p>
+<p>We can quantify distance to the target using Kullback-Leibler divergence.</p>
 <h3 id="log-pointwise-predictive-density">log-pointwise-predictive-density</h3>
 <blockquote>
 <p>the log of the average probability for each observation i, where the average is taken over the posterior distribution</p>
@@ -181,6 +183,13 @@
 <blockquote>
 <p>when the posterior distribution is very steep in some region of parameter space. Steep changes in probability are hard for a discrete physics simulation to follow. When that happens, the algorithm notices by comparing the energy at the start to the energy at the end.</p>
 </blockquote>
+<p>解决方式包括修改 MCMC 的接受率（<code>adapt_delta</code>）、reparameterize、用更好的 prior 等。</p>
+<h3 id="interactions">Interactions</h3>
+<blockquote>
+<p>One variable may depend upon another. For example, plants benefit from both light and water. But in the absence of either, the other is no benefit at all.</p>
+</blockquote>
+<h3 id="over-dispersion">over-dispersion</h3>
+<p>Variance of a variable is larger than what would be expected from a given statistical model.</p>
 <h2 id="chang-yong-fen-bu">常用分布</h2>
 <h3 id="jun-yun-fen-bu-uniform-distribution">均匀分布 / Uniform distribution</h3>
 <p>$$
@@ -215,6 +224,11 @@ $$</p>
 Beta(a, b)
 $$</p>
 <p>做 $a + b$ 次实验，发现其中 a 次成功，b 次失败则实验本身的成功率 $p$ 的概率分布。<sup class="footnote-reference"><a href="#4">4</a></sup></p>
+<h3 id="dirichlet-fen-bu-multivariate-beta-distribution">Dirichlet 分布 / Multivariate beta distribution</h3>
+<p>$$
+Dir(\textbf{a})
+$$</p>
+<p>$\beta$ 分布的多变量扩展，做 $\Sigma \textbf{a}$ 次实验，其中第 $i$ 种结果出现 $\textbf{a}_i$ 次，$Dir(\textbf{a})$ 描述了其中每个结果的出现率。</p>
 <h3 id="zhi-shu-fen-bu-exponential-distribution">指数分布 / Exponential distribution</h3>
 <p>$$
 Exp(λ)
@@ -274,6 +288,8 @@ $$</p>
 <p>$$
 Pr(p|W) = \frac {Pr(W|p)Pr(p)} {Pr(W)}
 $$</p>
+<h2 id="bei-xie-si-shu-ju-fen-xi-de-bu-zou">贝叶斯数据分析的步骤</h2>
+<p><img src="https://longfangsong.github.io/restart-math-stastic-bayesian-1/workflow.png" alt="Alt text" /></p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>本文严格区分事件（写作 $E_{大写英文字母}$）和变量（用普通大写英文字母表示），例如 $E_A$ 可能代表事件 $X=1$，同时可以给他分配变量 $A$，因此 $Pr(E_A) \equiv Pr\{X=1\} \equiv Pr(A)$。</p>
 </div>

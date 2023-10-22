@@ -66,73 +66,16 @@ $$&lt;&#x2F;p&gt;
 &lt;li&gt;Partial pooling. This means using an adaptive regularizing prior.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;一般来说使用 Multilevel model 就是采用了 partial pooling。&lt;&#x2F;p&gt;
-</content>
-        
-    </entry>
-    <entry xml:lang="zh">
-        <title>重新开始学数学 • 贝叶斯因果推理（2）</title>
-        <published>2023-10-16T20:52:15.303+00:00</published>
-        <updated>2023-10-16T20:52:15.303+00:00</updated>
-        <author>
-          <name>Unknown</name>
-        </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-2/" type="text/html"/>
-        <id>https://longfangsong.github.io/restart-math-stastic-bayesian-2/</id>
-        
-        <content type="html">&lt;h2 id=&quot;yin-guo-guan-xi-tu-causal-graph-causal-dag&quot;&gt;因果关系图（Causal graph, Causal DAG）&lt;&#x2F;h2&gt;
-&lt;blockquote&gt;
-&lt;p&gt;causal graphs (also known as path diagrams, causal Bayesian networks or DAGs) are probabilistic graphical models used to encode assumptions about the data-generating process.&lt;&#x2F;p&gt;
-&lt;&#x2F;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;The causal graph can be drawn in the following way. Each variable in the model has a corresponding vertex or node and an arrow is drawn from a variable X to a variable Y whenever Y is judged to respond to changes in X when all other variables are being held constant. Variables connected to Y through direct arrows are called parents of Y, or &amp;quot;direct causes of Y,&amp;quot; and are denoted by Pa(Y).&lt;&#x2F;p&gt;
-&lt;&#x2F;blockquote&gt;
-&lt;p&gt;简单来说就是用来描述因果关系的有向无环图。&lt;&#x2F;p&gt;
-&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMixbMCwwLCJQcmVkaWN0b3IiXSxbMiwwLCJPdXRjb21lIl0sWzAsMV1d&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
-&lt;h3 id=&quot;hun-za-confounding&quot;&gt;混杂（confounding）&lt;&#x2F;h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Let’s define confounding as any context in which the association between an outcome Y and a predictor of interest X is not the same as it would be, if we had experimentally determined the values of X.&lt;&#x2F;p&gt;
-&lt;&#x2F;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Let X be some independent variable, and Y some dependent variable. To estimate the effect of X on Y, the statistician must suppress the effects of extraneous variables that influence both X and Y. We say that X and Y are confounded by some other variable Z whenever Z causally influences both X and Y.&lt;&#x2F;p&gt;
-&lt;&#x2F;blockquote&gt;
-&lt;p&gt;简单来说就是，在研究 $X$ 对 $Y$ 的影响时，如果 $X$ 和 $Y$ 之间的关系被其他变量 $Z$ 所影响，那么 $Z$ 就是 $X$ 与 $Y$ 之间的混杂因素。&lt;&#x2F;p&gt;
-&lt;p&gt;存在 4 种基本的混杂情况。&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;fork&quot;&gt;Fork&lt;&#x2F;h4&gt;
-&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMiwwXSxbMiwxXV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
-&lt;h4 id=&quot;pipe-mediator&quot;&gt;Pipe &#x2F; Mediator&lt;&#x2F;h4&gt;
-&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZSJdLFswLDJdLFsyLDFdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
-&lt;h4 id=&quot;collider&quot;&gt;Collider&lt;&#x2F;h4&gt;
-&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMCwyXSxbMSwyXV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
-&lt;h4 id=&quot;descendant&quot;&gt;Descendant&lt;&#x2F;h4&gt;
-&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsxLDJdLFsyLDNdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
-&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsyLDNdLFsyLDFdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
-&lt;p&gt;其中 $ConfoundVariable2$ 是 Descendant 。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;qu-chu-hun-za-dui-bian-liang-jian-yin-guo-guan-xi-de-ying-xiang&quot;&gt;去除混杂对变量间因果关系的影响&lt;&#x2F;h3&gt;
-&lt;h4 id=&quot;path&quot;&gt;Path&lt;&#x2F;h4&gt;
-&lt;p&gt;忽略 DAG 中边的方向，如果能从 $X$ 到达 $Y$，那么称 $X$ 到 $Y$ 有一条路径（path）。&lt;&#x2F;p&gt;
-&lt;h5 id=&quot;backdoor-path&quot;&gt;Backdoor path&lt;&#x2F;h5&gt;
-&lt;blockquote&gt;
-&lt;p&gt;In a causal DAG, a backdoor path is a noncausal path between treatment and outcome that remains even if all arrows pointing from treatment to other variables (the descendants of treatment) are re- moved. That is, the path has an arrow pointing into treatment.&lt;&#x2F;p&gt;
-&lt;&#x2F;blockquote&gt;
-&lt;p&gt;简单来说就是有箭头指向自变量的路径。&lt;&#x2F;p&gt;
-&lt;h5 id=&quot;da-kai-guan-bi-path&quot;&gt;打开&#x2F;关闭 Path&lt;&#x2F;h5&gt;
-&lt;p&gt;如果一个路径上包含了一个 collider，那么这个路径就是关闭的，否则就是打开的。&lt;&#x2F;p&gt;
-&lt;p&gt;在分析 $X$ 到对 $Y$ 的影响时，如果包含了一个打开的 backdoor path，那么这个路径就会干扰我们研究 $X$ 到 $Y$ 的（直接）影响，此时，我们需要关闭这个路径。&lt;&#x2F;p&gt;
-&lt;p&gt;假设路径从 $X$ 到 $Y$， 要关闭一个正打开的路径，有两个方法：&lt;&#x2F;p&gt;
-&lt;ul&gt;
-&lt;li&gt;通过搜集数据、进行实验等方式让 $X$ 随机分布，这样，所有进入 $X$ 的箭头都会被打断，从而关闭路径。&lt;&#x2F;li&gt;
-&lt;li&gt;&amp;quot;condition on&amp;quot; 路径上的 fork 和 pipe，即对 fork 和 pipe 上的变量进行控制（即分别对这个变量为不同的值时的模型进行研究），使其不再影响 $X$ 和 $Y$ 之间的关系。
-对于 descendent，控制 Descendent 节点可以部分关闭路径。&lt;&#x2F;li&gt;
-&lt;&#x2F;ul&gt;
-&lt;p&gt;关闭 Path 时，如果 Path 上有多个可以控制的节点，控制其中离 $Y$ 最近的节点对于估计 $X$ 到 $Y$ 之间的影响精度比较有利。&lt;&#x2F;p&gt;
-&lt;p&gt;此外，控制 collider 会打开原本在这个 collider 上关闭的 Path。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;varying-effects&quot;&gt;Varying effects&lt;&#x2F;h4&gt;
+&lt;p&gt;varying intercepts: For each cluster in the data, we use a unique intercept parameter. eg. liveness of tadpoles in different tanks&lt;&#x2F;p&gt;
+&lt;p&gt;varying slope: For each cluster in the data, we use a unique slope parameter. eg. busy&#x2F;unbusy café -&amp;gt; waitime&lt;&#x2F;p&gt;
 </content>
         
     </entry>
     <entry xml:lang="zh">
         <title>重新开始学数学 • 贝叶斯因果推理（3）</title>
-        <published>2023-10-16T20:52:15.303+00:00</published>
-        <updated>2023-10-16T20:52:15.303+00:00</updated>
+        <published>2023-10-16T20:53:15.303+00:00</published>
+        <updated>2023-10-16T20:53:15.303+00:00</updated>
         <author>
           <name>Unknown</name>
         </author>
@@ -234,6 +177,67 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;    p[i] &amp;lt;- &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;ifelse&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;runif&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;) &amp;lt; q1 &#x2F; q0, p_new, p[i - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;])
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="zh">
+        <title>重新开始学数学 • 贝叶斯因果推理（2）</title>
+        <published>2023-10-16T20:52:15.303+00:00</published>
+        <updated>2023-10-16T20:52:15.303+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-2/" type="text/html"/>
+        <id>https://longfangsong.github.io/restart-math-stastic-bayesian-2/</id>
+        
+        <content type="html">&lt;h2 id=&quot;yin-guo-guan-xi-tu-causal-graph-causal-dag&quot;&gt;因果关系图（Causal graph, Causal DAG）&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;causal graphs (also known as path diagrams, causal Bayesian networks or DAGs) are probabilistic graphical models used to encode assumptions about the data-generating process.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The causal graph can be drawn in the following way. Each variable in the model has a corresponding vertex or node and an arrow is drawn from a variable X to a variable Y whenever Y is judged to respond to changes in X when all other variables are being held constant. Variables connected to Y through direct arrows are called parents of Y, or &amp;quot;direct causes of Y,&amp;quot; and are denoted by Pa(Y).&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是用来描述因果关系的有向无环图。&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMixbMCwwLCJQcmVkaWN0b3IiXSxbMiwwLCJPdXRjb21lIl0sWzAsMV1d&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h3 id=&quot;hun-za-confounding&quot;&gt;混杂（confounding）&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Let’s define confounding as any context in which the association between an outcome Y and a predictor of interest X is not the same as it would be, if we had experimentally determined the values of X.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Let X be some independent variable, and Y some dependent variable. To estimate the effect of X on Y, the statistician must suppress the effects of extraneous variables that influence both X and Y. We say that X and Y are confounded by some other variable Z whenever Z causally influences both X and Y.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是，在研究 $X$ 对 $Y$ 的影响时，如果 $X$ 和 $Y$ 之间的关系被其他变量 $Z$ 所影响，那么 $Z$ 就是 $X$ 与 $Y$ 之间的混杂因素。&lt;&#x2F;p&gt;
+&lt;p&gt;Will produce false inferences about causal effects.&lt;&#x2F;p&gt;
+&lt;p&gt;存在 4 种基本的混杂情况。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;fork&quot;&gt;Fork&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMiwwXSxbMiwxXV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h4 id=&quot;pipe-mediator&quot;&gt;Pipe &#x2F; Mediator&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZSJdLFswLDJdLFsyLDFdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h4 id=&quot;collider&quot;&gt;Collider&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMyxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmcgVmFyaWFibGUiXSxbMCwyXSxbMSwyXV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h4 id=&quot;descendant&quot;&gt;Descendant&lt;&#x2F;h4&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsxLDJdLFsyLDNdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwxLCJQcmVkaWN0b3IiXSxbMiwxLCJPdXRjb21lIl0sWzEsMCwiQ29uZm91bmRpbmdWYXJpYWJsZTEiXSxbMSwyLCJDb25mb3VuZGluZ1ZhcmlhYmxlMiJdLFswLDJdLFsyLDNdLFsyLDFdXQ==&amp;embed&quot; width=&quot;432&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;其中 $ConfoundVariable2$ 是 Descendant 。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;qu-chu-hun-za-dui-bian-liang-jian-yin-guo-guan-xi-de-ying-xiang&quot;&gt;去除混杂对变量间因果关系的影响&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;path&quot;&gt;Path&lt;&#x2F;h4&gt;
+&lt;p&gt;忽略 DAG 中边的方向，如果能从 $X$ 到达 $Y$，那么称 $X$ 到 $Y$ 有一条路径（path）。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;backdoor-path&quot;&gt;Backdoor path&lt;&#x2F;h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In a causal DAG, a backdoor path is a noncausal path between treatment and outcome that remains even if all arrows pointing from treatment to other variables (the descendants of treatment) are re- moved. That is, the path has an arrow pointing into treatment.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;简单来说就是有箭头指向自变量的路径。&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;da-kai-guan-bi-path&quot;&gt;打开&#x2F;关闭 Path&lt;&#x2F;h5&gt;
+&lt;p&gt;如果一个路径上包含了一个 collider，那么这个路径就是关闭的，否则就是打开的。&lt;&#x2F;p&gt;
+&lt;p&gt;在分析 $X$ 到对 $Y$ 的影响时，如果包含了一个打开的 backdoor path，那么这个路径就会干扰我们研究 $X$ 到 $Y$ 的（直接）影响，此时，我们需要关闭这个路径。&lt;&#x2F;p&gt;
+&lt;p&gt;假设路径从 $X$ 到 $Y$， 要关闭一个正打开的路径，有两个方法：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;通过搜集数据、进行实验等方式让 $X$ 随机分布，这样，所有进入 $X$ 的箭头都会被打断，从而关闭路径。&lt;&#x2F;li&gt;
+&lt;li&gt;&amp;quot;condition on&amp;quot; 路径上的 fork 和 pipe，即对 fork 和 pipe 上的变量进行控制（即分别对这个变量为不同的值时的模型进行研究），使其不再影响 $X$ 和 $Y$ 之间的关系。
+对于 descendent，控制 Descendent 节点可以部分关闭路径。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;关闭 Path 时，如果 Path 上有多个可以控制的节点，控制其中离 $Y$ 最近的节点对于估计 $X$ 到 $Y$ 之间的影响精度比较有利。&lt;&#x2F;p&gt;
+&lt;p&gt;此外，控制 collider 会打开原本在这个 collider 上关闭的 Path。&lt;&#x2F;p&gt;
 </content>
         
     </entry>
@@ -386,10 +390,10 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;简单来说就是要求不确定量服从的概率分布函数。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;hou-yan-gai-lu-posterior-probability&quot;&gt;后验概率&#x2F;Posterior (probability)&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The posterior probability is a type of conditional probability that results from updating the prior probability with information summarized by the likelihood via an application of Bayes&#x27; rule.&lt;&#x2F;p&gt;
+&lt;p&gt;在贝叶斯统计中，一个随机事件或者一个不确定事件的后验概率（Posterior probability）是在考虑和给出相关证据或数据后所得到的条件概率。&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;blockquote&gt;
-&lt;p&gt;在贝叶斯统计中，一个随机事件或者一个不确定事件的后验概率（Posterior probability）是在考虑和给出相关证据或数据后所得到的条件概率。&lt;&#x2F;p&gt;
+&lt;p&gt;The posterior probability is a type of conditional probability that results from updating the prior probability with information summarized by the likelihood via an application of Bayes&#x27; rule.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;简单来说就是在考虑观测数据后，不确定量的概率分布。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;berkson-s-paradox-selection-distortion-effect&quot;&gt;Berkson’s paradox &#x2F; selection-distortion effect&lt;&#x2F;h3&gt;
@@ -409,11 +413,13 @@ $$&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;多重共线性（Multicollinearity）是指多变量线性回归中，变量之间由于存在高度相关关系而使回归估计不准确。在该情况下，多元回归的系数可能会因为模型或数据的微小变化发生剧烈改变。&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
+&lt;p&gt;Will produce false inferences about causal effects.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;kullback-leible-san-du&quot;&gt;Kullback-Leible 散度&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The additional uncertainty induced by using probabilities from one distribution to describe another distribution.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;即一个概率分布相对于另一个概率分布的差异程度。&lt;&#x2F;p&gt;
+&lt;p&gt;We can quantify distance to the target using Kullback-Leibler divergence.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;log-pointwise-predictive-density&quot;&gt;log-pointwise-predictive-density&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;the log of the average probability for each observation i, where the average is taken over the posterior distribution&lt;&#x2F;p&gt;
@@ -426,6 +432,13 @@ $$&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;when the posterior distribution is very steep in some region of parameter space. Steep changes in probability are hard for a discrete physics simulation to follow. When that happens, the algorithm notices by comparing the energy at the start to the energy at the end.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
+&lt;p&gt;解决方式包括修改 MCMC 的接受率（&lt;code&gt;adapt_delta&lt;&#x2F;code&gt;）、reparameterize、用更好的 prior 等。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;interactions&quot;&gt;Interactions&lt;&#x2F;h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;One variable may depend upon another. For example, plants benefit from both light and water. But in the absence of either, the other is no benefit at all.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;over-dispersion&quot;&gt;over-dispersion&lt;&#x2F;h3&gt;
+&lt;p&gt;Variance of a variable is larger than what would be expected from a given statistical model.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;chang-yong-fen-bu&quot;&gt;常用分布&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;jun-yun-fen-bu-uniform-distribution&quot;&gt;均匀分布 &#x2F; Uniform distribution&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
@@ -460,6 +473,11 @@ $$&lt;&#x2F;p&gt;
 Beta(a, b)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;做 $a + b$ 次实验，发现其中 a 次成功，b 次失败则实验本身的成功率 $p$ 的概率分布。&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;dirichlet-fen-bu-multivariate-beta-distribution&quot;&gt;Dirichlet 分布 &#x2F; Multivariate beta distribution&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+Dir(\textbf{a})
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$\beta$ 分布的多变量扩展，做 $\Sigma \textbf{a}$ 次实验，其中第 $i$ 种结果出现 $\textbf{a}_i$ 次，$Dir(\textbf{a})$ 描述了其中每个结果的出现率。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;zhi-shu-fen-bu-exponential-distribution&quot;&gt;指数分布 &#x2F; Exponential distribution&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 Exp(λ)
@@ -519,6 +537,8 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 Pr(p|W) = \frac {Pr(W|p)Pr(p)} {Pr(W)}
 $$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;bei-xie-si-shu-ju-fen-xi-de-bu-zou&quot;&gt;贝叶斯数据分析的步骤&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;restart-math-stastic-bayesian-1&#x2F;workflow.png&quot; alt=&quot;Alt text&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;本文严格区分事件（写作 $E_{大写英文字母}$）和变量（用普通大写英文字母表示），例如 $E_A$ 可能代表事件 $X=1$，同时可以给他分配变量 $A$，因此 $Pr(E_A) \equiv Pr\{X=1\} \equiv Pr(A)$。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
