@@ -171,14 +171,14 @@ height &amp; \sim &amp; Normal(\mu, \sigma) \\
 \sigma &amp; \sim &amp; Exp(1)
 }
 $$</p>
-<p>当然你也可以搜集更多的知识选择更好的 prior，或者换用更合理的分布函数，比如让 $\beta &amp; \sim &amp; log-Normal(?, ?)$。</p>
+<p>当然你也可以搜集更多的知识选择更好的 prior，或者换用更合理的分布函数，比如让 $\beta \sim \text{log-Normal}(?, ?)$。</p>
 <h3 id="ru-he-xue-xi-can-shu-de-zhi">如何学习参数的值</h3>
 <p>一个常用的方法是使用 MCMC（Markov chain Monte Carlo）。</p>
 <p>例如，我们对于以下模型：</p>
 <p>$$
 \displaylines {
 W  &amp; \sim &amp; Binomial(9, p) \\
-\p &amp; \sim &amp; Normal(0.5, 0.1)
+p &amp; \sim &amp; Normal(0.5, 0.1)
 }
 $$</p>
 <p>可以使用 MCMC 方法来学习 $p$ 的值，使用 rethinking 包如下：</p>

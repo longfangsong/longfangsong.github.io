@@ -23,6 +23,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;test the model’s predictive accuracy on a small part of the sample.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
+&lt;p&gt;PSIS(Pareto-smoothed cross-validation)&lt;&#x2F;p&gt;
+&lt;p&gt;lppd(log-pointwise-predictive-density)&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;xin-xi-liang-zhun-ze-information-criteria&quot;&gt;信息量准则（information criteria）&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;likelihood-based measures of model fit that include a penalty for complexity.&lt;&#x2F;p&gt;
@@ -140,14 +142,14 @@ height &amp;amp; \sim &amp;amp; Normal(\mu, \sigma) \\
 \sigma &amp;amp; \sim &amp;amp; Exp(1)
 }
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;当然你也可以搜集更多的知识选择更好的 prior，或者换用更合理的分布函数，比如让 $\beta &amp;amp; \sim &amp;amp; log-Normal(?, ?)$。&lt;&#x2F;p&gt;
+&lt;p&gt;当然你也可以搜集更多的知识选择更好的 prior，或者换用更合理的分布函数，比如让 $\beta \sim \text{log-Normal}(?, ?)$。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;ru-he-xue-xi-can-shu-de-zhi&quot;&gt;如何学习参数的值&lt;&#x2F;h3&gt;
 &lt;p&gt;一个常用的方法是使用 MCMC（Markov chain Monte Carlo）。&lt;&#x2F;p&gt;
 &lt;p&gt;例如，我们对于以下模型：&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \displaylines {
 W  &amp;amp; \sim &amp;amp; Binomial(9, p) \\
-\p &amp;amp; \sim &amp;amp; Normal(0.5, 0.1)
+p &amp;amp; \sim &amp;amp; Normal(0.5, 0.1)
 }
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;可以使用 MCMC 方法来学习 $p$ 的值，使用 rethinking 包如下：&lt;&#x2F;p&gt;
