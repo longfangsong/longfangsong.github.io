@@ -769,6 +769,248 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
         
     </entry>
     <entry xml:lang="en">
+        <title>tikz cheatsheet</title>
+        <published>2023-01-30T07:58:36.804+00:00</published>
+        <updated>2023-01-30T07:58:36.804+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/tikz-cheatsheet/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/tikz-cheatsheet/</id>
+        
+        <content type="html">&lt;h2 id=&quot;basic&quot;&gt;Basic&lt;&#x2F;h2&gt;
+&lt;p&gt;Basically, tikz has a coordinate system just like what we learned at school, you can draw lines and shapes by specifying the coordinates of the vertices.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, draw a line from &lt;code&gt;(0,0)&lt;&#x2F;code&gt; to &lt;code&gt;(1,0)&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,0) -- (1,0);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+    \draw (0,0) -- (1,0);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Draw a cross:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (-1,0) -- (1,0);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,-1) -- (0,1);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+    \draw (-1,0) -- (1,0);
+    \draw (0,-1) -- (0,1);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Or in 3D:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (-1,0,0) -- (1,0,0);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,-1,0) -- (0,1,0);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,0,-1) -- (0,0,1);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+    \draw (-1,0,0) -- (1,0,0);
+    \draw (0,-1,0) -- (0,1,0);
+    \draw (0,0,-1) -- (0,0,1);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;And you can also draw Bézier curves:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,0) .. controls (1,1) and (2,1) .. (2,0);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+  \draw (0,0) .. controls (1,1) and (2,1) .. (2,0);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Means draw a Bézier curve from &lt;code&gt;(0,0)&lt;&#x2F;code&gt; to &lt;code&gt;(2,0)&lt;&#x2F;code&gt;, and control points are &lt;code&gt;(1,1)&lt;&#x2F;code&gt; and &lt;code&gt;(2,1)&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;To close a shape, you can use &lt;code&gt;cycle&lt;&#x2F;code&gt; as the last coordinate:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,0) -- (1,0) -- (1,1) -- cycle;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+  \draw (0,0) -- (1,0) -- (1,1) -- cycle;
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Circles and ellipses:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (-2,0) circle [radius=1];
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+  \draw (-2,0) circle [radius=1];
+  \draw (2,0) ellipse [x radius=2, y radius=1];
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Arcs:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (1,0) arc[start angle=0, end angle=30, radius=1];
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+    \filldraw (0,0) circle[radius=0.5pt];
+    \draw (1,0) arc[start angle=0, end angle=30, radius=1];
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Rectangles:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,0) rectangle (1,1);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+\draw (0,0) rectangle (1,1);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Grid:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (-3,0) -- (3,0);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,-3) -- (0,3);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt;[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+    \draw (-3,0) -- (3,0);
+    \draw (0,-3) -- (0,3);
+    \draw[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;We can use &lt;code&gt;clip&lt;&#x2F;code&gt; to clip part of the image:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\clip&lt;&#x2F;span&gt;&lt;span&gt; (-0.1,-0.1) rectangle (3,3);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (-3,0) -- (3,0);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,-3) -- (0,3);
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt;[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+    \clip (-0.1,-0.1) rectangle (3,3);
+    \draw (-3,0) -- (3,0);
+    \draw (0,-3) -- (0,3);
+    \draw[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;Use &lt;code&gt;filldraw&lt;&#x2F;code&gt; instead of &lt;code&gt;draw&lt;&#x2F;code&gt; to fill the shape:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\filldraw&lt;&#x2F;span&gt;&lt;span&gt;[fill=red, draw=blue] (0,0) rectangle (1,1);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+    \filldraw[fill=red, draw=blue] (0,0) rectangle (1,1);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;You can add arrows to lines:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt;[-&amp;gt;]  (0,0) -- (1,0);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt;[&amp;lt;-&amp;gt;] (0,1) -- (1,1);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+\draw[-&gt;]  (0,0) -- (1,0);
+\draw[&lt;-&gt;] (0,1) -- (1,1);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;
+&lt;p&gt;You can add text with &lt;code&gt;node&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;latex&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-latex &quot;&gt;&lt;code class=&quot;language-latex&quot; data-lang=&quot;latex&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\begin&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (0,0) node {(0,0)} -- (0,0);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\filldraw&lt;&#x2F;span&gt;&lt;span&gt; (1,1) circle[radius=0.05];
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (1,1) node[anchor=south] {south} -- (1,1);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (1,1) node[anchor=north] {north} -- (1,1);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (1,1) node[anchor=east] {east} -- (1,1);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;\draw&lt;&#x2F;span&gt;&lt;span&gt; (1,1) node[anchor=west] {west} -- (1,1);
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;\end&lt;&#x2F;span&gt;&lt;span&gt;{tikzpicture}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+  \draw (0,0) node {(0,0)} -- (0,0);
+  \filldraw (1,1) circle[radius=0.05];
+  \draw (1,1) node[anchor=south] {south} -- (1,1);
+  \draw (1,1) node[anchor=north,rotate=5] {north} -- (1,1);
+  \draw (1,1) node[anchor=east,fill=blue] {east} -- (1,1);
+  \draw (1,1) node[anchor=west,draw] {west} -- (1,1);
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;&lt;h2 id=&quot;interesting-stuff&quot;&gt;interesting stuff&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;trees&quot;&gt;Trees&lt;&#x2F;h3&gt;
+&lt;div class=&quot;tikz&quot;&gt;
+  &lt;script type=&quot;text&#x2F;tikz&quot;&gt;
+  \begin{document}
+\begin{tikzpicture}
+  \node {root}
+    child {node {left}}
+    child {node {right}
+      child {node {child}}
+      child {node {child}}
+    };
+\end{tikzpicture}
+\end{document}
+&lt;&#x2F;script&gt;
+&lt;&#x2F;div&gt;</content>
+        
+    </entry>
+    <entry xml:lang="en">
         <title>Category theory Notes 2</title>
         <published>2022-12-19T04:59:39.001+00:00</published>
         <updated>2022-12-19T04:59:39.001+00:00</updated>
@@ -2946,8 +3188,9 @@ Or in words understandable for normal human beings, definitional equality is som
 &lt;p&gt;(Don&#x27;t really get what the teacher want to show by saying these.)&lt;&#x2F;p&gt;
 &lt;p&gt;Maybe used to show that types are used to describe some certain property of something, so we can think identity types internalize the property that something is propositional equal to another thing.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;rules-on-identity-types&quot;&gt;Rules on Identity Types&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;two-variable-version&quot;&gt;Two variable version&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
-=\text{-}form:
+\text{=-form}:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$A\ type\ a:A\ b:A$}
@@ -2955,29 +3198,64 @@ Or in words understandable for normal human beings, definitional equality is som
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-=\text{-}intro:
+\text{=-intro}:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$a:A$}
-\UnaryInfC{$refl_a : a\underset{A}{=} a\ type$}
+\UnaryInfC{$refl_a : a\underset{A}{=} a$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-=\text{-}elim:
+\text{=-elim}:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, p:x\underset{A}{=} y \vdash D(x,y,p)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
-\BinaryInfC{$x:A, y:A, z:x\underset{A}{=} y \vdash ind_=(d,x,y,z) : D(x,y,z)\ type$}
+\BinaryInfC{$x:A, y:A, p:x\underset{A}{=} y \vdash ind_=(d,x,y,p) : D(x,y,p)\ type$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-=\text{-}comp:
+\text{=-comp}:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, p:x\underset{A}{=} y \vdash D(x,y,p)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
 \BinaryInfC{$x:A \vdash ind_=(d,x,x,refl_x) \doteq d: D(x,x,refl_x)$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;single-variable-version&quot;&gt;Single variable version&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+\text{=-form}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a:A$}
+\UnaryInfC{$x : A \vdash a \underset{A}{=} x\ type$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{=-intro}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a:A$}
+\UnaryInfC{$refl_a : a\underset{A}{=} a$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{=-elim}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a : A$}
+\AxiomC{$x : A, p : a\ {=_A}\ x ⊢ P(x, p)\ type$}
+\BinaryInfC{$ind_= : P(a, refl_a) \rightarrow \Pi_{(x:A)}{\Pi_{(p:a{=_A}x)} P(x, p)}$}
+\end{prooftree}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{=-comp}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a : A$}
+\AxiomC{$x : A, p : a\ {=_A}\ x ⊢ P(x, p)\ type$}
+\BinaryInfC{$u : P(a, refl_a) \vdash ind_=(u, a, refl_a) : P(a, refl_a)$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;reflexivity&quot;&gt;Reflexivity&lt;&#x2F;h3&gt;
@@ -3145,7 +3423,7 @@ that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.&l
 \UnaryInfC{$\lambda b,b&#x27;,p.ind_=(\lambda x.x, b, b&#x27;, p): \Pi_{(b,b&#x27;:B)}(b\underset{B}{=}b&#x27;) \rightarrow E(b) \rightarrow E(b&#x27;)$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;transport &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b b&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;transport &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∀ &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b b&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;span&gt;            (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&amp;#39;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;transport &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;E &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ x &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
@@ -3496,7 +3774,7 @@ $$&lt;&#x2F;p&gt;
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;Here $\doteq$ is by definition equal&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, which I always use $\equiv$.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;dependent-type-theory&quot;&gt;Dependent type theory&lt;&#x2F;h2&gt;
-&lt;p&gt;Tough I had some basic knowledge of this before (eg. Dependent types can be viewed as predicates due to Curry-Howard Corresponding), but I do learned some more.&lt;&#x2F;p&gt;
+&lt;p&gt;Though I had some basic knowledge of this before (eg. Dependent types can be viewed as predicates due to Curry-Howard Corresponding), but I do learned some more.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;the-meaning-of-the-word-dependent&quot;&gt;The meaning of the word &amp;quot;dependent&amp;quot;&lt;&#x2F;h3&gt;
 &lt;p&gt;I used to understand this in an intuitive way, in the class the teacher introduced a semi-formal definition of &amp;quot;dependent&amp;quot;, ie. the items on the right side of $\vdash$ depends on those on the left side.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;rules-of-p-types&quot;&gt;Rules of π-types&lt;&#x2F;h3&gt;

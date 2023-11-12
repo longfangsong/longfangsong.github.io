@@ -126,8 +126,9 @@ Or in words understandable for normal human beings, definitional equality is som
 <p>(Don't really get what the teacher want to show by saying these.)</p>
 <p>Maybe used to show that types are used to describe some certain property of something, so we can think identity types internalize the property that something is propositional equal to another thing.</p>
 <h3 id="rules-on-identity-types">Rules on Identity Types</h3>
+<h4 id="two-variable-version">Two variable version</h4>
 <p>$$
-=\text{-}form:
+\text{=-form}:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$A\ type\ a:A\ b:A$}
@@ -135,29 +136,64 @@ Or in words understandable for normal human beings, definitional equality is som
 \end{prooftree}
 $$</p>
 <p>$$
-=\text{-}intro:
+\text{=-intro}:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$a:A$}
-\UnaryInfC{$refl_a : a\underset{A}{=} a\ type$}
+\UnaryInfC{$refl_a : a\underset{A}{=} a$}
 \end{prooftree}
 $$</p>
 <p>$$
-=\text{-}elim:
+\text{=-elim}:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, p:x\underset{A}{=} y \vdash D(x,y,p)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
-\BinaryInfC{$x:A, y:A, z:x\underset{A}{=} y \vdash ind_=(d,x,y,z) : D(x,y,z)\ type$}
+\BinaryInfC{$x:A, y:A, p:x\underset{A}{=} y \vdash ind_=(d,x,y,p) : D(x,y,p)\ type$}
 \end{prooftree}
 $$</p>
 <p>$$
-=\text{-}comp:
+\text{=-comp}:
 \require{bussproofs}
 \begin{prooftree}
-\AxiomC{$x:A, y:A, z:x\underset{A}{=} y \vdash D(x,y,z)\ type$}
+\AxiomC{$x:A, y:A, p:x\underset{A}{=} y \vdash D(x,y,p)\ type$}
 \AxiomC{$x:A \vdash d:D(x,x,refl_x)\ type$}
 \BinaryInfC{$x:A \vdash ind_=(d,x,x,refl_x) \doteq d: D(x,x,refl_x)$}
+\end{prooftree}
+$$</p>
+<h4 id="single-variable-version">Single variable version</h4>
+<p>$$
+\text{=-form}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a:A$}
+\UnaryInfC{$x : A \vdash a \underset{A}{=} x\ type$}
+\end{prooftree}
+$$</p>
+<p>$$
+\text{=-intro}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a:A$}
+\UnaryInfC{$refl_a : a\underset{A}{=} a$}
+\end{prooftree}
+$$</p>
+<p>$$
+\text{=-elim}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a : A$}
+\AxiomC{$x : A, p : a\ {=_A}\ x ⊢ P(x, p)\ type$}
+\BinaryInfC{$ind_= : P(a, refl_a) \rightarrow \Pi_{(x:A)}{\Pi_{(p:a{=_A}x)} P(x, p)}$}
+\end{prooftree}
+$$</p>
+<p>$$
+\text{=-comp}:
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$a : A$}
+\AxiomC{$x : A, p : a\ {=_A}\ x ⊢ P(x, p)\ type$}
+\BinaryInfC{$u : P(a, refl_a) \vdash ind_=(u, a, refl_a) : P(a, refl_a)$}
 \end{prooftree}
 $$</p>
 <h3 id="reflexivity">Reflexivity</h3>
@@ -325,7 +361,7 @@ that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.</
 \UnaryInfC{$\lambda b,b',p.ind_=(\lambda x.x, b, b', p): \Pi_{(b,b':B)}(b\underset{B}{=}b') \rightarrow E(b) \rightarrow E(b')$}
 \end{prooftree}
 $$</p>
-<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">transport </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#b48ead;">E </span><span>: </span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">Set</span><span>) {</span><span style="color:#bf616a;">b b&#39; </span><span>: </span><span style="color:#b48ead;">A</span><span>}
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">transport </span><span>: </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#b48ead;">E </span><span>: </span><span style="color:#b48ead;">B </span><span>→ </span><span style="color:#b48ead;">Set</span><span>) {</span><span style="color:#bf616a;">b b&#39; </span><span>: </span><span style="color:#b48ead;">B</span><span>}
 </span><span>            (</span><span style="color:#bf616a;">p </span><span>: </span><span style="color:#bf616a;">b </span><span>≡ </span><span style="color:#bf616a;">b&#39;</span><span>) → </span><span style="color:#b48ead;">E </span><span style="color:#bf616a;">b </span><span>→ </span><span style="color:#b48ead;">E </span><span style="color:#bf616a;">b&#39;
 </span><span style="color:#bf616a;">transport </span><span style="color:#b48ead;">E </span><span style="color:#bf616a;">refl </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ </span><span style="color:#bf616a;">x
 </span></code></pre>

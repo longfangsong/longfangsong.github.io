@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • tikz cheatsheet</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;tikz-cheatsheet&#x2F;">tikz cheatsheet</a></h1>
+  
+  <div class="post-content"><h2 id="basic">Basic</h2>
+<p>Basically, tikz has a coordinate system just like what we learned at school, you can draw lines and shapes by specifying the coordinates of the vertices.</p>
+<p>For example, draw a line from <code>(0,0)</code> to <code>(1,0)</code>:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (0,0) -- (1,0);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+    \draw (0,0) -- (1,0);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Draw a cross:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (-1,0) -- (1,0);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (0,-1) -- (0,1);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+    \draw (-1,0) -- (1,0);
+    \draw (0,-1) -- (0,1);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Or in 3D:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (-1,0,0) -- (1,0,0);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (0,-1,0) -- (0,1,0);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (0,0,-1) -- (0,0,1);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+    \draw (-1,0,0) -- (1,0,0);
+    \draw (0,-1,0) -- (0,1,0);
+    \draw (0,0,-1) -- (0,0,1);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>And you can also draw Bézier curves:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (0,0) .. controls (1,1) and (2,1) .. (2,0);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+  \draw (0,0) .. controls (1,1) and (2,1) .. (2,0);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Means draw a Bézier curve from <code>(0,0)</code> to <code>(2,0)</code>, and control points are <code>(1,1)</code> and <code>(2,1)</code></p>
+<p>To close a shape, you can use <code>cycle</code> as the last coordinate:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (0,0) -- (1,0) -- (1,1) -- cycle;
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+  \draw (0,0) -- (1,0) -- (1,1) -- cycle;
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Circles and ellipses:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (-2,0) circle [radius=1];
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+  \draw (-2,0) circle [radius=1];
+  \draw (2,0) ellipse [x radius=2, y radius=1];
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Arcs:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (1,0) arc[start angle=0, end angle=30, radius=1];
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+    \filldraw (0,0) circle[radius=0.5pt];
+    \draw (1,0) arc[start angle=0, end angle=30, radius=1];
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Rectangles:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span style="color:#96b5b4;">\draw</span><span> (0,0) rectangle (1,1);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+\draw (0,0) rectangle (1,1);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Grid:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (-3,0) -- (3,0);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (0,-3) -- (0,3);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span>[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+    \draw (-3,0) -- (3,0);
+    \draw (0,-3) -- (0,3);
+    \draw[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>We can use <code>clip</code> to clip part of the image:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>    </span><span style="color:#96b5b4;">\clip</span><span> (-0.1,-0.1) rectangle (3,3);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (-3,0) -- (3,0);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span> (0,-3) -- (0,3);
+</span><span>    </span><span style="color:#96b5b4;">\draw</span><span>[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+    \clip (-0.1,-0.1) rectangle (3,3);
+    \draw (-3,0) -- (3,0);
+    \draw (0,-3) -- (0,3);
+    \draw[step=.5cm,gray,very thin] (-3,-3) grid (3,3);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>Use <code>filldraw</code> instead of <code>draw</code> to fill the shape:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>    </span><span style="color:#96b5b4;">\filldraw</span><span>[fill=red, draw=blue] (0,0) rectangle (1,1);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+    \filldraw[fill=red, draw=blue] (0,0) rectangle (1,1);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>You can add arrows to lines:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span style="color:#96b5b4;">\draw</span><span>[-&gt;]  (0,0) -- (1,0);
+</span><span style="color:#96b5b4;">\draw</span><span>[&lt;-&gt;] (0,1) -- (1,1);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+\draw[->]  (0,0) -- (1,0);
+\draw[<->] (0,1) -- (1,1);
+\end{tikzpicture}
+\end{document}
+</script>
+</div>
+<p>You can add text with <code>node</code>:</p>
+<pre data-lang="latex" style="background-color:#2b303b;color:#c0c5ce;" class="language-latex "><code class="language-latex" data-lang="latex"><span style="color:#b48ead;">\begin</span><span>{tikzpicture}
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (0,0) node {(0,0)} -- (0,0);
+</span><span>  </span><span style="color:#96b5b4;">\filldraw</span><span> (1,1) circle[radius=0.05];
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (1,1) node[anchor=south] {south} -- (1,1);
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (1,1) node[anchor=north] {north} -- (1,1);
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (1,1) node[anchor=east] {east} -- (1,1);
+</span><span>  </span><span style="color:#96b5b4;">\draw</span><span> (1,1) node[anchor=west] {west} -- (1,1);
+</span><span style="color:#b48ead;">\end</span><span>{tikzpicture}
+</span></code></pre>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+  \draw (0,0) node {(0,0)} -- (0,0);
+  \filldraw (1,1) circle[radius=0.05];
+  \draw (1,1) node[anchor=south] {south} -- (1,1);
+  \draw (1,1) node[anchor=north,rotate=5] {north} -- (1,1);
+  \draw (1,1) node[anchor=east,fill=blue] {east} -- (1,1);
+  \draw (1,1) node[anchor=west,draw] {west} -- (1,1);
+\end{tikzpicture}
+\end{document}
+</script>
+</div><h2 id="interesting-stuff">interesting stuff</h2>
+<h3 id="trees">Trees</h3>
+<div class="tikz">
+  <script type="text/tikz">
+  \begin{document}
+\begin{tikzpicture}
+  \node {root}
+    child {node {left}}
+    child {node {right}
+      child {node {child}}
+      child {node {child}}
+    };
+\end{tikzpicture}
+\end{document}
+</script>
+</div></div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2023-01-30</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/cheatsheet">&nbsp;cheatsheet</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=tikz cheatsheet&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;tikz-cheatsheet&#x2F;&hashtags=cheatsheet"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+<link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+<style>
+  .tikz>svg {
+    overflow: visible;
+  }
+</style>
+<script src="https://longfangsong.github.io/js/tikzjax.js"></script>
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
