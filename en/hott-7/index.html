@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • HoTTEST Summer School HoTT Notes 1</title>
+  <title>Blog • HoTT Notes 7</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
@@ -111,87 +111,75 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-1&#x2F;">HoTTEST Summer School HoTT Notes 1</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-7&#x2F;">HoTT Notes 7</a></h1>
   
-  <div class="post-content"><h2 id="natural-deduction">Natural deduction</h2>
-<p>Trivial, not necessary to say too much here.</p>
-<h2 id="simple-typed-lambda-calculus-stlc-or-stlc">Simple typed lambda calculus (STλC or STLC)</h2>
-<p>Still trivial, just need to clarify some notations the teacher is using.</p>
-<p>$pr_1 (p, q)$ means take the first element out from pair $(p, q)$, which is always write as $(p, q).1$, eg.</p>
+  <div class="post-content"><h2 id="families-of-equivalences">Families of equivalences</h2>
+<h3 id="tot-function">tot function</h3>
+<p>For a family of maps:</p>
 <p>$$
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{p: P}
-\AxiomC{q: Q}
-\BinaryInfC{$pr_1 (p, q) \doteq p: P$}
-\end{prooftree}
+f : \Pi_{(x:A)} B(x) \rightarrow C(x)
 $$</p>
-<p>Here $\doteq$ is by definition equal<sup class="footnote-reference"><a href="#1">1</a></sup>, which I always use $\equiv$.</p>
-<h2 id="dependent-type-theory">Dependent type theory</h2>
-<p>Though I had some basic knowledge of this before (eg. Dependent types can be viewed as predicates due to Curry-Howard Corresponding), but I do learned some more.</p>
-<h3 id="the-meaning-of-the-word-dependent">The meaning of the word &quot;dependent&quot;</h3>
-<p>I used to understand this in an intuitive way, in the class the teacher introduced a semi-formal definition of &quot;dependent&quot;, ie. the items on the right side of $\vdash$ depends on those on the left side.</p>
-<h3 id="rules-of-p-types">Rules of π-types</h3>
+<p>We define a map $tot$:</p>
 <p>$$
-\Pi-form: 
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{$\Gamma ,x:P \vdash Q\ type$}
-\UnaryInfC{$\Gamma \vdash \Pi_{(x:P)} Q\ type$}
-\end{prooftree}
+tot(f) : \Sigma_{(x:A)} B(x) \rightarrow \Sigma_{(x:A)} C(x)
+$$
+$$
+tot(f) := \lambda (x, y). (x , f(x, y))
 $$</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">tot </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">C </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">Set</span><span>} → ((</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">B </span><span style="color:#bf616a;">x </span><span>→ </span><span style="color:#b48ead;">C </span><span style="color:#bf616a;">x</span><span>) → (</span><span style="color:#b48ead;">Σ A B </span><span>→ </span><span style="color:#b48ead;">Σ A C</span><span>)
+</span><span style="color:#bf616a;">tot f</span><span> (</span><span style="color:#bf616a;">x </span><span>, </span><span style="color:#bf616a;">y</span><span>) = </span><span style="color:#bf616a;">x </span><span>, </span><span style="color:#bf616a;">f x y
+</span></code></pre>
+<p><image src="./tot.png" width="250"></image></p>
+<p>Given a map $f : A → B$, and a family of maps:</p>
 <p>$$
-\Pi-intro: 
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{$\Gamma ,x:P \vdash q:Q$}
-\UnaryInfC{$\Gamma \vdash \lambda x.q: \Pi_{(x:P)} Q$}
-\end{prooftree}
+g : \Pi_{(x:A)} C(x) \rightarrow D(f(x))
+$$</p>
+<p>where C is a type family over A, and D is a type family over B. In this situation, we also say that $g$ is a family of maps over $f$.</p>
+<p>Then we define:</p>
+<p>$$
+tot_f(g) : \Sigma_{(x:A)} {C(x)} → \Pi_{(y:B)} \Sigma_{D(y)}
 $$</p>
 <p>$$
-\Pi-elim: 
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{$\Gamma \vdash f:\Pi_{(x:P)} Q$}
-\AxiomC{$\Gamma \vdash p:P$}
-\BinaryInfC{$\Gamma \vdash f\ p:Q[p/x]$}
-\end{prooftree}
+tot_f(g) = λ (x, z). (f(x), g(x, z))
 $$</p>
+<h3 id="family-of-equivalences">Family of equivalences</h3>
+<p>We have a family of maps $f : \Pi_{(x:A)} B(x) \rightarrow C(x)$,</p>
+<p>if for each $x : A$, $f(x)$ is an equivalence, we say that $f$ is a family of equivalences.</p>
+<p>This happens iff $tot(f)$ is an equivalence.</p>
+<h2 id="the-fundamental-theorem">The fundamental theorem</h2>
+<h3 id="unary-identity-system">Unary identity system</h3>
+<blockquote>
+<p>A (unary) identity system on $𝐴$ at 𝑎 consists of a type family B over A equipped with $b : B(a)$, such that for any family of types $P(x, y)$ indexed by $x : A$ and $y : B(x)$, the function</p>
+</blockquote>
 <p>$$
-\Pi-comp-\beta: 
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{$\Gamma ,x:P \vdash q:Q$}
-\AxiomC{$\Gamma \vdash p:P$}
-\BinaryInfC{$\Gamma \vdash (\lambda x.q) p \doteq q[p/x]:Q[p/x]$}
-\end{prooftree}
+h ↦ h(a, b) : \Pi_{(x:A)} \Pi_{(y:B(x))} P(x, y) → P(a, b)
 $$</p>
+<blockquote>
+<p>has a section.</p>
+</blockquote>
+<h2 id="embedding">Embedding</h2>
+<p>An embedding is a map $f : A → B$ that satisfies the property that, for every $x, y : A$
+$$
+ap_f : (x = y) → (f(x) = f(y))
+$$
+is an equivalence.</p>
+<p>We write $is-emb(f)$ for the type of witnesses that $f$ is an embedding, and we define</p>
 <p>$$
-\Pi-comp-\eta: 
-\require{bussproofs}
-\begin{prooftree}
-\AxiomC{$\Gamma \vdash f:\Pi_{x:P} Q$}
-\UnaryInfC{$\Gamma \vdash \lambda x.f\ x\doteq f:\Pi_{(x:P)} Q$}
-\end{prooftree}
+A ↪ B := \Sigma_{(f : A → B)} \text{is-emb}(f)
 $$</p>
-<h2 id="materials">Materials</h2>
-<h3 id="lecture-note">Lecture Note</h3>
-<p><a href="https://github.com/martinescardo/HoTTEST-Summer-School/blob/main/HoTT/HoTTEST_Lecture_1.pdf">HoTTEST_Lecture_1.pdf</a></p>
-<h3 id="record-on-youtube">Record on Youtube</h3>
-<div >
-    <iframe src="https://www.youtube.com/embed/HvYYCHMeM-8" webkitallowfullscreen
-        mozallowfullscreen allowfullscreen>
-    </iframe>
-</div>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>It's actually judgmentally equal, <a href="https://jozefg.bitbucket.io/posts/2014-08-06-equality.html">ref</a>.</p>
-</div>
+<p>In Agda:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">emb </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">emb </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">f </span><span>= (</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv</span><span> (</span><span style="color:#bf616a;">cong f </span><span>{</span><span style="color:#bf616a;">x</span><span>} {</span><span style="color:#bf616a;">y</span><span>})
+</span><span>
+</span><span style="color:#bf616a;">_</span><span>↪</span><span style="color:#bf616a;">_ </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} → </span><span style="color:#b48ead;">Set </span><span>→ </span><span style="color:#b48ead;">Set </span><span>→ </span><span style="color:#b48ead;">Set
+</span><span style="color:#b48ead;">A </span><span>↪ </span><span style="color:#b48ead;">B </span><span>= </span><span style="color:#b48ead;">Σ</span><span> (</span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">emb
+</span></code></pre>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2022-07-14</span>
+        <i class="far fa-sun"></i><span class="date">2023-11-16</span>
         
         
         <i class="fas fa-tags"></i>
@@ -212,7 +200,7 @@ $$</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=HoTTEST Summer School HoTT Notes 1&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-1&#x2F;&hashtags=PLT,Notes"></a>
+      href="http://twitter.com/share?text=HoTT Notes 7&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-7&#x2F;&hashtags=PLT,Notes"></a>
   </div>
 </div>
 

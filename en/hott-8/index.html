@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • HoTT Notes 8</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-8&#x2F;">HoTT Notes 8</a></h1>
+  
+  <div class="post-content"><h2 id="proposition-h-proposition">Proposition/h-Proposition</h2>
+<p>A type $A$ is said to be a proposition if its identity types are contractible:</p>
+<p>$$
+\text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
+$$</p>
+<p>Some equivalent definitions:</p>
+<ul>
+<li>
+<p>$\text{is-prop}(A) := \Pi_{(x,y : A)} x = y$. This means iff every pair of elements on $A$ are equal.</p>
+</li>
+<li>
+<p>$\text{is-prop}(A) := A \rightarrow \text{is-contr}(A)$. This means iff A is not empty, and it is contractible, then it is a proposition.</p>
+</li>
+<li>
+<p>$\text{const}_{\text{tt}} : A → ⊤$ is an embedding. This means iff A can be mapped to the unit type &quot;injectivly&quot;, then it is a proposition.</p>
+</li>
+</ul>
+<p>The reason why we call it a (h-)proposition is that, in first-order logic, we don't have any way to distinguish between any two proofs of the same proposition. In here HoTT case, a proposition is a type (which corresponds to a set theory proposition) that either is empty, or contractable (ie. all of its elements, which correspond to proofs are equal).</p>
+<p>In Agda:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop </span><span style="color:#b48ead;">A </span><span>= (</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span> (</span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39; </span><span style="color:#b48ead;">A </span><span>= (</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39; </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39;&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39;&#39; </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">emb</span><span> (</span><span style="color:#96b5b4;">const </span><span>{</span><span style="color:#b48ead;">B </span><span>= </span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">tt</span><span>)
+</span></code></pre>
+<h2 id="h-set">(h-)Set</h2>
+<p>A type $A$ is said to be a set if its identity types are propositions:</p>
+<p>$$
+\text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)
+$$</p>
+<p>An equivalent definition is the type $A$ satisfies axiom K:</p>
+<p>$$
+\text{is-set}(A) := \Pi_{(x : A)} \Pi_{(p : x = x)} \text{refl}_x = p
+$$</p>
+<h2 id="general-truncation-levels">General truncation levels</h2>
+<p>We define $\text{is-contr}(A)$ as the bottom level of the truncation hierarchy, and $\text{is-prop}(A)$ as the first, $\text{is-set}(A)$ as the second, and so on.</p>
+<p>For some reason we want to make <strong>set</strong> to be the 0 level, thus $\text{is-contr}(A)$ is level -2 and $\text{is-prop}(A)$ is level -1.</p>
+<p>In Agda:</p>
+<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data 𝕋 </span><span>: </span><span style="color:#b48ead;">Set where
+</span><span>    </span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">two</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋
+</span><span>    </span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋 </span><span>→ </span><span style="color:#b48ead;">𝕋
+</span><span>
+</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋
+</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>= </span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋</span><span> (</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">two</span><span>-</span><span style="color:#b48ead;">𝕋</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋
+</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>= </span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋</span><span> (</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc </span><span>: (</span><span style="color:#bf616a;">k </span><span>: </span><span style="color:#b48ead;">𝕋</span><span>) → </span><span style="color:#b48ead;">Set </span><span>→ </span><span style="color:#b48ead;">Set
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc neg</span><span>-</span><span style="color:#bf616a;">two</span><span>-</span><span style="color:#b48ead;">𝕋 A </span><span>= </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc</span><span> (</span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span style="color:#bf616a;">k</span><span>) </span><span style="color:#b48ead;">A </span><span>= (</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc k</span><span> (</span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>)
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#bf616a;">trunc </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋 A
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#bf616a;">trunc </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#96b5b4;">id
+</span><span>
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">set</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#bf616a;">trunc </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">set </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc zero</span><span>-</span><span style="color:#b48ead;">𝕋 A
+</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">set</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#bf616a;">trunc </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#96b5b4;">id
+</span></code></pre>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2023-11-18</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=HoTT Notes 8&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-8&#x2F;&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
