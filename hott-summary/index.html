@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • HoTT Summary</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hott-summary&#x2F;">HoTT Summary</a></h1>
+  
+  <div class="post-content"><h2 id="fu-hao-biao">符号表</h2>
+<table><thead><tr><th>符号</th><th>读作</th><th>意义</th></tr></thead><tbody>
+<tr><td>$x \mapsto b(x)$</td><td>$x$ maps to $b(x)$</td><td>$\lambda x . b(x)$</td></tr>
+<tr><td>$f \sim g$</td><td>$f$ is homotopy to $g$</td><td>$\Pi_{(x:A)}f(x) = g(x)$</td></tr>
+<tr><td>$A ≃ B$</td><td>$A$ is equivalence to $B$</td><td>$\Sigma_{(f:A→B)}\text{is-equiv}(f)$</td></tr>
+<tr><td>$p^{-1}$</td><td>inverse of path $p$</td><td>$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$</td></tr>
+<tr><td>$A ↪ B$</td><td>$A$ is embedding to $B$</td><td>$Σ_{(f : A → B)} is-emb(f)$</td></tr>
+</tbody></table>
+<h2 id="ding-yi">定义</h2>
+<h3 id="equals">Equals</h3>
+<!-- #### Type, Term, Universe, Dependent type & Type family
+
+TODO -->
+<h4 id="judgemental-equal">Judgemental equal</h4>
+<p>基本上就是“按照定义相等”，“语义上相等”的意思。</p>
+<p>比如 $2 \doteq 2$, $2 \doteq suc(suc(0))$.</p>
+<p>一般来说，judgemental equal 都是根据某些<strong>假定</strong>(postulate) 做出来的，比如最常见的每个东西 judgemental equal 自己，每个东西 judgemental equal 它的定义，以及 $\Pi$ 上的计算规则（我只写了最终结论，请自行补全 deduction tree）：</p>
+<p>$$
+(\lambda y.b(y))(x) \doteq b(x) : B(x)
+$$</p>
+<p>$$
+\lambda x.f(x) \doteq f : \Pi_{(x:A)} B(x)
+$$</p>
+<p>都是利用假定的一些规则形成 judgemental equal 的例子。</p>
+<p>$\doteq$ 具有交换率和结合率。</p>
+<p>In Agda, 所有能被 type checker 自动 “转换” 的东西之间都是 judgemental equal 的，比如你可以在一个要求放入函数 $f$ 的地方放入 $\lambda x . f(x)$，类型检查器不会 complain，因为它们 judgemental equal。 </p>
+<h4 id="propositional-equal-identity-type">Propositional equal/identity type</h4>
+<p>由于 judgemental equal 有很多限制，比如依照下面的自然数定义，我们不能证明 $add(0, n) \doteq n$，因此需要引入 propositional equal。</p>
+<p>根据 Curry-Howard correspondence，两个值相等这一个命题可以被转化为一个类型，这就是 propositional equal 类型，或者称为 identity type。</p>
+<p>注意我们定义出来的 identity type 是依附于某个点上的，比如对于 $a : A$，我们可以定义 $a =_A x$ 是 $A$ 类型在 $a$ 点上的 identity type，它是一个依赖于 $x$ 的类型 （可以写作 $Id_a(x)\ type$）。</p>
+<p>Identity type 具有交换率和结合率。</p>
+<h4 id="observational-equal">Observational equal</h4>
+<p>单纯地定义 identity type 只是使得“某两个东西相等”可以被表示，目前我们只有 $refl_x : x = x$ 这一种 “形成” identity type 的项的方式，这显然是不够的。</p>
+<p>有时，我们可以在某个类型上定义出一个二元关系，然后将 $R(x, y)$ 映射到 $\top$ 或 $⊥$，然后利用这个关系来定义 构造 identity type。</p>
+<p>比如对于自然数，我们定义二元关系 $\text{Eq-N}$：</p>
+<p>$$
+\text{Eq-N} : N → N → Set
+$$
+$$
+\begin{align}
+\text{Eq-N}&amp;(&amp;0      &amp;,&amp; 0         &amp;)&amp; &amp; := ⊤ \\
+\text{Eq-N}&amp;(&amp;0      &amp;,&amp; suc(n)    &amp;)&amp; &amp; := ⊥ \\
+\text{Eq-N}&amp;(&amp;suc(n) &amp;,&amp; 0     &amp;)&amp; &amp; := ⊥ \\
+\text{Eq-N}&amp;(&amp;suc(m) &amp;,&amp; suc(n)&amp;)&amp; &amp; := \text{Eq-N}(m, n)
+\end{align}
+$$</p>
+<p>然后将这种关系和 identity type 关联起来：</p>
+<p>$$
+\text{Eq-N-refl}: (n : N) → \text{Eq-N}(n, n)
+$$
+$$
+\begin{align}
+\text{Eq-N-refl} &amp;(&amp;zero  &amp;)&amp; &amp; := tt \\
+\text{Eq-N-refl} &amp;(&amp;suc(n)&amp;)&amp; &amp; := \text{Eq-N-refl}(n)
+\end{align}
+$$
+$$
+\text{identity-to-Eq-N} : (x : N) → (y : N) → x ≡ y → \text{Eq-N}(x,y)
+$$
+$$
+\begin{align}
+\text{identity-to-Eq-N}(x,x,refl_x) &amp; := \text{Eq-N-refl}(x) &amp;
+\end{align}
+$$
+$$
+\text{Eq-N-to-identity} : (x : N) → (y : N) → \text{Eq-N}(x,y) → x ≡ y
+$$
+$$
+\begin{align}
+\text{Eq-N-to-identity} &amp;(&amp;0     &amp;,&amp;      0&amp;,&amp; eqnxy)                 &amp; := refl \\
+\text{Eq-N-to-identity} &amp;(&amp;suc(x)&amp;,&amp; suc(y)&amp;,&amp; eqnxy)   &amp; := cong(suc,\text{Eq-N-to-identity}(x,y,eqnxy))
+\end{align}
+$$</p>
+<h3 id="induction-gui-na">Induction (归纳)</h3>
+<p>就是定义了一个基本 case 满足某些性质，然后定义了一个如何根据某个 case 推导出下一个 case 的规则，然后就可以推导出所有的 case 都满足这个性质。</p>
+<p>以下是一些书中提到的例子：</p>
+<h4 id="zi-ran-shu">自然数</h4>
+<ul>
+<li>base case: $p_0 : P(0)$</li>
+<li>inductive case: $p_s : \Pi_{(n : \mathbb{N})} P(n) \rightarrow P(suc(n))$</li>
+<li>induction: $ind_{\mathbb{N}}(p_0, p_s) : \Pi_{(n : \mathbb{N})} P(n)$</li>
+</ul>
+<p>其中 $P$ 代表参数具有的性质。</p>
+<p>通过 $ind_{\mathbb{N}}$，我们可以定义出加法：</p>
+<ul>
+<li>base case: $p_0 := m$</li>
+<li>inductive case: $p_s := \lambda n . suc(n)$</li>
+<li>induction: $add(m, \underline{}) := ind_{\mathbb{N}}(p_0, p_s)$</li>
+</ul>
+<p>因此，根据 add 的定义，我们可以得到：</p>
+<ul>
+<li>$add(m, 0) \doteq m$ 是一个 judgemental equal。</li>
+<li>$add(m, suc(n)) \doteq suc(add(m, n))$ 是一个 judgemental equal。</li>
+</ul>
+<p>但是，我们不能得到 $add(0, n) \doteq n$，这是 judgemental equal 的一个限制。</p>
+<h4 id="unit-lei-xing">unit 类型（⊤）</h4>
+<p>只有 1 个 term 的类型。</p>
+<p>$$
+ind_\top: P_{tt} → \Pi_{(x : \top)} P(x)
+$$</p>
+<p>$$
+ind_\top(p, tt) := p
+$$</p>
+<h4 id="kong-lei-xing">空类型（⊥）</h4>
+<p>没有 term 的类型。</p>
+<p>$$
+\bot\text{-elim} := ind_\bot : \bot → A
+$$</p>
+<h4 id="he-lei-xing-yu-ji-lei-xing">和类型/余积类型</h4>
+<p>$$
+ind_+ : (\Pi_{(x:A)} P(inj_1(x))) → (\Pi_{(y:B)} P(inj_2(y))) → (\Pi_{(z:A⊎B)} P(z))
+$$
+where
+$$
+ind_+(f, g , inj_1(x)) := f(x)
+$$
+$$
+ind_+(f, g , inj_2(y)) := g(x)
+$$</p>
+<h4 id="pair-lei-xing-s-lei-xing">pair 类型 / Σ 类型</h4>
+<p>$$
+ind_\Sigma : (\Pi_{(x : A)} \Pi_{(y : B(x))} P(x, y)) → \Pi_{(z : Σ_{(x : A)} B(x))} P(z)
+$$
+$$
+ind_\Sigma(g, (x, y)) := g(x, y)
+$$</p>
+<p>我们当然可以定义出 B 类型不依赖于 A 类型的特殊情况，即积类型：</p>
+<p>$$
+ind_\times : (\Pi_{(x : A)} \Pi_{(y : B)} P(x , y)) → \Pi_{(z : A \times B)} P(z)
+$$
+$$
+ind_\times(g, (x, y)) := g(x, y) 
+$$</p>
+<h4 id="propositional-equal-lei-xing-identity-lei-xing-path-lei-xing">Propositional equal 类型 / identity 类型 / Path 类型</h4>
+<p>$$
+ind_{=_a} : P(a, refl_a) \rightarrow (\Pi_{(x : A)} \Pi_{(p:a=x)} P(x, p))
+$$
+$$
+ind_{=_a}(u, a, refl_a) := u, \text{where}\ u : P(a, refl_a)
+$$</p>
+<p>基本上就是说，如果某个特性在 $(a, refl_a)$ 上成立，那么它在任意 $(x, p)$（其中 $p$ 是 $a = x$ 的证据，也称 $a$ 到 $x$ 的一条 path）上都成立。</p>
+<p>这也被称为 path induction。</p>
+<p>再次提醒注意，这里的 $a$ 是 “钉死” 的。</p>
+<h4 id="homotopy">Homotopy</h4>
+<p>$$
+ind_{htpy} : (\Pi_{(g: \Pi_{(x:A)}B(x))}\Pi_{(H: f \sim g)}P(g,H)) → P(f, \text{refl-htpy}_f)
+$$</p>
+<p>$$
+ind_{htpy}(s, f, \text{refl-htpy}_f) := s(f, \text{refl-htpy}_f)
+$$</p>
+<h3 id="fiber">fiber</h3>
+<p>$$
+fib_f(b) := \Sigma_{(a : A)} f(a) = b
+$$</p>
+<p>对应了 b 在 f 上的原像。</p>
+<h2 id="lei-xing-han-shu-de-shu-xing">类型/函数的属性</h2>
+<h3 id="is-empty">is-empty</h3>
+<p>$$
+\text{is-empty}(A) := A → \bot
+$$</p>
+<h3 id="sec-retr">sec/retr</h3>
+<p>假设 $f : A → B$，sec 表示函数存在右逆。</p>
+<p>$$
+\text{sec}(f) := \Pi_{(g:B→A)} f ∘ g \sim id
+$$</p>
+<p>retr 表示函数存在左逆。</p>
+<p>$$
+\text{retr}(f) := \Pi_{(h:B→A)} h ∘ f \sim id
+$$</p>
+<p>retr 之所以称为 retr，是因为 $h$ 可能只是将 B 的一个子集映射到了 A 。此时我们就说 A 是 B 的一个收缩（retraction）。</p>
+<h3 id="is-equiv">is-equiv</h3>
+<p>$$
+\text{is-equiv}(f) := sec(f) \times retr(f)
+$$</p>
+<p>$$
+\text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
+$$</p>
+<h3 id="is-contr">is-contr</h3>
+<p>$$
+\text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
+$$</p>
+<p>$$
+\text{is-contr}(f) := \Pi_{(b : B)} \text{is-contr}(fib_f(b))
+$$</p>
+<p>We call $f$ a contractible map.</p>
+<p>$$
+\text{is-contr}(f) ↔ \text{is-equiv}(f)
+$$</p>
+<h3 id="is-coh-invertible">is-coh-invertible</h3>
+<p>对于一个函数 $f : A \rightarrow B$, 如果他是一个 equivalence, 其逆为 $g$, $g$ 为右逆的证据为 homotopy $G$, $g$ 为左逆的证据为 homotopy $H$，同时存在 Homotopy $K : G \cdot f \sim f \cdot H$，我们称 $f$ 为 coherently invertible map。</p>
+<p>$$
+\text{is-coh-invertible}(f) := \Sigma_{(g : B → A)} \Sigma_{(G : f \circ g \sim id_B)} \Sigma_{(H : g \circ f \sim id_A)} \Sigma_{(K : G \cdot f \sim f \cdot H)} (g, G, H, K)
+$$</p>
+<p>Any coherently invertible map is a contractible map.</p>
+<h3 id="is-emb">is-emb</h3>
+<p>$$
+\text{is-emb}(f) := (x y : A) → is-equiv(cong f {x} {y})
+$$</p>
+<h3 id="is-prop">is-prop</h3>
+<p>$$
+\text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
+$$</p>
+<h3 id="is-set">is-set</h3>
+<p>$$
+\text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)
+$$</p>
+<h3 id="is-trunc-k">is-trunc-k</h3>
+<p>$$
+\begin{align}
+\text{is-trunc}_{-2}(A) &amp; :=  \text{is-contr}(A) \\
+\text{is-trunc}_{k+1}(A) &amp; := \Pi_{(x,y:A)}\text{is-trunc}_k(x = y)
+\end{align}
+$$</p>
+<p>a map $f : A → B$ is k-truncated if its fibers are k-truncated.</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2023年11月19日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/PLT">&nbsp;PLT</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/Notes">&nbsp;Notes</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=HoTT Summary&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hott-summary&#x2F;&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

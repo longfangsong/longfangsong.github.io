@@ -5,8 +5,235 @@
     <link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-10-19T11:58:34.553+00:00</updated>
+    <updated>2023-11-19T19:57:59.556+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
+    <entry xml:lang="zh">
+        <title>HoTT Summary</title>
+        <published>2023-11-19T19:57:59.556+00:00</published>
+        <updated>2023-11-19T19:57:59.556+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/hott-summary/" type="text/html"/>
+        <id>https://longfangsong.github.io/hott-summary/</id>
+        
+        <content type="html">&lt;h2 id=&quot;fu-hao-biao&quot;&gt;符号表&lt;&#x2F;h2&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;符号&lt;&#x2F;th&gt;&lt;th&gt;读作&lt;&#x2F;th&gt;&lt;th&gt;意义&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;$x \mapsto b(x)$&lt;&#x2F;td&gt;&lt;td&gt;$x$ maps to $b(x)$&lt;&#x2F;td&gt;&lt;td&gt;$\lambda x . b(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$f \sim g$&lt;&#x2F;td&gt;&lt;td&gt;$f$ is homotopy to $g$&lt;&#x2F;td&gt;&lt;td&gt;$\Pi_{(x:A)}f(x) = g(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A ≃ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is equivalence to $B$&lt;&#x2F;td&gt;&lt;td&gt;$\Sigma_{(f:A→B)}\text{is-equiv}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$p^{-1}$&lt;&#x2F;td&gt;&lt;td&gt;inverse of path $p$&lt;&#x2F;td&gt;&lt;td&gt;$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A ↪ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is embedding to $B$&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(f : A → B)} is-emb(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h2 id=&quot;ding-yi&quot;&gt;定义&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;equals&quot;&gt;Equals&lt;&#x2F;h3&gt;
+&lt;!-- #### Type, Term, Universe, Dependent type &amp; Type family
+
+TODO --&gt;
+&lt;h4 id=&quot;judgemental-equal&quot;&gt;Judgemental equal&lt;&#x2F;h4&gt;
+&lt;p&gt;基本上就是“按照定义相等”，“语义上相等”的意思。&lt;&#x2F;p&gt;
+&lt;p&gt;比如 $2 \doteq 2$, $2 \doteq suc(suc(0))$.&lt;&#x2F;p&gt;
+&lt;p&gt;一般来说，judgemental equal 都是根据某些&lt;strong&gt;假定&lt;&#x2F;strong&gt;(postulate) 做出来的，比如最常见的每个东西 judgemental equal 自己，每个东西 judgemental equal 它的定义，以及 $\Pi$ 上的计算规则（我只写了最终结论，请自行补全 deduction tree）：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(\lambda y.b(y))(x) \doteq b(x) : B(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\lambda x.f(x) \doteq f : \Pi_{(x:A)} B(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;都是利用假定的一些规则形成 judgemental equal 的例子。&lt;&#x2F;p&gt;
+&lt;p&gt;$\doteq$ 具有交换率和结合率。&lt;&#x2F;p&gt;
+&lt;p&gt;In Agda, 所有能被 type checker 自动 “转换” 的东西之间都是 judgemental equal 的，比如你可以在一个要求放入函数 $f$ 的地方放入 $\lambda x . f(x)$，类型检查器不会 complain，因为它们 judgemental equal。 &lt;&#x2F;p&gt;
+&lt;h4 id=&quot;propositional-equal-identity-type&quot;&gt;Propositional equal&#x2F;identity type&lt;&#x2F;h4&gt;
+&lt;p&gt;由于 judgemental equal 有很多限制，比如依照下面的自然数定义，我们不能证明 $add(0, n) \doteq n$，因此需要引入 propositional equal。&lt;&#x2F;p&gt;
+&lt;p&gt;根据 Curry-Howard correspondence，两个值相等这一个命题可以被转化为一个类型，这就是 propositional equal 类型，或者称为 identity type。&lt;&#x2F;p&gt;
+&lt;p&gt;注意我们定义出来的 identity type 是依附于某个点上的，比如对于 $a : A$，我们可以定义 $a =_A x$ 是 $A$ 类型在 $a$ 点上的 identity type，它是一个依赖于 $x$ 的类型 （可以写作 $Id_a(x)\ type$）。&lt;&#x2F;p&gt;
+&lt;p&gt;Identity type 具有交换率和结合率。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;observational-equal&quot;&gt;Observational equal&lt;&#x2F;h4&gt;
+&lt;p&gt;单纯地定义 identity type 只是使得“某两个东西相等”可以被表示，目前我们只有 $refl_x : x = x$ 这一种 “形成” identity type 的项的方式，这显然是不够的。&lt;&#x2F;p&gt;
+&lt;p&gt;有时，我们可以在某个类型上定义出一个二元关系，然后将 $R(x, y)$ 映射到 $\top$ 或 $⊥$，然后利用这个关系来定义 构造 identity type。&lt;&#x2F;p&gt;
+&lt;p&gt;比如对于自然数，我们定义二元关系 $\text{Eq-N}$：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{Eq-N} : N → N → Set
+$$
+$$
+\begin{align}
+\text{Eq-N}&amp;amp;(&amp;amp;0      &amp;amp;,&amp;amp; 0         &amp;amp;)&amp;amp; &amp;amp; := ⊤ \\
+\text{Eq-N}&amp;amp;(&amp;amp;0      &amp;amp;,&amp;amp; suc(n)    &amp;amp;)&amp;amp; &amp;amp; := ⊥ \\
+\text{Eq-N}&amp;amp;(&amp;amp;suc(n) &amp;amp;,&amp;amp; 0     &amp;amp;)&amp;amp; &amp;amp; := ⊥ \\
+\text{Eq-N}&amp;amp;(&amp;amp;suc(m) &amp;amp;,&amp;amp; suc(n)&amp;amp;)&amp;amp; &amp;amp; := \text{Eq-N}(m, n)
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;然后将这种关系和 identity type 关联起来：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{Eq-N-refl}: (n : N) → \text{Eq-N}(n, n)
+$$
+$$
+\begin{align}
+\text{Eq-N-refl} &amp;amp;(&amp;amp;zero  &amp;amp;)&amp;amp; &amp;amp; := tt \\
+\text{Eq-N-refl} &amp;amp;(&amp;amp;suc(n)&amp;amp;)&amp;amp; &amp;amp; := \text{Eq-N-refl}(n)
+\end{align}
+$$
+$$
+\text{identity-to-Eq-N} : (x : N) → (y : N) → x ≡ y → \text{Eq-N}(x,y)
+$$
+$$
+\begin{align}
+\text{identity-to-Eq-N}(x,x,refl_x) &amp;amp; := \text{Eq-N-refl}(x) &amp;amp;
+\end{align}
+$$
+$$
+\text{Eq-N-to-identity} : (x : N) → (y : N) → \text{Eq-N}(x,y) → x ≡ y
+$$
+$$
+\begin{align}
+\text{Eq-N-to-identity} &amp;amp;(&amp;amp;0     &amp;amp;,&amp;amp;      0&amp;amp;,&amp;amp; eqnxy)                 &amp;amp; := refl \\
+\text{Eq-N-to-identity} &amp;amp;(&amp;amp;suc(x)&amp;amp;,&amp;amp; suc(y)&amp;amp;,&amp;amp; eqnxy)   &amp;amp; := cong(suc,\text{Eq-N-to-identity}(x,y,eqnxy))
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;induction-gui-na&quot;&gt;Induction (归纳)&lt;&#x2F;h3&gt;
+&lt;p&gt;就是定义了一个基本 case 满足某些性质，然后定义了一个如何根据某个 case 推导出下一个 case 的规则，然后就可以推导出所有的 case 都满足这个性质。&lt;&#x2F;p&gt;
+&lt;p&gt;以下是一些书中提到的例子：&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;zi-ran-shu&quot;&gt;自然数&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;base case: $p_0 : P(0)$&lt;&#x2F;li&gt;
+&lt;li&gt;inductive case: $p_s : \Pi_{(n : \mathbb{N})} P(n) \rightarrow P(suc(n))$&lt;&#x2F;li&gt;
+&lt;li&gt;induction: $ind_{\mathbb{N}}(p_0, p_s) : \Pi_{(n : \mathbb{N})} P(n)$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;其中 $P$ 代表参数具有的性质。&lt;&#x2F;p&gt;
+&lt;p&gt;通过 $ind_{\mathbb{N}}$，我们可以定义出加法：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;base case: $p_0 := m$&lt;&#x2F;li&gt;
+&lt;li&gt;inductive case: $p_s := \lambda n . suc(n)$&lt;&#x2F;li&gt;
+&lt;li&gt;induction: $add(m, \underline{}) := ind_{\mathbb{N}}(p_0, p_s)$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;因此，根据 add 的定义，我们可以得到：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$add(m, 0) \doteq m$ 是一个 judgemental equal。&lt;&#x2F;li&gt;
+&lt;li&gt;$add(m, suc(n)) \doteq suc(add(m, n))$ 是一个 judgemental equal。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;但是，我们不能得到 $add(0, n) \doteq n$，这是 judgemental equal 的一个限制。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;unit-lei-xing&quot;&gt;unit 类型（⊤）&lt;&#x2F;h4&gt;
+&lt;p&gt;只有 1 个 term 的类型。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_\top: P_{tt} → \Pi_{(x : \top)} P(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_\top(p, tt) := p
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;kong-lei-xing&quot;&gt;空类型（⊥）&lt;&#x2F;h4&gt;
+&lt;p&gt;没有 term 的类型。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\bot\text{-elim} := ind_\bot : \bot → A
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;he-lei-xing-yu-ji-lei-xing&quot;&gt;和类型&#x2F;余积类型&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_+ : (\Pi_{(x:A)} P(inj_1(x))) → (\Pi_{(y:B)} P(inj_2(y))) → (\Pi_{(z:A⊎B)} P(z))
+$$
+where
+$$
+ind_+(f, g , inj_1(x)) := f(x)
+$$
+$$
+ind_+(f, g , inj_2(y)) := g(x)
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;pair-lei-xing-s-lei-xing&quot;&gt;pair 类型 &#x2F; Σ 类型&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_\Sigma : (\Pi_{(x : A)} \Pi_{(y : B(x))} P(x, y)) → \Pi_{(z : Σ_{(x : A)} B(x))} P(z)
+$$
+$$
+ind_\Sigma(g, (x, y)) := g(x, y)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;我们当然可以定义出 B 类型不依赖于 A 类型的特殊情况，即积类型：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_\times : (\Pi_{(x : A)} \Pi_{(y : B)} P(x , y)) → \Pi_{(z : A \times B)} P(z)
+$$
+$$
+ind_\times(g, (x, y)) := g(x, y) 
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;propositional-equal-lei-xing-identity-lei-xing-path-lei-xing&quot;&gt;Propositional equal 类型 &#x2F; identity 类型 &#x2F; Path 类型&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_{=_a} : P(a, refl_a) \rightarrow (\Pi_{(x : A)} \Pi_{(p:a=x)} P(x, p))
+$$
+$$
+ind_{=_a}(u, a, refl_a) := u, \text{where}\ u : P(a, refl_a)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;基本上就是说，如果某个特性在 $(a, refl_a)$ 上成立，那么它在任意 $(x, p)$（其中 $p$ 是 $a = x$ 的证据，也称 $a$ 到 $x$ 的一条 path）上都成立。&lt;&#x2F;p&gt;
+&lt;p&gt;这也被称为 path induction。&lt;&#x2F;p&gt;
+&lt;p&gt;再次提醒注意，这里的 $a$ 是 “钉死” 的。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;homotopy&quot;&gt;Homotopy&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_{htpy} : (\Pi_{(g: \Pi_{(x:A)}B(x))}\Pi_{(H: f \sim g)}P(g,H)) → P(f, \text{refl-htpy}_f)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_{htpy}(s, f, \text{refl-htpy}_f) := s(f, \text{refl-htpy}_f)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;fiber&quot;&gt;fiber&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+fib_f(b) := \Sigma_{(a : A)} f(a) = b
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;对应了 b 在 f 上的原像。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;lei-xing-han-shu-de-shu-xing&quot;&gt;类型&#x2F;函数的属性&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;is-empty&quot;&gt;is-empty&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-empty}(A) := A → \bot
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;sec-retr&quot;&gt;sec&#x2F;retr&lt;&#x2F;h3&gt;
+&lt;p&gt;假设 $f : A → B$，sec 表示函数存在右逆。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{sec}(f) := \Pi_{(g:B→A)} f ∘ g \sim id
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;retr 表示函数存在左逆。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{retr}(f) := \Pi_{(h:B→A)} h ∘ f \sim id
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;retr 之所以称为 retr，是因为 $h$ 可能只是将 B 的一个子集映射到了 A 。此时我们就说 A 是 B 的一个收缩（retraction）。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-equiv&quot;&gt;is-equiv&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-equiv}(f) := sec(f) \times retr(f)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-contr&quot;&gt;is-contr&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-contr}(f) := \Pi_{(b : B)} \text{is-contr}(fib_f(b))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We call $f$ a contractible map.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-contr}(f) ↔ \text{is-equiv}(f)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-coh-invertible&quot;&gt;is-coh-invertible&lt;&#x2F;h3&gt;
+&lt;p&gt;对于一个函数 $f : A \rightarrow B$, 如果他是一个 equivalence, 其逆为 $g$, $g$ 为右逆的证据为 homotopy $G$, $g$ 为左逆的证据为 homotopy $H$，同时存在 Homotopy $K : G \cdot f \sim f \cdot H$，我们称 $f$ 为 coherently invertible map。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-coh-invertible}(f) := \Sigma_{(g : B → A)} \Sigma_{(G : f \circ g \sim id_B)} \Sigma_{(H : g \circ f \sim id_A)} \Sigma_{(K : G \cdot f \sim f \cdot H)} (g, G, H, K)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Any coherently invertible map is a contractible map.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-emb&quot;&gt;is-emb&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-emb}(f) := (x y : A) → is-equiv(cong f {x} {y})
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-prop&quot;&gt;is-prop&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-set&quot;&gt;is-set&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-trunc-k&quot;&gt;is-trunc-k&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\begin{align}
+\text{is-trunc}_{-2}(A) &amp;amp; :=  \text{is-contr}(A) \\
+\text{is-trunc}_{k+1}(A) &amp;amp; := \Pi_{(x,y:A)}\text{is-trunc}_k(x = y)
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;a map $f : A → B$ is k-truncated if its fibers are k-truncated.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="zh">
         <title>重新开始学数学 • 贝叶斯因果推理（4）</title>
         <published>2023-10-19T11:58:34.553+00:00</published>
