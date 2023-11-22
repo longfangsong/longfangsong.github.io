@@ -15,7 +15,7 @@
   <title>Blog • HoTT Summary</title>
   
   
-  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
   
   
   
@@ -51,9 +51,9 @@
     <div class="logo-title">
       <div class="title">
         <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
-        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
         <div class="description">
-          <p>生命是灰色的，而理论之树常青</p>
+          <p>Und grün des Theorie goldner Baum</p>
         </div>
       </div>
     </div>
@@ -78,9 +78,9 @@
         
         
         
-        <li><a  href="https://longfangsong.github.io/">首页</a></li>
-        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
-            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
       <div class="information">
         <div class="back_btn">
           <a onclick="window.history.go(-1)" ><i
@@ -99,7 +99,7 @@
             
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -111,43 +111,44 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hott-summary&#x2F;">HoTT Summary</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-summary&#x2F;">HoTT Summary</a></h1>
   
-  <div class="post-content"><h2 id="fu-hao-biao">符号表</h2>
-<table><thead><tr><th>符号</th><th>读作</th><th>意义</th></tr></thead><tbody>
+  <div class="post-content"><h2 id="syntax-table">Syntax table</h2>
+<table><thead><tr><th>Syntax</th><th>Read as</th><th>Meaning</th></tr></thead><tbody>
 <tr><td>$x \mapsto b(x)$</td><td>$x$ maps to $b(x)$</td><td>$\lambda x . b(x)$</td></tr>
 <tr><td>$f \sim g$</td><td>$f$ is homotopy to $g$</td><td>$\Pi_{(x:A)}f(x) = g(x)$</td></tr>
 <tr><td>$A ≃ B$</td><td>$A$ is equivalence to $B$</td><td>$\Sigma_{(f:A→B)}\text{is-equiv}(f)$</td></tr>
 <tr><td>$p^{-1}$</td><td>inverse of path $p$</td><td>$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$</td></tr>
 <tr><td>$A ↪ B$</td><td>$A$ is embedding to $B$</td><td>$Σ_{(f : A → B)} is-emb(f)$</td></tr>
 </tbody></table>
-<h2 id="ding-yi">定义</h2>
+<h2 id="definitions">Definitions</h2>
 <h3 id="equals">Equals</h3>
 <!-- #### Type, Term, Universe, Dependent type & Type family
 
 TODO -->
 <h4 id="judgemental-equal">Judgemental equal</h4>
-<p>基本上就是“按照定义相等”，“语义上相等”的意思。</p>
-<p>比如 $2 \doteq 2$, $2 \doteq suc(suc(0))$.</p>
-<p>一般来说，judgemental equal 都是根据某些<strong>假定</strong>(postulate) 做出来的，比如最常见的每个东西 judgemental equal 自己，每个东西 judgemental equal 它的定义，以及 $\Pi$ 上的计算规则（我只写了最终结论，请自行补全 deduction tree）：</p>
+<p>Basically idea is &quot;equal according to the definition&quot; or &quot;equal in terms of semantics.&quot;</p>
+<p>eg. $2 \doteq 2$, $2 \doteq suc(suc(0))$.</p>
+<p>In general, the only thing &quot;judgmental equal&quot; is based on is some certain assumptions (postulates). The most common ones include &quot;everything being judgmentally equal to itself&quot;,
+&quot;everything being judgmentally equal to its definition&quot;, and the calculation rules on $\Pi$ (I will write the final conclusion only, please complete the deduction tree on your own):</p>
 <p>$$
 (\lambda y.b(y))(x) \doteq b(x) : B(x)
 $$</p>
 <p>$$
 \lambda x.f(x) \doteq f : \Pi_{(x:A)} B(x)
 $$</p>
-<p>都是利用假定的一些规则形成 judgemental equal 的例子。</p>
-<p>$\doteq$ 具有交换率和结合率。</p>
-<p>In Agda, 所有能被 type checker 自动 “转换” 的东西之间都是 judgemental equal 的，比如你可以在一个要求放入函数 $f$ 的地方放入 $\lambda x . f(x)$，类型检查器不会 complain，因为它们 judgemental equal。 </p>
+<p>are examples of forming &quot;judgmental equal&quot; using certain assumed rules.</p>
+<p>The symbol $\doteq$ possesses <code>trans</code> and <code>sym</code> properties.</p>
+<p>In Agda, anything that can be automatically &quot;converted&quot; by the type checker is judgmentally equal. For instance, you can replace a function $f$ with $\lambda x . f(x)$ in a context that expects the former, and the type checker won't complain because they are judgmentally equal.</p>
 <h4 id="propositional-equal-identity-type">Propositional equal/identity type</h4>
-<p>由于 judgemental equal 有很多限制，比如依照下面的自然数定义，我们不能证明 $add(0, n) \doteq n$，因此需要引入 propositional equal。</p>
-<p>根据 Curry-Howard correspondence，两个值相等这一个命题可以被转化为一个类型，这就是 propositional equal 类型，或者称为 identity type。</p>
-<p>注意我们定义出来的 identity type 是依附于某个点上的，比如对于 $a : A$，我们可以定义 $a =_A x$ 是 $A$ 类型在 $a$ 点上的 identity type，它是一个依赖于 $x$ 的类型 （可以写作 $Id_a(x)\ type$）。</p>
-<p>Identity type 具有交换率和结合率。</p>
+<p>Due to the many restrictions of judgmental equality, such as in the definition of natural numbers below, where we cannot prove $add(0, n) \doteq n$, it becomes necessary to introduce propositional equality.</p>
+<p>According to the Curry-Howard correspondence, the proposition that two values are equal can be translated into a type, known as the propositional equal type or identity type.</p>
+<p>It's important to note that the identity type we define is associated with a specific point. For instance, given $a : A$, we can define $a =_A x$ as the identity type of type $A$ at the point $a$, which is a type dependent on $x$ (can be written as $Id_a(x)\ type$).</p>
+<p>The identity type possesses <code>trans</code> and <code>sym</code> properties.</p>
 <h4 id="observational-equal">Observational equal</h4>
-<p>单纯地定义 identity type 只是使得“某两个东西相等”可以被表示，目前我们只有 $refl_x : x = x$ 这一种 “形成” identity type 的项的方式，这显然是不够的。</p>
-<p>有时，我们可以在某个类型上定义出一个二元关系，然后将 $R(x, y)$ 映射到 $\top$ 或 $⊥$，然后利用这个关系来定义 构造 identity type。</p>
-<p>比如对于自然数，我们定义二元关系 $\text{Eq-N}$：</p>
+<p>Simply defining the identity type allows us to express the notion of &quot;two things being equal.&quot; Currently, we only have one way to &quot;construct&quot; an item of the identity type, which is $refl_x : x = x$, but clearly, this is not sufficient.</p>
+<p>Sometimes, we can define a binary relation on a type and then map $R(x, y)$ to either $\top$ or $⊥$, using this relation to construct the identity type.</p>
+<p>For example, for natural numbers, we can define a binary relation $\text{Eq-N}$:</p>
 <p>$$
 \text{Eq-N} : N → N → Set
 $$
@@ -159,7 +160,7 @@ $$
 \text{Eq-N}&amp;(&amp;suc(m) &amp;,&amp; suc(n)&amp;)&amp; &amp; := \text{Eq-N}(m, n)
 \end{align}
 $$</p>
-<p>然后将这种关系和 identity type 关联起来：</p>
+<p>Then associate this relation with the identity type:</p>
 <p>$$
 \text{Eq-N-refl}: (n : N) → \text{Eq-N}(n, n)
 $$
@@ -186,42 +187,42 @@ $$
 \text{Eq-N-to-identity} &amp;(&amp;suc(x)&amp;,&amp; suc(y)&amp;,&amp; eqnxy)   &amp; := cong(suc,\text{Eq-N-to-identity}(x,y,eqnxy))
 \end{align}
 $$</p>
-<h3 id="induction-gui-na">Induction (归纳)</h3>
-<p>就是定义了一个基本 case 满足某些性质，然后定义了一个如何根据某个 case 推导出下一个 case 的规则，然后就可以推导出所有的 case 都满足这个性质。</p>
-<p>以下是一些书中提到的例子：</p>
-<h4 id="zi-ran-shu">自然数</h4>
+<h3 id="induction">Induction</h3>
+<p>It defines a base case satisfying certain properties and then specifies rules for deducing the next case based on a given case. This allows the deduction that all cases satisfy the specified property.</p>
+<p>Here are some examples mentioned in the book:</p>
+<h4 id="natural-numbers">Natural numbers</h4>
 <ul>
 <li>base case: $p_0 : P(0)$</li>
 <li>inductive case: $p_s : \Pi_{(n : \mathbb{N})} P(n) \rightarrow P(suc(n))$</li>
 <li>induction: $ind_{\mathbb{N}}(p_0, p_s) : \Pi_{(n : \mathbb{N})} P(n)$</li>
 </ul>
-<p>其中 $P$ 代表参数具有的性质。</p>
-<p>通过 $ind_{\mathbb{N}}$，我们可以定义出加法：</p>
+<p>Where $P$ represents the property that the parameter possesses.</p>
+<p>Through $ind_{\mathbb{N}}$, we can define addition:</p>
 <ul>
 <li>base case: $p_0 := m$</li>
 <li>inductive case: $p_s := \lambda n . suc(n)$</li>
 <li>induction: $add(m, \underline{}) := ind_{\mathbb{N}}(p_0, p_s)$</li>
 </ul>
-<p>因此，根据 add 的定义，我们可以得到：</p>
+<p>Therefore, according to the definition of add, we can obtain:</p>
 <ul>
-<li>$add(m, 0) \doteq m$ 是一个 judgemental equal。</li>
-<li>$add(m, suc(n)) \doteq suc(add(m, n))$ 是一个 judgemental equal。</li>
+<li>$add(m, 0) \doteq m$ is a judgmental equal.</li>
+<li>$add(m, suc(n)) \doteq suc(add(m, n))$ is a judgmental equal.</li>
 </ul>
-<p>但是，我们不能得到 $add(0, n) \doteq n$，这是 judgemental equal 的一个限制。</p>
-<h4 id="unit-lei-xing">unit 类型（⊤）</h4>
-<p>只有 1 个 term 的类型。</p>
+<p>However, we cannot deduce $add(0, n) \doteq n$, which is a limitation of judgmental equality.</p>
+<h4 id="unit-type">unit type (⊤)</h4>
+<p>A type with only one term.</p>
 <p>$$
 ind_\top: P_{tt} → \Pi_{(x : \top)} P(x)
 $$</p>
 <p>$$
 ind_\top(p, tt) := p
 $$</p>
-<h4 id="kong-lei-xing">空类型（⊥）</h4>
-<p>没有 term 的类型。</p>
+<h4 id="empty-type">empty type (⊥)</h4>
+<p>A type with no terms.</p>
 <p>$$
 \bot\text{-elim} := ind_\bot : \bot → A
 $$</p>
-<h4 id="he-lei-xing-yu-ji-lei-xing">和类型/余积类型</h4>
+<h4 id="sum-coproduct-type">Sum/Coproduct type</h4>
 <p>$$
 ind_+ : (\Pi_{(x:A)} P(inj_1(x))) → (\Pi_{(y:B)} P(inj_2(y))) → (\Pi_{(z:A⊎B)} P(z))
 $$
@@ -232,30 +233,30 @@ $$
 $$
 ind_+(f, g , inj_2(y)) := g(x)
 $$</p>
-<h4 id="pair-lei-xing-s-lei-xing">pair 类型 / Σ 类型</h4>
+<h4 id="pair-type-s-type">pair type / Σ type</h4>
 <p>$$
 ind_\Sigma : (\Pi_{(x : A)} \Pi_{(y : B(x))} P(x, y)) → \Pi_{(z : Σ_{(x : A)} B(x))} P(z)
 $$
 $$
 ind_\Sigma(g, (x, y)) := g(x, y)
 $$</p>
-<p>我们当然可以定义出 B 类型不依赖于 A 类型的特殊情况，即积类型：</p>
+<p>Of course, we can define a special case where type B does not depend on type A, namely, product types:</p>
 <p>$$
 ind_\times : (\Pi_{(x : A)} \Pi_{(y : B)} P(x , y)) → \Pi_{(z : A \times B)} P(z)
 $$
 $$
-ind_\times(g, (x, y)) := g(x, y) 
+ind_\times(g, (x, y)) := g(x, y)
 $$</p>
-<h4 id="propositional-equal-lei-xing-identity-lei-xing-path-lei-xing">Propositional equal 类型 / identity 类型 / Path 类型</h4>
+<h4 id="propositional-equal-type-identity-type-path-type">Propositional equal type / identity type / Path type</h4>
 <p>$$
 ind_{=_a} : P(a, refl_a) \rightarrow (\Pi_{(x : A)} \Pi_{(p:a=x)} P(x, p))
 $$
 $$
 ind_{=_a}(u, a, refl_a) := u, \text{where}\ u : P(a, refl_a)
 $$</p>
-<p>基本上就是说，如果某个特性在 $(a, refl_a)$ 上成立，那么它在任意 $(x, p)$（其中 $p$ 是 $a = x$ 的证据，也称 $a$ 到 $x$ 的一条 path）上都成立。</p>
-<p>这也被称为 path induction。</p>
-<p>再次提醒注意，这里的 $a$ 是 “钉死” 的。</p>
+<p>Essentially, if a certain property holds for $(a, refl_a)$, then it holds for any $(x, p)$ (where $p$ is evidence that $a = x$, also called a path from $a$ to $x$).</p>
+<p>This is also known as path induction.</p>
+<p>Again, please note that here $a$ is fixed.</p>
 <h4 id="homotopy">Homotopy</h4>
 <p>$$
 ind_{htpy} : (\Pi_{(g: \Pi_{(x:A)}B(x))}\Pi_{(H: f \sim g)}P(g,H)) → P(f, \text{refl-htpy}_f)
@@ -267,22 +268,22 @@ $$</p>
 <p>$$
 fib_f(b) := \Sigma_{(a : A)} f(a) = b
 $$</p>
-<p>对应了 b 在 f 上的原像。</p>
-<h2 id="lei-xing-han-shu-de-shu-xing">类型/函数的属性</h2>
+<p>Corresponding to the preimage of $b$ under $f$.</p>
+<h2 id="properties-of-types-functions">Properties of types/functions</h2>
 <h3 id="is-empty">is-empty</h3>
 <p>$$
 \text{is-empty}(A) := A → \bot
 $$</p>
 <h3 id="sec-retr">sec/retr</h3>
-<p>假设 $f : A → B$，sec 表示函数存在右逆。</p>
+<p>Assuming $f : A → B$, <code>sec</code> denotes the existence of a right inverse for the function.</p>
 <p>$$
 \text{sec}(f) := \Pi_{(g:B→A)} f ∘ g \sim id
 $$</p>
-<p>retr 表示函数存在左逆。</p>
+<p><code>retr</code> denotes the existence of a left inverse for the function.</p>
 <p>$$
 \text{retr}(f) := \Pi_{(h:B→A)} h ∘ f \sim id
 $$</p>
-<p>retr 之所以称为 retr，是因为 $h$ 可能只是将 B 的一个子集映射到了 A 。此时我们就说 A 是 B 的一个收缩（retraction）。</p>
+<p>The reason <code>retr</code> is called <code>retr</code> is that $h$ may only map a subset of B back to A. In this case, we say A is a retraction of B.</p>
 <h3 id="is-equiv">is-equiv</h3>
 <p>$$
 \text{is-equiv}(f) := sec(f) \times retr(f)
@@ -302,7 +303,7 @@ $$</p>
 \text{is-contr}(f) ↔ \text{is-equiv}(f)
 $$</p>
 <h3 id="is-coh-invertible">is-coh-invertible</h3>
-<p>对于一个函数 $f : A \rightarrow B$, 如果他是一个 equivalence, 其逆为 $g$, $g$ 为右逆的证据为 homotopy $G$, $g$ 为左逆的证据为 homotopy $H$，同时存在 Homotopy $K : G \cdot f \sim f \cdot H$，我们称 $f$ 为 coherently invertible map。</p>
+<p>For a function $f : A \rightarrow B$, if it is an equivalence with its inverse being $g$, where the evidence for $g$ being a right inverse is homotopy $G$, and the evidence for $g$ being a left inverse is homotopy $H$, and there exists a homotopy $K : G \cdot f \sim f \cdot H$, we refer to $f$ as a coherently invertible map.</p>
 <p>$$
 \text{is-coh-invertible}(f) := \Sigma_{(g : B → A)} \Sigma_{(G : f \circ g \sim id_B)} \Sigma_{(H : g \circ f \sim id_A)} \Sigma_{(K : G \cdot f \sim f \cdot H)} (g, G, H, K)
 $$</p>
@@ -332,12 +333,12 @@ $$</p>
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2023年11月19日</span>
+        <i class="far fa-sun"></i><span class="date">2023-11-19</span>
         
         
         <i class="fas fa-tags"></i>
         
-        <a class="tag" href="https://longfangsong.github.io/tags/编程语言理论">&nbsp;编程语言理论</a>
+        <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
         
         
       </div>
@@ -351,7 +352,7 @@ $$</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=HoTT Summary&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hott-summary&#x2F;&hashtags=编程语言理论"></a>
+      href="http://twitter.com/share?text=HoTT Summary&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-summary&#x2F;&hashtags=PLT"></a>
   </div>
 </div>
 

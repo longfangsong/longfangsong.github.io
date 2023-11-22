@@ -5,8 +5,236 @@
     <link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-11-18T22:51:57.590+00:00</updated>
+    <updated>2023-11-19T19:57:59.556+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>HoTT Summary</title>
+        <published>2023-11-19T19:57:59.556+00:00</published>
+        <updated>2023-11-19T19:57:59.556+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hott-summary/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hott-summary/</id>
+        
+        <content type="html">&lt;h2 id=&quot;syntax-table&quot;&gt;Syntax table&lt;&#x2F;h2&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Syntax&lt;&#x2F;th&gt;&lt;th&gt;Read as&lt;&#x2F;th&gt;&lt;th&gt;Meaning&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;$x \mapsto b(x)$&lt;&#x2F;td&gt;&lt;td&gt;$x$ maps to $b(x)$&lt;&#x2F;td&gt;&lt;td&gt;$\lambda x . b(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$f \sim g$&lt;&#x2F;td&gt;&lt;td&gt;$f$ is homotopy to $g$&lt;&#x2F;td&gt;&lt;td&gt;$\Pi_{(x:A)}f(x) = g(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A ≃ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is equivalence to $B$&lt;&#x2F;td&gt;&lt;td&gt;$\Sigma_{(f:A→B)}\text{is-equiv}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$p^{-1}$&lt;&#x2F;td&gt;&lt;td&gt;inverse of path $p$&lt;&#x2F;td&gt;&lt;td&gt;$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A ↪ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is embedding to $B$&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(f : A → B)} is-emb(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h2 id=&quot;definitions&quot;&gt;Definitions&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;equals&quot;&gt;Equals&lt;&#x2F;h3&gt;
+&lt;!-- #### Type, Term, Universe, Dependent type &amp; Type family
+
+TODO --&gt;
+&lt;h4 id=&quot;judgemental-equal&quot;&gt;Judgemental equal&lt;&#x2F;h4&gt;
+&lt;p&gt;Basically idea is &amp;quot;equal according to the definition&amp;quot; or &amp;quot;equal in terms of semantics.&amp;quot;&lt;&#x2F;p&gt;
+&lt;p&gt;eg. $2 \doteq 2$, $2 \doteq suc(suc(0))$.&lt;&#x2F;p&gt;
+&lt;p&gt;In general, the only thing &amp;quot;judgmental equal&amp;quot; is based on is some certain assumptions (postulates). The most common ones include &amp;quot;everything being judgmentally equal to itself&amp;quot;,
+&amp;quot;everything being judgmentally equal to its definition&amp;quot;, and the calculation rules on $\Pi$ (I will write the final conclusion only, please complete the deduction tree on your own):&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(\lambda y.b(y))(x) \doteq b(x) : B(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\lambda x.f(x) \doteq f : \Pi_{(x:A)} B(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;are examples of forming &amp;quot;judgmental equal&amp;quot; using certain assumed rules.&lt;&#x2F;p&gt;
+&lt;p&gt;The symbol $\doteq$ possesses &lt;code&gt;trans&lt;&#x2F;code&gt; and &lt;code&gt;sym&lt;&#x2F;code&gt; properties.&lt;&#x2F;p&gt;
+&lt;p&gt;In Agda, anything that can be automatically &amp;quot;converted&amp;quot; by the type checker is judgmentally equal. For instance, you can replace a function $f$ with $\lambda x . f(x)$ in a context that expects the former, and the type checker won&#x27;t complain because they are judgmentally equal.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;propositional-equal-identity-type&quot;&gt;Propositional equal&#x2F;identity type&lt;&#x2F;h4&gt;
+&lt;p&gt;Due to the many restrictions of judgmental equality, such as in the definition of natural numbers below, where we cannot prove $add(0, n) \doteq n$, it becomes necessary to introduce propositional equality.&lt;&#x2F;p&gt;
+&lt;p&gt;According to the Curry-Howard correspondence, the proposition that two values are equal can be translated into a type, known as the propositional equal type or identity type.&lt;&#x2F;p&gt;
+&lt;p&gt;It&#x27;s important to note that the identity type we define is associated with a specific point. For instance, given $a : A$, we can define $a =_A x$ as the identity type of type $A$ at the point $a$, which is a type dependent on $x$ (can be written as $Id_a(x)\ type$).&lt;&#x2F;p&gt;
+&lt;p&gt;The identity type possesses &lt;code&gt;trans&lt;&#x2F;code&gt; and &lt;code&gt;sym&lt;&#x2F;code&gt; properties.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;observational-equal&quot;&gt;Observational equal&lt;&#x2F;h4&gt;
+&lt;p&gt;Simply defining the identity type allows us to express the notion of &amp;quot;two things being equal.&amp;quot; Currently, we only have one way to &amp;quot;construct&amp;quot; an item of the identity type, which is $refl_x : x = x$, but clearly, this is not sufficient.&lt;&#x2F;p&gt;
+&lt;p&gt;Sometimes, we can define a binary relation on a type and then map $R(x, y)$ to either $\top$ or $⊥$, using this relation to construct the identity type.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, for natural numbers, we can define a binary relation $\text{Eq-N}$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{Eq-N} : N → N → Set
+$$
+$$
+\begin{align}
+\text{Eq-N}&amp;amp;(&amp;amp;0      &amp;amp;,&amp;amp; 0         &amp;amp;)&amp;amp; &amp;amp; := ⊤ \\
+\text{Eq-N}&amp;amp;(&amp;amp;0      &amp;amp;,&amp;amp; suc(n)    &amp;amp;)&amp;amp; &amp;amp; := ⊥ \\
+\text{Eq-N}&amp;amp;(&amp;amp;suc(n) &amp;amp;,&amp;amp; 0     &amp;amp;)&amp;amp; &amp;amp; := ⊥ \\
+\text{Eq-N}&amp;amp;(&amp;amp;suc(m) &amp;amp;,&amp;amp; suc(n)&amp;amp;)&amp;amp; &amp;amp; := \text{Eq-N}(m, n)
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Then associate this relation with the identity type:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{Eq-N-refl}: (n : N) → \text{Eq-N}(n, n)
+$$
+$$
+\begin{align}
+\text{Eq-N-refl} &amp;amp;(&amp;amp;zero  &amp;amp;)&amp;amp; &amp;amp; := tt \\
+\text{Eq-N-refl} &amp;amp;(&amp;amp;suc(n)&amp;amp;)&amp;amp; &amp;amp; := \text{Eq-N-refl}(n)
+\end{align}
+$$
+$$
+\text{identity-to-Eq-N} : (x : N) → (y : N) → x ≡ y → \text{Eq-N}(x,y)
+$$
+$$
+\begin{align}
+\text{identity-to-Eq-N}(x,x,refl_x) &amp;amp; := \text{Eq-N-refl}(x) &amp;amp;
+\end{align}
+$$
+$$
+\text{Eq-N-to-identity} : (x : N) → (y : N) → \text{Eq-N}(x,y) → x ≡ y
+$$
+$$
+\begin{align}
+\text{Eq-N-to-identity} &amp;amp;(&amp;amp;0     &amp;amp;,&amp;amp;      0&amp;amp;,&amp;amp; eqnxy)                 &amp;amp; := refl \\
+\text{Eq-N-to-identity} &amp;amp;(&amp;amp;suc(x)&amp;amp;,&amp;amp; suc(y)&amp;amp;,&amp;amp; eqnxy)   &amp;amp; := cong(suc,\text{Eq-N-to-identity}(x,y,eqnxy))
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;induction&quot;&gt;Induction&lt;&#x2F;h3&gt;
+&lt;p&gt;It defines a base case satisfying certain properties and then specifies rules for deducing the next case based on a given case. This allows the deduction that all cases satisfy the specified property.&lt;&#x2F;p&gt;
+&lt;p&gt;Here are some examples mentioned in the book:&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;natural-numbers&quot;&gt;Natural numbers&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;base case: $p_0 : P(0)$&lt;&#x2F;li&gt;
+&lt;li&gt;inductive case: $p_s : \Pi_{(n : \mathbb{N})} P(n) \rightarrow P(suc(n))$&lt;&#x2F;li&gt;
+&lt;li&gt;induction: $ind_{\mathbb{N}}(p_0, p_s) : \Pi_{(n : \mathbb{N})} P(n)$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Where $P$ represents the property that the parameter possesses.&lt;&#x2F;p&gt;
+&lt;p&gt;Through $ind_{\mathbb{N}}$, we can define addition:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;base case: $p_0 := m$&lt;&#x2F;li&gt;
+&lt;li&gt;inductive case: $p_s := \lambda n . suc(n)$&lt;&#x2F;li&gt;
+&lt;li&gt;induction: $add(m, \underline{}) := ind_{\mathbb{N}}(p_0, p_s)$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Therefore, according to the definition of add, we can obtain:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$add(m, 0) \doteq m$ is a judgmental equal.&lt;&#x2F;li&gt;
+&lt;li&gt;$add(m, suc(n)) \doteq suc(add(m, n))$ is a judgmental equal.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;However, we cannot deduce $add(0, n) \doteq n$, which is a limitation of judgmental equality.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;unit-type&quot;&gt;unit type (⊤)&lt;&#x2F;h4&gt;
+&lt;p&gt;A type with only one term.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_\top: P_{tt} → \Pi_{(x : \top)} P(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_\top(p, tt) := p
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;empty-type&quot;&gt;empty type (⊥)&lt;&#x2F;h4&gt;
+&lt;p&gt;A type with no terms.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\bot\text{-elim} := ind_\bot : \bot → A
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;sum-coproduct-type&quot;&gt;Sum&#x2F;Coproduct type&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_+ : (\Pi_{(x:A)} P(inj_1(x))) → (\Pi_{(y:B)} P(inj_2(y))) → (\Pi_{(z:A⊎B)} P(z))
+$$
+where
+$$
+ind_+(f, g , inj_1(x)) := f(x)
+$$
+$$
+ind_+(f, g , inj_2(y)) := g(x)
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;pair-type-s-type&quot;&gt;pair type &#x2F; Σ type&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_\Sigma : (\Pi_{(x : A)} \Pi_{(y : B(x))} P(x, y)) → \Pi_{(z : Σ_{(x : A)} B(x))} P(z)
+$$
+$$
+ind_\Sigma(g, (x, y)) := g(x, y)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Of course, we can define a special case where type B does not depend on type A, namely, product types:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_\times : (\Pi_{(x : A)} \Pi_{(y : B)} P(x , y)) → \Pi_{(z : A \times B)} P(z)
+$$
+$$
+ind_\times(g, (x, y)) := g(x, y)
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;propositional-equal-type-identity-type-path-type&quot;&gt;Propositional equal type &#x2F; identity type &#x2F; Path type&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_{=_a} : P(a, refl_a) \rightarrow (\Pi_{(x : A)} \Pi_{(p:a=x)} P(x, p))
+$$
+$$
+ind_{=_a}(u, a, refl_a) := u, \text{where}\ u : P(a, refl_a)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Essentially, if a certain property holds for $(a, refl_a)$, then it holds for any $(x, p)$ (where $p$ is evidence that $a = x$, also called a path from $a$ to $x$).&lt;&#x2F;p&gt;
+&lt;p&gt;This is also known as path induction.&lt;&#x2F;p&gt;
+&lt;p&gt;Again, please note that here $a$ is fixed.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;homotopy&quot;&gt;Homotopy&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+ind_{htpy} : (\Pi_{(g: \Pi_{(x:A)}B(x))}\Pi_{(H: f \sim g)}P(g,H)) → P(f, \text{refl-htpy}_f)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_{htpy}(s, f, \text{refl-htpy}_f) := s(f, \text{refl-htpy}_f)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;fiber&quot;&gt;fiber&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+fib_f(b) := \Sigma_{(a : A)} f(a) = b
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Corresponding to the preimage of $b$ under $f$.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;properties-of-types-functions&quot;&gt;Properties of types&#x2F;functions&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;is-empty&quot;&gt;is-empty&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-empty}(A) := A → \bot
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;sec-retr&quot;&gt;sec&#x2F;retr&lt;&#x2F;h3&gt;
+&lt;p&gt;Assuming $f : A → B$, &lt;code&gt;sec&lt;&#x2F;code&gt; denotes the existence of a right inverse for the function.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{sec}(f) := \Pi_{(g:B→A)} f ∘ g \sim id
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;retr&lt;&#x2F;code&gt; denotes the existence of a left inverse for the function.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{retr}(f) := \Pi_{(h:B→A)} h ∘ f \sim id
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;The reason &lt;code&gt;retr&lt;&#x2F;code&gt; is called &lt;code&gt;retr&lt;&#x2F;code&gt; is that $h$ may only map a subset of B back to A. In this case, we say A is a retraction of B.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-equiv&quot;&gt;is-equiv&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-equiv}(f) := sec(f) \times retr(f)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-contr&quot;&gt;is-contr&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-contr}(f) := \Pi_{(b : B)} \text{is-contr}(fib_f(b))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We call $f$ a contractible map.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-contr}(f) ↔ \text{is-equiv}(f)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-coh-invertible&quot;&gt;is-coh-invertible&lt;&#x2F;h3&gt;
+&lt;p&gt;For a function $f : A \rightarrow B$, if it is an equivalence with its inverse being $g$, where the evidence for $g$ being a right inverse is homotopy $G$, and the evidence for $g$ being a left inverse is homotopy $H$, and there exists a homotopy $K : G \cdot f \sim f \cdot H$, we refer to $f$ as a coherently invertible map.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-coh-invertible}(f) := \Sigma_{(g : B → A)} \Sigma_{(G : f \circ g \sim id_B)} \Sigma_{(H : g \circ f \sim id_A)} \Sigma_{(K : G \cdot f \sim f \cdot H)} (g, G, H, K)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Any coherently invertible map is a contractible map.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-emb&quot;&gt;is-emb&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-emb}(f) := (x y : A) → is-equiv(cong f {x} {y})
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-prop&quot;&gt;is-prop&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-set&quot;&gt;is-set&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-trunc-k&quot;&gt;is-trunc-k&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\begin{align}
+\text{is-trunc}_{-2}(A) &amp;amp; :=  \text{is-contr}(A) \\
+\text{is-trunc}_{k+1}(A) &amp;amp; := \Pi_{(x,y:A)}\text{is-trunc}_k(x = y)
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;a map $f : A → B$ is k-truncated if its fibers are k-truncated.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>HoTT Notes 8</title>
         <published>2023-11-18T22:51:57.590+00:00</published>
