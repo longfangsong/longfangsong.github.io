@@ -23,7 +23,7 @@
 &lt;tr&gt;&lt;td&gt;$f \sim g$&lt;&#x2F;td&gt;&lt;td&gt;$f$ is homotopy to $g$&lt;&#x2F;td&gt;&lt;td&gt;$\Pi_{(x:A)}f(x) = g(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$A ≃ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is equivalence to $B$&lt;&#x2F;td&gt;&lt;td&gt;$\Sigma_{(f:A→B)}\text{is-equiv}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$p^{-1}$&lt;&#x2F;td&gt;&lt;td&gt;inverse of path $p$&lt;&#x2F;td&gt;&lt;td&gt;$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
-&lt;tr&gt;&lt;td&gt;$A ↪ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is embedding to $B$&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(f : A → B)} is-emb(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A ↪ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is embedding to $B$&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(f : A → B)} \text{is-emb}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
 &lt;h2 id=&quot;definitions&quot;&gt;Definitions&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;equals&quot;&gt;Equals&lt;&#x2F;h3&gt;
@@ -214,7 +214,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Any coherently invertible map is a contractible map.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-emb&quot;&gt;is-emb&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
-\text{is-emb}(f) := (x y : A) → is-equiv(cong f {x} {y})
+\text{is-emb}(f) := (x, y : A) → \text{is-equiv}(cong\ f\ \{x\}\ \{y\})
 $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-prop&quot;&gt;is-prop&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
@@ -236,98 +236,95 @@ $$&lt;&#x2F;p&gt;
         
     </entry>
     <entry xml:lang="en">
-        <title>HoTT Notes 8</title>
-        <published>2023-11-18T22:51:57.590+00:00</published>
-        <updated>2023-11-18T22:51:57.590+00:00</updated>
-        <author>
-          <name>Unknown</name>
-        </author>
-        <link rel="alternate" href="https://longfangsong.github.io/en/hott-8/" type="text/html"/>
-        <id>https://longfangsong.github.io/en/hott-8/</id>
-        
-        <content type="html">&lt;h2 id=&quot;proposition-h-proposition&quot;&gt;Proposition&#x2F;h-Proposition&lt;&#x2F;h2&gt;
-&lt;p&gt;A type $A$ is said to be a proposition if its identity types are contractible:&lt;&#x2F;p&gt;
-&lt;p&gt;$$
-\text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
-$$&lt;&#x2F;p&gt;
-&lt;p&gt;Some equivalent definitions:&lt;&#x2F;p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;$\text{is-prop}(A) := \Pi_{(x,y : A)} x = y$. This means iff every pair of elements on $A$ are equal.&lt;&#x2F;p&gt;
-&lt;&#x2F;li&gt;
-&lt;li&gt;
-&lt;p&gt;$\text{is-prop}(A) := A \rightarrow \text{is-contr}(A)$. This means iff A is not empty, and it is contractible, then it is a proposition.&lt;&#x2F;p&gt;
-&lt;&#x2F;li&gt;
-&lt;li&gt;
-&lt;p&gt;$\text{const}_{\text{tt}} : A → ⊤$ is an embedding. This means iff A can be mapped to the unit type &amp;quot;injectivly&amp;quot;, then it is a proposition.&lt;&#x2F;p&gt;
-&lt;&#x2F;li&gt;
-&lt;&#x2F;ul&gt;
-&lt;p&gt;The reason why we call it a (h-)proposition is that, in first-order logic, we don&#x27;t have any way to distinguish between any two proofs of the same proposition. In here HoTT case, a proposition is a type (which corresponds to a set theory proposition) that either is empty, or contractable (ie. all of its elements, which correspond to proofs are equal).&lt;&#x2F;p&gt;
-&lt;p&gt;In Agda:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x y &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;contr&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;)
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&amp;#39; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x y &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&amp;#39;&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&amp;#39;&amp;#39; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;contr &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&amp;#39;&amp;#39;&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&amp;#39;&amp;#39;&amp;#39; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;emb&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;const &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;tt&lt;&#x2F;span&gt;&lt;span&gt;)
-&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;h2 id=&quot;h-set&quot;&gt;(h-)Set&lt;&#x2F;h2&gt;
-&lt;p&gt;A type $A$ is said to be a set if its identity types are propositions:&lt;&#x2F;p&gt;
-&lt;p&gt;$$
-\text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)
-$$&lt;&#x2F;p&gt;
-&lt;p&gt;An equivalent definition is the type $A$ satisfies axiom K:&lt;&#x2F;p&gt;
-&lt;p&gt;$$
-\text{is-set}(A) := \Pi_{(x : A)} \Pi_{(p : x = x)} \text{refl}_x = p
-$$&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;general-truncation-levels&quot;&gt;General truncation levels&lt;&#x2F;h2&gt;
-&lt;p&gt;We define $\text{is-contr}(A)$ as the bottom level of the truncation hierarchy, and $\text{is-prop}(A)$ as the first, $\text{is-set}(A)$ as the second, and so on.&lt;&#x2F;p&gt;
-&lt;p&gt;For some reason we want to make &lt;strong&gt;set&lt;&#x2F;strong&gt; to be the 0 level, thus $\text{is-contr}(A)$ is level -2 and $\text{is-prop}(A)$ is level -1.&lt;&#x2F;p&gt;
-&lt;p&gt;So we define the truncation level of a type $A$ as:&lt;&#x2F;p&gt;
-&lt;p&gt;$$
-\begin{align}
-\text{is-trunc}&lt;em&gt;{-2}(A) &amp;amp;:=&amp;amp; \text{is-contr}(A)
-\text{is-trunc}&lt;&#x2F;em&gt;{k+1}(A) &amp;amp;:=&amp;amp; \Pi_{(x,y:A)}\text{is-trunc}_k(x = y)
-\end{align}
-$$&lt;&#x2F;p&gt;
-&lt;p&gt;In Agda:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data 𝕋 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;two&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋
-&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;succ&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;one&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;one&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;succ&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;two&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋&lt;&#x2F;span&gt;&lt;span&gt;)
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;succ&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;one&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋&lt;&#x2F;span&gt;&lt;span&gt;)
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;k &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;two&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;contr &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;succ&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;k&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x y &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc k&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;y&lt;&#x2F;span&gt;&lt;span&gt;)
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;one&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;one&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 A
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;prop&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;neg&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;one&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;id
-&lt;&#x2F;span&gt;&lt;span&gt;
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;set&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc zero&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;𝕋 A
-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;set&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;zero&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trunc &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;id
-&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-</content>
-        
-    </entry>
-    <entry xml:lang="en">
         <title>HoTT Notes 9</title>
-        <published>2023-11-18T22:51:57.590+00:00</published>
-        <updated>2023-11-18T22:51:57.590+00:00</updated>
+        <published>2023-11-18T23:52:57.590+00:00</published>
+        <updated>2023-11-18T23:52:57.590+00:00</updated>
         <author>
           <name>Unknown</name>
         </author>
         <link rel="alternate" href="https://longfangsong.github.io/en/hott-9/" type="text/html"/>
         <id>https://longfangsong.github.io/en/hott-9/</id>
+        
+        <content type="html">&lt;p&gt;The function extensionality axiom asserts that identifications of functions are equivalent to homotopies between them.&lt;&#x2F;p&gt;
+&lt;p&gt;These are equivalent definitions of function extensionality:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The function extensionality principle holds at $f$, where $f, g : \Pi_{(x: A)}B(x)$, the family of maps:
+$$
+\begin{align}
+\text{identity-to-htpy}         &amp;amp;: (f = g) \to (f \sim g) \\
+\text{identity-to-htpy}(refl_f) &amp;amp;:= \text{refl-htpy}_f \\
+\end{align}
+$$
+is a family of equivalence.&lt;&#x2F;li&gt;
+&lt;li&gt;The total space, $\Sigma_{(g: \Pi_{(x: A)}B(x))} f \sim g$ is contractible.&lt;&#x2F;li&gt;
+&lt;li&gt;The principle of homotopy induction:
+$$
+s \mapsto s(f, \text{refl-htpy}_f) : (\Pi_{(g: \Pi_{(x: A)}B(x))} \Pi_{(H: f \sim g)} P(g, H)) \to P(f, \text{refl-htpy}_f)
+$$
+has a section.&lt;&#x2F;li&gt;
+&lt;li&gt;The weak function extensionality principle: for each $A$, and $B(x)$ over $A$:
+$$
+(\Pi_{(x:A)}\text{is-contr}(B(x))) \to \text{is-contr}(\Pi_{(x:A)}B(x))
+$$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;universal-properties&quot;&gt;Universal properties&lt;&#x2F;h2&gt;
+&lt;p&gt;Universal properties are characterizations of all maps out of or into a given type.&lt;&#x2F;p&gt;
+&lt;p&gt;Here are some examples:&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;the-universal-property-of-s-types&quot;&gt;The universal property of Σ-types&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\begin{align}
+\text{ev-pair} &amp;amp;:&amp;amp; (\Pi_{(z: \Sigma_{(x:A)}B(x))} C(z)) &amp;amp; \to &amp;amp; \Pi_{(x:A)}(\Pi_{(y:B(x))} &amp;amp;\to&amp;amp; C(x,y)) \\
+\text{ev-pair} &amp;amp;:=&amp;amp; f &amp;amp;\mapsto&amp;amp; λx. λy &amp;amp;.&amp;amp; f((x, y))
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;and its inverse is obtained by the induction principle of Σ-types.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{ind}_\Sigma : (\Pi_{(x : A)} \Pi_{(y : B(x))} C(x, y)) → \Pi_{(z : Σ_{(x : A)} B(x))} C (z)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;It characterizes maps out of a dependent pair type $\Sigma_{(x: A)}B(x)$.&lt;&#x2F;p&gt;
+&lt;p&gt;Proof of this principle needs function extensionality, to show $ind_Σ ∘ \text{ev-pair} \sim id$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;the-universal-property-of-identity-types&quot;&gt;The universal property of identity types&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\begin{align}
+\text{ev-refl} &amp;amp;:&amp;amp; (\Pi_{(x:A)} (x = a) \to B(x)) &amp;amp; \to &amp;amp; B(a) \\
+\text{ev-pair} &amp;amp;:=&amp;amp; f &amp;amp;\mapsto&amp;amp; f(a, refl_a)
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;and its inverse is obtained by the induction principle of identity types.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{ind}_{=_a} : B(a, refl_a) \to \Pi_{(x:A)} \Pi_{(p:x = a)} B(x, p)
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;composing-with-equivalences&quot;&gt;Composing with equivalences&lt;&#x2F;h2&gt;
+&lt;p&gt;For any $f : A → B$, these are equivalent:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$f$ is an equivalence.&lt;&#x2F;li&gt;
+&lt;li&gt;For any $P$ over $B$:
+$$
+\begin{align}
+(&amp;amp;\Pi_{(y:B)} P&amp;amp;(y)) &amp;amp;\to&amp;amp; (&amp;amp;\Pi_{(x:A)} P&amp;amp;(&amp;amp;f&amp;amp;(x))) \\
+&amp;amp;h&amp;amp; &amp;amp;\mapsto&amp;amp; &amp;amp;h&amp;amp; ∘ &amp;amp;f&amp;amp;
+\end{align}
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;For any $X$:
+$$
+\begin{align}
+(B → X) &amp;amp;\to&amp;amp; (A → X) \\
+g &amp;amp;\mapsto&amp;amp; g ∘ f
+\end{align}
+$$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>HoTT Notes 8</title>
+        <published>2023-11-18T23:51:57.590+00:00</published>
+        <updated>2023-11-18T23:51:57.590+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hott-8/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hott-8/</id>
         
         <content type="html">&lt;h2 id=&quot;proposition-h-proposition&quot;&gt;Proposition&#x2F;h-Proposition&lt;&#x2F;h2&gt;
 &lt;p&gt;A type $A$ is said to be a proposition if its identity types are contractible:&lt;&#x2F;p&gt;
@@ -449,7 +446,7 @@ $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;the-fundamental-theorem&quot;&gt;The fundamental theorem&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;unary-identity-system&quot;&gt;Unary identity system&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
-&lt;p&gt;A (unary) identity system on $𝐴$ at 𝑎 consists of a type family B over A equipped with $b : B(a)$, such that for any family of types $P(x, y)$ indexed by $x : A$ and $y : B(x)$, the function&lt;&#x2F;p&gt;
+&lt;p&gt;A (unary) identity system on $A$ at $a$ consists of a type family B over A equipped with $b : B(a)$, such that for any family of types $P(x, y)$ indexed by $x : A$ and $y : B(x)$, the function&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;$$
 h ↦ h(a, b) : \Pi_{(x:A)} \Pi_{(y:B(x))} P(x, y) → P(a, b)
@@ -457,13 +454,26 @@ $$&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;has a section.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
+&lt;h3 id=&quot;fundamental-theorem-of-identity-types&quot;&gt;Fundamental theorem of identity types&lt;&#x2F;h3&gt;
+&lt;p&gt;Given $a : A$, $x : A ⊢ B(x)$, and&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x : A ⊢ f(x) : (a = x) \rightarrow B(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;the following conditions are equivalent:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;$ftid : \text{is-contr}(\Sigma_{(x:A)}B(x))$&lt;&#x2F;li&gt;
+&lt;li&gt;$ftid(x) : (a = x) ≃ B(x)$&lt;&#x2F;li&gt;
+&lt;li&gt;$f(a, refl_a) : B(a)$ is an identity system on A at a&lt;&#x2F;li&gt;
+&lt;li&gt;$f(x)$ is an equivalence of types, ie. $x:A \vdash ftid(x) : \text{is-equiv}(f(x))$&lt;&#x2F;li&gt;
+&lt;li&gt;$f(x)$ has a section $ftid(x)$, or $f(x)$ is a retraction of $ftid(x)$, ie. $f(x) ∘ ftid(x) \sim id$, where $ftid(x) : B(x) → (a = x)$&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
 &lt;h2 id=&quot;embedding&quot;&gt;Embedding&lt;&#x2F;h2&gt;
 &lt;p&gt;An embedding is a map $f : A → B$ that satisfies the property that, for every $x, y : A$
 $$
 ap_f : (x = y) → (f(x) = f(y))
 $$
 is an equivalence.&lt;&#x2F;p&gt;
-&lt;p&gt;We write $is-emb(f)$ for the type of witnesses that $f$ is an embedding, and we define&lt;&#x2F;p&gt;
+&lt;p&gt;We write $\text{is-emb}(f)$ for the type of witnesses that $f$ is an embedding, and we define&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 A ↪ B := \Sigma_{(f : A → B)} \text{is-emb}(f)
 $$&lt;&#x2F;p&gt;

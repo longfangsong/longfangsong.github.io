@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -113,77 +113,74 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-9&#x2F;">HoTT Notes 9</a></h1>
   
-  <div class="post-content"><h2 id="proposition-h-proposition">Proposition/h-Proposition</h2>
-<p>A type $A$ is said to be a proposition if its identity types are contractible:</p>
-<p>$$
-\text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
-$$</p>
-<p>Some equivalent definitions:</p>
+  <div class="post-content"><p>The function extensionality axiom asserts that identifications of functions are equivalent to homotopies between them.</p>
+<p>These are equivalent definitions of function extensionality:</p>
 <ul>
-<li>
-<p>$\text{is-prop}(A) := \Pi_{(x,y : A)} x = y$. This means iff every pair of elements on $A$ are equal.</p>
-</li>
-<li>
-<p>$\text{is-prop}(A) := A \rightarrow \text{is-contr}(A)$. This means iff A is not empty, and it is contractible, then it is a proposition.</p>
-</li>
-<li>
-<p>$\text{const}_{\text{tt}} : A → ⊤$ is an embedding. This means iff A can be mapped to the unit type &quot;injectivly&quot;, then it is a proposition.</p>
-</li>
+<li>The function extensionality principle holds at $f$, where $f, g : \Pi_{(x: A)}B(x)$, the family of maps:
+$$
+\begin{align}
+\text{identity-to-htpy}         &amp;: (f = g) \to (f \sim g) \\
+\text{identity-to-htpy}(refl_f) &amp;:= \text{refl-htpy}_f \\
+\end{align}
+$$
+is a family of equivalence.</li>
+<li>The total space, $\Sigma_{(g: \Pi_{(x: A)}B(x))} f \sim g$ is contractible.</li>
+<li>The principle of homotopy induction:
+$$
+s \mapsto s(f, \text{refl-htpy}_f) : (\Pi_{(g: \Pi_{(x: A)}B(x))} \Pi_{(H: f \sim g)} P(g, H)) \to P(f, \text{refl-htpy}_f)
+$$
+has a section.</li>
+<li>The weak function extensionality principle: for each $A$, and $B(x)$ over $A$:
+$$
+(\Pi_{(x:A)}\text{is-contr}(B(x))) \to \text{is-contr}(\Pi_{(x:A)}B(x))
+$$</li>
 </ul>
-<p>The reason why we call it a (h-)proposition is that, in first-order logic, we don't have any way to distinguish between any two proofs of the same proposition. In here HoTT case, a proposition is a type (which corresponds to a set theory proposition) that either is empty, or contractable (ie. all of its elements, which correspond to proofs are equal).</p>
-<p>In Agda:</p>
-<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop </span><span style="color:#b48ead;">A </span><span>= (</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr</span><span> (</span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>)
-</span><span>
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39; </span><span style="color:#b48ead;">A </span><span>= (</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y
-</span><span>
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39; </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A
-</span><span>
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39;&#39; </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop&#39;&#39;&#39; </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">emb</span><span> (</span><span style="color:#96b5b4;">const </span><span>{</span><span style="color:#b48ead;">B </span><span>= </span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">tt</span><span>)
-</span></code></pre>
-<h2 id="h-set">(h-)Set</h2>
-<p>A type $A$ is said to be a set if its identity types are propositions:</p>
-<p>$$
-\text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)
-$$</p>
-<p>An equivalent definition is the type $A$ satisfies axiom K:</p>
-<p>$$
-\text{is-set}(A) := \Pi_{(x : A)} \Pi_{(p : x = x)} \text{refl}_x = p
-$$</p>
-<h2 id="general-truncation-levels">General truncation levels</h2>
-<p>We define $\text{is-contr}(A)$ as the bottom level of the truncation hierarchy, and $\text{is-prop}(A)$ as the first, $\text{is-set}(A)$ as the second, and so on.</p>
-<p>For some reason we want to make <strong>set</strong> to be the 0 level, thus $\text{is-contr}(A)$ is level -2 and $\text{is-prop}(A)$ is level -1.</p>
-<p>So we define the truncation level of a type $A$ as:</p>
+<h2 id="universal-properties">Universal properties</h2>
+<p>Universal properties are characterizations of all maps out of or into a given type.</p>
+<p>Here are some examples:</p>
+<h3 id="the-universal-property-of-s-types">The universal property of Σ-types</h3>
 <p>$$
 \begin{align}
-\text{is-trunc}<em>{-2}(A) &amp;:=&amp; \text{is-contr}(A)
-\text{is-trunc}</em>{k+1}(A) &amp;:=&amp; \Pi_{(x,y:A)}\text{is-trunc}_k(x = y)
+\text{ev-pair} &amp;:&amp; (\Pi_{(z: \Sigma_{(x:A)}B(x))} C(z)) &amp; \to &amp; \Pi_{(x:A)}(\Pi_{(y:B(x))} &amp;\to&amp; C(x,y)) \\
+\text{ev-pair} &amp;:=&amp; f &amp;\mapsto&amp; λx. λy &amp;.&amp; f((x, y))
 \end{align}
 $$</p>
-<p>In Agda:</p>
-<pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data 𝕋 </span><span>: </span><span style="color:#b48ead;">Set where
-</span><span>    </span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">two</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋
-</span><span>    </span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋 </span><span>→ </span><span style="color:#b48ead;">𝕋
-</span><span>
-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋
-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>= </span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋</span><span> (</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">two</span><span>-</span><span style="color:#b48ead;">𝕋</span><span>)
-</span><span>
-</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>: </span><span style="color:#b48ead;">𝕋
-</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span>= </span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋</span><span> (</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋</span><span>)
-</span><span>
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc </span><span>: (</span><span style="color:#bf616a;">k </span><span>: </span><span style="color:#b48ead;">𝕋</span><span>) → </span><span style="color:#b48ead;">Set </span><span>→ </span><span style="color:#b48ead;">Set
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc neg</span><span>-</span><span style="color:#bf616a;">two</span><span>-</span><span style="color:#b48ead;">𝕋 A </span><span>= </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc</span><span> (</span><span style="color:#96b5b4;">succ</span><span>-</span><span style="color:#b48ead;">𝕋 </span><span style="color:#bf616a;">k</span><span>) </span><span style="color:#b48ead;">A </span><span>= (</span><span style="color:#bf616a;">x y </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc k</span><span> (</span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">y</span><span>)
-</span><span>
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#bf616a;">trunc </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#b48ead;">𝕋 A
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">prop</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">neg</span><span>-</span><span style="color:#bf616a;">one</span><span>-</span><span style="color:#bf616a;">trunc </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#96b5b4;">id
-</span><span>
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">set</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#bf616a;">trunc </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">set </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">trunc zero</span><span>-</span><span style="color:#b48ead;">𝕋 A
-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">set</span><span>-</span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">zero</span><span>-</span><span style="color:#bf616a;">trunc </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#96b5b4;">id
-</span></code></pre>
+<p>and its inverse is obtained by the induction principle of Σ-types.</p>
+<p>$$
+\text{ind}_\Sigma : (\Pi_{(x : A)} \Pi_{(y : B(x))} C(x, y)) → \Pi_{(z : Σ_{(x : A)} B(x))} C (z)
+$$</p>
+<p>It characterizes maps out of a dependent pair type $\Sigma_{(x: A)}B(x)$.</p>
+<p>Proof of this principle needs function extensionality, to show $ind_Σ ∘ \text{ev-pair} \sim id$.</p>
+<h3 id="the-universal-property-of-identity-types">The universal property of identity types</h3>
+<p>$$
+\begin{align}
+\text{ev-refl} &amp;:&amp; (\Pi_{(x:A)} (x = a) \to B(x)) &amp; \to &amp; B(a) \\
+\text{ev-pair} &amp;:=&amp; f &amp;\mapsto&amp; f(a, refl_a)
+\end{align}
+$$</p>
+<p>and its inverse is obtained by the induction principle of identity types.</p>
+<p>$$
+\text{ind}_{=_a} : B(a, refl_a) \to \Pi_{(x:A)} \Pi_{(p:x = a)} B(x, p)
+$$</p>
+<h2 id="composing-with-equivalences">Composing with equivalences</h2>
+<p>For any $f : A → B$, these are equivalent:</p>
+<ul>
+<li>$f$ is an equivalence.</li>
+<li>For any $P$ over $B$:
+$$
+\begin{align}
+(&amp;\Pi_{(y:B)} P&amp;(y)) &amp;\to&amp; (&amp;\Pi_{(x:A)} P&amp;(&amp;f&amp;(x))) \\
+&amp;h&amp; &amp;\mapsto&amp; &amp;h&amp; ∘ &amp;f&amp;
+\end{align}
+$$</li>
+<li>For any $X$:
+$$
+\begin{align}
+(B → X) &amp;\to&amp; (A → X) \\
+g &amp;\mapsto&amp; g ∘ f
+\end{align}
+$$</li>
+</ul>
 </div>
   <div class="post-footer">
     <div class="meta">

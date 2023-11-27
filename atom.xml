@@ -23,7 +23,7 @@
 &lt;tr&gt;&lt;td&gt;$f \sim g$&lt;&#x2F;td&gt;&lt;td&gt;$f$ is homotopy to $g$&lt;&#x2F;td&gt;&lt;td&gt;$\Pi_{(x:A)}f(x) = g(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$A ≃ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is equivalence to $B$&lt;&#x2F;td&gt;&lt;td&gt;$\Sigma_{(f:A→B)}\text{is-equiv}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$p^{-1}$&lt;&#x2F;td&gt;&lt;td&gt;inverse of path $p$&lt;&#x2F;td&gt;&lt;td&gt;$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
-&lt;tr&gt;&lt;td&gt;$A ↪ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is embedding to $B$&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(f : A → B)} is-emb(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A ↪ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is embedding to $B$&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(f : A → B)} \text{is-emb}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
 &lt;h2 id=&quot;ding-yi&quot;&gt;定义&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;equals&quot;&gt;Equals&lt;&#x2F;h3&gt;
@@ -120,6 +120,12 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 ind_\top(p, tt) := p
 $$&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;bian-chong-singleton-induction&quot;&gt;变种：singleton induction&lt;&#x2F;h5&gt;
+&lt;p&gt;由于 contractable type 在 homotopy 意义上是一个 singleton，我们可以用和 unit type induction 类似的方法定义 singleton induction。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+ind_{\text{singleton_a}} : P_{a} → \Pi_{(x : A)} P(x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;如果在一个非空的类型上能定义出这样一个 singleton induction 函数，那么这个类型就是 contractable 的，反之亦然。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;kong-lei-xing&quot;&gt;空类型（⊥）&lt;&#x2F;h4&gt;
 &lt;p&gt;没有 term 的类型。&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -213,12 +219,22 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Any coherently invertible map is a contractible map.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-emb&quot;&gt;is-emb&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
-\text{is-emb}(f) := (x y : A) → is-equiv(cong f {x} {y})
+\text{is-emb}(f) := (x, y : A) → \text{is-equiv}(cong\ f\ {x}\ {y})
 $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-prop&quot;&gt;is-prop&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 \text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
 $$&lt;&#x2F;p&gt;
+&lt;p&gt;Identity types on A are contractable.&lt;&#x2F;p&gt;
+&lt;p&gt;or&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-prop}(A) := \Pi_{(x,y : A)} x = y
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Any two terms on A are equal.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-prop}(A) := A \rightarrow \text{is-contr}(A)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;A is not empty and contractable (can be contract to the given point).&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-set&quot;&gt;is-set&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 \text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)

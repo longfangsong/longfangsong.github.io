@@ -119,7 +119,7 @@
 <tr><td>$f \sim g$</td><td>$f$ is homotopy to $g$</td><td>$\Pi_{(x:A)}f(x) = g(x)$</td></tr>
 <tr><td>$A ≃ B$</td><td>$A$ is equivalence to $B$</td><td>$\Sigma_{(f:A→B)}\text{is-equiv}(f)$</td></tr>
 <tr><td>$p^{-1}$</td><td>inverse of path $p$</td><td>$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$</td></tr>
-<tr><td>$A ↪ B$</td><td>$A$ is embedding to $B$</td><td>$Σ_{(f : A → B)} is-emb(f)$</td></tr>
+<tr><td>$A ↪ B$</td><td>$A$ is embedding to $B$</td><td>$Σ_{(f : A → B)} \text{is-emb}(f)$</td></tr>
 </tbody></table>
 <h2 id="ding-yi">定义</h2>
 <h3 id="equals">Equals</h3>
@@ -216,6 +216,12 @@ $$</p>
 <p>$$
 ind_\top(p, tt) := p
 $$</p>
+<h5 id="bian-chong-singleton-induction">变种：singleton induction</h5>
+<p>由于 contractable type 在 homotopy 意义上是一个 singleton，我们可以用和 unit type induction 类似的方法定义 singleton induction。</p>
+<p>$$
+ind_{\text{singleton_a}} : P_{a} → \Pi_{(x : A)} P(x)
+$$</p>
+<p>如果在一个非空的类型上能定义出这样一个 singleton induction 函数，那么这个类型就是 contractable 的，反之亦然。</p>
 <h4 id="kong-lei-xing">空类型（⊥）</h4>
 <p>没有 term 的类型。</p>
 <p>$$
@@ -309,12 +315,22 @@ $$</p>
 <p>Any coherently invertible map is a contractible map.</p>
 <h3 id="is-emb">is-emb</h3>
 <p>$$
-\text{is-emb}(f) := (x y : A) → is-equiv(cong f {x} {y})
+\text{is-emb}(f) := (x, y : A) → \text{is-equiv}(cong\ f\ {x}\ {y})
 $$</p>
 <h3 id="is-prop">is-prop</h3>
 <p>$$
 \text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
 $$</p>
+<p>Identity types on A are contractable.</p>
+<p>or</p>
+<p>$$
+\text{is-prop}(A) := \Pi_{(x,y : A)} x = y
+$$</p>
+<p>Any two terms on A are equal.</p>
+<p>$$
+\text{is-prop}(A) := A \rightarrow \text{is-contr}(A)
+$$</p>
+<p>A is not empty and contractable (can be contract to the given point).</p>
 <h3 id="is-set">is-set</h3>
 <p>$$
 \text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)

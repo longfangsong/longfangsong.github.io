@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -149,7 +149,7 @@ $$</p>
 <h2 id="the-fundamental-theorem">The fundamental theorem</h2>
 <h3 id="unary-identity-system">Unary identity system</h3>
 <blockquote>
-<p>A (unary) identity system on $𝐴$ at 𝑎 consists of a type family B over A equipped with $b : B(a)$, such that for any family of types $P(x, y)$ indexed by $x : A$ and $y : B(x)$, the function</p>
+<p>A (unary) identity system on $A$ at $a$ consists of a type family B over A equipped with $b : B(a)$, such that for any family of types $P(x, y)$ indexed by $x : A$ and $y : B(x)$, the function</p>
 </blockquote>
 <p>$$
 h ↦ h(a, b) : \Pi_{(x:A)} \Pi_{(y:B(x))} P(x, y) → P(a, b)
@@ -157,13 +157,26 @@ $$</p>
 <blockquote>
 <p>has a section.</p>
 </blockquote>
+<h3 id="fundamental-theorem-of-identity-types">Fundamental theorem of identity types</h3>
+<p>Given $a : A$, $x : A ⊢ B(x)$, and</p>
+<p>$$
+x : A ⊢ f(x) : (a = x) \rightarrow B(x)
+$$</p>
+<p>the following conditions are equivalent:</p>
+<ol>
+<li>$ftid : \text{is-contr}(\Sigma_{(x:A)}B(x))$</li>
+<li>$ftid(x) : (a = x) ≃ B(x)$</li>
+<li>$f(a, refl_a) : B(a)$ is an identity system on A at a</li>
+<li>$f(x)$ is an equivalence of types, ie. $x:A \vdash ftid(x) : \text{is-equiv}(f(x))$</li>
+<li>$f(x)$ has a section $ftid(x)$, or $f(x)$ is a retraction of $ftid(x)$, ie. $f(x) ∘ ftid(x) \sim id$, where $ftid(x) : B(x) → (a = x)$</li>
+</ol>
 <h2 id="embedding">Embedding</h2>
 <p>An embedding is a map $f : A → B$ that satisfies the property that, for every $x, y : A$
 $$
 ap_f : (x = y) → (f(x) = f(y))
 $$
 is an equivalence.</p>
-<p>We write $is-emb(f)$ for the type of witnesses that $f$ is an embedding, and we define</p>
+<p>We write $\text{is-emb}(f)$ for the type of witnesses that $f$ is an embedding, and we define</p>
 <p>$$
 A ↪ B := \Sigma_{(f : A → B)} \text{is-emb}(f)
 $$</p>
