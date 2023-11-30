@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -316,6 +316,22 @@ $$</p>
 <p>$$
 \text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
 $$</p>
+<h4 id="important-props">Important props</h4>
+<ul>
+<li>$⊤$</li>
+<li>$⊥$</li>
+<li>If $A$ is a prop, $A ≃ B$, then $B$ is a prop. And vice versa, all props are equivalent to each other.s</li>
+<li>Observational equal on $ℕ$ and Bool, ie. $Eq-ℕ n m$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.</li>
+<li>A coproduct of props is a prop.</li>
+<li>Given a prop A and $\text{is-subtype}(B)$ of A, then $\text{is-prop}(Σ_{(x:A)} B(x))$</li>
+<li>$\text{is-prop}(A)$ itself is a prop.</li>
+<li>Given a prop B, $A → B$ is a prop, a special case is, the negation of a type ($\neg A$) is a prop.</li>
+</ul>
+<h3 id="is-subtype">is-subtype</h3>
+<p>$$
+is-subtype(B) := (x : A) → is-prop (B x)
+$$</p>
+<p>We say $B$ is a subtype of $A$.</p>
 <h3 id="is-set">is-set</h3>
 <p>$$
 \text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)

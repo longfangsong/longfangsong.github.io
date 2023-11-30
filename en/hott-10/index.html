@@ -12,10 +12,10 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blogg</title>
+  <title>Blog • HoTT Notes 10</title>
   
   
-  <link rel="alternate" type="application/rss+xml" title="Blogg" href="https://longfangsong.github.io/sv/rss.xml">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
   
   
   
@@ -51,7 +51,7 @@
     <div class="logo-title">
       <div class="title">
         <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
-        <h3><a href="https://longfangsong.github.io/sv/">Blogg</a></h3>
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
         <div class="description">
           <p>Und grün des Theorie goldner Baum</p>
         </div>
@@ -78,9 +78,9 @@
         
         
         
-        <li><a  href="https://longfangsong.github.io/sv/">Hem</a></li>
-        <li><a class="current"  href="https://longfangsong.github.io/sv/about/">Info</a></li><li><a  href="https://longfangsong.github.io/sv/tags">Etiketter</a></li><li><a 
-            href="https://longfangsong.github.io/sv/archive/">Arkiv</a></li><li><a  href="https://longfangsong.github.io/sv/links/">Länkar</a></li></div>
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
       <div class="information">
         <div class="back_btn">
           <a onclick="window.history.go(-1)" ><i
@@ -97,7 +97,7 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
@@ -111,16 +111,75 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;about&#x2F;"> Info </a></h1>
-  <div class="post-content"><p>Det här är <em>Norbert Long</em>s personliga blogg.</p>
-<p>Alla passager på den här webbplatsen förutom de som refereras från någon annanstans är licensierade av <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.sv">CC0 1.0</a>.</p>
-<p><img src="https://longfangsong.github.io/sv/about/cc0.png" alt="CC0" /></p>
-<p>dvs. Använd det bara gratis, du kan till och med hävda att du skriver dem, jag bryr mig inte riktigt.</p>
-<p>Men författaren är <strong>inte</strong> ansvarig för konsekvenserna av att använda dessa artiklar eller deras innehåll.</p>
-<h2 id="donera-mig">Donera mig</h2>
-<p>Om du tyckte att min blogg var intressant och du råkar vara rik, vänligen donera mig så att jag kan köpa hårdvara och servrar.</p>
-<iframe id='kofiframe' src='https://ko-fi.com/longfangsong/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:400px;padding:0;background:white;height:540px;overflow:hidden;' scrolling="no" title='longfangsong'></iframe></div>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-10&#x2F;">HoTT Notes 10</a></h1>
+  
+  <div class="post-content"><p>Not all types are (mere) propositions, but we can &quot;make&quot; them so by truncation, ie. forgetting all the structure of the type except whether it is inhabited.</p>
+<p>Let $A$ be a type and $f : A \to P$ be a map into a proposition $P$. If for every proposition $Q$:</p>
+<p>$$
+-∘f : (P \to Q) \to (A \to Q)
+$$</p>
+<p>is an equivalence.</p>
+<p>This property is called the universal property of the propositional truncation of $A$.</p>
+<p>The basic idea is $-∘f$ &quot;lowers&quot; the relationship between propositions between $P$ and $Q$ to the relationship between $A$ and $P$.</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2023-11-27</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+        
+        
+      </div>
+    </div>
+  </div>
 </article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=HoTT Notes 10&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-10&#x2F;&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
 
       </div>
     </div>

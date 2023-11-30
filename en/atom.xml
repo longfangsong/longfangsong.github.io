@@ -5,8 +5,29 @@
     <link href="https://longfangsong.github.io/en/atom.xml" rel="self" type="application/atom+xml"/>
     <link href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-11-19T19:57:59.556+00:00</updated>
+    <updated>2023-11-27T09:17:28.205+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>HoTT Notes 10</title>
+        <published>2023-11-27T09:17:28.205+00:00</published>
+        <updated>2023-11-27T09:17:28.205+00:00</updated>
+        <author>
+          <name>Unknown</name>
+        </author>
+        <link rel="alternate" href="https://longfangsong.github.io/en/hott-10/" type="text/html"/>
+        <id>https://longfangsong.github.io/en/hott-10/</id>
+        
+        <content type="html">&lt;p&gt;Not all types are (mere) propositions, but we can &amp;quot;make&amp;quot; them so by truncation, ie. forgetting all the structure of the type except whether it is inhabited.&lt;&#x2F;p&gt;
+&lt;p&gt;Let $A$ be a type and $f : A \to P$ be a map into a proposition $P$. If for every proposition $Q$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+-∘f : (P \to Q) \to (A \to Q)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;is an equivalence.&lt;&#x2F;p&gt;
+&lt;p&gt;This property is called the universal property of the propositional truncation of $A$.&lt;&#x2F;p&gt;
+&lt;p&gt;The basic idea is $-∘f$ &amp;quot;lowers&amp;quot; the relationship between propositions between $P$ and $Q$ to the relationship between $A$ and $P$.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>HoTT Summary</title>
         <published>2023-11-19T19:57:59.556+00:00</published>
@@ -220,6 +241,22 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
 $$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;important-props&quot;&gt;Important props&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;$⊤$&lt;&#x2F;li&gt;
+&lt;li&gt;$⊥$&lt;&#x2F;li&gt;
+&lt;li&gt;If $A$ is a prop, $A ≃ B$, then $B$ is a prop. And vice versa, all props are equivalent to each other.s&lt;&#x2F;li&gt;
+&lt;li&gt;Observational equal on $ℕ$ and Bool, ie. $Eq-ℕ n m$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;A coproduct of props is a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;Given a prop A and $\text{is-subtype}(B)$ of A, then $\text{is-prop}(Σ_{(x:A)} B(x))$&lt;&#x2F;li&gt;
+&lt;li&gt;$\text{is-prop}(A)$ itself is a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;Given a prop B, $A → B$ is a prop, a special case is, the negation of a type ($\neg A$) is a prop.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;is-subtype&quot;&gt;is-subtype&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+is-subtype(B) := (x : A) → is-prop (B x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We say $B$ is a subtype of $A$.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-set&quot;&gt;is-set&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 \text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)

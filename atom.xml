@@ -235,6 +235,22 @@ $$&lt;&#x2F;p&gt;
 \text{is-prop}(A) := A \rightarrow \text{is-contr}(A)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;A is not empty and contractable (can be contract to the given point).&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;important-props&quot;&gt;Important props&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;$⊤$&lt;&#x2F;li&gt;
+&lt;li&gt;$⊥$&lt;&#x2F;li&gt;
+&lt;li&gt;If $A$ is a prop, $A ≃ B$, then $B$ is a prop. And vice versa, all props are equivalent to each other.s&lt;&#x2F;li&gt;
+&lt;li&gt;Observational equal on $ℕ$ and Bool, ie. $Eq-ℕ n m$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;A coproduct of props is a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;Given a prop A and $\text{is-subtype}(B)$ of A, then $\text{is-prop}(Σ_{(x:A)} B(x))$&lt;&#x2F;li&gt;
+&lt;li&gt;$\text{is-prop}(A)$ itself is a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;Given a prop B, $A → B$ is a prop, a special case is, the negation of a type ($\neg A$) is a prop.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;is-subtype&quot;&gt;is-subtype&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+is-subtype(B) := (x : A) → is-prop (B x)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We say $B$ is a subtype of $A$.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-set&quot;&gt;is-set&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 \text{is-set}(A) := \Pi_{(x,y : A)} \text{is-prop}(x = y)
