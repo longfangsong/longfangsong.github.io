@@ -2,8 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="sv">
     <title>Blogg</title>
     <subtitle>Und grün des Theorie goldner Baum</subtitle>
-    <link href="https://longfangsong.github.io/sv/atom.xml" rel="self" type="application/atom+xml"/>
-    <link href="https://longfangsong.github.io"/>
+    <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/sv/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2023-08-24T18:46:07.134+00:00</updated>
     <id>https://longfangsong.github.io/sv/atom.xml</id>
@@ -11,13 +11,19 @@
         <title>Ortnamn På Svenska</title>
         <published>2023-08-24T18:46:07.134+00:00</published>
         <updated>2023-08-24T18:46:07.134+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/sv/ortnamn-pa-svenska/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/sv/ortnamn-pa-svenska/"/>
         <id>https://longfangsong.github.io/sv/ortnamn-pa-svenska/</id>
         
-        <content type="html">&lt;h2 id=&quot;fusklapp-cheat-sheet&quot;&gt;Fusklapp (cheat sheet)&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/sv/ortnamn-pa-svenska/">&lt;h2 id=&quot;fusklapp-cheat-sheet&quot;&gt;Fusklapp (cheat sheet)&lt;&#x2F;h2&gt;
 &lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Svenska&lt;&#x2F;th&gt;&lt;th&gt;English&lt;&#x2F;th&gt;&lt;th&gt;Example&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;berg&lt;&#x2F;td&gt;&lt;td&gt;mountain&lt;&#x2F;td&gt;&lt;td&gt;Johanne&lt;strong&gt;berg&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;garage(t)&lt;&#x2F;td&gt;&lt;td&gt;garage&lt;&#x2F;td&gt;&lt;td&gt;Norra Annedals&lt;strong&gt;garaget&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
@@ -47,13 +53,19 @@
         <title>Svenska Läromedel</title>
         <published>2023-02-04T17:59:47.582+00:00</published>
         <updated>2023-02-04T17:59:47.582+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/sv/svenska-basic/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/sv/svenska-basic/"/>
         <id>https://longfangsong.github.io/sv/svenska-basic/</id>
         
-        <content type="html">&lt;h2 id=&quot;substantiv-noun&quot;&gt;Substantiv (Noun)&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/sv/svenska-basic/">&lt;h2 id=&quot;substantiv-noun&quot;&gt;Substantiv (Noun)&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;grundform-basic-form&quot;&gt;grundform (Basic form)&lt;&#x2F;h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Använd &amp;quot;en&amp;quot; eller &amp;quot;ett&amp;quot; för att uttrycka(express) att det är ett sak(thing).&lt;&#x2F;li&gt;
@@ -109,7 +121,7 @@
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;Se &lt;a href=&quot;https:&#x2F;&#x2F;polyglotclub.com&#x2F;wiki&#x2F;Language&#x2F;Swedish&#x2F;Grammar&#x2F;When-use-Ett-or-En#Summary_Table&quot;&gt;denna tabell&lt;&#x2F;a&gt; för mer information.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;pluralform-bestamd-form-definite-form&quot;&gt;Pluralform &amp;amp; Bestämd form (Definite form)&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;pluralform-bestaemd-form-definite-form&quot;&gt;Pluralform &amp;amp; Bestämd form (Definite form)&lt;&#x2F;h3&gt;
 &lt;p&gt;Det är fem typer av pluralformer &amp;amp; Bestämd form:&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;n-or-orna&quot;&gt;-n &amp;amp; -or &amp;amp; -orna&lt;&#x2F;h4&gt;
 &lt;p&gt;När ett &amp;quot;en&amp;quot;-ord slutade med &amp;quot;a&amp;quot;, vi kan:&lt;&#x2F;p&gt;
@@ -118,7 +130,7 @@
 &lt;li&gt;ta bort(remove) &amp;quot;a&amp;quot; och lägg till &amp;quot;or&amp;quot; för att bilda obestämd(indefinite) form plural&lt;&#x2F;li&gt;
 &lt;li&gt;ta bort(remove) &amp;quot;a&amp;quot; och lägg till &amp;quot;orna&amp;quot; för att bilda bestämd form plural&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h4 id=&quot;n-andras-inte-doesn-t-change-na&quot;&gt;-n &amp;amp; ändras inte (doesn&#x27;t change) &amp;amp; -na&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;n-aendras-inte-doesn-t-change-na&quot;&gt;-n &amp;amp; ändras inte (doesn&#x27;t change) &amp;amp; -na&lt;&#x2F;h4&gt;
 &lt;p&gt;För ett &amp;quot;en&amp;quot;-ord slutade med &amp;quot;are&amp;quot;, vi kan:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;lägg till &amp;quot;n&amp;quot; för att bilda bestämd form singularis&lt;&#x2F;li&gt;
@@ -156,7 +168,7 @@
 &lt;li&gt;lägg till &amp;quot;n&amp;quot; för att bilda obestämd form plural&lt;&#x2F;li&gt;
 &lt;li&gt;lägg till &amp;quot;na&amp;quot; för att bilda bestämd form plural&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h4 id=&quot;et-andras-inte-doesn-t-change-en&quot;&gt;-et &amp;amp; ändras inte (doesn&#x27;t change) &amp;amp; -en&lt;&#x2F;h4&gt;
+&lt;h4 id=&quot;et-aendras-inte-doesn-t-change-en&quot;&gt;-et &amp;amp; ändras inte (doesn&#x27;t change) &amp;amp; -en&lt;&#x2F;h4&gt;
 &lt;p&gt;För ett &amp;quot;ett&amp;quot;-ord slutade med en konsonant, vi kan:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;lägg till &amp;quot;et&amp;quot; för att bilda bestämd form singularis&lt;&#x2F;li&gt;

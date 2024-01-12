@@ -113,12 +113,12 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;operational-semantics&#x2F;">形式语义学 • 操作语义</a></h1>
   
-  <div class="post-content"><h2 id="shi-shi-yao">是什么</h2>
+  <div class="post-content"><h2 id="shi-shen-me">是什么</h2>
 <p>一种着重于描述语言的执行过程的，对程序语言语义的形式化描述方法。</p>
 <blockquote>
 <p>An operational semantics for a programming language is a mathematical definition of its computation relation, $e ⇒ v$ <sup class="footnote-reference"><a href="#1">1</a></sup>, where e is a program in the language.</p>
 </blockquote>
-<h2 id="wei-shi-yao">为什么</h2>
+<h2 id="wei-shen-me">为什么</h2>
 <blockquote>
 <p>the goal is to give a precise mathematical model of computations/programs —— Lecture notes of DAT350, Chalmers/GU</p>
 </blockquote>
@@ -126,7 +126,7 @@
 <p>指称语义更重视“找到代表程序所做所为的数学对象”，比如把无类型 lambda 演算映射到 Martin Lof type theory，从而证明这个语言是 soundness 的。</p>
 <p>公理语义的想法是“给出一些公理，以此定义程序的含义”，最常见的例子就是 Hoare logic，可以理解为是关注程序在一些（作为 pre/postcondition 的 ）prediction 上的作用效果。</p>
 <p>操作语义则关注“程序的执行过程”，它的目标是给出一个形式化的执行模型。</p>
-<h2 id="zen-yao-zuo">怎么做</h2>
+<h2 id="zen-me-zuo">怎么做</h2>
 <p>比如说我们要给只有整数的数学表达式定义操作语义。</p>
 <p>这个语言的语法是：</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#b48ead;">data Nat </span><span>: </span><span style="color:#b48ead;">Set where

@@ -120,6 +120,8 @@
 <tr><td>$A ≃ B$</td><td>$A$ is equivalence to $B$</td><td>$\Sigma_{(f:A→B)}\text{is-equiv}(f)$</td></tr>
 <tr><td>$p^{-1}$</td><td>inverse of path $p$</td><td>$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$</td></tr>
 <tr><td>$A ↪ B$</td><td>$A$ is embedding to $B$</td><td>$Σ_{(f : A → B)} \text{is-emb}(f)$</td></tr>
+<tr><td>$A ≅ B$</td><td></td><td>isomorphisms of (semi)groups from $A$ to $B$</td></tr>
+<tr><td>$A/B$</td><td></td><td>$Σ_{(P:A→Prop)}is-equivalence-class(P)$</td></tr>
 </tbody></table>
 <h2 id="definitions">Definitions</h2>
 <h3 id="equals">Equals</h3>
@@ -291,6 +293,7 @@ $$</p>
 <p>$$
 \text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
 $$</p>
+<p>It is the concept of &quot;bijection&quot; in type theory.</p>
 <h3 id="is-contr">is-contr</h3>
 <p>$$
 \text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
@@ -302,6 +305,15 @@ $$</p>
 <p>$$
 \text{is-contr}(f) ↔ \text{is-equiv}(f)
 $$</p>
+<h4 id="important-contractible-types">Important contractible types</h4>
+<ul>
+<li>$⊤$</li>
+<li>$⊥$</li>
+<li>$Σ_{(x:A)} a = x$</li>
+<li>Product of contractible types is contractible</li>
+<li>A map is an equivalence if and only if its fibers are contractible</li>
+<li>Observational equal on $ℕ$, $Bool$ and coproduct type, ie. $Eq-ℕ n m$. with one of n and m fixed by $\Sigma$, ie. $\Sigma_{(n:N)} Eq-N(m,n)$</li>
+</ul>
 <h3 id="is-coh-invertible">is-coh-invertible</h3>
 <p>For a function $f : A \rightarrow B$, if it is an equivalence with its inverse being $g$, where the evidence for $g$ being a right inverse is homotopy $G$, and the evidence for $g$ being a left inverse is homotopy $H$, and there exists a homotopy $K : G \cdot f \sim f \cdot H$, we refer to $f$ as a coherently invertible map.</p>
 <p>$$
@@ -312,20 +324,32 @@ $$</p>
 <p>$$
 \text{is-emb}(f) := (x, y : A) → \text{is-equiv}(cong\ f\ \{x\}\ \{y\})
 $$</p>
+<p>It is the concept of &quot;injection&quot; in type theory.</p>
+<h4 id="important-embeddings">Important embeddings</h4>
+<ul>
+<li>For a subtype $B$ of $A$, $\text{is-emb}(proj_1)$ is inhabited, ie. $(a , b) = (a' , b') ≃ a = a'$ where $(a , b)$ and $(a , b) : Σ_{(a : A)} B(a)$</li>
+</ul>
+<h3 id="is-surj">is-surj</h3>
+<p>$$
+\text{is-surj}(f) := \Pi_{(b : B)} ||fib_f(b)||
+$$</p>
+<p>$\text{is-surj}(f) × \text{is-emb}(f) ↔ is-equiv(f)$</p>
 <h3 id="is-prop">is-prop</h3>
 <p>$$
 \text{is-prop}(A) := \Pi_{(x,y : A)} \text{is-contr}(x = y)
 $$</p>
 <h4 id="important-props">Important props</h4>
 <ul>
-<li>$⊤$</li>
-<li>$⊥$</li>
+<li>Everything is contractible type is a prop.</li>
 <li>If $A$ is a prop, $A ≃ B$, then $B$ is a prop. And vice versa, all props are equivalent to each other.s</li>
 <li>Observational equal on $ℕ$ and Bool, ie. $Eq-ℕ n m$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.</li>
-<li>A coproduct of props is a prop.</li>
+<li>A product of props is a prop.</li>
 <li>Given a prop A and $\text{is-subtype}(B)$ of A, then $\text{is-prop}(Σ_{(x:A)} B(x))$</li>
+<li>$\text{is-emb}$, $\text{is-surj}$ and $\text{is-equiv}$.</li>
 <li>$\text{is-prop}(A)$ itself is a prop.</li>
 <li>Given a prop B, $A → B$ is a prop, a special case is, the negation of a type ($\neg A$) is a prop.</li>
+<li>$\text{is-unital}(G)$, $\text{is-group}(G)$, for any semigroup $G$.</li>
+<li>A map $f : A → B$ is an embedding if and only if its fibers are propositions.</li>
 </ul>
 <h3 id="is-subtype">is-subtype</h3>
 <p>$$
@@ -344,6 +368,69 @@ $$</p>
 \end{align}
 $$</p>
 <p>a map $f : A → B$ is k-truncated if its fibers are k-truncated.</p>
+<h3 id="is-weakly-constant">is-weakly-constant</h3>
+<p>$$
+\text{is-weakly-constant}(f) := (x,y : A) → f(x) = f(y)
+$$</p>
+<h2 id="universal-properties">Universal properties</h2>
+<h3 id="coproduct-disjunction">Coproduct/Disjunction</h3>
+<p>$$
+((A ∨ B) → X) ≃ ((A + B) → X) ≃ (A → X) \times (B → X)
+$$</p>
+<h3 id="s-type-existential">$Σ$ type/Existential</h3>
+<p>$$
+((∃_{(x:A)} B(x)) → X) ≃ ((Σ_{(x:A)} B(x)) → X) ≃ (\Pi_{(x:A)} (B(x) → X))
+$$</p>
+<p>or when $B$ does not depend on $A$:</p>
+<p>$$
+((A \times B) → X) ≃ (A → (B → X))
+$$</p>
+<h3 id="identity-type">Identity type</h3>
+<p>$$
+(\Pi_{(x:A)}(a = x) → B(x)) ≃ B(a)
+$$</p>
+<h3 id="propositional-truncation">Propositional truncation</h3>
+<p>$$
+(P → Q) ≃ (A → Q)
+$$</p>
+<p>where $P$ and $Q$ are propositions, $f : A → P$ is a propositional truncation of $A$.</p>
+<p>Propositional truncation is a functor.</p>
+<p>$$
+||–|| : (𝐴 → 𝐵) → (||𝐴|| → ||𝐵||)
+$$</p>
+<p>So here are some examples we have:
+$$
+||id|| ∼ id
+$$</p>
+<p>$$
+||𝑔 ◦ 𝑓|| ∼ ||𝑔|| ◦ ||𝑓||
+$$</p>
+<p>$$
+||𝑥 = 𝑦|| ↔ || y = x ||
+$$</p>
+<p>$$
+|| x = y || → || y = z || → || x = z ||
+$$</p>
+<p>$$
+||𝐴 × 𝐵|| ≃ ||𝐴|| × ||𝐵||
+$$</p>
+<h3 id="image">image</h3>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMCwwLCJBIl0sWzMsMCwiSSJdLFs2LDAsIkIiXSxbMywzLCJYIl0sWzIsMSwiSCJdLFswLDMsImYiLDJdLFsxLDMsImkiLDJdLFsyLDMsIm0iLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFswLDEsInEiXSxbMSwyXV0=&embed" width="944" height="560" style="border-radius: 8px; border: none;"></iframe>
+<p>$$
+hom_X(i, m) ≃ hom_X(f, m)
+$$</p>
+<p>where $m$ is an embedding.</p>
+<p>We say $i$ satisfies the universal property of the image of $f$.</p>
+<p>Holds when $f$ is surjective.</p>
+<h3 id="surjective-map">surjective map</h3>
+<p>$$
+(\Pi_{(y:B)} P(y)) ≃ (\Pi_{(x:A)} P(f(x)))
+$$</p>
+<p>holds when $f$ is surjective.</p>
+<h3 id="embedding-surjective-equivalence">embedding + surjective = equivalence</h3>
+<p>$$
+\text{is-surj}(f) × \text{is-emb}(f) ≃ is-equiv(f)
+$$</p>
 </div>
   <div class="post-footer">
     <div class="meta">

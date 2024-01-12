@@ -476,7 +476,7 @@ $$</p>
 <p>同 <code>Option</code>, 不过是把 <code>None</code> 换成了具体的错误类型。</p>
 <h4 id="array-iterator-stream">Array/Iterator/Stream</h4>
 <p>数组或者任何在空间/时间上构成一个序列的东西也是 Monad, 比如 Rust 的 <code>Iterator</code> trait 就包含了 <code>flat_map</code> 方法。</p>
-<h3 id="wei-shi-yao-yao-jin-yi-bu-chou-xiang-chu-zhe-xie-lei-xing-lei">为什么要进一步抽象出这些类型类</h3>
+<h3 id="wei-shen-me-yao-jin-yi-bu-chou-xiang-chu-zhe-xie-lei-xing-lei">为什么要进一步抽象出这些类型类</h3>
 <p>这样，一些函数就可以更好容易地被复用<sup class="footnote-reference"><a href="#1">1</a></sup>，比如：</p>
 <pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>double x = </span><span style="color:#d08770;">2</span><span> * x
 </span></code></pre>

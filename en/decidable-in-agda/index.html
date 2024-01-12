@@ -213,7 +213,7 @@ $$</p>
 </span></code></pre>
 <p><code>Relation.Unary.Decidable</code> is the unary version of <code>Decidable</code> we mentioned earlier (<code>Decidable P = ∀ x → Dec (P x)</code>).</p>
 <p>So, <code>T?</code> is a function that takes a <code>Bool</code> and returns an instance of <code>Decidable</code>, which is a term that demonstrates a certain proposition's truth value is reflected by that <code>Bool</code>.</p>
-<h3 id=""><code>≤⇒≤ᵇ</code></h3>
+<h3 id="b"><code>≤⇒≤ᵇ</code></h3>
 <p>This is just the reverse of <code>≤ᵇ⇒≤</code>.</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span>≤⇒≤ᵇ : </span><span style="color:#b48ead;">∀ </span><span>{</span><span style="color:#bf616a;">m n</span><span>} → </span><span style="color:#bf616a;">m </span><span>≤ </span><span style="color:#bf616a;">n </span><span>→ </span><span style="color:#b48ead;">T</span><span> (</span><span style="color:#bf616a;">m </span><span>≤ᵇ </span><span style="color:#bf616a;">n</span><span>)
 </span><span>≤⇒≤ᵇ </span><span style="color:#bf616a;">z</span><span>≤</span><span style="color:#bf616a;">n         </span><span>= </span><span style="color:#bf616a;">tt

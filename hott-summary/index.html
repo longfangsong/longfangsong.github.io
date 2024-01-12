@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -120,6 +120,8 @@
 <tr><td>$A ≃ B$</td><td>$A$ is equivalence to $B$</td><td>$\Sigma_{(f:A→B)}\text{is-equiv}(f)$</td></tr>
 <tr><td>$p^{-1}$</td><td>inverse of path $p$</td><td>$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$</td></tr>
 <tr><td>$A ↪ B$</td><td>$A$ is embedding to $B$</td><td>$Σ_{(f : A → B)} \text{is-emb}(f)$</td></tr>
+<tr><td>$A ≅ B$</td><td>$A$ is isomorphism to $B$</td><td>isomorphisms of (semi)groups from $A$ to $B$</td></tr>
+<tr><td>$A/R$</td><td></td><td>$Σ_{(P:A→Prop)}\text{is-equivalence-class}(P)$</td></tr>
 </tbody></table>
 <h2 id="ding-yi">定义</h2>
 <h3 id="equals">Equals</h3>
@@ -250,7 +252,7 @@ $$</p>
 ind_\times : (\Pi_{(x : A)} \Pi_{(y : B)} P(x , y)) → \Pi_{(z : A \times B)} P(z)
 $$
 $$
-ind_\times(g, (x, y)) := g(x, y) 
+ind_\times(g, (x, y)) := g(x, y)
 $$</p>
 <h4 id="propositional-equal-lei-xing-identity-lei-xing-path-lei-xing">Propositional equal 类型 / identity 类型 / Path 类型</h4>
 <p>$$
@@ -274,6 +276,34 @@ $$</p>
 fib_f(b) := \Sigma_{(a : A)} f(a) = b
 $$</p>
 <p>对应了 b 在 f 上的原像。</p>
+<h3 id="pointed-type">pointed type</h3>
+<p>Basically a type with a point.</p>
+<p>The type of a pointed type is:
+$$
+\mathcal{U}_* := Σ_{(A : \mathcal{U})} A
+$$</p>
+<p>An example of a pointed type is $(ℕ , 0)$.
+Pointed maps are maps between pointed types that preserve the point.</p>
+<p>$$
+(A →_* B) := Σ_{(f : A → B)} f(a) = b
+$$</p>
+<h2 id="loop-space">loop space</h2>
+<p>$$
+\begin{align}
+\Omega &amp; : \mathcal{U}_* → \mathcal{U}_{*} \\
+\Omega(A, a) &amp; := (a = a, \text{refl})
+\end{align}
+$$</p>
+<p>We can apply $\Omega$ multiple times to get iterated loop spaces:</p>
+<p>$$
+\begin{align}
+\Omega^0(A, a) &amp; := (A, a) \\
+\Omega^1(A, a) &amp; := \Omega(A, a) \\
+\Omega^2(A, a) &amp; := \Omega(\Omega(A, a)) \\
+⋯ \\
+\Omega^{n+1}(A) &amp; := \Omega(\Omega^n(A, a))
+\end{align}
+$$</p>
 <h2 id="lei-xing-han-shu-de-shu-xing">类型/函数的属性</h2>
 <h3 id="is-empty">is-empty</h3>
 <p>$$
@@ -288,7 +318,7 @@ $$</p>
 <p>$$
 \text{retr}(f) := \Pi_{(h:B→A)} h ∘ f \sim id
 $$</p>
-<p>retr 之所以称为 retr，是因为 $h$ 可能只是将 B 的一个子集映射到了 A 。此时我们就说 A 是 B 的一个收缩（retraction）。</p>
+<p>retr 之所以称为 retr，是因为 $h$ 可能只是将 B 的一个子集(即 $f$ 的像)映射到了 A 。此时我们就说 A 是 B 的一个收缩（retraction）。</p>
 <h3 id="is-equiv">is-equiv</h3>
 <p>$$
 \text{is-equiv}(f) := sec(f) \times retr(f)
@@ -296,6 +326,38 @@ $$</p>
 <p>$$
 \text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
 $$</p>
+<h4 id="zhong-yao-de-deng-jia-guan-xi">重要的等价关系</h4>
+<ul>
+<li>For an equivalence relation $R$:
+$$
+([x]_R = [y]_R) ≃ R(x, y)
+$$</li>
+<li>symmetry of equality
+$$
+(x = y) ≃ (y = x)
+$$</li>
+<li>concat on path $p: x = y$
+$$
+𝑝⋅- : (𝑦 = 𝑧) ≃ (𝑥 = 𝑧)
+$$
+$$
+-⋅q : (𝑥 = 𝑦) ≃ (𝑥 = 𝑧)
+$$</li>
+<li>transport on path $p: x = y$
+$$
+tr_𝐵(𝑝) : 𝐵(𝑥) ≃ 𝐵(𝑦)
+$$</li>
+<li>any section and any retraction of an equivalence is again an equivalence.</li>
+<li>equivalent types have equivalent identity types ($e : A ≃ B$, then $ap_e$ is an equivalence function)</li>
+<li>&quot;axiom&quot; of choice
+$$
+\begin{align}
+choice &amp;: &amp; \Pi_{(x:A)}\Sigma_{(𝑦:𝐵(𝑥))}𝐶(𝑥, 𝑦) ≃ \Sigma_{(𝑓:\Pi_{(𝑥:𝐴)} 𝐵(𝑥))}\Pi_{(𝑥:𝐴)}𝐶(𝑥, 𝑓(𝑥)) \\
+choice(h) &amp;:= &amp; (𝜆𝑥. pr_1(h(𝑥)), 𝜆𝑥. pr_2 (h(𝑥)))
+\end{align}
+$$</li>
+<li>$sec(pr_1) ≃ \Pi_{(𝑥:𝐴)} 𝐵(𝑥)$</li>
+</ul>
 <h3 id="is-contr">is-contr</h3>
 <p>$$
 \text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
@@ -307,6 +369,16 @@ $$</p>
 <p>$$
 \text{is-contr}(f) ↔ \text{is-equiv}(f)
 $$</p>
+<h4 id="important-contractible-types">Important contractible types</h4>
+<ul>
+<li>$⊤$</li>
+<li>$⊥$</li>
+<li>$Σ_{(x:A)} a = x$</li>
+<li>Product of contractible types is contractible</li>
+<li>Observational equal on $ℕ$, $Bool$ and coproduct type, ie. $\text{Eq-N}(n,m)$. with one of n and m fixed by $\Sigma$, ie. $\Sigma_{(n:N)} \text{Eq-N}(m,n)$</li>
+<li>A type $A$ is contractible if and only if the identity map on $A$ is constant.</li>
+<li>A map is an equivalence if and only if its fibers are contractible</li>
+</ul>
 <h3 id="is-coh-invertible">is-coh-invertible</h3>
 <p>对于一个函数 $f : A \rightarrow B$, 如果他是一个 equivalence, 其逆为 $g$, $g$ 为右逆的证据为 homotopy $G$, $g$ 为左逆的证据为 homotopy $H$，同时存在 Homotopy $K : G \cdot f \sim f \cdot H$，我们称 $f$ 为 coherently invertible map。</p>
 <p>$$
@@ -330,21 +402,24 @@ $$</p>
 <p>$$
 \text{is-prop}(A) := A \rightarrow \text{is-contr}(A)
 $$</p>
-<p>A is not empty and contractable (can be contract to the given point).</p>
+<p>A is not empty and contractable (can be contracted to the given point).</p>
 <h4 id="important-props">Important props</h4>
 <ul>
-<li>$⊤$</li>
-<li>$⊥$</li>
+<li>Everything is contractible type is a prop.</li>
 <li>If $A$ is a prop, $A ≃ B$, then $B$ is a prop. And vice versa, all props are equivalent to each other.s</li>
-<li>Observational equal on $ℕ$ and Bool, ie. $Eq-ℕ n m$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.</li>
-<li>A coproduct of props is a prop.</li>
+<li>Observational equal on $ℕ$ and Bool, ie. $\text{Eq-N}(n, m)$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.</li>
+<li>A product of props is a prop.</li>
 <li>Given a prop A and $\text{is-subtype}(B)$ of A, then $\text{is-prop}(Σ_{(x:A)} B(x))$</li>
-<li>$\text{is-prop}(A)$ itself is a prop.</li>
+<li>$\text{is-emb}$, $\text{is-surj}$ and $\text{is-equiv}$.</li>
+<li>$\text{is-contr}(A)$, $\text{is-prop}(A)$ itself, $\text{is-set}(A)$, ..., $\text{is-trunk}_k(A)$ is a prop.</li>
 <li>Given a prop B, $A → B$ is a prop, a special case is, the negation of a type ($\neg A$) is a prop.</li>
+<li>$\text{is-unital}(G)$, $\text{is-group}(G)$, for any semigroup $G$.</li>
+<li>A map $f : A → B$ is an embedding if and only if its fibers are propositions.</li>
+<li>A type 𝐴 is a proposition if and only if the identity map on 𝐴 is weakly constant ($\Pi_{(x,y:A)} f (x) = f (y)$).</li>
 </ul>
 <h3 id="is-subtype">is-subtype</h3>
 <p>$$
-is-subtype(B) := (x : A) → is-prop (B x)
+\text{is-subtype}(B) := (x : A) → \text{is-prop} (B(x))
 $$</p>
 <p>We say $B$ is a subtype of $A$.</p>
 <h3 id="is-set">is-set</h3>
@@ -359,6 +434,37 @@ $$</p>
 \end{align}
 $$</p>
 <p>a map $f : A → B$ is k-truncated if its fibers are k-truncated.</p>
+<ul>
+<li>Product ($\Pi$) of k-truncated types is k-truncated.</li>
+<li>retract of k-truncated type is k-truncated</li>
+<li>$f: A→B$, B is 𝑘-type, then &quot;A is k-type&quot; ↔ &quot;f is k-type&quot;</li>
+<li>If $𝑓 : 𝐴 → 𝐵$ is an embedding, and 𝐵 is a (𝑘 + 1)-type, then so is 𝐴.</li>
+<li>𝑓 is (𝑘 + 1)-truncated, then $ap_f$ is k-truncated, and vice versa.</li>
+<li>𝐵(𝑥) is 𝑘-truncated for each $𝑥 : 𝐴$ ↔ $Σ(𝑥:𝐴) 𝐵(𝑥)$ is 𝑘-truncated</li>
+</ul>
+<h3 id="is-small">is-small</h3>
+<p>$$
+\text{is-small}_{\mathcal{U}}(A) := Σ_{(X:\mathcal{U})} A ≃ X
+$$</p>
+<p>for a map $f : A → B$, $f$ is small if all its fibers are small.</p>
+<h3 id="is-locally-small">is-locally-small</h3>
+<p>$$
+\text{is-locally-small}_{\mathcal{U}}(A) := \Pi_{(x, y : A)} \text{is-small}(x = y)
+$$</p>
+<p>for a map $f : A → B$, $f$ is locally small if all its fibers are locally small.</p>
+<p>All small types are locally small in the same universe.</p>
+<p>Any proposition is locally small in any universe.</p>
+<p>Any univalent universe U is locally U-small.</p>
+<h3 id="is-equivalence-class">is-equivalence-class</h3>
+<p>For $R$ to be an equivalence relation, a subtype $P : A → Prop$</p>
+<p>$$
+\text{is-equivalence-class}(P) := ∃(x:A)∀(y:A) P(y) ↔ R(x, y)
+$$</p>
+<h3 id="is-effective">is-effective</h3>
+<p>For $R$ to be an equivalence relation,</p>
+<p>$$
+\text{is-effective}(f) := (x, y : A) → (f(x) ≡ f(y) ≃ R(x, y))
+$$</p>
 </div>
   <div class="post-footer">
     <div class="meta">

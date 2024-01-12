@@ -148,7 +148,7 @@
 </li>
 </ul>
 <p>比较简单的想法是，如果我们能从一个命题通过一些程序运算得到另一个命题，那如果前者成立，后者（因为是算出来的）也必定成立，所以这个程序就是两个命题间“实质蕴涵”的一个构造性证明；而为了让这个程序中的 “类型检查” 可以用于保证这个证明是有效的，我们可以用类型的形式“书写”这个命题。</p>
-<h2 id="zen-yao-yong-ye-ji-yi-xie-ji-suan-ji-fu-zhu-zheng-ming-de-li-zi">怎么用，也即一些计算机辅助证明的例子</h2>
+<h2 id="zen-me-yong-ye-ji-yi-xie-ji-suan-ji-fu-zhu-zheng-ming-de-li-zi">怎么用，也即一些计算机辅助证明的例子</h2>
 <p>例如我们要在 lean 中证明 <code>(p → (q → r)) → (p ∧ q → r)</code>，或者读作：</p>
 <p>For all proposition p, q, and r, &quot;p → (q → r)&quot; implies &quot;(p ∧ q) → r&quot;.</p>
 <p>根据“程序即证明”的思想接下来我们要写一个类型为 <code>(p → (q → r)) → (p ∧ q → r)</code> 的程序。</p>

@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -113,7 +113,7 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;clocks-in-distributed-system&#x2F;">分布式系统 • 时钟</a></h1>
   
-  <div class="post-content"><h2 id="wei-shi-yao-zai-fen-bu-shi-xi-tong-zhong-shi-zhong-hen-zhong-yao">为什么在分布式系统中时钟很重要</h2>
+  <div class="post-content"><h2 id="wei-shen-me-zai-fen-bu-shi-xi-tong-zhong-shi-zhong-hen-zhong-yao">为什么在分布式系统中时钟很重要</h2>
 <p>最简单的一个例子：一个读请求和一个修改请求（在外界观察者眼中）先后来到一个系统中的两个不同的节点上（假设所有节点的存储是通过某些“魔法”手段连在一起的），按道理由于读请求先发生，那么他不应当读到写请求写入的数据。但是如果两个节点上的物理时钟出了问题，处理读请求的时钟快了（认为请求到来时的时间戳比较大），而处理写请求的时钟慢了（认为请求到来时的时间戳比较小），此时按照时钟判断出的读写顺序就和实际不同了，这就会带来读写操作进行的顺序和预期不符。</p>
 <p>即使是同一个节点上也会遇到时钟由于走的太快而被 NTP 这样的时间同步算法回拨，导致的时间戳不唯一的问题。</p>
 <p>可见分布式系统中直接根据物理时钟决定事件发生的先后顺序是不可行的，原因是不同系统中的物理时钟其快慢是无法保证的。</p>
@@ -143,7 +143,7 @@
 <li>每次接收消息，如果消息中的时间戳比本地时间大，那么本地时间戳 = 消息时间戳 + 1，否则正常本地时间戳 + 1‘</li>
 </ul>
 <p>即每次发生事件，都保证 <code>本地时间戳 = 节点看到过的最大时间戳 + 1</code></p>
-<h3 id="bao-zheng-liao-shi-yao">保证了什么</h3>
+<h3 id="bao-zheng-liao-shen-me">保证了什么</h3>
 <p>Lamport逻辑时钟保证了：</p>
 <ul>
 <li>若系统外部观察者看到事件A在事件B前发生，则系统内部必有 事件A对应的时间戳&lt;事件B对应的时间戳。</li>
@@ -255,7 +255,7 @@
 </li>
 <li>通信后，保证自己的 HLC 时间戳不比消息的 HLC 时间戳早</li>
 </ol>
-<h3 id="bao-zheng-liao-shi-yao-1">保证了什么</h3>
+<h3 id="bao-zheng-liao-shen-me-1">保证了什么</h3>
 <ol>
 <li>对任何事件x和y，若x发生在y之前，则 x对应的 HLC 时间戳 &lt; y 对应的 HLC 时间戳</li>
 <li>HLC 时间戳对应的物理时间和节点实际的物理时间的差有确定的上限，这个上限基本上是 两倍的机器的时间和ntp server时间存在的 误差范围（ntp offset），平时这个 offset 一般都是几个 ms。</li>

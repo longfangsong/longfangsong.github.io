@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • HoTT Notes 11</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-11&#x2F;">HoTT Notes 11</a></h1>
+  
+  <div class="post-content"><h2 id="morphism">Morphism</h2>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFsxLDIsIkMiXSxbMCwyLCJmIl0sWzEsMiwiZyIsMl0sWzAsMSwiaCIsMl0sWzMsNCwiIiwwLHsib2Zmc2V0IjotMSwic2hvcnRlbiI6eyJzb3VyY2UiOjMwLCJ0YXJnZXQiOjMwfX1dXQ==&embed" width="432" height="432" style="border-radius: 8px; border: none;"></iframe>
+<p>We define the type $A$ morphism from $f$ to $g$ over $X$ as:</p>
+<p>$$
+hom_X(f, g) := Σ_{(h:A → B)} f \sim g ∘ h
+$$</p>
+<p>$$
+(h, H) : hom_X(f, g)
+$$</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNixbMCwwLCJBIl0sWzMsMCwiQiJdLFs2LDAsIkMiXSxbMywzLCJYIl0sWzIsMSwiSCJdLFs0LDEsIksiXSxbMCwzLCJmIiwyXSxbMSwzLCJnIiwyXSxbMiwzLCJpIl0sWzAsMSwiaCJdLFsxLDIsImsiXV0=&embed" width="944" height="560" style="border-radius: 8px; border: none;"></iframe>
+<p>We define composition of morphisms as:</p>
+<p>$$
+\begin{align}
+(k, K) ∘ (h, H) &amp; : hom_X(f, i) \\
+(k, K) ∘ (h, H) &amp; := (k ∘ h, H ⋅ (K ⋅ h))
+\end{align}
+$$</p>
+<h3 id="universal-property-of-the-image">Universal property of the image</h3>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMCwwLCJBIl0sWzMsMCwiSSJdLFs2LDAsIkIiXSxbMywzLCJYIl0sWzIsMSwiSCJdLFswLDMsImYiLDJdLFsxLDMsImkiLDJdLFsyLDMsIm0iLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dLFswLDEsInEiXSxbMSwyXV0=&embed" width="944" height="560" style="border-radius: 8px; border: none;"></iframe>
+<p>We say i satisfies the universal property of the image of f if:</p>
+<p>$$
+-∘(q,H) : hom_X(i, m) → hom_X(f, m)
+$$</p>
+<p>is an equivalence for every imbedding $m : B ↪ X$.</p>
+<p>For any $f : A → X$ and $m : B ↪ X$, $hom_X(f, m)$ is a proposition.</p>
+<h2 id="image">Image</h2>
+<p>The image of a map $f : A → X$ is a type which contains all $X$ which $f$ can map to, paired with the evidence that its preimage exists:</p>
+<p>$$
+\text{im}(f) := Σ_{(x:X)}||fib_f(x)||
+$$</p>
+<p>$\text{im}(f)$ is an embedding.</p>
+<p>We can drop the evidence to get the &quot;proof-irreverent&quot; image part:</p>
+<p>$$
+\begin{align}
+i_f &amp;: \text{im}(f) → X \\
+i_f &amp;:= proj_1
+\end{align}
+$$</p>
+<p>We can provide an element of $A$ and get the corresponding image of $f$:</p>
+<p>$$
+\begin{align}
+q_f &amp;: A → \text{im}(f) \\
+q_f &amp;:= (f(x), 𝜂(x , refl_{f(x)}))
+\end{align}
+$$</p>
+<p>Where $𝜂$ is the unit truncation function.</p>
+<p>And $f \sim i_f ◦ q_f$, we call this homotopy $I_f$.</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMyxbMCwwLCJBIl0sWzQsMCwiXFx0ZXh0e2ltfShmKSJdLFsyLDMsIlgiXSxbMCwxLCJxX2YiXSxbMCwyLCJmIiwyXSxbMSwyLCJpX2YiLDAseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9fX1dXQ==&embed" width="702" height="560" style="border-radius: 8px; border: none;"></iframe>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2023-12-01</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=HoTT Notes 11&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-11&#x2F;&hashtags=PLT,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

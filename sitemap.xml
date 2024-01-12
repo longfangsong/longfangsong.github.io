@@ -91,6 +91,14 @@
         <lastmod>2023-11-27T09:17:28.205Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/hott-11/</loc>
+        <lastmod>2023-12-01T10:28:15.149Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/hott-12/</loc>
+        <lastmod>2023-12-05T19:48:23.856Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/hott-7/</loc>
         <lastmod>2023-11-16T13:15:22.372Z</lastmod>
     </url>
@@ -165,6 +173,45 @@
     <url>
         <loc>https://longfangsong.github.io/en/ssa-to-stackvm/</loc>
         <lastmod>2023-02-04T17:59:47.582Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/agda/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/cheatsheet/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/compiler/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/math/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/mathematical-logic/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/notes/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/optimization/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/physics/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/plt/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/semiconductor/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/tools/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/zola/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/the-physics-of-semiconductors/</loc>
@@ -321,10 +368,19 @@
         <lastmod>2023-02-04T17:59:47.582Z</lastmod>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/tags/</loc>
+        <loc>https://longfangsong.github.io/sv/tags/</loc>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/tags/agda/</loc>
+        <loc>https://longfangsong.github.io/sv/tags/laeromedel/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/sv/tags/sprak/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/sv/tags/svenska/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/bian-cheng-yu-yan-li-lun/</loc>
@@ -334,9 +390,6 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/cheatsheet/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/compiler/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/css/</loc>
@@ -375,25 +428,7 @@
         <loc>https://longfangsong.github.io/tags/ji-suan-ji-ke-xue-ji-chu/</loc>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/tags/laromedel/</loc>
-    </url>
-    <url>
         <loc>https://longfangsong.github.io/tags/macos/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/math/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/mathematical-logic/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/notes/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/optimization/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/physics/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/plt/</loc>
@@ -405,9 +440,6 @@
         <loc>https://longfangsong.github.io/tags/risc-v/</loc>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/tags/semiconductor/</loc>
-    </url>
-    <url>
         <loc>https://longfangsong.github.io/tags/shu-ju-ku/</loc>
     </url>
     <url>
@@ -417,16 +449,7 @@
         <loc>https://longfangsong.github.io/tags/shu-xue/</loc>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/tags/sprak/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/svenska/</loc>
-    </url>
-    <url>
         <loc>https://longfangsong.github.io/tags/ti-xi-jie-gou/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/tools/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/wu-li/</loc>

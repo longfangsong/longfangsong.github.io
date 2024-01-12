@@ -2,8 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh">
     <title>Blog</title>
     <subtitle>生命是灰色的，而理论之树常青</subtitle>
-    <link href="https://longfangsong.github.io/atom.xml" rel="self" type="application/atom+xml"/>
-    <link href="https://longfangsong.github.io"/>
+    <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2023-11-19T19:57:59.556+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
@@ -11,19 +11,27 @@
         <title>HoTT Summary</title>
         <published>2023-11-19T19:57:59.556+00:00</published>
         <updated>2023-11-19T19:57:59.556+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/hott-summary/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/hott-summary/"/>
         <id>https://longfangsong.github.io/hott-summary/</id>
         
-        <content type="html">&lt;h2 id=&quot;fu-hao-biao&quot;&gt;符号表&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/hott-summary/">&lt;h2 id=&quot;fu-hao-biao&quot;&gt;符号表&lt;&#x2F;h2&gt;
 &lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;符号&lt;&#x2F;th&gt;&lt;th&gt;读作&lt;&#x2F;th&gt;&lt;th&gt;意义&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;$x \mapsto b(x)$&lt;&#x2F;td&gt;&lt;td&gt;$x$ maps to $b(x)$&lt;&#x2F;td&gt;&lt;td&gt;$\lambda x . b(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$f \sim g$&lt;&#x2F;td&gt;&lt;td&gt;$f$ is homotopy to $g$&lt;&#x2F;td&gt;&lt;td&gt;$\Pi_{(x:A)}f(x) = g(x)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$A ≃ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is equivalence to $B$&lt;&#x2F;td&gt;&lt;td&gt;$\Sigma_{(f:A→B)}\text{is-equiv}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$p^{-1}$&lt;&#x2F;td&gt;&lt;td&gt;inverse of path $p$&lt;&#x2F;td&gt;&lt;td&gt;$(\Pi_{(x,y:A)} (x = y) → (y = x))(p)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$A ↪ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is embedding to $B$&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(f : A → B)} \text{is-emb}(f)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A ≅ B$&lt;&#x2F;td&gt;&lt;td&gt;$A$ is isomorphism to $B$&lt;&#x2F;td&gt;&lt;td&gt;isomorphisms of (semi)groups from $A$ to $B$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;$A&#x2F;R$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;td&gt;$Σ_{(P:A→Prop)}\text{is-equivalence-class}(P)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
 &lt;h2 id=&quot;ding-yi&quot;&gt;定义&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;equals&quot;&gt;Equals&lt;&#x2F;h3&gt;
@@ -154,7 +162,7 @@ $$&lt;&#x2F;p&gt;
 ind_\times : (\Pi_{(x : A)} \Pi_{(y : B)} P(x , y)) → \Pi_{(z : A \times B)} P(z)
 $$
 $$
-ind_\times(g, (x, y)) := g(x, y) 
+ind_\times(g, (x, y)) := g(x, y)
 $$&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;propositional-equal-lei-xing-identity-lei-xing-path-lei-xing&quot;&gt;Propositional equal 类型 &#x2F; identity 类型 &#x2F; Path 类型&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
@@ -178,6 +186,34 @@ $$&lt;&#x2F;p&gt;
 fib_f(b) := \Sigma_{(a : A)} f(a) = b
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;对应了 b 在 f 上的原像。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;pointed-type&quot;&gt;pointed type&lt;&#x2F;h3&gt;
+&lt;p&gt;Basically a type with a point.&lt;&#x2F;p&gt;
+&lt;p&gt;The type of a pointed type is:
+$$
+\mathcal{U}_* := Σ_{(A : \mathcal{U})} A
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;An example of a pointed type is $(ℕ , 0)$.
+Pointed maps are maps between pointed types that preserve the point.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(A →_* B) := Σ_{(f : A → B)} f(a) = b
+$$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;loop-space&quot;&gt;loop space&lt;&#x2F;h2&gt;
+&lt;p&gt;$$
+\begin{align}
+\Omega &amp;amp; : \mathcal{U}_* → \mathcal{U}_{*} \\
+\Omega(A, a) &amp;amp; := (a = a, \text{refl})
+\end{align}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We can apply $\Omega$ multiple times to get iterated loop spaces:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{align}
+\Omega^0(A, a) &amp;amp; := (A, a) \\
+\Omega^1(A, a) &amp;amp; := \Omega(A, a) \\
+\Omega^2(A, a) &amp;amp; := \Omega(\Omega(A, a)) \\
+⋯ \\
+\Omega^{n+1}(A) &amp;amp; := \Omega(\Omega^n(A, a))
+\end{align}
+$$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;lei-xing-han-shu-de-shu-xing&quot;&gt;类型&#x2F;函数的属性&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;is-empty&quot;&gt;is-empty&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
@@ -192,7 +228,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \text{retr}(f) := \Pi_{(h:B→A)} h ∘ f \sim id
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;retr 之所以称为 retr，是因为 $h$ 可能只是将 B 的一个子集映射到了 A 。此时我们就说 A 是 B 的一个收缩（retraction）。&lt;&#x2F;p&gt;
+&lt;p&gt;retr 之所以称为 retr，是因为 $h$ 可能只是将 B 的一个子集(即 $f$ 的像)映射到了 A 。此时我们就说 A 是 B 的一个收缩（retraction）。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-equiv&quot;&gt;is-equiv&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 \text{is-equiv}(f) := sec(f) \times retr(f)
@@ -200,6 +236,38 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
 $$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;zhong-yao-de-deng-jia-guan-xi&quot;&gt;重要的等价关系&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;For an equivalence relation $R$:
+$$
+([x]_R = [y]_R) ≃ R(x, y)
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;symmetry of equality
+$$
+(x = y) ≃ (y = x)
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;concat on path $p: x = y$
+$$
+𝑝⋅- : (𝑦 = 𝑧) ≃ (𝑥 = 𝑧)
+$$
+$$
+-⋅q : (𝑥 = 𝑦) ≃ (𝑥 = 𝑧)
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;transport on path $p: x = y$
+$$
+tr_𝐵(𝑝) : 𝐵(𝑥) ≃ 𝐵(𝑦)
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;any section and any retraction of an equivalence is again an equivalence.&lt;&#x2F;li&gt;
+&lt;li&gt;equivalent types have equivalent identity types ($e : A ≃ B$, then $ap_e$ is an equivalence function)&lt;&#x2F;li&gt;
+&lt;li&gt;&amp;quot;axiom&amp;quot; of choice
+$$
+\begin{align}
+choice &amp;amp;: &amp;amp; \Pi_{(x:A)}\Sigma_{(𝑦:𝐵(𝑥))}𝐶(𝑥, 𝑦) ≃ \Sigma_{(𝑓:\Pi_{(𝑥:𝐴)} 𝐵(𝑥))}\Pi_{(𝑥:𝐴)}𝐶(𝑥, 𝑓(𝑥)) \\
+choice(h) &amp;amp;:= &amp;amp; (𝜆𝑥. pr_1(h(𝑥)), 𝜆𝑥. pr_2 (h(𝑥)))
+\end{align}
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;$sec(pr_1) ≃ \Pi_{(𝑥:𝐴)} 𝐵(𝑥)$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;is-contr&quot;&gt;is-contr&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 \text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
@@ -211,6 +279,16 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \text{is-contr}(f) ↔ \text{is-equiv}(f)
 $$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;important-contractible-types&quot;&gt;Important contractible types&lt;&#x2F;h4&gt;
+&lt;ul&gt;
+&lt;li&gt;$⊤$&lt;&#x2F;li&gt;
+&lt;li&gt;$⊥$&lt;&#x2F;li&gt;
+&lt;li&gt;$Σ_{(x:A)} a = x$&lt;&#x2F;li&gt;
+&lt;li&gt;Product of contractible types is contractible&lt;&#x2F;li&gt;
+&lt;li&gt;Observational equal on $ℕ$, $Bool$ and coproduct type, ie. $\text{Eq-N}(n,m)$. with one of n and m fixed by $\Sigma$, ie. $\Sigma_{(n:N)} \text{Eq-N}(m,n)$&lt;&#x2F;li&gt;
+&lt;li&gt;A type $A$ is contractible if and only if the identity map on $A$ is constant.&lt;&#x2F;li&gt;
+&lt;li&gt;A map is an equivalence if and only if its fibers are contractible&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;is-coh-invertible&quot;&gt;is-coh-invertible&lt;&#x2F;h3&gt;
 &lt;p&gt;对于一个函数 $f : A \rightarrow B$, 如果他是一个 equivalence, 其逆为 $g$, $g$ 为右逆的证据为 homotopy $G$, $g$ 为左逆的证据为 homotopy $H$，同时存在 Homotopy $K : G \cdot f \sim f \cdot H$，我们称 $f$ 为 coherently invertible map。&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -234,21 +312,24 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \text{is-prop}(A) := A \rightarrow \text{is-contr}(A)
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;A is not empty and contractable (can be contract to the given point).&lt;&#x2F;p&gt;
+&lt;p&gt;A is not empty and contractable (can be contracted to the given point).&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;important-props&quot;&gt;Important props&lt;&#x2F;h4&gt;
 &lt;ul&gt;
-&lt;li&gt;$⊤$&lt;&#x2F;li&gt;
-&lt;li&gt;$⊥$&lt;&#x2F;li&gt;
+&lt;li&gt;Everything is contractible type is a prop.&lt;&#x2F;li&gt;
 &lt;li&gt;If $A$ is a prop, $A ≃ B$, then $B$ is a prop. And vice versa, all props are equivalent to each other.s&lt;&#x2F;li&gt;
-&lt;li&gt;Observational equal on $ℕ$ and Bool, ie. $Eq-ℕ n m$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.&lt;&#x2F;li&gt;
-&lt;li&gt;A coproduct of props is a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;Observational equal on $ℕ$ and Bool, ie. $\text{Eq-N}(n, m)$. Since it is equivalent to identity type on these types, identity type on these types is also a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;A product of props is a prop.&lt;&#x2F;li&gt;
 &lt;li&gt;Given a prop A and $\text{is-subtype}(B)$ of A, then $\text{is-prop}(Σ_{(x:A)} B(x))$&lt;&#x2F;li&gt;
-&lt;li&gt;$\text{is-prop}(A)$ itself is a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;$\text{is-emb}$, $\text{is-surj}$ and $\text{is-equiv}$.&lt;&#x2F;li&gt;
+&lt;li&gt;$\text{is-contr}(A)$, $\text{is-prop}(A)$ itself, $\text{is-set}(A)$, ..., $\text{is-trunk}_k(A)$ is a prop.&lt;&#x2F;li&gt;
 &lt;li&gt;Given a prop B, $A → B$ is a prop, a special case is, the negation of a type ($\neg A$) is a prop.&lt;&#x2F;li&gt;
+&lt;li&gt;$\text{is-unital}(G)$, $\text{is-group}(G)$, for any semigroup $G$.&lt;&#x2F;li&gt;
+&lt;li&gt;A map $f : A → B$ is an embedding if and only if its fibers are propositions.&lt;&#x2F;li&gt;
+&lt;li&gt;A type 𝐴 is a proposition if and only if the identity map on 𝐴 is weakly constant ($\Pi_{(x,y:A)} f (x) = f (y)$).&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;is-subtype&quot;&gt;is-subtype&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
-is-subtype(B) := (x : A) → is-prop (B x)
+\text{is-subtype}(B) := (x : A) → \text{is-prop} (B(x))
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;We say $B$ is a subtype of $A$.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-set&quot;&gt;is-set&lt;&#x2F;h3&gt;
@@ -263,6 +344,37 @@ $$&lt;&#x2F;p&gt;
 \end{align}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;a map $f : A → B$ is k-truncated if its fibers are k-truncated.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Product ($\Pi$) of k-truncated types is k-truncated.&lt;&#x2F;li&gt;
+&lt;li&gt;retract of k-truncated type is k-truncated&lt;&#x2F;li&gt;
+&lt;li&gt;$f: A→B$, B is 𝑘-type, then &amp;quot;A is k-type&amp;quot; ↔ &amp;quot;f is k-type&amp;quot;&lt;&#x2F;li&gt;
+&lt;li&gt;If $𝑓 : 𝐴 → 𝐵$ is an embedding, and 𝐵 is a (𝑘 + 1)-type, then so is 𝐴.&lt;&#x2F;li&gt;
+&lt;li&gt;𝑓 is (𝑘 + 1)-truncated, then $ap_f$ is k-truncated, and vice versa.&lt;&#x2F;li&gt;
+&lt;li&gt;𝐵(𝑥) is 𝑘-truncated for each $𝑥 : 𝐴$ ↔ $Σ(𝑥:𝐴) 𝐵(𝑥)$ is 𝑘-truncated&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;is-small&quot;&gt;is-small&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-small}_{\mathcal{U}}(A) := Σ_{(X:\mathcal{U})} A ≃ X
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;for a map $f : A → B$, $f$ is small if all its fibers are small.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-locally-small&quot;&gt;is-locally-small&lt;&#x2F;h3&gt;
+&lt;p&gt;$$
+\text{is-locally-small}_{\mathcal{U}}(A) := \Pi_{(x, y : A)} \text{is-small}(x = y)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;for a map $f : A → B$, $f$ is locally small if all its fibers are locally small.&lt;&#x2F;p&gt;
+&lt;p&gt;All small types are locally small in the same universe.&lt;&#x2F;p&gt;
+&lt;p&gt;Any proposition is locally small in any universe.&lt;&#x2F;p&gt;
+&lt;p&gt;Any univalent universe U is locally U-small.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-equivalence-class&quot;&gt;is-equivalence-class&lt;&#x2F;h3&gt;
+&lt;p&gt;For $R$ to be an equivalence relation, a subtype $P : A → Prop$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-equivalence-class}(P) := ∃(x:A)∀(y:A) P(y) ↔ R(x, y)
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;is-effective&quot;&gt;is-effective&lt;&#x2F;h3&gt;
+&lt;p&gt;For $R$ to be an equivalence relation,&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{is-effective}(f) := (x, y : A) → (f(x) ≡ f(y) ≃ R(x, y))
+$$&lt;&#x2F;p&gt;
 </content>
         
     </entry>
@@ -270,13 +382,19 @@ $$&lt;&#x2F;p&gt;
         <title>重新开始学数学 • 贝叶斯因果推理（4）</title>
         <published>2023-10-19T11:58:34.553+00:00</published>
         <updated>2023-10-19T11:58:34.553+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-4/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-stastic-bayesian-4/"/>
         <id>https://longfangsong.github.io/restart-math-stastic-bayesian-4/</id>
         
-        <content type="html">&lt;p&gt;Overfitting 和 Underfitting 的概念大家都很熟悉，就不赘述了。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-stastic-bayesian-4/">&lt;p&gt;Overfitting 和 Underfitting 的概念大家都很熟悉，就不赘述了。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;ping-gu-mo-xing-hao-pi&quot;&gt;评估模型好坏&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;cross-validation&quot;&gt;Cross Validation&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
@@ -337,13 +455,19 @@ $$&lt;&#x2F;p&gt;
         <title>重新开始学数学 • 贝叶斯因果推理（3）</title>
         <published>2023-10-16T20:53:15.303+00:00</published>
         <updated>2023-10-16T20:53:15.303+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-3/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-stastic-bayesian-3/"/>
         <id>https://longfangsong.github.io/restart-math-stastic-bayesian-3/</id>
         
-        <content type="html">&lt;h2 id=&quot;bei-xie-si-mo-xing&quot;&gt;贝叶斯模型&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-stastic-bayesian-3/">&lt;h2 id=&quot;bei-xie-si-mo-xing&quot;&gt;贝叶斯模型&lt;&#x2F;h2&gt;
 &lt;p&gt;要建立一个贝叶斯模型，我们需要确定模型的&lt;strong&gt;输出&lt;&#x2F;strong&gt;（outcome）符合什么分布，这意味着我们需要选择一个似然函数。&lt;&#x2F;p&gt;
 &lt;p&gt;eg.&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -445,13 +569,19 @@ $$&lt;&#x2F;p&gt;
         <title>重新开始学数学 • 贝叶斯因果推理（2）</title>
         <published>2023-10-16T20:52:15.303+00:00</published>
         <updated>2023-10-16T20:52:15.303+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-2/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-stastic-bayesian-2/"/>
         <id>https://longfangsong.github.io/restart-math-stastic-bayesian-2/</id>
         
-        <content type="html">&lt;h2 id=&quot;yin-guo-guan-xi-tu-causal-graph-causal-dag&quot;&gt;因果关系图（Causal graph, Causal DAG）&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-stastic-bayesian-2/">&lt;h2 id=&quot;yin-guo-guan-xi-tu-causal-graph-causal-dag&quot;&gt;因果关系图（Causal graph, Causal DAG）&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;causal graphs (also known as path diagrams, causal Bayesian networks or DAGs) are probabilistic graphical models used to encode assumptions about the data-generating process.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -506,18 +636,24 @@ $$&lt;&#x2F;p&gt;
         <title>形式语义学 • 操作语义</title>
         <published>2023-09-25T20:26:11.203+00:00</published>
         <updated>2023-09-25T20:26:11.203+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/operational-semantics/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/operational-semantics/"/>
         <id>https://longfangsong.github.io/operational-semantics/</id>
         
-        <content type="html">&lt;h2 id=&quot;shi-shi-yao&quot;&gt;是什么&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/operational-semantics/">&lt;h2 id=&quot;shi-shen-me&quot;&gt;是什么&lt;&#x2F;h2&gt;
 &lt;p&gt;一种着重于描述语言的执行过程的，对程序语言语义的形式化描述方法。&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;An operational semantics for a programming language is a mathematical definition of its computation relation, $e ⇒ v$ &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, where e is a program in the language.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;h2 id=&quot;wei-shi-yao&quot;&gt;为什么&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;wei-shen-me&quot;&gt;为什么&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;the goal is to give a precise mathematical model of computations&#x2F;programs —— Lecture notes of DAT350, Chalmers&#x2F;GU&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -525,7 +661,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;指称语义更重视“找到代表程序所做所为的数学对象”，比如把无类型 lambda 演算映射到 Martin Lof type theory，从而证明这个语言是 soundness 的。&lt;&#x2F;p&gt;
 &lt;p&gt;公理语义的想法是“给出一些公理，以此定义程序的含义”，最常见的例子就是 Hoare logic，可以理解为是关注程序在一些（作为 pre&#x2F;postcondition 的 ）prediction 上的作用效果。&lt;&#x2F;p&gt;
 &lt;p&gt;操作语义则关注“程序的执行过程”，它的目标是给出一个形式化的执行模型。&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;zen-yao-zuo&quot;&gt;怎么做&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;zen-me-zuo&quot;&gt;怎么做&lt;&#x2F;h2&gt;
 &lt;p&gt;比如说我们要给只有整数的数学表达式定义操作语义。&lt;&#x2F;p&gt;
 &lt;p&gt;这个语言的语法是：&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;data Nat &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set where
@@ -617,13 +753,19 @@ $$&lt;&#x2F;p&gt;
         <title>重新开始学数学 • 贝叶斯因果推理（1）</title>
         <published>2023-09-05T12:40:19+00:00</published>
         <updated>2023-09-05T12:40:19+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-stastic-bayesian-1/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-stastic-bayesian-1/"/>
         <id>https://longfangsong.github.io/restart-math-stastic-bayesian-1/</id>
         
-        <content type="html">&lt;h2 id=&quot;fu-hao-biao&quot;&gt;符号表&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-stastic-bayesian-1/">&lt;h2 id=&quot;fu-hao-biao&quot;&gt;符号表&lt;&#x2F;h2&gt;
 &lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;符号&lt;&#x2F;th&gt;&lt;th&gt;中文&lt;&#x2F;th&gt;&lt;th&gt;English&lt;&#x2F;th&gt;&lt;th&gt;例子&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
 &lt;tr&gt;&lt;td&gt;$A ∼ B$&lt;&#x2F;td&gt;&lt;td&gt;A&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 服从 B 分布&lt;&#x2F;td&gt;&lt;td&gt;A is subject to distribution B&lt;&#x2F;td&gt;&lt;td&gt;$W ∼ Binomial(N, p)$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
 &lt;tr&gt;&lt;td&gt;$Pr(E_A)$&lt;&#x2F;td&gt;&lt;td&gt;事件 $E_A$ 的概率分布&lt;&#x2F;td&gt;&lt;td&gt;probability of $E_A$&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
@@ -819,13 +961,19 @@ $$&lt;&#x2F;p&gt;
         <title>Image 转 RGB565 工具</title>
         <published>2023-03-03T16:58:21.033+00:00</published>
         <updated>2023-03-03T16:58:21.033+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/image-to-rgb565/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/image-to-rgb565/"/>
         <id>https://longfangsong.github.io/image-to-rgb565/</id>
         
-        <content type="html">&lt;h1 id=&quot;just-use-it&quot;&gt;Just use it&lt;&#x2F;h1&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/image-to-rgb565/">&lt;h1 id=&quot;just-use-it&quot;&gt;Just use it&lt;&#x2F;h1&gt;
 &lt;input type=&quot;file&quot; id=&quot;imageInput&quot;&gt;
 &lt;h1 id=&quot;why&quot;&gt;Why&lt;&#x2F;h1&gt;
 &lt;p&gt;RGB565 格式在 embedded systems 中非常有用，可以直接喂给大部分 lcd 屏幕吃。&lt;&#x2F;p&gt;
@@ -887,13 +1035,19 @@ document.getElementById(&#x27;imageInput&#x27;).addEventListener(&#x27;change&#x
         <title>重新开始学数学 • 数理逻辑（5）</title>
         <published>2022-07-11T16:29:53.671+00:00</published>
         <updated>2022-07-13T00:20:17+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-5/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-logic-5/"/>
         <id>https://longfangsong.github.io/restart-math-logic-5/</id>
         
-        <content type="html">&lt;p&gt;我们的目标是写出一个函数，输入一个 CTL 模型和一个 Formula，输出模型中所有能 satisfy 这个 Formula 的状态集合。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-logic-5/">&lt;p&gt;我们的目标是写出一个函数，输入一个 CTL 模型和一个 Formula，输出模型中所有能 satisfy 这个 Formula 的状态集合。&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;satisfiable_states&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;self&lt;&#x2F;span&gt;&lt;span&gt;: &amp;amp;CTLModule, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;formula&lt;&#x2F;span&gt;&lt;span&gt;: CTLFormula)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;根据 CTL 中连接词的定义，我们可以写出：&lt;&#x2F;p&gt;
@@ -968,13 +1122,19 @@ document.getElementById(&#x27;imageInput&#x27;).addEventListener(&#x27;change&#x
         <title>重新开始学数学 • 数理逻辑（4）</title>
         <published>2022-07-03T16:33:08.514+00:00</published>
         <updated>2022-07-03T16:33:08.514+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-4/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-logic-4/"/>
         <id>https://longfangsong.github.io/restart-math-logic-4/</id>
         
-        <content type="html">&lt;h2 id=&quot;shi-xu-luo-ji&quot;&gt;时序逻辑&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-logic-4/">&lt;h2 id=&quot;shi-xu-luo-ji&quot;&gt;时序逻辑&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;在逻辑中，术语时间逻辑被用来描述为表现和推理关于时间限定的命题的规则和符号化的任何系统。 —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -1044,13 +1204,19 @@ E 是 there Exists one path，即后面的 LTL-like 的公式在某条路径上�
         <title>定理证明器背后的数学原理</title>
         <published>2022-06-24T08:10:17.031+00:00</published>
         <updated>2022-06-30T13:04:33+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/why-lean-proof/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/why-lean-proof/"/>
         <id>https://longfangsong.github.io/why-lean-proof/</id>
         
-        <content type="html">&lt;h2 id=&quot;how-it-looks-like&quot;&gt;How it looks like&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/why-lean-proof/">&lt;h2 id=&quot;how-it-looks-like&quot;&gt;How it looks like&lt;&#x2F;h2&gt;
 &lt;p&gt;相比一上来就掰扯复杂的数学理论，我们不如先来看看一个使用定理证明器 Lean &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; 编写数学定理的证明的实际例子，我们就选择比较容易证明的德摩根定律来证：&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;lean&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-lean &quot;&gt;&lt;code class=&quot;language-lean&quot; data-lang=&quot;lean&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;open&lt;&#x2F;span&gt;&lt;span&gt; Classical
 &lt;&#x2F;span&gt;&lt;span&gt;
@@ -1085,7 +1251,7 @@ E 是 there Exists one path，即后面的 LTL-like 的公式在某条路径上�
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;比较简单的想法是，如果我们能从一个命题通过一些程序运算得到另一个命题，那如果前者成立，后者（因为是算出来的）也必定成立，所以这个程序就是两个命题间“实质蕴涵”的一个构造性证明；而为了让这个程序中的 “类型检查” 可以用于保证这个证明是有效的，我们可以用类型的形式“书写”这个命题。&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;zen-yao-yong-ye-ji-yi-xie-ji-suan-ji-fu-zhu-zheng-ming-de-li-zi&quot;&gt;怎么用，也即一些计算机辅助证明的例子&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;zen-me-yong-ye-ji-yi-xie-ji-suan-ji-fu-zhu-zheng-ming-de-li-zi&quot;&gt;怎么用，也即一些计算机辅助证明的例子&lt;&#x2F;h2&gt;
 &lt;p&gt;例如我们要在 lean 中证明 &lt;code&gt;(p → (q → r)) → (p ∧ q → r)&lt;&#x2F;code&gt;，或者读作：&lt;&#x2F;p&gt;
 &lt;p&gt;For all proposition p, q, and r, &amp;quot;p → (q → r)&amp;quot; implies &amp;quot;(p ∧ q) → r&amp;quot;.&lt;&#x2F;p&gt;
 &lt;p&gt;根据“程序即证明”的思想接下来我们要写一个类型为 &lt;code&gt;(p → (q → r)) → (p ∧ q → r)&lt;&#x2F;code&gt; 的程序。&lt;&#x2F;p&gt;
@@ -1134,13 +1300,19 @@ E 是 there Exists one path，即后面的 LTL-like 的公式在某条路径上�
         <title>midi 文件转蜂鸣器乐谱</title>
         <published>2022-06-05T11:56:50+00:00</published>
         <updated>2022-06-05T11:56:50+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/midi/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/midi/"/>
         <id>https://longfangsong.github.io/midi/</id>
         
-        <content type="html">&lt;p&gt;本工具可以将 midi 文件重新编码为 (频率[单位 Hz, 16位无符号数], 持续时间 [单位us, 32位无符号数]) 格式的数组。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/midi/">&lt;p&gt;本工具可以将 midi 文件重新编码为 (频率[单位 Hz, 16位无符号数], 持续时间 [单位us, 32位无符号数]) 格式的数组。&lt;&#x2F;p&gt;
 &lt;p&gt;对有多个通道的 midi 文件，只会保留第一个通道的数据。&lt;&#x2F;p&gt;
 &lt;p&gt;对同一时间点的多个音符（柱状和弦），只保留最低音。&lt;&#x2F;p&gt;
 &lt;p&gt;上传文件即可开始转换。&lt;&#x2F;p&gt;
@@ -1187,13 +1359,19 @@ load_wasm();
         <title>交流电基础</title>
         <published>2022-02-28T22:21:20+00:00</published>
         <updated>2022-02-28T22:21:20+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/alternating-current/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/alternating-current/"/>
         <id>https://longfangsong.github.io/alternating-current/</id>
         
-        <content type="html">&lt;blockquote&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/alternating-current/">&lt;blockquote&gt;
 &lt;p&gt;交流电流是指电流强度和电流方向都发生周期性变化的电流，在一个周期内的运行平均值为零。—— 维基百科&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;虽然定义上是这么说的，但是分析交流电的方法也适合分析一些没那么周期性的变化的，平均值不为 0 的电流，比如高速信号的传输。&lt;&#x2F;p&gt;
@@ -1743,13 +1921,19 @@ $$&lt;&#x2F;p&gt;
         <title>电阻阻值为什么这么奇怪</title>
         <published>2022-02-28T22:20:50+00:00</published>
         <updated>2022-02-28T22:20:50+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/resistor-value/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/resistor-value/"/>
         <id>https://longfangsong.github.io/resistor-value/</id>
         
-        <content type="html">&lt;p&gt;如果你去购买电阻，会发现阻值都非常的奇怪，阻值常常是什么 39, 47, 51 之类的，咋就不取个整数呢？&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/resistor-value/">&lt;p&gt;如果你去购买电阻，会发现阻值都非常的奇怪，阻值常常是什么 39, 47, 51 之类的，咋就不取个整数呢？&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;dian-zu-de-wu-chai&quot;&gt;电阻的误差&lt;&#x2F;h2&gt;
 &lt;p&gt;我们知道因为人类是有极限的，人类造出来的产品也都是有瑕疵的，所以我们人类造出来的电阻也都是有误差的。&lt;&#x2F;p&gt;
 &lt;p&gt;以 10% 的误差为例，假如我们造这种电阻，要覆盖从 10 到 100 的整个数轴，那么我们应该制造的电阻阻值应该符合一个公差为 $10^{\frac {1} {12}}$ 指数等比数列。&lt;&#x2F;p&gt;
@@ -2294,13 +2478,19 @@ document.getElementById(&#x27;expected-result&#x27;).value = &#x27;&#x27;;
         <title>Contention-Aware Lock Scheduling 和 （b）LDSF 算法</title>
         <published>2022-02-08T14:56:30+00:00</published>
         <updated>2022-02-08T14:56:30+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/contention-aware-lock-scheduling/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/contention-aware-lock-scheduling/"/>
         <id>https://longfangsong.github.io/contention-aware-lock-scheduling/</id>
         
-        <content type="html">&lt;script src=&quot;&#x2F;&#x2F;d3js.org&#x2F;d3.v5.min.js&quot;&gt;&lt;&#x2F;script&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/contention-aware-lock-scheduling/">&lt;script src=&quot;&#x2F;&#x2F;d3js.org&#x2F;d3.v5.min.js&quot;&gt;&lt;&#x2F;script&gt;
 &lt;script src=&quot;https:&#x2F;&#x2F;unpkg.com&#x2F;@hpcc-js&#x2F;wasm@0.3.11&#x2F;dist&#x2F;index.min.js&quot;&gt;&lt;&#x2F;script&gt;
 &lt;script src=&quot;https:&#x2F;&#x2F;unpkg.com&#x2F;d3-graphviz@3.0.5&#x2F;build&#x2F;d3-graphviz.js&quot;&gt;&lt;&#x2F;script&gt;
 &lt;h2 id=&quot;ji-ben-mo-xing&quot;&gt;基本模型&lt;&#x2F;h2&gt;
@@ -2501,13 +2691,19 @@ d3.select(&quot;#graph-2&quot;).graphviz()
         <title>Mitchell Merritt 分布式死锁检测算法</title>
         <published>2022-01-26T03:35:48.219+00:00</published>
         <updated>2022-01-26T03:35:48.219+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/mitchell-merritt-algorithm/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/mitchell-merritt-algorithm/"/>
         <id>https://longfangsong.github.io/mitchell-merritt-algorithm/</id>
         
-        <content type="html">&lt;h2 id=&quot;ji-ben-suan-fa&quot;&gt;基本算法&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/mitchell-merritt-algorithm/">&lt;h2 id=&quot;ji-ben-suan-fa&quot;&gt;基本算法&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;mo-xing&quot;&gt;模型&lt;&#x2F;h3&gt;
 &lt;p&gt;采用最基本的 wait-for 图模型，即每个节点是一个 process，每条边代表起点对应的 process 需要的被终点 process 持有。&lt;&#x2F;p&gt;
 &lt;p&gt;对每个节点，有两个 label，一个 public，一个 private。&lt;&#x2F;p&gt;
@@ -2532,7 +2728,7 @@ d3.select(&quot;#graph-2&quot;).graphviz()
 &lt;&#x2F;li&gt;
 &lt;li&gt;进程发现自己的 &lt;code&gt;process_waited.public_label == process_waiting.public_label &amp;amp;&amp;amp; process_waited.public_priority == process_waiting.public_priority &amp;amp;&amp;amp; process_waiting.public_priority == process_waiting.private_priority&lt;&#x2F;code&gt;，则说明发生了死锁，且自己是死锁环中优先级最低的，此时可以终结自己断开死锁环&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h2 id=&quot;ping-jie&quot;&gt;评价&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;ping-jia&quot;&gt;评价&lt;&#x2F;h2&gt;
 &lt;p&gt;实践上可能效率还不如直接中心化死锁检测……&lt;&#x2F;p&gt;
 </content>
         
@@ -2541,14 +2737,21 @@ d3.select(&quot;#graph-2&quot;).graphviz()
         <title>自动机理论 • 有限状态机</title>
         <published>2021-07-22T10:55:33.427+00:00</published>
         <updated>2021-07-22T10:55:33.427+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/automata-2/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/automata-2/"/>
         <id>https://longfangsong.github.io/automata-2/</id>
         
-        <content type="html">&lt;h2 id=&quot;que-ding-xing-you-xian-zhuang-tai-ji-deterministic-finite-automata-dfa&quot;&gt;确定性有限状态机（Deterministic Finite Automata, DFA）&lt;&#x2F;h2&gt;
-&lt;p&gt;DFA包含以下要素：&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/automata-2/">&lt;p&gt;有限状态机是能够识别正则文法（正则表达式）的自动机。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;que-ding-xing-you-xian-zhuang-tai-ji-deterministic-finite-automata-dfa&quot;&gt;确定性有限状态机（Deterministic Finite Automata, DFA）&lt;&#x2F;h2&gt;
+&lt;p&gt;DFA 包含以下要素：&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;一个有限大小的状态集合，常记为 $Q$。&lt;&#x2F;li&gt;
 &lt;li&gt;一个有限大小的输入符号集合，常记为 $\Sigma$。&lt;&#x2F;li&gt;
@@ -2557,6 +2760,127 @@ d3.select(&quot;#graph-2&quot;).graphviz()
 &lt;li&gt;一个终止或者接受状态的集合，常记为 $F$，$F \subseteq Q$。&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;DFA 常常用如上五种要素的元组表示，记为 $A = (Q, \Sigma, \delta, q_0, F)$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fei-que-ding-you-xian-zhuang-tai-zi-dong-ji-nondeterministic-finite-automaton-nfa&quot;&gt;非确定有限状态自动机 (Nondeterministic Finite Automaton，NFA)&lt;&#x2F;h2&gt;
+&lt;p&gt;NFA 在 DFA 的基础上，将状态转换函数的返回值从一个状态变成了状态集合，且这个函数的输入参数中，输入符号可以是空串 $\epsilon$。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;nfa-que-ding-hua&quot;&gt;NFA 确定化&lt;&#x2F;h3&gt;
+&lt;p&gt;NFA 可以转化为等价的 DFA。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;li-zi&quot;&gt;例子&lt;&#x2F;h4&gt;
+&lt;p&gt;我们从一个例子2开始讲解：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;.&#x2F;nfa-example.png&quot; alt=&quot;nfa-example&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;该NFA识别的是$(a|b)*abb$。&lt;&#x2F;p&gt;
+&lt;p&gt;我们将这个 NFA 化为 DFA 。&lt;&#x2F;p&gt;
+&lt;p&gt;一开始从start进去，即使不作任何输入，从状态$0$开始凭借着$\epsilon$边，也可以转到状态${0,1,2,4,7}$3，那么因为DFA中没有$\epsilon$边，而一个start状态又是必须的，在我们生成的DFA中，这些个状态就只能化为一个状态，称之为$A$。&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;.&#x2F;A.png&quot; alt=&quot;a&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;然后看看我们从这个$A$状态（也就是NFA中的${0,1,2,4,7}$这几个状态）在输入$a$时能转到哪些状态：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;从$2$，能转到$3$&lt;&#x2F;li&gt;
+&lt;li&gt;从$7$，能转到$8$&lt;&#x2F;li&gt;
+&lt;li&gt;从转到的$3$和$8$中，再进行一次$\epsilon$转换（因为这不需要任何输入），能转到${1,2,3,4,6,7,8}$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;所以在向原NFA中$A$对应的状态输入了$a$后，可能转到的NFA状态是${1,2,3,4,6,7,8}$，这种组合显然并不是$A$状态，我们把它化为一个状态$B$，并连接在$A$后面：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;.&#x2F;AB.png&quot; alt=&quot;ab&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;同理从$A$由输入$b$能到达的状态&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;.&#x2F;ABC.png&quot; alt=&quot;abc&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;至此从$A$出发的DFA中的路径就考察完了。&lt;&#x2F;p&gt;
+&lt;p&gt;为了方便观察，我将NFA中的状态对应到的DFA中的状态标注在图上：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;annotated1.png&quot; alt=&quot;annotated1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;我们继续从$B$开始考察：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;从这个状态经$a$，可以到达的状态是${1,2,3,4,6,7,8}$，这又落回了$B$，故$B$经输入$a$转到自身。&lt;&#x2F;li&gt;
+&lt;li&gt;从这个状态经$b$，可以到达的状态是${1,2,4,5,6,7,9}$，这种NFA状态的组合在之前从未出现过，故将其化为一个DFA状态$D$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;然后得到：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;.&#x2F;ABCD.png&quot; alt=&quot;abcd&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;annotated2.png&quot; alt=&quot;annotated2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;接着考察$C$：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$C+a \rightarrow {1,2,3,4,6,7,8}$，落入了$B$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$C+b \rightarrow {1,2,4,5,6,7}$ ，落入了$C$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;所以：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;.&#x2F;ABCD2.png&quot; alt=&quot;abcd2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;然后是$D$：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$D+a \rightarrow {1,2,3,4,6,7,8}$，落入了$B$&lt;&#x2F;li&gt;
+&lt;li&gt;$D+b \rightarrow {1,2,4,5,6,7,10}$，创建新状态$E$，由于$E$包含了旧NFA的接受状态$10$，故其是DFA的接受状态。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;所以得到：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;.&#x2F;ABCDE.png&quot; alt=&quot;abcde&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;annotated2.png&quot; alt=&quot;annotated3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;然后是$E$：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$E+a→B$&lt;&#x2F;li&gt;
+&lt;li&gt;$E+b→C$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;所以可以得到：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;final.png&quot; alt=&quot;final&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;由于这个DFA里面所有的状态都被考虑过了，所以这就是最后的结果了。&lt;&#x2F;p&gt;
+&lt;p&gt;附上最后得到的NFA状态到DFA状态的对应关系表：&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;NFA&lt;&#x2F;th&gt;&lt;th&gt;DFA&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;0,1,2,4,7&lt;&#x2F;td&gt;&lt;td&gt;A&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,3,4,6,7,8&lt;&#x2F;td&gt;&lt;td&gt;B&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,4,5,6,7&lt;&#x2F;td&gt;&lt;td&gt;C&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,4,5,6,7,9&lt;&#x2F;td&gt;&lt;td&gt;D&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,4,5,6,7,10&lt;&#x2F;td&gt;&lt;td&gt;E&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h4 id=&quot;suan-fa&quot;&gt;算法&lt;&#x2F;h4&gt;
+&lt;p&gt;总结上面的过程，我们可以得到NFA的确定化算法：&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;将NFA的开始状态及其所有可通过$\epsilon$边的状态映射为DFA​的开始状态&lt;&#x2F;li&gt;
+&lt;li&gt;如果DFA中的每个状态都被“考虑过”，则算法完成&lt;&#x2F;li&gt;
+&lt;li&gt;否则，考虑DFA中的一个没有被考虑过的状态$N$：
+&lt;ol&gt;
+&lt;li&gt;对字母表里的每个字母$ch$&lt;&#x2F;li&gt;
+&lt;li&gt;找出这个节点对应NFA中的所有节点经过$ch$加上任意多的$\epsilon$边能到达的所有状态的集合
+&lt;ol&gt;
+&lt;li&gt;若这个集合是DFA中已经存在的某个状态$M$对应的NFA状态集合的子集，则添加连线$N + ch = M$&lt;&#x2F;li&gt;
+&lt;li&gt;否则向DFA中添加新状态$P$，其对应NFA状态集合就是上述集合，如果这个集合中包含接受状态，那么这个节点也是接受状态，并添加连线$N+ch=P$&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;最终得到的DFA即为所求&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h4 id=&quot;dai-ma&quot;&gt;代码&lt;&#x2F;h4&gt;
+&lt;p&gt;代码见&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;RegexCalculator&#x2F;blob&#x2F;master&#x2F;src&#x2F;finiteAutomata&#x2F;Nondeterministic.kt&quot;&gt;Github仓库&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;toDFA&lt;&#x2F;span&gt;&lt;span&gt;(): Deterministic {
+&lt;&#x2F;span&gt;&lt;span&gt;        start as Nondeterministic.State
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 还没有被考虑过的状态, equivalentStates: 经过𝜀边能到达的状态
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 由于DFA状态没有完全被构造出来，故存起来比较困难
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 所以存和这个DFA状态对应的NFA状态集
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;statesToFind = mutableSetOf(start.equivalentStates())
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 结果的转换关系表
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;result = mutableMapOf&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;Nondeterministic.State&amp;gt;, Deterministic.State&amp;gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;nextChar = &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 构建DFA开始状态
+&lt;&#x2F;span&gt;&lt;span&gt;    result[start.equivalentStates()] = Deterministic.State(
+&lt;&#x2F;span&gt;&lt;span&gt;                nextChar++.toString(),
+&lt;&#x2F;span&gt;&lt;span&gt;                start.equivalentStates().any { it.accept },
+&lt;&#x2F;span&gt;&lt;span&gt;                mutableMapOf())
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; (!statesToFind.isEmpty()) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 现在开始考虑这组NFA状态对应的DFA状态
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;theStates = statesToFind.first()
+&lt;&#x2F;span&gt;&lt;span&gt;        statesToFind.remove(theStates)
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (ch &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; alphabet) {
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;canGoTo = theStates.directConnectedTo(ch)
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;equivalenteStates = canGoTo.equivalentStates
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 不存在对应DFA状态，构建
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (equivalenteStates !&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; result.keys) {
+&lt;&#x2F;span&gt;&lt;span&gt;                result[equivalenteStates] = Deterministic.State(nextChar++.toString(), equivalenteStates.any { it.accept }, mutableMapOf())
+&lt;&#x2F;span&gt;&lt;span&gt;                statesToFind.add(equivalenteStates)
+&lt;&#x2F;span&gt;&lt;span&gt;            }
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 添加该状态到其他状态的转换关系
+&lt;&#x2F;span&gt;&lt;span&gt;            result[theStates]!!.transitions[ch] = result[equivalenteStates]!!
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; 保存为DFA并返回
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; Deterministic(result.values.toSet(), result.values.minBy { it.name }!!)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 </content>
         
     </entry>
@@ -2564,13 +2888,19 @@ d3.select(&quot;#graph-2&quot;).graphviz()
         <title>自动机理论 • 基本概念</title>
         <published>2021-07-22T08:13:38.757+00:00</published>
         <updated>2021-07-22T08:13:38.757+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/automata-1/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/automata-1/"/>
         <id>https://longfangsong.github.io/automata-1/</id>
         
-        <content type="html">&lt;h2 id=&quot;zi-mu-biao-alphabet&quot;&gt;字母表（Alphabet）&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/automata-1/">&lt;h2 id=&quot;zi-mu-biao-alphabet&quot;&gt;字母表（Alphabet）&lt;&#x2F;h2&gt;
 &lt;p&gt;字母表是一个&lt;strong&gt;有限&lt;&#x2F;strong&gt;、&lt;strong&gt;非空&lt;&#x2F;strong&gt;的符号集合，常用 $\Sigma$ 表示。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;zi-mu-biao-de-mi-power&quot;&gt;字母表的幂（Power）&lt;&#x2F;h3&gt;
 &lt;p&gt;某个字母表 $\Sigma$ 的 $k$ 次幂就是由该字母表中的字母组成的，长度为 $k$ 的所有串组成的集合，记作 $\Sigma^k$。&lt;&#x2F;p&gt;
@@ -2611,13 +2941,19 @@ $$&lt;&#x2F;p&gt;
         <title>重新开始学数学 • 数理逻辑（3）</title>
         <published>2021-07-06T06:02:46.315+00:00</published>
         <updated>2022-07-13T00:19:25+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-3/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-logic-3/"/>
         <id>https://longfangsong.github.io/restart-math-logic-3/</id>
         
-        <content type="html">&lt;h2 id=&quot;model-structure-jie-gou-mo-xing&quot;&gt;Model（Structure、结构、模型）&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-logic-3/">&lt;h2 id=&quot;model-structure-jie-gou-mo-xing&quot;&gt;Model（Structure、结构、模型）&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;yong-tu&quot;&gt;用途&lt;&#x2F;h3&gt;
 &lt;p&gt;Model 的主要作用是可以在给定一个 Model 的情况下，给一个谓词逻辑表达式求值。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;qian-zhi-ding-yi&quot;&gt;前置定义&lt;&#x2F;h3&gt;
@@ -2681,13 +3017,19 @@ $$&lt;&#x2F;p&gt;
         <title>自动逻辑综合原理 • 组合逻辑与 LUT 的最简单的综合</title>
         <published>2021-04-25T16:09:46.815+00:00</published>
         <updated>2021-04-25T16:09:46.815+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/fpga-sys-1/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/fpga-sys-1/"/>
         <id>https://longfangsong.github.io/fpga-sys-1/</id>
         
-        <content type="html">&lt;h2 id=&quot;lut&quot;&gt;LUT&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/fpga-sys-1/">&lt;h2 id=&quot;lut&quot;&gt;LUT&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;一切皆查表。 ——我自己说的&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -2937,13 +3279,19 @@ $$&lt;&#x2F;p&gt;
         <title>macOS 用户也要玩 FPGA！</title>
         <published>2021-04-24T16:53:12.045+00:00</published>
         <updated>2021-04-24T16:53:12.045+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/macos-fpga/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/macos-fpga/"/>
         <id>https://longfangsong.github.io/macos-fpga/</id>
         
-        <content type="html">&lt;p&gt;冲着能用开源工具链入了一块 iCESugar-Pro，本来想着如果 macOS 环境搞不定就下官方的虚拟机，结果居然给我配成了。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/macos-fpga/">&lt;p&gt;冲着能用开源工具链入了一块 iCESugar-Pro，本来想着如果 macOS 环境搞不定就下官方的虚拟机，结果居然给我配成了。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;ise-vivado-quartus-de-que-dian&quot;&gt;ISE&#x2F;Vivado&#x2F;Quartus 的缺点&lt;&#x2F;h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -3066,13 +3414,19 @@ $$&lt;&#x2F;p&gt;
         <title>RoCC RISC-V 扩展方案</title>
         <published>2021-04-19T15:45:33.706+00:00</published>
         <updated>2021-04-19T15:45:33.706+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/riscv-rocc/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/riscv-rocc/"/>
         <id>https://longfangsong.github.io/riscv-rocc/</id>
         
-        <content type="html">&lt;p&gt;RoCC 是通过向 RISC-V 处理器添加扩展的半官方&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;方案，最早用于 BSD 的 Rocket-core。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/riscv-rocc/">&lt;p&gt;RoCC 是通过向 RISC-V 处理器添加扩展的半官方&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;方案，最早用于 BSD 的 Rocket-core。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;rocc-gui-ding-de-kuo-zhan-zhi-ling&quot;&gt;RoCC 规定的扩展指令&lt;&#x2F;h2&gt;
 &lt;p&gt;RoCC 使用了 RISCV 标准中预留的所有四个扩展槽位，并规定了如下指令格式：&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;riscv-rocc&#x2F;.&#x2F;rocc-inst.png&quot; alt=&quot;RoCC inst&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
@@ -3103,13 +3457,19 @@ $$&lt;&#x2F;p&gt;
         <title>内联汇编 cheatsheet</title>
         <published>2021-04-18T07:34:52.996+00:00</published>
         <updated>2021-04-18T07:34:52.996+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/inline-asm-cheatsheet/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/inline-asm-cheatsheet/"/>
         <id>https://longfangsong.github.io/inline-asm-cheatsheet/</id>
         
-        <content type="html">&lt;h2 id=&quot;ji-ben-yu-fa-mo-ban&quot;&gt;基本语法模版&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/inline-asm-cheatsheet/">&lt;h2 id=&quot;ji-ben-yu-fa-mo-ban&quot;&gt;基本语法模版&lt;&#x2F;h2&gt;
 &lt;pre data-lang=&quot;c&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c &quot;&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;asm&lt;&#x2F;span&gt;&lt;span&gt;(
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;代码&amp;gt;:
 &lt;&#x2F;span&gt;&lt;span&gt;    &amp;lt;输出到哪些变量&amp;gt;:
@@ -3138,7 +3498,7 @@ $$&lt;&#x2F;p&gt;
 &lt;li&gt;&lt;code&gt;+&lt;&#x2F;code&gt;
 指这个变量&#x2F;寄存器被读取和写入了&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;fu-zuo-yong-hui-ying-xiang-shi-yao&quot;&gt;副作用会影响什么&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;fu-zuo-yong-hui-ying-xiang-shen-me&quot;&gt;副作用会影响什么&lt;&#x2F;h3&gt;
 &lt;p&gt;这里一般就填一些标记寄存器和 &lt;code&gt;memory&lt;&#x2F;code&gt;。&lt;&#x2F;p&gt;
 </content>
         
@@ -3147,13 +3507,19 @@ $$&lt;&#x2F;p&gt;
         <title>Hack RISC-V 指令集</title>
         <published>2021-04-17T07:34:52.996+00:00</published>
         <updated>2021-04-17T07:34:52.996+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/hack-riscv-isa/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/hack-riscv-isa/"/>
         <id>https://longfangsong.github.io/hack-riscv-isa/</id>
         
-        <content type="html">&lt;h2 id=&quot;huan-jing&quot;&gt;环境&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/hack-riscv-isa/">&lt;h2 id=&quot;huan-jing&quot;&gt;环境&lt;&#x2F;h2&gt;
 &lt;p&gt;本文假设用户使用基于 debian 的 Linux 系统，有 &lt;code&gt;su&lt;&#x2F;code&gt; 或者 &lt;code&gt;sudo&lt;&#x2F;code&gt; 的能力&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，并且用的文件系统是区分大小写&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;的。&lt;&#x2F;p&gt;
 &lt;p&gt;然后请事先安装 &lt;code&gt;git&lt;&#x2F;code&gt; 以及任意文本编辑器。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;gnu-bian-yi-gong-ju-lian&quot;&gt;GNU 编译工具链&lt;&#x2F;h2&gt;
@@ -3362,13 +3728,19 @@ $$&lt;&#x2F;p&gt;
         <title>Haskell与函数式编程</title>
         <published>2021-04-17T07:34:52.996+00:00</published>
         <updated>2023-08-18T17:31:19.739+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/haskell-intro/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/haskell-intro/"/>
         <id>https://longfangsong.github.io/haskell-intro/</id>
         
-        <content type="html">&lt;p&gt;你也许不应该在工作中用一门纯函数式编程语言（那样对大脑太不友好），但你应当学习这样一门语言，因为这将会改变你的思维。
+        <content type="html" xml:base="https://longfangsong.github.io/haskell-intro/">&lt;p&gt;你也许不应该在工作中用一门纯函数式编程语言（那样对大脑太不友好），但你应当学习这样一门语言，因为这将会改变你的思维。
 即使你平常使用的是一些常见的语言，如 C++&#x2F;Java(8+)&#x2F;Python&#x2F;JS，你还是能从这些语言中找到函数式编程的影子。
 另外，函数式编程思想在整体架构的设计上也有很大的作用。&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;what-s-the-difference&quot;&gt;What’s the difference?&lt;&#x2F;h2&gt;
@@ -3731,7 +4103,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;同 &lt;code&gt;Option&lt;&#x2F;code&gt;, 不过是把 &lt;code&gt;None&lt;&#x2F;code&gt; 换成了具体的错误类型。&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;array-iterator-stream&quot;&gt;Array&#x2F;Iterator&#x2F;Stream&lt;&#x2F;h4&gt;
 &lt;p&gt;数组或者任何在空间&#x2F;时间上构成一个序列的东西也是 Monad, 比如 Rust 的 &lt;code&gt;Iterator&lt;&#x2F;code&gt; trait 就包含了 &lt;code&gt;flat_map&lt;&#x2F;code&gt; 方法。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;wei-shi-yao-yao-jin-yi-bu-chou-xiang-chu-zhe-xie-lei-xing-lei&quot;&gt;为什么要进一步抽象出这些类型类&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;wei-shen-me-yao-jin-yi-bu-chou-xiang-chu-zhe-xie-lei-xing-lei&quot;&gt;为什么要进一步抽象出这些类型类&lt;&#x2F;h3&gt;
 &lt;p&gt;这样，一些函数就可以更好容易地被复用&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，比如：&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;double x = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt; * x
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
@@ -3799,13 +4171,19 @@ $$&lt;&#x2F;p&gt;
         <title>重新开始学数学 • 数理逻辑（2）</title>
         <published>2021-03-25T09:29:44.051+00:00</published>
         <updated>2021-03-25T09:29:44.051+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-2/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-logic-2/"/>
         <id>https://longfangsong.github.io/restart-math-logic-2/</id>
         
-        <content type="html">&lt;h2 id=&quot;wei-ci-luo-ji&quot;&gt;谓词逻辑&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-logic-2/">&lt;h2 id=&quot;wei-ci-luo-ji&quot;&gt;谓词逻辑&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;wei-ci&quot;&gt;谓词&lt;&#x2F;h3&gt;
 &lt;p&gt;就是返回 &lt;code&gt;bool&lt;&#x2F;code&gt; 的函数&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;liang-ci&quot;&gt;量词&lt;&#x2F;h3&gt;
@@ -3823,13 +4201,19 @@ $$&lt;&#x2F;p&gt;
         <title>重新开始学数学 • 数理逻辑（1）</title>
         <published>2021-01-12T10:01:52.110+00:00</published>
         <updated>2022-07-14T22:29:27+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/restart-math-logic-1/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/restart-math-logic-1/"/>
         <id>https://longfangsong.github.io/restart-math-logic-1/</id>
         
-        <content type="html">&lt;h2 id=&quot;ming-ti-luo-ji&quot;&gt;命题逻辑&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/restart-math-logic-1/">&lt;h2 id=&quot;ming-ti-luo-ji&quot;&gt;命题逻辑&lt;&#x2F;h2&gt;
 &lt;p&gt;我们课上学的基本上就是这些了，大部分就是一些 trivial 的是个人都能想通的东西，就是各种箭头（？）的用法容易混淆：&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -3919,13 +4303,19 @@ $$&lt;&#x2F;p&gt;
         <title>分布式系统 • 时钟</title>
         <published>2020-12-10T22:42:11.815+00:00</published>
         <updated>2020-12-10T22:42:11.815+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/clocks-in-distributed-system/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/clocks-in-distributed-system/"/>
         <id>https://longfangsong.github.io/clocks-in-distributed-system/</id>
         
-        <content type="html">&lt;h2 id=&quot;wei-shi-yao-zai-fen-bu-shi-xi-tong-zhong-shi-zhong-hen-zhong-yao&quot;&gt;为什么在分布式系统中时钟很重要&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/clocks-in-distributed-system/">&lt;h2 id=&quot;wei-shen-me-zai-fen-bu-shi-xi-tong-zhong-shi-zhong-hen-zhong-yao&quot;&gt;为什么在分布式系统中时钟很重要&lt;&#x2F;h2&gt;
 &lt;p&gt;最简单的一个例子：一个读请求和一个修改请求（在外界观察者眼中）先后来到一个系统中的两个不同的节点上（假设所有节点的存储是通过某些“魔法”手段连在一起的），按道理由于读请求先发生，那么他不应当读到写请求写入的数据。但是如果两个节点上的物理时钟出了问题，处理读请求的时钟快了（认为请求到来时的时间戳比较大），而处理写请求的时钟慢了（认为请求到来时的时间戳比较小），此时按照时钟判断出的读写顺序就和实际不同了，这就会带来读写操作进行的顺序和预期不符。&lt;&#x2F;p&gt;
 &lt;p&gt;即使是同一个节点上也会遇到时钟由于走的太快而被 NTP 这样的时间同步算法回拨，导致的时间戳不唯一的问题。&lt;&#x2F;p&gt;
 &lt;p&gt;可见分布式系统中直接根据物理时钟决定事件发生的先后顺序是不可行的，原因是不同系统中的物理时钟其快慢是无法保证的。&lt;&#x2F;p&gt;
@@ -3955,7 +4345,7 @@ $$&lt;&#x2F;p&gt;
 &lt;li&gt;每次接收消息，如果消息中的时间戳比本地时间大，那么本地时间戳 = 消息时间戳 + 1，否则正常本地时间戳 + 1‘&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;即每次发生事件，都保证 &lt;code&gt;本地时间戳 = 节点看到过的最大时间戳 + 1&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;bao-zheng-liao-shi-yao&quot;&gt;保证了什么&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;bao-zheng-liao-shen-me&quot;&gt;保证了什么&lt;&#x2F;h3&gt;
 &lt;p&gt;Lamport逻辑时钟保证了：&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;若系统外部观察者看到事件A在事件B前发生，则系统内部必有 事件A对应的时间戳&amp;lt;事件B对应的时间戳。&lt;&#x2F;li&gt;
@@ -4067,7 +4457,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;通信后，保证自己的 HLC 时间戳不比消息的 HLC 时间戳早&lt;&#x2F;li&gt;
 &lt;&#x2F;ol&gt;
-&lt;h3 id=&quot;bao-zheng-liao-shi-yao-1&quot;&gt;保证了什么&lt;&#x2F;h3&gt;
+&lt;h3 id=&quot;bao-zheng-liao-shen-me-1&quot;&gt;保证了什么&lt;&#x2F;h3&gt;
 &lt;ol&gt;
 &lt;li&gt;对任何事件x和y，若x发生在y之前，则 x对应的 HLC 时间戳 &amp;lt; y 对应的 HLC 时间戳&lt;&#x2F;li&gt;
 &lt;li&gt;HLC 时间戳对应的物理时间和节点实际的物理时间的差有确定的上限，这个上限基本上是 两倍的机器的时间和ntp server时间存在的 误差范围（ntp offset），平时这个 offset 一般都是几个 ms。&lt;&#x2F;li&gt;
@@ -4084,13 +4474,19 @@ $$&lt;&#x2F;p&gt;
         <title>Parsing • LR(0)分析</title>
         <published>2020-05-22T22:56:58.045+00:00</published>
         <updated>2020-05-22T22:56:58.045+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/lr0/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/lr0/"/>
         <id>https://longfangsong.github.io/lr0/</id>
         
-        <content type="html">&lt;p&gt;如果你已经理解了&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;&quot;&gt;移进-归约分析&lt;&#x2F;a&gt;的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/lr0/">&lt;p&gt;如果你已经理解了&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;shift-reduce&#x2F;&quot;&gt;移进-归约分析&lt;&#x2F;a&gt;的基本执行流程了，那么你一定会问，我该如何决定某个步骤上应该“移进”还是应该“归约”呢？应该选择哪个推导式来归约呢？如果我们构造的文法和表达式求值一样简单，那手动根据“栈中现有的值”和“下面要输入的值”来判断就可以了，那么如果我们处理的文法比较复杂呢？&lt;&#x2F;p&gt;
 &lt;p&gt;举一个经典的表达式文法的例子：&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 E \rightarrow E+T|T
@@ -4256,13 +4652,19 @@ $$&lt;&#x2F;p&gt;
         <title>Parsing • 移进-归约分析</title>
         <published>2020-05-22T22:56:58.045+00:00</published>
         <updated>2020-05-22T22:56:58.045+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/shift-reduce/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/shift-reduce/"/>
         <id>https://longfangsong.github.io/shift-reduce/</id>
         
-        <content type="html">&lt;p&gt;回忆你很可能在大一大二&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;写过的运用栈进行表达式求值的程序，我们将其简化到只支持加法和乘法，这里给出一个Rust语言的例子（写的比较随意……），太长不看党可以直接跳过看下面的分析：&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/shift-reduce/">&lt;p&gt;回忆你很可能在大一大二&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;写过的运用栈进行表达式求值的程序，我们将其简化到只支持加法和乘法，这里给出一个Rust语言的例子（写的比较随意……），太长不看党可以直接跳过看下面的分析：&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let mut&lt;&#x2F;span&gt;&lt;span&gt; input = String::new();
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;stdin&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;read_to_string&lt;&#x2F;span&gt;&lt;span&gt;(&amp;amp;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;mut&lt;&#x2F;span&gt;&lt;span&gt; input).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;unwrap&lt;&#x2F;span&gt;&lt;span&gt;();
 &lt;&#x2F;span&gt;&lt;span&gt;    input = input.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;trim&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;to_owned&lt;&#x2F;span&gt;&lt;span&gt;();
@@ -4405,13 +4807,19 @@ $$
         <title>Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</title>
         <published>2020-05-17T16:37:01.045+00:00</published>
         <updated>2020-05-17T16:37:01.045+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/ll1/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/ll1/"/>
         <id>https://longfangsong.github.io/ll1/</id>
         
-        <content type="html">&lt;h2 id=&quot;wei-shi-yao-xu-yao-firstji-he-followji&quot;&gt;为什么需要First集和Follow集&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/ll1/">&lt;h2 id=&quot;wei-shen-me-xu-yao-firstji-he-followji&quot;&gt;为什么需要First集和Follow集&lt;&#x2F;h2&gt;
 &lt;p&gt;了解&lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;parsing-combinator&#x2F;&quot;&gt;带回朔的递归下降文法分析方法&lt;&#x2F;a&gt;的同学可能会发现这种分析法由于在文法中每个出现 &lt;code&gt;|&lt;&#x2F;code&gt; 的点上，都会&lt;strong&gt;尝试&lt;&#x2F;strong&gt;这个点上所有可能的生成式，直到有一个匹配成功为止，这种方案虽然保证了对所有文法中的句子，最终都能通过这种方式构建出其语法树，但由于可能存在的大量回朔，效率就会收到影响。&lt;&#x2F;p&gt;
 &lt;p&gt;那么我们就要想了，有没有什么方法可以选择出这个点上&lt;strong&gt;唯一&lt;&#x2F;strong&gt;的生成式，来消除所有回朔的可能性，这样效率就能大大提升了。&lt;&#x2F;p&gt;
 &lt;p&gt;事实证明，对于一部分文法来说，这么做是可能的。&lt;&#x2F;p&gt;
@@ -4565,13 +4973,19 @@ $$
         <title>Parsing • 最简单的 Parser 写法——含回朔的递归自顶而下分析</title>
         <published>2020-05-17T16:30:31.045+00:00</published>
         <updated>2020-05-17T16:30:31.045+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/parsing-combinator/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/parsing-combinator/"/>
         <id>https://longfangsong.github.io/parsing-combinator/</id>
         
-        <content type="html">&lt;p&gt;如果你听了老师上课讲的那一大坨根本没人听得懂的parse方法之后认为自己这辈子都造不出编译器了，那么本文介绍含回朔的递归自顶而下分析法正是你所需要的，这种方式非常容易想到，也非常容易编写，除了文法分析之外，对于词法分析，这个方法也可以一手包办，而且足以应付绝大多数编程语言的构造。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/parsing-combinator/">&lt;p&gt;如果你听了老师上课讲的那一大坨根本没人听得懂的parse方法之后认为自己这辈子都造不出编译器了，那么本文介绍含回朔的递归自顶而下分析法正是你所需要的，这种方式非常容易想到，也非常容易编写，除了文法分析之外，对于词法分析，这个方法也可以一手包办，而且足以应付绝大多数编程语言的构造。&lt;&#x2F;p&gt;
 &lt;p&gt;我们先结合一个例子来看一下这玩意怎么使的：&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;zhu-yao-si-xiang&quot;&gt;主要思想&lt;&#x2F;h2&gt;
 &lt;p&gt;含回朔的递归自顶而下分析法的主要思想是：将每个非终结符（推导式左边）的分析写成一个函数，将右侧的内容组合写在函数体里面，如果这个函数从左向右匹配某段代码字符串成功，就返回存放了对应信息的结构体和剩下的字符串，否则返回Error。&lt;&#x2F;p&gt;
@@ -4766,13 +5180,19 @@ $$&lt;&#x2F;p&gt;
         <title>分布式系统 • 两阶段提交</title>
         <published>2020-04-23T16:09:46.815+00:00</published>
         <updated>2020-04-23T16:09:46.815+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/2pc/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/2pc/"/>
         <id>https://longfangsong.github.io/2pc/</id>
         
-        <content type="html">&lt;blockquote&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/2pc/">&lt;blockquote&gt;
 &lt;p&gt;经典的分布式数据库模型中，同一个数据库的各个副本运行在不同的节点上，每个副本的数 据要求完全一致。数据库中的操作都是事务 (transaction)，一个事务是一系列读、写操作，事务满足 ACID。每个事务的最终状态要么是提交 (commit)，要么是失败 (abort)。一旦一个事务成功提交，那么这个事务中所有的写操作中成功，否则所有的写操作都失败。&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;为了适应这种 ACID 模型，2PC 提供的解决方案是：首先由一个节点（提议者）询问每个其他节点（参与者）是否同意提交某个事务，如果全部同意，则实际提交这个事务，否则拒绝提交这个事务。&lt;&#x2F;p&gt;
@@ -4844,13 +5264,19 @@ $$&lt;&#x2F;p&gt;
         <title>分布式系统 • CAP 定理</title>
         <published>2020-04-23T16:09:46.815+00:00</published>
         <updated>2022-07-13T23:38:26+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/cap-theorem/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/cap-theorem/"/>
         <id>https://longfangsong.github.io/cap-theorem/</id>
         
-        <content type="html">&lt;p&gt;CAP 定理是说，对于一个分布式系统来说，不可能同时满足以下三点：&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/cap-theorem/">&lt;p&gt;CAP 定理是说，对于一个分布式系统来说，不可能同时满足以下三点：&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;（强外部）一致性（&lt;strong&gt;C&lt;&#x2F;strong&gt;onsistency）&lt;&#x2F;li&gt;
 &lt;li&gt;可用性（&lt;strong&gt;A&lt;&#x2F;strong&gt;vailability）（即每次请求没有物理上不可用的节点时都能获取到非错的响应）&lt;&#x2F;li&gt;
@@ -4881,15 +5307,21 @@ $$&lt;&#x2F;p&gt;
         <title>分布式系统 • 基本概念</title>
         <published>2020-04-22T16:09:46.815+00:00</published>
         <updated>2020-04-22T16:09:46.815+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/distributed-system/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/distributed-system/"/>
         <id>https://longfangsong.github.io/distributed-system/</id>
         
-        <content type="html">&lt;p&gt;先拜一拜伟大的 &lt;strong&gt;Leslie Lamport&lt;&#x2F;strong&gt; 祖师爷。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/distributed-system/">&lt;p&gt;先拜一拜伟大的 &lt;strong&gt;Leslie Lamport&lt;&#x2F;strong&gt; 祖师爷。&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;thumb&#x2F;5&#x2F;50&#x2F;Leslie_Lamport.jpg&#x2F;150px-Leslie_Lamport.jpg&quot; alt=&quot;Leslie Lamport&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;shi-yao-shi-fen-bu-shi-xi-tong&quot;&gt;什么是分布式系统&lt;&#x2F;h2&gt;
+&lt;h2 id=&quot;shen-me-shi-fen-bu-shi-xi-tong&quot;&gt;什么是分布式系统&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;分布式系统是一组电脑，透过网络相互连接传递消息与通信后并协调它们的行为而形成的系统。 —— wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
@@ -4956,13 +5388,19 @@ CAP 中的 C 指的是外部一致性。
         <title>Hello zola!</title>
         <published>2020-01-02T15:00:00+00:00</published>
         <updated>2020-01-02T15:00:00+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/hello-zola/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/hello-zola/"/>
         <id>https://longfangsong.github.io/hello-zola/</id>
         
-        <content type="html">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/hello-zola/">&lt;p&gt;I wrote a lot of blogs, and I used to use hexo as a static site generator, it kind of work well, but I&#x27;m afraid with more and more posts I have, the speed of hexo become unacceptable, moreover, the plugin system works well if I add only one plugin, but become odd if there&#x27;re many plugins work together:&lt;&#x2F;p&gt;
 &lt;p&gt;Here&#x27;s an image from my origin blog, powered by hexo:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;hello-zola&#x2F;ouch.png&quot; alt=&quot;ouch&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
@@ -4991,13 +5429,19 @@ CAP 中的 C 指的是外部一致性。
         <title>一个最简单的编译器的实现</title>
         <published>2019-05-21T16:39:56.026+00:00</published>
         <updated>2019-05-21T16:39:56.026+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/"/>
         <id>https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/</id>
         
-        <content type="html">&lt;p&gt;本文将会带领读者做出一个简单的类C（但比C简单无数倍）语言的编译器。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/">&lt;p&gt;本文将会带领读者做出一个简单的类C（但比C简单无数倍）语言的编译器。&lt;&#x2F;p&gt;
 &lt;p&gt;参考代码在这里，本文完成时的版本是这个。&lt;&#x2F;p&gt;
 &lt;p&gt;这个语言支持：&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -5378,13 +5822,19 @@ CAP 中的 C 指的是外部一致性。
         <title>代数结构 cheatsheet</title>
         <published>2019-04-09T00:00:00+00:00</published>
         <updated>2019-04-09T00:00:00+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/algebraic-structures/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/algebraic-structures/"/>
         <id>https://longfangsong.github.io/algebraic-structures/</id>
         
-        <content type="html">&lt;h2 id=&quot;yun-suan&quot;&gt;运算&lt;&#x2F;h2&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/algebraic-structures/">&lt;h2 id=&quot;yun-suan&quot;&gt;运算&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;er-yuan-yun-suan&quot;&gt;二元运算&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;给定集合$A$，二元函数$F: A \times A \rightarrow A$称为集合A上的&lt;strong&gt;二元运算&lt;&#x2F;strong&gt;。&lt;&#x2F;p&gt;
@@ -5576,13 +6026,19 @@ a\ \vee\ b = 1&lt;&#x2F;script&gt;&lt;p&gt;则 $b$ 是 $a$ 的补元。&lt;&#x2F
         <title>Flexbox 布局 cheatsheet</title>
         <published>2018-04-09T22:20:50+00:00</published>
         <updated>2018-04-09T22:20:50+00:00</updated>
+        
         <author>
-          <name>Unknown</name>
+          <name>
+            
+              Unknown
+            
+          </name>
         </author>
-        <link rel="alternate" href="https://longfangsong.github.io/flex-layout/" type="text/html"/>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/flex-layout/"/>
         <id>https://longfangsong.github.io/flex-layout/</id>
         
-        <content type="html">&lt;p&gt;Flexbox 是现代 web 页面布局的一大利器，但是相关属性众多，本人每次使用都要查文档，而且查了多次（≥20）居然一点都没记住。&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/flex-layout/">&lt;p&gt;Flexbox 是现代 web 页面布局的一大利器，但是相关属性众多，本人每次使用都要查文档，而且查了多次（≥20）居然一点都没记住。&lt;&#x2F;p&gt;
 &lt;p&gt;所以我就写了这个 cheatsheet，不是因为写了就记住了，而是从自己写的文档里翻东西比较快……&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;display-flex&quot;&gt;&lt;code&gt;display: flex;&lt;&#x2F;code&gt;&lt;&#x2F;h2&gt;
 &lt;p&gt;在某个元素上设置，这个元素内部使用 Flexbox 布局。&lt;&#x2F;p&gt;

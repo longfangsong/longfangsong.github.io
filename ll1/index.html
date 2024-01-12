@@ -113,7 +113,7 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;ll1&#x2F;">Parsing • LL(1)文法的分析，以及First集和Follow集究竟是什么</a></h1>
   
-  <div class="post-content"><h2 id="wei-shi-yao-xu-yao-firstji-he-followji">为什么需要First集和Follow集</h2>
+  <div class="post-content"><h2 id="wei-shen-me-xu-yao-firstji-he-followji">为什么需要First集和Follow集</h2>
 <p>了解<a href="https://longfangsong.github.io/parsing-combinator/">带回朔的递归下降文法分析方法</a>的同学可能会发现这种分析法由于在文法中每个出现 <code>|</code> 的点上，都会<strong>尝试</strong>这个点上所有可能的生成式，直到有一个匹配成功为止，这种方案虽然保证了对所有文法中的句子，最终都能通过这种方式构建出其语法树，但由于可能存在的大量回朔，效率就会收到影响。</p>
 <p>那么我们就要想了，有没有什么方法可以选择出这个点上<strong>唯一</strong>的生成式，来消除所有回朔的可能性，这样效率就能大大提升了。</p>
 <p>事实证明，对于一部分文法来说，这么做是可能的。</p>

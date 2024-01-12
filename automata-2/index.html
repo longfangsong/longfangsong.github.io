@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
           </div>
         </div>
@@ -113,8 +113,9 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-2&#x2F;">自动机理论 • 有限状态机</a></h1>
   
-  <div class="post-content"><h2 id="que-ding-xing-you-xian-zhuang-tai-ji-deterministic-finite-automata-dfa">确定性有限状态机（Deterministic Finite Automata, DFA）</h2>
-<p>DFA包含以下要素：</p>
+  <div class="post-content"><p>有限状态机是能够识别正则文法（正则表达式）的自动机。</p>
+<h2 id="que-ding-xing-you-xian-zhuang-tai-ji-deterministic-finite-automata-dfa">确定性有限状态机（Deterministic Finite Automata, DFA）</h2>
+<p>DFA 包含以下要素：</p>
 <ul>
 <li>一个有限大小的状态集合，常记为 $Q$。</li>
 <li>一个有限大小的输入符号集合，常记为 $\Sigma$。</li>
@@ -123,6 +124,127 @@
 <li>一个终止或者接受状态的集合，常记为 $F$，$F \subseteq Q$。</li>
 </ul>
 <p>DFA 常常用如上五种要素的元组表示，记为 $A = (Q, \Sigma, \delta, q_0, F)$</p>
+<h2 id="fei-que-ding-you-xian-zhuang-tai-zi-dong-ji-nondeterministic-finite-automaton-nfa">非确定有限状态自动机 (Nondeterministic Finite Automaton，NFA)</h2>
+<p>NFA 在 DFA 的基础上，将状态转换函数的返回值从一个状态变成了状态集合，且这个函数的输入参数中，输入符号可以是空串 $\epsilon$。</p>
+<h3 id="nfa-que-ding-hua">NFA 确定化</h3>
+<p>NFA 可以转化为等价的 DFA。</p>
+<h4 id="li-zi">例子</h4>
+<p>我们从一个例子2开始讲解：</p>
+<p><img src="https://longfangsong.github.io/automata-2/./nfa-example.png" alt="nfa-example" /></p>
+<p>该NFA识别的是$(a|b)*abb$。</p>
+<p>我们将这个 NFA 化为 DFA 。</p>
+<p>一开始从start进去，即使不作任何输入，从状态$0$开始凭借着$\epsilon$边，也可以转到状态${0,1,2,4,7}$3，那么因为DFA中没有$\epsilon$边，而一个start状态又是必须的，在我们生成的DFA中，这些个状态就只能化为一个状态，称之为$A$。</p>
+<p><img src="https://longfangsong.github.io/automata-2/./A.png" alt="a" /></p>
+<p>然后看看我们从这个$A$状态（也就是NFA中的${0,1,2,4,7}$这几个状态）在输入$a$时能转到哪些状态：</p>
+<ul>
+<li>从$2$，能转到$3$</li>
+<li>从$7$，能转到$8$</li>
+<li>从转到的$3$和$8$中，再进行一次$\epsilon$转换（因为这不需要任何输入），能转到${1,2,3,4,6,7,8}$</li>
+</ul>
+<p>所以在向原NFA中$A$对应的状态输入了$a$后，可能转到的NFA状态是${1,2,3,4,6,7,8}$，这种组合显然并不是$A$状态，我们把它化为一个状态$B$，并连接在$A$后面：</p>
+<p><img src="https://longfangsong.github.io/automata-2/./AB.png" alt="ab" /></p>
+<p>同理从$A$由输入$b$能到达的状态</p>
+<p><img src="https://longfangsong.github.io/automata-2/./ABC.png" alt="abc" /></p>
+<p>至此从$A$出发的DFA中的路径就考察完了。</p>
+<p>为了方便观察，我将NFA中的状态对应到的DFA中的状态标注在图上：</p>
+<p><img src="https://longfangsong.github.io/automata-2/annotated1.png" alt="annotated1" /></p>
+<p>我们继续从$B$开始考察：</p>
+<ul>
+<li>从这个状态经$a$，可以到达的状态是${1,2,3,4,6,7,8}$，这又落回了$B$，故$B$经输入$a$转到自身。</li>
+<li>从这个状态经$b$，可以到达的状态是${1,2,4,5,6,7,9}$，这种NFA状态的组合在之前从未出现过，故将其化为一个DFA状态$D$</li>
+</ul>
+<p>然后得到：</p>
+<p><img src="https://longfangsong.github.io/automata-2/./ABCD.png" alt="abcd" /></p>
+<p><img src="https://longfangsong.github.io/automata-2/annotated2.png" alt="annotated2" /></p>
+<p>接着考察$C$：</p>
+<ul>
+<li>
+<p>$C+a \rightarrow {1,2,3,4,6,7,8}$，落入了$B$</p>
+</li>
+<li>
+<p>$C+b \rightarrow {1,2,4,5,6,7}$ ，落入了$C$</p>
+</li>
+</ul>
+<p>所以：</p>
+<p><img src="https://longfangsong.github.io/automata-2/./ABCD2.png" alt="abcd2" /></p>
+<p>然后是$D$：</p>
+<ul>
+<li>$D+a \rightarrow {1,2,3,4,6,7,8}$，落入了$B$</li>
+<li>$D+b \rightarrow {1,2,4,5,6,7,10}$，创建新状态$E$，由于$E$包含了旧NFA的接受状态$10$，故其是DFA的接受状态。</li>
+</ul>
+<p>所以得到：</p>
+<p><img src="https://longfangsong.github.io/automata-2/./ABCDE.png" alt="abcde" /></p>
+<p><img src="https://longfangsong.github.io/automata-2/annotated2.png" alt="annotated3" /></p>
+<p>然后是$E$：</p>
+<ul>
+<li>$E+a→B$</li>
+<li>$E+b→C$</li>
+</ul>
+<p>所以可以得到：</p>
+<p><img src="https://longfangsong.github.io/automata-2/final.png" alt="final" /></p>
+<p>由于这个DFA里面所有的状态都被考虑过了，所以这就是最后的结果了。</p>
+<p>附上最后得到的NFA状态到DFA状态的对应关系表：</p>
+<table><thead><tr><th>NFA</th><th>DFA</th></tr></thead><tbody>
+<tr><td>0,1,2,4,7</td><td>A</td></tr>
+<tr><td>1,2,3,4,6,7,8</td><td>B</td></tr>
+<tr><td>1,2,4,5,6,7</td><td>C</td></tr>
+<tr><td>1,2,4,5,6,7,9</td><td>D</td></tr>
+<tr><td>1,2,4,5,6,7,10</td><td>E</td></tr>
+</tbody></table>
+<h4 id="suan-fa">算法</h4>
+<p>总结上面的过程，我们可以得到NFA的确定化算法：</p>
+<ol>
+<li>将NFA的开始状态及其所有可通过$\epsilon$边的状态映射为DFA​的开始状态</li>
+<li>如果DFA中的每个状态都被“考虑过”，则算法完成</li>
+<li>否则，考虑DFA中的一个没有被考虑过的状态$N$：
+<ol>
+<li>对字母表里的每个字母$ch$</li>
+<li>找出这个节点对应NFA中的所有节点经过$ch$加上任意多的$\epsilon$边能到达的所有状态的集合
+<ol>
+<li>若这个集合是DFA中已经存在的某个状态$M$对应的NFA状态集合的子集，则添加连线$N + ch = M$</li>
+<li>否则向DFA中添加新状态$P$，其对应NFA状态集合就是上述集合，如果这个集合中包含接受状态，那么这个节点也是接受状态，并添加连线$N+ch=P$</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>最终得到的DFA即为所求</li>
+</ol>
+<h4 id="dai-ma">代码</h4>
+<p>代码见<a href="https://github.com/longfangsong/RegexCalculator/blob/master/src/finiteAutomata/Nondeterministic.kt">Github仓库</a>。</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">toDFA</span><span>(): Deterministic {
+</span><span>        start as Nondeterministic.State
+</span><span>    </span><span style="color:#65737e;">// 还没有被考虑过的状态, equivalentStates: 经过𝜀边能到达的状态
+</span><span>    </span><span style="color:#65737e;">// 由于DFA状态没有完全被构造出来，故存起来比较困难
+</span><span>    </span><span style="color:#65737e;">// 所以存和这个DFA状态对应的NFA状态集
+</span><span>    </span><span style="color:#b48ead;">val </span><span>statesToFind = mutableSetOf(start.equivalentStates())
+</span><span>    </span><span style="color:#65737e;">// 结果的转换关系表
+</span><span>    </span><span style="color:#b48ead;">val </span><span>result = mutableMapOf&lt;</span><span style="color:#b48ead;">Set</span><span>&lt;Nondeterministic.State&gt;, Deterministic.State&gt;()
+</span><span>    </span><span style="color:#b48ead;">var </span><span>nextChar = &#39;</span><span style="color:#a3be8c;">A</span><span>&#39;
+</span><span>    </span><span style="color:#65737e;">// 构建DFA开始状态
+</span><span>    result[start.equivalentStates()] = Deterministic.State(
+</span><span>                nextChar++.toString(),
+</span><span>                start.equivalentStates().any { it.accept },
+</span><span>                mutableMapOf())
+</span><span>    </span><span style="color:#b48ead;">while</span><span> (!statesToFind.isEmpty()) {
+</span><span>        </span><span style="color:#65737e;">// 现在开始考虑这组NFA状态对应的DFA状态
+</span><span>        </span><span style="color:#b48ead;">val </span><span>theStates = statesToFind.first()
+</span><span>        statesToFind.remove(theStates)
+</span><span>        </span><span style="color:#b48ead;">for</span><span> (ch </span><span style="color:#b48ead;">in</span><span> alphabet) {
+</span><span>            </span><span style="color:#b48ead;">val </span><span>canGoTo = theStates.directConnectedTo(ch)
+</span><span>            </span><span style="color:#b48ead;">val </span><span>equivalenteStates = canGoTo.equivalentStates
+</span><span>            </span><span style="color:#65737e;">// 不存在对应DFA状态，构建
+</span><span>            </span><span style="color:#b48ead;">if</span><span> (equivalenteStates !</span><span style="color:#b48ead;">in</span><span> result.keys) {
+</span><span>                result[equivalenteStates] = Deterministic.State(nextChar++.toString(), equivalenteStates.any { it.accept }, mutableMapOf())
+</span><span>                statesToFind.add(equivalenteStates)
+</span><span>            }
+</span><span>            </span><span style="color:#65737e;">// 添加该状态到其他状态的转换关系
+</span><span>            result[theStates]!!.transitions[ch] = result[equivalenteStates]!!
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#65737e;">// 保存为DFA并返回
+</span><span>    </span><span style="color:#b48ead;">return</span><span> Deterministic(result.values.toSet(), result.values.minBy { it.name }!!)
+</span><span>}
+</span></code></pre>
 </div>
   <div class="post-footer">
     <div class="meta">
