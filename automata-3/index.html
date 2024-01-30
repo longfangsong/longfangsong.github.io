@@ -155,14 +155,12 @@
 <p>存在一部分下推自动机，其状态转换函数中，一个 <code>(状态, 输入符号, 栈顶符号)</code> 只对应单组输出，这种下推自动机就是确定性下推自动机，能被这种自动机识别的文法就是确定性上下文无关文法。</p>
 <p>这类下推自动机只要扫一遍输入串就能确定这个串能否被接受，说明这样的文法 parse 的复杂度是线性的，因此这类文法（尤其是其中几个子集）在构造各种 parser 的工程实践中是非常重要的。</p>
 <h3 id="pan-duan-wen-fa-shi-fou-shi-que-ding-xing-de">判断文法是否是确定性的</h3>
-<p>判断方法称为 DK-test，我们在学习 LR(0) 分析时，学到了构造 LR(0) 状态机的方法，这个 LR(0) 状态机其实应该被称为 DK 状态机。</p>
+<p>判断方法称为 DK-test，我们在学习 LR(0) 分析时，学到了构造 <a href="https://longfangsong.github.io/lr0/#lr-0-xiang-zhuang-tai-chan-sheng-shi-zhong-de-cdot-yu-lr-0-zhuang-tai-ji">LR(0) 状态机</a>的方法，这个 LR(0) 状态机其实应该被称为 DK 状态机。</p>
 <p>如果这个 DK 状态机中，原本文法中接受状态对应的状态：</p>
 <ul>
 <li>有且只有只有一条代表匹配完成（即 ⋅ 在产生式最后的）产生式</li>
 <li>其中所有产生式不形如 $B → X ⋅ a Y$，其中 a 是一个终结符</li>
 </ul>
-<h2 id="mu-qian-xue-dao-de-wen-fa-zhi-jian-de-bao-han-guan-xi">目前学到的文法之间的包含关系</h2>
-<p><img src="https://longfangsong.github.io/automata-3/./Group%209.svg" alt="" /></p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>X 可能不是一个“字母”，但你可以为每个 X 分配一个栈字母表中的字母作为替代。</p>
 </div>
