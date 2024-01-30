@@ -12,10 +12,10 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • HoTT Notes 10</title>
+  <title>Blog • 自动机理论 • 下推自动机</title>
   
   
-  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
   
   
   
@@ -51,9 +51,9 @@
     <div class="logo-title">
       <div class="title">
         <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
-        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
         <div class="description">
-          <p>Und grün des Theorie goldner Baum</p>
+          <p>生命是灰色的，而理论之树常青</p>
         </div>
       </div>
     </div>
@@ -78,9 +78,9 @@
         
         
         
-        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
-        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
-            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
       <div class="information">
         <div class="back_btn">
           <a onclick="window.history.go(-1)" ><i
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -111,30 +111,74 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-10&#x2F;">HoTT Notes 10</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-3&#x2F;">自动机理论 • 下推自动机</a></h1>
   
-  <div class="post-content"><p>Not all types are (mere) propositions, but we can &quot;make&quot; them so by truncation, ie. forgetting all the structure of the type except whether it is inhabited.</p>
-<p>Let $A$ be a type and $f : A \to P$ be a map into a proposition $P$. If for every proposition $Q$:</p>
-<p>$$
--∘f : (P \to Q) \to (A \to Q)
-$$</p>
-<p>is an equivalence.</p>
-<p>This property is called the universal property of the propositional truncation of $A$.</p>
-<p>The basic idea is $-∘f$ &quot;lowers&quot; the relationship between propositions between $P$ and $Q$ to the relationship between $A$ and $P$.</p>
-<p>We can also push it further to set truncation, and even k-truncation.</p>
+  <div class="post-content"><h2 id="shang-xia-wen-wu-guan-wen-fa">上下文无关文法</h2>
+<h3 id="zheng-ze-yu-yan-zuo-bu-dao-de-shi">正则语言做不到的事</h3>
+<p>对于如下文法：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A → 0A1
+</span><span>A → B
+</span><span>B → #
+</span></code></pre>
+<p>你是写不出一个正则表达式（或者构造出一个有限自动机）来识别这个文法的语言的。</p>
+<p>这个文法是一个不能<a href="https://zh.wikipedia.org/wiki/%E9%80%80%E5%8C%96_(%E6%95%B8%E5%AD%B8)">退化</a>成正则文法的上下文无关文法。</p>
+<h3 id="shang-xia-wen-wu-guan-wen-fa-de-xing-shi-hua-ding-yi">上下文无关文法的形式化定义</h3>
+<p>上下文无关文法由如下四元组 $(V, T, R, S)$ 定义，其中：</p>
+<ul>
+<li>V 是变量集合</li>
+<li>T 是终结符集合</li>
+<li>R 是文法的规则 (<code>A → 0A1</code> 之类的)</li>
+<li>S 是开始变量，表示整个语言</li>
+</ul>
+<h2 id="xia-tui-zi-dong-ji">下推自动机</h2>
+<p>和有限状态机能识别正则文法类似，上下文无关文法也能由一类状态机来识别。</p>
+<p>我们观察上面的文法，可以发现生成的语言就是“在#左右两边有等量的0和1”的语言。</p>
+<p>我们可以在“看到”0时向一个栈中压入一个0，在看到1时弹出，如果栈最终能弹空，则这个串符合这个文法。</p>
+<h3 id="xia-tui-zi-dong-ji-de-xing-shi-hua-ding-yi">下推自动机的形式化定义</h3>
+<p>下推自动机由如下 6 元组 $(Q, \Sigma, S, \delta, q_0, F)$ 定义，其中：</p>
+<ul>
+<li>Q 是状态集合</li>
+<li>$\Sigma$ 是输入符号集合</li>
+<li>S 是栈字母表集合</li>
+<li>$\delta$ 是状态转换函数，其参数为一个状态，一个输入符号和一个栈顶符号（可以为空），输出一个新状态和一个新栈顶符号，表现了状态机在某状态，栈顶符号为某个符号，接收到某输入时，进入的新状态和对栈的操作，一个 <code>(状态, 输入符号, 栈顶符号)</code> 可能对应多组输出</li>
+<li>$q_0$ 是开始状态</li>
+<li>F 为 终止或者接受状态的集合</li>
+</ul>
+<h2 id="gou-zao-shi-bie-mou-shang-xia-wen-wu-guan-wen-fa-de-xia-tui-zi-dong-ji">构造识别某上下文无关文法的下推自动机</h2>
+<p>最简单的方法是，我们忽略状态这件事，只留下一个状态 $q_0$，所有的转换都在栈上进行。</p>
+<ul>
+<li>对于所有的变量 A 和从这个变量出来的推导式 A → X，无论 X 是非终结符（变量），终结符还是任意公式，我们都添加一个代表 X 的栈字母，然后定义 $\delta$ 在 A 点上的值： $\delta(q, ε, A) := (q, X)$<sup class="footnote-reference"><a href="#1">1</a></sup>。</li>
+<li>对于所有终结符 b，我们定义 $\delta$ 在 b 点上的值：$\delta(q, ε, b) := (q, ε)$。</li>
+</ul>
+<p>所得到的自动机如果能弹空栈，则说明能接受这个语言。</p>
+<h2 id="que-ding-xing-xia-tui-zi-dong-ji-he-que-ding-xing-shang-xia-wen-wu-guan-wen-fa">确定性下推自动机和确定性上下文无关文法</h2>
+<p>存在一部分下推自动机，其状态转换函数中，一个 <code>(状态, 输入符号, 栈顶符号)</code> 只对应单组输出，这种下推自动机就是确定性下推自动机，能被这种自动机识别的文法就是确定性上下文无关文法。</p>
+<p>这类下推自动机只要扫一遍输入串就能确定这个串能否被接受，说明这样的文法 parse 的复杂度是线性的，因此这类文法（尤其是其中几个子集）在构造各种 parser 的工程实践中是非常重要的。</p>
+<h3 id="pan-duan-wen-fa-shi-fou-shi-que-ding-xing-de">判断文法是否是确定性的</h3>
+<p>判断方法称为 DK-test，我们在学习 LR(0) 分析时，学到了构造 LR(0) 状态机的方法，这个 LR(0) 状态机其实应该被称为 DK 状态机。</p>
+<p>如果这个 DK 状态机中，原本文法中接受状态对应的状态：</p>
+<ul>
+<li>有且只有只有一条代表匹配完成（即 ⋅ 在产生式最后的）产生式</li>
+<li>其中所有产生式不形如 $B → X ⋅ a Y$，其中 a 是一个终结符</li>
+</ul>
+<h2 id="mu-qian-xue-dao-de-wen-fa-zhi-jian-de-bao-han-guan-xi">目前学到的文法之间的包含关系</h2>
+<p><img src="https://longfangsong.github.io/automata-3/./Group%209.svg" alt="" /></p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>X 可能不是一个“字母”，但你可以为每个 X 分配一个栈字母表中的字母作为替代。</p>
+</div>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2023-11-27</span>
+        <i class="far fa-sun"></i><span class="date">2024年01月07日</span>
         
         
         <i class="fas fa-tags"></i>
         
-        <a class="tag" href="https://longfangsong.github.io/en/tags/PLT">&nbsp;PLT</a>
+        <a class="tag" href="https://longfangsong.github.io/tags/自动机">&nbsp;自动机</a>
         
-        <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+        <a class="tag" href="https://longfangsong.github.io/tags/计算机科学基础">&nbsp;计算机科学基础</a>
         
         
       </div>
@@ -148,7 +192,7 @@ $$</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=HoTT Notes 10&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hott-10&#x2F;&hashtags=PLT,Notes"></a>
+      href="http://twitter.com/share?text=自动机理论 • 下推自动机&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-3&#x2F;&hashtags=自动机,计算机科学基础"></a>
   </div>
 </div>
 

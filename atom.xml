@@ -5,8 +5,80 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-11-19T19:57:59.556+00:00</updated>
+    <updated>2024-01-07T21:59:57.903+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
+    <entry xml:lang="zh">
+        <title>自动机理论 • 下推自动机</title>
+        <published>2024-01-07T21:59:57.903+00:00</published>
+        <updated>2024-01-07T21:59:57.903+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/automata-3/"/>
+        <id>https://longfangsong.github.io/automata-3/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/automata-3/">&lt;h2 id=&quot;shang-xia-wen-wu-guan-wen-fa&quot;&gt;上下文无关文法&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;zheng-ze-yu-yan-zuo-bu-dao-de-shi&quot;&gt;正则语言做不到的事&lt;&#x2F;h3&gt;
+&lt;p&gt;对于如下文法：&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;A → 0A1
+&lt;&#x2F;span&gt;&lt;span&gt;A → B
+&lt;&#x2F;span&gt;&lt;span&gt;B → #
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;你是写不出一个正则表达式（或者构造出一个有限自动机）来识别这个文法的语言的。&lt;&#x2F;p&gt;
+&lt;p&gt;这个文法是一个不能&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E9%80%80%E5%8C%96_(%E6%95%B8%E5%AD%B8)&quot;&gt;退化&lt;&#x2F;a&gt;成正则文法的上下文无关文法。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shang-xia-wen-wu-guan-wen-fa-de-xing-shi-hua-ding-yi&quot;&gt;上下文无关文法的形式化定义&lt;&#x2F;h3&gt;
+&lt;p&gt;上下文无关文法由如下四元组 $(V, T, R, S)$ 定义，其中：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;V 是变量集合&lt;&#x2F;li&gt;
+&lt;li&gt;T 是终结符集合&lt;&#x2F;li&gt;
+&lt;li&gt;R 是文法的规则 (&lt;code&gt;A → 0A1&lt;&#x2F;code&gt; 之类的)&lt;&#x2F;li&gt;
+&lt;li&gt;S 是开始变量，表示整个语言&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;xia-tui-zi-dong-ji&quot;&gt;下推自动机&lt;&#x2F;h2&gt;
+&lt;p&gt;和有限状态机能识别正则文法类似，上下文无关文法也能由一类状态机来识别。&lt;&#x2F;p&gt;
+&lt;p&gt;我们观察上面的文法，可以发现生成的语言就是“在#左右两边有等量的0和1”的语言。&lt;&#x2F;p&gt;
+&lt;p&gt;我们可以在“看到”0时向一个栈中压入一个0，在看到1时弹出，如果栈最终能弹空，则这个串符合这个文法。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;xia-tui-zi-dong-ji-de-xing-shi-hua-ding-yi&quot;&gt;下推自动机的形式化定义&lt;&#x2F;h3&gt;
+&lt;p&gt;下推自动机由如下 6 元组 $(Q, \Sigma, S, \delta, q_0, F)$ 定义，其中：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Q 是状态集合&lt;&#x2F;li&gt;
+&lt;li&gt;$\Sigma$ 是输入符号集合&lt;&#x2F;li&gt;
+&lt;li&gt;S 是栈字母表集合&lt;&#x2F;li&gt;
+&lt;li&gt;$\delta$ 是状态转换函数，其参数为一个状态，一个输入符号和一个栈顶符号（可以为空），输出一个新状态和一个新栈顶符号，表现了状态机在某状态，栈顶符号为某个符号，接收到某输入时，进入的新状态和对栈的操作，一个 &lt;code&gt;(状态, 输入符号, 栈顶符号)&lt;&#x2F;code&gt; 可能对应多组输出&lt;&#x2F;li&gt;
+&lt;li&gt;$q_0$ 是开始状态&lt;&#x2F;li&gt;
+&lt;li&gt;F 为 终止或者接受状态的集合&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;gou-zao-shi-bie-mou-shang-xia-wen-wu-guan-wen-fa-de-xia-tui-zi-dong-ji&quot;&gt;构造识别某上下文无关文法的下推自动机&lt;&#x2F;h2&gt;
+&lt;p&gt;最简单的方法是，我们忽略状态这件事，只留下一个状态 $q_0$，所有的转换都在栈上进行。&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于所有的变量 A 和从这个变量出来的推导式 A → X，无论 X 是非终结符（变量），终结符还是任意公式，我们都添加一个代表 X 的栈字母，然后定义 $\delta$ 在 A 点上的值： $\delta(q, ε, A) := (q, X)$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;li&gt;
+&lt;li&gt;对于所有终结符 b，我们定义 $\delta$ 在 b 点上的值：$\delta(q, ε, b) := (q, ε)$。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;所得到的自动机如果能弹空栈，则说明能接受这个语言。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;que-ding-xing-xia-tui-zi-dong-ji-he-que-ding-xing-shang-xia-wen-wu-guan-wen-fa&quot;&gt;确定性下推自动机和确定性上下文无关文法&lt;&#x2F;h2&gt;
+&lt;p&gt;存在一部分下推自动机，其状态转换函数中，一个 &lt;code&gt;(状态, 输入符号, 栈顶符号)&lt;&#x2F;code&gt; 只对应单组输出，这种下推自动机就是确定性下推自动机，能被这种自动机识别的文法就是确定性上下文无关文法。&lt;&#x2F;p&gt;
+&lt;p&gt;这类下推自动机只要扫一遍输入串就能确定这个串能否被接受，说明这样的文法 parse 的复杂度是线性的，因此这类文法（尤其是其中几个子集）在构造各种 parser 的工程实践中是非常重要的。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;pan-duan-wen-fa-shi-fou-shi-que-ding-xing-de&quot;&gt;判断文法是否是确定性的&lt;&#x2F;h3&gt;
+&lt;p&gt;判断方法称为 DK-test，我们在学习 LR(0) 分析时，学到了构造 LR(0) 状态机的方法，这个 LR(0) 状态机其实应该被称为 DK 状态机。&lt;&#x2F;p&gt;
+&lt;p&gt;如果这个 DK 状态机中，原本文法中接受状态对应的状态：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;有且只有只有一条代表匹配完成（即 ⋅ 在产生式最后的）产生式&lt;&#x2F;li&gt;
+&lt;li&gt;其中所有产生式不形如 $B → X ⋅ a Y$，其中 a 是一个终结符&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;mu-qian-xue-dao-de-wen-fa-zhi-jian-de-bao-han-guan-xi&quot;&gt;目前学到的文法之间的包含关系&lt;&#x2F;h2&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-3&#x2F;.&#x2F;Group%209.svg&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;X 可能不是一个“字母”，但你可以为每个 X 分配一个栈字母表中的字母作为替代。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="zh">
         <title>HoTT Summary</title>
         <published>2023-11-19T19:57:59.556+00:00</published>
