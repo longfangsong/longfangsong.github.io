@@ -112,7 +112,7 @@ a(b^ω + cc*ab^ω)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;顶层形如 $A\cdot B$，其中 $A \rightarrow a$, $B \rightarrow b^ω + cc*ab^ω$。&lt;&#x2F;p&gt;
 &lt;p&gt;我们可以先完成 $a$ 部分的 NFA。&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-4&#x2F;A-%3Eunexp.svg&quot; alt=&quot;A-&amp;gt;unexp&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-4&#x2F;a-%3Eunexp.svg&quot; alt=&quot;A-&amp;gt;unexp&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;继续展开 $b^ω + cc*ab^ω$，顶层是 $+$。&lt;&#x2F;p&gt;
 &lt;p&gt;展开成两部分：&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-4&#x2F;a-%3Eunexp12.svg&quot; alt=&quot;a-&amp;gt;unexp12&quot; &#x2F;&gt;&lt;&#x2F;p&gt;

@@ -111,7 +111,7 @@ a(b^ω + cc*ab^ω)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;The top level is of the form $A\cdot B$, where $A \rightarrow a$, $B \rightarrow b^ω + cc*ab^ω$.&lt;&#x2F;p&gt;
 &lt;p&gt;We can first complete the NFA part of $a$.&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;A-%3Eunexp.svg&quot; alt=&quot;A-&amp;gt;unexp&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;a-%3Eunexp.svg&quot; alt=&quot;A-&amp;gt;unexp&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
 &lt;p&gt;Continue expanding $b^ω + cc*ab^ω$, where the top level is $+$.&lt;&#x2F;p&gt;
 &lt;p&gt;Expand into two parts:&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;a-%3Eunexp12.svg&quot; alt=&quot;a-&amp;gt;unexp12&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
