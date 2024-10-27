@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -180,7 +180,7 @@ $$
 <h3 id="ding-yi">定义</h3>
 <p>龙书的定义里面有一堆数学符号，其实说到底和我上面的定义完全一致。</p>
 <blockquote>
-<p>Define $FIRST(α)$, where $α$ is any string of grammar symbols, to be the set of terminals that begin strings derived from $α$. If $\alpha \stackrel{*}{\Rightarrow} \epsilon$, then $\epsilon$ is also in $FIRST(α)$.  ——  “Compilers: Principles, Techniques, and Tools, 2/e” </p>
+<p>Define $FIRST(α)$, where $α$ is any string of grammar symbols, to be the set of terminals that begin strings derived from $α$. If $\alpha \stackrel{*}{\Rightarrow} \epsilon$, then $\epsilon$ is also in $FIRST(α)$.  ——  “Compilers: Principles, Techniques, and Tools, 2/e”</p>
 </blockquote>
 <p>定义$FIRST(α)$，其中$\alpha$是一个语法符号构成的任意串，为一组可以被$\alpha$推导出的终结符串的起始字符的集合。如果$\alpha \stackrel{*}{\Rightarrow} \epsilon$，那$\epsilon$也在$FIRST(α)$中。</p>
 <p>这不就是我们上面说的“能生成的每个句子中的第一个符号”按照推导式左侧的非终结符全部并起来的结果吗。</p>
@@ -192,14 +192,14 @@ $$
 <p>If X is a terminal, then $FIRST(X) = {X}$.</p>
 </li>
 <li>
-<p>If X is a nonterminal and $X → Y_1Y_2 ... Y_k$ is a production for some $k \ge 1$, then place 'a' in $FIRST(X)$ if for some $i$, 'a' is in $FIRST(Y_i)$, and $\epsilon$ is in all of $FIRST(Y_1), ..., FIRST(Y_{i – 1})$; that is, $Y_1Y_2...Y_{i-1} \stackrel{*}{\Rightarrow} \epsilon$. </p>
-<p>If $\epsilon$ is in $FIRST(Y_j)$ for all $j = 1, 2, ..., k$, then add $\epsilon$ to $FIRST(X)$. </p>
+<p>If X is a nonterminal and $X → Y_1Y_2 ... Y_k$ is a production for some $k \ge 1$, then place 'a' in $FIRST(X)$ if for some $i$, 'a' is in $FIRST(Y_i)$, and $\epsilon$ is in all of $FIRST(Y_1), ..., FIRST(Y_{i – 1})$; that is, $Y_1Y_2...Y_{i-1} \stackrel{*}{\Rightarrow} \epsilon$.</p>
+<p>If $\epsilon$ is in $FIRST(Y_j)$ for all $j = 1, 2, ..., k$, then add $\epsilon$ to $FIRST(X)$.</p>
 </li>
 <li>
 <p>If $X \rightarrow \epsilon$ is a production, then add $\epsilon$ to $FIRST(X)$.</p>
 </li>
 </ol>
-<p>—— “Compilers: Principles, Techniques, and Tools, 2/e” </p>
+<p>—— “Compilers: Principles, Techniques, and Tools, 2/e”</p>
 </blockquote>
 <ol>
 <li>
@@ -233,7 +233,7 @@ $$
 <p>Follow集的定义在我们上面的求法的基础上进行了扩展：</p>
 <blockquote>
 <p>“Define $FOLLOW(A)$, for nonterminal A, to be the set of terminals $a$ that can appear immediately to the right of A in some sentential form; that is, the set of terminals a such that there exists a derivation of the form $S \stackrel{*}{\Rightarrow} \alpha Aa\beta$, for some $\alpha$ and $\beta$”</p>
-<p>——  “Compilers: Principles, Techniques, and Tools, 2/e” </p>
+<p>——  “Compilers: Principles, Techniques, and Tools, 2/e”</p>
 </blockquote>
 <p>Follow集就是在文法的所有句子中，可能出现在“由非终结符A生成的部分”之后的终结符的集合。而上述例子所求的其实就是这里的“终结符”为“输入结束标记”的特例。</p>
 <h3 id="qiu-fa-1">求法</h3>

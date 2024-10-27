@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -164,7 +164,7 @@
 </span></code></pre>
 <p><code>block</code> and <code>loop</code> themselves don't have any special usage, they just change the meaning of <code>br</code> inside them.</p>
 <h3 id="br-br-if"><code>br</code>/<code>br_if</code></h3>
-<p><code>br</code> and <code>br_if</code> are used to jump to a &quot;label&quot;, which can be either a <code>loop</code> or a <code>block</code>.</p>
+<p><code>br</code> and <code>br_if</code> are used to jump to a "label", which can be either a <code>loop</code> or a <code>block</code>.</p>
 <p><code>br_if</code> is used to jump to a label only if the condition (the value on top of the stack) is true.</p>
 <p>Note that <code>br</code> and <code>br_if</code> can only break/continue a loop/block they are <strong>in</strong>; they cannot jump to an arbitrary place. This is because, at the binary code level, the argument of <code>br</code> and <code>br_if</code> indicates how many levels of <code>loop</code> and <code>block</code> we need to jump out of.</p>
 <p>There are also some other instructions like <code>br_table</code> and <code>return</code>, but they are not important for this article, so they will not be mentioned here.</p>
@@ -188,7 +188,7 @@ flowchart TD
     G --&gt; H
 </div>
 <p>But it is not representable in WASM using <strong>only</strong> the control flow instructions we have.<sup class="footnote-reference"><a href="#3">3</a></sup></p>
-<p>Fortunately, there is a very simple method to represent any CFGs by adding a &quot;next block&quot; variable and wrapping the entire program in a <code>loop</code>:</p>
+<p>Fortunately, there is a very simple method to represent any CFGs by adding a "next block" variable and wrapping the entire program in a <code>loop</code>:</p>
 <h2 id="the-naive-algorithm">The naive algorithm<sup class="footnote-reference"><a href="#6">4</a></sup></h2>
 <p>The basic idea of this method is to disregard all the fancy control flow instructions provided by wasm and manage everything ourselves.</p>
 <p>We can place everything in a loop, use a variable to record the next block to execute, and employ <code>br</code> to jump to the next block:</p>
@@ -322,7 +322,7 @@ flowchart LR
 <li>has two different groups of successors, in which
 <ul>
 <li>the node itself is the one and only entry for each group of successors<sup class="footnote-reference"><a href="#4">6</a></sup></li>
-<li>the successor groups can &quot;meet&quot; after leaving their exit node</li>
+<li>the successor groups can "meet" after leaving their exit node</li>
 </ul>
 </li>
 </ul>
@@ -423,7 +423,7 @@ flowchart TD
 </div>
 <p>In this CFG, we can find a cycle <code>B-&gt;C-&gt;D-&gt;B</code> with multiple entries (<code>A-&gt;B</code> and <code>E-&gt;D</code>), which is difficult to handle.</p>
 <p>In the relooper algorithm, we simply fall back to the naive algorithm for all blocks that can be reached from this node.</p>
-<p>However, we may not need to apply the naive algorithm to all blocks. Instead, we can use the idea of using labels to &quot;branch&quot; only to the entry nodes of the cycle.</p>
+<p>However, we may not need to apply the naive algorithm to all blocks. Instead, we can use the idea of using labels to "branch" only to the entry nodes of the cycle.</p>
 <p>We can add a dispatcher node and redirect all the incoming edges of <code>B</code> and <code>D</code> to the dispatcher node.</p>
 <div class="mermaid">
 flowchart TD
@@ -515,7 +515,7 @@ graph TD
 <h4 id="topological-ordering">Topological Ordering</h4>
 <p><a href="https://en.wikipedia.org/wiki/Topological_sorting">Topological sort</a> is a useful tool when dealing with code scheduling. Basically, it ensures that if a node <code>A</code> is reached before <code>B</code>, then it is ordered prior to <code>B</code>.</p>
 <p>We cannot perform a traditional topological sort algorithm on a CFG, because it's not a DAG.</p>
-<p>However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop<sup class="footnote-reference"><a href="#7">7</a></sup>, and we must visit ALL nodes inside a loop before visit any other nodes, so that when generating wasm code, we can &quot;cut&quot; the content of this loop out of the whole block sequence.</p>
+<p>However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop<sup class="footnote-reference"><a href="#7">7</a></sup>, and we must visit ALL nodes inside a loop before visit any other nodes, so that when generating wasm code, we can "cut" the content of this loop out of the whole block sequence.</p>
 <p>Then the process is easy, just:</p>
 <ul>
 <li>Wrap each loop in <code>loop</code>.</li>
@@ -666,17 +666,17 @@ flowchart TD
 <p>We can observe that if a block has only one forward predecessor, and the predecessor is a branch block, it can be nested into the <code>if</code> or <code>else</code> branch of this predecessor.</p>
 <p>So when performing a topological sort of the blocks, after we add a block, we first visit the successors for which the block is their only forward predecessor. This makes it possible to be nested in branches of this block.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>Personally, I think how wasm handles control flow is a bit weird. <code>block</code> is a real instruction instead of some meta information on the code, <code>br</code> can mean either <code>break</code> or <code>continue</code> depending on whether it's in a <code>block</code> or <code>loop</code>, but it cannot be used to &quot;branch&quot; to an arbitrary place, and wasm provides both <code>br_if</code> and <code>if</code>, which seems non-orthogonal.
+<p>Personally, I think how wasm handles control flow is a bit weird. <code>block</code> is a real instruction instead of some meta information on the code, <code>br</code> can mean either <code>break</code> or <code>continue</code> depending on whether it's in a <code>block</code> or <code>loop</code>, but it cannot be used to "branch" to an arbitrary place, and wasm provides both <code>br_if</code> and <code>if</code>, which seems non-orthogonal.
 Although <a href="https://github.com/WebAssembly/design/issues/796">many developers are asking for arbitrary labels and gotos</a> to be added into wasm, I think it's hopeless because wasm has already gone too far to adopt such a significant design change.</p>
 </div>
 <div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p>Yes, <code>if</code>, <code>else</code>, and even <code>end</code> are &quot;real&quot; instructions, which have corresponding binary forms. It's quite strange for an &quot;asm&quot; to have these structures, but that's how wasm does things, and they <strong>are</strong> useful for a stack-based VM.</p>
+<p>Yes, <code>if</code>, <code>else</code>, and even <code>end</code> are "real" instructions, which have corresponding binary forms. It's quite strange for an "asm" to have these structures, but that's how wasm does things, and they <strong>are</strong> useful for a stack-based VM.</p>
 </div>
 <div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
 <p>For those who are very familiar with the properties of CFG, you may have known that this is because the CFG is not reducible.</p>
 </div>
 <div class="footnote-definition" id="4"><sup class="footnote-definition-label">6</sup>
-<p>Or, the node &quot;dominates&quot; every node in the group of successors.</p>
+<p>Or, the node "dominates" every node in the group of successors.</p>
 </div>
 <div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
 <p>Or, in a more professional statement, strongly connected component, because there can be sub-cycles inside the outer cycle.</p>

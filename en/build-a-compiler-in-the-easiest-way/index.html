@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -363,8 +363,8 @@
 <ul>
 <li>LLVM IR is strongly typed</li>
 <li>Many control structures in LLVM IR are similar to assembly, such as if, while and other control structures are represented by <code>br</code> jumps</li>
-<li>The &quot;local variable&quot; in LLVM IR is quite a &quot;register&quot;, but LLVM IR has an infinite number of such kind of &quot;registers&quot;</li>
-<li>LLVM IR is an SSA form of IR, so a &quot;register&quot; can only be assigned a value once.</li>
+<li>The "local variable" in LLVM IR is quite a "register", but LLVM IR has an infinite number of such kind of "registers"</li>
+<li>LLVM IR is an SSA form of IR, so a "register" can only be assigned a value once.</li>
 <li>Many operations of LLVM are similar to assembly code, for example <code>%a = add i32 1, %b</code> is similar to <code>add %a, 1, %b</code></li>
 </ul>
 <h4 id="variable-definition">Variable definition</h4>
@@ -392,7 +392,7 @@
 <p>Use <code>icmp</code> and the way you want to compare:</p>
 <pre data-lang="llvm" style="background-color:#2b303b;color:#c0c5ce;" class="language-llvm "><code class="language-llvm" data-lang="llvm"><span style="color:#bf616a;">%temp_2</span><span> = </span><span style="color:#b48ead;">icmp slt i32 </span><span style="color:#bf616a;">%temp_1</span><span>, </span><span style="color:#d08770;">10
 </span></code></pre>
-<p><code>slt</code> is &quot;Signed Less Than&quot;, ie. <code>&lt;</code>.</p>
+<p><code>slt</code> is "Signed Less Than", ie. <code>&lt;</code>.</p>
 <p>For floats, there are <code>fcmp</code>, <code>olt</code>, etc.</p>
 <h4 id="jump">Jump</h4>
 <p>Use <code>br</code> for jumping</p>
@@ -465,9 +465,9 @@
 <h3 id="compilation-principle">Compilation principle</h3>
 <p>Three famous animal books:</p>
 <ul>
-<li>&quot;Compilers: Principles, Techniques, and Tools&quot; - &quot;Dragon Book&quot;</li>
-<li>&quot;Modern Compiler Implementation&quot; - &quot;Tiger Book&quot;</li>
-<li>&quot;Advanced Compiler Design and Implementation&quot; - &quot;Whale Book&quot;, however this book is mostly about backend optimization</li>
+<li>"Compilers: Principles, Techniques, and Tools" - "Dragon Book"</li>
+<li>"Modern Compiler Implementation" - "Tiger Book"</li>
+<li>"Advanced Compiler Design and Implementation" - "Whale Book", however this book is mostly about backend optimization</li>
 </ul>
 <h3 id="lex-grammar-you-may-refer-to">Lex &amp; Grammar you may refer to</h3>
 <ul>

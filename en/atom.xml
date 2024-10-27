@@ -5,8 +5,262 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2023-12-05T19:48:23.856+00:00</updated>
+    <updated>2024-10-26T21:35:48.241+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Automata Theory • Büchi Automata</title>
+        <published>2024-10-26T21:35:48.241+00:00</published>
+        <updated>2024-10-26T21:35:48.241+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/automata-4/"/>
+        <id>https://longfangsong.github.io/en/automata-4/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/automata-4/">&lt;h2 id=&quot;o-languages&quot;&gt;ω-Languages&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Let $Σ$ be a set of symbols (not necessarily finite).
+Following the standard definition from formal language theory, $Σ*$ is the set of all finite words over $Σ$.
+Every finite word has a length, which is a natural number.
+Given a word w of length n, w can be viewed as a function from the set $\{0,1,...,n−1\} → Σ$,
+with the value at i giving the symbol at position i.
+The infinite words, or ω-words, can likewise be viewed as functions from $\mathbb{N}$ to $Σ$.
+The set of all infinite words over $Σ$ is denoted $Σ^{\omega}$.
+The set of all finite and infinite words over $Σ$ is sometimes written $Σ^{\infty}$ or $Σ^{\leq \omega}$.
+—— &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Omega_language&quot;&gt;Wikipedia&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;In simple terms, given an alphabet $Σ$, $Σ^{\omega}$ is the set of all &lt;strong&gt;infinite&lt;&#x2F;strong&gt; strings formed from it, and an ω-language over $Σ$ is a subset of this set.&lt;&#x2F;p&gt;
+&lt;p&gt;For comparison: $\Sigma^*$ is all finite-length strings from alphabet $Σ$.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+Σ^{\infty} = \Sigma^* \cup \Sigma^{\omega}
+$$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;operations-on-o-languages&quot;&gt;Operations on ω-Languages&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;left-concatenation&quot;&gt;Left Concatenation&lt;&#x2F;h4&gt;
+&lt;p&gt;$KL$, where K is a language containing only finite-length strings, and L is an ω-language, represents left concatenation of K to L, meaning for each string $k \in K$ and $l \in L$ there is a new string $kl \in KL$.&lt;&#x2F;p&gt;
+&lt;p&gt;Note that right concatenation ($LK$) is meaningless, because $L$ is already an ω-language containing infinite-length strings, and adding finite-length strings after infinite-length strings makes no sense.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;omega&quot;&gt;$^\omega$&lt;&#x2F;h4&gt;
+&lt;p&gt;$L^ω$ represents the language obtained by &quot;infinitely repeating&quot; all finite strings in language $L$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;o-regular-languages&quot;&gt;ω-Regular Languages&lt;&#x2F;h3&gt;
+&lt;p&gt;A language is an ω-regular language if it can be written as:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$A^ω$, where $A$ is a regular language that doesn&#x27;t contain the empty string, or:&lt;&#x2F;li&gt;
+&lt;li&gt;$A\cdot B$, where $A$ is a regular language and B is an ω-regular language&lt;&#x2F;li&gt;
+&lt;li&gt;$A \cup B$, where both $A$ and $B$ are ω-regular languages, note that $\cup$ can only be performed finitely many times&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;o-regular-expressions&quot;&gt;ω-Regular Expressions&lt;&#x2F;h2&gt;
+&lt;p&gt;$\cdot$, $|$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; and $*$ have the same meanings in normal regular expressions.&lt;&#x2F;p&gt;
+&lt;p&gt;However, in ω-regular expressions, we have a new operator $^{\omega}$, where $E^{\omega}$ means $E$ should be repeated infinitely many times.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, an ω-regular expression describing an infinite repeating binary decimal can be written as:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(0|1)(0|1)*&#x27;.&#x27;(0|1)(0|1)*((0|1)*)^{\omega}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;where the final $((0|1)*)^{\omega}$ part represents the repeating section.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;buchi-automata&quot;&gt;Büchi Automata&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A deterministic Büchi automaton is a tuple A = (Q,Σ,δ,q0,F) that consists of the following components:&lt;br &#x2F;&gt;
+Q is a finite set. The elements of Q are called the states of A.&lt;br &#x2F;&gt;
+Σ is a finite set called the alphabet of A.&lt;br &#x2F;&gt;
+δ: Q × Σ → Q is a function, called the transition function of A.&lt;br &#x2F;&gt;
+q0 is an element of Q, called the initial state of A.&lt;br &#x2F;&gt;
+F⊆Q is the acceptance condition. A accepts exactly those runs in which at least one of the infinitely often occurring states is in F.&lt;br &#x2F;&gt;
+In a (non-deterministic) Büchi automaton, the transition function δ is replaced with a transition relation Δ that returns a set of states, and the single initial state q0 is replaced by a set I of initial states.&lt;br &#x2F;&gt;
+—— &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;B%C3%BCchi_automaton&quot;&gt;Wikipedia&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Basically, Büchi automata and finite automata &quot;look the same&quot;, with the only difference being:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Finite automata must stop in an accepting state after the input is &quot;exhausted&quot; to accept the input string, while Büchi automata require the input string to enter an accepting state &quot;infinitely many times&quot;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Note: The deterministic and non-deterministic versions of Büchi automata are not equivalent. Deterministic Büchi automata are strictly weaker than their non-deterministic counterparts, while non-deterministic Büchi automata can recognize all ω-regular expressions.&lt;&#x2F;p&gt;
+&lt;p&gt;Example: $(0|1)*0^\omega$ can be recognized by the following non-deterministic Büchi automaton, but cannot be accepted by a deterministic Büchi automaton.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;0&#x2F;02&#x2F;Buchi_non_deterministic_example.svg&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;o-regular-expressions-rightarrow-buchi-automata&quot;&gt;ω-Regular Expressions $\rightarrow$ Büchi Automata&lt;&#x2F;h2&gt;
+&lt;p&gt;Inductively, we need to consider 3 cases:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Top-level ω-regular expression of the form $A^ω$.
+In this case, $A$ must be a regular expression, which we can convert to a non-deterministic finite automaton (NFA).
+Then, for all accepting states of this NFA, add a transition arrow to each successor of A&#x27;s initial state, with the transition character being the character on the arrow from the initial state to that successor, as shown:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;A-to-Aw.svg&quot; alt=&quot;A-to-A-w&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;I&#x27;ve only drawn one accepting state, but there can be multiple accepting states, each following the pattern of $a_0$ in the diagram, connecting back to each successor of the entry.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Top-level ω-regular expression of the form $A\cdot B$.
+In this case, $A$ must be a regular expression which we can convert to an NFA, while $B$ must be an ω-regular expression that can be (recursively) converted to a Büchi automaton using our current algorithm.
+Then, downgrade A&#x27;s accepting states to normal states and directly connect them to each successor of B&#x27;s initial state, as shown:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;A-B.svg&quot; alt=&quot;A-B&quot; &#x2F;&gt;
+&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;AB.svg&quot; alt=&quot;AB&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Top-level ω-regular expression of the form $A | B$.
+Where both $A$ and $B$ are ω-regular expressions that can be (recursively) converted to Büchi automata using our current algorithm.
+In this case, simply merge the initial states of $A$ and $B$.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;A%7CB.svg&quot; alt=&quot;A|B&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;A%7C%7CB.svg&quot; alt=&quot;A||B&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;Provided by the Formal Methods example exam, in our course $|$ is written as $+$.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a(b^ω + cc*ab^ω)
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;The top level is of the form $A\cdot B$, where $A \rightarrow a$, $B \rightarrow b^ω + cc*ab^ω$.&lt;&#x2F;p&gt;
+&lt;p&gt;We can first complete the NFA part of $a$.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;A-%3Eunexp.svg&quot; alt=&quot;A-&amp;gt;unexp&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Continue expanding $b^ω + cc*ab^ω$, where the top level is $+$.&lt;&#x2F;p&gt;
+&lt;p&gt;Expand into two parts:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;a-%3Eunexp12.svg&quot; alt=&quot;a-&amp;gt;unexp12&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;First consider the $b^\omega$ part, of the form $A^ω$, where $A \rightarrow b$, which can be expanded directly.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;a-%3Eb*%7Ca-%3Eunexp2.svg&quot; alt=&quot;a-&amp;gt;b*|a-&amp;gt;unexp2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;The $cc*ab^ω$ part is of the form $AB$, where $A \rightarrow cc*a$, $B \rightarrow b^\omega$.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;a-%3Eb*%7Ca-%3Ecc*a-%3Eunexp2.svg&quot; alt=&quot;a-&amp;gt;b*|a-&amp;gt;cc*a-&amp;gt;unexp2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Finally expand $b^\omega$.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;full-expanded.svg&quot; alt=&quot;full-expanded&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;And we get the final result.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;buchi-automata-rightarrow-o-regular-expressions&quot;&gt;Büchi Automata $\rightarrow$ ω-Regular Expressions&lt;&#x2F;h2&gt;
+&lt;p&gt;From the process of converting ω-regular expressions to Büchi automata above, we can see that all ω-regular expressions:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;May be of the form $A^ω$, corresponding to loops containing accepting states&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; in the Büchi automaton graph.&lt;&#x2F;li&gt;
+&lt;li&gt;May be of the form $AB$, corresponding to:
+&lt;ul&gt;
+&lt;li&gt;A &quot;path&quot; $q_{start} \to q_{k}$ starting from the initial state $q_{start}$, not containing accepting state $q_{k}$, where $q_{k}$ is an accepting state.&lt;&#x2F;li&gt;
+&lt;li&gt;$q_{k}$ is in a loop&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;May be of the form $A|B$, corresponding to both $A$ and $B$ having at least one loop containing an accepting state.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;So, to convert a Büchi automaton back to an ω-regular expression, we need to:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Identify all loops containing accepting states $q_k$ and convert these subgraphs to regular expressions $L_k$.&lt;&#x2F;li&gt;
+&lt;li&gt;Identify all paths from the initial state $q_{start}$ to $q_k$ (without passing through $q_k$) and convert these subgraphs to regular expressions $R_{0k}$.&lt;&#x2F;li&gt;
+&lt;li&gt;The desired ω-regular expression is $\Sigma_k^{0\le k&amp;lt;\text{accept state count}}(R_{0k}\cdot L_{k})$.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;example-1&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;am-full.svg&quot; alt=&quot;am-full&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;For accepting state $q_1$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Its cycle:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;bw.svg&quot; alt=&quot;am-full&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Corresponding regex is $b$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Path from initial state $e$ to $q_1$:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;e-to-q1.svg&quot; alt=&quot;e-to-q1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Corresponding regex is: $((bc*a)|a)*c$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Therefore this branch&#x27;s ω-regular expression is $((bc*a)|a)*c(b^\omega)$.&lt;&#x2F;p&gt;
+&lt;p&gt;For accepting state $q_2$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Its cycle:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;complex-w.svg&quot; alt=&quot;complex-w&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Corresponding regex is: $(c*)|(aa*b)$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Path from initial state $e$ to $q_2$:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;e-to-q2.svg&quot; alt=&quot;e-to-q2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Corresponding regex is: $a*b$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Therefore this branch&#x27;s ω-regular expression is $a*b ((c*)|(aa*b))^\omega$.&lt;&#x2F;p&gt;
+&lt;p&gt;Combining both branches, the overall ω-regular expression is $(((bc*a)|a)*c(b^\omega)) | (a*b ((c*)|(aa*b))^\omega)$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;references&quot;&gt;References&lt;&#x2F;h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https:&#x2F;&#x2F;archive.model.in.tum.de&#x2F;um&#x2F;courses&#x2F;auto&#x2F;ws1213&#x2F;slides1213&#x2F;omega-automata-powerpoint.pdf&quot;&gt;Slide from TUM&lt;&#x2F;a&gt;.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Sometimes written as $+$, $\cup$ or even $\uplus$ - mathematicians&#x2F;computer scientists really should standardize their notation!&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;I mention Büchi automata here because it was covered in our Formal Methods course, but there are actually many types of automata that can handle ω-languages, see &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;%CE%A9-automaton&quot;&gt;Wikipedia&lt;&#x2F;a&gt;, among which Rabin automata are probably the most interesting.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;A more accurate term would be &quot;strongly connected component&quot;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;Could also be $b*$, though $(b*)^\omega \equiv b^\omega$.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Automata Theory • Pushdown Automata</title>
+        <published>2024-01-07T21:59:57.903+00:00</published>
+        <updated>2024-01-07T21:59:57.903+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/automata-3/"/>
+        <id>https://longfangsong.github.io/en/automata-3/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/automata-3/">&lt;h2 id=&quot;context-free-grammar&quot;&gt;Context-Free Grammar&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;what-regular-languages-cannot-do&quot;&gt;What Regular Languages Cannot Do&lt;&#x2F;h3&gt;
+&lt;p&gt;For the following grammar:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;A → 0A1
+&lt;&#x2F;span&gt;&lt;span&gt;A → B
+&lt;&#x2F;span&gt;&lt;span&gt;B → #
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;It is impossible to write a regular expression (or construct a finite automaton) that can recognize the language of this grammar.&lt;&#x2F;p&gt;
+&lt;p&gt;This grammar is a context-free grammar that cannot be &lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E9%80%80%E5%8C%96_(%E6%95%B8%E5%AD%B8)&quot;&gt;reduced&lt;&#x2F;a&gt; to a regular grammar.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;formal-definition-of-context-free-grammar&quot;&gt;Formal Definition of Context-Free Grammar&lt;&#x2F;h3&gt;
+&lt;p&gt;A context-free grammar is defined by the following 4-tuple $(V, T, R, S)$ where:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;V is the set of variables&lt;&#x2F;li&gt;
+&lt;li&gt;T is the set of terminals&lt;&#x2F;li&gt;
+&lt;li&gt;R is the set of grammar rules (&lt;code&gt;A → 0A1&lt;&#x2F;code&gt; etc.)&lt;&#x2F;li&gt;
+&lt;li&gt;S is the start variable, representing the whole language&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;pushdown-automata&quot;&gt;Pushdown Automata&lt;&#x2F;h2&gt;
+&lt;p&gt;Similar to how finite state machines can recognize regular grammars, context-free grammars can be recognized by a type of state machine.&lt;&#x2F;p&gt;
+&lt;p&gt;Looking at the grammar above, we can see that it generates a language where &quot;there are equal numbers of 0s and 1s on either side of #&quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;We can push a 0 onto a stack when we &quot;see&quot; a 0, and pop when we see a 1. If the stack can be emptied at the end, then the string conforms to this grammar.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;formal-definition-of-pushdown-automata&quot;&gt;Formal Definition of Pushdown Automata&lt;&#x2F;h3&gt;
+&lt;p&gt;A pushdown automaton is defined by the following 6-tuple $(Q, \Sigma, S, \delta, q_0, F)$ where:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Q is the set of states&lt;&#x2F;li&gt;
+&lt;li&gt;$\Sigma$ is the input alphabet&lt;&#x2F;li&gt;
+&lt;li&gt;S is the stack alphabet&lt;&#x2F;li&gt;
+&lt;li&gt;$\delta$ is the transition function, which takes a state, an input symbol and a stack top symbol (which can be empty) as parameters, outputs a new state and a new stack top symbol, representing the new state and stack operation when the machine receives certain input in a certain state with a certain stack top symbol. A &lt;code&gt;(state, input symbol, stack top symbol)&lt;&#x2F;code&gt; may correspond to multiple outputs&lt;&#x2F;li&gt;
+&lt;li&gt;$q_0$ is the start state&lt;&#x2F;li&gt;
+&lt;li&gt;F is the set of final or accepting states&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;constructing-a-pushdown-automaton-to-recognize-a-context-free-grammar&quot;&gt;Constructing a Pushdown Automaton to Recognize a Context-Free Grammar&lt;&#x2F;h2&gt;
+&lt;p&gt;The simplest method is to ignore states and keep only one state $q_0$, with all transitions happening on the stack.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;For all variables A and their derivations A → X, regardless of whether X is a non-terminal (variable), terminal or any formula, we add a stack symbol representing X and define the value of $\delta$ at point A: $\delta(q, ε, A) := (q, X)$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;For all terminals b, we define the value of $\delta$ at point b: $\delta(q, ε, b) := (q, ε)$.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;If the resulting automaton can empty its stack, it means it can accept this language.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;deterministic-pushdown-automata-and-deterministic-context-free-grammar&quot;&gt;Deterministic Pushdown Automata and Deterministic Context-Free Grammar&lt;&#x2F;h2&gt;
+&lt;p&gt;There exists a subset of pushdown automata where in their transition functions, a &lt;code&gt;(state, input symbol, stack top symbol)&lt;&#x2F;code&gt; corresponds to only one output - these are called deterministic pushdown automata, and the grammars they can recognize are called deterministic context-free grammars.&lt;&#x2F;p&gt;
+&lt;p&gt;This type of pushdown automata only needs to scan the input string once to determine if it can be accepted, indicating that parsing such grammars has linear complexity, which makes these grammars (especially several of their subsets) very important in the practical engineering of various parsers.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;determining-if-a-grammar-is-deterministic&quot;&gt;Determining if a Grammar is Deterministic&lt;&#x2F;h3&gt;
+&lt;p&gt;The determination method is called the DK-test. When studying LR(0) analysis, we learned how to construct &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;lr0&#x2F;#lr-0-xiang-zhuang-tai-chan-sheng-shi-zhong-de-cdot-yu-lr-0-zhuang-tai-ji&quot;&gt;LR(0) state machines&lt;&#x2F;a&gt;, which should actually be called DK state machines.&lt;&#x2F;p&gt;
+&lt;p&gt;If in this DK state machine, the states corresponding to accepting states in the original grammar:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Have one and only one production representing a completed match (i.e., ⋅ is at the end of the production)&lt;&#x2F;li&gt;
+&lt;li&gt;None of the productions are of the form $B → X ⋅ a Y$, where a is a terminal&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Then the grammar is deterministic, and any deterministic grammar can pass this DK-test.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;X may not be a &quot;letter&quot;, but you can assign a letter from the stack alphabet as a substitute for each X.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>HoTT Notes 12</title>
         <published>2023-12-05T19:48:23.856+00:00</published>
@@ -29,7 +283,7 @@
 &lt;h2 id=&quot;equivalence-classes&quot;&gt;Equivalence classes&lt;&#x2F;h2&gt;
 &lt;p&gt;We can divide $A$ into equivalence classes, ie, for an equivalence relation $R$ on $A$, a subtype $P : A → Prop_\mathcal{U}$ is called an equivalence class if there merely exists $x : A$ such that for all $b : A$ we have $R(a,b) ≃ P(b)$.&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-is-equiv-class(P) := ∃_{x:A}∀_{b:A} R(x,b) ≃ P(b)
+is-equiv-class(P) := ∃&lt;em&gt;{x:A}∀&lt;&#x2F;em&gt;{b:A} R(x,b) ≃ P(b)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;We define equivalence class of $x : A$ to be:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -85,7 +339,7 @@ $$&lt;&#x2F;p&gt;
 \text{im}(f) := Σ_{(x:X)}||fib_f(x)||
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$\text{im}(f)$ is an embedding.&lt;&#x2F;p&gt;
-&lt;p&gt;We can drop the evidence to get the &amp;quot;proof-irreverent&amp;quot; image part:&lt;&#x2F;p&gt;
+&lt;p&gt;We can drop the evidence to get the &quot;proof-irreverent&quot; image part:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \begin{align}
 i_f &amp;amp;: \text{im}(f) → X \\
@@ -121,14 +375,14 @@ $$&lt;&#x2F;p&gt;
         <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/hott-10/"/>
         <id>https://longfangsong.github.io/en/hott-10/</id>
         
-        <content type="html" xml:base="https://longfangsong.github.io/en/hott-10/">&lt;p&gt;Not all types are (mere) propositions, but we can &amp;quot;make&amp;quot; them so by truncation, ie. forgetting all the structure of the type except whether it is inhabited.&lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/en/hott-10/">&lt;p&gt;Not all types are (mere) propositions, but we can &quot;make&quot; them so by truncation, ie. forgetting all the structure of the type except whether it is inhabited.&lt;&#x2F;p&gt;
 &lt;p&gt;Let $A$ be a type and $f : A \to P$ be a map into a proposition $P$. If for every proposition $Q$:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 -∘f : (P \to Q) \to (A \to Q)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;is an equivalence.&lt;&#x2F;p&gt;
 &lt;p&gt;This property is called the universal property of the propositional truncation of $A$.&lt;&#x2F;p&gt;
-&lt;p&gt;The basic idea is $-∘f$ &amp;quot;lowers&amp;quot; the relationship between propositions between $P$ and $Q$ to the relationship between $A$ and $P$.&lt;&#x2F;p&gt;
+&lt;p&gt;The basic idea is $-∘f$ &quot;lowers&quot; the relationship between propositions between $P$ and $Q$ to the relationship between $A$ and $P$.&lt;&#x2F;p&gt;
 &lt;p&gt;We can also push it further to set truncation, and even k-truncation.&lt;&#x2F;p&gt;
 </content>
         
@@ -165,26 +419,26 @@ $$&lt;&#x2F;p&gt;
 
 TODO --&gt;
 &lt;h4 id=&quot;judgemental-equal&quot;&gt;Judgemental equal&lt;&#x2F;h4&gt;
-&lt;p&gt;Basically idea is &amp;quot;equal according to the definition&amp;quot; or &amp;quot;equal in terms of semantics.&amp;quot;&lt;&#x2F;p&gt;
+&lt;p&gt;Basically idea is &quot;equal according to the definition&quot; or &quot;equal in terms of semantics.&quot;&lt;&#x2F;p&gt;
 &lt;p&gt;eg. $2 \doteq 2$, $2 \doteq suc(suc(0))$.&lt;&#x2F;p&gt;
-&lt;p&gt;In general, the only thing &amp;quot;judgmental equal&amp;quot; is based on is some certain assumptions (postulates). The most common ones include &amp;quot;everything being judgmentally equal to itself&amp;quot;,
-&amp;quot;everything being judgmentally equal to its definition&amp;quot;, and the calculation rules on $\Pi$ (I will write the final conclusion only, please complete the deduction tree on your own):&lt;&#x2F;p&gt;
+&lt;p&gt;In general, the only thing &quot;judgmental equal&quot; is based on is some certain assumptions (postulates). The most common ones include &quot;everything being judgmentally equal to itself&quot;,
+&quot;everything being judgmentally equal to its definition&quot;, and the calculation rules on $\Pi$ (I will write the final conclusion only, please complete the deduction tree on your own):&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 (\lambda y.b(y))(x) \doteq b(x) : B(x)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \lambda x.f(x) \doteq f : \Pi_{(x:A)} B(x)
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;are examples of forming &amp;quot;judgmental equal&amp;quot; using certain assumed rules.&lt;&#x2F;p&gt;
+&lt;p&gt;are examples of forming &quot;judgmental equal&quot; using certain assumed rules.&lt;&#x2F;p&gt;
 &lt;p&gt;The symbol $\doteq$ possesses &lt;code&gt;trans&lt;&#x2F;code&gt; and &lt;code&gt;sym&lt;&#x2F;code&gt; properties.&lt;&#x2F;p&gt;
-&lt;p&gt;In Agda, anything that can be automatically &amp;quot;converted&amp;quot; by the type checker is judgmentally equal. For instance, you can replace a function $f$ with $\lambda x . f(x)$ in a context that expects the former, and the type checker won&#x27;t complain because they are judgmentally equal.&lt;&#x2F;p&gt;
+&lt;p&gt;In Agda, anything that can be automatically &quot;converted&quot; by the type checker is judgmentally equal. For instance, you can replace a function $f$ with $\lambda x . f(x)$ in a context that expects the former, and the type checker won&#x27;t complain because they are judgmentally equal.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;propositional-equal-identity-type&quot;&gt;Propositional equal&#x2F;identity type&lt;&#x2F;h4&gt;
 &lt;p&gt;Due to the many restrictions of judgmental equality, such as in the definition of natural numbers below, where we cannot prove $add(0, n) \doteq n$, it becomes necessary to introduce propositional equality.&lt;&#x2F;p&gt;
 &lt;p&gt;According to the Curry-Howard correspondence, the proposition that two values are equal can be translated into a type, known as the propositional equal type or identity type.&lt;&#x2F;p&gt;
 &lt;p&gt;It&#x27;s important to note that the identity type we define is associated with a specific point. For instance, given $a : A$, we can define $a =_A x$ as the identity type of type $A$ at the point $a$, which is a type dependent on $x$ (can be written as $Id_a(x)\ type$).&lt;&#x2F;p&gt;
 &lt;p&gt;The identity type possesses &lt;code&gt;trans&lt;&#x2F;code&gt; and &lt;code&gt;sym&lt;&#x2F;code&gt; properties.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;observational-equal&quot;&gt;Observational equal&lt;&#x2F;h4&gt;
-&lt;p&gt;Simply defining the identity type allows us to express the notion of &amp;quot;two things being equal.&amp;quot; Currently, we only have one way to &amp;quot;construct&amp;quot; an item of the identity type, which is $refl_x : x = x$, but clearly, this is not sufficient.&lt;&#x2F;p&gt;
+&lt;p&gt;Simply defining the identity type allows us to express the notion of &quot;two things being equal.&quot; Currently, we only have one way to &quot;construct&quot; an item of the identity type, which is $refl_x : x = x$, but clearly, this is not sufficient.&lt;&#x2F;p&gt;
 &lt;p&gt;Sometimes, we can define a binary relation on a type and then map $R(x, y)$ to either $\top$ or $⊥$, using this relation to construct the identity type.&lt;&#x2F;p&gt;
 &lt;p&gt;For example, for natural numbers, we can define a binary relation $\text{Eq-N}$:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -329,7 +583,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;It is the concept of &amp;quot;bijection&amp;quot; in type theory.&lt;&#x2F;p&gt;
+&lt;p&gt;It is the concept of &quot;bijection&quot; in type theory.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;is-contr&quot;&gt;is-contr&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
 \text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
@@ -360,7 +614,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \text{is-emb}(f) := (x, y : A) → \text{is-equiv}(cong\ f\ \{x\}\ \{y\})
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;It is the concept of &amp;quot;injection&amp;quot; in type theory.&lt;&#x2F;p&gt;
+&lt;p&gt;It is the concept of &quot;injection&quot; in type theory.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;important-embeddings&quot;&gt;Important embeddings&lt;&#x2F;h4&gt;
 &lt;ul&gt;
 &lt;li&gt;For a subtype $B$ of $A$, $\text{is-emb}(proj_1)$ is inhabited, ie. $(a , b) = (a&#x27; , b&#x27;) ≃ a = a&#x27;$ where $(a , b)$ and $(a , b) : Σ_{(a : A)} B(a)$&lt;&#x2F;li&gt;
@@ -415,7 +669,7 @@ $$&lt;&#x2F;p&gt;
 $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;s-type-existential&quot;&gt;$Σ$ type&#x2F;Existential&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
-((∃_{(x:A)} B(x)) → X) ≃ ((Σ_{(x:A)} B(x)) → X) ≃ (\Pi_{(x:A)} (B(x) → X))
+((∃&lt;em&gt;{(x:A)} B(x)) → X) ≃ ((Σ&lt;&#x2F;em&gt;{(x:A)} B(x)) → X) ≃ (\Pi_{(x:A)} (B(x) → X))
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;or when $B$ does not depend on $A$:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -587,7 +841,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;$\text{is-prop}(A) := A \rightarrow \text{is-contr}(A)$. This means iff A is not empty, and it is contractible, then it is a proposition.&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
-&lt;p&gt;$\text{const}_{\text{tt}} : A → ⊤$ is an embedding. This means iff A can be mapped to the unit type &amp;quot;injectivly&amp;quot;, then it is a proposition.&lt;&#x2F;p&gt;
+&lt;p&gt;$\text{const}_{\text{tt}} : A → ⊤$ is an embedding. This means iff A can be mapped to the unit type &quot;injectivly&quot;, then it is a proposition.&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;The reason why we call it a (h-)proposition is that, in first-order logic, we don&#x27;t have any way to distinguish between any two proofs of the same proposition. In here HoTT case, a proposition is a type (which corresponds to a set theory proposition) that either is empty, or contractable (ie. all of its elements, which correspond to proofs are equal).&lt;&#x2F;p&gt;
@@ -758,7 +1012,7 @@ $$&lt;&#x2F;p&gt;
         <id>https://longfangsong.github.io/en/the-physics-of-semiconductors/</id>
         
         <content type="html" xml:base="https://longfangsong.github.io/en/the-physics-of-semiconductors/">&lt;h2 id=&quot;band-theory&quot;&gt;band theory&lt;&#x2F;h2&gt;
-&lt;p&gt;In a single atom, electrons can only have discrete ranges of energy values. These ranges are called &amp;quot;atomic orbitals&amp;quot;. When we say things like $1s^1$, $1s^22s^22p^2$, we are referring to atomic orbitals, which we learned about in chemistry class.&lt;&#x2F;p&gt;
+&lt;p&gt;In a single atom, electrons can only have discrete ranges of energy values. These ranges are called &quot;atomic orbitals&quot;. When we say things like $1s^1$, $1s^22s^22p^2$, we are referring to atomic orbitals, which we learned about in chemistry class.&lt;&#x2F;p&gt;
 &lt;p&gt;When atoms come together, they affect each other and change how the electrons are distributed. For example, if two identical hydrogen atoms are brought together, the wave functions of the electrons overlap and, due to the exclusion principle, can no longer be in the same quantum state. This splits the original equivalent energy levels into two different energy levels.&lt;&#x2F;p&gt;
 &lt;p&gt;In a solid crystal, the energy levels of the electrons of all the atoms form several energy bands.&lt;&#x2F;p&gt;
 &lt;p&gt;One of them is the &lt;strong&gt;valence band&lt;&#x2F;strong&gt;, which is the highest energy band that contains electrons at 0K.&lt;&#x2F;p&gt;
@@ -926,7 +1180,7 @@ document.getElementById(&#x27;imageInput&#x27;).addEventListener(&#x27;change&#x
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;&lt;code&gt;block&lt;&#x2F;code&gt; and &lt;code&gt;loop&lt;&#x2F;code&gt; themselves don&#x27;t have any special usage, they just change the meaning of &lt;code&gt;br&lt;&#x2F;code&gt; inside them.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;br-br-if&quot;&gt;&lt;code&gt;br&lt;&#x2F;code&gt;&#x2F;&lt;code&gt;br_if&lt;&#x2F;code&gt;&lt;&#x2F;h3&gt;
-&lt;p&gt;&lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; are used to jump to a &amp;quot;label&amp;quot;, which can be either a &lt;code&gt;loop&lt;&#x2F;code&gt; or a &lt;code&gt;block&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; are used to jump to a &quot;label&quot;, which can be either a &lt;code&gt;loop&lt;&#x2F;code&gt; or a &lt;code&gt;block&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;&lt;code&gt;br_if&lt;&#x2F;code&gt; is used to jump to a label only if the condition (the value on top of the stack) is true.&lt;&#x2F;p&gt;
 &lt;p&gt;Note that &lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; can only break&#x2F;continue a loop&#x2F;block they are &lt;strong&gt;in&lt;&#x2F;strong&gt;; they cannot jump to an arbitrary place. This is because, at the binary code level, the argument of &lt;code&gt;br&lt;&#x2F;code&gt; and &lt;code&gt;br_if&lt;&#x2F;code&gt; indicates how many levels of &lt;code&gt;loop&lt;&#x2F;code&gt; and &lt;code&gt;block&lt;&#x2F;code&gt; we need to jump out of.&lt;&#x2F;p&gt;
 &lt;p&gt;There are also some other instructions like &lt;code&gt;br_table&lt;&#x2F;code&gt; and &lt;code&gt;return&lt;&#x2F;code&gt;, but they are not important for this article, so they will not be mentioned here.&lt;&#x2F;p&gt;
@@ -950,7 +1204,7 @@ flowchart TD
     G --&amp;gt; H
 &lt;&#x2F;div&gt;
 &lt;p&gt;But it is not representable in WASM using &lt;strong&gt;only&lt;&#x2F;strong&gt; the control flow instructions we have.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;Fortunately, there is a very simple method to represent any CFGs by adding a &amp;quot;next block&amp;quot; variable and wrapping the entire program in a &lt;code&gt;loop&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;Fortunately, there is a very simple method to represent any CFGs by adding a &quot;next block&quot; variable and wrapping the entire program in a &lt;code&gt;loop&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;the-naive-algorithm&quot;&gt;The naive algorithm&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#6&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h2&gt;
 &lt;p&gt;The basic idea of this method is to disregard all the fancy control flow instructions provided by wasm and manage everything ourselves.&lt;&#x2F;p&gt;
 &lt;p&gt;We can place everything in a loop, use a variable to record the next block to execute, and employ &lt;code&gt;br&lt;&#x2F;code&gt; to jump to the next block:&lt;&#x2F;p&gt;
@@ -1084,7 +1338,7 @@ flowchart LR
 &lt;li&gt;has two different groups of successors, in which
 &lt;ul&gt;
 &lt;li&gt;the node itself is the one and only entry for each group of successors&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;6&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;li&gt;
-&lt;li&gt;the successor groups can &amp;quot;meet&amp;quot; after leaving their exit node&lt;&#x2F;li&gt;
+&lt;li&gt;the successor groups can &quot;meet&quot; after leaving their exit node&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
@@ -1185,7 +1439,7 @@ flowchart TD
 &lt;&#x2F;div&gt;
 &lt;p&gt;In this CFG, we can find a cycle &lt;code&gt;B-&amp;gt;C-&amp;gt;D-&amp;gt;B&lt;&#x2F;code&gt; with multiple entries (&lt;code&gt;A-&amp;gt;B&lt;&#x2F;code&gt; and &lt;code&gt;E-&amp;gt;D&lt;&#x2F;code&gt;), which is difficult to handle.&lt;&#x2F;p&gt;
 &lt;p&gt;In the relooper algorithm, we simply fall back to the naive algorithm for all blocks that can be reached from this node.&lt;&#x2F;p&gt;
-&lt;p&gt;However, we may not need to apply the naive algorithm to all blocks. Instead, we can use the idea of using labels to &amp;quot;branch&amp;quot; only to the entry nodes of the cycle.&lt;&#x2F;p&gt;
+&lt;p&gt;However, we may not need to apply the naive algorithm to all blocks. Instead, we can use the idea of using labels to &quot;branch&quot; only to the entry nodes of the cycle.&lt;&#x2F;p&gt;
 &lt;p&gt;We can add a dispatcher node and redirect all the incoming edges of &lt;code&gt;B&lt;&#x2F;code&gt; and &lt;code&gt;D&lt;&#x2F;code&gt; to the dispatcher node.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
@@ -1277,7 +1531,7 @@ graph TD
 &lt;h4 id=&quot;topological-ordering&quot;&gt;Topological Ordering&lt;&#x2F;h4&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Topological_sorting&quot;&gt;Topological sort&lt;&#x2F;a&gt; is a useful tool when dealing with code scheduling. Basically, it ensures that if a node &lt;code&gt;A&lt;&#x2F;code&gt; is reached before &lt;code&gt;B&lt;&#x2F;code&gt;, then it is ordered prior to &lt;code&gt;B&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;We cannot perform a traditional topological sort algorithm on a CFG, because it&#x27;s not a DAG.&lt;&#x2F;p&gt;
-&lt;p&gt;However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, and we must visit ALL nodes inside a loop before visit any other nodes, so that when generating wasm code, we can &amp;quot;cut&amp;quot; the content of this loop out of the whole block sequence.&lt;&#x2F;p&gt;
+&lt;p&gt;However, we can remove all the back edges from the CFG, and then perform a topological sort on the resulting DAG. The stackifier algorithm adds another requirement: the entry node of the loop must be ordered before ALL the nodes in the loop&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#7&quot;&gt;7&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, and we must visit ALL nodes inside a loop before visit any other nodes, so that when generating wasm code, we can &quot;cut&quot; the content of this loop out of the whole block sequence.&lt;&#x2F;p&gt;
 &lt;p&gt;Then the process is easy, just:&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;Wrap each loop in &lt;code&gt;loop&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
@@ -1428,17 +1682,17 @@ flowchart TD
 &lt;p&gt;We can observe that if a block has only one forward predecessor, and the predecessor is a branch block, it can be nested into the &lt;code&gt;if&lt;&#x2F;code&gt; or &lt;code&gt;else&lt;&#x2F;code&gt; branch of this predecessor.&lt;&#x2F;p&gt;
 &lt;p&gt;So when performing a topological sort of the blocks, after we add a block, we first visit the successors for which the block is their only forward predecessor. This makes it possible to be nested in branches of this block.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;Personally, I think how wasm handles control flow is a bit weird. &lt;code&gt;block&lt;&#x2F;code&gt; is a real instruction instead of some meta information on the code, &lt;code&gt;br&lt;&#x2F;code&gt; can mean either &lt;code&gt;break&lt;&#x2F;code&gt; or &lt;code&gt;continue&lt;&#x2F;code&gt; depending on whether it&#x27;s in a &lt;code&gt;block&lt;&#x2F;code&gt; or &lt;code&gt;loop&lt;&#x2F;code&gt;, but it cannot be used to &amp;quot;branch&amp;quot; to an arbitrary place, and wasm provides both &lt;code&gt;br_if&lt;&#x2F;code&gt; and &lt;code&gt;if&lt;&#x2F;code&gt;, which seems non-orthogonal.
+&lt;p&gt;Personally, I think how wasm handles control flow is a bit weird. &lt;code&gt;block&lt;&#x2F;code&gt; is a real instruction instead of some meta information on the code, &lt;code&gt;br&lt;&#x2F;code&gt; can mean either &lt;code&gt;break&lt;&#x2F;code&gt; or &lt;code&gt;continue&lt;&#x2F;code&gt; depending on whether it&#x27;s in a &lt;code&gt;block&lt;&#x2F;code&gt; or &lt;code&gt;loop&lt;&#x2F;code&gt;, but it cannot be used to &quot;branch&quot; to an arbitrary place, and wasm provides both &lt;code&gt;br_if&lt;&#x2F;code&gt; and &lt;code&gt;if&lt;&#x2F;code&gt;, which seems non-orthogonal.
 Although &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;design&#x2F;issues&#x2F;796&quot;&gt;many developers are asking for arbitrary labels and gotos&lt;&#x2F;a&gt; to be added into wasm, I think it&#x27;s hopeless because wasm has already gone too far to adopt such a significant design change.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
-&lt;p&gt;Yes, &lt;code&gt;if&lt;&#x2F;code&gt;, &lt;code&gt;else&lt;&#x2F;code&gt;, and even &lt;code&gt;end&lt;&#x2F;code&gt; are &amp;quot;real&amp;quot; instructions, which have corresponding binary forms. It&#x27;s quite strange for an &amp;quot;asm&amp;quot; to have these structures, but that&#x27;s how wasm does things, and they &lt;strong&gt;are&lt;&#x2F;strong&gt; useful for a stack-based VM.&lt;&#x2F;p&gt;
+&lt;p&gt;Yes, &lt;code&gt;if&lt;&#x2F;code&gt;, &lt;code&gt;else&lt;&#x2F;code&gt;, and even &lt;code&gt;end&lt;&#x2F;code&gt; are &quot;real&quot; instructions, which have corresponding binary forms. It&#x27;s quite strange for an &quot;asm&quot; to have these structures, but that&#x27;s how wasm does things, and they &lt;strong&gt;are&lt;&#x2F;strong&gt; useful for a stack-based VM.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
 &lt;p&gt;For those who are very familiar with the properties of CFG, you may have known that this is because the CFG is not reducible.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;6&lt;&#x2F;sup&gt;
-&lt;p&gt;Or, the node &amp;quot;dominates&amp;quot; every node in the group of successors.&lt;&#x2F;p&gt;
+&lt;p&gt;Or, the node &quot;dominates&quot; every node in the group of successors.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
 &lt;p&gt;Or, in a more professional statement, strongly connected component, because there can be sub-cycles inside the outer cycle.&lt;&#x2F;p&gt;
@@ -1489,7 +1743,7 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A contravariant functor is like a functor but it reverses the directions of the morphisms. —— nLab&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;Basically it&#x27;s the &amp;quot;reversed&amp;quot; version of covariant functor.&lt;&#x2F;p&gt;
+&lt;p&gt;Basically it&#x27;s the &quot;reversed&quot; version of covariant functor.&lt;&#x2F;p&gt;
 &lt;p&gt;In Haskell:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Contravariant &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;contramap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f b
@@ -1512,7 +1766,7 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A Profunctor is just a bifunctor that is contravariant in the first argument and covariant in the second. What&#x27;s the problem? —— &lt;a href=&quot;https:&#x2F;&#x2F;www.schoolofhaskell.com&#x2F;user&#x2F;liyang&#x2F;profunctors#profunctors&quot;&gt;School of Haskell&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;So we just &amp;quot;reverse&amp;quot; the first argument of &lt;code&gt;Bifunctor&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;p&gt;So we just &quot;reverse&quot; the first argument of &lt;code&gt;Bifunctor&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Profunctor &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;dimap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;c &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f c d
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
@@ -1521,7 +1775,7 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;    dimap ca bd ab = bd . ab . ca
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;If you are familiar with &amp;quot;tradition&amp;quot; programming languages like Java or C#, you may have heard of &amp;quot;covariant&amp;quot; and &amp;quot;contravariant&amp;quot; before. For example, if type &lt;code&gt;A&lt;&#x2F;code&gt; is subtype of &lt;code&gt;B&lt;&#x2F;code&gt;, then &lt;code&gt;IEnumerable&amp;lt;A&amp;gt;&lt;&#x2F;code&gt; is subtype of &lt;code&gt;IEnumerable&amp;lt;B&amp;gt;&lt;&#x2F;code&gt;, so &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is covariant on &lt;code&gt;T&lt;&#x2F;code&gt;. And similarly, &lt;code&gt;Action&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is contravariant on &lt;code&gt;T&lt;&#x2F;code&gt;. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.&lt;&#x2F;p&gt;
+&lt;p&gt;If you are familiar with &quot;tradition&quot; programming languages like Java or C#, you may have heard of &quot;covariant&quot; and &quot;contravariant&quot; before. For example, if type &lt;code&gt;A&lt;&#x2F;code&gt; is subtype of &lt;code&gt;B&lt;&#x2F;code&gt;, then &lt;code&gt;IEnumerable&amp;lt;A&amp;gt;&lt;&#x2F;code&gt; is subtype of &lt;code&gt;IEnumerable&amp;lt;B&amp;gt;&lt;&#x2F;code&gt;, so &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is covariant on &lt;code&gt;T&lt;&#x2F;code&gt;. And similarly, &lt;code&gt;Action&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is contravariant on &lt;code&gt;T&lt;&#x2F;code&gt;. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
         
@@ -1831,7 +2085,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Here &lt;code&gt;!&lt;&#x2F;code&gt; is the morphism from &lt;code&gt;⊥&lt;&#x2F;code&gt; to &lt;code&gt;A&lt;&#x2F;code&gt;. And &lt;code&gt;!-unique&lt;&#x2F;code&gt; is the proof of the uniqueness, while the definition of &lt;code&gt;≈&lt;&#x2F;code&gt;, which means isomorphism equal, is defined &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;agda&#x2F;agda-categories&#x2F;blob&#x2F;4b93392b7656c6a27c75f05d6eec1b3ceb410af5&#x2F;src&#x2F;Categories&#x2F;Morphism&#x2F;IsoEquiv.agda&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;products-and-coproducts&quot;&gt;Products and Coproducts&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;In category theory, the product of two (or more) objects in a category is a notion designed to capture the essence behind constructions in other areas of mathematics such as ... Essentially, the product of a family of objects is the &amp;quot;most general&amp;quot; object which admits a morphism to each of the given objects. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;p&gt;In category theory, the product of two (or more) objects in a category is a notion designed to capture the essence behind constructions in other areas of mathematics such as ... Essentially, the product of a family of objects is the &quot;most general&quot; object which admits a morphism to each of the given objects. —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzFcXHRpbWVzIFhfMiJdLFs0LDIsIlhfMiJdLFswLDIsIlhfMSJdLFsyLDAsIlkiXSxbMCwyLCJcXHBpXzEiXSxbMCwxLCJcXHBpXzIiLDJdLFszLDIsImZfMSIsMl0sWzMsMSwiZl8yIl0sWzMsMCwiZiIsMV1d --&gt;
 &lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzFcXHRpbWVzIFhfMiJdLFs0LDIsIlhfMiJdLFswLDIsIlhfMSJdLFsyLDAsIlkiXSxbMCwyLCJcXHBpXzEiXSxbMCwxLCJcXHBpXzIiLDJdLFszLDIsImZfMSIsMl0sWzMsMSwiZl8yIl0sWzMsMCwiZiIsMV1d&amp;embed&quot; width=&quot;370&quot; height=&quot;216&quot; style=&quot;border-radius: 8px; border: none; width: 370px; height: 216px;&quot;&gt;&lt;&#x2F;iframe&gt;
@@ -1839,7 +2093,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;A product of two objects $X_1$ and $X_2$ is the object $X_1\times X_2$ equipped with two projections such that for any other object $Y$ equipped with two projections there is a unique morphism $f$ from $Y$ to $X_1\times X_2$ that factorizes those projections.&lt;&#x2F;p&gt;
 &lt;p&gt;Similarly, we can define coproducts:&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;The coproduct of a family of objects is essentially the &amp;quot;least specific&amp;quot; object to which each object in the family admits a morphism. It is the category-theoretic dual notion to the categorical product, which means the definition is the same as the product but with all arrows reversed. —— Wikipedia&lt;&#x2F;p&gt;
+&lt;p&gt;The coproduct of a family of objects is essentially the &quot;least specific&quot; object to which each object in the family admits a morphism. It is the category-theoretic dual notion to the categorical product, which means the definition is the same as the product but with all arrows reversed. —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzErWF8yIl0sWzAsMiwiWF8xIl0sWzQsMiwiWF8yIl0sWzIsMCwiWSJdLFsxLDAsImlfMSIsMl0sWzIsMCwiaV8yIl0sWzAsMywiZiIsMV0sWzEsMywiZl8xIl0sWzIsMywiZl8yIiwyXV0= --&gt;
 &lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsNCxbMiwyLCJYXzErWF8yIl0sWzAsMiwiWF8xIl0sWzQsMiwiWF8yIl0sWzIsMCwiWSJdLFsxLDAsImlfMSIsMl0sWzIsMCwiaV8yIl0sWzAsMywiZiIsMV0sWzEsMywiZl8xIl0sWzIsMywiZl8yIiwyXV0=&amp;embed&quot; width=&quot;370&quot; height=&quot;216&quot; style=&quot;border-radius: 8px; border: none; width: 370px; height: 216px;&quot;&gt;&lt;&#x2F;iframe&gt;
@@ -1913,7 +2167,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ret &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%c
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;This IR is correct, but you may see that to prevent assigning to &lt;code&gt;c&lt;&#x2F;code&gt; in two different basic blocks, which makes it no longer a valid SSA, we &amp;quot;cheat&amp;quot; by &amp;quot;leaking&amp;quot; it to the memory and using &lt;code&gt;load&lt;&#x2F;code&gt; and &lt;code&gt;store&lt;&#x2F;code&gt; to access it. You may do this for every local variable you faced when translating a high-level language to SSA-like IR, I can promise the functions will work as expected.&lt;&#x2F;p&gt;
+&lt;p&gt;This IR is correct, but you may see that to prevent assigning to &lt;code&gt;c&lt;&#x2F;code&gt; in two different basic blocks, which makes it no longer a valid SSA, we &quot;cheat&quot; by &quot;leaking&quot; it to the memory and using &lt;code&gt;load&lt;&#x2F;code&gt; and &lt;code&gt;store&lt;&#x2F;code&gt; to access it. You may do this for every local variable you faced when translating a high-level language to SSA-like IR, I can promise the functions will work as expected.&lt;&#x2F;p&gt;
 &lt;p&gt;However, memory access is always much slower than register access. So we do want to try to move those in-memory variables to the registers&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; and keep it an SSA meanwhile.&lt;&#x2F;p&gt;
 &lt;p&gt;So those crazy computer scientists invented the infamous &lt;code&gt;phi&lt;&#x2F;code&gt; node.&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
@@ -1941,7 +2195,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Let&#x27;s re-consider where we need to put a phi node.&lt;&#x2F;p&gt;
 &lt;p&gt;We can start with a trivial judgment:&lt;&#x2F;p&gt;
 &lt;p&gt;For an existing &lt;code&gt;load&lt;&#x2F;code&gt; statement, if the last &lt;code&gt;store&lt;&#x2F;code&gt; statement can be in two (or more) different basic blocks, then we have to insert a phi node for it&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
-&lt;p&gt;Then the problem is how to judge whether &amp;quot;the last &lt;code&gt;store&lt;&#x2F;code&gt; statement can be in two (or more) different basic blocks&amp;quot;.
+&lt;p&gt;Then the problem is how to judge whether &quot;the last &lt;code&gt;store&lt;&#x2F;code&gt; statement can be in two (or more) different basic blocks&quot;.
 By using a control-flow graph, we can express this as:&lt;&#x2F;p&gt;
 &lt;p&gt;There exist two different paths from the entry block to the basic block the &lt;code&gt;load&lt;&#x2F;code&gt; statement is in, and the last &lt;code&gt;store&lt;&#x2F;code&gt;s on these paths are different.&lt;&#x2F;p&gt;
 &lt;p&gt;Let&#x27;s switch to the &lt;code&gt;store&lt;&#x2F;code&gt;&#x27;s perspective:&lt;&#x2F;p&gt;
@@ -2050,7 +2304,7 @@ flowchart TD
     id7 --&amp;gt; id8
     id8 --&amp;gt; id9
 &lt;&#x2F;div&gt;&lt;h3 id=&quot;decide-which-value-to-use&quot;&gt;Decide which value to use&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h3&gt;
-&lt;p&gt;Now we should decide the &amp;quot;sources&amp;quot; of the &lt;code&gt;phi&lt;&#x2F;code&gt; nodes, and in the meantime, we can also&lt;&#x2F;p&gt;
+&lt;p&gt;Now we should decide the &quot;sources&quot; of the &lt;code&gt;phi&lt;&#x2F;code&gt; nodes, and in the meantime, we can also&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;remove the &lt;code&gt;load&lt;&#x2F;code&gt;s to the variable and replace it with the values generated by &lt;code&gt;phi&lt;&#x2F;code&gt; or &lt;code&gt;store&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
 &lt;li&gt;remove the &lt;code&gt;store&lt;&#x2F;code&gt;s.&lt;&#x2F;li&gt;
@@ -2121,7 +2375,7 @@ flowchart TD
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h3 id=&quot;example-1&quot;&gt;Example&lt;&#x2F;h3&gt;
-&lt;p&gt;We still use the control flow graph mentioned in the &lt;code&gt;phi&lt;&#x2F;code&gt;-inserting process, this time I&#x27;ll add some statements that &amp;quot;use&amp;quot; the variable &lt;code&gt;a&lt;&#x2F;code&gt; to show the variable value replacement result.&lt;&#x2F;p&gt;
+&lt;p&gt;We still use the control flow graph mentioned in the &lt;code&gt;phi&lt;&#x2F;code&gt;-inserting process, this time I&#x27;ll add some statements that &quot;use&quot; the variable &lt;code&gt;a&lt;&#x2F;code&gt; to show the variable value replacement result.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
     id0(Entry)
@@ -2220,7 +2474,7 @@ flowchart TD
 &lt;p&gt;Note the phi node doesn&#x27;t have to be put in the basic block the &lt;code&gt;load&lt;&#x2F;code&gt; statement is in, we can put it in a basic block that after this store but dominate this &lt;code&gt;load&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
-&lt;p&gt;LLVM calls this process &amp;quot;renaming&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;LLVM calls this process &quot;renaming&quot;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
 &lt;p&gt;Here we have a good example of why mem2reg is important: obviously, &lt;code&gt;t0&lt;&#x2F;code&gt; can be replaced with constant value &lt;code&gt;2&lt;&#x2F;code&gt;, which is hard to be discovered before mem2reg.&lt;&#x2F;p&gt;
@@ -2291,7 +2545,7 @@ flowchart TD
 &lt;p&gt;Note we require the length of the line segment&#x27;s length to be a non-negative rational number.&lt;&#x2F;p&gt;
 &lt;p&gt;We use rational number here, because we often needs to take point of n-section on a line segment, since rational number is almost closed under division, it&#x27;s convenient to represent line length in this way.&lt;&#x2F;p&gt;
 &lt;p&gt;Though not used in this post, we can define a function to cast zero-length line segment back and forth to a single point.&lt;&#x2F;p&gt;
-&lt;p&gt;And we can &amp;quot;reverse&amp;quot; a line:&lt;&#x2F;p&gt;
+&lt;p&gt;And we can &quot;reverse&quot; a line:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;line&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sym &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;LineSegment&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;LineSegment
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;line&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sym ls &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lineSeg&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;LineSegment&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;to ls&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;LineSegment&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;from ls&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;LineSegment&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;lineLength ls&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;LineSegment&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;nonNegative ls&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
@@ -2447,7 +2701,7 @@ flowchart TD
 1 + 1 &amp;gt; 1
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;(This one is used in proving that there must be two different intersection points for two circles with a radius of 1 when proving Proposition 1 in Στοιχεῖα)&lt;&#x2F;p&gt;
-&lt;p&gt;In fact, when I first encountered this problem, I found it difficult to prove this &amp;quot;obvious&amp;quot; proposition&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, especially when these &lt;code&gt;1&lt;&#x2F;code&gt;s are actually &lt;code&gt;1ℚ&lt;&#x2F;code&gt;. I tried hard to find a tool to do this in the stdlib and finally discovered those &lt;code&gt;Decidable&lt;&#x2F;code&gt; related concepts.&lt;&#x2F;p&gt;
+&lt;p&gt;In fact, when I first encountered this problem, I found it difficult to prove this &quot;obvious&quot; proposition&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, especially when these &lt;code&gt;1&lt;&#x2F;code&gt;s are actually &lt;code&gt;1ℚ&lt;&#x2F;code&gt;. I tried hard to find a tool to do this in the stdlib and finally discovered those &lt;code&gt;Decidable&lt;&#x2F;code&gt; related concepts.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;how-to-prove-2-3&quot;&gt;How to prove 2 ≤ 3&lt;&#x2F;h2&gt;
 &lt;p&gt;Let&#x27;s start small, how can we provide &lt;em&gt;evidence&lt;&#x2F;em&gt; that &lt;code&gt;2 ≤ 3&lt;&#x2F;code&gt;, when &lt;code&gt;2&lt;&#x2F;code&gt; and &lt;code&gt;3&lt;&#x2F;code&gt; are &lt;code&gt;ℕ&lt;&#x2F;code&gt;s in Agda?&lt;&#x2F;p&gt;
 &lt;p&gt;Examine the definition of &lt;code&gt;≤&lt;&#x2F;code&gt; in &lt;code&gt;Data.Nat.Base&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
@@ -2554,7 +2808,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proof&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;′ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;P&lt;&#x2F;span&gt;&lt;span&gt;→&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Q Q&lt;&#x2F;span&gt;&lt;span&gt;→&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;P&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;true  because&lt;&#x2F;span&gt;&lt;span&gt;  [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p&lt;&#x2F;span&gt;&lt;span&gt;])) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ofʸ&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;P&lt;&#x2F;span&gt;&lt;span&gt;→&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Q&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invert&lt;&#x2F;span&gt;&lt;span&gt; [&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p&lt;&#x2F;span&gt;&lt;span&gt;]))
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proof&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;′ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;P&lt;&#x2F;span&gt;&lt;span&gt;→&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Q Q&lt;&#x2F;span&gt;&lt;span&gt;→&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;P&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;false because&lt;&#x2F;span&gt;&lt;span&gt; [¬&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p&lt;&#x2F;span&gt;&lt;span&gt;])) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ofⁿ&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;invert&lt;&#x2F;span&gt;&lt;span&gt; [¬&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;p&lt;&#x2F;span&gt;&lt;span&gt;] ∘ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Q&lt;&#x2F;span&gt;&lt;span&gt;→&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;P&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;So &lt;code&gt;map′&lt;&#x2F;code&gt; means that if two propositions are in an &amp;quot;iff&amp;quot; relation, and one of them is &lt;code&gt;Dec&lt;&#x2F;code&gt;, then the other is also &lt;code&gt;Dec&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;So &lt;code&gt;map′&lt;&#x2F;code&gt; means that if two propositions are in an &quot;iff&quot; relation, and one of them is &lt;code&gt;Dec&lt;&#x2F;code&gt;, then the other is also &lt;code&gt;Dec&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;Now we can return to &lt;code&gt;≤?&lt;&#x2F;code&gt; and understand what it is:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;≤?&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Decidable &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;≤&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m &lt;&#x2F;span&gt;&lt;span&gt;≤? &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;′ (≤ᵇ⇒≤ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m n&lt;&#x2F;span&gt;&lt;span&gt;) ≤⇒≤ᵇ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;? (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m &lt;&#x2F;span&gt;&lt;span&gt;≤ᵇ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;))
@@ -2598,7 +2852,7 @@ Therefore, it is always preferable to use &lt;code&gt;Decidable&lt;&#x2F;code&gt
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;≟&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_ &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Decidable &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℕ&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;≡&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m &lt;&#x2F;span&gt;&lt;span&gt;≟ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;map&lt;&#x2F;span&gt;&lt;span&gt;′ (≡ᵇ⇒≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m n&lt;&#x2F;span&gt;&lt;span&gt;) (≡⇒≡ᵇ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m n&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;T&lt;&#x2F;span&gt;&lt;span&gt;? (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m &lt;&#x2F;span&gt;&lt;span&gt;≡ᵇ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;n&lt;&#x2F;span&gt;&lt;span&gt;))
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;By requiring an &lt;code&gt;≢0&lt;&#x2F;code&gt; instance (instead of requiring a &amp;quot;real&amp;quot; evidence of &lt;code&gt;n ≢ 0&lt;&#x2F;code&gt;), we can omit the proof when using number literals:&lt;&#x2F;p&gt;
+&lt;p&gt;By requiring an &lt;code&gt;≢0&lt;&#x2F;code&gt; instance (instead of requiring a &quot;real&quot; evidence of &lt;code&gt;n ≢ 0&lt;&#x2F;code&gt;), we can omit the proof when using number literals:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;half &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℚ
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;half &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;ℤ &lt;&#x2F;span&gt;&lt;span&gt;&#x2F; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
@@ -2624,12 +2878,12 @@ Therefore, it is always preferable to use &lt;code&gt;Decidable&lt;&#x2F;code&gt
         <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/restart-math-logic-8/"/>
         <id>https://longfangsong.github.io/en/restart-math-logic-8/</id>
         
-        <content type="html" xml:base="https://longfangsong.github.io/en/restart-math-logic-8/">&lt;p&gt;I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$. &lt;&#x2F;p&gt;
+        <content type="html" xml:base="https://longfangsong.github.io/en/restart-math-logic-8/">&lt;p&gt;I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$.&lt;&#x2F;p&gt;
 &lt;p&gt;I&#x27;ll start with the algorithms for OBDDs because the definition of BDD and OBDD is simple and intuitive, but I&#x27;ll still put the code which implements this data structure here.&lt;&#x2F;p&gt;
 &lt;p&gt;(All BDDs in this article are ordered.)&lt;&#x2F;p&gt;
 &lt;p&gt;You can view code of a working implementation &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;logic-lab&#x2F;blob&#x2F;main&#x2F;src&#x2F;binary_decision_diagram.rs&quot;&gt;here&lt;&#x2F;a&gt;. And there&#x27;s also a demo of the code (ported to the browser via wasm) by the end of this article.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;convert-from-formulas&quot;&gt;Convert from formulas&lt;&#x2F;h3&gt;
-&lt;p&gt;Though the book didn&#x27;t mention this algorithm, I still want to write this, 
+&lt;p&gt;Though the book didn&#x27;t mention this algorithm, I still want to write this,
 because in real life, most of times we get logic formulas instead of BDDs as user input.&lt;&#x2F;p&gt;
 &lt;p&gt;So suppose we already have a (parsed) logic formula $f$, and we can have all atom variables inside it $v$, we can have a recursive algorithm to convert it into a BDD.&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -2666,7 +2920,7 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD &lt;&#x2F;span&gt;&lt;span&gt;{ root, tree }
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;Actually this algorithm is similar with &amp;quot;recursive Shannon expansion&amp;quot;, which we&#x27;ll use again in &lt;code&gt;apply&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Actually this algorithm is similar with &quot;recursive Shannon expansion&quot;, which we&#x27;ll use again in &lt;code&gt;apply&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;complexity&quot;&gt;Complexity&lt;&#x2F;h4&gt;
 &lt;p&gt;Once the formula&#x27;s variables count increased by 1, we need to do 2 more recursive calls with 1 less variable.&lt;&#x2F;p&gt;
 &lt;p&gt;Presume the graph is implemented in an efficient enough way, we have $T(n)=2T(n-1)+O(1)$, which lead us to $O(2^n)$, where $n$ is variable count.&lt;&#x2F;p&gt;
@@ -2727,7 +2981,7 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;complexity-1&quot;&gt;Complexity&lt;&#x2F;h4&gt;
-&lt;p&gt;This algorithm considers each node once, and for &lt;code&gt;BinaryHeap&lt;&#x2F;code&gt; &amp;quot;Insertion and popping the largest element have O(log(n)) time complexity&amp;quot;, so the complexity is $O(nlogn)$, where $n$ is the origin BDD&#x27;s node count.&lt;&#x2F;p&gt;
+&lt;p&gt;This algorithm considers each node once, and for &lt;code&gt;BinaryHeap&lt;&#x2F;code&gt; &quot;Insertion and popping the largest element have O(log(n)) time complexity&quot;, so the complexity is $O(nlogn)$, where $n$ is the origin BDD&#x27;s node count.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;apply&quot;&gt;Apply&lt;&#x2F;h3&gt;
 &lt;p&gt;We can view this operation as an abstract over $\text{&amp;amp;}$ and $|$ operations on boolean functions, ie. &lt;strong&gt;apply&lt;&#x2F;strong&gt; a &lt;code&gt;fn (bool, bool) -&amp;gt; bool&lt;&#x2F;code&gt; to two boolean functions.&lt;&#x2F;p&gt;
 &lt;p&gt;So basically we just split the &lt;code&gt;true&lt;&#x2F;code&gt; and &lt;code&gt;false&lt;&#x2F;code&gt; case for every single variable, and apply the function to the rest of the function.&lt;&#x2F;p&gt;
@@ -2834,11 +3088,11 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 &lt;p&gt;If the data structure is efficient enough, this operation&#x27;s complexity is $O(n\cdot e_{avg})$, where $n$ is the count of nodes of this variable, and $e_{avg}$ is the average incoming edge count of these nodes.&lt;&#x2F;p&gt;
 &lt;p&gt;However we always needs to &lt;code&gt;reduce&lt;&#x2F;code&gt; once after &lt;code&gt;restrict&lt;&#x2F;code&gt;, which is usually more expensive than &lt;code&gt;restrict&lt;&#x2F;code&gt; itself.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;exists&quot;&gt;Exists&lt;&#x2F;h3&gt;
-&lt;p&gt;$∃x.f$ means &amp;quot;whether $f$ can be true by make $x$ be true or false&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;$∃x.f$ means &quot;whether $f$ can be true by make $x$ be true or false&quot;.&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;exists&lt;&#x2F;span&gt;&lt;span&gt;(bdd, x) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;restrict&lt;&#x2F;span&gt;&lt;span&gt;(bdd, x, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;false&lt;&#x2F;span&gt;&lt;span&gt;) | &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;restrict&lt;&#x2F;span&gt;&lt;span&gt;(bdd, x, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;true&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;So a naive method is simply calculate &lt;code&gt;restrict(bdd, x, false)&lt;&#x2F;code&gt; and &lt;code&gt;restrict(bdd, x, true)&lt;&#x2F;code&gt;, then apply &lt;code&gt;|&lt;&#x2F;code&gt; on the results.&lt;&#x2F;p&gt;
-&lt;p&gt;An possible optimization is that since the structure &amp;quot;before&amp;quot; x in the BDDs are identical, we just needs to do &lt;code&gt;restrict(bdd rooted in x, x, false) | restrict(bdd rooted in x, x, false)&lt;&#x2F;code&gt;, and &lt;code&gt;restrict(bdd rooted in x, x, bool)&lt;&#x2F;code&gt; is actually the left&#x2F;right child of &lt;code&gt;bdd rooted in x&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;An possible optimization is that since the structure &quot;before&quot; x in the BDDs are identical, we just needs to do &lt;code&gt;restrict(bdd rooted in x, x, false) | restrict(bdd rooted in x, x, false)&lt;&#x2F;code&gt;, and &lt;code&gt;restrict(bdd rooted in x, x, bool)&lt;&#x2F;code&gt; is actually the left&#x2F;right child of &lt;code&gt;bdd rooted in x&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;So the algorithm is:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;exists&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bdd&lt;&#x2F;span&gt;&lt;span&gt;: BDD, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;variable&lt;&#x2F;span&gt;&lt;span&gt;: Atom) -&amp;gt; BDD {
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; result = bdd.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;clone&lt;&#x2F;span&gt;&lt;span&gt;();
@@ -2935,7 +3189,7 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 &lt;li&gt;A relation $R$ on $W$&lt;&#x2F;li&gt;
 &lt;li&gt;A function $L : W → \mathcal{P}(Atoms)$, called the labelling function, basically this function give us information about which atom props are true.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;p&gt;Definition 5.4 on the book gives us a method on how we can use the model, basically $x \Vdash \phi$ means &amp;quot;$\phi$ is true in world x&amp;quot;, and we have a bunch of structural induction rules to form such a formula.&lt;&#x2F;p&gt;
+&lt;p&gt;Definition 5.4 on the book gives us a method on how we can use the model, basically $x \Vdash \phi$ means &quot;$\phi$ is true in world x&quot;, and we have a bunch of structural induction rules to form such a formula.&lt;&#x2F;p&gt;
 &lt;p&gt;A model $\mathcal{M} = (W, R, L)$ of basic modal logic is said to satisfy a formula if every state in the model satisfies it.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;formula-scheme&quot;&gt;Formula scheme&lt;&#x2F;h3&gt;
 &lt;p&gt;All formulas which are same with each other on several top levels in their parsing tree are in the same formula scheme.&lt;&#x2F;p&gt;
@@ -2996,24 +3250,24 @@ $$&lt;&#x2F;p&gt;
 (|x &amp;gt; 0|) P (|y\times y &amp;lt; x|)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;So to prove the correctness of any program P, we need to assume a $\phi$ and get a $\psi$ with $P$ in some certain ways.&lt;&#x2F;p&gt;
-&lt;p&gt;However, the possible result of P executing in $\phi$ is not just $\psi$ or $\neg\psi$, it&#x27;s also possible that P never terminates (if you are using a turing complete language, it is totally possible to write a dead loop), so we can distinguish partial correctness, which just assume the program will eventually terminate, and complete correctness, which needs a proof of it. &lt;&#x2F;p&gt;
+&lt;p&gt;However, the possible result of P executing in $\phi$ is not just $\psi$ or $\neg\psi$, it&#x27;s also possible that P never terminates (if you are using a turing complete language, it is totally possible to write a dead loop), so we can distinguish partial correctness, which just assume the program will eventually terminate, and complete correctness, which needs a proof of it.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;proof-calculus-for-partial-correctness&quot;&gt;Proof calculus for partial correctness&lt;&#x2F;h3&gt;
 &lt;h4 id=&quot;rules&quot;&gt;Rules&lt;&#x2F;h4&gt;
 &lt;p&gt;Ref figure 4.1 of the book.&lt;&#x2F;p&gt;
-&lt;p&gt;Note in &amp;quot;Implied&amp;quot; rule &amp;quot;AR&amp;quot; means arithmetic&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;Note in &quot;Implied&quot; rule &quot;AR&quot; means arithmetic&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;weakest-precondition&quot;&gt;Weakest Precondition&lt;&#x2F;h4&gt;
 &lt;p&gt;For each $\psi&#x27;$ after a $C$, we can get a $\psi$ before $C$, which can lead to $\psi&#x27;$ after $C$ by using one of the rules.&lt;&#x2F;p&gt;
-&lt;p&gt;The only difficult rule to apply here is the &amp;quot;Partial-while&amp;quot; rule. Which needs part of $\psi&#x27;$ is a &amp;quot;loop invariant&amp;quot;, which holds before each iteration of the loop starts and still holds after the whole loop.&lt;&#x2F;p&gt;
-&lt;p&gt;Unfortunately, finding such a loop invariant is not easy, it needs &amp;quot;intelligence and ingenuity&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;The only difficult rule to apply here is the &quot;Partial-while&quot; rule. Which needs part of $\psi&#x27;$ is a &quot;loop invariant&quot;, which holds before each iteration of the loop starts and still holds after the whole loop.&lt;&#x2F;p&gt;
+&lt;p&gt;Unfortunately, finding such a loop invariant is not easy, it needs &quot;intelligence and ingenuity&quot;.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;proof-calculus-for-total-correctness&quot;&gt;Proof calculus for total correctness&lt;&#x2F;h3&gt;
-&lt;p&gt;Proof calculus for total correctness is similar to partial correctness, we just need to add a proof to show the loops will eventually terminated, this is usually done by &amp;quot;identify an integer expression whose value can be shown to decrease every time we execute the body of the while-statement in question, but which is always non-negative&amp;quot;.&lt;&#x2F;p&gt;
-&lt;p&gt;However it is not always possible to find such a proof, for example, I believe Collatz program terminates, but human beings haven&#x27;t found a way to show it terminates. &lt;&#x2F;p&gt;
+&lt;p&gt;Proof calculus for total correctness is similar to partial correctness, we just need to add a proof to show the loops will eventually terminated, this is usually done by &quot;identify an integer expression whose value can be shown to decrease every time we execute the body of the while-statement in question, but which is always non-negative&quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;However it is not always possible to find such a proof, for example, I believe Collatz program terminates, but human beings haven&#x27;t found a way to show it terminates.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;programming-by-contract&quot;&gt;Programming by contract&lt;&#x2F;h3&gt;
 &lt;p&gt;Good methodology, not feasible in most commercial softwares nowadays.&lt;&#x2F;p&gt;
 &lt;p&gt;Nowadays there do exists some languages that support programming by contract, like &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;dafny-lang&#x2F;dafny&quot;&gt;Dafny&lt;&#x2F;a&gt;, but they are not widely used. It&#x27;s understandable, because it costs too much effort to practice. Most software just want to hit the market fast and get quick responses rather than being correct at the first place.&lt;&#x2F;p&gt;
-&lt;p&gt;It might be a serious problem for program verification, few programs can be &amp;quot;specified&amp;quot; before being written, and since requirements changes rapidly, it&#x27;s hard to keep the specification, the requirements and the program in sync. And all the verification work is quiet hard and requires &amp;quot;intelligence and ingenuity&amp;quot;, a verification checker is sometimes annoying&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, even if it is, in most of times, correct.&lt;&#x2F;p&gt;
+&lt;p&gt;It might be a serious problem for program verification, few programs can be &quot;specified&quot; before being written, and since requirements changes rapidly, it&#x27;s hard to keep the specification, the requirements and the program in sync. And all the verification work is quiet hard and requires &quot;intelligence and ingenuity&quot;, a verification checker is sometimes annoying&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, even if it is, in most of times, correct.&lt;&#x2F;p&gt;
 &lt;p&gt;Honestly, though I love the idea of programming by contract (and I always add as much asserts I can in my programs), I have to admit it&#x27;s not a good idea for nowadays software industry, which develops in a crazy speed. We just pile up shitty code to satisfied the customer. Correctness is not the most important thing here, but profitable is.&lt;&#x2F;p&gt;
-&lt;p&gt;Personally I think a gradual way of introducing verification into industrial languages might be a feasible approach. We can provide tools in language to enable the programmer to proof only the core logic of a program, and maybe with several &amp;quot;sorry&amp;quot; or &amp;quot;trustMe&amp;quot; for complex details.&lt;&#x2F;p&gt;
+&lt;p&gt;Personally I think a gradual way of introducing verification into industrial languages might be a feasible approach. We can provide tools in language to enable the programmer to proof only the core logic of a program, and maybe with several &quot;sorry&quot; or &quot;trustMe&quot; for complex details.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;Why you mathematician guys love using abbreviation.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
@@ -3044,7 +3298,7 @@ $$&lt;&#x2F;p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;... category theory is the mathematical study of (abstract) algebras of functions. —— &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
-&lt;p&gt;For me, learning category theory enables me to understand what on earth is &amp;quot;a monoid in the category of endofunctors&amp;quot;, and it helps me to learn HoTT.&lt;&#x2F;p&gt;
+&lt;p&gt;For me, learning category theory enables me to understand what on earth is &quot;a monoid in the category of endofunctors&quot;, and it helps me to learn HoTT.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;function-of-sets&quot;&gt;Function of Sets&lt;&#x2F;h2&gt;
 &lt;p&gt;Nothing too much to say here, only some notations here.&lt;&#x2F;p&gt;
 &lt;p&gt;Identity function in the books I am using (primary &lt;em&gt;Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Steve Awodey&lt;&#x2F;em&gt;, but I&#x27;m also referring to &lt;em&gt;Beginning Category Theory&lt;&#x2F;em&gt; by &lt;em&gt;Peter Smith&lt;&#x2F;em&gt;) is written as&lt;&#x2F;p&gt;
@@ -3056,7 +3310,7 @@ $$&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;Contains objects and arrows (you can consider arrows as something like functions since it makes it simpler, but they don&#x27;t have to be functions actually) between them&lt;&#x2F;li&gt;
 &lt;li&gt;The arrows can composite with each other and obey the associativity rule&lt;&#x2F;li&gt;
-&lt;li&gt;For each object, there exists an identity arrow, which is also the &amp;quot;unit&amp;quot; arrow when compositing with other arrows.&lt;&#x2F;li&gt;
+&lt;li&gt;For each object, there exists an identity arrow, which is also the &quot;unit&quot; arrow when compositing with other arrows.&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;p&gt;In Agda, simplified:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;record &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Category&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;o ℓ e &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Level&lt;&#x2F;span&gt;&lt;span&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;suc&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;o &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;ℓ &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;e&lt;&#x2F;span&gt;&lt;span&gt;)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
@@ -3096,7 +3350,7 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.&lt;&#x2F;p&gt;
 &lt;p&gt;A monoid is a category with only one object, and the arrows are the monoid&#x27;s elements. The identity arrow is the unit element, and the composite of arrows is the monoid&#x27;s operation.&lt;&#x2F;p&gt;
 &lt;p&gt;For any object $C$ in any category $\textbf{C}$, the set of arrows from $C$ to $C$, written as $Hom_{\textbf{C}}(C,C)$, is a monoid under the composition operation of $\textbf{C}$&lt;&#x2F;p&gt;
 &lt;p&gt;Monoids are structured sets, there is a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.&lt;&#x2F;p&gt;
-&lt;p&gt;A &lt;a href=&quot;https:&#x2F;&#x2F;ncatlab.org&#x2F;nlab&#x2F;show&#x2F;homomorphism&quot;&gt;homomorphism&lt;&#x2F;a&gt; from $M$ to $N$ is the same thing as a functor from &amp;quot;$M$ as category&amp;quot; to &amp;quot;$N$ as category&amp;quot;, so:&lt;&#x2F;p&gt;
+&lt;p&gt;A &lt;a href=&quot;https:&#x2F;&#x2F;ncatlab.org&#x2F;nlab&#x2F;show&#x2F;homomorphism&quot;&gt;homomorphism&lt;&#x2F;a&gt; from $M$ to $N$ is the same thing as a functor from &quot;$M$ as category&quot; to &quot;$N$ as category&quot;, so:&lt;&#x2F;p&gt;
 &lt;p&gt;Category can be considered as a kind of &lt;em&gt;generalized monoid&lt;&#x2F;em&gt;. And functor can be regarded as a generalized homomorphism.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;free-category&quot;&gt;Free category&lt;&#x2F;h3&gt;
 &lt;blockquote&gt;
@@ -3111,7 +3365,7 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;isomorphism&quot;&gt;Isomorphism&lt;&#x2F;h2&gt;
 &lt;p&gt;In a category, an arrow can be called an isomorphism if it has an inverse.&lt;&#x2F;p&gt;
 &lt;p&gt;If there exists an isomorphism between object $A$ and $B$ in category $C$, we say $A$ is isomorphic to $B$, and write $A \cong B$.&lt;&#x2F;p&gt;
-&lt;p&gt;Intuitively we can think isomorphism is a way to say that two objects are &amp;quot;similar&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;Intuitively we can think isomorphism is a way to say that two objects are &quot;similar&quot;.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;large-small-category&quot;&gt;Large&#x2F;Small Category&lt;&#x2F;h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;A category is small if it has a small set of objects and a small set of morphisms. —— nLab&lt;&#x2F;p&gt;
@@ -3122,8 +3376,10 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;And large categories are those which are not small.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;&lt;del&gt;I&#x27;m considering doing these kinds of proof in Agda, however, I&#x27;m not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)&lt;&#x2F;del&gt; I think it is OK to do so, ref &lt;a href=&quot;https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2005.07059.pdf&quot;&gt;this paper&lt;&#x2F;a&gt;. I&#x27;ll use the &lt;code&gt;agda-categories&lt;&#x2F;code&gt; library for explanation.
-&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: For example, the class of all sets is not a set, but a proper class.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;del&gt;I&#x27;m considering doing these kinds of proof in Agda, however, I&#x27;m not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)&lt;&#x2F;del&gt; I think it is OK to do so, ref &lt;a href=&quot;https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2005.07059.pdf&quot;&gt;this paper&lt;&#x2F;a&gt;. I&#x27;ll use the &lt;code&gt;agda-categories&lt;&#x2F;code&gt; library for explanation.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;For example, the class of all sets is not a set, but a proper class.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
         
@@ -3156,7 +3412,7 @@ $$&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;contr &lt;&#x2F;span&gt;&lt;span&gt;: (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;contr &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ c &lt;&#x2F;span&gt;&lt;span&gt;→ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;c&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;We call $c$ here the &lt;strong&gt;center of contraction&lt;&#x2F;strong&gt;, and call the 
+&lt;p&gt;We call $c$ here the &lt;strong&gt;center of contraction&lt;&#x2F;strong&gt;, and call the
 $$
 C: \Pi_{(x:A)} c=x
 $$
@@ -3259,7 +3515,7 @@ $$&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fib &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fib &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f b &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ A&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ a &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;And it can be regarded as type version of prop &amp;quot;b is in the image of f&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;And it can be regarded as type version of prop &quot;b is in the image of f&quot;.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;identification-of-points-in-the-fiber&quot;&gt;Identification of points in the fiber&lt;&#x2F;h3&gt;
 &lt;p&gt;For all $(a, p)$ and $(a&#x27;, p&#x27;)$ of type $fib_f(b)$ we have&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -3374,8 +3630,10 @@ $$
 $$
 $$
 H(y)
-$$
-&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;: $ev\text{-}pt$ is abbreviation for &amp;quot;evaluate at point&amp;quot;&lt;&#x2F;p&gt;
+$$&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;$ev\text{-}pt$ is abbreviation for &quot;evaluate at point&quot;&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
 </content>
         
     </entry>
@@ -3396,11 +3654,11 @@ $$
         <id>https://longfangsong.github.io/en/hottest-notes-hott-5/</id>
         
         <content type="html" xml:base="https://longfangsong.github.io/en/hottest-notes-hott-5/">&lt;h2 id=&quot;homotopies&quot;&gt;Homotopies&lt;&#x2F;h2&gt;
-&lt;p&gt;Let&#x27;s consider the type theory represent of proposition &amp;quot;$f: A → B$ is surjective&amp;quot;:&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s consider the type theory represent of proposition &quot;$f: A → B$ is surjective&quot;:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \Pi_{(y:B)}\Sigma_{(x:A)} f(x) = y
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;Note $=$ (or we should use $=_B$) here stands for this is an instance of &amp;quot;identity type&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;Note $=$ (or we should use $=_B$) here stands for this is an instance of &quot;identity type&quot;.&lt;&#x2F;p&gt;
 &lt;p&gt;Apply AC we introduced in last course:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \Sigma_{(g: B\rightarrow A)} \Pi_{(y:B)} f(g(y)) = y
@@ -3444,7 +3702,7 @@ $$&lt;&#x2F;p&gt;
 \begin{CD}
 A @&amp;gt;f&amp;gt;&amp;gt;X\\
 @VhVV \diaguparrow{g}\\
-B 
+B
 \end{CD}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;A square is similar:&lt;&#x2F;p&gt;
@@ -3564,7 +3822,7 @@ $$&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;agda&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-agda &quot;&gt;&lt;code class=&quot;language-agda&quot; data-lang=&quot;agda&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;equiv &lt;&#x2F;span&gt;&lt;span&gt;: {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;l1 l2 &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Level&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;l1&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;l2&lt;&#x2F;span&gt;&lt;span&gt;} (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;l1 &lt;&#x2F;span&gt;&lt;span&gt;⊔ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;l2&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;is&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;equiv &lt;&#x2F;span&gt;&lt;span&gt;{&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;_&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;} {&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;B&lt;&#x2F;span&gt;&lt;span&gt;} &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;sec f &lt;&#x2F;span&gt;&lt;span&gt;× &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;retr f
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;Or &amp;quot;f is bi-invertible&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;Or &quot;f is bi-invertible&quot;.&lt;&#x2F;p&gt;
 &lt;p&gt;We will write $A ≃ B$ for the type $\Sigma_{(f:A→B)} is\text{-}equiv(f)$ of all equivalences from $A$ to $B$.&lt;&#x2F;p&gt;
 &lt;&#x2F;li&gt;
 &lt;li&gt;
@@ -3632,7 +3890,7 @@ $$&lt;&#x2F;p&gt;
 z&#x27; ≐ (x&#x27;, y&#x27;)
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;By $ap_{pr_{1}}$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; we should have a $p: x \underset{A}= x&#x27;$&lt;&#x2F;p&gt;
-&lt;p&gt;Recall the $tr_B$ function we &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;#transport&quot;&gt;mentioned before&lt;&#x2F;a&gt;, with this, we can define &amp;quot;type of identifications of $y$ with $y&#x27;$ over $p$&amp;quot;:&lt;&#x2F;p&gt;
+&lt;p&gt;Recall the $tr_B$ function we &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;#transport&quot;&gt;mentioned before&lt;&#x2F;a&gt;, with this, we can define &quot;type of identifications of $y$ with $y&#x27;$ over $p$&quot;:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 (y \overset{B}{\underset{p}=} y&#x27;) := (tr_B(p,y) \underset{B(x&#x27;)}{=} y&#x27;)
 $$&lt;&#x2F;p&gt;
@@ -3669,7 +3927,7 @@ $$
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z z&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;→ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z &lt;&#x2F;span&gt;&lt;span&gt;≡ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;z&amp;#39;&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Eq&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;pair&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl &lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;refl
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;And we can find that $Eq\text{-}pair$ and $pair\text{-}Eq$ are &amp;quot;inverse&amp;quot; of each other:&lt;&#x2F;p&gt;
+&lt;p&gt;And we can find that $Eq\text{-}pair$ and $pair\text{-}Eq$ are &quot;inverse&quot; of each other:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \Pi_{(z,z&#x27;:S)} \Pi_{(w:Eq\text{-}Σ(z,z&#x27;))} Eq\text{-}pair(pair\text{-}Eq(w)) = w
 $$&lt;&#x2F;p&gt;
@@ -3705,7 +3963,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Ref &lt;a href=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-3&#x2F;#functoriality&quot;&gt;Note 3&lt;&#x2F;a&gt; if you forget the definition of $ap$.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
-&lt;p&gt;You may see a lot of proofs in this section of course are just simple combination of &lt;code&gt;refl&lt;&#x2F;code&gt;s in different types. When writing Agda code, &lt;code&gt;refl&lt;&#x2F;code&gt;s&#x27; types are omitted, one need to read the type signature of the whole function. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? Or, should the IDE at least &amp;quot;expand&amp;quot; the type when human beings are reading the code?&lt;&#x2F;p&gt;
+&lt;p&gt;You may see a lot of proofs in this section of course are just simple combination of &lt;code&gt;refl&lt;&#x2F;code&gt;s in different types. When writing Agda code, &lt;code&gt;refl&lt;&#x2F;code&gt;s&#x27; types are omitted, one need to read the type signature of the whole function. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? Or, should the IDE at least &quot;expand&quot; the type when human beings are reading the code?&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;planetmath.org&#x2F;1121pathinduction&quot;&gt;Ref&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
@@ -3756,13 +4014,13 @@ instead of writing $id_A:A\rightarrow A$ for each type, we can write $id^{\mathc
 &lt;li&gt;
 &lt;p&gt;For every finite list of types：
 $$
-\Gamma_1 \vdash A_1\ type\ \ \ \ \cdots \ \ \ \ \Gamma_n \vdash A_n\ type 
+\Gamma_1 \vdash A_1\ type\ \ \ \ \cdots \ \ \ \ \Gamma_n \vdash A_n\ type
 $$
-there is a universe $\mathcal{U}$ that contains each $A_i$ in the sense that $\mathcal{U}$ comes equipped with 
+there is a universe $\mathcal{U}$ that contains each $A_i$ in the sense that $\mathcal{U}$ comes equipped with
 $$
 \Gamma_i\vdash \check{A_i}:U
 $$
-for which the judgement 
+for which the judgement
 $$
 \Gamma_i\vdash \mathcal{T}(\check{A_i}) \doteq A_i\ type
 $$
@@ -3783,10 +4041,10 @@ $$
 \vdash \check{\mathcal{U}}: \mathcal{U^+}
 $$
 $$
-\vdash \mathcal{T}^+(\check{\mathcal{U}})\doteq \mathcal{U}\ type 
+\vdash \mathcal{T}^+(\check{\mathcal{U}})\doteq \mathcal{U}\ type
 $$
 $$
-X:\mathcal{U} \vdash \check{\mathcal{T}}(X): \mathcal{U^+} 
+X:\mathcal{U} \vdash \check{\mathcal{T}}(X): \mathcal{U^+}
 $$
 $$
 X:\mathcal{U} \vdash \mathcal{T}^+(\check{\mathcal{T}}(X)) \doteq \mathcal{T}(X)\ type
@@ -3828,7 +4086,7 @@ $$&lt;&#x2F;p&gt;
 \UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;We need a term of $\varnothing$, which can be constructed with &amp;quot;proof with contradiction&amp;quot;, we pick $True → False$ and $\neg(True → False)$.&lt;&#x2F;p&gt;
+&lt;p&gt;We need a term of $\varnothing$, which can be constructed with &quot;proof with contradiction&quot;, we pick $True → False$ and $\neg(True → False)$.&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 \require{bussproofs}
 \begin{prooftree}
@@ -3911,7 +4169,7 @@ $$&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;curry-howard-interpretation&quot;&gt;Curry-Howard interpretation&lt;&#x2F;h2&gt;
 &lt;p&gt;Definition omitted, since we&#x27;ve already very familiar with it.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;example-1&quot;&gt;Example&lt;&#x2F;h3&gt;
-&lt;p&gt;We define: if $d, n: \mathbb{N}$, 
+&lt;p&gt;We define: if $d, n: \mathbb{N}$,
 then we can say d divides n if there exists an element of type&lt;&#x2F;p&gt;
 &lt;p&gt;$$
 m | n := \Sigma_{(k:ℕ)}{k \times m = n}
@@ -3967,7 +4225,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;   ((&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;) → &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Σ B&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ y &lt;&#x2F;span&gt;&lt;span&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;x y&lt;&#x2F;span&gt;&lt;span&gt;))
 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;choice&lt;&#x2F;span&gt;&lt;span&gt;-&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;rev &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;R &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h&amp;#39; &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;λ x &lt;&#x2F;span&gt;&lt;span&gt;→ (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;fst &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h&amp;#39; x&lt;&#x2F;span&gt;&lt;span&gt;) , (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;snd &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;h&amp;#39; x&lt;&#x2F;span&gt;&lt;span&gt;)
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;However this direct &amp;quot;Curry-Howard translation&amp;quot; of AC is not as powerful as it is in set theory, I guess we move the complexity of AC to somewhere else in the type theory. Anyway, we&#x27;ll see a more complex form of AC representing in later courses.&lt;&#x2F;p&gt;
+&lt;p&gt;However this direct &quot;Curry-Howard translation&quot; of AC is not as powerful as it is in set theory, I guess we move the complexity of AC to somewhere else in the type theory. Anyway, we&#x27;ll see a more complex form of AC representing in later courses.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;materials&quot;&gt;Materials&lt;&#x2F;h2&gt;
 &lt;h3 id=&quot;lecture-note&quot;&gt;Lecture Note&lt;&#x2F;h3&gt;
 &lt;p&gt;&lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;martinescardo&#x2F;HoTTEST-Summer-School&#x2F;blob&#x2F;main&#x2F;HoTT&#x2F;HoTTEST_Lecture_4.pdf&quot;&gt;HoTTEST_Lecture_4.pdf&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
@@ -4017,9 +4275,9 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;h3 id=&quot;judgemental-equality-vs-propositional-equality&quot;&gt;Judgemental Equality vs Propositional Equality&lt;&#x2F;h3&gt;
 &lt;p&gt;Judgemental equality, or definitional equality since we won&#x27;t pay much attention to the difference in this course, is intensional equality, or equality of meaning (synonymy).
-Or in words understandable for normal human beings, definitional equality is something equals to another thing &amp;quot;magically&amp;quot;, they are equal to each other just because we SAY IT.&lt;&#x2F;p&gt;
+Or in words understandable for normal human beings, definitional equality is something equals to another thing &quot;magically&quot;, they are equal to each other just because we SAY IT.&lt;&#x2F;p&gt;
 &lt;p&gt;For example, in all the rules mentioned in past several notes and proofs built by these rules, we use judgemental equality $\doteq$.&lt;&#x2F;p&gt;
-&lt;p&gt;As we all see, there are many terms which are judgmental equal and we can prove them, but there&#x27;re also some terms which &amp;quot;should&amp;quot; be equal but we cannot prove, eg. we cannot find a proof for $add(0, x) \doteq x$, and that&#x27;s where propositional equality and identity types come for help, which basically is a type which stands for &amp;quot;equal&amp;quot;.&lt;&#x2F;p&gt;
+&lt;p&gt;As we all see, there are many terms which are judgmental equal and we can prove them, but there&#x27;re also some terms which &quot;should&quot; be equal but we cannot prove, eg. we cannot find a proof for $add(0, x) \doteq x$, and that&#x27;s where propositional equality and identity types come for help, which basically is a type which stands for &quot;equal&quot;.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;type-constructors-often-internalize-structure&quot;&gt;Type Constructors Often Internalize Structure&lt;&#x2F;h3&gt;
 &lt;p&gt;(Don&#x27;t really get what the teacher want to show by saying these.)&lt;&#x2F;p&gt;
 &lt;p&gt;Maybe used to show that types are used to describe some certain property of something, so we can think identity types internalize the property that something is propositional equal to another thing.&lt;&#x2F;p&gt;
@@ -4095,7 +4353,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;reflexivity&quot;&gt;Reflexivity&lt;&#x2F;h3&gt;
-&lt;p&gt;We can use $refl_x$ to internalize (or &amp;quot;downgrade&amp;quot;, if you prefer human being&#x27;s language) judgmental equality to propositional equality, ie.&lt;&#x2F;p&gt;
+&lt;p&gt;We can use $refl_x$ to internalize (or &quot;downgrade&quot;, if you prefer human being&#x27;s language) judgmental equality to propositional equality, ie.&lt;&#x2F;p&gt;
 &lt;p&gt;Since we have&lt;&#x2F;p&gt;
 &lt;p&gt;If $a \doteq b : A$, then $(a \underset{A}{=} b) \doteq (a \underset{A}{=} a)$, and&lt;&#x2F;p&gt;
 &lt;p&gt;if $refl_a:a \underset{A}{=} a$ and $(a \underset{A}{=} b) \doteq (a \underset{A}{=} a)$, then $refl_a:a=_Ab$.&lt;&#x2F;p&gt;
@@ -4246,7 +4504,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;For any dependent type $x:B\vdash E(B)\ type$,
 any terms $b,b&#x27;:B$ and any equality $p:b=_Bb&#x27;$, there is
 a function $tr_B:E(b)\rightarrow E(b&#x27;)$&lt;&#x2F;p&gt;
-&lt;p&gt;Basically it means propositional equality remains when apply some dependent type &amp;quot;over&amp;quot; it.&lt;&#x2F;p&gt;
+&lt;p&gt;Basically it means propositional equality remains when apply some dependent type &quot;over&quot; it.&lt;&#x2F;p&gt;
 &lt;p&gt;This is part of a more sophisticated relationship between type theory and homotopy theory (Quillen model category theory)
 Transport says
 that $\pi: \Sigma_{(b:B)}E(b)\rightarrow B$ behaves like a fibration in a QMC.&lt;&#x2F;p&gt;
@@ -4311,7 +4569,7 @@ $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h3&gt;
 &lt;h4 id=&quot;bool&quot;&gt;bool&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
-bool\text{-}form: 
+bool\text{-}form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -4319,13 +4577,13 @@ bool\text{-}form:
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-bool\text{-}intro: 
+bool\text{-}intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
 \UnaryInfC{$\Gamma \vdash true:bool$}
 \end{prooftree}
-\ \ \ \ 
+\ \ \ \
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -4333,7 +4591,7 @@ bool\text{-}intro:
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-bool\text{-}elim: 
+bool\text{-}elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
@@ -4343,7 +4601,7 @@ bool\text{-}elim:
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-bool\text{-}comp: 
+bool\text{-}comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
@@ -4354,7 +4612,7 @@ bool\text{-}comp:
 $$&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;coproduct&quot;&gt;Coproduct&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
-+\text{-}form: 
++\text{-}form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash P\ type$}
@@ -4363,13 +4621,13 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-+\text{-}intro: 
++\text{-}intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash p:P$}
 \UnaryInfC{$\Gamma \vdash inl(p):P+Q$}
 \end{prooftree}
-\ \ \ \ 
+\ \ \ \
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash q:Q$}
@@ -4377,7 +4635,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-+\text{-}elim: 
++\text{-}elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
@@ -4387,7 +4645,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-+\text{-}comp: 
++\text{-}comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
@@ -4482,7 +4740,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;In computer science, a tagged union, also called a variant, variant record, choice type, discriminated union, disjoint union, sum type or coproduct, is a data structure used to hold a value that could take on several different, but fixed, types. —— Wikipedia&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;$$
-\Sigma-form: 
+\Sigma-form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma, x: P \vdash Q(x)$}
@@ -4490,7 +4748,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\Sigma-intro: 
+\Sigma-intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash p:P$}
@@ -4499,7 +4757,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\Sigma-elim: 
+\Sigma-elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
@@ -4508,7 +4766,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\Sigma-comp: 
+\Sigma-comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
@@ -4535,7 +4793,7 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;h4 id=&quot;natural-numbers&quot;&gt;Natural Numbers&lt;&#x2F;h4&gt;
 &lt;p&gt;$$
-\mathbb N-form: 
+\mathbb N-form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -4543,13 +4801,13 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\mathbb N-intro: 
+\mathbb N-intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
 \UnaryInfC{$\Gamma \vdash 0:\mathbb N$}
 \end{prooftree}
-\ \ \ \ 
+\ \ \ \
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash n:\mathbb N$}
@@ -4557,7 +4815,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\mathbb N-elim: 
+\mathbb N-elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
@@ -4567,7 +4825,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\mathbb N-comp: 
+\mathbb N-comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
@@ -4623,11 +4881,11 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Here $\doteq$ is by definition equal&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, which I always use $\equiv$.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;dependent-type-theory&quot;&gt;Dependent type theory&lt;&#x2F;h2&gt;
 &lt;p&gt;Though I had some basic knowledge of this before (eg. Dependent types can be viewed as predicates due to Curry-Howard Corresponding), but I do learned some more.&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;the-meaning-of-the-word-dependent&quot;&gt;The meaning of the word &amp;quot;dependent&amp;quot;&lt;&#x2F;h3&gt;
-&lt;p&gt;I used to understand this in an intuitive way, in the class the teacher introduced a semi-formal definition of &amp;quot;dependent&amp;quot;, ie. the items on the right side of $\vdash$ depends on those on the left side.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;the-meaning-of-the-word-dependent&quot;&gt;The meaning of the word &quot;dependent&quot;&lt;&#x2F;h3&gt;
+&lt;p&gt;I used to understand this in an intuitive way, in the class the teacher introduced a semi-formal definition of &quot;dependent&quot;, ie. the items on the right side of $\vdash$ depends on those on the left side.&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;rules-of-p-types&quot;&gt;Rules of π-types&lt;&#x2F;h3&gt;
 &lt;p&gt;$$
-\Pi-form: 
+\Pi-form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash Q\ type$}
@@ -4635,7 +4893,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\Pi-intro: 
+\Pi-intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash q:Q$}
@@ -4643,7 +4901,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\Pi-elim: 
+\Pi-elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash f:\Pi_{(x:P)} Q$}
@@ -4652,7 +4910,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\Pi-comp-\beta: 
+\Pi-comp-\beta:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma ,x:P \vdash q:Q$}
@@ -4661,7 +4919,7 @@ $$&lt;&#x2F;p&gt;
 \end{prooftree}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\Pi-comp-\eta: 
+\Pi-comp-\eta:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash f:\Pi_{x:P} Q$}
@@ -4680,6 +4938,157 @@ $$&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;It&#x27;s actually judgmentally equal, &lt;a href=&quot;https:&#x2F;&#x2F;jozefg.bitbucket.io&#x2F;posts&#x2F;2014-08-06-equality.html&quot;&gt;ref&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Automata Theory • Finite State Machines</title>
+        <published>2021-07-22T10:55:33.427+00:00</published>
+        <updated>2021-07-22T10:55:33.427+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/automata-2/"/>
+        <id>https://longfangsong.github.io/en/automata-2/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/automata-2/">&lt;p&gt;A finite state machine is an automaton that can recognize regular grammars (regular expressions).&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;deterministic-finite-automata-dfa&quot;&gt;Deterministic Finite Automata (DFA)&lt;&#x2F;h2&gt;
+&lt;p&gt;A DFA contains the following elements:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;A finite set of states, commonly denoted as $Q$&lt;&#x2F;li&gt;
+&lt;li&gt;A finite set of input symbols, commonly denoted as $\Sigma$&lt;&#x2F;li&gt;
+&lt;li&gt;A state transition function that takes a state (call it $B$) and an input symbol (call it $a$) as parameters and returns a state (call it $C$), representing that when the machine is in state $B$ and receives input $a$, it should transition to state $C$. This is commonly denoted as $\delta$, written as $C = \delta(B, a)$&lt;&#x2F;li&gt;
+&lt;li&gt;An initial state, commonly denoted as $q_0$, where $q_0 \in Q$&lt;&#x2F;li&gt;
+&lt;li&gt;A set of final or accepting states, commonly denoted as $F$, where $F \subseteq Q$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;A DFA is commonly represented as a 5-tuple of these elements, written as $A = (Q, \Sigma, \delta, q_0, F)$&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;nondeterministic-finite-automaton-nfa&quot;&gt;Nondeterministic Finite Automaton (NFA)&lt;&#x2F;h2&gt;
+&lt;p&gt;An NFA extends a DFA by changing the state transition function to return a set of states rather than a single state, and allowing the empty string $\epsilon$ as an input symbol.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;nfa-determinization&quot;&gt;NFA Determinization&lt;&#x2F;h3&gt;
+&lt;p&gt;An NFA can be converted to an equivalent DFA.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;&#x2F;h4&gt;
+&lt;p&gt;Let&#x27;s start with an example:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;.&#x2F;nfa-example.png&quot; alt=&quot;nfa-example&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;This NFA recognizes $(a|b)*abb$.&lt;&#x2F;p&gt;
+&lt;p&gt;We&#x27;ll convert this NFA to a DFA.&lt;&#x2F;p&gt;
+&lt;p&gt;Starting from the start state, even without any input, from state $0$ we can reach states ${0,1,2,4,7}$ via $\epsilon$ transitions. Since DFAs don&#x27;t have $\epsilon$ transitions but must have a start state, in our generated DFA these states must be combined into a single state, which we&#x27;ll call $A$.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;.&#x2F;A.png&quot; alt=&quot;a&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Next, let&#x27;s look at which states we can reach from state $A$ (which represents NFA states ${0,1,2,4,7}$) with input $a$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;From $2$, we can reach $3$&lt;&#x2F;li&gt;
+&lt;li&gt;From $7$, we can reach $8$&lt;&#x2F;li&gt;
+&lt;li&gt;From states $3$ and $8$, we can reach ${1,2,3,4,6,7,8}$ via $\epsilon$ transitions&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;So after input $a$ from state $A$ in the original NFA, we can reach NFA states ${1,2,3,4,6,7,8}$. This combination is clearly not state $A$, so we&#x27;ll create a new state $B$ and connect it after $A$:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;.&#x2F;AB.png&quot; alt=&quot;ab&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Similarly for input $b$ from state $A$:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;.&#x2F;ABC.png&quot; alt=&quot;abc&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;We&#x27;ve now examined all paths from state $A$ in the DFA.&lt;&#x2F;p&gt;
+&lt;p&gt;For clarity, I&#x27;ve annotated the corresponding NFA states on the DFA diagram:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;annotated1.png&quot; alt=&quot;annotated1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s continue examining from state $B$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;From this state via $a$, we can reach states ${1,2,3,4,6,7,8}$, which takes us back to $B$, so $B$ transitions to itself on input $a$&lt;&#x2F;li&gt;
+&lt;li&gt;From this state via $b$, we can reach states ${1,2,4,5,6,7,9}$, which is a new combination of NFA states, so we&#x27;ll create a new DFA state $D$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This gives us:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;.&#x2F;ABCD.png&quot; alt=&quot;abcd&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;annotated2.png&quot; alt=&quot;annotated2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Next examining state $C$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$C+a \rightarrow {1,2,3,4,6,7,8}$, which takes us to $B$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$C+b \rightarrow {1,2,4,5,6,7}$, which takes us back to $C$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;So:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;.&#x2F;ABCD2.png&quot; alt=&quot;abcd2&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Then state $D$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$D+a \rightarrow {1,2,3,4,6,7,8}$, which takes us to $B$&lt;&#x2F;li&gt;
+&lt;li&gt;$D+b \rightarrow {1,2,4,5,6,7,10}$, creating new state $E$. Since $E$ contains the accepting state $10$ from the original NFA, it becomes an accepting state in the DFA.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;This gives us:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;.&#x2F;ABCDE.png&quot; alt=&quot;abcde&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;annotated2.png&quot; alt=&quot;annotated3&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Finally, for state $E$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$E+a→B$&lt;&#x2F;li&gt;
+&lt;li&gt;$E+b→C$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;So we get:&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;final.png&quot; alt=&quot;final&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;p&gt;Since all states in this DFA have been examined, this is our final result.&lt;&#x2F;p&gt;
+&lt;p&gt;Here&#x27;s the final mapping table from NFA states to DFA states:&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;NFA&lt;&#x2F;th&gt;&lt;th&gt;DFA&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;0,1,2,4,7&lt;&#x2F;td&gt;&lt;td&gt;A&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,3,4,6,7,8&lt;&#x2F;td&gt;&lt;td&gt;B&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,4,5,6,7&lt;&#x2F;td&gt;&lt;td&gt;C&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,4,5,6,7,9&lt;&#x2F;td&gt;&lt;td&gt;D&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1,2,4,5,6,7,10&lt;&#x2F;td&gt;&lt;td&gt;E&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h4 id=&quot;algorithm&quot;&gt;Algorithm&lt;&#x2F;h4&gt;
+&lt;p&gt;Summarizing the above process, we can derive the NFA determinization algorithm:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Map the NFA&#x27;s start state and all states reachable via $\epsilon$ transitions to the DFA&#x27;s start state&lt;&#x2F;li&gt;
+&lt;li&gt;If all states in the DFA have been &quot;examined&quot;, the algorithm is complete&lt;&#x2F;li&gt;
+&lt;li&gt;Otherwise, consider an unexamined state $N$ in the DFA:
+&lt;ol&gt;
+&lt;li&gt;For each symbol $ch$ in the alphabet&lt;&#x2F;li&gt;
+&lt;li&gt;Find the set of all states reachable from this node&#x27;s corresponding NFA states via $ch$ and any number of $\epsilon$ transitions
+&lt;ol&gt;
+&lt;li&gt;If this set is a subset of the NFA states corresponding to an existing DFA state $M$, add a transition $N + ch = M$&lt;&#x2F;li&gt;
+&lt;li&gt;Otherwise add a new DFA state $P$ corresponding to this set of NFA states. If this set contains an accepting state, make this node an accepting state, and add the transition $N+ch=P$&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;The resulting DFA is the solution&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;h4 id=&quot;code&quot;&gt;Code&lt;&#x2F;h4&gt;
+&lt;p&gt;Code available in the &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;RegexCalculator&#x2F;blob&#x2F;master&#x2F;src&#x2F;finiteAutomata&#x2F;Nondeterministic.kt&quot;&gt;Github repository&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;toDFA&lt;&#x2F;span&gt;&lt;span&gt;(): Deterministic {
+&lt;&#x2F;span&gt;&lt;span&gt;        start as Nondeterministic.State
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; States not yet examined, equivalentStates: states reachable via ε transitions
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Since DFA states aren&amp;#39;t fully constructed yet, storing them can be difficult
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; So we store the corresponding set of NFA states
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;statesToFind = mutableSetOf(start.equivalentStates())
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Transition relation table for result
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;result = mutableMapOf&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;Nondeterministic.State&amp;gt;, Deterministic.State&amp;gt;()
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;var &lt;&#x2F;span&gt;&lt;span&gt;nextChar = &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;A&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Construct DFA start state
+&lt;&#x2F;span&gt;&lt;span&gt;    result[start.equivalentStates()] = Deterministic.State(
+&lt;&#x2F;span&gt;&lt;span&gt;                nextChar++.toString(),
+&lt;&#x2F;span&gt;&lt;span&gt;                start.equivalentStates().any { it.accept },
+&lt;&#x2F;span&gt;&lt;span&gt;                mutableMapOf())
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; (!statesToFind.isEmpty()) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Now consider this set of NFA states corresponding to a DFA state
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;theStates = statesToFind.first()
+&lt;&#x2F;span&gt;&lt;span&gt;        statesToFind.remove(theStates)
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; (ch &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; alphabet) {
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;canGoTo = theStates.directConnectedTo(ch)
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;equivalenteStates = canGoTo.equivalentStates
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; If corresponding DFA state doesn&amp;#39;t exist, construct it
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (equivalenteStates !&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; result.keys) {
+&lt;&#x2F;span&gt;&lt;span&gt;                result[equivalenteStates] = Deterministic.State(nextChar++.toString(), equivalenteStates.any { it.accept }, mutableMapOf())
+&lt;&#x2F;span&gt;&lt;span&gt;                statesToFind.add(equivalenteStates)
+&lt;&#x2F;span&gt;&lt;span&gt;            }
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Add transition from this state to other states
+&lt;&#x2F;span&gt;&lt;span&gt;            result[theStates]!!.transitions[ch] = result[equivalenteStates]!!
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Save as DFA and return
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; Deterministic(result.values.toSet(), result.values.minBy { it.name }!!)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 </content>
         
     </entry>
@@ -4990,8 +5399,8 @@ $$&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;LLVM IR is strongly typed&lt;&#x2F;li&gt;
 &lt;li&gt;Many control structures in LLVM IR are similar to assembly, such as if, while and other control structures are represented by &lt;code&gt;br&lt;&#x2F;code&gt; jumps&lt;&#x2F;li&gt;
-&lt;li&gt;The &amp;quot;local variable&amp;quot; in LLVM IR is quite a &amp;quot;register&amp;quot;, but LLVM IR has an infinite number of such kind of &amp;quot;registers&amp;quot;&lt;&#x2F;li&gt;
-&lt;li&gt;LLVM IR is an SSA form of IR, so a &amp;quot;register&amp;quot; can only be assigned a value once.&lt;&#x2F;li&gt;
+&lt;li&gt;The &quot;local variable&quot; in LLVM IR is quite a &quot;register&quot;, but LLVM IR has an infinite number of such kind of &quot;registers&quot;&lt;&#x2F;li&gt;
+&lt;li&gt;LLVM IR is an SSA form of IR, so a &quot;register&quot; can only be assigned a value once.&lt;&#x2F;li&gt;
 &lt;li&gt;Many operations of LLVM are similar to assembly code, for example &lt;code&gt;%a = add i32 1, %b&lt;&#x2F;code&gt; is similar to &lt;code&gt;add %a, 1, %b&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h4 id=&quot;variable-definition&quot;&gt;Variable definition&lt;&#x2F;h4&gt;
@@ -5019,7 +5428,7 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Use &lt;code&gt;icmp&lt;&#x2F;code&gt; and the way you want to compare:&lt;&#x2F;p&gt;
 &lt;pre data-lang=&quot;llvm&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-llvm &quot;&gt;&lt;code class=&quot;language-llvm&quot; data-lang=&quot;llvm&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_2&lt;&#x2F;span&gt;&lt;span&gt; = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;icmp slt i32 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;%temp_1&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;10
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;&lt;code&gt;slt&lt;&#x2F;code&gt; is &amp;quot;Signed Less Than&amp;quot;, ie. &lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;code&gt;slt&lt;&#x2F;code&gt; is &quot;Signed Less Than&quot;, ie. &lt;code&gt;&amp;lt;&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;p&gt;For floats, there are &lt;code&gt;fcmp&lt;&#x2F;code&gt;, &lt;code&gt;olt&lt;&#x2F;code&gt;, etc.&lt;&#x2F;p&gt;
 &lt;h4 id=&quot;jump&quot;&gt;Jump&lt;&#x2F;h4&gt;
 &lt;p&gt;Use &lt;code&gt;br&lt;&#x2F;code&gt; for jumping&lt;&#x2F;p&gt;
@@ -5092,9 +5501,9 @@ $$&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;compilation-principle&quot;&gt;Compilation principle&lt;&#x2F;h3&gt;
 &lt;p&gt;Three famous animal books:&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;&amp;quot;Compilers: Principles, Techniques, and Tools&amp;quot; - &amp;quot;Dragon Book&amp;quot;&lt;&#x2F;li&gt;
-&lt;li&gt;&amp;quot;Modern Compiler Implementation&amp;quot; - &amp;quot;Tiger Book&amp;quot;&lt;&#x2F;li&gt;
-&lt;li&gt;&amp;quot;Advanced Compiler Design and Implementation&amp;quot; - &amp;quot;Whale Book&amp;quot;, however this book is mostly about backend optimization&lt;&#x2F;li&gt;
+&lt;li&gt;&quot;Compilers: Principles, Techniques, and Tools&quot; - &quot;Dragon Book&quot;&lt;&#x2F;li&gt;
+&lt;li&gt;&quot;Modern Compiler Implementation&quot; - &quot;Tiger Book&quot;&lt;&#x2F;li&gt;
+&lt;li&gt;&quot;Advanced Compiler Design and Implementation&quot; - &quot;Whale Book&quot;, however this book is mostly about backend optimization&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;lex-grammar-you-may-refer-to&quot;&gt;Lex &amp;amp; Grammar you may refer to&lt;&#x2F;h3&gt;
 &lt;ul&gt;
@@ -5114,6 +5523,327 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
 &lt;p&gt;Actually it&#x27;s because I&#x27;m lazy. ;)&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Regular Expressions &lt;-&gt; Regular Grammar</title>
+        <published>2018-04-12T20:38:07.894+00:00</published>
+        <updated>2018-04-12T20:38:07.894+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/regex-to-and-from-syntax/"/>
+        <id>https://longfangsong.github.io/en/regex-to-and-from-syntax/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/regex-to-and-from-syntax/">&lt;h2 id=&quot;basic-theory&quot;&gt;Basic Theory&lt;&#x2F;h2&gt;
+&lt;p&gt;Theoretical stuff gives everyone a headache, so I&#x27;ll keep it minimal and just cover a few points.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;regular-expressions&quot;&gt;Regular Expressions&lt;&#x2F;h3&gt;
+&lt;p&gt;Regular expressions are similar to the ones we commonly use, but for simplicity we only use three operators: $\cdot$, $*$ and $|$. In fact, most other operators&#x27; functionality can be replaced by these three operators&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\cdot$ represents concatenation of two regular strings, like $a\cdot b$ matches ab, $\cdot$ are usually omitted by convention.&lt;&#x2F;li&gt;
+&lt;li&gt;$|$ represents union, like $a|b$ can match either $a$ or $b$&lt;&#x2F;li&gt;
+&lt;li&gt;$*$ represents zero or more repetitions, like $a*$ can match $\epsilon$, $a$, $aa$, $aaa$ etc., where $\epsilon$ represents empty string.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;By convention, $*$ has highest precedence, followed by $\cdot$, and $|$ has lowest precedence. Of course we also have $()$ to indicate priority.
+Obviously:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\cdot$ and $|$ are associative&lt;&#x2F;li&gt;
+&lt;li&gt;$\cdot$ is distributive over $|$, like $a(b|c)\leftrightarrow ab|ac$&lt;&#x2F;li&gt;
+&lt;li&gt;$|$ is commutative&lt;&#x2F;li&gt;
+&lt;li&gt;$*$ is idempotent, $(a*)* \leftrightarrow a*$&lt;&#x2F;li&gt;
+&lt;li&gt;$\epsilon|a\leftrightarrow a$，$\epsilon \cdot a\leftrightarrow a$，$a \cdot \epsilon \leftrightarrow a$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;regular-grammar-productions&quot;&gt;Regular Grammar Productions&lt;&#x2F;h3&gt;
+&lt;p&gt;A production is something like this:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+A \rightarrow \epsilon
+$$
+or
+$$
+A \rightarrow abc
+$$
+or
+$$
+B \rightarrow aA
+$$
+or
+$$
+aC \rightarrow aAbBc
+$$
+or
+$$
+aAb \rightarrow Bac
+$$
+or
+$$
+A \rightarrow a|b*
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;The meaning is that the thing on the left represents the thing on the right. By convention we use lowercase letters to represent actual letters (called terminals) and uppercase letters to represent symbols that stand for other letters (called non-terminals).&lt;&#x2F;p&gt;
+&lt;p&gt;Just having an intuitive understanding is enough - the formal definition just gives headaches without much value.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;regular-grammar&quot;&gt;Regular Grammar&lt;&#x2F;h3&gt;
+&lt;p&gt;A regular grammar&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; is:&lt;&#x2F;p&gt;
+&lt;p&gt;A regular grammar is a set of productions&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; that satisfy these conditions:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;The left side has exactly one non-terminal&lt;&#x2F;li&gt;
+&lt;li&gt;The right side is:
+&lt;ul&gt;
+&lt;li&gt;$\epsilon$&lt;&#x2F;li&gt;
+&lt;li&gt;A terminal&lt;&#x2F;li&gt;
+&lt;li&gt;A terminal $\cdot$ a non-terminal&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;These productions are clearly convenient for substitution and later converting to NFA.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;practice&quot;&gt;Practice&lt;&#x2F;h2&gt;
+&lt;p&gt;In practice, the algorithms in textbooks are too theoretical and have many issues in actual implementation. A lot of considerations are needed when implementing yourself.&lt;&#x2F;p&gt;
+&lt;p&gt;Let&#x27;s analyze with my code. The code is written in Kotlin, project at &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;longfangsong&#x2F;RegexCalculator&quot;&gt;here&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;regular-expression&quot;&gt;Regular Expression&lt;&#x2F;h3&gt;
+&lt;p&gt;First we abstract the elements in regular expressions as an interface&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;interface &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;RegexComponent
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;So what should implement this interface?&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;letters&quot;&gt;Letters&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;abstract class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Character&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private val &lt;&#x2F;span&gt;&lt;span&gt;name: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;RegexComponent&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Comparable&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Character&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;NonTerminalCharacter&lt;&#x2F;span&gt;&lt;span&gt;(name: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Character&lt;&#x2F;span&gt;&lt;span&gt;(name)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;open class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;TerminalCharacter&lt;&#x2F;span&gt;&lt;span&gt;(name: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Character&lt;&#x2F;span&gt;&lt;span&gt;(name)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;object &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;nullCharacter &lt;&#x2F;span&gt;&lt;span&gt;: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;TerminalCharacter&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;ε&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h4 id=&quot;results-of-operations-between-regular-expression-elements&quot;&gt;Results of Operations Between Regular Expression Elements&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Concated&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;components: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;List&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;RegexComponent&amp;gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;RegexComponent
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Optioned&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;components: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;RegexComponent&amp;gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;RegexComponent
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Repeated&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;toRepeat: RegexComponent) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;RegexComponent
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Initially I was uncertain about where to put the business logic for various operations, because while I wanted to maximize use of distributive and associative laws to simplify later work, this inevitably required runtime type checking, which feels like an anti-pattern since Replace Conditional with Polymorphism is typically recommended. However polymorphism actually makes this problem harder and would cause Duplicated Code, like when applying distributive law over $|$ we need to check for Optioned type separately in Character, Repeated and Concated. If we try using Polymorphism to add a property to all RegexComponents to return what should be distributed out, the code would unnecessarily increase and I couldn&#x27;t even name this property properly (which usually indicates introducing it is not a good idea).&lt;&#x2F;p&gt;
+&lt;p&gt;I finally decided to just put all business logic in one place, since this kind of academic problem won&#x27;t have changing requirements anyway.&lt;&#x2F;p&gt;
+&lt;p&gt;So I made a factory:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;object &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;RegexComponentFactory&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;concated&lt;&#x2F;span&gt;&lt;span&gt;(component1: RegexComponent, component2: RegexComponent): RegexComponent
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;optioned&lt;&#x2F;span&gt;&lt;span&gt;(component1: RegexComponent, component2: RegexComponent): RegexComponent
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;repeated&lt;&#x2F;span&gt;&lt;span&gt;(component: RegexComponent): RegexComponent
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; ...
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Since it&#x27;s a factory, might as well add methods for constructing RegexComponent from strings:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* Add omitted &amp;#39;.&amp;#39; operators
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	*&#x2F;
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;addOmittedDotOperator&lt;&#x2F;span&gt;&lt;span&gt;(str: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;theString = StringBuilder()
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; ((index, ch) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;in&lt;&#x2F;span&gt;&lt;span&gt; str.withIndex()) {
+&lt;&#x2F;span&gt;&lt;span&gt;        theString.append(ch)
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (index != str.length - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; ((ch.isLowerCase() || ch.isDigit() || ch == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) &amp;amp;&amp;amp;
+&lt;&#x2F;span&gt;&lt;span&gt;                    (str[index + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;].isLowerCase() || str[index + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;].isDigit() || str[index + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;] == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) ||
+&lt;&#x2F;span&gt;&lt;span&gt;                    (ch == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; &amp;amp;&amp;amp; !isRegexOperator(str[index + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;]) &amp;amp;&amp;amp; str[index + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;] != &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;)&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;)) {
+&lt;&#x2F;span&gt;&lt;span&gt;                theString.append(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;            }
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; theString.toString()
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;* Actual construction process
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;*&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;private fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fromFormalString&lt;&#x2F;span&gt;&lt;span&gt;(string: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;): RegexComponent {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (string == &amp;quot;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; nullCharacter
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;try&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return when&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;            string.startsWith(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) &amp;amp;&amp;amp; pairedRightBracketIndex(string) == string.length - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                fromFormalString(eraseUselessBracketPairs(string))
+&lt;&#x2F;span&gt;&lt;span&gt;            string.length == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1 &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                TerminalCharacter(string)
+&lt;&#x2F;span&gt;&lt;span&gt;            string.firstLayerContain(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;|&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                string.splitFirstLayerBy(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;|&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;).map { fromFormalString(it) }.reduce { acc, regexPart -&amp;gt; acc or regexPart }
+&lt;&#x2F;span&gt;&lt;span&gt;            string.firstLayerContain(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                string.splitFirstLayerBy(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;).map { fromFormalString(it) }.reduce { acc, regexPart -&amp;gt; acc concat regexPart }
+&lt;&#x2F;span&gt;&lt;span&gt;            string.endsWith(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;) -&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; (string.startsWith(&amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;(&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;)) {
+&lt;&#x2F;span&gt;&lt;span&gt;                    fromFormalString(string.slice(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt; until string.length - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;)).repeat()
+&lt;&#x2F;span&gt;&lt;span&gt;                } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;                    fromFormalString(string.slice(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt; until string.length - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)).repeat()
+&lt;&#x2F;span&gt;&lt;span&gt;                }
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;throw&lt;&#x2F;span&gt;&lt;span&gt; IllegalArgumentException(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Can not construct from string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$string&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;catch&lt;&#x2F;span&gt;&lt;span&gt; (_: StringIndexOutOfBoundsException) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;throw&lt;&#x2F;span&gt;&lt;span&gt; IllegalArgumentException(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Can not construct from string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$string&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    } &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;catch&lt;&#x2F;span&gt;&lt;span&gt; (_: IllegalArgumentException) {
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;throw&lt;&#x2F;span&gt;&lt;span&gt; IllegalArgumentException(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Can not construct from string &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;$string&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* Construct RegexComponent from string
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	*&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;fromString&lt;&#x2F;span&gt;&lt;span&gt;(string: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;): RegexComponent {
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; fromFormalString(addOmittedDotOperator(string))
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Some helper functions used above can be found in &lt;code&gt;Tools.kt&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* Check if @arg char is a regex operator
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	*&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;isRegexOperator&lt;&#x2F;span&gt;&lt;span&gt;(char: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Char&lt;&#x2F;span&gt;&lt;span&gt;) = char == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;|&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; || char == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;*&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39; || char == &amp;#39;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;.&lt;&#x2F;span&gt;&lt;span&gt;&amp;#39;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* Find matching &amp;#39;)&amp;#39; for a &amp;#39;(&amp;#39;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	*&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;pairedRightBracketIndex&lt;&#x2F;span&gt;&lt;span&gt;(str: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;, leftBracketIndex: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Int &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* Remove useless brackets pairs from string sides
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	*&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;eraseUselessBracketPairs&lt;&#x2F;span&gt;&lt;span&gt;(str: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* Check if a string contains char at first layer
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* &amp;quot;First layer&amp;quot; means outside all brackets
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	*&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; String.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;firstLayerContain&lt;&#x2F;span&gt;&lt;span&gt;(char: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Char&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Boolean
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	* Split first layer by @arg char
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;	*&#x2F;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fun&lt;&#x2F;span&gt;&lt;span&gt; String.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;splitFirstLayerBy&lt;&#x2F;span&gt;&lt;span&gt;(char: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Char&lt;&#x2F;span&gt;&lt;span&gt;): &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;List&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;String&lt;&#x2F;span&gt;&lt;span&gt;&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;At this point, we can make the computer &quot;understand&quot; a regex from our input string.&lt;&#x2F;p&gt;
+&lt;p&gt;Now let&#x27;s look at the grammar side.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;regular-grammar-1&quot;&gt;Regular Grammar&lt;&#x2F;h3&gt;
+&lt;p&gt;For regular grammar, first we need productions:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Generator&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;from: NonTerminalCharacter,
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;to: RegexComponent
+&lt;&#x2F;span&gt;&lt;span&gt;)
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Our grammar follows the regular grammar from the textbook:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;kotlin&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-kotlin &quot;&gt;&lt;code class=&quot;language-kotlin&quot; data-lang=&quot;kotlin&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;class &lt;&#x2F;span&gt;&lt;span style=&quot;color:#ebcb8b;&quot;&gt;Grammar&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;nonTerminals: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;NonTerminalCharacter&amp;gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;terminals: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;TerminalCharacter&amp;gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;rules: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Set&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;Generator&amp;gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;val &lt;&#x2F;span&gt;&lt;span&gt;start: NonTerminalCharacter
+&lt;&#x2F;span&gt;&lt;span&gt;) {
+&lt;&#x2F;span&gt;&lt;span&gt;	&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; We know we can initialize with some Generators
+&lt;&#x2F;span&gt;&lt;span&gt;	constructor(rles: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;Collection&lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;Generator&amp;gt;) : &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;this&lt;&#x2F;span&gt;&lt;span&gt;(
+&lt;&#x2F;span&gt;&lt;span&gt;		rles.map { it.from }.toSet(),
+&lt;&#x2F;span&gt;&lt;span&gt;		rles.map { it.alphabet }.reduce { acc, set -&amp;gt; acc + set },
+&lt;&#x2F;span&gt;&lt;span&gt;		rles.toSet(),
+&lt;&#x2F;span&gt;&lt;span&gt;		rles.minBy { it.from }!!.from
+&lt;&#x2F;span&gt;&lt;span&gt;	)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h3 id=&quot;conversion&quot;&gt;Conversion&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;regular-expression-rightarrow-regular-grammar&quot;&gt;Regular Expression $\rightarrow$ Regular Grammar&lt;&#x2F;h4&gt;
+&lt;p&gt;First we construct a production with a new non-terminal on the left and the regex to convert on the right.&lt;&#x2F;p&gt;
+&lt;p&gt;For any production, we may face these situations:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;The production&#x27;s right side has outermost $\cdot$ operation
+In this case, we need to consider:
+- If the right side ends with a non-terminal, like $A → a ⋅ b ⋅ B$ or $A → ( a | b ) ⋅ B$ or $A → a ∗ ⋅ B$, we need to analyze the type of expression left of this non-terminal:
+- If this expression has outermost $\cdot$ operation, we can directly combine the rightmost two letters:
+$$
+C → b ⋅ B
+$$
+Then add the front part:
+$$
+A → a ⋅ C
+$$
+- We won&#x27;t encounter cases where this expression has outermost $|$ operation because we already distributed $|$ operator using distributive law&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#5&quot;&gt;5&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;
+- If this expression has outermost $*$ operation, we can construct:
+$$
+A → a A
+$$
+and
+$$
+A → B
+$$
+- Otherwise, it&#x27;s an expression like
+$$
+A → a ⋅ b ⋅ c
+$$
+We can convert it to
+$$
+A → a ⋅ B
+$$
+$$
+B → b c
+$$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;The production&#x27;s right side has outermost $|$ operation, like
+$$
+A → a | b | c
+$$
+Just convert to
+$$
+A → a
+$$
+and
+$$
+A → b
+$$
+and
+$$
+A → c
+$$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;The production&#x27;s right side has outermost $*$ operation, like
+$$
+A → a ∗
+$$
+This is simplest, just convert to:
+$$
+A → ϵ
+$$
+and
+$$
+A → a ⋅ A
+$$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;We just need to repeatedly apply these rules to productions that don&#x27;t yet conform to regular grammar until no production can be further simplified.&lt;&#x2F;p&gt;
+&lt;p&gt;At this point the result is not completely regular grammar yet, as there are productions like $A\rightarrow B$ that directly derive to another non-terminal.&lt;&#x2F;p&gt;
+&lt;p&gt;We can replace all $A$ in other productions with $B$ and remove this production.&lt;&#x2F;p&gt;
+&lt;p&gt;Also remove any unused productions.&lt;&#x2F;p&gt;
+&lt;p&gt;After this we&#x27;ve completed converting regex to regular grammar.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;regular-grammar-rightarrow-regular-expression&quot;&gt;Regular Grammar $\rightarrow$ Regular Expression&lt;&#x2F;h4&gt;
+&lt;p&gt;To convert a regular grammar to regex, just follow this algorithm:&lt;&#x2F;p&gt;
+&lt;ol&gt;
+&lt;li&gt;Combine productions with same left side but different right sides using $|$
+Like $B\rightarrow b$ and $B → b ⋅ A$ and $B → b ⋅ B$ becomes $B\rightarrow a|b\cdot A|b\cdot B$&lt;&#x2F;li&gt;
+&lt;li&gt;Convert productions where left side appears in right side to ones where it doesn&#x27;t, like:
+$A → a ⋅ A$ becomes $A\rightarrow a*$
+$B → a | b ⋅ A | b ⋅ B$ becomes $B \rightarrow b* \cdot a|b* \cdot b \cdot A$&lt;&#x2F;li&gt;
+&lt;li&gt;Take a production whose left side is not the grammar start symbol, replace its left side non-terminal in other productions with its corresponding string&lt;&#x2F;li&gt;
+&lt;li&gt;Repeat 3. until only one production remains.&lt;&#x2F;li&gt;
+&lt;li&gt;The right side of this production is what we want.&lt;&#x2F;li&gt;
+&lt;&#x2F;ol&gt;
+&lt;p&gt;See code for details.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;After defining these three operators, empty string $\epsilon$ and empty set $\varnothing$ on a finite alphabet, we get something magical: Kleene algebra&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;We&#x27;re actually talking about right-linear grammar here, there&#x27;s also left-linear grammar, both called regular grammars. We use right-linear grammar as example for simplicity&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;Technically regular grammar also includes alphabet, terminals, non-terminals etc., but these can all be derived from productions so they&#x27;re not that important&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;This interface isn&#x27;t just for regex parts, a better name would be &quot;implements Kleene algebra&quot; but that looks too deep...&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;5&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;5&lt;&#x2F;sup&gt;
+&lt;p&gt;But I still kept this branch in the code&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 </content>
         

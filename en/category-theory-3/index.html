@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -131,7 +131,7 @@ arrows to arrows, in such a way that:</p>
 <blockquote>
 <p>A contravariant functor is like a functor but it reverses the directions of the morphisms. —— nLab</p>
 </blockquote>
-<p>Basically it's the &quot;reversed&quot; version of covariant functor.</p>
+<p>Basically it's the "reversed" version of covariant functor.</p>
 <p>In Haskell:</p>
 <pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#a3be8c;">Contravariant </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
 </span><span>    </span><span style="color:#8fa1b3;">contramap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">a</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f b
@@ -154,7 +154,7 @@ arrows to arrows, in such a way that:</p>
 <blockquote>
 <p>A Profunctor is just a bifunctor that is contravariant in the first argument and covariant in the second. What's the problem? —— <a href="https://www.schoolofhaskell.com/user/liyang/profunctors#profunctors">School of Haskell</a></p>
 </blockquote>
-<p>So we just &quot;reverse&quot; the first argument of <code>Bifunctor</code>:</p>
+<p>So we just "reverse" the first argument of <code>Bifunctor</code>:</p>
 <pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">class </span><span style="color:#a3be8c;">Profunctor </span><span style="color:#bf616a;">f </span><span style="color:#b48ead;">where
 </span><span>    </span><span style="color:#8fa1b3;">dimap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">c </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">a</span><span>) </span><span style="color:#b48ead;">→</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">d</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f c d
 </span></code></pre>
@@ -163,7 +163,7 @@ arrows to arrows, in such a way that:</p>
 </span><span>    dimap ca bd ab = bd . ab . ca
 </span></code></pre>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>If you are familiar with &quot;tradition&quot; programming languages like Java or C#, you may have heard of &quot;covariant&quot; and &quot;contravariant&quot; before. For example, if type <code>A</code> is subtype of <code>B</code>, then <code>IEnumerable&lt;A&gt;</code> is subtype of <code>IEnumerable&lt;B&gt;</code>, so <code>IEnumerable&lt;T&gt;</code> is covariant on <code>T</code>. And similarly, <code>Action&lt;T&gt;</code> is contravariant on <code>T</code>. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.</p>
+<p>If you are familiar with "tradition" programming languages like Java or C#, you may have heard of "covariant" and "contravariant" before. For example, if type <code>A</code> is subtype of <code>B</code>, then <code>IEnumerable&lt;A&gt;</code> is subtype of <code>IEnumerable&lt;B&gt;</code>, so <code>IEnumerable&lt;T&gt;</code> is covariant on <code>T</code>. And similarly, <code>Action&lt;T&gt;</code> is contravariant on <code>T</code>. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.</p>
 </div>
 </div>
   <div class="post-footer">

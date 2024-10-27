@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Automata Theory • Finite State Machines</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;">Automata Theory • Finite State Machines</a></h1>
+  
+  <div class="post-content"><p>A finite state machine is an automaton that can recognize regular grammars (regular expressions).</p>
+<h2 id="deterministic-finite-automata-dfa">Deterministic Finite Automata (DFA)</h2>
+<p>A DFA contains the following elements:</p>
+<ul>
+<li>A finite set of states, commonly denoted as $Q$</li>
+<li>A finite set of input symbols, commonly denoted as $\Sigma$</li>
+<li>A state transition function that takes a state (call it $B$) and an input symbol (call it $a$) as parameters and returns a state (call it $C$), representing that when the machine is in state $B$ and receives input $a$, it should transition to state $C$. This is commonly denoted as $\delta$, written as $C = \delta(B, a)$</li>
+<li>An initial state, commonly denoted as $q_0$, where $q_0 \in Q$</li>
+<li>A set of final or accepting states, commonly denoted as $F$, where $F \subseteq Q$</li>
+</ul>
+<p>A DFA is commonly represented as a 5-tuple of these elements, written as $A = (Q, \Sigma, \delta, q_0, F)$</p>
+<h2 id="nondeterministic-finite-automaton-nfa">Nondeterministic Finite Automaton (NFA)</h2>
+<p>An NFA extends a DFA by changing the state transition function to return a set of states rather than a single state, and allowing the empty string $\epsilon$ as an input symbol.</p>
+<h3 id="nfa-determinization">NFA Determinization</h3>
+<p>An NFA can be converted to an equivalent DFA.</p>
+<h4 id="example">Example</h4>
+<p>Let's start with an example:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/./nfa-example.png" alt="nfa-example" /></p>
+<p>This NFA recognizes $(a|b)*abb$.</p>
+<p>We'll convert this NFA to a DFA.</p>
+<p>Starting from the start state, even without any input, from state $0$ we can reach states ${0,1,2,4,7}$ via $\epsilon$ transitions. Since DFAs don't have $\epsilon$ transitions but must have a start state, in our generated DFA these states must be combined into a single state, which we'll call $A$.</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/./A.png" alt="a" /></p>
+<p>Next, let's look at which states we can reach from state $A$ (which represents NFA states ${0,1,2,4,7}$) with input $a$:</p>
+<ul>
+<li>From $2$, we can reach $3$</li>
+<li>From $7$, we can reach $8$</li>
+<li>From states $3$ and $8$, we can reach ${1,2,3,4,6,7,8}$ via $\epsilon$ transitions</li>
+</ul>
+<p>So after input $a$ from state $A$ in the original NFA, we can reach NFA states ${1,2,3,4,6,7,8}$. This combination is clearly not state $A$, so we'll create a new state $B$ and connect it after $A$:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/./AB.png" alt="ab" /></p>
+<p>Similarly for input $b$ from state $A$:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/./ABC.png" alt="abc" /></p>
+<p>We've now examined all paths from state $A$ in the DFA.</p>
+<p>For clarity, I've annotated the corresponding NFA states on the DFA diagram:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/annotated1.png" alt="annotated1" /></p>
+<p>Let's continue examining from state $B$:</p>
+<ul>
+<li>From this state via $a$, we can reach states ${1,2,3,4,6,7,8}$, which takes us back to $B$, so $B$ transitions to itself on input $a$</li>
+<li>From this state via $b$, we can reach states ${1,2,4,5,6,7,9}$, which is a new combination of NFA states, so we'll create a new DFA state $D$</li>
+</ul>
+<p>This gives us:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/./ABCD.png" alt="abcd" /></p>
+<p><img src="https://longfangsong.github.io/en/automata-2/annotated2.png" alt="annotated2" /></p>
+<p>Next examining state $C$:</p>
+<ul>
+<li>
+<p>$C+a \rightarrow {1,2,3,4,6,7,8}$, which takes us to $B$</p>
+</li>
+<li>
+<p>$C+b \rightarrow {1,2,4,5,6,7}$, which takes us back to $C$</p>
+</li>
+</ul>
+<p>So:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/./ABCD2.png" alt="abcd2" /></p>
+<p>Then state $D$:</p>
+<ul>
+<li>$D+a \rightarrow {1,2,3,4,6,7,8}$, which takes us to $B$</li>
+<li>$D+b \rightarrow {1,2,4,5,6,7,10}$, creating new state $E$. Since $E$ contains the accepting state $10$ from the original NFA, it becomes an accepting state in the DFA.</li>
+</ul>
+<p>This gives us:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/./ABCDE.png" alt="abcde" /></p>
+<p><img src="https://longfangsong.github.io/en/automata-2/annotated2.png" alt="annotated3" /></p>
+<p>Finally, for state $E$:</p>
+<ul>
+<li>$E+a→B$</li>
+<li>$E+b→C$</li>
+</ul>
+<p>So we get:</p>
+<p><img src="https://longfangsong.github.io/en/automata-2/final.png" alt="final" /></p>
+<p>Since all states in this DFA have been examined, this is our final result.</p>
+<p>Here's the final mapping table from NFA states to DFA states:</p>
+<table><thead><tr><th>NFA</th><th>DFA</th></tr></thead><tbody>
+<tr><td>0,1,2,4,7</td><td>A</td></tr>
+<tr><td>1,2,3,4,6,7,8</td><td>B</td></tr>
+<tr><td>1,2,4,5,6,7</td><td>C</td></tr>
+<tr><td>1,2,4,5,6,7,9</td><td>D</td></tr>
+<tr><td>1,2,4,5,6,7,10</td><td>E</td></tr>
+</tbody></table>
+<h4 id="algorithm">Algorithm</h4>
+<p>Summarizing the above process, we can derive the NFA determinization algorithm:</p>
+<ol>
+<li>Map the NFA's start state and all states reachable via $\epsilon$ transitions to the DFA's start state</li>
+<li>If all states in the DFA have been "examined", the algorithm is complete</li>
+<li>Otherwise, consider an unexamined state $N$ in the DFA:
+<ol>
+<li>For each symbol $ch$ in the alphabet</li>
+<li>Find the set of all states reachable from this node's corresponding NFA states via $ch$ and any number of $\epsilon$ transitions
+<ol>
+<li>If this set is a subset of the NFA states corresponding to an existing DFA state $M$, add a transition $N + ch = M$</li>
+<li>Otherwise add a new DFA state $P$ corresponding to this set of NFA states. If this set contains an accepting state, make this node an accepting state, and add the transition $N+ch=P$</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>The resulting DFA is the solution</li>
+</ol>
+<h4 id="code">Code</h4>
+<p>Code available in the <a href="https://github.com/longfangsong/RegexCalculator/blob/master/src/finiteAutomata/Nondeterministic.kt">Github repository</a>.</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">toDFA</span><span>(): Deterministic {
+</span><span>        start as Nondeterministic.State
+</span><span>    </span><span style="color:#65737e;">// States not yet examined, equivalentStates: states reachable via ε transitions
+</span><span>    </span><span style="color:#65737e;">// Since DFA states aren&#39;t fully constructed yet, storing them can be difficult
+</span><span>    </span><span style="color:#65737e;">// So we store the corresponding set of NFA states
+</span><span>    </span><span style="color:#b48ead;">val </span><span>statesToFind = mutableSetOf(start.equivalentStates())
+</span><span>    </span><span style="color:#65737e;">// Transition relation table for result
+</span><span>    </span><span style="color:#b48ead;">val </span><span>result = mutableMapOf&lt;</span><span style="color:#b48ead;">Set</span><span>&lt;Nondeterministic.State&gt;, Deterministic.State&gt;()
+</span><span>    </span><span style="color:#b48ead;">var </span><span>nextChar = &#39;</span><span style="color:#a3be8c;">A</span><span>&#39;
+</span><span>    </span><span style="color:#65737e;">// Construct DFA start state
+</span><span>    result[start.equivalentStates()] = Deterministic.State(
+</span><span>                nextChar++.toString(),
+</span><span>                start.equivalentStates().any { it.accept },
+</span><span>                mutableMapOf())
+</span><span>    </span><span style="color:#b48ead;">while</span><span> (!statesToFind.isEmpty()) {
+</span><span>        </span><span style="color:#65737e;">// Now consider this set of NFA states corresponding to a DFA state
+</span><span>        </span><span style="color:#b48ead;">val </span><span>theStates = statesToFind.first()
+</span><span>        statesToFind.remove(theStates)
+</span><span>        </span><span style="color:#b48ead;">for</span><span> (ch </span><span style="color:#b48ead;">in</span><span> alphabet) {
+</span><span>            </span><span style="color:#b48ead;">val </span><span>canGoTo = theStates.directConnectedTo(ch)
+</span><span>            </span><span style="color:#b48ead;">val </span><span>equivalenteStates = canGoTo.equivalentStates
+</span><span>            </span><span style="color:#65737e;">// If corresponding DFA state doesn&#39;t exist, construct it
+</span><span>            </span><span style="color:#b48ead;">if</span><span> (equivalenteStates !</span><span style="color:#b48ead;">in</span><span> result.keys) {
+</span><span>                result[equivalenteStates] = Deterministic.State(nextChar++.toString(), equivalenteStates.any { it.accept }, mutableMapOf())
+</span><span>                statesToFind.add(equivalenteStates)
+</span><span>            }
+</span><span>            </span><span style="color:#65737e;">// Add transition from this state to other states
+</span><span>            result[theStates]!!.transitions[ch] = result[equivalenteStates]!!
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#65737e;">// Save as DFA and return
+</span><span>    </span><span style="color:#b48ead;">return</span><span> Deterministic(result.values.toSet(), result.values.minBy { it.name }!!)
+</span><span>}
+</span></code></pre>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2021-07-22</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Automata">&nbsp;Automata</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Compiler">&nbsp;Compiler</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Automata Theory • Finite State Machines&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;&hashtags=Automata,Compiler"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

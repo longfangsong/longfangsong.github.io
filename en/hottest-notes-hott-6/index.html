@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -125,7 +125,7 @@ $$</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span>: (</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>) → </span><span style="color:#b48ead;">Set
 </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">contr </span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">Σ A</span><span> (</span><span style="color:#bf616a;">λ c </span><span>→ (</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#bf616a;">x </span><span>≡ </span><span style="color:#bf616a;">c</span><span>)
 </span></code></pre>
-<p>We call $c$ here the <strong>center of contraction</strong>, and call the 
+<p>We call $c$ here the <strong>center of contraction</strong>, and call the
 $$
 C: \Pi_{(x:A)} c=x
 $$
@@ -228,7 +228,7 @@ $$</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">fib </span><span>: {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) (</span><span style="color:#bf616a;">b </span><span>: </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set
 </span><span style="color:#bf616a;">fib </span><span>{</span><span style="color:#b48ead;">A</span><span>} </span><span style="color:#bf616a;">f b </span><span>= </span><span style="color:#b48ead;">Σ A</span><span> (</span><span style="color:#bf616a;">λ a </span><span>→ </span><span style="color:#bf616a;">f a </span><span>≡ </span><span style="color:#bf616a;">b</span><span>)
 </span></code></pre>
-<p>And it can be regarded as type version of prop &quot;b is in the image of f&quot;.</p>
+<p>And it can be regarded as type version of prop "b is in the image of f".</p>
 <h3 id="identification-of-points-in-the-fiber">Identification of points in the fiber</h3>
 <p>For all $(a, p)$ and $(a', p')$ of type $fib_f(b)$ we have</p>
 <p>$$
@@ -343,8 +343,10 @@ $$
 $$
 $$
 H(y)
-$$
-<sup class="footnote-reference"><a href="#1">1</a></sup>: $ev\text{-}pt$ is abbreviation for &quot;evaluate at point&quot;</p>
+$$</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>$ev\text{-}pt$ is abbreviation for "evaluate at point"</p>
+</div>
 </div>
   <div class="post-footer">
     <div class="meta">

@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -137,13 +137,13 @@ instead of writing $id_A:A\rightarrow A$ for each type, we can write $id^{\mathc
 <li>
 <p>For every finite list of types：
 $$
-\Gamma_1 \vdash A_1\ type\ \ \ \ \cdots \ \ \ \ \Gamma_n \vdash A_n\ type 
+\Gamma_1 \vdash A_1\ type\ \ \ \ \cdots \ \ \ \ \Gamma_n \vdash A_n\ type
 $$
-there is a universe $\mathcal{U}$ that contains each $A_i$ in the sense that $\mathcal{U}$ comes equipped with 
+there is a universe $\mathcal{U}$ that contains each $A_i$ in the sense that $\mathcal{U}$ comes equipped with
 $$
 \Gamma_i\vdash \check{A_i}:U
 $$
-for which the judgement 
+for which the judgement
 $$
 \Gamma_i\vdash \mathcal{T}(\check{A_i}) \doteq A_i\ type
 $$
@@ -164,10 +164,10 @@ $$
 \vdash \check{\mathcal{U}}: \mathcal{U^+}
 $$
 $$
-\vdash \mathcal{T}^+(\check{\mathcal{U}})\doteq \mathcal{U}\ type 
+\vdash \mathcal{T}^+(\check{\mathcal{U}})\doteq \mathcal{U}\ type
 $$
 $$
-X:\mathcal{U} \vdash \check{\mathcal{T}}(X): \mathcal{U^+} 
+X:\mathcal{U} \vdash \check{\mathcal{T}}(X): \mathcal{U^+}
 $$
 $$
 X:\mathcal{U} \vdash \mathcal{T}^+(\check{\mathcal{T}}(X)) \doteq \mathcal{T}(X)\ type
@@ -209,7 +209,7 @@ $$</p>
 \UnaryInfC{$?: true \underset{bool}{=}false \rightarrow \varnothing$}
 \end{prooftree}
 $$</p>
-<p>We need a term of $\varnothing$, which can be constructed with &quot;proof with contradiction&quot;, we pick $True → False$ and $\neg(True → False)$.</p>
+<p>We need a term of $\varnothing$, which can be constructed with "proof with contradiction", we pick $True → False$ and $\neg(True → False)$.</p>
 <p>$$
 \require{bussproofs}
 \begin{prooftree}
@@ -292,7 +292,7 @@ $$</p>
 <h2 id="curry-howard-interpretation">Curry-Howard interpretation</h2>
 <p>Definition omitted, since we've already very familiar with it.</p>
 <h3 id="example-1">Example</h3>
-<p>We define: if $d, n: \mathbb{N}$, 
+<p>We define: if $d, n: \mathbb{N}$,
 then we can say d divides n if there exists an element of type</p>
 <p>$$
 m | n := \Sigma_{(k:ℕ)}{k \times m = n}
@@ -348,7 +348,7 @@ $$</p>
 </span><span>   ((</span><span style="color:#bf616a;">x </span><span>: </span><span style="color:#b48ead;">A</span><span>) → </span><span style="color:#b48ead;">Σ B</span><span> (</span><span style="color:#bf616a;">λ y </span><span>→ </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">x y</span><span>))
 </span><span style="color:#bf616a;">choice</span><span>-</span><span style="color:#bf616a;">rev </span><span style="color:#b48ead;">R </span><span style="color:#bf616a;">h&#39; </span><span>= </span><span style="color:#bf616a;">λ x </span><span>→ (</span><span style="color:#96b5b4;">fst </span><span style="color:#bf616a;">h&#39; x</span><span>) , (</span><span style="color:#96b5b4;">snd </span><span style="color:#bf616a;">h&#39; x</span><span>)
 </span></code></pre>
-<p>However this direct &quot;Curry-Howard translation&quot; of AC is not as powerful as it is in set theory, I guess we move the complexity of AC to somewhere else in the type theory. Anyway, we'll see a more complex form of AC representing in later courses.</p>
+<p>However this direct "Curry-Howard translation" of AC is not as powerful as it is in set theory, I guess we move the complexity of AC to somewhere else in the type theory. Anyway, we'll see a more complex form of AC representing in later courses.</p>
 <h2 id="materials">Materials</h2>
 <h3 id="lecture-note">Lecture Note</h3>
 <p><a href="https://github.com/martinescardo/HoTTEST-Summer-School/blob/main/HoTT/HoTTEST_Lecture_4.pdf">HoTTEST_Lecture_4.pdf</a></p>

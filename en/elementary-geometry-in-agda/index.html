@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -147,7 +147,7 @@
 <p>Note we require the length of the line segment's length to be a non-negative rational number.</p>
 <p>We use rational number here, because we often needs to take point of n-section on a line segment, since rational number is almost closed under division, it's convenient to represent line length in this way.</p>
 <p>Though not used in this post, we can define a function to cast zero-length line segment back and forth to a single point.</p>
-<p>And we can &quot;reverse&quot; a line:</p>
+<p>And we can "reverse" a line:</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">line</span><span>-</span><span style="color:#bf616a;">sym </span><span>: (</span><span style="color:#b48ead;">LineSegment</span><span>) → </span><span style="color:#b48ead;">LineSegment
 </span><span style="color:#bf616a;">line</span><span>-</span><span style="color:#bf616a;">sym ls </span><span>= </span><span style="color:#bf616a;">lineSeg</span><span> (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">to ls</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">from ls</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">lineLength ls</span><span>) (</span><span style="color:#bf616a;">LineSegment</span><span>.</span><span style="color:#bf616a;">nonNegative ls</span><span>)
 </span></code></pre>

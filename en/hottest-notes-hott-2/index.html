@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -124,7 +124,7 @@
 <h3 id="examples">Examples</h3>
 <h4 id="bool">bool</h4>
 <p>$$
-bool\text{-}form: 
+bool\text{-}form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -132,13 +132,13 @@ bool\text{-}form:
 \end{prooftree}
 $$</p>
 <p>$$
-bool\text{-}intro: 
+bool\text{-}intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
 \UnaryInfC{$\Gamma \vdash true:bool$}
 \end{prooftree}
-\ \ \ \ 
+\ \ \ \
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -146,7 +146,7 @@ bool\text{-}intro:
 \end{prooftree}
 $$</p>
 <p>$$
-bool\text{-}elim: 
+bool\text{-}elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
@@ -156,7 +156,7 @@ bool\text{-}elim:
 \end{prooftree}
 $$</p>
 <p>$$
-bool\text{-}comp: 
+bool\text{-}comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:bool \vdash D(x)\ type$}
@@ -167,7 +167,7 @@ bool\text{-}comp:
 $$</p>
 <h4 id="coproduct">Coproduct</h4>
 <p>$$
-+\text{-}form: 
++\text{-}form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash P\ type$}
@@ -176,13 +176,13 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-+\text{-}intro: 
++\text{-}intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash p:P$}
 \UnaryInfC{$\Gamma \vdash inl(p):P+Q$}
 \end{prooftree}
-\ \ \ \ 
+\ \ \ \
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash q:Q$}
@@ -190,7 +190,7 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-+\text{-}elim: 
++\text{-}elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
@@ -200,7 +200,7 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-+\text{-}comp: 
++\text{-}comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:P+Q \vdash D(x)\ type$}
@@ -295,7 +295,7 @@ $$</p>
 <p>In computer science, a tagged union, also called a variant, variant record, choice type, discriminated union, disjoint union, sum type or coproduct, is a data structure used to hold a value that could take on several different, but fixed, types. —— Wikipedia</p>
 </blockquote>
 <p>$$
-\Sigma-form: 
+\Sigma-form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma, x: P \vdash Q(x)$}
@@ -303,7 +303,7 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-\Sigma-intro: 
+\Sigma-intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash p:P$}
@@ -312,7 +312,7 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-\Sigma-elim: 
+\Sigma-elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
@@ -321,7 +321,7 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-\Sigma-comp: 
+\Sigma-comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,z:\Sigma_{(x:P)} Q(x) \vdash D(z)\ type$}
@@ -348,7 +348,7 @@ $$</p>
 </span></code></pre>
 <h4 id="natural-numbers">Natural Numbers</h4>
 <p>$$
-\mathbb N-form: 
+\mathbb N-form:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
@@ -356,13 +356,13 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-\mathbb N-intro: 
+\mathbb N-intro:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{}
 \UnaryInfC{$\Gamma \vdash 0:\mathbb N$}
 \end{prooftree}
-\ \ \ \ 
+\ \ \ \
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma \vdash n:\mathbb N$}
@@ -370,7 +370,7 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-\mathbb N-elim: 
+\mathbb N-elim:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}
@@ -380,7 +380,7 @@ $$</p>
 \end{prooftree}
 $$</p>
 <p>$$
-\mathbb N-comp: 
+\mathbb N-comp:
 \require{bussproofs}
 \begin{prooftree}
 \AxiomC{$\Gamma,x:\mathbb N \vdash D(x)\ type$}

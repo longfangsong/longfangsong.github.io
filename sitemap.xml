@@ -16,7 +16,7 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/alternating-current/</loc>
-        <lastmod>2022-02-28T22:21:20Z</lastmod>
+        <lastmod>2022-03-18T01:53:51Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/archive/</loc>
@@ -32,6 +32,10 @@
     <url>
         <loc>https://longfangsong.github.io/automata-3/</loc>
         <lastmod>2024-01-07T21:59:57.903Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/automata-4/</loc>
+        <lastmod>2024-10-26T21:35:48.241Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/build-a-compiler-in-the-easiest-way/</loc>
@@ -61,6 +65,18 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/archive/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/automata-2/</loc>
+        <lastmod>2021-07-22T10:55:33.427Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/automata-3/</loc>
+        <lastmod>2024-01-07T21:59:57.903Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/automata-4/</loc>
+        <lastmod>2024-10-26T21:35:48.241Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/build-a-compiler-in-the-easiest-way/</loc>
@@ -163,6 +179,13 @@
         <loc>https://longfangsong.github.io/en/page/3/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/page/4/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/regex-to-and-from-syntax/</loc>
+        <lastmod>2018-04-12T20:38:07.894Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/restart-math-logic-6/</loc>
         <lastmod>2022-10-02T07:42:40.869Z</lastmod>
     </url>
@@ -183,6 +206,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/agda/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/automata/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/cheatsheet/</loc>
@@ -297,12 +323,19 @@
         <loc>https://longfangsong.github.io/page/4/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/page/5/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/parsing-combinator/</loc>
         <lastmod>2020-05-17T16:30:31.045Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/regex-to-and-from-syntax/</loc>
+        <lastmod>2018-04-12T20:38:07.894Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/resistor-value/</loc>
-        <lastmod>2022-02-28T22:20:50Z</lastmod>
+        <lastmod>2022-06-05T12:35:30Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/restart-math-logic-1/</loc>
@@ -375,7 +408,7 @@
         <loc>https://longfangsong.github.io/sv/tags/</loc>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/sv/tags/laeromedel/</loc>
+        <loc>https://longfangsong.github.io/sv/tags/laromedel/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/sv/tags/sprak/</loc>

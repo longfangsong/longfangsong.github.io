@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Automata Theory • Pushdown Automata</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-3&#x2F;">Automata Theory • Pushdown Automata</a></h1>
+  
+  <div class="post-content"><h2 id="context-free-grammar">Context-Free Grammar</h2>
+<h3 id="what-regular-languages-cannot-do">What Regular Languages Cannot Do</h3>
+<p>For the following grammar:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A → 0A1
+</span><span>A → B
+</span><span>B → #
+</span></code></pre>
+<p>It is impossible to write a regular expression (or construct a finite automaton) that can recognize the language of this grammar.</p>
+<p>This grammar is a context-free grammar that cannot be <a href="https://zh.wikipedia.org/wiki/%E9%80%80%E5%8C%96_(%E6%95%B8%E5%AD%B8)">reduced</a> to a regular grammar.</p>
+<h3 id="formal-definition-of-context-free-grammar">Formal Definition of Context-Free Grammar</h3>
+<p>A context-free grammar is defined by the following 4-tuple $(V, T, R, S)$ where:</p>
+<ul>
+<li>V is the set of variables</li>
+<li>T is the set of terminals</li>
+<li>R is the set of grammar rules (<code>A → 0A1</code> etc.)</li>
+<li>S is the start variable, representing the whole language</li>
+</ul>
+<h2 id="pushdown-automata">Pushdown Automata</h2>
+<p>Similar to how finite state machines can recognize regular grammars, context-free grammars can be recognized by a type of state machine.</p>
+<p>Looking at the grammar above, we can see that it generates a language where "there are equal numbers of 0s and 1s on either side of #".</p>
+<p>We can push a 0 onto a stack when we "see" a 0, and pop when we see a 1. If the stack can be emptied at the end, then the string conforms to this grammar.</p>
+<h3 id="formal-definition-of-pushdown-automata">Formal Definition of Pushdown Automata</h3>
+<p>A pushdown automaton is defined by the following 6-tuple $(Q, \Sigma, S, \delta, q_0, F)$ where:</p>
+<ul>
+<li>Q is the set of states</li>
+<li>$\Sigma$ is the input alphabet</li>
+<li>S is the stack alphabet</li>
+<li>$\delta$ is the transition function, which takes a state, an input symbol and a stack top symbol (which can be empty) as parameters, outputs a new state and a new stack top symbol, representing the new state and stack operation when the machine receives certain input in a certain state with a certain stack top symbol. A <code>(state, input symbol, stack top symbol)</code> may correspond to multiple outputs</li>
+<li>$q_0$ is the start state</li>
+<li>F is the set of final or accepting states</li>
+</ul>
+<h2 id="constructing-a-pushdown-automaton-to-recognize-a-context-free-grammar">Constructing a Pushdown Automaton to Recognize a Context-Free Grammar</h2>
+<p>The simplest method is to ignore states and keep only one state $q_0$, with all transitions happening on the stack.</p>
+<ul>
+<li>For all variables A and their derivations A → X, regardless of whether X is a non-terminal (variable), terminal or any formula, we add a stack symbol representing X and define the value of $\delta$ at point A: $\delta(q, ε, A) := (q, X)$<sup class="footnote-reference"><a href="#1">1</a></sup>.</li>
+<li>For all terminals b, we define the value of $\delta$ at point b: $\delta(q, ε, b) := (q, ε)$.</li>
+</ul>
+<p>If the resulting automaton can empty its stack, it means it can accept this language.</p>
+<h2 id="deterministic-pushdown-automata-and-deterministic-context-free-grammar">Deterministic Pushdown Automata and Deterministic Context-Free Grammar</h2>
+<p>There exists a subset of pushdown automata where in their transition functions, a <code>(state, input symbol, stack top symbol)</code> corresponds to only one output - these are called deterministic pushdown automata, and the grammars they can recognize are called deterministic context-free grammars.</p>
+<p>This type of pushdown automata only needs to scan the input string once to determine if it can be accepted, indicating that parsing such grammars has linear complexity, which makes these grammars (especially several of their subsets) very important in the practical engineering of various parsers.</p>
+<h3 id="determining-if-a-grammar-is-deterministic">Determining if a Grammar is Deterministic</h3>
+<p>The determination method is called the DK-test. When studying LR(0) analysis, we learned how to construct <a href="https://longfangsong.github.io/lr0/#lr-0-xiang-zhuang-tai-chan-sheng-shi-zhong-de-cdot-yu-lr-0-zhuang-tai-ji">LR(0) state machines</a>, which should actually be called DK state machines.</p>
+<p>If in this DK state machine, the states corresponding to accepting states in the original grammar:</p>
+<ul>
+<li>Have one and only one production representing a completed match (i.e., ⋅ is at the end of the production)</li>
+<li>None of the productions are of the form $B → X ⋅ a Y$, where a is a terminal</li>
+</ul>
+<p>Then the grammar is deterministic, and any deterministic grammar can pass this DK-test.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>X may not be a "letter", but you can assign a letter from the stack alphabet as a substitute for each X.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2024-01-07</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Automata">&nbsp;Automata</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Automata Theory • Pushdown Automata&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-3&#x2F;&hashtags=Automata"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -129,26 +129,26 @@
 
 TODO -->
 <h4 id="judgemental-equal">Judgemental equal</h4>
-<p>Basically idea is &quot;equal according to the definition&quot; or &quot;equal in terms of semantics.&quot;</p>
+<p>Basically idea is "equal according to the definition" or "equal in terms of semantics."</p>
 <p>eg. $2 \doteq 2$, $2 \doteq suc(suc(0))$.</p>
-<p>In general, the only thing &quot;judgmental equal&quot; is based on is some certain assumptions (postulates). The most common ones include &quot;everything being judgmentally equal to itself&quot;,
-&quot;everything being judgmentally equal to its definition&quot;, and the calculation rules on $\Pi$ (I will write the final conclusion only, please complete the deduction tree on your own):</p>
+<p>In general, the only thing "judgmental equal" is based on is some certain assumptions (postulates). The most common ones include "everything being judgmentally equal to itself",
+"everything being judgmentally equal to its definition", and the calculation rules on $\Pi$ (I will write the final conclusion only, please complete the deduction tree on your own):</p>
 <p>$$
 (\lambda y.b(y))(x) \doteq b(x) : B(x)
 $$</p>
 <p>$$
 \lambda x.f(x) \doteq f : \Pi_{(x:A)} B(x)
 $$</p>
-<p>are examples of forming &quot;judgmental equal&quot; using certain assumed rules.</p>
+<p>are examples of forming "judgmental equal" using certain assumed rules.</p>
 <p>The symbol $\doteq$ possesses <code>trans</code> and <code>sym</code> properties.</p>
-<p>In Agda, anything that can be automatically &quot;converted&quot; by the type checker is judgmentally equal. For instance, you can replace a function $f$ with $\lambda x . f(x)$ in a context that expects the former, and the type checker won't complain because they are judgmentally equal.</p>
+<p>In Agda, anything that can be automatically "converted" by the type checker is judgmentally equal. For instance, you can replace a function $f$ with $\lambda x . f(x)$ in a context that expects the former, and the type checker won't complain because they are judgmentally equal.</p>
 <h4 id="propositional-equal-identity-type">Propositional equal/identity type</h4>
 <p>Due to the many restrictions of judgmental equality, such as in the definition of natural numbers below, where we cannot prove $add(0, n) \doteq n$, it becomes necessary to introduce propositional equality.</p>
 <p>According to the Curry-Howard correspondence, the proposition that two values are equal can be translated into a type, known as the propositional equal type or identity type.</p>
 <p>It's important to note that the identity type we define is associated with a specific point. For instance, given $a : A$, we can define $a =_A x$ as the identity type of type $A$ at the point $a$, which is a type dependent on $x$ (can be written as $Id_a(x)\ type$).</p>
 <p>The identity type possesses <code>trans</code> and <code>sym</code> properties.</p>
 <h4 id="observational-equal">Observational equal</h4>
-<p>Simply defining the identity type allows us to express the notion of &quot;two things being equal.&quot; Currently, we only have one way to &quot;construct&quot; an item of the identity type, which is $refl_x : x = x$, but clearly, this is not sufficient.</p>
+<p>Simply defining the identity type allows us to express the notion of "two things being equal." Currently, we only have one way to "construct" an item of the identity type, which is $refl_x : x = x$, but clearly, this is not sufficient.</p>
 <p>Sometimes, we can define a binary relation on a type and then map $R(x, y)$ to either $\top$ or $⊥$, using this relation to construct the identity type.</p>
 <p>For example, for natural numbers, we can define a binary relation $\text{Eq-N}$:</p>
 <p>$$
@@ -293,7 +293,7 @@ $$</p>
 <p>$$
 \text{is-equiv}(f) := \Sigma_{(g : B → A)} (f \circ g = id_B) \times (g \circ f = id_A)
 $$</p>
-<p>It is the concept of &quot;bijection&quot; in type theory.</p>
+<p>It is the concept of "bijection" in type theory.</p>
 <h3 id="is-contr">is-contr</h3>
 <p>$$
 \text{is-contr}(A) := \Sigma_{(c : A)} \Pi_{(x : A)} c = x
@@ -324,7 +324,7 @@ $$</p>
 <p>$$
 \text{is-emb}(f) := (x, y : A) → \text{is-equiv}(cong\ f\ \{x\}\ \{y\})
 $$</p>
-<p>It is the concept of &quot;injection&quot; in type theory.</p>
+<p>It is the concept of "injection" in type theory.</p>
 <h4 id="important-embeddings">Important embeddings</h4>
 <ul>
 <li>For a subtype $B$ of $A$, $\text{is-emb}(proj_1)$ is inhabited, ie. $(a , b) = (a' , b') ≃ a = a'$ where $(a , b)$ and $(a , b) : Σ_{(a : A)} B(a)$</li>
@@ -379,7 +379,7 @@ $$</p>
 $$</p>
 <h3 id="s-type-existential">$Σ$ type/Existential</h3>
 <p>$$
-((∃_{(x:A)} B(x)) → X) ≃ ((Σ_{(x:A)} B(x)) → X) ≃ (\Pi_{(x:A)} (B(x) → X))
+((∃<em>{(x:A)} B(x)) → X) ≃ ((Σ</em>{(x:A)} B(x)) → X) ≃ (\Pi_{(x:A)} (B(x) → X))
 $$</p>
 <p>or when $B$ does not depend on $A$:</p>
 <p>$$

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • 自动机理论 • Büchi 自动机</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-4&#x2F;">自动机理论 • Büchi 自动机</a></h1>
+  
+  <div class="post-content"><h2 id="o-yu-yan">ω-语言</h2>
+<blockquote>
+<p>Let $Σ$ be a set of symbols (not necessarily finite).
+Following the standard definition from formal language theory, $Σ*$ is the set of all finite words over $Σ$.
+Every finite word has a length, which is a natural number.
+Given a word w of length n, w can be viewed as a function from the set $\{0,1,...,n−1\} → Σ$,
+with the value at i giving the symbol at position i.
+The infinite words, or ω-words, can likewise be viewed as functions from $\mathbb{N}$ to $Σ$.
+The set of all infinite words over $Σ$ is denoted $Σ^{\omega}$.
+The set of all finite and infinite words over $Σ$ is sometimes written $Σ^{\infty}$ or $Σ^{\leq \omega}$.
+—— <a href="https://en.wikipedia.org/wiki/Omega_language">Wikipedia</a></p>
+</blockquote>
+<p>简单来说，给定字母表 $Σ$，由其中的所有<strong>无限长</strong>的字符串构成的集合是 $Σ^{\omega}$，$Σ$ 上的一个 ω-语言 就是这一集合的子集。</p>
+<p>对比：$\Sigma^*$ 是 字母表 $Σ$ 中的所有有限长字符串。</p>
+<p>$$
+Σ^{\infty} = \Sigma^* \cup \Sigma^{\omega}
+$$</p>
+<h3 id="o-yu-yan-zhi-shang-de-cao-zuo-fu">ω-语言之上的操作（符）</h3>
+<h4 id="zuo-lian-jie">左连接</h4>
+<p>$KL$，其中 K 是一个只包含有限长度字符串的语言，L 是一个 ω-语言，表示将 K 左连接到 L 上，即对于每个字符串 $k \in K$ 和 $l \in L$ 都有一个新的字符串 $kl \in KL$。</p>
+<p>注意右连接生成的东西（$LK$）没有意义，因为 $L$ 已经是一个 ω-语言，其中的字符串是无限长的，在无限长的字符串后面添加有限长的字符串没有意义。</p>
+<h4 id="omega">$^\omega$</h4>
+<p>$L^ω$ 表示将语言 $L$ 中所有的有限字符串“无限重复”得到的语言。</p>
+<h3 id="o-zheng-gui-yu-yan">ω-正规语言</h3>
+<p>如果一个语言能被写作：</p>
+<ul>
+<li>$A^ω$，其中 $A$ 是一个 正规语言，且不包含空串，或是：</li>
+<li>$A\cdot B$，其中 $A$ 是一个 正规语言，B 是一个 ω-正规语言</li>
+<li>$A \cup B$，其中 $A$ 和 $B$ 都是 ω-正规语言，注意 $\cup$ 只能进行有限次</li>
+</ul>
+<p>则该语言就是一个 ω-正规语言。</p>
+<h2 id="o-zheng-ze-biao-da-shi">ω-正则表达式</h2>
+<p>我们熟悉的 $\cdot$, $|$<sup class="footnote-reference"><a href="#1">1</a></sup> 和 $*$ 在 ω-语言 对应的正则表达式中仍然是我们熟悉的形式和意义。</p>
+<p>但是在 ω-正则表达式 中，我们还有一个新的操作符 $^{\omega}$，$E^{\omega}$ 代表 $E$ 应当重复无限多次。</p>
+<p>例如，一个用来描述二进制的无限循环小数的正则表达式可以表示为：</p>
+<p>$$
+(0|1)(0|1)*'.'(0|1)(0|1)*((0|1)*)^{\omega}
+$$</p>
+<p>其中最后的 $((0|1)*)^{\omega}$ 这部分就是一个循环节。</p>
+<h2 id="buchi-zi-dong-ji">Büchi 自动机<sup class="footnote-reference"><a href="#2">2</a></sup></h2>
+<blockquote>
+<p>A deterministic Büchi automaton is a tuple A = (Q,Σ,δ,q0,F) that consists of the following components:<br />
+Q is a finite set. The elements of Q are called the states of A.<br />
+Σ is a finite set called the alphabet of A.<br />
+δ: Q × Σ → Q is a function, called the transition function of A.<br />
+q0 is an element of Q, called the initial state of A.<br />
+F⊆Q is the acceptance condition. A accepts exactly those runs in which at least one of the infinitely often occurring states is in F.<br />
+In a (non-deterministic) Büchi automaton, the transition function δ is replaced with a transition relation Δ that returns a set of states, and the single initial state q0 is replaced by a set I of initial states.<br />
+—— <a href="https://en.wikipedia.org/wiki/B%C3%BCchi_automaton">Wikipedia</a></p>
+</blockquote>
+<p>基本上，Büchi 自动机 和 有穷自动机 “长得一样”，唯一的区别在于：</p>
+<ul>
+<li>有穷自动机在输入“耗尽”后，要求停止在某一个接受状态才能接受输入的字符串，而 Büchi 自动机 则要求输入的字符串要“无限多次地”进入某个接受状态。</li>
+</ul>
+<p>注意：Büchi 自动机 的确定性和非确定性版本并不等价，确定性 Büchi 自动机的能力严格弱于非确定性版本，而非确定性 Büchi 自动机能识别所有 ω-正则表达式。</p>
+<p>例：$(0|1)*0^\omega$ 能被如下 非确定 Büchi 自动机 识别，但无法被一个确定性的 Büchi 自动机接受。</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/0/02/Buchi_non_deterministic_example.svg" alt="" /></p>
+<h2 id="o-zheng-ze-biao-da-shi-rightarrow-buchi-zi-dong-ji">ω-正则表达式 $\rightarrow$ Büchi 自动机</h2>
+<p>Inductively，我们需要考虑 3 种情况：</p>
+<ul>
+<li>
+<p>顶层的 ω-正则表达式 形如 $A^ω$。
+这种情况下，$A$ 必然是一个一般的正则表达式，我们可以将其转换为非确定性有限自动机（NFA）。
+然后，对这个非确定性有限自动机的所有接受状态，添加一条转换箭头到 A 的初始状态的每一个后继，转换箭头上的字符就是初始状态到这个后继的箭头上的字符，如图：</p>
+<p><img src="https://longfangsong.github.io/automata-4/A-to-Aw.svg" alt="A-to-A-w" /></p>
+<p>我只画了一个接受状态，但实际上可以有多个接受状态，每个接受状态参考图上的 $a_0$，连回 entry 的每个后继即可。</p>
+</li>
+<li>
+<p>顶层的 ω-正则表达式 形如 $A\cdot B$。
+这种情况下，$A$ 必然是一般的正则表达式，我们可以将其转换为非确定性有限自动机（NFA），而 $B$ 必定是一个 ω-正则表达式，可以（递归地）用我们目前描述的算法转化为 Büchi 自动机。
+然后，将 $A$ 的接受状态降级到一般状态，并直接连接到 $B$ 的初始状态的每个后继即可，如图：</p>
+<p><img src="https://longfangsong.github.io/automata-4/A-B.svg" alt="A-B" />
+<img src="https://longfangsong.github.io/automata-4/AB.svg" alt="AB" /></p>
+</li>
+<li>
+<p>顶层的 ω-正则表达式 形如 $A | B$。
+其中 $A$ 和 $B$ 都是 ω-正则表达式，可以（递归地）用我们目前描述的算法转化为 Büchi 自动机。
+这种情况下把 $A$ 和 $B$ 的初始状态合并即可。</p>
+<p><img src="https://longfangsong.github.io/automata-4/A%7CB.svg" alt="A|B" /></p>
+<p><img src="https://longfangsong.github.io/automata-4/A%7C%7CB.svg" alt="A||B" /></p>
+</li>
+</ul>
+<h3 id="li-zi">例子</h3>
+<p>由 Formal Method 的 example exam 提供，我们的课程中 $|$ 写作 $+$。</p>
+<p>$$
+a(b^ω + cc*ab^ω)
+$$</p>
+<p>顶层形如 $A\cdot B$，其中 $A \rightarrow a$, $B \rightarrow b^ω + cc*ab^ω$。</p>
+<p>我们可以先完成 $a$ 部分的 NFA。</p>
+<p><img src="https://longfangsong.github.io/automata-4/A-%3Eunexp.svg" alt="A-&gt;unexp" /></p>
+<p>继续展开 $b^ω + cc*ab^ω$，顶层是 $+$。</p>
+<p>展开成两部分：</p>
+<p><img src="https://longfangsong.github.io/automata-4/a-%3Eunexp12.svg" alt="a-&gt;unexp12" /></p>
+<p>先考虑 $b^\omega$ 的部分，形如 $A^ω$，其中 $A \rightarrow b$，直接展开即可。</p>
+<p><img src="https://longfangsong.github.io/automata-4/a-%3Eb*%7Ca-%3Eunexp2.svg" alt="a-&gt;b*|a-&gt;unexp2" /></p>
+<p>$cc*ab^ω$ 的部分，形如 $AB$，其中 $A \rightarrow cc*a$， $B \rightarrow b^\omega$。</p>
+<p><img src="https://longfangsong.github.io/automata-4/a-%3Eb*%7Ca-%3Ecc*a-%3Eunexp2.svg" alt="a-&gt;b*|a-&gt;cc*a-&gt;unexp2" /></p>
+<p>最后展开 $b^\omega$。</p>
+<p><img src="https://longfangsong.github.io/automata-4/full-expanded.svg" alt="full-expanded" /></p>
+<p>就得到了最终结果。</p>
+<h2 id="buchi-zi-dong-ji-rightarrow-o-zheng-ze-biao-da-shi">Büchi 自动机 $\rightarrow$ ω-正则表达式</h2>
+<p>从前面的 ω-正则表达式 $\rightarrow$ Büchi 自动机 的过程中，我们可以感受到，所有 ω-正则表达式：</p>
+<ul>
+<li>可能形如 $A^ω$，对应到 Büchi 自动机 的图中就是包含接受状态的循环<sup class="footnote-reference"><a href="#3">3</a></sup>。</li>
+<li>可能形如 $AB$，对应到 Büchi 自动机 的图中就是：
+<ul>
+<li>有一个自起始状态 $q_{start}$ 开始，不含 接受状态 $q_{k}$ 的“路径” $q_{start} \to q_{k}$，其中 $q_{k}$ 是一个接受状态。</li>
+<li>$q_{k}$ 在一个循环<sup class="footnote-reference"><a href="#3">3</a></sup>中。</li>
+</ul>
+</li>
+<li>可能形如 $A|B$，对应到 Büchi 自动机 的图中就是对 $A$ 和 $B$，都至少存在一个包含接受状态的循环。</li>
+</ul>
+<p>我们反过来思考，要把 Büchi 自动机转换回 ω-正则表达式，我们只需：</p>
+<ul>
+<li>识别出所有包含接受状态 $q_k$ 的循环，并这个子图转换为 正则表达式 $L_k$。</li>
+<li>识别所有从 起始状态 $q_{start}$ 开始，到达（且不重复经过）$q_k$ 的路径，并这个子图转换为 正则表达式 $R_{0k}$。</li>
+<li>所求的 ω-正则表达式 就是 $\Sigma_k^{0\le k&lt;\text{accept state count}}(R_{0k}\cdot L_{k})$。</li>
+</ul>
+<h3 id="li-zi-1">例子</h3>
+<p><img src="https://longfangsong.github.io/automata-4/am-full.svg" alt="am-full" /></p>
+<p>对接受状态 $q_1$：</p>
+<ul>
+<li>
+<p>所在的循环：</p>
+<p><img src="https://longfangsong.github.io/automata-4/bw.svg" alt="am-full" /></p>
+<p>对应的 regex 为 $b$<sup class="footnote-reference"><a href="#4">4</a></sup>。</p>
+</li>
+<li>
+<p>从 起始状态 $e$ 到 $q_1$ 的路径：</p>
+<p><img src="https://longfangsong.github.io/automata-4/e-to-q1.svg" alt="e-to-q1" /></p>
+<p>对应的 regex 为：$((bc*a)|a)*c$。</p>
+</li>
+</ul>
+<p>因此这一分支的 ω-正则表达式 为 $((bc*a)|a)*c(b^\omega)$。</p>
+<p>对接受状态 $q_2$：</p>
+<ul>
+<li>
+<p>所在的循环：</p>
+<p><img src="https://longfangsong.github.io/automata-4/complex-w.svg" alt="complex-w" /></p>
+<p>对应的 regex 为：$(c*)|(aa*b)$</p>
+</li>
+<li>
+<p>从 起始状态 $e$ 到 $q_2$ 的路径：</p>
+<p><img src="https://longfangsong.github.io/automata-4/e-to-q2.svg" alt="e-to-q2" /></p>
+<p>对应的 regex 为：$a*b$。</p>
+</li>
+</ul>
+<p>因此这一分支的 ω-正则表达式 为 $a*b ((c*)|(aa*b))^\omega$。</p>
+<p>结合两个分支，总体的 ω-正则表达式 为 $(((bc*a)|a)*c(b^\omega)) | (a*b ((c*)|(aa*b))^\omega)$</p>
+<ul>
+<li><a href="https://archive.model.in.tum.de/um/courses/auto/ws1213/slides1213/omega-automata-powerpoint.pdf">Slide from TUM</a>.</li>
+</ul>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>有时也写作 $+$， $\cup$ 甚至 $\uplus$，数学家/计算机科学家真的应该统一他们的符号！</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>我在这里提 Büchi 自动机 是因为我们的 Formal Method 课上提到了它，实际上还有很多能够用于处理 ω-语言 的自动机，见 <a href="https://en.wikipedia.org/wiki/%CE%A9-automaton">Wikipedia</a>，其中比较有趣的大概是 Rabin 自动机。</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>更准确的称呼是“强连通分量”。</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>也可以说是 $b*$，不过 $(b*)^\omega \equiv b^\omega$。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2024年10月26日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/自动机">&nbsp;自动机</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=自动机理论 • Büchi 自动机&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-4&#x2F;&hashtags=自动机"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

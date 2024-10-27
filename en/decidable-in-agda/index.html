@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -118,7 +118,7 @@
 1 + 1 &gt; 1
 $$</p>
 <p>(This one is used in proving that there must be two different intersection points for two circles with a radius of 1 when proving Proposition 1 in Στοιχεῖα)</p>
-<p>In fact, when I first encountered this problem, I found it difficult to prove this &quot;obvious&quot; proposition<sup class="footnote-reference"><a href="#1">1</a></sup>, especially when these <code>1</code>s are actually <code>1ℚ</code>. I tried hard to find a tool to do this in the stdlib and finally discovered those <code>Decidable</code> related concepts.</p>
+<p>In fact, when I first encountered this problem, I found it difficult to prove this "obvious" proposition<sup class="footnote-reference"><a href="#1">1</a></sup>, especially when these <code>1</code>s are actually <code>1ℚ</code>. I tried hard to find a tool to do this in the stdlib and finally discovered those <code>Decidable</code> related concepts.</p>
 <h2 id="how-to-prove-2-3">How to prove 2 ≤ 3</h2>
 <p>Let's start small, how can we provide <em>evidence</em> that <code>2 ≤ 3</code>, when <code>2</code> and <code>3</code> are <code>ℕ</code>s in Agda?</p>
 <p>Examine the definition of <code>≤</code> in <code>Data.Nat.Base</code>:</p>
@@ -225,7 +225,7 @@ $$</p>
 </span><span style="color:#bf616a;">proof</span><span> (</span><span style="color:#96b5b4;">map</span><span>′ </span><span style="color:#b48ead;">P</span><span>→</span><span style="color:#b48ead;">Q Q</span><span>→</span><span style="color:#b48ead;">P</span><span> (</span><span style="color:#bf616a;">true  because</span><span>  [</span><span style="color:#bf616a;">p</span><span>])) = </span><span style="color:#bf616a;">ofʸ</span><span> (</span><span style="color:#b48ead;">P</span><span>→</span><span style="color:#b48ead;">Q</span><span> (</span><span style="color:#bf616a;">invert</span><span> [</span><span style="color:#bf616a;">p</span><span>]))
 </span><span style="color:#bf616a;">proof</span><span> (</span><span style="color:#96b5b4;">map</span><span>′ </span><span style="color:#b48ead;">P</span><span>→</span><span style="color:#b48ead;">Q Q</span><span>→</span><span style="color:#b48ead;">P</span><span> (</span><span style="color:#bf616a;">false because</span><span> [¬</span><span style="color:#bf616a;">p</span><span>])) = </span><span style="color:#bf616a;">ofⁿ</span><span> (</span><span style="color:#bf616a;">invert</span><span> [¬</span><span style="color:#bf616a;">p</span><span>] ∘ </span><span style="color:#b48ead;">Q</span><span>→</span><span style="color:#b48ead;">P</span><span>)
 </span></code></pre>
-<p>So <code>map′</code> means that if two propositions are in an &quot;iff&quot; relation, and one of them is <code>Dec</code>, then the other is also <code>Dec</code>.</p>
+<p>So <code>map′</code> means that if two propositions are in an "iff" relation, and one of them is <code>Dec</code>, then the other is also <code>Dec</code>.</p>
 <p>Now we can return to <code>≤?</code> and understand what it is:</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>≤?</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Decidable </span><span style="color:#bf616a;">_</span><span>≤</span><span style="color:#bf616a;">_
 </span><span style="color:#bf616a;">m </span><span>≤? </span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#96b5b4;">map</span><span>′ (≤ᵇ⇒≤ </span><span style="color:#bf616a;">m n</span><span>) ≤⇒≤ᵇ (</span><span style="color:#b48ead;">T</span><span>? (</span><span style="color:#bf616a;">m </span><span>≤ᵇ </span><span style="color:#bf616a;">n</span><span>))
@@ -269,7 +269,7 @@ Therefore, it is always preferable to use <code>Decidable</code> instead of <cod
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">_</span><span>≟</span><span style="color:#bf616a;">_ </span><span>: </span><span style="color:#b48ead;">Decidable </span><span>{</span><span style="color:#b48ead;">A </span><span>= </span><span style="color:#b48ead;">ℕ</span><span>} </span><span style="color:#bf616a;">_</span><span>≡</span><span style="color:#bf616a;">_
 </span><span style="color:#bf616a;">m </span><span>≟ </span><span style="color:#bf616a;">n </span><span>= </span><span style="color:#96b5b4;">map</span><span>′ (≡ᵇ⇒≡ </span><span style="color:#bf616a;">m n</span><span>) (≡⇒≡ᵇ </span><span style="color:#bf616a;">m n</span><span>) (</span><span style="color:#b48ead;">T</span><span>? (</span><span style="color:#bf616a;">m </span><span>≡ᵇ </span><span style="color:#bf616a;">n</span><span>))
 </span></code></pre>
-<p>By requiring an <code>≢0</code> instance (instead of requiring a &quot;real&quot; evidence of <code>n ≢ 0</code>), we can omit the proof when using number literals:</p>
+<p>By requiring an <code>≢0</code> instance (instead of requiring a "real" evidence of <code>n ≢ 0</code>), we can omit the proof when using number literals:</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">half </span><span>: </span><span style="color:#b48ead;">ℚ
 </span><span style="color:#bf616a;">half </span><span>= </span><span style="color:#d08770;">1</span><span style="color:#b48ead;">ℤ </span><span>/ </span><span style="color:#d08770;">2
 </span></code></pre>

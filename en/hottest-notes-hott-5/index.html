@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -114,11 +114,11 @@
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;hottest-notes-hott-5&#x2F;">HoTTEST Summer School HoTT Notes 5</a></h1>
   
   <div class="post-content"><h2 id="homotopies">Homotopies</h2>
-<p>Let's consider the type theory represent of proposition &quot;$f: A → B$ is surjective&quot;:</p>
+<p>Let's consider the type theory represent of proposition "$f: A → B$ is surjective":</p>
 <p>$$
 \Pi_{(y:B)}\Sigma_{(x:A)} f(x) = y
 $$</p>
-<p>Note $=$ (or we should use $=_B$) here stands for this is an instance of &quot;identity type&quot;.</p>
+<p>Note $=$ (or we should use $=_B$) here stands for this is an instance of "identity type".</p>
 <p>Apply AC we introduced in last course:</p>
 <p>$$
 \Sigma_{(g: B\rightarrow A)} \Pi_{(y:B)} f(g(y)) = y
@@ -162,7 +162,7 @@ $$</p>
 \begin{CD}
 A @&gt;f&gt;&gt;X\\
 @VhVV \diaguparrow{g}\\
-B 
+B
 \end{CD}
 $$</p>
 <p>A square is similar:</p>
@@ -282,7 +282,7 @@ $$</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv </span><span>: {</span><span style="color:#bf616a;">l1 l2 </span><span>: </span><span style="color:#b48ead;">Level</span><span>} {</span><span style="color:#b48ead;">A </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l1</span><span>} {</span><span style="color:#b48ead;">B </span><span>: </span><span style="color:#b48ead;">Set </span><span style="color:#bf616a;">l2</span><span>} (</span><span style="color:#bf616a;">f </span><span>: </span><span style="color:#b48ead;">A </span><span>→ </span><span style="color:#b48ead;">B</span><span>) → </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">l1 </span><span>⊔ </span><span style="color:#bf616a;">l2</span><span>)
 </span><span style="color:#bf616a;">is</span><span>-</span><span style="color:#bf616a;">equiv </span><span>{</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#bf616a;">_</span><span>} {</span><span style="color:#b48ead;">A</span><span>} {</span><span style="color:#b48ead;">B</span><span>} </span><span style="color:#bf616a;">f </span><span>= </span><span style="color:#bf616a;">sec f </span><span>× </span><span style="color:#bf616a;">retr f
 </span></code></pre>
-<p>Or &quot;f is bi-invertible&quot;.</p>
+<p>Or "f is bi-invertible".</p>
 <p>We will write $A ≃ B$ for the type $\Sigma_{(f:A→B)} is\text{-}equiv(f)$ of all equivalences from $A$ to $B$.</p>
 </li>
 <li>
@@ -350,7 +350,7 @@ $$</p>
 z' ≐ (x', y')
 $$</p>
 <p>By $ap_{pr_{1}}$<sup class="footnote-reference"><a href="#2">2</a></sup> we should have a $p: x \underset{A}= x'$</p>
-<p>Recall the $tr_B$ function we <a href="https://longfangsong.github.io/en/hottest-notes-hott-3/#transport">mentioned before</a>, with this, we can define &quot;type of identifications of $y$ with $y'$ over $p$&quot;:</p>
+<p>Recall the $tr_B$ function we <a href="https://longfangsong.github.io/en/hottest-notes-hott-3/#transport">mentioned before</a>, with this, we can define "type of identifications of $y$ with $y'$ over $p$":</p>
 <p>$$
 (y \overset{B}{\underset{p}=} y') := (tr_B(p,y) \underset{B(x')}{=} y')
 $$</p>
@@ -387,7 +387,7 @@ $$
 </span><span>    </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#b48ead;">Σ </span><span style="color:#bf616a;">z z&#39; </span><span>→ (</span><span style="color:#bf616a;">z </span><span>≡ </span><span style="color:#bf616a;">z&#39;</span><span>)
 </span><span style="color:#ebcb8b;">Eq</span><span>-</span><span style="color:#bf616a;">pair</span><span> (</span><span style="color:#bf616a;">refl </span><span>, </span><span style="color:#bf616a;">refl</span><span>) = </span><span style="color:#bf616a;">refl
 </span></code></pre>
-<p>And we can find that $Eq\text{-}pair$ and $pair\text{-}Eq$ are &quot;inverse&quot; of each other:</p>
+<p>And we can find that $Eq\text{-}pair$ and $pair\text{-}Eq$ are "inverse" of each other:</p>
 <p>$$
 \Pi_{(z,z':S)} \Pi_{(w:Eq\text{-}Σ(z,z'))} Eq\text{-}pair(pair\text{-}Eq(w)) = w
 $$</p>
@@ -423,7 +423,7 @@ $$</p>
 <p>Ref <a href="https://longfangsong.github.io/en/hottest-notes-hott-3/#functoriality">Note 3</a> if you forget the definition of $ap$.</p>
 </div>
 <div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
-<p>You may see a lot of proofs in this section of course are just simple combination of <code>refl</code>s in different types. When writing Agda code, <code>refl</code>s' types are omitted, one need to read the type signature of the whole function. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? Or, should the IDE at least &quot;expand&quot; the type when human beings are reading the code?</p>
+<p>You may see a lot of proofs in this section of course are just simple combination of <code>refl</code>s in different types. When writing Agda code, <code>refl</code>s' types are omitted, one need to read the type signature of the whole function. Is letting the same notation stands for things in different types and leave the hard work to a type inference program a good idea? Or, should the IDE at least "expand" the type when human beings are reading the code?</p>
 </div>
 <div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
 <p><a href="https://planetmath.org/1121pathinduction">Ref</a></p>

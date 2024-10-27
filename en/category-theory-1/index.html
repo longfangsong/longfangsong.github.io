@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -118,7 +118,7 @@
 <blockquote>
 <p>... category theory is the mathematical study of (abstract) algebras of functions. —— <em>Category Theory</em> by <em>Steve Awodey</em></p>
 </blockquote>
-<p>For me, learning category theory enables me to understand what on earth is &quot;a monoid in the category of endofunctors&quot;, and it helps me to learn HoTT.</p>
+<p>For me, learning category theory enables me to understand what on earth is "a monoid in the category of endofunctors", and it helps me to learn HoTT.</p>
 <h2 id="function-of-sets">Function of Sets</h2>
 <p>Nothing too much to say here, only some notations here.</p>
 <p>Identity function in the books I am using (primary <em>Category Theory</em> by <em>Steve Awodey</em>, but I'm also referring to <em>Beginning Category Theory</em> by <em>Peter Smith</em>) is written as</p>
@@ -130,7 +130,7 @@ $$</p>
 <ul>
 <li>Contains objects and arrows (you can consider arrows as something like functions since it makes it simpler, but they don't have to be functions actually) between them</li>
 <li>The arrows can composite with each other and obey the associativity rule</li>
-<li>For each object, there exists an identity arrow, which is also the &quot;unit&quot; arrow when compositing with other arrows.</li>
+<li>For each object, there exists an identity arrow, which is also the "unit" arrow when compositing with other arrows.</li>
 </ul>
 <p>In Agda, simplified:</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">record </span><span style="color:#b48ead;">Category</span><span> (</span><span style="color:#bf616a;">o ℓ e </span><span>: </span><span style="color:#b48ead;">Level</span><span>) : </span><span style="color:#b48ead;">Set</span><span> (</span><span style="color:#bf616a;">suc</span><span> (</span><span style="color:#bf616a;">o </span><span>⊔ </span><span style="color:#bf616a;">ℓ </span><span>⊔ </span><span style="color:#bf616a;">e</span><span>)) </span><span style="color:#b48ead;">where
@@ -170,7 +170,7 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.</p>
 <p>A monoid is a category with only one object, and the arrows are the monoid's elements. The identity arrow is the unit element, and the composite of arrows is the monoid's operation.</p>
 <p>For any object $C$ in any category $\textbf{C}$, the set of arrows from $C$ to $C$, written as $Hom_{\textbf{C}}(C,C)$, is a monoid under the composition operation of $\textbf{C}$</p>
 <p>Monoids are structured sets, there is a category $\textbf{Mon}$ whose objects are monoids and arrows are functions that preserve the monoid structure.</p>
-<p>A <a href="https://ncatlab.org/nlab/show/homomorphism">homomorphism</a> from $M$ to $N$ is the same thing as a functor from &quot;$M$ as category&quot; to &quot;$N$ as category&quot;, so:</p>
+<p>A <a href="https://ncatlab.org/nlab/show/homomorphism">homomorphism</a> from $M$ to $N$ is the same thing as a functor from "$M$ as category" to "$N$ as category", so:</p>
 <p>Category can be considered as a kind of <em>generalized monoid</em>. And functor can be regarded as a generalized homomorphism.</p>
 <h3 id="free-category">Free category</h3>
 <blockquote>
@@ -185,7 +185,7 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.</p>
 <h2 id="isomorphism">Isomorphism</h2>
 <p>In a category, an arrow can be called an isomorphism if it has an inverse.</p>
 <p>If there exists an isomorphism between object $A$ and $B$ in category $C$, we say $A$ is isomorphic to $B$, and write $A \cong B$.</p>
-<p>Intuitively we can think isomorphism is a way to say that two objects are &quot;similar&quot;.</p>
+<p>Intuitively we can think isomorphism is a way to say that two objects are "similar".</p>
 <h2 id="large-small-category">Large/Small Category</h2>
 <blockquote>
 <p>A category is small if it has a small set of objects and a small set of morphisms. —— nLab</p>
@@ -196,8 +196,10 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.</p>
 </blockquote>
 <p>And large categories are those which are not small.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p><del>I'm considering doing these kinds of proof in Agda, however, I'm not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)</del> I think it is OK to do so, ref <a href="https://arxiv.org/pdf/2005.07059.pdf">this paper</a>. I'll use the <code>agda-categories</code> library for explanation.
-<sup class="footnote-reference"><a href="#2">2</a></sup>: For example, the class of all sets is not a set, but a proper class.</p>
+<p><del>I'm considering doing these kinds of proof in Agda, however, I'm not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)</del> I think it is OK to do so, ref <a href="https://arxiv.org/pdf/2005.07059.pdf">this paper</a>. I'll use the <code>agda-categories</code> library for explanation.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>For example, the class of all sets is not a set, but a proper class.</p>
 </div>
 </div>
   <div class="post-footer">

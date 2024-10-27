@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -118,7 +118,7 @@
 <p>causal graphs (also known as path diagrams, causal Bayesian networks or DAGs) are probabilistic graphical models used to encode assumptions about the data-generating process.</p>
 </blockquote>
 <blockquote>
-<p>The causal graph can be drawn in the following way. Each variable in the model has a corresponding vertex or node and an arrow is drawn from a variable X to a variable Y whenever Y is judged to respond to changes in X when all other variables are being held constant. Variables connected to Y through direct arrows are called parents of Y, or &quot;direct causes of Y,&quot; and are denoted by Pa(Y).</p>
+<p>The causal graph can be drawn in the following way. Each variable in the model has a corresponding vertex or node and an arrow is drawn from a variable X to a variable Y whenever Y is judged to respond to changes in X when all other variables are being held constant. Variables connected to Y through direct arrows are called parents of Y, or "direct causes of Y," and are denoted by Pa(Y).</p>
 </blockquote>
 <p>简单来说就是用来描述因果关系的有向无环图。</p>
 <iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMixbMCwwLCJQcmVkaWN0b3IiXSxbMiwwLCJPdXRjb21lIl0sWzAsMV1d&embed" width="432" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px"></iframe>
@@ -156,7 +156,7 @@
 <p>假设路径从 $X$ 到 $Y$， 要关闭一个正打开的路径，有两个方法：</p>
 <ul>
 <li>通过搜集数据、进行实验等方式让 $X$ 随机分布，这样，所有进入 $X$ 的箭头都会被打断，从而关闭路径。</li>
-<li>&quot;condition on&quot; 路径上的 fork 和 pipe，即对 fork 和 pipe 上的变量进行控制（即分别对这个变量为不同的值时的模型进行研究），使其不再影响 $X$ 和 $Y$ 之间的关系。
+<li>"condition on" 路径上的 fork 和 pipe，即对 fork 和 pipe 上的变量进行控制（即分别对这个变量为不同的值时的模型进行研究），使其不再影响 $X$ 和 $Y$ 之间的关系。
 对于 descendent，控制 Descendent 节点可以部分关闭路径。</li>
 </ul>
 <p>关闭 Path 时，如果 Path 上有多个可以控制的节点，控制其中离 $Y$ 最近的节点对于估计 $X$ 到 $Y$ 之间的影响精度比较有利。</p>

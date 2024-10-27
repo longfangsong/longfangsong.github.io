@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
           </div>
         </div>
@@ -150,7 +150,7 @@
 <p>比较简单的想法是，如果我们能从一个命题通过一些程序运算得到另一个命题，那如果前者成立，后者（因为是算出来的）也必定成立，所以这个程序就是两个命题间“实质蕴涵”的一个构造性证明；而为了让这个程序中的 “类型检查” 可以用于保证这个证明是有效的，我们可以用类型的形式“书写”这个命题。</p>
 <h2 id="zen-me-yong-ye-ji-yi-xie-ji-suan-ji-fu-zhu-zheng-ming-de-li-zi">怎么用，也即一些计算机辅助证明的例子</h2>
 <p>例如我们要在 lean 中证明 <code>(p → (q → r)) → (p ∧ q → r)</code>，或者读作：</p>
-<p>For all proposition p, q, and r, &quot;p → (q → r)&quot; implies &quot;(p ∧ q) → r&quot;.</p>
+<p>For all proposition p, q, and r, "p → (q → r)" implies "(p ∧ q) → r".</p>
 <p>根据“程序即证明”的思想接下来我们要写一个类型为 <code>(p → (q → r)) → (p ∧ q → r)</code> 的程序。</p>
 <pre data-lang="lean" style="background-color:#2b303b;color:#c0c5ce;" class="language-lean "><code class="language-lean" data-lang="lean"><span style="color:#65737e;">-- fill &quot;sorry&quot; here
 </span><span style="color:#b48ead;">theorem </span><span style="color:#8fa1b3;">tt</span><span>: (p → (q → r)) → (p ∧ q → r) := </span><span style="background-color:#bf616a;color:#2b303b;">sorry</span><span>
@@ -168,7 +168,7 @@
 <p>实际证明命题的时候，我们可以利用到一些事先已经证明好的定理或者公理（也就是对应的函数），比如：</p>
 <ul>
 <li>
-<p><code>Or.elim</code>，其类型为 <code>Or a b → (a → c) → (b → c) → c</code>，也就是说它是一个 </p>
+<p><code>Or.elim</code>，其类型为 <code>Or a b → (a → c) → (b → c) → c</code>，也就是说它是一个</p>
 <ul>
 <li>接受一个形如 <code>Or a b</code> （常被写作 <code>a ∨ b</code>）的类型（也就是对应的命题）</li>
 <li>再接受一个 <code>a → c</code> 类型的函数（或者说 命题 <code>a → c</code> 的证明）</li>

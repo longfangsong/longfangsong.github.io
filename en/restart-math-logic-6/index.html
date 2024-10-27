@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -126,24 +126,24 @@ $$</p>
 (|x &gt; 0|) P (|y\times y &lt; x|)
 $$</p>
 <p>So to prove the correctness of any program P, we need to assume a $\phi$ and get a $\psi$ with $P$ in some certain ways.</p>
-<p>However, the possible result of P executing in $\phi$ is not just $\psi$ or $\neg\psi$, it's also possible that P never terminates (if you are using a turing complete language, it is totally possible to write a dead loop), so we can distinguish partial correctness, which just assume the program will eventually terminate, and complete correctness, which needs a proof of it. </p>
+<p>However, the possible result of P executing in $\phi$ is not just $\psi$ or $\neg\psi$, it's also possible that P never terminates (if you are using a turing complete language, it is totally possible to write a dead loop), so we can distinguish partial correctness, which just assume the program will eventually terminate, and complete correctness, which needs a proof of it.</p>
 <h3 id="proof-calculus-for-partial-correctness">Proof calculus for partial correctness</h3>
 <h4 id="rules">Rules</h4>
 <p>Ref figure 4.1 of the book.</p>
-<p>Note in &quot;Implied&quot; rule &quot;AR&quot; means arithmetic<sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
+<p>Note in "Implied" rule "AR" means arithmetic<sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
 <h4 id="weakest-precondition">Weakest Precondition</h4>
 <p>For each $\psi'$ after a $C$, we can get a $\psi$ before $C$, which can lead to $\psi'$ after $C$ by using one of the rules.</p>
-<p>The only difficult rule to apply here is the &quot;Partial-while&quot; rule. Which needs part of $\psi'$ is a &quot;loop invariant&quot;, which holds before each iteration of the loop starts and still holds after the whole loop.</p>
-<p>Unfortunately, finding such a loop invariant is not easy, it needs &quot;intelligence and ingenuity&quot;.</p>
+<p>The only difficult rule to apply here is the "Partial-while" rule. Which needs part of $\psi'$ is a "loop invariant", which holds before each iteration of the loop starts and still holds after the whole loop.</p>
+<p>Unfortunately, finding such a loop invariant is not easy, it needs "intelligence and ingenuity".</p>
 <h3 id="proof-calculus-for-total-correctness">Proof calculus for total correctness</h3>
-<p>Proof calculus for total correctness is similar to partial correctness, we just need to add a proof to show the loops will eventually terminated, this is usually done by &quot;identify an integer expression whose value can be shown to decrease every time we execute the body of the while-statement in question, but which is always non-negative&quot;.</p>
-<p>However it is not always possible to find such a proof, for example, I believe Collatz program terminates, but human beings haven't found a way to show it terminates. </p>
+<p>Proof calculus for total correctness is similar to partial correctness, we just need to add a proof to show the loops will eventually terminated, this is usually done by "identify an integer expression whose value can be shown to decrease every time we execute the body of the while-statement in question, but which is always non-negative".</p>
+<p>However it is not always possible to find such a proof, for example, I believe Collatz program terminates, but human beings haven't found a way to show it terminates.</p>
 <h3 id="programming-by-contract">Programming by contract</h3>
 <p>Good methodology, not feasible in most commercial softwares nowadays.</p>
 <p>Nowadays there do exists some languages that support programming by contract, like <a href="https://github.com/dafny-lang/dafny">Dafny</a>, but they are not widely used. It's understandable, because it costs too much effort to practice. Most software just want to hit the market fast and get quick responses rather than being correct at the first place.</p>
-<p>It might be a serious problem for program verification, few programs can be &quot;specified&quot; before being written, and since requirements changes rapidly, it's hard to keep the specification, the requirements and the program in sync. And all the verification work is quiet hard and requires &quot;intelligence and ingenuity&quot;, a verification checker is sometimes annoying<sup class="footnote-reference"><a href="#2">2</a></sup>, even if it is, in most of times, correct.</p>
+<p>It might be a serious problem for program verification, few programs can be "specified" before being written, and since requirements changes rapidly, it's hard to keep the specification, the requirements and the program in sync. And all the verification work is quiet hard and requires "intelligence and ingenuity", a verification checker is sometimes annoying<sup class="footnote-reference"><a href="#2">2</a></sup>, even if it is, in most of times, correct.</p>
 <p>Honestly, though I love the idea of programming by contract (and I always add as much asserts I can in my programs), I have to admit it's not a good idea for nowadays software industry, which develops in a crazy speed. We just pile up shitty code to satisfied the customer. Correctness is not the most important thing here, but profitable is.</p>
-<p>Personally I think a gradual way of introducing verification into industrial languages might be a feasible approach. We can provide tools in language to enable the programmer to proof only the core logic of a program, and maybe with several &quot;sorry&quot; or &quot;trustMe&quot; for complex details.</p>
+<p>Personally I think a gradual way of introducing verification into industrial languages might be a feasible approach. We can provide tools in language to enable the programmer to proof only the core logic of a program, and maybe with several "sorry" or "trustMe" for complex details.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>Why you mathematician guys love using abbreviation.</p>
 </div>

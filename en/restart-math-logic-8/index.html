@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -113,12 +113,12 @@
 <article class="post animated fadeInDown">
   <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-8&#x2F;">Restart learning math • Mathematical logic (8)</a></h1>
   
-  <div class="post-content"><p>I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$. </p>
+  <div class="post-content"><p>I have learnt a little bit about binary decision diagrams when trying to find out how FPGA synthesis works. The benefits of adopting this form is it is easier to be mapped onto a real life circuit (by comparing a subgraph with the graphs of existing circuit components), and it has a good balance of the complexity of doing $\times$ and $+$.</p>
 <p>I'll start with the algorithms for OBDDs because the definition of BDD and OBDD is simple and intuitive, but I'll still put the code which implements this data structure here.</p>
 <p>(All BDDs in this article are ordered.)</p>
 <p>You can view code of a working implementation <a href="https://github.com/longfangsong/logic-lab/blob/main/src/binary_decision_diagram.rs">here</a>. And there's also a demo of the code (ported to the browser via wasm) by the end of this article.</p>
 <h3 id="convert-from-formulas">Convert from formulas</h3>
-<p>Though the book didn't mention this algorithm, I still want to write this, 
+<p>Though the book didn't mention this algorithm, I still want to write this,
 because in real life, most of times we get logic formulas instead of BDDs as user input.</p>
 <p>So suppose we already have a (parsed) logic formula $f$, and we can have all atom variables inside it $v$, we can have a recursive algorithm to convert it into a BDD.</p>
 <ul>
@@ -155,7 +155,7 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 </span><span>    </span><span style="color:#d08770;">BDD </span><span>{ root, tree }
 </span><span>}
 </span></code></pre>
-<p>Actually this algorithm is similar with &quot;recursive Shannon expansion&quot;, which we'll use again in <code>apply</code>.</p>
+<p>Actually this algorithm is similar with "recursive Shannon expansion", which we'll use again in <code>apply</code>.</p>
 <h4 id="complexity">Complexity</h4>
 <p>Once the formula's variables count increased by 1, we need to do 2 more recursive calls with 1 less variable.</p>
 <p>Presume the graph is implemented in an efficient enough way, we have $T(n)=2T(n-1)+O(1)$, which lead us to $O(2^n)$, where $n$ is variable count.</p>
@@ -216,7 +216,7 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 </span><span>}
 </span></code></pre>
 <h4 id="complexity-1">Complexity</h4>
-<p>This algorithm considers each node once, and for <code>BinaryHeap</code> &quot;Insertion and popping the largest element have O(log(n)) time complexity&quot;, so the complexity is $O(nlogn)$, where $n$ is the origin BDD's node count.</p>
+<p>This algorithm considers each node once, and for <code>BinaryHeap</code> "Insertion and popping the largest element have O(log(n)) time complexity", so the complexity is $O(nlogn)$, where $n$ is the origin BDD's node count.</p>
 <h3 id="apply">Apply</h3>
 <p>We can view this operation as an abstract over $\text{&amp;}$ and $|$ operations on boolean functions, ie. <strong>apply</strong> a <code>fn (bool, bool) -&gt; bool</code> to two boolean functions.</p>
 <p>So basically we just split the <code>true</code> and <code>false</code> case for every single variable, and apply the function to the rest of the function.</p>
@@ -323,11 +323,11 @@ because in real life, most of times we get logic formulas instead of BDDs as use
 <p>If the data structure is efficient enough, this operation's complexity is $O(n\cdot e_{avg})$, where $n$ is the count of nodes of this variable, and $e_{avg}$ is the average incoming edge count of these nodes.</p>
 <p>However we always needs to <code>reduce</code> once after <code>restrict</code>, which is usually more expensive than <code>restrict</code> itself.</p>
 <h3 id="exists">Exists</h3>
-<p>$∃x.f$ means &quot;whether $f$ can be true by make $x$ be true or false&quot;.</p>
+<p>$∃x.f$ means "whether $f$ can be true by make $x$ be true or false".</p>
 <pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#96b5b4;">exists</span><span>(bdd, x) = </span><span style="color:#96b5b4;">restrict</span><span>(bdd, x, </span><span style="color:#d08770;">false</span><span>) | </span><span style="color:#96b5b4;">restrict</span><span>(bdd, x, </span><span style="color:#d08770;">true</span><span>)
 </span></code></pre>
 <p>So a naive method is simply calculate <code>restrict(bdd, x, false)</code> and <code>restrict(bdd, x, true)</code>, then apply <code>|</code> on the results.</p>
-<p>An possible optimization is that since the structure &quot;before&quot; x in the BDDs are identical, we just needs to do <code>restrict(bdd rooted in x, x, false) | restrict(bdd rooted in x, x, false)</code>, and <code>restrict(bdd rooted in x, x, bool)</code> is actually the left/right child of <code>bdd rooted in x</code>.</p>
+<p>An possible optimization is that since the structure "before" x in the BDDs are identical, we just needs to do <code>restrict(bdd rooted in x, x, false) | restrict(bdd rooted in x, x, false)</code>, and <code>restrict(bdd rooted in x, x, bool)</code> is actually the left/right child of <code>bdd rooted in x</code>.</p>
 <p>So the algorithm is:</p>
 <pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">exists</span><span>(</span><span style="color:#bf616a;">bdd</span><span>: BDD, </span><span style="color:#bf616a;">variable</span><span>: Atom) -&gt; BDD {
 </span><span>    </span><span style="color:#b48ead;">let</span><span> result = bdd.</span><span style="color:#96b5b4;">clone</span><span>();

@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -155,7 +155,7 @@
 </span></code></pre>
 <p>这里的 <code>=&gt;</code> 指是“左边的表达式可以（一步）转化为右边的表达式”。</p>
 <p>这些规则就构成了一个可以用数理逻辑证明程序的各种性质的证明系统。</p>
-<p>比如我们可以证明一个符合这个语法的数学表达式一定是 &quot;progress&quot;<sup class="footnote-reference"><a href="#2">2</a></sup> 的：</p>
+<p>比如我们可以证明一个符合这个语法的数学表达式一定是 "progress"<sup class="footnote-reference"><a href="#2">2</a></sup> 的：</p>
 <pre data-lang="agda" style="background-color:#2b303b;color:#c0c5ce;" class="language-agda "><code class="language-agda" data-lang="agda"><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span>-</span><span style="color:#bf616a;">add </span><span>: {</span><span style="color:#bf616a;">e0 e1 </span><span>: </span><span style="color:#96b5b4;">exp</span><span>} -&gt; </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e0 </span><span>-&gt; </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress e1 </span><span>-&gt;
 </span><span>                                   </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span> (</span><span style="color:#b48ead;">Add </span><span style="color:#bf616a;">e0 e1</span><span>)
 </span><span style="color:#bf616a;">makes</span><span>-</span><span style="color:#bf616a;">progress</span><span>-</span><span style="color:#bf616a;">add isValue isValue </span><span>= </span><span style="color:#bf616a;">hasReduction </span><span>=&gt;</span><span style="color:#b48ead;">A

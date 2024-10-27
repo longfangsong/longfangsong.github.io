@@ -60,7 +60,7 @@
     <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
                       aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
       </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
-<div id="pirate" data-wordart-src="//cdn.wordart.com/json/07ojvp9ogz3m" style="width: 100%;"
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
   data-wordart-show-attribution></div>
 
     </ul>
@@ -140,7 +140,7 @@ $$</p>
 $$</p>
 <p>都是利用假定的一些规则形成 judgemental equal 的例子。</p>
 <p>$\doteq$ 具有交换率和结合率。</p>
-<p>In Agda, 所有能被 type checker 自动 “转换” 的东西之间都是 judgemental equal 的，比如你可以在一个要求放入函数 $f$ 的地方放入 $\lambda x . f(x)$，类型检查器不会 complain，因为它们 judgemental equal。 </p>
+<p>In Agda, 所有能被 type checker 自动 “转换” 的东西之间都是 judgemental equal 的，比如你可以在一个要求放入函数 $f$ 的地方放入 $\lambda x . f(x)$，类型检查器不会 complain，因为它们 judgemental equal。</p>
 <h4 id="propositional-equal-identity-type">Propositional equal/identity type</h4>
 <p>由于 judgemental equal 有很多限制，比如依照下面的自然数定义，我们不能证明 $add(0, n) \doteq n$，因此需要引入 propositional equal。</p>
 <p>根据 Curry-Howard correspondence，两个值相等这一个命题可以被转化为一个类型，这就是 propositional equal 类型，或者称为 identity type。</p>
@@ -285,7 +285,7 @@ $$</p>
 <p>An example of a pointed type is $(ℕ , 0)$.
 Pointed maps are maps between pointed types that preserve the point.</p>
 <p>$$
-(A →_* B) := Σ_{(f : A → B)} f(a) = b
+(A →<em>* B) := Σ</em>{(f : A → B)} f(a) = b
 $$</p>
 <h2 id="loop-space">loop space</h2>
 <p>$$
@@ -349,7 +349,7 @@ tr_𝐵(𝑝) : 𝐵(𝑥) ≃ 𝐵(𝑦)
 $$</li>
 <li>any section and any retraction of an equivalence is again an equivalence.</li>
 <li>equivalent types have equivalent identity types ($e : A ≃ B$, then $ap_e$ is an equivalence function)</li>
-<li>&quot;axiom&quot; of choice
+<li>"axiom" of choice
 $$
 \begin{align}
 choice &amp;: &amp; \Pi_{(x:A)}\Sigma_{(𝑦:𝐵(𝑥))}𝐶(𝑥, 𝑦) ≃ \Sigma_{(𝑓:\Pi_{(𝑥:𝐴)} 𝐵(𝑥))}\Pi_{(𝑥:𝐴)}𝐶(𝑥, 𝑓(𝑥)) \\
@@ -437,7 +437,7 @@ $$</p>
 <ul>
 <li>Product ($\Pi$) of k-truncated types is k-truncated.</li>
 <li>retract of k-truncated type is k-truncated</li>
-<li>$f: A→B$, B is 𝑘-type, then &quot;A is k-type&quot; ↔ &quot;f is k-type&quot;</li>
+<li>$f: A→B$, B is 𝑘-type, then "A is k-type" ↔ "f is k-type"</li>
 <li>If $𝑓 : 𝐴 → 𝐵$ is an embedding, and 𝐵 is a (𝑘 + 1)-type, then so is 𝐴.</li>
 <li>𝑓 is (𝑘 + 1)-truncated, then $ap_f$ is k-truncated, and vice versa.</li>
 <li>𝐵(𝑥) is 𝑘-truncated for each $𝑥 : 𝐴$ ↔ $Σ(𝑥:𝐴) 𝐵(𝑥)$ is 𝑘-truncated</li>

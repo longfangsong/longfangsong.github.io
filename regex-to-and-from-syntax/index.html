@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • 正则表达式 &lt;-&gt; 正规文法</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;regex-to-and-from-syntax&#x2F;">正则表达式 &lt;-&gt; 正规文法</a></h1>
+  
+  <div class="post-content"><h2 id="ji-ben-li-lun">基本理论</h2>
+<p>理论的东西谁看了都头大，我就能减则减了，就说一点点。</p>
+<h3 id="zheng-ze-biao-da-shi">正则表达式</h3>
+<p>正则表达式和我们平常使用的正则表达式差不多，只不过为了方便起见，我们只使用了$\cdot$、$*$和$|$三个运算符，实际上，大部分其他运算符的功能都可以被这三个运算符所替代<sup class="footnote-reference"><a href="#1">1</a></sup>。</p>
+<ul>
+<li>$\cdot$ 代表两个正则字符串的连接，如 $a\cdot b$ 就能匹配 ab，习惯上可以省略。</li>
+<li>$|$代表并集，如$a|b$能匹配 $a$，也能匹配 $b$</li>
+<li>$*$ 代表重复0次或更多，如 $a*$能匹配 $\epsilon$、$a$、$aa$、$aaa$等等，这里 $\epsilon$ 代表的是空字符串。</li>
+</ul>
+<p>规定 $*$ 优先级最高，$\cdot$ 次之，$|$ 优先级最低，当然我们也有 $()$ 来表示优先计算。
+显然有：</p>
+<ul>
+<li>$\cdot$和$|$满足结合律</li>
+<li>$\cdot$满足对$|$的分配律，如$a(b|c)\leftrightarrow ab|ac$</li>
+<li>$|$满足交换律</li>
+<li>$<em>$满足幂等率，$(a</em>)* \leftrightarrow a*$</li>
+<li>$\epsilon|a\leftrightarrow a$，$\epsilon \cdot a\leftrightarrow a$，$a \cdot \epsilon \leftrightarrow a$</li>
+</ul>
+<h3 id="zheng-gui-wen-fa-chan-sheng-shi">正规文法产生式</h3>
+<p>产生式是这样一个东西：</p>
+<p>$$
+A \rightarrow \epsilon
+$$
+or
+$$
+A \rightarrow abc
+$$
+or
+$$
+B \rightarrow aA
+$$
+or
+$$
+aC \rightarrow aAbBc
+$$
+or
+$$
+aAb \rightarrow Bac
+$$
+or
+$$
+A \rightarrow a|b*
+$$</p>
+<p>意思就是左边的东西代表了右边的东西，我们习惯用小写字母代表真正的字母（称为终结符），用大写字母代表代表另一些字母的一个符号（称为非终结符）。</p>
+<p>有个直观感受就行了，具体定义除了让人头大以外没啥意义。</p>
+<h3 id="zheng-gui-wen-fa">正规文法</h3>
+<p>正规文法<sup class="footnote-reference"><a href="#2">2</a></sup>是这样一个东西：</p>
+<p>正规文法就是一堆产生式的集合<sup class="footnote-reference"><a href="#3">3</a></sup>，这些产生式要满足：</p>
+<ul>
+<li>左边只有一个非终结符</li>
+<li>右边是：
+<ul>
+<li>$\epsilon$</li>
+<li>终结符</li>
+<li>一个终结符$\cdot$一个非终结符</li>
+</ul>
+</li>
+</ul>
+<p>明显这些产生式在替换的时候就会比较方便，而且日后拿来化 NFA 就非常容易了。</p>
+<h2 id="shi-jian">实践</h2>
+<p>实践证明，书上给的算法还是偏理论，实际应用起来还是会有很多问题。自己实现的时候还是要做很多的考虑。</p>
+<p>我们结合我的代码来分析。代码使用Kotlin写成，项目地址在<a href="https://github.com/longfangsong/RegexCalculator">这里</a>。</p>
+<h3 id="zheng-ze-biao-da-shi-1">正则表达式</h3>
+<p>我们先将正则表达式中的元素抽象为接口<sup class="footnote-reference"><a href="#4">4</a></sup>：</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">interface </span><span style="color:#ebcb8b;">RegexComponent
+</span></code></pre>
+<p>那么哪些东西该实现这个接口呢？</p>
+<h4 id="zi-mu">字母</h4>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">abstract class </span><span style="color:#ebcb8b;">Character</span><span>(</span><span style="color:#b48ead;">private val </span><span>name: </span><span style="color:#b48ead;">String</span><span>) : </span><span style="color:#a3be8c;">RegexComponent</span><span>, </span><span style="color:#a3be8c;">Comparable</span><span>&lt;</span><span style="color:#a3be8c;">Character</span><span>&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">NonTerminalCharacter</span><span>(name: </span><span style="color:#b48ead;">String</span><span>) : </span><span style="color:#a3be8c;">Character</span><span>(name)
+</span><span style="color:#b48ead;">open class </span><span style="color:#ebcb8b;">TerminalCharacter</span><span>(name: </span><span style="color:#b48ead;">String</span><span>) : </span><span style="color:#a3be8c;">Character</span><span>(name)
+</span><span style="color:#b48ead;">object </span><span style="color:#ebcb8b;">nullCharacter </span><span>: </span><span style="color:#a3be8c;">TerminalCharacter</span><span>(&quot;</span><span style="color:#a3be8c;">ε</span><span>&quot;)
+</span></code></pre>
+<h4 id="zheng-ze-biao-da-shi-zhong-de-yuan-su-zhi-jian-yun-suan-de-jie-guo">正则表达式中的元素之间运算的结果</h4>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Concated</span><span>(</span><span style="color:#b48ead;">val </span><span>components: </span><span style="color:#b48ead;">List</span><span>&lt;RegexComponent&gt;) : </span><span style="color:#a3be8c;">RegexComponent
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Optioned</span><span>(</span><span style="color:#b48ead;">val </span><span>components: </span><span style="color:#b48ead;">Set</span><span>&lt;RegexComponent&gt;) : </span><span style="color:#a3be8c;">RegexComponent
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Repeated</span><span>(</span><span style="color:#b48ead;">val </span><span>toRepeat: RegexComponent) : </span><span style="color:#a3be8c;">RegexComponent
+</span></code></pre>
+<p>开始我对把各个运算的业务逻辑放在哪里感到摇摆不定，因为我希望尽可能地使用分配律和结合率，来让后面的工作变得简单，但这样就不可避免地使用运行时类型识别，这有一点反模式的意味，因为一般来说都是建议Replace Conditional with Polymorphism的，但多态其实难以解决这里的问题，反而会造成Duplicated Code，例如运用对$|$的分配律的时候要分别在Character、Repeated和Concated中进行对Optioned类型的判断，如果试图用Polymorphism为所有RegexComponent添加一个返回这时要被分配出来的东西的属性，那么代码量就会平白无故多出很多，而且至少本人无法为这个属性命名（通常这意味着引入这个属性并非好主意）。</p>
+<p>最终我决定干脆把所有业务逻辑塞到一个地方，反正这种学术性问题不存在改需求。</p>
+<p>然后就做了一个factory出来：</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">object </span><span style="color:#ebcb8b;">RegexComponentFactory</span><span> {
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">concated</span><span>(component1: RegexComponent, component2: RegexComponent): RegexComponent
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">optioned</span><span>(component1: RegexComponent, component2: RegexComponent): RegexComponent
+</span><span>    </span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">repeated</span><span>(component: RegexComponent): RegexComponent
+</span><span>    </span><span style="color:#65737e;">// ...
+</span><span>}
+</span></code></pre>
+<p>既然是factory，干脆把从字符串构造RegexComponent的方法也塞进去：</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * 补上省略的&#39;.&#39;号
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">private fun </span><span style="color:#8fa1b3;">addOmittedDotOperator</span><span>(str: </span><span style="color:#b48ead;">String</span><span>): </span><span style="color:#b48ead;">String</span><span> {
+</span><span>    </span><span style="color:#b48ead;">val </span><span>theString = StringBuilder()
+</span><span>    </span><span style="color:#b48ead;">for</span><span> ((index, ch) </span><span style="color:#b48ead;">in</span><span> str.withIndex()) {
+</span><span>        theString.append(ch)
+</span><span>        </span><span style="color:#b48ead;">if</span><span> (index != str.length - </span><span style="color:#d08770;">1</span><span>) {
+</span><span>            </span><span style="color:#b48ead;">if</span><span> ((ch.isLowerCase() || ch.isDigit() || ch == &#39;</span><span style="color:#a3be8c;">)</span><span>&#39;) &amp;&amp;
+</span><span>                    (str[index + </span><span style="color:#d08770;">1</span><span>].isLowerCase() || str[index + </span><span style="color:#d08770;">1</span><span>].isDigit() || str[index + </span><span style="color:#d08770;">1</span><span>] == &#39;</span><span style="color:#a3be8c;">(</span><span>&#39;) ||
+</span><span>                    (ch == &#39;</span><span style="color:#a3be8c;">*</span><span>&#39; &amp;&amp; !isRegexOperator(str[index + </span><span style="color:#d08770;">1</span><span>]) &amp;&amp; str[index + </span><span style="color:#d08770;">1</span><span>] != &#39;</span><span style="color:#a3be8c;">)</span><span>&#39;)) {
+</span><span>                theString.append(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;)
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> theString.toString()
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">* 实际构造过程
+</span><span style="color:#65737e;">*/
+</span><span style="color:#b48ead;">private fun </span><span style="color:#8fa1b3;">fromFormalString</span><span>(string: </span><span style="color:#b48ead;">String</span><span>): RegexComponent {
+</span><span>    </span><span style="color:#b48ead;">if</span><span> (string == &quot;&quot;)
+</span><span>        </span><span style="color:#b48ead;">return</span><span> nullCharacter
+</span><span>    </span><span style="color:#b48ead;">try</span><span> {
+</span><span>        </span><span style="color:#b48ead;">return when</span><span> {
+</span><span>            string.startsWith(&#39;</span><span style="color:#a3be8c;">(</span><span>&#39;) &amp;&amp; pairedRightBracketIndex(string) == string.length - </span><span style="color:#d08770;">1 </span><span>-&gt;
+</span><span>                fromFormalString(eraseUselessBracketPairs(string))
+</span><span>            string.length == </span><span style="color:#d08770;">1 </span><span>-&gt;
+</span><span>                TerminalCharacter(string)
+</span><span>            string.firstLayerContain(&#39;</span><span style="color:#a3be8c;">|</span><span>&#39;) -&gt;
+</span><span>                string.splitFirstLayerBy(&#39;</span><span style="color:#a3be8c;">|</span><span>&#39;).map { fromFormalString(it) }.reduce { acc, regexPart -&gt; acc or regexPart }
+</span><span>            string.firstLayerContain(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;) -&gt;
+</span><span>                string.splitFirstLayerBy(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;).map { fromFormalString(it) }.reduce { acc, regexPart -&gt; acc concat regexPart }
+</span><span>            string.endsWith(&#39;</span><span style="color:#a3be8c;">*</span><span>&#39;) -&gt;
+</span><span>                </span><span style="color:#b48ead;">if</span><span> (string.startsWith(&#39;</span><span style="color:#a3be8c;">(</span><span>&#39;)) {
+</span><span>                    fromFormalString(string.slice(</span><span style="color:#d08770;">1</span><span> until string.length - </span><span style="color:#d08770;">2</span><span>)).repeat()
+</span><span>                } </span><span style="color:#b48ead;">else</span><span> {
+</span><span>                    fromFormalString(string.slice(</span><span style="color:#d08770;">0</span><span> until string.length - </span><span style="color:#d08770;">1</span><span>)).repeat()
+</span><span>                }
+</span><span>            </span><span style="color:#b48ead;">else </span><span>-&gt;
+</span><span>                </span><span style="color:#b48ead;">throw</span><span> IllegalArgumentException(&quot;</span><span style="color:#a3be8c;">Can not construct from string </span><span style="color:#bf616a;">$string</span><span>&quot;)
+</span><span>        }
+</span><span>    } </span><span style="color:#b48ead;">catch</span><span> (_: StringIndexOutOfBoundsException) {
+</span><span>        </span><span style="color:#b48ead;">throw</span><span> IllegalArgumentException(&quot;</span><span style="color:#a3be8c;">Can not construct from string </span><span style="color:#bf616a;">$string</span><span>&quot;)
+</span><span>    } </span><span style="color:#b48ead;">catch</span><span> (_: IllegalArgumentException) {
+</span><span>        </span><span style="color:#b48ead;">throw</span><span> IllegalArgumentException(&quot;</span><span style="color:#a3be8c;">Can not construct from string </span><span style="color:#bf616a;">$string</span><span>&quot;)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * 从字符串中构造 RegexComponent
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">fromString</span><span>(string: </span><span style="color:#b48ead;">String</span><span>): RegexComponent {
+</span><span>    </span><span style="color:#b48ead;">return</span><span> fromFormalString(addOmittedDotOperator(string))
+</span><span>}
+</span></code></pre>
+<p>其中用到的几个帮助函数，实现可以在 <code>Tools.kt</code> 中找到。</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * 判断 @arg char 是否是正则表达式运算符
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">isRegexOperator</span><span>(char: </span><span style="color:#b48ead;">Char</span><span>) = char == &#39;</span><span style="color:#a3be8c;">|</span><span>&#39; || char == &#39;</span><span style="color:#a3be8c;">*</span><span>&#39; || char == &#39;</span><span style="color:#a3be8c;">.</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * 找到和某个&#39;(&#39;相匹配的&#39;)&#39;
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">pairedRightBracketIndex</span><span>(str: </span><span style="color:#b48ead;">String</span><span>, leftBracketIndex: </span><span style="color:#b48ead;">Int </span><span>= </span><span style="color:#d08770;">0</span><span>)
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * 移除一个字符串两侧无用的括号
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">eraseUselessBracketPairs</span><span>(str: </span><span style="color:#b48ead;">String</span><span>): </span><span style="color:#b48ead;">String
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * 判断一个字符串的第一层是否有某个字符
+</span><span style="color:#65737e;"> * &quot;第一层&quot;指所有括号之外
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">fun</span><span> String.</span><span style="color:#8fa1b3;">firstLayerContain</span><span>(char: </span><span style="color:#b48ead;">Char</span><span>): </span><span style="color:#b48ead;">Boolean
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;"> * 将第一层用 @arg char split开
+</span><span style="color:#65737e;"> */
+</span><span style="color:#b48ead;">fun</span><span> String.</span><span style="color:#8fa1b3;">splitFirstLayerBy</span><span>(char: </span><span style="color:#b48ead;">Char</span><span>): </span><span style="color:#b48ead;">List</span><span>&lt;</span><span style="color:#b48ead;">String</span><span>&gt;
+</span></code></pre>
+<p>到这里为止，我们已经能让计算机从我们输入的字符串中“读懂”一个正则了。</p>
+<p>接下来我们看文法那一边。</p>
+<h3 id="zheng-gui-wen-fa-1">正规文法</h3>
+<p>要有正规文法，首先要有生成式：</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Generator</span><span>(
+</span><span>        </span><span style="color:#b48ead;">val </span><span>from: NonTerminalCharacter,
+</span><span>        </span><span style="color:#b48ead;">val </span><span>to: RegexComponent
+</span><span>)
+</span></code></pre>
+<p>我们的文法是按照书上写的正规文法来的：</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Grammar</span><span>(
+</span><span>        </span><span style="color:#b48ead;">val </span><span>nonTerminals: </span><span style="color:#b48ead;">Set</span><span>&lt;NonTerminalCharacter&gt;,
+</span><span>        </span><span style="color:#b48ead;">val </span><span>terminals: </span><span style="color:#b48ead;">Set</span><span>&lt;TerminalCharacter&gt;,
+</span><span>        </span><span style="color:#b48ead;">val </span><span>rules: </span><span style="color:#b48ead;">Set</span><span>&lt;Generator&gt;,
+</span><span>        </span><span style="color:#b48ead;">val </span><span>start: NonTerminalCharacter
+</span><span>) {
+</span><span>    </span><span style="color:#65737e;">// 我们都知道使用一些Generator就能完成初始化了
+</span><span>	constructor(rles: </span><span style="color:#b48ead;">Collection</span><span>&lt;Generator&gt;) : </span><span style="color:#d08770;">this</span><span>(
+</span><span>            rles.map { it.from }.toSet(),
+</span><span>            rles.map { it.alphabet }.reduce { acc, set -&gt; acc + set },
+</span><span>            rles.toSet(),
+</span><span>            rles.minBy { it.from }!!.from
+</span><span>    )
+</span><span>}
+</span></code></pre>
+<h3 id="zhuan-huan">转换</h3>
+<h4 id="zheng-ze-biao-da-shi-rightarrow-zheng-gui-wen-fa">正则表达式 $\rightarrow$ 正规文法</h4>
+<p>我们先构造一个产生式，其左侧是一个新的非终结符，右侧是要转换的正则表达式本身。</p>
+<p>针对某个产生式，我们可能会面临这几种情况：</p>
+<ul>
+<li>
+<p>这个产生式右侧最外层是$\cdot$运算
+在这种情况下，我们还要考虑：</p>
+<ul>
+<li>如果这个产生式右侧以一个非终结符结尾，即形如 $A → a ⋅ b ⋅ B$ 或 $A → ( a | b ) ⋅ B$ 或 $A → a ∗ ⋅ B$ 的形式，我们要对这一非终结符左边的表达式的类型进行分类讨论：
+<ul>
+<li>如果这个表达式最外层是$\cdot$运算，则我们可以直接将最右侧的两个字母结合起来：
+$$
+C → b ⋅ B
+$$
+然后把前面那部分加进来：
+$$
+A → a ⋅ C
+$$</li>
+<li>不可能会碰到这个表达式最外层是$|$运算的情况，因为我们前面已经使用了分配律将$|$运算符分配进去了<sup class="footnote-reference"><a href="#5">5</a></sup></li>
+<li>如果这个表达式最外层是$*$运算，我们可以构造出：
+$$
+A → a A
+$$
+和
+$$
+A → B
+$$</li>
+</ul>
+</li>
+<li>否则，就是一个形如
+$$
+A → a ⋅ b ⋅ c
+$$
+的式子，我们可以将其变为
+$$
+A → a ⋅ B
+$$
+$$
+B → b c
+$$
+这样的形式。</li>
+</ul>
+</li>
+<li>
+<p>这个产生式右侧最外层是$|$运算，即形如
+$$
+A → a | b | c
+$$
+的式子，将其变为
+$$
+A → a
+$$
+和
+$$
+A → b
+$$
+和
+$$
+A → c
+$$
+即可。</p>
+</li>
+<li>
+<p>这个产生式右侧最外层是$*$运算，即形如
+$$
+A → a ∗
+$$
+这再简单没有了，只要化为：
+$$
+A → ϵ
+$$
+和
+$$
+A → a ⋅ A
+$$
+即可。</p>
+</li>
+</ul>
+<p>我们只需要不断对还没有化到符合正规文法的生成式不断使用上面的规则，直到所有生成式都无法用上面的方法进一步化简的时候就能停止了。</p>
+<p>此时的结果还不完全是正规文法，因为存在$A\rightarrow B$这样的直接推导到另外一个非终结符的推导式。</p>
+<p>这时我们可以把所有产生式中的$A$都替换成$B$，然后移除这个产生式即可。</p>
+<p>另外还有一些不被其他推导式使用的推导式，也可以移除。</p>
+<p>完成这些之后，我们就完成了将正则表达式化为正规文法的过程了。</p>
+<h4 id="zheng-gui-wen-fa-rightarrow-zheng-ze-biao-da-shi">正规文法 $\rightarrow$ 正则表达式</h4>
+<p>要将一个正规文法转化为正则表达式，只需按照下面的算法进行即可：</p>
+<ol>
+<li>将同一左侧但不同右侧的产生式用$|$结合成一个产生式
+如$B\rightarrow b$ 和 $B → b ⋅ A$ 和 $B → b ⋅ B$ 化为 $B\rightarrow a|b\cdot A|b\cdot B$</li>
+<li>将所有左侧包含右侧的产生式化为左侧不含右侧的产生式，如：
+$A → a ⋅ A$ 化为$A\rightarrow a*$
+$B → a | b ⋅ A | b ⋅ B$ 化为 $B \rightarrow b* \cdot a|b* \cdot b \cdot A$</li>
+<li>取一个左侧不是文法开始字符的产生式，将其他产生式中的对应这个选取的产生式的左侧的非终止字符替换成对应的串。</li>
+<li>重复3.，直到只剩下一个产生式为止。</li>
+<li>这个产生式右侧即位所求。</li>
+</ol>
+<p>具体情况请见代码。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>在有限字母表上定义了这三个算子、空字符串$\epsilon$和空集$\varnothing$之后就形成了一个神仙玩意：克莱尼代数</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>这里其实说的是右线性文法，还有左线性文法，这两者统称正规文法，为方便考虑取右线性文法作为例子来研究</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>其实真正的定义上，正规文法还包含了字母表，终结符表，非终结符表等等，然而这些都能从产生式中拿到，故其实意义不大</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>其实这个接口不仅仅是作为正则的一部分出现的，更好的名字是“实现了克莱尼代数的”，但这玩意看上去就太高深了……</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>但是我在代码中仍然保留了这一分枝</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2018年04月12日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/编译原理">&nbsp;编译原理</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=正则表达式 &lt;-&gt; 正规文法&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;regex-to-and-from-syntax&#x2F;&hashtags=编译原理"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

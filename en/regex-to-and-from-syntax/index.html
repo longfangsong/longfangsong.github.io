@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Regular Expressions &lt;-&gt; Regular Grammar</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;regex-to-and-from-syntax&#x2F;">Regular Expressions &lt;-&gt; Regular Grammar</a></h1>
+  
+  <div class="post-content"><h2 id="basic-theory">Basic Theory</h2>
+<p>Theoretical stuff gives everyone a headache, so I'll keep it minimal and just cover a few points.</p>
+<h3 id="regular-expressions">Regular Expressions</h3>
+<p>Regular expressions are similar to the ones we commonly use, but for simplicity we only use three operators: $\cdot$, $*$ and $|$. In fact, most other operators' functionality can be replaced by these three operators<sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
+<ul>
+<li>$\cdot$ represents concatenation of two regular strings, like $a\cdot b$ matches ab, $\cdot$ are usually omitted by convention.</li>
+<li>$|$ represents union, like $a|b$ can match either $a$ or $b$</li>
+<li>$*$ represents zero or more repetitions, like $a*$ can match $\epsilon$, $a$, $aa$, $aaa$ etc., where $\epsilon$ represents empty string.</li>
+</ul>
+<p>By convention, $*$ has highest precedence, followed by $\cdot$, and $|$ has lowest precedence. Of course we also have $()$ to indicate priority.
+Obviously:</p>
+<ul>
+<li>$\cdot$ and $|$ are associative</li>
+<li>$\cdot$ is distributive over $|$, like $a(b|c)\leftrightarrow ab|ac$</li>
+<li>$|$ is commutative</li>
+<li>$*$ is idempotent, $(a*)* \leftrightarrow a*$</li>
+<li>$\epsilon|a\leftrightarrow a$，$\epsilon \cdot a\leftrightarrow a$，$a \cdot \epsilon \leftrightarrow a$</li>
+</ul>
+<h3 id="regular-grammar-productions">Regular Grammar Productions</h3>
+<p>A production is something like this:</p>
+<p>$$
+A \rightarrow \epsilon
+$$
+or
+$$
+A \rightarrow abc
+$$
+or
+$$
+B \rightarrow aA
+$$
+or
+$$
+aC \rightarrow aAbBc
+$$
+or
+$$
+aAb \rightarrow Bac
+$$
+or
+$$
+A \rightarrow a|b*
+$$</p>
+<p>The meaning is that the thing on the left represents the thing on the right. By convention we use lowercase letters to represent actual letters (called terminals) and uppercase letters to represent symbols that stand for other letters (called non-terminals).</p>
+<p>Just having an intuitive understanding is enough - the formal definition just gives headaches without much value.</p>
+<h3 id="regular-grammar">Regular Grammar</h3>
+<p>A regular grammar<sup class="footnote-reference"><a href="#2">2</a></sup> is:</p>
+<p>A regular grammar is a set of productions<sup class="footnote-reference"><a href="#3">3</a></sup> that satisfy these conditions:</p>
+<ul>
+<li>The left side has exactly one non-terminal</li>
+<li>The right side is:
+<ul>
+<li>$\epsilon$</li>
+<li>A terminal</li>
+<li>A terminal $\cdot$ a non-terminal</li>
+</ul>
+</li>
+</ul>
+<p>These productions are clearly convenient for substitution and later converting to NFA.</p>
+<h2 id="practice">Practice</h2>
+<p>In practice, the algorithms in textbooks are too theoretical and have many issues in actual implementation. A lot of considerations are needed when implementing yourself.</p>
+<p>Let's analyze with my code. The code is written in Kotlin, project at <a href="https://github.com/longfangsong/RegexCalculator">here</a>.</p>
+<h3 id="regular-expression">Regular Expression</h3>
+<p>First we abstract the elements in regular expressions as an interface<sup class="footnote-reference"><a href="#4">4</a></sup>:</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">interface </span><span style="color:#ebcb8b;">RegexComponent
+</span></code></pre>
+<p>So what should implement this interface?</p>
+<h4 id="letters">Letters</h4>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">abstract class </span><span style="color:#ebcb8b;">Character</span><span>(</span><span style="color:#b48ead;">private val </span><span>name: </span><span style="color:#b48ead;">String</span><span>) : </span><span style="color:#a3be8c;">RegexComponent</span><span>, </span><span style="color:#a3be8c;">Comparable</span><span>&lt;</span><span style="color:#a3be8c;">Character</span><span>&gt;
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">NonTerminalCharacter</span><span>(name: </span><span style="color:#b48ead;">String</span><span>) : </span><span style="color:#a3be8c;">Character</span><span>(name)
+</span><span style="color:#b48ead;">open class </span><span style="color:#ebcb8b;">TerminalCharacter</span><span>(name: </span><span style="color:#b48ead;">String</span><span>) : </span><span style="color:#a3be8c;">Character</span><span>(name)
+</span><span style="color:#b48ead;">object </span><span style="color:#ebcb8b;">nullCharacter </span><span>: </span><span style="color:#a3be8c;">TerminalCharacter</span><span>(&quot;</span><span style="color:#a3be8c;">ε</span><span>&quot;)
+</span></code></pre>
+<h4 id="results-of-operations-between-regular-expression-elements">Results of Operations Between Regular Expression Elements</h4>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Concated</span><span>(</span><span style="color:#b48ead;">val </span><span>components: </span><span style="color:#b48ead;">List</span><span>&lt;RegexComponent&gt;) : </span><span style="color:#a3be8c;">RegexComponent
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Optioned</span><span>(</span><span style="color:#b48ead;">val </span><span>components: </span><span style="color:#b48ead;">Set</span><span>&lt;RegexComponent&gt;) : </span><span style="color:#a3be8c;">RegexComponent
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Repeated</span><span>(</span><span style="color:#b48ead;">val </span><span>toRepeat: RegexComponent) : </span><span style="color:#a3be8c;">RegexComponent
+</span></code></pre>
+<p>Initially I was uncertain about where to put the business logic for various operations, because while I wanted to maximize use of distributive and associative laws to simplify later work, this inevitably required runtime type checking, which feels like an anti-pattern since Replace Conditional with Polymorphism is typically recommended. However polymorphism actually makes this problem harder and would cause Duplicated Code, like when applying distributive law over $|$ we need to check for Optioned type separately in Character, Repeated and Concated. If we try using Polymorphism to add a property to all RegexComponents to return what should be distributed out, the code would unnecessarily increase and I couldn't even name this property properly (which usually indicates introducing it is not a good idea).</p>
+<p>I finally decided to just put all business logic in one place, since this kind of academic problem won't have changing requirements anyway.</p>
+<p>So I made a factory:</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">object </span><span style="color:#ebcb8b;">RegexComponentFactory</span><span> {
+</span><span>	</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">concated</span><span>(component1: RegexComponent, component2: RegexComponent): RegexComponent
+</span><span>	</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">optioned</span><span>(component1: RegexComponent, component2: RegexComponent): RegexComponent
+</span><span>	</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">repeated</span><span>(component: RegexComponent): RegexComponent
+</span><span>	</span><span style="color:#65737e;">// ...
+</span><span>}
+</span></code></pre>
+<p>Since it's a factory, might as well add methods for constructing RegexComponent from strings:</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">	* Add omitted &#39;.&#39; operators
+</span><span style="color:#65737e;">	*/
+</span><span>	</span><span style="color:#b48ead;">private fun </span><span style="color:#8fa1b3;">addOmittedDotOperator</span><span>(str: </span><span style="color:#b48ead;">String</span><span>): </span><span style="color:#b48ead;">String</span><span> {
+</span><span>    </span><span style="color:#b48ead;">val </span><span>theString = StringBuilder()
+</span><span>    </span><span style="color:#b48ead;">for</span><span> ((index, ch) </span><span style="color:#b48ead;">in</span><span> str.withIndex()) {
+</span><span>        theString.append(ch)
+</span><span>        </span><span style="color:#b48ead;">if</span><span> (index != str.length - </span><span style="color:#d08770;">1</span><span>) {
+</span><span>            </span><span style="color:#b48ead;">if</span><span> ((ch.isLowerCase() || ch.isDigit() || ch == &#39;</span><span style="color:#a3be8c;">)</span><span>&#39;) &amp;&amp;
+</span><span>                    (str[index + </span><span style="color:#d08770;">1</span><span>].isLowerCase() || str[index + </span><span style="color:#d08770;">1</span><span>].isDigit() || str[index + </span><span style="color:#d08770;">1</span><span>] == &#39;</span><span style="color:#a3be8c;">(</span><span>&#39;) ||
+</span><span>                    (ch == &#39;</span><span style="color:#a3be8c;">*</span><span>&#39; &amp;&amp; !isRegexOperator(str[index + </span><span style="color:#d08770;">1</span><span>]) &amp;&amp; str[index + </span><span style="color:#d08770;">1</span><span>] != &#39;</span><span style="color:#a3be8c;">)</span><span>&#39;)) {
+</span><span>                theString.append(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;)
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> theString.toString()
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">* Actual construction process
+</span><span style="color:#65737e;">*/
+</span><span style="color:#b48ead;">private fun </span><span style="color:#8fa1b3;">fromFormalString</span><span>(string: </span><span style="color:#b48ead;">String</span><span>): RegexComponent {
+</span><span>    </span><span style="color:#b48ead;">if</span><span> (string == &quot;&quot;)
+</span><span>        </span><span style="color:#b48ead;">return</span><span> nullCharacter
+</span><span>    </span><span style="color:#b48ead;">try</span><span> {
+</span><span>        </span><span style="color:#b48ead;">return when</span><span> {
+</span><span>            string.startsWith(&#39;</span><span style="color:#a3be8c;">(</span><span>&#39;) &amp;&amp; pairedRightBracketIndex(string) == string.length - </span><span style="color:#d08770;">1 </span><span>-&gt;
+</span><span>                fromFormalString(eraseUselessBracketPairs(string))
+</span><span>            string.length == </span><span style="color:#d08770;">1 </span><span>-&gt;
+</span><span>                TerminalCharacter(string)
+</span><span>            string.firstLayerContain(&#39;</span><span style="color:#a3be8c;">|</span><span>&#39;) -&gt;
+</span><span>                string.splitFirstLayerBy(&#39;</span><span style="color:#a3be8c;">|</span><span>&#39;).map { fromFormalString(it) }.reduce { acc, regexPart -&gt; acc or regexPart }
+</span><span>            string.firstLayerContain(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;) -&gt;
+</span><span>                string.splitFirstLayerBy(&#39;</span><span style="color:#a3be8c;">.</span><span>&#39;).map { fromFormalString(it) }.reduce { acc, regexPart -&gt; acc concat regexPart }
+</span><span>            string.endsWith(&#39;</span><span style="color:#a3be8c;">*</span><span>&#39;) -&gt;
+</span><span>                </span><span style="color:#b48ead;">if</span><span> (string.startsWith(&#39;</span><span style="color:#a3be8c;">(</span><span>&#39;)) {
+</span><span>                    fromFormalString(string.slice(</span><span style="color:#d08770;">1</span><span> until string.length - </span><span style="color:#d08770;">2</span><span>)).repeat()
+</span><span>                } </span><span style="color:#b48ead;">else</span><span> {
+</span><span>                    fromFormalString(string.slice(</span><span style="color:#d08770;">0</span><span> until string.length - </span><span style="color:#d08770;">1</span><span>)).repeat()
+</span><span>                }
+</span><span>            </span><span style="color:#b48ead;">else </span><span>-&gt;
+</span><span>                </span><span style="color:#b48ead;">throw</span><span> IllegalArgumentException(&quot;</span><span style="color:#a3be8c;">Can not construct from string </span><span style="color:#bf616a;">$string</span><span>&quot;)
+</span><span>        }
+</span><span>    } </span><span style="color:#b48ead;">catch</span><span> (_: StringIndexOutOfBoundsException) {
+</span><span>        </span><span style="color:#b48ead;">throw</span><span> IllegalArgumentException(&quot;</span><span style="color:#a3be8c;">Can not construct from string </span><span style="color:#bf616a;">$string</span><span>&quot;)
+</span><span>    } </span><span style="color:#b48ead;">catch</span><span> (_: IllegalArgumentException) {
+</span><span>        </span><span style="color:#b48ead;">throw</span><span> IllegalArgumentException(&quot;</span><span style="color:#a3be8c;">Can not construct from string </span><span style="color:#bf616a;">$string</span><span>&quot;)
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">	* Construct RegexComponent from string
+</span><span style="color:#65737e;">	*/
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">fromString</span><span>(string: </span><span style="color:#b48ead;">String</span><span>): RegexComponent {
+</span><span>	</span><span style="color:#b48ead;">return</span><span> fromFormalString(addOmittedDotOperator(string))
+</span><span>}
+</span></code></pre>
+<p>Some helper functions used above can be found in <code>Tools.kt</code>:</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">	* Check if @arg char is a regex operator
+</span><span style="color:#65737e;">	*/
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">isRegexOperator</span><span>(char: </span><span style="color:#b48ead;">Char</span><span>) = char == &#39;</span><span style="color:#a3be8c;">|</span><span>&#39; || char == &#39;</span><span style="color:#a3be8c;">*</span><span>&#39; || char == &#39;</span><span style="color:#a3be8c;">.</span><span>&#39;
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">	* Find matching &#39;)&#39; for a &#39;(&#39;
+</span><span style="color:#65737e;">	*/
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">pairedRightBracketIndex</span><span>(str: </span><span style="color:#b48ead;">String</span><span>, leftBracketIndex: </span><span style="color:#b48ead;">Int </span><span>= </span><span style="color:#d08770;">0</span><span>)
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">	* Remove useless brackets pairs from string sides
+</span><span style="color:#65737e;">	*/
+</span><span style="color:#b48ead;">fun </span><span style="color:#8fa1b3;">eraseUselessBracketPairs</span><span>(str: </span><span style="color:#b48ead;">String</span><span>): </span><span style="color:#b48ead;">String
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">	* Check if a string contains char at first layer
+</span><span style="color:#65737e;">	* &quot;First layer&quot; means outside all brackets
+</span><span style="color:#65737e;">	*/
+</span><span style="color:#b48ead;">fun</span><span> String.</span><span style="color:#8fa1b3;">firstLayerContain</span><span>(char: </span><span style="color:#b48ead;">Char</span><span>): </span><span style="color:#b48ead;">Boolean
+</span><span>
+</span><span style="color:#65737e;">/**
+</span><span style="color:#65737e;">	* Split first layer by @arg char
+</span><span style="color:#65737e;">	*/
+</span><span style="color:#b48ead;">fun</span><span> String.</span><span style="color:#8fa1b3;">splitFirstLayerBy</span><span>(char: </span><span style="color:#b48ead;">Char</span><span>): </span><span style="color:#b48ead;">List</span><span>&lt;</span><span style="color:#b48ead;">String</span><span>&gt;
+</span></code></pre>
+<p>At this point, we can make the computer "understand" a regex from our input string.</p>
+<p>Now let's look at the grammar side.</p>
+<h3 id="regular-grammar-1">Regular Grammar</h3>
+<p>For regular grammar, first we need productions:</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Generator</span><span>(
+</span><span>	</span><span style="color:#b48ead;">val </span><span>from: NonTerminalCharacter,
+</span><span>	</span><span style="color:#b48ead;">val </span><span>to: RegexComponent
+</span><span>)
+</span></code></pre>
+<p>Our grammar follows the regular grammar from the textbook:</p>
+<pre data-lang="kotlin" style="background-color:#2b303b;color:#c0c5ce;" class="language-kotlin "><code class="language-kotlin" data-lang="kotlin"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Grammar</span><span>(
+</span><span>	</span><span style="color:#b48ead;">val </span><span>nonTerminals: </span><span style="color:#b48ead;">Set</span><span>&lt;NonTerminalCharacter&gt;,
+</span><span>	</span><span style="color:#b48ead;">val </span><span>terminals: </span><span style="color:#b48ead;">Set</span><span>&lt;TerminalCharacter&gt;,
+</span><span>	</span><span style="color:#b48ead;">val </span><span>rules: </span><span style="color:#b48ead;">Set</span><span>&lt;Generator&gt;,
+</span><span>	</span><span style="color:#b48ead;">val </span><span>start: NonTerminalCharacter
+</span><span>) {
+</span><span>	</span><span style="color:#65737e;">// We know we can initialize with some Generators
+</span><span>	constructor(rles: </span><span style="color:#b48ead;">Collection</span><span>&lt;Generator&gt;) : </span><span style="color:#d08770;">this</span><span>(
+</span><span>		rles.map { it.from }.toSet(),
+</span><span>		rles.map { it.alphabet }.reduce { acc, set -&gt; acc + set },
+</span><span>		rles.toSet(),
+</span><span>		rles.minBy { it.from }!!.from
+</span><span>	)
+</span><span>}
+</span></code></pre>
+<h3 id="conversion">Conversion</h3>
+<h4 id="regular-expression-rightarrow-regular-grammar">Regular Expression $\rightarrow$ Regular Grammar</h4>
+<p>First we construct a production with a new non-terminal on the left and the regex to convert on the right.</p>
+<p>For any production, we may face these situations:</p>
+<ul>
+<li>
+<p>The production's right side has outermost $\cdot$ operation
+In this case, we need to consider:
+- If the right side ends with a non-terminal, like $A → a ⋅ b ⋅ B$ or $A → ( a | b ) ⋅ B$ or $A → a ∗ ⋅ B$, we need to analyze the type of expression left of this non-terminal:
+- If this expression has outermost $\cdot$ operation, we can directly combine the rightmost two letters:
+$$
+C → b ⋅ B
+$$
+Then add the front part:
+$$
+A → a ⋅ C
+$$
+- We won't encounter cases where this expression has outermost $|$ operation because we already distributed $|$ operator using distributive law<sup class="footnote-reference"><a href="#5">5</a></sup>
+- If this expression has outermost $*$ operation, we can construct:
+$$
+A → a A
+$$
+and
+$$
+A → B
+$$
+- Otherwise, it's an expression like
+$$
+A → a ⋅ b ⋅ c
+$$
+We can convert it to
+$$
+A → a ⋅ B
+$$
+$$
+B → b c
+$$</p>
+</li>
+<li>
+<p>The production's right side has outermost $|$ operation, like
+$$
+A → a | b | c
+$$
+Just convert to
+$$
+A → a
+$$
+and
+$$
+A → b
+$$
+and
+$$
+A → c
+$$</p>
+</li>
+<li>
+<p>The production's right side has outermost $*$ operation, like
+$$
+A → a ∗
+$$
+This is simplest, just convert to:
+$$
+A → ϵ
+$$
+and
+$$
+A → a ⋅ A
+$$</p>
+</li>
+</ul>
+<p>We just need to repeatedly apply these rules to productions that don't yet conform to regular grammar until no production can be further simplified.</p>
+<p>At this point the result is not completely regular grammar yet, as there are productions like $A\rightarrow B$ that directly derive to another non-terminal.</p>
+<p>We can replace all $A$ in other productions with $B$ and remove this production.</p>
+<p>Also remove any unused productions.</p>
+<p>After this we've completed converting regex to regular grammar.</p>
+<h4 id="regular-grammar-rightarrow-regular-expression">Regular Grammar $\rightarrow$ Regular Expression</h4>
+<p>To convert a regular grammar to regex, just follow this algorithm:</p>
+<ol>
+<li>Combine productions with same left side but different right sides using $|$
+Like $B\rightarrow b$ and $B → b ⋅ A$ and $B → b ⋅ B$ becomes $B\rightarrow a|b\cdot A|b\cdot B$</li>
+<li>Convert productions where left side appears in right side to ones where it doesn't, like:
+$A → a ⋅ A$ becomes $A\rightarrow a*$
+$B → a | b ⋅ A | b ⋅ B$ becomes $B \rightarrow b* \cdot a|b* \cdot b \cdot A$</li>
+<li>Take a production whose left side is not the grammar start symbol, replace its left side non-terminal in other productions with its corresponding string</li>
+<li>Repeat 3. until only one production remains.</li>
+<li>The right side of this production is what we want.</li>
+</ol>
+<p>See code for details.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>After defining these three operators, empty string $\epsilon$ and empty set $\varnothing$ on a finite alphabet, we get something magical: Kleene algebra</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>We're actually talking about right-linear grammar here, there's also left-linear grammar, both called regular grammars. We use right-linear grammar as example for simplicity</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Technically regular grammar also includes alphabet, terminals, non-terminals etc., but these can all be derived from productions so they're not that important</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>This interface isn't just for regex parts, a better name would be "implements Kleene algebra" but that looks too deep...</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>But I still kept this branch in the code</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2018-04-12</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Compiler">&nbsp;Compiler</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Regular Expressions &lt;-&gt; Regular Grammar&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;regex-to-and-from-syntax&#x2F;&hashtags=Compiler"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
