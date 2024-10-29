@@ -5,8 +5,133 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2024-10-26T21:35:48.241+00:00</updated>
+    <updated>2024-10-29T09:00:46.124+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
+    <entry xml:lang="zh">
+        <title>Seperation logic</title>
+        <published>2024-10-29T09:00:46.124+00:00</published>
+        <updated>2024-10-29T09:00:46.124+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/seperation-logic/"/>
+        <id>https://longfangsong.github.io/seperation-logic/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/seperation-logic/">&lt;p&gt;本文假设读者知道什么是 Hoare Logic。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;wei-shen-me-hoare-logic-bu-gou&quot;&gt;为什么 Hoare Logic 不够&lt;&#x2F;h2&gt;
+&lt;p&gt;假设我们有了下面两段程序：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; n != &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    r *= n;
+&lt;&#x2F;span&gt;&lt;span&gt;    n -= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;和&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span&gt;z += z;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;我们可以写出两者的 pre 和 post condition:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; r = 1 &amp;amp;&amp;amp; n &amp;gt;= 0 &amp;amp;&amp;amp; n = n0
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; n != &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    r *= n;
+&lt;&#x2F;span&gt;&lt;span&gt;    n -= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; r = n0!
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; z = z0
+&lt;&#x2F;span&gt;&lt;span&gt;z += z;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; z = 2 * z0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;然而，如果我们把两段程序合并起来，整体的 pre 和 post condition 并非是两者的简单合并：&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; r = 1 &amp;amp;&amp;amp; n &amp;gt;= 0 &amp;amp;&amp;amp; n = n0 **&amp;amp;&amp;amp; z = z0**
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;while&lt;&#x2F;span&gt;&lt;span&gt; n != &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0 &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    r *= n;
+&lt;&#x2F;span&gt;&lt;span&gt;    n -= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; r = n0! **&amp;amp;&amp;amp; z = z0**
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; z = z0 **&amp;amp;&amp;amp; z = z0**
+&lt;&#x2F;span&gt;&lt;span&gt;z += z;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; z = 2 * z0 **&amp;amp;&amp;amp;r = n0!**
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;可见，我们必须将一些和局部变量无关的断言加入 pre 和 post condition，也就是说，任何局部变量的 pre 和 post condition 都影响整体。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;fen-chi-luo-ji&quot;&gt;分离逻辑&lt;&#x2F;h2&gt;
+&lt;p&gt;为了区分程序中的局部和整体，我们将 Hoare Logic 中的 pre 和 post condition 中的 conjunction（$\wedge$）改为 separating conjunction （$*$）。&lt;&#x2F;p&gt;
+&lt;p&gt;同时将 Hoare Logic 中由变量取值构成的上下文分为 由局部变量取值构成的上下文 和 由全局变量构成的堆。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;dui&quot;&gt;堆&lt;&#x2F;h3&gt;
+&lt;p&gt;类似 C 语言中的堆，就是吧一个地址映射到一个值。&lt;&#x2F;p&gt;
+&lt;p&gt;符号记作 $[a_1 \mapsto v_1, a_2 \mapsto v_2, \dots]$。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;duan-yan&quot;&gt;断言&lt;&#x2F;h3&gt;
+&lt;p&gt;分离逻辑中的断言写作：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+s, h \models e
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;表示给定状态 $s$ 和堆 $h$，$e$ 成立。&lt;&#x2F;p&gt;
+&lt;p&gt;其中 $e$ 形如：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$p ∨ q$，意为 $s, h \models p$ 或 $s, h \models q$；&lt;&#x2F;li&gt;
+&lt;li&gt;$∃v . p(v)$，意为存在 $v$，使得 $s, h \models p(v)$；&lt;&#x2F;li&gt;
+&lt;li&gt;$\text{emp}$，意为 $h$ 为空（所有地址上的值都是 undefined）；&lt;&#x2F;li&gt;
+&lt;li&gt;$e_1 \mapsto e_2$，意为 $h = [E(e_1, s) \mapsto E(e_2,s)]$，$E$ 指在某个条件（这里是 $s$）下 evaluate 。&lt;&#x2F;li&gt;
+&lt;li&gt;$p * q$，意为 $h$ 可以被分割为&lt;strong&gt;不相交&lt;&#x2F;strong&gt;的两个部分 $h_1$ 和 $h_2$，使得 $s, h_1 \models p$ 且 $s, h_2 \models q$；&lt;&#x2F;li&gt;
+&lt;li&gt;$\langle p \rangle$，意为 $p(s)$ 且 $h$ 为空，几个有趣的结论是 $\langle true \rangle = emp$， $\langle b1\rangle * \langle b2 \rangle = \langle b1 \land b2 \rangle$。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;dui-dui-jin-xing-de-cao-zuo&quot;&gt;对堆进行的操作&lt;&#x2F;h3&gt;
+&lt;p&gt;我们用 $[E]$ 代表对堆中地址 $E$ 处的元素的引用。&lt;&#x2F;p&gt;
+&lt;p&gt;用 &lt;code&gt;cons(init_0, init_1, ..., init_n)&lt;&#x2F;code&gt; 在堆中 allocate 一些空间，其中元素的值为 $init_0, init_1, ..., init_n$。&lt;&#x2F;p&gt;
+&lt;p&gt;用 &lt;code&gt;dispose(E)&lt;&#x2F;code&gt; 来 丢弃地址 $E$ 处的元素。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zheng-ming&quot;&gt;证明&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;rules&quot;&gt;Rules&lt;&#x2F;h4&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;seperation-logic&#x2F;1.png&quot; alt=&quot;rules&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Frame Rule:
+$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$⊢ \{P\} C \{Q\}$}
+\UnaryInfC{$⊢ \{P*R\} C \{Q*R\}$}
+\end{prooftree}
+$$
+其中 C 没有修改 R 中的相关内容。&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;li-zi&quot;&gt;例子&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+\vdash \{emp\}\ x := cons(0); y := cons(x); [x] := y\ \{ x → y * y → x \}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;证明：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\tag{1} ⊢ \{emp\} x := cons(0); \{x \mapsto 0\}
+$$
+$$
+\tag{2} ⊢ \{emp\}\ y := cons(x);\ \{y \mapsto x\}
+$$
+$$
+\tag{3} ⊢ \{x \mapsto \_\}\ [x] := y;\ \{x \mapsto y\}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;结合 $(2)$ 和 Frame rule，取 $R = {x \mapsto 0}$，得：
+$$
+\tag{4} ⊢ \{x \mapsto 0\}\ y := cons(x);\ \{y \mapsto x * x \mapsto 0\}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;结合 $(1)$ 和 $(4)$，得：
+$$
+\tag{5} ⊢ \{emp\}\ x := cons(0); y := cons(x);\ \{y \mapsto x * x \mapsto 0\}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;再结合 $(3)$ 和 Frame rule，取 $R = {y \mapsto x}$，得：
+$$
+\tag{6} ⊢ \{y \mapsto x * x \mapsto \_\}\ [x] := y;\ \{y \mapsto x * x \mapsto y\}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;最后结合 $(5)$ 和 $(6)$，得：
+$$
+\vdash \{emp\}\ x := cons(0); y := cons(x); [x] := y\ \{ y \mapsto x * x \mapsto y \}
+$$
+即为所求证。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="zh">
         <title>自动机理论 • Büchi 自动机</title>
         <published>2024-10-26T21:35:48.241+00:00</published>

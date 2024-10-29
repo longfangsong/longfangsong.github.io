@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • Mitchell Merritt 分布式死锁检测算法</title>
+  <title>Blog • Seperation logic</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
           </div>
         </div>
@@ -111,46 +111,127 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;mitchell-merritt-algorithm&#x2F;">Mitchell Merritt 分布式死锁检测算法</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;seperation-logic&#x2F;">Seperation logic</a></h1>
   
-  <div class="post-content"><h2 id="ji-ben-suan-fa">基本算法</h2>
-<h3 id="mo-xing">模型</h3>
-<p>采用最基本的 wait-for 图模型，即每个节点是一个 process，每条边代表起点对应的 process 需要的被终点 process 持有。</p>
-<p>对每个节点，有两个 label，一个 public，一个 private。</p>
-<h3 id="suan-fa-liu-cheng">算法流程</h3>
-<ul>
-<li>所有进程开始时会被分配一个唯一的 label，此时 <code>public_label == private_label == 这个 label</code></li>
-<li>当一个进程（<code>process_waiting</code>）开始等待其他进程（<code>process_waited</code>）时，添加等待边：<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>new_label = max(process_waiting.process_waiting, process_waited.public_label) + 1
-</span><span>process_waiting.public_label = new_label
-</span><span>process_waiting.private_label = new_label
+  <div class="post-content"><p>本文假设读者知道什么是 Hoare Logic。</p>
+<h2 id="wei-shen-me-hoare-logic-bu-gou">为什么 Hoare Logic 不够</h2>
+<p>假设我们有了下面两段程序：</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#b48ead;">while</span><span> n != </span><span style="color:#d08770;">0 </span><span>{
+</span><span>    r *= n;
+</span><span>    n -= </span><span style="color:#d08770;">1</span><span>;
+</span><span>}
 </span></code></pre>
-</li>
-<li>当一个进程结束等待（可能成功获取了需要的资源，也可能运行超时）后，只需断开等待边即可</li>
-<li>等待中的进程（<code>process_waiting</code>）需要时不时地检查它正等待的那个进程（<code>process_waited</code>）的 <code>public_label</code> 是否大于自己的，如果大于，则 <code>process_waiting.public_label = process_waited.public_label</code></li>
-<li>进程发现自己的 <code>public_label</code> 再次等于自己的 <code>private_label</code>，则说明发生了死锁，此时可以终结自己断开死锁环</li>
-</ul>
-<h2 id="gai-jin">改进</h2>
-<p>对于有优先级的系统，我们再给每个进程添加 <code>public_priority</code> 和 <code>private_priority</code> 属性。</p>
-<ul>
-<li>在“时不时检查”这一步，如果 <code>process_waited.public_label &gt; process_waiting.public_label || (process_waited.public_label == process_waiting.public_label &amp;&amp; process_waiting.public_priority &gt; process_waited.public_priority)</code>，则：<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>process_waiting.public_label = process_waited.public_label
-</span><span>process_waiting.public_priority = min(process_waited.public_priority, process_waiting.private_priority)
+<p>和</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span>z += z;
 </span></code></pre>
-</li>
-<li>进程发现自己的 <code>process_waited.public_label == process_waiting.public_label &amp;&amp; process_waited.public_priority == process_waiting.public_priority &amp;&amp; process_waiting.public_priority == process_waiting.private_priority</code>，则说明发生了死锁，且自己是死锁环中优先级最低的，此时可以终结自己断开死锁环</li>
+<p>我们可以写出两者的 pre 和 post condition:</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// r = 1 &amp;&amp; n &gt;= 0 &amp;&amp; n = n0
+</span><span style="color:#b48ead;">while</span><span> n != </span><span style="color:#d08770;">0 </span><span>{
+</span><span>    r *= n;
+</span><span>    n -= </span><span style="color:#d08770;">1</span><span>;
+</span><span>}
+</span><span style="color:#65737e;">// r = n0!
+</span></code></pre>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// z = z0
+</span><span>z += z;
+</span><span style="color:#65737e;">// z = 2 * z0
+</span></code></pre>
+<p>然而，如果我们把两段程序合并起来，整体的 pre 和 post condition 并非是两者的简单合并：</p>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// r = 1 &amp;&amp; n &gt;= 0 &amp;&amp; n = n0 **&amp;&amp; z = z0**
+</span><span style="color:#b48ead;">while</span><span> n != </span><span style="color:#d08770;">0 </span><span>{
+</span><span>    r *= n;
+</span><span>    n -= </span><span style="color:#d08770;">1</span><span>;
+</span><span>}
+</span><span style="color:#65737e;">// r = n0! **&amp;&amp; z = z0**
+</span><span>
+</span><span style="color:#65737e;">// z = z0 **&amp;&amp; z = z0**
+</span><span>z += z;
+</span><span style="color:#65737e;">// z = 2 * z0 **&amp;&amp;r = n0!**
+</span></code></pre>
+<p>可见，我们必须将一些和局部变量无关的断言加入 pre 和 post condition，也就是说，任何局部变量的 pre 和 post condition 都影响整体。</p>
+<h2 id="fen-chi-luo-ji">分离逻辑</h2>
+<p>为了区分程序中的局部和整体，我们将 Hoare Logic 中的 pre 和 post condition 中的 conjunction（$\wedge$）改为 separating conjunction （$*$）。</p>
+<p>同时将 Hoare Logic 中由变量取值构成的上下文分为 由局部变量取值构成的上下文 和 由全局变量构成的堆。</p>
+<h3 id="dui">堆</h3>
+<p>类似 C 语言中的堆，就是吧一个地址映射到一个值。</p>
+<p>符号记作 $[a_1 \mapsto v_1, a_2 \mapsto v_2, \dots]$。</p>
+<h3 id="duan-yan">断言</h3>
+<p>分离逻辑中的断言写作：</p>
+<p>$$
+s, h \models e
+$$</p>
+<p>表示给定状态 $s$ 和堆 $h$，$e$ 成立。</p>
+<p>其中 $e$ 形如：</p>
+<ul>
+<li>$p ∨ q$，意为 $s, h \models p$ 或 $s, h \models q$；</li>
+<li>$∃v . p(v)$，意为存在 $v$，使得 $s, h \models p(v)$；</li>
+<li>$\text{emp}$，意为 $h$ 为空（所有地址上的值都是 undefined）；</li>
+<li>$e_1 \mapsto e_2$，意为 $h = [E(e_1, s) \mapsto E(e_2,s)]$，$E$ 指在某个条件（这里是 $s$）下 evaluate 。</li>
+<li>$p * q$，意为 $h$ 可以被分割为<strong>不相交</strong>的两个部分 $h_1$ 和 $h_2$，使得 $s, h_1 \models p$ 且 $s, h_2 \models q$；</li>
+<li>$\langle p \rangle$，意为 $p(s)$ 且 $h$ 为空，几个有趣的结论是 $\langle true \rangle = emp$， $\langle b1\rangle * \langle b2 \rangle = \langle b1 \land b2 \rangle$。</li>
 </ul>
-<h2 id="ping-jia">评价</h2>
-<p>实践上可能效率还不如直接中心化死锁检测……</p>
+<h3 id="dui-dui-jin-xing-de-cao-zuo">对堆进行的操作</h3>
+<p>我们用 $[E]$ 代表对堆中地址 $E$ 处的元素的引用。</p>
+<p>用 <code>cons(init_0, init_1, ..., init_n)</code> 在堆中 allocate 一些空间，其中元素的值为 $init_0, init_1, ..., init_n$。</p>
+<p>用 <code>dispose(E)</code> 来 丢弃地址 $E$ 处的元素。</p>
+<h3 id="zheng-ming">证明</h3>
+<h4 id="rules">Rules</h4>
+<p><img src="https://longfangsong.github.io/seperation-logic/1.png" alt="rules" /></p>
+<ul>
+<li>Frame Rule:
+$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$⊢ \{P\} C \{Q\}$}
+\UnaryInfC{$⊢ \{P*R\} C \{Q*R\}$}
+\end{prooftree}
+$$
+其中 C 没有修改 R 中的相关内容。</li>
+</ul>
+<h4 id="li-zi">例子</h4>
+<p>$$
+\vdash \{emp\}\ x := cons(0); y := cons(x); [x] := y\ \{ x → y * y → x \}
+$$</p>
+<p>证明：</p>
+<p>$$
+\tag{1} ⊢ \{emp\} x := cons(0); \{x \mapsto 0\}
+$$
+$$
+\tag{2} ⊢ \{emp\}\ y := cons(x);\ \{y \mapsto x\}
+$$
+$$
+\tag{3} ⊢ \{x \mapsto \_\}\ [x] := y;\ \{x \mapsto y\}
+$$</p>
+<p>结合 $(2)$ 和 Frame rule，取 $R = {x \mapsto 0}$，得：
+$$
+\tag{4} ⊢ \{x \mapsto 0\}\ y := cons(x);\ \{y \mapsto x * x \mapsto 0\}
+$$</p>
+<p>结合 $(1)$ 和 $(4)$，得：
+$$
+\tag{5} ⊢ \{emp\}\ x := cons(0); y := cons(x);\ \{y \mapsto x * x \mapsto 0\}
+$$</p>
+<p>再结合 $(3)$ 和 Frame rule，取 $R = {y \mapsto x}$，得：
+$$
+\tag{6} ⊢ \{y \mapsto x * x \mapsto \_\}\ [x] := y;\ \{y \mapsto x * x \mapsto y\}
+$$</p>
+<p>最后结合 $(5)$ 和 $(6)$，得：
+$$
+\vdash \{emp\}\ x := cons(0); y := cons(x); [x] := y\ \{ y \mapsto x * x \mapsto y \}
+$$
+即为所求证。</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2022年01月26日</span>
+        <i class="far fa-sun"></i><span class="date">2024年10月29日</span>
         
         
         <i class="fas fa-tags"></i>
         
-        <a class="tag" href="https://longfangsong.github.io/tags/分布式系统">&nbsp;分布式系统</a>
+        <a class="tag" href="https://longfangsong.github.io/tags/编程语言理论">&nbsp;编程语言理论</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/形式化方法">&nbsp;形式化方法</a>
         
         
       </div>
@@ -164,7 +245,7 @@
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=Mitchell Merritt 分布式死锁检测算法&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;mitchell-merritt-algorithm&#x2F;&hashtags=分布式系统"></a>
+      href="http://twitter.com/share?text=Seperation logic&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;seperation-logic&#x2F;&hashtags=编程语言理论,形式化方法"></a>
   </div>
 </div>
 
