@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -218,8 +218,8 @@ $$</p>
 <li>May be of the form $A^ω$, corresponding to loops containing accepting states<sup class="footnote-reference"><a href="#3">3</a></sup> in the Büchi automaton graph.</li>
 <li>May be of the form $AB$, corresponding to:
 <ul>
-<li>A "path" $q_{start} \to q_{k}$ starting from the initial state $q_{start}$, not containing accepting state $q_{k}$, where $q_{k}$ is an accepting state.</li>
-<li>$q_{k}$ is in a loop<sup class="footnote-reference"><a href="#3">3</a></sup>.</li>
+<li>$A$ part: A "path" $q_{start} \to q_{k}$ starting from the initial state $q_{start}$ to accepting state $q_{k}$, but not passing through $q_{k}$.</li>
+<li>$B$ part: $q_{k}$ is in a loop<sup class="footnote-reference"><a href="#3">3</a></sup>.</li>
 </ul>
 </li>
 <li>May be of the form $A|B$, corresponding to both $A$ and $B$ having at least one loop containing an accepting state.</li>
@@ -228,7 +228,7 @@ $$</p>
 <ul>
 <li>Identify all loops containing accepting states $q_k$ and convert these subgraphs to regular expressions $L_k$.</li>
 <li>Identify all paths from the initial state $q_{start}$ to $q_k$ (without passing through $q_k$) and convert these subgraphs to regular expressions $R_{0k}$.</li>
-<li>The desired ω-regular expression is $\Sigma_k^{0\le k&lt;\text{accept state count}}(R_{0k}\cdot L_{k})$.</li>
+<li>The desired ω-regular expression is $\Sigma_k^{0\le k&lt;\text{accept state count}}(R_{0k}\cdot L_{k}^{\omega})$.</li>
 </ul>
 <h3 id="example-1">Example</h3>
 <p><img src="https://longfangsong.github.io/en/automata-4/am-full.svg" alt="am-full" /></p>

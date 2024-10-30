@@ -264,7 +264,7 @@ $$&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;识别出所有包含接受状态 $q_k$ 的循环，并这个子图转换为 正则表达式 $L_k$。&lt;&#x2F;li&gt;
 &lt;li&gt;识别所有从 起始状态 $q_{start}$ 开始，到达（且不重复经过）$q_k$ 的路径，并这个子图转换为 正则表达式 $R_{0k}$。&lt;&#x2F;li&gt;
-&lt;li&gt;所求的 ω-正则表达式 就是 $\Sigma_k^{0\le k&amp;lt;\text{accept state count}}(R_{0k}\cdot L_{k})$。&lt;&#x2F;li&gt;
+&lt;li&gt;所求的 ω-正则表达式 就是 $\Sigma_k^{0\le k&amp;lt;\text{accept state count}}(R_{0k}\cdot L_{k}^ω)$。&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h3 id=&quot;li-zi-1&quot;&gt;例子&lt;&#x2F;h3&gt;
 &lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;longfangsong.github.io&#x2F;automata-4&#x2F;am-full.svg&quot; alt=&quot;am-full&quot; &#x2F;&gt;&lt;&#x2F;p&gt;

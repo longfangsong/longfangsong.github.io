@@ -229,7 +229,7 @@ $$</p>
 <ul>
 <li>识别出所有包含接受状态 $q_k$ 的循环，并这个子图转换为 正则表达式 $L_k$。</li>
 <li>识别所有从 起始状态 $q_{start}$ 开始，到达（且不重复经过）$q_k$ 的路径，并这个子图转换为 正则表达式 $R_{0k}$。</li>
-<li>所求的 ω-正则表达式 就是 $\Sigma_k^{0\le k&lt;\text{accept state count}}(R_{0k}\cdot L_{k})$。</li>
+<li>所求的 ω-正则表达式 就是 $\Sigma_k^{0\le k&lt;\text{accept state count}}(R_{0k}\cdot L_{k}^ω)$。</li>
 </ul>
 <h3 id="li-zi-1">例子</h3>
 <p><img src="https://longfangsong.github.io/automata-4/am-full.svg" alt="am-full" /></p>
