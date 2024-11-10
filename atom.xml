@@ -5,8 +5,109 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2024-10-29T09:00:46.124+00:00</updated>
+    <updated>2024-11-10T00:23:22.429+00:00</updated>
     <id>https://longfangsong.github.io/atom.xml</id>
+    <entry xml:lang="zh">
+        <title>Cauchy Sequences, Dedekind Cuts and Real Numbers</title>
+        <published>2024-11-10T00:23:22.429+00:00</published>
+        <updated>2024-11-10T00:23:22.429+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/cau-seq-dedekind-cut-real/"/>
+        <id>https://longfangsong.github.io/cau-seq-dedekind-cut-real/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/cau-seq-dedekind-cut-real/">&lt;h2 id=&quot;intuitive-concept-of-real-numbers&quot;&gt;Intuitive Concept of Real Numbers&lt;&#x2F;h2&gt;
+&lt;p&gt;The definition of real numbers that we learned in high school &quot;seems&quot; to be:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\mathbb{R} = \mathbb{Q} \cup \text{irrational numbers}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;where irrational numbers are defined as:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Irrational numbers are non-repeating infinite decimals&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;or&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Irrational numbers are numbers that cannot be expressed as fractions&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;However, we quickly find that to show a number is a &quot;non-repeating infinite decimal&quot; requires observing infinitely many digits. Even if you don&#x27;t observe any repetition in a finite number of digits, you can&#x27;t conclude there won&#x27;t be repetition in more digits.
+In fact, the &quot;decimal&quot; representation is not very suitable for proving things&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;On another side, if we define irrational numbers as numbers that cannot be expressed as fractions, this definition becomes incorrect after introducing imaginary numbers.&lt;&#x2F;p&gt;
+&lt;p&gt;Furthermore, these two definitions don&#x27;t reveal any internal structure of irrational numbers, or a universal way to construct (any) irrational number&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;, and real numbers defined as the union of rational and irrational numbers inherit the drawbacks of these two definitions.&lt;&#x2F;p&gt;
+&lt;p&gt;Therefore, a better definition of real numbers is necessary.&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;definition-of-real-numbers&quot;&gt;Definition of Real Numbers&lt;&#x2F;h2&gt;
+&lt;p&gt;Real numbers have &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Construction_of_the_real_numbers&quot;&gt;many different ways of definition&lt;&#x2F;a&gt;.
+We will introduce the two most commonly used methods, Dedekind cuts and Cauchy sequences.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;dedekind-cuts&quot;&gt;Dedekind Cuts&lt;&#x2F;h3&gt;
+&lt;p&gt;An easier to understand definition is using &lt;strong&gt;Dedekind cuts&lt;&#x2F;strong&gt; to define real numbers.&lt;&#x2F;p&gt;
+&lt;p&gt;We divide rational numbers $\mathbb{Q}$ into two disjoint non-empty sets $L$ and $R$, requiring:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$q ∈ L ⇔ ∃(r ∈ Q). q &amp;lt; r ∧ r ∈ L$, more intuitively, for any element in $L$, we can find an element in $L$ that is greater than it,
+conversely if for a rational number, we can find a rational number in $L$ that is greater than it, then it is in $L$.&lt;&#x2F;li&gt;
+&lt;li&gt;$r ∈ U ⇔ ∃(q ∈ Q). q &amp;lt; r ∧ q ∈ U$, more intuitively, for any element in $R$, we can find an element in $R$ that is less than it,
+conversely if for a rational number, we can find a rational number in $R$ that is less than it, then it is in $R$.&lt;&#x2F;li&gt;
+&lt;li&gt;For rational numbers $a$ and $b$, if $a &amp;lt; b$, then $a ∈ L$ or $b ∈ R$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The sets $A$ and $B$ obtained in this way are Dedekind cuts of $\mathbb{Q}$, each such cut represents a real number, and the maximum&#x2F;minimum elements in $L$ and $R$ are &lt;strong&gt;infinitely close&lt;&#x2F;strong&gt; to the real number it represents.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;&#x2F;h4&gt;
+&lt;p&gt;Take $L= \{x | x \in \mathbb{Q}, x^2 &amp;lt; 2\}$, $R = \{x | x \in \mathbb{Q}, x^2 &amp;gt; 2\}$, then $L$ and $R$ form a Dedekind cut of $\mathbb{Q}$.&lt;&#x2F;p&gt;
+&lt;p&gt;The real number corresponding to this cut is $\sqrt{2}$.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;formalization&quot;&gt;Formalization&lt;&#x2F;h4&gt;
+&lt;p&gt;The &lt;a href=&quot;https:&#x2F;&#x2F;unimath.github.io&#x2F;agda-unimath&#x2F;real-numbers.html#real-numbers&quot;&gt;real numbers&lt;&#x2F;a&gt; in Agda&#x27;s &lt;code&gt;unimath&lt;&#x2F;code&gt; library are defined using Dedekind cuts.&lt;&#x2F;p&gt;
+&lt;p&gt;Of course, since &lt;code&gt;unimath&lt;&#x2F;code&gt; uses HoTT rather than set theory as its foundation, there are some subtle differences in the definition (like using &lt;code&gt;subtype&lt;&#x2F;code&gt; instead of subset), but the main idea is the same.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;cauchy-sequences&quot;&gt;Cauchy Sequences&lt;&#x2F;h3&gt;
+&lt;p&gt;A definition requiring more prerequisite knowledge is defining real numbers through &lt;strong&gt;Cauchy sequences&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;For a metric space (simply understood as a space that defines the concept of &quot;distance&quot;), we define a sequence of rational numbers&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x_0, x_1, \cdots, x_n, \cdots
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;as a (rational) Cauchy sequence if for any positive number $\epsilon$, there exists a natural number $N$, such that for all $i,j \geq N$, we have $|x_i - x_j| &amp;lt; \epsilon$.&lt;&#x2F;p&gt;
+&lt;p&gt;Taking $\mathbb{Q}$ as the metric space, there exist some Cauchy sequences that converge to values not in $\mathbb{Q}$, for example:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x_0 = 0
+$$
+$$
+x_{n+1} = \frac{x_n + \frac{2} {x_n}} {2}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We can see that this sequence converges to $\sqrt{2}$, but this number is not in $\mathbb{Q}$.&lt;&#x2F;p&gt;
+&lt;p&gt;By adding these numbers that sequences converge to into $\mathbb{Q}$, we have &lt;strong&gt;completed&lt;&#x2F;strong&gt; $\mathbb{Q}$, and the new set obtained is the set of real numbers.&lt;&#x2F;p&gt;
+&lt;p&gt;Every real number corresponds to at least one Cauchy sequence.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;equivalence-of-cauchy-sequences&quot;&gt;Equivalence of Cauchy Sequences&lt;&#x2F;h4&gt;
+&lt;p&gt;We define two Cauchy sequences to be equivalent if they converge to the same value.&lt;&#x2F;p&gt;
+&lt;p&gt;For example, $a_n = 1$ and $a_n​=1−10^{−n}$ are equivalent because they converge to the same value, both sequences correspond to the real number $1$.&lt;&#x2F;p&gt;
+&lt;p&gt;This also provides a definition-level proof that $1 = 0.\dot{9}$.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;formalization-1&quot;&gt;Formalization&lt;&#x2F;h4&gt;
+&lt;p&gt;The &lt;a href=&quot;https:&#x2F;&#x2F;leanprover-community.github.io&#x2F;mathlib4_docs&#x2F;Mathlib&#x2F;Data&#x2F;Real&#x2F;Basic.html#Real&quot;&gt;real numbers&lt;&#x2F;a&gt; in Lean4 Mathlib are defined using Cauchy sequences.&lt;&#x2F;p&gt;
+&lt;p&gt;Another important related definition is &lt;a href=&quot;https:&#x2F;&#x2F;leanprover-community.github.io&#x2F;mathlib4_docs&#x2F;Mathlib&#x2F;Algebra&#x2F;Order&#x2F;CauSeq&#x2F;Completion.html#CauSeq.Completion.Cauchy&quot;&gt;Cauchy completion&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;equivalence-of-the-two-definitions&quot;&gt;Equivalence of the Two Definitions&lt;&#x2F;h3&gt;
+&lt;p&gt;$A=\{r∈Q | \exists n, r&amp;lt;q_n\}$ is the Dedekind cut (the smaller part) corresponding to the Cauchy sequence $q_n$.&lt;&#x2F;p&gt;
+&lt;p&gt;Obviously, $A$ satisfies the conditions of a Dedekind cut.&lt;&#x2F;p&gt;
+&lt;p&gt;Conversely, if we have a Dedekind cut $A$ with supremum (i.e., the real number it represents) $s$,
+we can definitely&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; construct a sequence $q_n$ where $s - q_n &amp;lt; \frac{1} n$,
+and $q_n$ is a Cauchy sequence converging to $s$.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;However, &quot;decimals&quot; can be well-defined! For example, using infinite series.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;For example, you can use $\sqrt{\cdot}$ to construct $\sqrt{2}$ and $\sqrt{3}$, but $\sqrt{\cdot}$ cannot construct $e$ or
+$\pi$. What we want is a &lt;strong&gt;universal&lt;&#x2F;strong&gt; way to construct &lt;strong&gt;all&lt;&#x2F;strong&gt; irrational&#x2F;real numbers! In fact, $e$ and $\pi$ need to be constructed using sequence limits,
+and slightly generalizing these construction methods leads to the later definition of real numbers using Cauchy sequences.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;We will define real numbers first, then define irrational numbers as those real numbers that are not rational, because this is more convenient than defining irrational numbers first.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;Define $Q_n = \{\frac k n | k \in \mathbb{Z}\}$, we can find our needed $q_n$ from this set. Due to the &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Dense_set&quot;&gt;density&lt;&#x2F;a&gt; of rational numbers, we can definitely find $q_n$.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="zh">
         <title>Seperation logic</title>
         <published>2024-10-29T09:00:46.124+00:00</published>

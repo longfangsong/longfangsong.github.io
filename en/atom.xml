@@ -5,8 +5,111 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2024-10-26T21:35:48.241+00:00</updated>
+    <updated>2024-11-10T00:23:22.429+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>柯西序列，戴德金分割和实数</title>
+        <published>2024-11-10T00:23:22.429+00:00</published>
+        <updated>2024-11-10T00:23:22.429+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/cau-seq-dedekind-cut-real/"/>
+        <id>https://longfangsong.github.io/en/cau-seq-dedekind-cut-real/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/cau-seq-dedekind-cut-real/">&lt;h2 id=&quot;shi-shu-de-zhi-guan-gai-nian&quot;&gt;实数的直观概念&lt;&#x2F;h2&gt;
+&lt;p&gt;我们中学学到的实数定义&quot;似乎&quot;是：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\mathbb{R} = \mathbb{Q} \cup \text{无理数}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;其中无理数的定义是：&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;无理数是无限不循环小数&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;或者&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;无理数是不能被表示为分数的数&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;然而，我们很快会发现要说明一个数是&quot;无限不循环小数&quot;需要观察无限多位，即使你在有限位上没有观察到循环，也不能说明在更多位上就没有循环了，
+实际上，&quot;小数&quot;这个表示形式就是很不适合用来证明东西的&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;。&lt;&#x2F;p&gt;
+&lt;p&gt;另一个方面，我们将无理数定义成不能被表示为分数的数，那么之后引入虚数之后，这个定义就不对了。&lt;&#x2F;p&gt;
+&lt;p&gt;此外，这两种定义没有揭示任何无理数的内部结构，或者一个通用的构造出（任意一个）无理数的方式&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;，而利用有理数和无理数的并定义出的
+实数也继承了这两种定义的缺点。&lt;&#x2F;p&gt;
+&lt;p&gt;因此，一个更好用的实数的定义是必要的。&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#3&quot;&gt;3&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;shi-shu-de-ding-yi&quot;&gt;实数的定义&lt;&#x2F;h2&gt;
+&lt;p&gt;实数有&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;wiki&#x2F;%E5%AF%A6%E6%95%B8%E7%9A%84%E6%A7%8B%E9%80%A0&quot;&gt;非常之多的定义方式&lt;&#x2F;a&gt;。
+我们将介绍其中最常用的两种方式，戴德金分割和柯西序列。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;dai-de-jin-fen-ge&quot;&gt;戴德金分割&lt;&#x2F;h3&gt;
+&lt;p&gt;较为容易理解的定义方式是使用&lt;strong&gt;戴德金分割&lt;&#x2F;strong&gt;来定义实数。&lt;&#x2F;p&gt;
+&lt;p&gt;我们将有理数 $\mathbb{Q}$ 分成两个不相交的非空集合 $L$ 和 $R$，要求&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$q ∈ L ⇔ ∃(r ∈ Q). q &amp;lt; r ∧ r ∈ L$，更直观的说法是，对 $L$ 中的任何一个元素，都能在 $L$ 中找到一个大于它的元素，
+反之如果对于某一个有理数，在 $L$ 中能找到一个大于它的有理数，那么它就在 $L$ 中。&lt;&#x2F;li&gt;
+&lt;li&gt;$r ∈ U ⇔ ∃(q ∈ Q). q &amp;lt; r ∧ q ∈ U$, 更直观的说法是，对 $R$ 中的任何一个元素，都能在 $R$ 中找到一个小于它的元素，
+反之如果对于某一个有理数，在 $R$ 中能找到一个小于它的有理数，那么它就在 $R$ 中。&lt;&#x2F;li&gt;
+&lt;li&gt;若对有理数 $a$ 和 $b$， $a &amp;lt; b$，则 $a ∈ L$ 或 $b ∈ R$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;通过这种方式取得的集合 $A$ 和 $B$ 就是对 $\mathbb{Q}$ 的戴德金分割，每一个这样的分割表示了一个实数，$L$ 和 $R$ 中
+最大&#x2F;最小的元素都&lt;strong&gt;无限接近&lt;&#x2F;strong&gt;它所代表的这个实数。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;li-zi&quot;&gt;例子&lt;&#x2F;h4&gt;
+&lt;p&gt;取 $L= \{x | x \in \mathbb{Q}, x^2 &amp;lt; 2\}$，$R = \{x | x \in \mathbb{Q}, x^2 &amp;gt; 2\}$，则 $L$ 和 $R$ 是对 $\mathbb{Q}$ 的戴德金分割。&lt;&#x2F;p&gt;
+&lt;p&gt;这个分割对应的实数就是 $\sqrt{2}$。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;formalization&quot;&gt;Formalization&lt;&#x2F;h4&gt;
+&lt;p&gt;Agda 的 &lt;code&gt;unimath&lt;&#x2F;code&gt; 库中的&lt;a href=&quot;https:&#x2F;&#x2F;unimath.github.io&#x2F;agda-unimath&#x2F;real-numbers.html#real-numbers&quot;&gt;实数&lt;&#x2F;a&gt;使用戴德金分割来定义。&lt;&#x2F;p&gt;
+&lt;p&gt;当然，由于 &lt;code&gt;unimath&lt;&#x2F;code&gt; 使用的 foundation 不是集合论而是 HoTT，定义有些许细微的差别（例如使用 &lt;code&gt;subtype&lt;&#x2F;code&gt; 而非子集），但大体思想还是一样的。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ke-xi-xu-lie&quot;&gt;柯西序列&lt;&#x2F;h3&gt;
+&lt;p&gt;一个需要更多前置知识的定义方式是通过&lt;strong&gt;柯西序列&lt;&#x2F;strong&gt;来定义实数。&lt;&#x2F;p&gt;
+&lt;p&gt;对于一个度量空间（简单理解就是定义了“距离”这个概念的空间），我们定义有理数一个序列&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x_0, x_1, \cdots, x_n, \cdots
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;为一个（有理数上的）柯西序列，如果对于任意正数 $\epsilon$，有自然数 $N$，使得对所有 $i,j \geq N$ 有 $|x_i - x_j| &amp;lt; \epsilon$。&lt;&#x2F;p&gt;
+&lt;p&gt;取 $\mathbb{Q}$ 这个度量空间，存在一些柯西序列，其收敛到的值不在 $\mathbb{Q}$ 中，例如：&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x_0 = 0
+$$
+$$
+x_{n+1} = \frac{x_n + \frac{2} {x_n}} {2}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;我们可以看出来这个序列是收敛到 $\sqrt{2}$ 的，但这个数并不在 $\mathbb{Q}$ 中。&lt;&#x2F;p&gt;
+&lt;p&gt;通过往 $\mathbb{Q}$ 中添加这些序列收敛到的数，我们将 $\mathbb{Q}$ &lt;strong&gt;完备化&lt;&#x2F;strong&gt; 了，得到的这个新的集合就是实数集合。&lt;&#x2F;p&gt;
+&lt;p&gt;每一个实数都能对应到至少一个柯西序列。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;ke-xi-xu-lie-de-deng-jia&quot;&gt;柯西序列的等价&lt;&#x2F;h4&gt;
+&lt;p&gt;我们定义两个柯西序列的等价为如果两个序列收敛到同一个值，则这两个序列等价。&lt;&#x2F;p&gt;
+&lt;p&gt;比如，$a_n = 1$ 和 $a_n​=1−10^{−n}$ 是等价的，因为它们收敛到同一个值，这两个序列对应的都是实数 $1$。&lt;&#x2F;p&gt;
+&lt;p&gt;这也是 $1 = 0.\dot{9}$ 从定义上就可以得到的证明。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;formalization-1&quot;&gt;Formalization&lt;&#x2F;h4&gt;
+&lt;p&gt;Lean4 Mathlib 中的&lt;a href=&quot;https:&#x2F;&#x2F;leanprover-community.github.io&#x2F;mathlib4_docs&#x2F;Mathlib&#x2F;Data&#x2F;Real&#x2F;Basic.html#Real&quot;&gt;实数&lt;&#x2F;a&gt;使用柯西序列来定义。&lt;&#x2F;p&gt;
+&lt;p&gt;相关的重要那个定义还有&lt;a href=&quot;https:&#x2F;&#x2F;leanprover-community.github.io&#x2F;mathlib4_docs&#x2F;Mathlib&#x2F;Algebra&#x2F;Order&#x2F;CauSeq&#x2F;Completion.html#CauSeq.Completion.Cauchy&quot;&gt;柯西完备化&lt;&#x2F;a&gt;。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;liang-ge-ding-yi-de-deng-jia-xing&quot;&gt;两个定义的等价性&lt;&#x2F;h3&gt;
+&lt;p&gt;$A=\{r∈Q | \exists n, r&amp;lt;q_n\}$ 为柯西序列 $q_n$ 对应的戴德金分割（中的比较小的那部分）。&lt;&#x2F;p&gt;
+&lt;p&gt;显然 $A$ 符合戴德金分割的条件。&lt;&#x2F;p&gt;
+&lt;p&gt;反之，如果有一个戴德金分割 $A$，其上确界（即其代表的实数）为 $s$，
+我们一定能&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#4&quot;&gt;4&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;构造出一个序列 $q_n$，其中 $s - q_n &amp;lt; \frac{1} n$，
+且 $q_n$ 是一个趋向于 $s$ 的柯西序列。&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;但是，“小数”是可能被良好地定义出来的！比如用无穷级数来进行定义。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;比如，你可以用 $\sqrt{\cdot}$ 来构造 $\sqrt{2}$ 和 $\sqrt{3}$，但 $\sqrt{\cdot}$ 并不能构造 $e$ 或者
+$\pi$。我们想要的是一个&lt;strong&gt;通用&lt;&#x2F;strong&gt;的，能构造出&lt;strong&gt;所有&lt;&#x2F;strong&gt;无理数&#x2F;实数构造方式！实际上 $e$ 和 $\pi$ 需要用数列的极限构造，
+将这些构造方式稍加推广，就能得到后面的使用柯西序列定义实数的方式。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;3&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;3&lt;&#x2F;sup&gt;
+&lt;p&gt;我们将定义实数，然后将无理数定义为那些不是有理数的实数，因为这比先定义无理数更方便。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;4&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;4&lt;&#x2F;sup&gt;
+&lt;p&gt;定义 $Q_n = \{\frac k n | k \in \mathbb{Z}\}$，我们可以从这个集合中找到我们需要的 $q_n$，由于有理数的&lt;a href=&quot;https:&#x2F;&#x2F;zh.wikipedia.org&#x2F;zh-hans&#x2F;%E7%A8%A0%E5%AF%86%E9%9B%86&quot;&gt;稠密性&lt;&#x2F;a&gt;，我们是一定能找到 $q_n$ 的。&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Automata Theory • Büchi Automata</title>
         <published>2024-10-26T21:35:48.241+00:00</published>

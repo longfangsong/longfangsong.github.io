@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Cauchy Sequences, Dedekind Cuts and Real Numbers</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cau-seq-dedekind-cut-real&#x2F;">Cauchy Sequences, Dedekind Cuts and Real Numbers</a></h1>
+  
+  <div class="post-content"><h2 id="intuitive-concept-of-real-numbers">Intuitive Concept of Real Numbers</h2>
+<p>The definition of real numbers that we learned in high school "seems" to be:</p>
+<p>$$
+\mathbb{R} = \mathbb{Q} \cup \text{irrational numbers}
+$$</p>
+<p>where irrational numbers are defined as:</p>
+<ul>
+<li>Irrational numbers are non-repeating infinite decimals</li>
+</ul>
+<p>or</p>
+<ul>
+<li>Irrational numbers are numbers that cannot be expressed as fractions</li>
+</ul>
+<p>However, we quickly find that to show a number is a "non-repeating infinite decimal" requires observing infinitely many digits. Even if you don't observe any repetition in a finite number of digits, you can't conclude there won't be repetition in more digits.
+In fact, the "decimal" representation is not very suitable for proving things<sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
+<p>On another side, if we define irrational numbers as numbers that cannot be expressed as fractions, this definition becomes incorrect after introducing imaginary numbers.</p>
+<p>Furthermore, these two definitions don't reveal any internal structure of irrational numbers, or a universal way to construct (any) irrational number<sup class="footnote-reference"><a href="#2">2</a></sup>, and real numbers defined as the union of rational and irrational numbers inherit the drawbacks of these two definitions.</p>
+<p>Therefore, a better definition of real numbers is necessary.<sup class="footnote-reference"><a href="#3">3</a></sup></p>
+<h2 id="definition-of-real-numbers">Definition of Real Numbers</h2>
+<p>Real numbers have <a href="https://en.wikipedia.org/wiki/Construction_of_the_real_numbers">many different ways of definition</a>.
+We will introduce the two most commonly used methods, Dedekind cuts and Cauchy sequences.</p>
+<h3 id="dedekind-cuts">Dedekind Cuts</h3>
+<p>An easier to understand definition is using <strong>Dedekind cuts</strong> to define real numbers.</p>
+<p>We divide rational numbers $\mathbb{Q}$ into two disjoint non-empty sets $L$ and $R$, requiring:</p>
+<ul>
+<li>$q ∈ L ⇔ ∃(r ∈ Q). q &lt; r ∧ r ∈ L$, more intuitively, for any element in $L$, we can find an element in $L$ that is greater than it,
+conversely if for a rational number, we can find a rational number in $L$ that is greater than it, then it is in $L$.</li>
+<li>$r ∈ U ⇔ ∃(q ∈ Q). q &lt; r ∧ q ∈ U$, more intuitively, for any element in $R$, we can find an element in $R$ that is less than it,
+conversely if for a rational number, we can find a rational number in $R$ that is less than it, then it is in $R$.</li>
+<li>For rational numbers $a$ and $b$, if $a &lt; b$, then $a ∈ L$ or $b ∈ R$</li>
+</ul>
+<p>The sets $A$ and $B$ obtained in this way are Dedekind cuts of $\mathbb{Q}$, each such cut represents a real number, and the maximum/minimum elements in $L$ and $R$ are <strong>infinitely close</strong> to the real number it represents.</p>
+<h4 id="example">Example</h4>
+<p>Take $L= \{x | x \in \mathbb{Q}, x^2 &lt; 2\}$, $R = \{x | x \in \mathbb{Q}, x^2 &gt; 2\}$, then $L$ and $R$ form a Dedekind cut of $\mathbb{Q}$.</p>
+<p>The real number corresponding to this cut is $\sqrt{2}$.</p>
+<h4 id="formalization">Formalization</h4>
+<p>The <a href="https://unimath.github.io/agda-unimath/real-numbers.html#real-numbers">real numbers</a> in Agda's <code>unimath</code> library are defined using Dedekind cuts.</p>
+<p>Of course, since <code>unimath</code> uses HoTT rather than set theory as its foundation, there are some subtle differences in the definition (like using <code>subtype</code> instead of subset), but the main idea is the same.</p>
+<h3 id="cauchy-sequences">Cauchy Sequences</h3>
+<p>A definition requiring more prerequisite knowledge is defining real numbers through <strong>Cauchy sequences</strong>.</p>
+<p>For a metric space (simply understood as a space that defines the concept of "distance"), we define a sequence of rational numbers</p>
+<p>$$
+x_0, x_1, \cdots, x_n, \cdots
+$$</p>
+<p>as a (rational) Cauchy sequence if for any positive number $\epsilon$, there exists a natural number $N$, such that for all $i,j \geq N$, we have $|x_i - x_j| &lt; \epsilon$.</p>
+<p>Taking $\mathbb{Q}$ as the metric space, there exist some Cauchy sequences that converge to values not in $\mathbb{Q}$, for example:</p>
+<p>$$
+x_0 = 0
+$$
+$$
+x_{n+1} = \frac{x_n + \frac{2} {x_n}} {2}
+$$</p>
+<p>We can see that this sequence converges to $\sqrt{2}$, but this number is not in $\mathbb{Q}$.</p>
+<p>By adding these numbers that sequences converge to into $\mathbb{Q}$, we have <strong>completed</strong> $\mathbb{Q}$, and the new set obtained is the set of real numbers.</p>
+<p>Every real number corresponds to at least one Cauchy sequence.</p>
+<h4 id="equivalence-of-cauchy-sequences">Equivalence of Cauchy Sequences</h4>
+<p>We define two Cauchy sequences to be equivalent if they converge to the same value.</p>
+<p>For example, $a_n = 1$ and $a_n​=1−10^{−n}$ are equivalent because they converge to the same value, both sequences correspond to the real number $1$.</p>
+<p>This also provides a definition-level proof that $1 = 0.\dot{9}$.</p>
+<h4 id="formalization-1">Formalization</h4>
+<p>The <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Real/Basic.html#Real">real numbers</a> in Lean4 Mathlib are defined using Cauchy sequences.</p>
+<p>Another important related definition is <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/CauSeq/Completion.html#CauSeq.Completion.Cauchy">Cauchy completion</a>.</p>
+<h3 id="equivalence-of-the-two-definitions">Equivalence of the Two Definitions</h3>
+<p>$A=\{r∈Q | \exists n, r&lt;q_n\}$ is the Dedekind cut (the smaller part) corresponding to the Cauchy sequence $q_n$.</p>
+<p>Obviously, $A$ satisfies the conditions of a Dedekind cut.</p>
+<p>Conversely, if we have a Dedekind cut $A$ with supremum (i.e., the real number it represents) $s$,
+we can definitely<sup class="footnote-reference"><a href="#4">4</a></sup> construct a sequence $q_n$ where $s - q_n &lt; \frac{1} n$,
+and $q_n$ is a Cauchy sequence converging to $s$.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>However, "decimals" can be well-defined! For example, using infinite series.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>For example, you can use $\sqrt{\cdot}$ to construct $\sqrt{2}$ and $\sqrt{3}$, but $\sqrt{\cdot}$ cannot construct $e$ or
+$\pi$. What we want is a <strong>universal</strong> way to construct <strong>all</strong> irrational/real numbers! In fact, $e$ and $\pi$ need to be constructed using sequence limits,
+and slightly generalizing these construction methods leads to the later definition of real numbers using Cauchy sequences.</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>We will define real numbers first, then define irrational numbers as those real numbers that are not rational, because this is more convenient than defining irrational numbers first.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>Define $Q_n = \{\frac k n | k \in \mathbb{Z}\}$, we can find our needed $q_n$ from this set. Due to the <a href="https://en.wikipedia.org/wiki/Dense_set">density</a> of rational numbers, we can definitely find $q_n$.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2024年11月10日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/Math">&nbsp;Math</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Cauchy Sequences, Dedekind Cuts and Real Numbers&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cau-seq-dedekind-cut-real&#x2F;&hashtags=Math"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

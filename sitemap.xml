@@ -46,6 +46,10 @@
         <lastmod>2022-07-13T23:38:26Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/cau-seq-dedekind-cut-real/</loc>
+        <lastmod>2024-11-10T00:23:22.429Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/clocks-in-distributed-system/</loc>
         <lastmod>2020-12-10T22:42:11.815Z</lastmod>
     </url>
@@ -93,6 +97,10 @@
     <url>
         <loc>https://longfangsong.github.io/en/category-theory-3/</loc>
         <lastmod>2023-01-30T17:46:45.264Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/cau-seq-dedekind-cut-real/</loc>
+        <lastmod>2024-11-10T00:23:22.429Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/decidable-in-agda/</loc>
@@ -470,6 +478,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/macos/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/math/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/plt/</loc>
