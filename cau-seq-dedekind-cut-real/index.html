@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • Cauchy Sequences, Dedekind Cuts and Real Numbers</title>
+  <title>Blog • 柯西序列，戴德金分割和实数</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -111,89 +111,91 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cau-seq-dedekind-cut-real&#x2F;">Cauchy Sequences, Dedekind Cuts and Real Numbers</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cau-seq-dedekind-cut-real&#x2F;">柯西序列，戴德金分割和实数</a></h1>
   
-  <div class="post-content"><h2 id="intuitive-concept-of-real-numbers">Intuitive Concept of Real Numbers</h2>
-<p>The definition of real numbers that we learned in high school "seems" to be:</p>
+  <div class="post-content"><h2 id="shi-shu-de-zhi-guan-gai-nian">实数的直观概念</h2>
+<p>我们中学学到的实数定义"似乎"是：</p>
 <p>$$
-\mathbb{R} = \mathbb{Q} \cup \text{irrational numbers}
+\mathbb{R} = \mathbb{Q} \cup \text{无理数}
 $$</p>
-<p>where irrational numbers are defined as:</p>
+<p>其中无理数的定义是：</p>
 <ul>
-<li>Irrational numbers are non-repeating infinite decimals</li>
+<li>无理数是无限不循环小数</li>
 </ul>
-<p>or</p>
+<p>或者</p>
 <ul>
-<li>Irrational numbers are numbers that cannot be expressed as fractions</li>
+<li>无理数是不能被表示为分数的数</li>
 </ul>
-<p>However, we quickly find that to show a number is a "non-repeating infinite decimal" requires observing infinitely many digits. Even if you don't observe any repetition in a finite number of digits, you can't conclude there won't be repetition in more digits.
-In fact, the "decimal" representation is not very suitable for proving things<sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
-<p>On another side, if we define irrational numbers as numbers that cannot be expressed as fractions, this definition becomes incorrect after introducing imaginary numbers.</p>
-<p>Furthermore, these two definitions don't reveal any internal structure of irrational numbers, or a universal way to construct (any) irrational number<sup class="footnote-reference"><a href="#2">2</a></sup>, and real numbers defined as the union of rational and irrational numbers inherit the drawbacks of these two definitions.</p>
-<p>Therefore, a better definition of real numbers is necessary.<sup class="footnote-reference"><a href="#3">3</a></sup></p>
-<h2 id="definition-of-real-numbers">Definition of Real Numbers</h2>
-<p>Real numbers have <a href="https://en.wikipedia.org/wiki/Construction_of_the_real_numbers">many different ways of definition</a>.
-We will introduce the two most commonly used methods, Dedekind cuts and Cauchy sequences.</p>
-<h3 id="dedekind-cuts">Dedekind Cuts</h3>
-<p>An easier to understand definition is using <strong>Dedekind cuts</strong> to define real numbers.</p>
-<p>We divide rational numbers $\mathbb{Q}$ into two disjoint non-empty sets $L$ and $R$, requiring:</p>
+<p>然而，我们很快会发现要说明一个数是"无限不循环小数"需要观察无限多位，即使你在有限位上没有观察到循环，也不能说明在更多位上就没有循环了，
+实际上，"小数"这个表示形式就是很不适合用来证明东西的<sup class="footnote-reference"><a href="#1">1</a></sup>。</p>
+<p>另一个方面，我们将无理数定义成不能被表示为分数的数，那么之后引入虚数之后，这个定义就不对了。</p>
+<p>此外，这两种定义没有揭示任何无理数的内部结构，或者一个通用的构造出（任意一个）无理数的方式<sup class="footnote-reference"><a href="#2">2</a></sup>，而利用有理数和无理数的并定义出的
+实数也继承了这两种定义的缺点。</p>
+<p>因此，一个更好用的实数的定义是必要的。<sup class="footnote-reference"><a href="#3">3</a></sup></p>
+<h2 id="shi-shu-de-ding-yi">实数的定义</h2>
+<p>实数有<a href="https://zh.wikipedia.org/wiki/%E5%AF%A6%E6%95%B8%E7%9A%84%E6%A7%8B%E9%80%A0">非常之多的定义方式</a>。
+我们将介绍其中最常用的两种方式，戴德金分割和柯西序列。</p>
+<h3 id="dai-de-jin-fen-ge">戴德金分割</h3>
+<p>较为容易理解的定义方式是使用<strong>戴德金分割</strong>来定义实数。</p>
+<p>我们将有理数 $\mathbb{Q}$ 分成两个不相交的非空集合 $L$ 和 $R$，要求</p>
 <ul>
-<li>$q ∈ L ⇔ ∃(r ∈ Q). q &lt; r ∧ r ∈ L$, more intuitively, for any element in $L$, we can find an element in $L$ that is greater than it,
-conversely if for a rational number, we can find a rational number in $L$ that is greater than it, then it is in $L$.</li>
-<li>$r ∈ U ⇔ ∃(q ∈ Q). q &lt; r ∧ q ∈ U$, more intuitively, for any element in $R$, we can find an element in $R$ that is less than it,
-conversely if for a rational number, we can find a rational number in $R$ that is less than it, then it is in $R$.</li>
-<li>For rational numbers $a$ and $b$, if $a &lt; b$, then $a ∈ L$ or $b ∈ R$</li>
+<li>$q ∈ L ⇔ ∃(r ∈ Q). q &lt; r ∧ r ∈ L$，更直观的说法是，对 $L$ 中的任何一个元素，都能在 $L$ 中找到一个大于它的元素，
+反之如果对于某一个有理数，在 $L$ 中能找到一个大于它的有理数，那么它就在 $L$ 中。</li>
+<li>$r ∈ U ⇔ ∃(q ∈ Q). q &lt; r ∧ q ∈ U$, 更直观的说法是，对 $R$ 中的任何一个元素，都能在 $R$ 中找到一个小于它的元素，
+反之如果对于某一个有理数，在 $R$ 中能找到一个小于它的有理数，那么它就在 $R$ 中。</li>
+<li>若对有理数 $a$ 和 $b$， $a &lt; b$，则 $a ∈ L$ 或 $b ∈ R$</li>
 </ul>
-<p>The sets $A$ and $B$ obtained in this way are Dedekind cuts of $\mathbb{Q}$, each such cut represents a real number, and the maximum/minimum elements in $L$ and $R$ are <strong>infinitely close</strong> to the real number it represents.</p>
-<h4 id="example">Example</h4>
-<p>Take $L= \{x | x \in \mathbb{Q}, x^2 &lt; 2\}$, $R = \{x | x \in \mathbb{Q}, x^2 &gt; 2\}$, then $L$ and $R$ form a Dedekind cut of $\mathbb{Q}$.</p>
-<p>The real number corresponding to this cut is $\sqrt{2}$.</p>
+<p>通过这种方式取得的集合 $A$ 和 $B$ 就是对 $\mathbb{Q}$ 的戴德金分割，每一个这样的分割表示了一个实数，$L$ 和 $R$ 中
+最大/最小的元素都<strong>无限接近</strong>它所代表的这个实数。</p>
+<h4 id="li-zi">例子</h4>
+<p>取 $L= \{x | x \in \mathbb{Q}, x^2 &lt; 2\}$，$R = \{x | x \in \mathbb{Q}, x^2 &gt; 2\}$，则 $L$ 和 $R$ 是对 $\mathbb{Q}$ 的戴德金分割。</p>
+<p>这个分割对应的实数就是 $\sqrt{2}$。</p>
 <h4 id="formalization">Formalization</h4>
-<p>The <a href="https://unimath.github.io/agda-unimath/real-numbers.html#real-numbers">real numbers</a> in Agda's <code>unimath</code> library are defined using Dedekind cuts.</p>
-<p>Of course, since <code>unimath</code> uses HoTT rather than set theory as its foundation, there are some subtle differences in the definition (like using <code>subtype</code> instead of subset), but the main idea is the same.</p>
-<h3 id="cauchy-sequences">Cauchy Sequences</h3>
-<p>A definition requiring more prerequisite knowledge is defining real numbers through <strong>Cauchy sequences</strong>.</p>
-<p>For a metric space (simply understood as a space that defines the concept of "distance"), we define a sequence of rational numbers</p>
+<p>Agda 的 <code>unimath</code> 库中的<a href="https://unimath.github.io/agda-unimath/real-numbers.html#real-numbers">实数</a>使用戴德金分割来定义。</p>
+<p>当然，由于 <code>unimath</code> 使用的 foundation 不是集合论而是 HoTT，定义有些许细微的差别（例如使用 <code>subtype</code> 而非子集），但大体思想还是一样的。</p>
+<h3 id="ke-xi-xu-lie">柯西序列</h3>
+<p>一个需要更多前置知识的定义方式是通过<strong>柯西序列</strong>来定义实数。</p>
+<p>对于一个度量空间（简单理解就是定义了“距离”这个概念的空间），我们定义有理数一个序列</p>
 <p>$$
 x_0, x_1, \cdots, x_n, \cdots
 $$</p>
-<p>as a (rational) Cauchy sequence if for any positive number $\epsilon$, there exists a natural number $N$, such that for all $i,j \geq N$, we have $|x_i - x_j| &lt; \epsilon$.</p>
-<p>Taking $\mathbb{Q}$ as the metric space, there exist some Cauchy sequences that converge to values not in $\mathbb{Q}$, for example:</p>
+<p>为一个（有理数上的）柯西序列，如果对于任意正数 $\epsilon$，有自然数 $N$，使得对所有 $i,j \geq N$ 有 $|x_i - x_j| &lt; \epsilon$。</p>
+<p>取 $\mathbb{Q}$ 这个度量空间，存在一些柯西序列，其收敛到的值不在 $\mathbb{Q}$ 中，例如：</p>
 <p>$$
 x_0 = 0
 $$
 $$
 x_{n+1} = \frac{x_n + \frac{2} {x_n}} {2}
 $$</p>
-<p>We can see that this sequence converges to $\sqrt{2}$, but this number is not in $\mathbb{Q}$.</p>
-<p>By adding these numbers that sequences converge to into $\mathbb{Q}$, we have <strong>completed</strong> $\mathbb{Q}$, and the new set obtained is the set of real numbers.</p>
-<p>Every real number corresponds to at least one Cauchy sequence.</p>
-<h4 id="equivalence-of-cauchy-sequences">Equivalence of Cauchy Sequences</h4>
-<p>We define two Cauchy sequences to be equivalent if they converge to the same value.</p>
-<p>For example, $a_n = 1$ and $a_n​=1−10^{−n}$ are equivalent because they converge to the same value, both sequences correspond to the real number $1$.</p>
-<p>This also provides a definition-level proof that $1 = 0.\dot{9}$.</p>
+<p>我们可以看出来这个序列是收敛到 $\sqrt{2}$ 的，但这个数并不在 $\mathbb{Q}$ 中。</p>
+<p>通过往 $\mathbb{Q}$ 中添加这些序列收敛到的数，我们将 $\mathbb{Q}$ <strong>完备化</strong> 了，得到的这个新的集合就是实数集合。</p>
+<p>每一个实数都能对应到至少一个柯西序列。</p>
+<h4 id="ke-xi-xu-lie-de-deng-jia">柯西序列的等价</h4>
+<p>我们定义两个柯西序列的等价为如果两个序列收敛到同一个值，则这两个序列等价。</p>
+<p>比如，$a_n = 1$ 和 $a_n​=1−10^{−n}$ 是等价的，因为它们收敛到同一个值，这两个序列对应的都是实数 $1$。</p>
+<p>这也是 $1 = 0.\dot{9}$ 从定义上就可以得到的证明。</p>
 <h4 id="formalization-1">Formalization</h4>
-<p>The <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Real/Basic.html#Real">real numbers</a> in Lean4 Mathlib are defined using Cauchy sequences.</p>
-<p>Another important related definition is <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/CauSeq/Completion.html#CauSeq.Completion.Cauchy">Cauchy completion</a>.</p>
-<h3 id="equivalence-of-the-two-definitions">Equivalence of the Two Definitions</h3>
-<p>$A=\{r∈Q | \exists n, r&lt;q_n\}$ is the Dedekind cut (the smaller part) corresponding to the Cauchy sequence $q_n$.</p>
-<p>Obviously, $A$ satisfies the conditions of a Dedekind cut.</p>
-<p>Conversely, if we have a Dedekind cut $A$ with supremum (i.e., the real number it represents) $s$,
-we can definitely<sup class="footnote-reference"><a href="#4">4</a></sup> construct a sequence $q_n$ where $s - q_n &lt; \frac{1} n$,
-and $q_n$ is a Cauchy sequence converging to $s$.</p>
+<p>Lean4 Mathlib 中的<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Data/Real/Basic.html#Real">实数</a>使用柯西序列来定义。</p>
+<p>相关的重要那个定义还有<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/CauSeq/Completion.html#CauSeq.Completion.Cauchy">柯西完备化</a>。</p>
+<h3 id="liang-ge-ding-yi-de-deng-jia-xing">两个定义的等价性</h3>
+<p>$A=\{r∈Q | \exists n, r&lt;q_n\}$ 为柯西序列 $q_n$ 对应的戴德金分割（中的比较小的那部分）。</p>
+<p>显然 $A$ 符合戴德金分割的条件。</p>
+<p>反之，如果有一个戴德金分割 $A$，其上确界（即其代表的实数）为 $s$，
+我们一定能<sup class="footnote-reference"><a href="#4">4</a></sup>构造出一个序列 $q_n$，其中 $s - q_n &lt; \frac{1} n$，
+且 $q_n$ 是一个趋向于 $s$ 的柯西序列。</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>However, "decimals" can be well-defined! For example, using infinite series.</p>
+<p>但是，“小数”是可能被良好地定义出来的！比如用无穷级数来进行定义。</p>
 </div>
 <div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
-<p>For example, you can use $\sqrt{\cdot}$ to construct $\sqrt{2}$ and $\sqrt{3}$, but $\sqrt{\cdot}$ cannot construct $e$ or
-$\pi$. What we want is a <strong>universal</strong> way to construct <strong>all</strong> irrational/real numbers! In fact, $e$ and $\pi$ need to be constructed using sequence limits,
-and slightly generalizing these construction methods leads to the later definition of real numbers using Cauchy sequences.</p>
+<p>比如，你可以用 $\sqrt{\cdot}$ 来构造 $\sqrt{2}$ 和 $\sqrt{3}$，但 $\sqrt{\cdot}$ 并不能构造 $e$ 或者
+$\pi$。我们想要的是一个<strong>通用</strong>的，能构造出<strong>所有</strong>无理数/实数构造方式！实际上 $e$ 和 $\pi$ 需要用数列的极限构造，
+将这些构造方式稍加推广，就能得到后面的使用柯西序列定义实数的方式。</p>
 </div>
 <div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
-<p>We will define real numbers first, then define irrational numbers as those real numbers that are not rational, because this is more convenient than defining irrational numbers first.</p>
+<p>我们将定义实数，然后将无理数定义为那些不是有理数的实数，因为这比先定义无理数更方便。</p>
 </div>
 <div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
-<p>Define $Q_n = \{\frac k n | k \in \mathbb{Z}\}$, we can find our needed $q_n$ from this set. Due to the <a href="https://en.wikipedia.org/wiki/Dense_set">density</a> of rational numbers, we can definitely find $q_n$.</p>
+<p>定义 $Q_n = \{\frac k n | k \in \mathbb{Z}\}$，我们可以从这个集合中找到我们需要的 $q_n$，由于有理数的<a href="https://zh.wikipedia.org/zh-hans/%E7%A8%A0%E5%AF%86%E9%9B%86">稠密性</a>，我们是一定能找到 $q_n$ 的。</p>
 </div>
 </div>
   <div class="post-footer">
@@ -219,7 +221,7 @@ and slightly generalizing these construction methods leads to the later definiti
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=Cauchy Sequences, Dedekind Cuts and Real Numbers&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cau-seq-dedekind-cut-real&#x2F;&hashtags=Math"></a>
+      href="http://twitter.com/share?text=柯西序列，戴德金分割和实数&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cau-seq-dedekind-cut-real&#x2F;&hashtags=Math"></a>
   </div>
 </div>
 
