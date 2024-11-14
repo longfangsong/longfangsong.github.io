@@ -6322,64 +6322,132 @@ CAP 中的 C 指的是外部一致性。
 &lt;p&gt;给定集合$A$，二元函数$F: A \times A \rightarrow A$称为集合A上的&lt;strong&gt;二元运算&lt;&#x2F;strong&gt;。&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;本文中的二元运算使用 $\circ$ 、$\diamond$ &lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;表示，同时，集合$A$中的元素用 $a$ ，$b$ ，$c$ 等表示。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;可能使集合具有的特殊元素&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可能使集合具有的特殊元素&quot; title=&quot;可能使集合具有的特殊元素&quot;&gt;&lt;&#x2F;a&gt;可能使集合具有的特殊元素&lt;&#x2F;h3&gt;&lt;h4 id=&quot;幺元-单位元-（identity-element-neutral-element）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺元-单位元-（identity-element-neutral-element）&quot; title=&quot;幺元&#x2F;单位元 （identity element&#x2F;neutral element）&quot;&gt;&lt;&#x2F;a&gt;幺元&#x2F;单位元 （identity element&#x2F;neutral element）&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-i\ \circ\ a = a&lt;&#x2F;script&gt;&lt;p&gt;则 $i$ 是 $\circ$ 在 $A​$ 上的左幺元。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ke-neng-shi-ji-he-ju-you-de-te-shu-yuan-su&quot;&gt;可能使集合具有的特殊元素&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;yao-yuan-dan-wei-yuan-identity-element-neutral-element&quot;&gt;幺元&#x2F;单位元 （identity element&#x2F;neutral element）&lt;&#x2F;h4&gt;
 &lt;p&gt;若对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ i = a&lt;&#x2F;script&gt;&lt;p&gt;则 $i$ 是 $\circ$ 在 $A​$ 上的右幺元。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+i\ \circ\ a = a
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $i$ 是 $\circ$ 在 $A$ 上的左幺元。&lt;&#x2F;p&gt;
+&lt;p&gt;若对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ i = a
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $i$ 是 $\circ$ 在 $A$ 上的右幺元。&lt;&#x2F;p&gt;
 &lt;p&gt;幺元 = 左幺元 &amp;amp; 右幺元。&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;逆元-（inverse-element）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#逆元-（inverse-element）&quot; title=&quot;逆元 （inverse element）&quot;&gt;&lt;&#x2F;a&gt;逆元 （inverse element）&lt;&#x2F;h4&gt;&lt;p&gt;在已经存在幺元 $i​$ 时，&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;ni-yuan-inverse-element&quot;&gt;逆元 （inverse element）&lt;&#x2F;h4&gt;
+&lt;p&gt;在已经存在幺元 $i$ 时，&lt;&#x2F;p&gt;
 &lt;p&gt;若&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ b = i&lt;&#x2F;script&gt;&lt;p&gt;则 $a$ 是 $b$ 在 $\circ$ 上的左逆元，同时 $b$ 也是 $a$ 在 $\circ$ 下的右逆元。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ b = i
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $a$ 是 $b$ 在 $\circ$ 上的左逆元，同时 $b$ 也是 $a$ 在 $\circ$ 下的右逆元。&lt;&#x2F;p&gt;
 &lt;p&gt;逆元 = 左逆元 &amp;amp; 右逆元&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;零元（zero-element）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#零元（zero-element）&quot; title=&quot;零元（zero element）&quot;&gt;&lt;&#x2F;a&gt;零元（zero element）&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A​$ 中每个元素 $a​$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-z\ \circ\ a = z&lt;&#x2F;script&gt;&lt;p&gt;则 $z$ 是 $\circ$ 在 $A$ 上的左零元。&lt;&#x2F;p&gt;
-&lt;p&gt;若对 $A​$ 中每个元素 $a​$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ z = z&lt;&#x2F;script&gt;&lt;p&gt;则 $z​$ 是 $\circ​$ 在 $A​$ 上的右零元。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;ling-yuan-zero-element&quot;&gt;零元（zero element）&lt;&#x2F;h4&gt;
+&lt;p&gt;若对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+z\ \circ\ a = z
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $z$ 是 $\circ$ 在 $A$ 上的左零元。&lt;&#x2F;p&gt;
+&lt;p&gt;若对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ z = z
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $z$ 是 $\circ$ 在 $A$ 上的右零元。&lt;&#x2F;p&gt;
 &lt;p&gt;零元 = 左零元 &amp;amp; 右零元&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;零因子（Zero-divisor）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#零因子（Zero-divisor）&quot; title=&quot;零因子（Zero divisor）&quot;&gt;&lt;&#x2F;a&gt;零因子（Zero divisor）&lt;&#x2F;h4&gt;&lt;p&gt;在已经存在零元 $z$ 时：&lt;&#x2F;p&gt;
-&lt;p&gt;若对 $A​$ 中存在不是零元的元素 $b​$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ b = z&lt;&#x2F;script&gt;&lt;p&gt;则 $a$ 是 $\circ$ 在 $A$ 上的左零因子。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;ling-yin-zi-zero-divisor&quot;&gt;零因子（Zero divisor）&lt;&#x2F;h4&gt;
+&lt;p&gt;在已经存在零元 $z$ 时：&lt;&#x2F;p&gt;
 &lt;p&gt;若对 $A$ 中存在不是零元的元素 $b$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-b\ \circ\ a = z&lt;&#x2F;script&gt;&lt;p&gt;则 $a$ 是 $\circ$ 在 $A$ 上的右零因子。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ b = z
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $a$ 是 $\circ$ 在 $A$ 上的左零因子。&lt;&#x2F;p&gt;
+&lt;p&gt;若对 $A$ 中存在不是零元的元素 $b$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+b\ \circ\ a = z
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $a$ 是 $\circ$ 在 $A$ 上的右零因子。&lt;&#x2F;p&gt;
 &lt;p&gt;零因子 = 左零因子 &amp;amp; 右零因子（也有说法是 零因子 = 左零因子 | 右零因子）&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;可能具有的性质&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可能具有的性质&quot; title=&quot;可能具有的性质&quot;&gt;&lt;&#x2F;a&gt;可能具有的性质&lt;&#x2F;h3&gt;&lt;h4 id=&quot;交换律&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#交换律&quot; title=&quot;交换律&quot;&gt;&lt;&#x2F;a&gt;交换律&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b​$&lt;&#x2F;p&gt;
-&lt;p&gt;$a\ \circ\ b = b\ \circ\ a​$&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;结合律&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#结合律&quot; title=&quot;结合律&quot;&gt;&lt;&#x2F;a&gt;结合律&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b$&lt;&#x2F;p&gt;
-&lt;p&gt;$(a\ \circ\ b)\ \circ\ c =a\ \circ\ (b\ \circ\ c) $&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;分配率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#分配率&quot; title=&quot;分配率&quot;&gt;&lt;&#x2F;a&gt;分配率&lt;&#x2F;h4&gt;&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b$、$c$&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ke-neng-ju-you-de-xing-zhi&quot;&gt;可能具有的性质&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;jiao-huan-lu&quot;&gt;交换律&lt;&#x2F;h4&gt;
+&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b$&lt;&#x2F;p&gt;
+&lt;p&gt;$a\ \circ\ b = b\ \circ\ a$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;jie-he-lu&quot;&gt;结合律&lt;&#x2F;h4&gt;
+&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b$&lt;&#x2F;p&gt;
+&lt;p&gt;$(a\ \circ\ b)\ \circ\ c =a\ \circ\ (b\ \circ\ c)$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;fen-pei-lu&quot;&gt;分配率&lt;&#x2F;h4&gt;
+&lt;p&gt;若对 $A$ 中任意元素 $a$ 、$b$、$c$&lt;&#x2F;p&gt;
 &lt;p&gt;若&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ (b\ \diamond\ c) = a\ \circ\ b\ \diamond\ a\ \circ\ b&lt;&#x2F;script&gt;&lt;p&gt;称 $\circ$ 对 $\diamond$ 具有左分配率。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ (b\ \diamond\ c) = a\ \circ\ b\ \diamond\ a\ \circ\ b
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;称 $\circ$ 对 $\diamond$ 具有左分配率。&lt;&#x2F;p&gt;
 &lt;p&gt;若&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-(b\ \diamond\ c) \circ\ a = b\ \circ\ a\ \diamond\ c\ \circ\ a&lt;&#x2F;script&gt;&lt;p&gt;称 $\circ$ 对 $\diamond​$ 具有右分配率。&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(b\ \diamond\ c) \circ\ a = b\ \circ\ a\ \diamond\ c\ \circ\ a
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;称 $\circ$ 对 $\diamond$ 具有右分配率。&lt;&#x2F;p&gt;
 &lt;p&gt;分配率 = 左分配率 &amp;amp; 右分配率&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;幂等率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幂等率&quot; title=&quot;幂等率&quot;&gt;&lt;&#x2F;a&gt;幂等率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ a = a&lt;&#x2F;script&gt;&lt;h4 id=&quot;幂幺率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幂幺率&quot; title=&quot;幂幺率&quot;&gt;&lt;&#x2F;a&gt;幂幺率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个元素 $a​$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ a = i&lt;&#x2F;script&gt;&lt;h4 id=&quot;&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#&quot; title=&quot; &quot;&gt;&lt;&#x2F;a&gt; &lt;&#x2F;h4&gt;&lt;p&gt;其中 $i$ 为幺元。&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;幂零率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幂零率&quot; title=&quot;幂零率&quot;&gt;&lt;&#x2F;a&gt;幂零率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ a = z&lt;&#x2F;script&gt;&lt;h4 id=&quot;-1&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#-1&quot; title=&quot; &quot;&gt;&lt;&#x2F;a&gt; &lt;&#x2F;h4&gt;&lt;p&gt;其中 $z$ 为零元。&lt;&#x2F;p&gt;
-&lt;h4 id=&quot;吸收率&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#吸收率&quot; title=&quot;吸收率&quot;&gt;&lt;&#x2F;a&gt;吸收率&lt;&#x2F;h4&gt;&lt;p&gt;对 $A$ 中每个 $a$ 、$b​$&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \circ\ (a\ \diamond\ b) = a\ \diamond\ (a\ \circ\ b) = a&lt;&#x2F;script&gt;&lt;p&gt;则这两个运算服从吸收率，两种运算被称为对偶对。&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;序&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#序&quot; title=&quot;序&quot;&gt;&lt;&#x2F;a&gt;序&lt;&#x2F;h2&gt;&lt;h3 id=&quot;偏序关系&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#偏序关系&quot; title=&quot;偏序关系&quot;&gt;&lt;&#x2F;a&gt;偏序关系&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;全序关系&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#全序关系&quot; title=&quot;全序关系&quot;&gt;&lt;&#x2F;a&gt;全序关系&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;上-下界&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#上-下界&quot; title=&quot;上&#x2F;下界&quot;&gt;&lt;&#x2F;a&gt;上&#x2F;下界&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;上-下确界（全上-下界）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#上-下确界（全上-下界）&quot; title=&quot;上&#x2F;下确界（全上&#x2F;下界）&quot;&gt;&lt;&#x2F;a&gt;上&#x2F;下确界（全上&#x2F;下界）&lt;&#x2F;h3&gt;&lt;p&gt;待补充……&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;代数结构&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#代数结构&quot; title=&quot;代数结构&quot;&gt;&lt;&#x2F;a&gt;代数结构&lt;&#x2F;h2&gt;&lt;p&gt;来自维基百科（许多东西没有中文译名……）：&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img alt=&quot;img1&quot; src=&quot;.&#x2F;img1.png&quot;&#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;p&gt;&lt;img alt=&quot;Lattice_v4&quot; src=&quot;.&#x2F;Lattice_v4.png&quot;&#x2F;&gt;&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;原群（magma-groupoid）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#原群（magma-groupoid）&quot; title=&quot;原群（magma&#x2F;groupoid）&quot;&gt;&lt;&#x2F;a&gt;原群（magma&#x2F;groupoid）&lt;&#x2F;h3&gt;&lt;p&gt;有一个集合和一个集合上的二元运算就是原群了。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;mi-deng-lu&quot;&gt;幂等率&lt;&#x2F;h4&gt;
+&lt;p&gt;对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ a = a
+$$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;mi-yao-lu&quot;&gt;幂幺率&lt;&#x2F;h4&gt;
+&lt;p&gt;对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ a = i
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;其中 $i$ 为幺元。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;mi-ling-lu&quot;&gt;幂零率&lt;&#x2F;h4&gt;
+&lt;p&gt;对 $A$ 中每个元素 $a$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ a = z
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;其中 $z$ 为零元。&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;xi-shou-lu&quot;&gt;吸收率&lt;&#x2F;h4&gt;
+&lt;p&gt;对 $A$ 中每个 $a$ 、$b$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \circ\ (a\ \diamond\ b) = a\ \diamond\ (a\ \circ\ b) = a
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则这两个运算服从吸收率，两种运算被称为对偶对。&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;xu&quot;&gt;序&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;pian-xu-guan-xi&quot;&gt;偏序关系&lt;&#x2F;h3&gt;
+&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;quan-xu-guan-xi&quot;&gt;全序关系&lt;&#x2F;h3&gt;
+&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shang-xia-jie&quot;&gt;上&#x2F;下界&lt;&#x2F;h3&gt;
+&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;shang-xia-que-jie-quan-shang-xia-jie&quot;&gt;上&#x2F;下确界（全上&#x2F;下界）&lt;&#x2F;h3&gt;
+&lt;p&gt;待补充……&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dai-shu-jie-gou&quot;&gt;代数结构&lt;&#x2F;h2&gt;
+&lt;p&gt;来自维基百科（许多东西没有中文译名……）：&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;upload.wikimedia.org&#x2F;wikipedia&#x2F;commons&#x2F;3&#x2F;3f&#x2F;Magma_to_group4.svg&quot; alt=&quot;img1&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;类群结构&lt;&#x2F;th&gt;&lt;th&gt;完全性&lt;&#x2F;th&gt;&lt;th&gt;结合律&lt;&#x2F;th&gt;&lt;th&gt;单位元&lt;&#x2F;th&gt;&lt;th&gt;除法&lt;&#x2F;th&gt;&lt;th&gt;交换律&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;Partial magma&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Semigroupoid&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;（Small） 范畴&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;广群&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative Groupoid&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;原群&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative magma&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;拟群&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative quasigroup&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Unital magma&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative unital magma&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;幺拟群（圈）&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative loop&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;半群&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative semigroup&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Associative quasigroup&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative-and-associative quasigroup&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;幺半群（独异点）&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Commutative monoid&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;群&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;否&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;阿贝尔群&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;td&gt;是&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h3 id=&quot;yuan-qun-magma-groupoid&quot;&gt;原群（magma&#x2F;groupoid）&lt;&#x2F;h3&gt;
+&lt;p&gt;有一个集合和一个集合上的二元运算就是原群了。&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;ni-qun-quasigroup&quot;&gt;拟群（quasigroup）&lt;&#x2F;h3&gt;
 &lt;p&gt;对任意元素 $a$ 和 $b$，有唯一的 $x$ 和 $y$，使得&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -6397,50 +6465,69 @@ y = b\ \acute{\circ}\ a
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$\grave{\circ}$ 常写作 \ ，常被称为左除。&lt;&#x2F;p&gt;
 &lt;p&gt;$\acute{\circ}$ 常写作 &#x2F;，被称为右除。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;半群（semigroup）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#半群（semigroup）&quot; title=&quot;半群（semigroup）&quot;&gt;&lt;&#x2F;a&gt;半群（semigroup）&lt;&#x2F;h3&gt;&lt;p&gt;原群 加&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ban-qun-semigroup&quot;&gt;半群（semigroup）&lt;&#x2F;h3&gt;
+&lt;p&gt;原群 加&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;运算&lt;ul&gt;
+&lt;li&gt;运算
+&lt;ul&gt;
 &lt;li&gt;结合律&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;幺拟群（圈）（loop）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺拟群（圈）（loop）&quot; title=&quot;幺拟群（圈）（loop）&quot;&gt;&lt;&#x2F;a&gt;幺拟群（圈）（loop）&lt;&#x2F;h3&gt;&lt;p&gt;拟群 加上：&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yao-ni-qun-quan-loop&quot;&gt;幺拟群（圈）（loop）&lt;&#x2F;h3&gt;
+&lt;p&gt;拟群 加上：&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;特殊元素&lt;ul&gt;
+&lt;li&gt;特殊元素
+&lt;ul&gt;
 &lt;li&gt;幺元&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;幺半群（独异点）（monoid）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺半群（独异点）（monoid）&quot; title=&quot;幺半群（独异点）（monoid）&quot;&gt;&lt;&#x2F;a&gt;幺半群（独异点）（monoid）&lt;&#x2F;h3&gt;&lt;p&gt;半群 加上：&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yao-ban-qun-du-yi-dian-monoid&quot;&gt;幺半群（独异点）（monoid）&lt;&#x2F;h3&gt;
+&lt;p&gt;半群 加上：&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;特殊元素&lt;ul&gt;
+&lt;li&gt;特殊元素
+&lt;ul&gt;
 &lt;li&gt;幺元&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;可交换幺半群（阿贝尔幺半群）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可交换幺半群（阿贝尔幺半群）&quot; title=&quot;可交换幺半群（阿贝尔幺半群）&quot;&gt;&lt;&#x2F;a&gt;可交换幺半群（阿贝尔幺半群）&lt;&#x2F;h3&gt;&lt;p&gt;幺半群 加上：&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ke-jiao-huan-yao-ban-qun-a-bei-er-yao-ban-qun&quot;&gt;可交换幺半群（阿贝尔幺半群）&lt;&#x2F;h3&gt;
+&lt;p&gt;幺半群 加上：&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;运算&lt;ul&gt;
+&lt;li&gt;运算
+&lt;ul&gt;
 &lt;li&gt;交换律&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;群（group）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#群（group）&quot; title=&quot;群（group）&quot;&gt;&lt;&#x2F;a&gt;群（group）&lt;&#x2F;h3&gt;&lt;p&gt;幺半群 加上：&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;qun-group&quot;&gt;群（group）&lt;&#x2F;h3&gt;
+&lt;p&gt;幺半群 加上：&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;特殊元素&lt;ul&gt;
+&lt;li&gt;特殊元素
+&lt;ul&gt;
 &lt;li&gt;（对每个元素）逆元&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;可交换群（阿贝尔群）（Abelian-group）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#可交换群（阿贝尔群）（Abelian-group）&quot; title=&quot;可交换群（阿贝尔群）（Abelian group）&quot;&gt;&lt;&#x2F;a&gt;可交换群（阿贝尔群）（Abelian group）&lt;&#x2F;h3&gt;&lt;p&gt;群 + 可交换幺半群&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;环（ring）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#环（ring）&quot; title=&quot;环（ring）&quot;&gt;&lt;&#x2F;a&gt;环（ring）&lt;&#x2F;h3&gt;&lt;p&gt;对一种运算（$\circ$）构成可交换群 + 对另一种运算（$\diamond$）构成半群 + $\circ$ 对$\diamond$有分配率&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;幺环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#幺环&quot; title=&quot;幺环&quot;&gt;&lt;&#x2F;a&gt;幺环&lt;&#x2F;h3&gt;&lt;p&gt;环 + 其中那个半群是含幺半群&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;交换环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#交换环&quot; title=&quot;交换环&quot;&gt;&lt;&#x2F;a&gt;交换环&lt;&#x2F;h3&gt;&lt;p&gt;环 + 其中那个半群是交换半群&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;无零因子环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#无零因子环&quot; title=&quot;无零因子环&quot;&gt;&lt;&#x2F;a&gt;无零因子环&lt;&#x2F;h3&gt;&lt;p&gt;环 + 没有零因子&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;整环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#整环&quot; title=&quot;整环&quot;&gt;&lt;&#x2F;a&gt;整环&lt;&#x2F;h3&gt;&lt;p&gt;交换环 + 幺环 + 无零因子环&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;除环&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#除环&quot; title=&quot;除环&quot;&gt;&lt;&#x2F;a&gt;除环&lt;&#x2F;h3&gt;&lt;p&gt;所有元素都在 $\circ$ 上有逆元&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;域（field）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#域（field）&quot; title=&quot;域（field）&quot;&gt;&lt;&#x2F;a&gt;域（field）&lt;&#x2F;h3&gt;&lt;p&gt;交换环 + 除环&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;偏序集（partially-ordered-set）&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#偏序集（partially-ordered-set）&quot; title=&quot;偏序集（partially ordered set）&quot;&gt;&lt;&#x2F;a&gt;偏序集（partially ordered set）&lt;&#x2F;h3&gt;&lt;p&gt;定义了偏序的集合&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;ke-jiao-huan-qun-a-bei-er-qun-abelian-group&quot;&gt;可交换群（阿贝尔群）（Abelian group）&lt;&#x2F;h3&gt;
+&lt;p&gt;群 + 可交换幺半群&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;huan-ring&quot;&gt;环（ring）&lt;&#x2F;h3&gt;
+&lt;p&gt;对一种运算（$\circ$）构成可交换群 + 对另一种运算（$\diamond$）构成半群 + $\circ$ 对$\diamond$有分配率&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yao-huan&quot;&gt;幺环&lt;&#x2F;h3&gt;
+&lt;p&gt;环 + 其中那个半群是含幺半群&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;jiao-huan-huan&quot;&gt;交换环&lt;&#x2F;h3&gt;
+&lt;p&gt;环 + 其中那个半群是交换半群&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wu-ling-yin-zi-huan&quot;&gt;无零因子环&lt;&#x2F;h3&gt;
+&lt;p&gt;环 + 没有零因子&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;zheng-huan&quot;&gt;整环&lt;&#x2F;h3&gt;
+&lt;p&gt;交换环 + 幺环 + 无零因子环&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;chu-huan&quot;&gt;除环&lt;&#x2F;h3&gt;
+&lt;p&gt;所有元素都在 $\circ$ 上有逆元&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;yu-field&quot;&gt;域（field）&lt;&#x2F;h3&gt;
+&lt;p&gt;交换环 + 除环&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;pian-xu-ji-partially-ordered-set&quot;&gt;偏序集（partially ordered set）&lt;&#x2F;h3&gt;
+&lt;p&gt;定义了偏序的集合&lt;&#x2F;p&gt;
 &lt;h3 id=&quot;ban-ge&quot;&gt;半格&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt;&lt;&#x2F;h3&gt;
 &lt;h4 id=&quot;xu-li-lun-zhong-de-ban-ge-de-ding-yi&quot;&gt;序理论中的半格的定义&lt;&#x2F;h4&gt;
 &lt;p&gt;偏序集 + (最小上界 | 最大上界)&lt;&#x2F;p&gt;
@@ -6466,37 +6553,52 @@ $$&lt;&#x2F;p&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;分配格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#分配格&quot; title=&quot;分配格&quot;&gt;&lt;&#x2F;a&gt;分配格&lt;&#x2F;h3&gt;&lt;p&gt;格 加上&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;fen-pei-ge&quot;&gt;分配格&lt;&#x2F;h3&gt;
+&lt;p&gt;格 加上&lt;&#x2F;p&gt;
 &lt;ul&gt;
-&lt;li&gt;运算&lt;ul&gt;
+&lt;li&gt;运算
+&lt;ul&gt;
 &lt;li&gt;分配率&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;完全格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#完全格&quot; title=&quot;完全格&quot;&gt;&lt;&#x2F;a&gt;完全格&lt;&#x2F;h3&gt;&lt;p&gt;偏序集 + 所有子集都有上确界和下确界&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;有界格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#有界格&quot; title=&quot;有界格&quot;&gt;&lt;&#x2F;a&gt;有界格&lt;&#x2F;h3&gt;&lt;p&gt;格 加上&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wan-quan-ge&quot;&gt;完全格&lt;&#x2F;h3&gt;
+&lt;p&gt;偏序集 + 所有子集都有上确界和下确界&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;you-jie-ge&quot;&gt;有界格&lt;&#x2F;h3&gt;
+&lt;p&gt;格 加上&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;有全下界和全上界&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h3 id=&quot;有补格&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#有补格&quot; title=&quot;有补格&quot;&gt;&lt;&#x2F;a&gt;有补格&lt;&#x2F;h3&gt;&lt;p&gt;有界格 加上&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;you-bu-ge&quot;&gt;有补格&lt;&#x2F;h3&gt;
+&lt;p&gt;有界格 加上&lt;&#x2F;p&gt;
 &lt;ul&gt;
 &lt;li&gt;对任意元素均有补元&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
-&lt;h4 id=&quot;补元&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#补元&quot; title=&quot;补元&quot;&gt;&lt;&#x2F;a&gt;补元&lt;&#x2F;h4&gt;&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \wedge\ b=0&lt;&#x2F;script&gt;&lt;p&gt;且&lt;&#x2F;p&gt;
-&lt;script type=&quot;math&#x2F;tex; mode=display&quot;&gt;
-a\ \vee\ b = 1&lt;&#x2F;script&gt;&lt;p&gt;则 $b$ 是 $a$ 的补元。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;海廷代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#海廷代数&quot; title=&quot;海廷代数&quot;&gt;&lt;&#x2F;a&gt;海廷代数&lt;&#x2F;h3&gt;&lt;p&gt;有界格 加上&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;bu-yuan&quot;&gt;补元&lt;&#x2F;h4&gt;
+&lt;p&gt;$$
+a\ \wedge\ b=0
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;且&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+a\ \vee\ b = 1
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;则 $b$ 是 $a$ 的补元。&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;hai-ting-dai-shu&quot;&gt;海廷代数&lt;&#x2F;h3&gt;
+&lt;p&gt;有界格 加上&lt;&#x2F;p&gt;
 &lt;p&gt;对于所有 $a$ 和 $b$，集合中存在最大的 $x$，使得$a \wedge x \leq b$。&lt;&#x2F;p&gt;
 &lt;p&gt;其中 $x$ 称为 $a$ 对 $b$ 的相对伪补元。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;完全海廷代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#完全海廷代数&quot; title=&quot;完全海廷代数&quot;&gt;&lt;&#x2F;a&gt;完全海廷代数&lt;&#x2F;h3&gt;&lt;p&gt;海廷代数 + 完全格&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;布尔代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#布尔代数&quot; title=&quot;布尔代数&quot;&gt;&lt;&#x2F;a&gt;布尔代数&lt;&#x2F;h3&gt;&lt;p&gt;有补格 + 分配格&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wan-quan-hai-ting-dai-shu&quot;&gt;完全海廷代数&lt;&#x2F;h3&gt;
+&lt;p&gt;海廷代数 + 完全格&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;bu-er-dai-shu&quot;&gt;布尔代数&lt;&#x2F;h3&gt;
+&lt;p&gt;有补格 + 分配格&lt;&#x2F;p&gt;
 &lt;p&gt;或&lt;&#x2F;p&gt;
 &lt;p&gt;海廷代数 将 相对伪补元改为真正的补元。&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;完全布尔代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#完全布尔代数&quot; title=&quot;完全布尔代数&quot;&gt;&lt;&#x2F;a&gt;完全布尔代数&lt;&#x2F;h3&gt;&lt;p&gt;布尔代数 + 完全格&lt;&#x2F;p&gt;
-&lt;h3 id=&quot;逻辑代数&quot;&gt;&lt;a class=&quot;headerlink&quot; href=&quot;#逻辑代数&quot; title=&quot;逻辑代数&quot;&gt;&lt;&#x2F;a&gt;逻辑代数&lt;&#x2F;h3&gt;&lt;p&gt;布尔代数 + 二元（集合中元素只有两个）&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;wan-quan-bu-er-dai-shu&quot;&gt;完全布尔代数&lt;&#x2F;h3&gt;
+&lt;p&gt;布尔代数 + 完全格&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;luo-ji-dai-shu&quot;&gt;逻辑代数&lt;&#x2F;h3&gt;
+&lt;p&gt;布尔代数 + 二元（集合中元素只有两个）&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
-&lt;p&gt;各种材料常常用常见的乘号和加号代表运算，个人并不喜欢这样做，”不同”的东西应该用”不同”的记号。&lt;&#x2F;p&gt;
+&lt;p&gt;各种材料常常用常见的乘号和加号代表运算，个人并不喜欢这样做，&quot;不同&quot;的东西应该用&quot;不同&quot;的记号。&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
 &lt;p&gt;（半）格在群论和序理论中代表两个不同的东西，英文名称都叫Lattice，中文名称都叫格。数学家起名字的水平和我五五开。&lt;&#x2F;p&gt;
