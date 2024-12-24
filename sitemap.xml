@@ -171,6 +171,10 @@
         <lastmod>2023-03-03T16:58:21.033Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/lambda-and-chi/</loc>
+        <lastmod>2024-11-22T01:29:23.098Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/links/</loc>
     </url>
     <url>
@@ -223,6 +227,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/compiler/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/ke-ji-suan-xing-li-lun/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/math/</loc>
@@ -292,6 +299,10 @@
         <lastmod>2021-04-18T07:34:52.996Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/lambda-and-chi/</loc>
+        <lastmod>2024-11-22T01:29:23.098Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/links/</loc>
     </url>
     <url>
@@ -336,6 +347,10 @@
     <url>
         <loc>https://longfangsong.github.io/parsing-combinator/</loc>
         <lastmod>2020-05-17T16:30:31.045Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/primitive-recursive-function/</loc>
+        <lastmod>2024-12-23T16:21:36.069Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/regex-to-and-from-syntax/</loc>
@@ -475,6 +490,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/ji-suan-ji-ke-xue-ji-chu/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/ke-ji-suan-xing-li-lun/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/macos/</loc>

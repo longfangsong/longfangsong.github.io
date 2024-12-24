@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • 原始递归函数</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;primitive-recursive-function&#x2F;">原始递归函数</a></h1>
+  
+  <div class="post-content"><h2 id="wen-fa">文法</h2>
+<p>原始递归函数是一种函数式的计算模型，其文法定义如下：</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\text{zero} \in \text{PRF}_0$}
+\end{prooftree}
+$$</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{}
+\UnaryInfC{$\text{suc} \in \text{PRF}_1$}
+\end{prooftree}
+$$</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$i \in \mathbb{N}$}
+\AxiomC{$0 ≤ i &lt; n$}
+\BinaryInfC{$\text{proj} \ i \in \text{PRF}_{n}$}
+\end{prooftree}
+$$</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$f \in \text{PRF}_{m}$}
+\AxiomC{$gs \in \text{PRF}_{n}[m]$}
+\BinaryInfC{$\text{comp} \ f \ gs ∈ \text{PRF}_n$}
+\end{prooftree}
+$$</p>
+<p>$$
+\require{bussproofs}
+\begin{prooftree}
+\AxiomC{$f \in \text{PRF}_n$}
+\AxiomC{$g \in \text{PRF}_{n+2}$}
+\BinaryInfC{$\text{rec} \ f \ g ∈ \text{PRF}_{n+1}$}
+\end{prooftree}
+$$</p>
+<p>其中 $\text{PRF}_n$ 中的 $n$ 是一个自然数，代表函数的参数个数。</p>
+<p>$PRF_n[m]$ 是一个长度 为 $m$ 的列表（可以由 <code>,</code> 或者任何你喜欢的符号分隔，毕竟文法不重要），其中的元素是 $PRF_n$。</p>
+<h2 id="yu-yi">语义</h2>
+<h3 id="ren-hua-yu-yi">人话语义</h3>
+<p>每个原始递归函数都接受一个自然数参数列表，并返回一个自然数。</p>
+<p>$\text{zero}$ 和 $\text{suc}$ 好理解，不多赘述。</p>
+<p>$\text{proj} \ i$ 就是取参数列表中的第 $i$ 个元素。</p>
+<p>$\text{comp} \ f \ gs$ 就是先调用 $gs$ 中的每一个函数（使用的就是当前的参数列表），然后用结果作为参数再调用 $f$。
+可以理解为 $f$ 和 $gs$ 的复合 $f \circ gs$。</p>
+<p>用 JS 表示就是：</p>
+<pre data-lang="javascript" style="background-color:#2b303b;color:#c0c5ce;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#b48ead;">const </span><span style="color:#8fa1b3;">comp </span><span>= </span><span style="color:#b48ead;">function</span><span>(</span><span style="color:#bf616a;">f</span><span>, </span><span style="color:#bf616a;">gs</span><span>, </span><span style="color:#bf616a;">args</span><span>) {
+</span><span>  </span><span style="color:#b48ead;">return </span><span style="color:#8fa1b3;">f</span><span>(...</span><span style="color:#bf616a;">gs</span><span>.</span><span style="color:#8fa1b3;">map</span><span>(</span><span style="color:#bf616a;">g </span><span style="color:#b48ead;">=&gt; </span><span style="color:#8fa1b3;">g</span><span>(</span><span style="color:#bf616a;">args</span><span>))));
+</span><span>}
+</span></code></pre>
+<p>$\text{rec} \ f \ g$ （假设参数列表为 $(n, x_1, x_2, \dots, x_n)$）就是</p>
+<ol>
+<li>当前结果为 $f(x_1, x_2, \dots, x_n)$</li>
+<li>将当前结果与调用 $g$ 的次数作为参数，调用 $g$，直到调用 $g$ 的次数达到 $n$ 次。</li>
+</ol>
+<p>用 JS 表示就是：</p>
+<pre data-lang="javascript" style="background-color:#2b303b;color:#c0c5ce;" class="language-javascript "><code class="language-javascript" data-lang="javascript"><span style="color:#b48ead;">const </span><span style="color:#8fa1b3;">rec </span><span>= </span><span style="color:#b48ead;">function</span><span>(</span><span style="color:#bf616a;">f</span><span>, </span><span style="color:#bf616a;">g</span><span>, </span><span style="color:#bf616a;">n</span><span>, </span><span style="color:#bf616a;">args</span><span>) {
+</span><span>  </span><span style="color:#b48ead;">let </span><span style="color:#bf616a;">result </span><span>= </span><span style="color:#8fa1b3;">f</span><span>(</span><span style="color:#bf616a;">args</span><span>);
+</span><span>  </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">let </span><span style="color:#bf616a;">i </span><span>= </span><span style="color:#d08770;">0</span><span>; </span><span style="color:#bf616a;">i </span><span>&lt; </span><span style="color:#bf616a;">n</span><span>; </span><span style="color:#bf616a;">i</span><span>++) {
+</span><span>    </span><span style="color:#bf616a;">result </span><span>= </span><span style="color:#8fa1b3;">g</span><span>(</span><span style="color:#bf616a;">result</span><span>, </span><span style="color:#bf616a;">i</span><span>);
+</span><span>  }
+</span><span>  </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">result</span><span>;
+</span><span>}
+</span></code></pre>
+<h3 id="zhi-cheng-yu-yi">指称语义</h3>
+<p><img src="https://longfangsong.github.io/primitive-recursive-function/./denotational_semantics.png" alt="" /></p>
+<p>其中 <code>index</code> 定义如下：</p>
+<p><img src="https://longfangsong.github.io/primitive-recursive-function/./index.png" alt="" /></p>
+<p>注意这里的参数列表是反着写的，不过这只是一个 design choice, 对理解“这是什么”影响不大。</p>
+<h3 id="da-bu-operational-yu-yi">大步 operational 语义</h3>
+<p><img src="https://longfangsong.github.io/primitive-recursive-function/./big_step_operational_semantics1.png" alt="" />
+<img src="https://longfangsong.github.io/primitive-recursive-function/./big_step_operational_semantics2.png" alt="" /></p>
+<p><code>index</code> 定义同上。</p>
+<h2 id="ji-suan-neng-li">计算能力</h2>
+<p>直觉地，我们可以看出“原始递归函数” 这个计算模型应当能计算 所有 在 固定次数的循环 中能计算出来的 函数的 值。</p>
+<h3 id="bu-neng-suan-shen-me">不能算什么</h3>
+<h4 id="self-interpreter">self-interpreter</h4>
+<p>我们无法用 原始递归函数 来编写 原始递归函数 的解释器。</p>
+<p>形式化地，不存在这样的 原始递归函数 $eval$：</p>
+<p>$∀ f ∈ PRF_1, n ∈ ℕ.⟦ eval ⟧ (nil, ⌜ (f, n) ⌝) = ⟦ f ⟧ (nil, n)$</p>
+<p>其中 $⌜ (f, n) ⌝$ 是 $f$ 和 $n$ 编码到的自然数。</p>
+<p>这个编码方式可以参考 <a href="https://zh.wikipedia.org/wiki/%E5%93%A5%E5%BE%B7%E5%B0%94%E6%95%B0">哥德尔数</a>。</p>
+<p>我们假设 $(a, b)$ 被编码为 $2^a3^b$。</p>
+<p>证明思路是构造 <code>g = comp suc (nil, comp eval (nil, f))</code>，其中 $⟦ f ⟧ (\text{nil}, n) = 2^n3^n$。</p>
+<p>我们可以得到 $⟦g⟧ (\text{nil}, \text{code}\ g) = 1 +  ⟦g⟧ (\text{nil}, \text{code}\ g)$（其中 <code>code</code> 是将
+$PRF_1$ 编码为自然数的函数），这是一个矛盾。</p>
+<h4 id="iterated-exponentials">Iterated exponentials</h4>
+<p>$
+\displaylines {
+↑ ∈ ℕ → ℕ → ℕ → ℕ \\
+𝑚 ↑^\text{zero}\ 𝑘 = 𝑚𝑘 \\
+𝑚 ↑^{\text{suc}\ n}\ zero = 1 \\
+𝑚 ↑^{\text{suc}\ n}\ \text{suc}\ k = 𝑚 ↑^𝑛 (𝑚 ↑^{\text{suc}\ n}\ 𝑘)
+}
+$</p>
+<h4 id="ackermann-han-shu">Ackermann 函数</h4>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>ack ∈ ℕ × ℕ → ℕ
+</span><span>ack (zero, n) = suc n
+</span><span>ack (suc m, zero) = ack (m, suc zero)
+</span><span>ack (suc m, suc n) = ack (m, ack (suc m, n))
+</span></code></pre>
+<h2 id="he-qi-ta-ji-suan-mo-xing-de-guan-xi">和其他计算模型的关系</h2>
+<p>和 PRF 相似，但比 PRF 更弱的计算模型是 <a href="https://planetmath.org/elementaryrecursivefunction">elementary recursive function</a>，说实话它并不递归。</p>
+<p>和 PRF 相似，但比 PRF 更强的计算模型是 <a href="https://zh.wikipedia.org/wiki/%E9%80%92%E5%BD%92%E5%87%BD%E6%95%B0">（General）递归函数</a>（一般简称为 RF）。</p>
+<p>简单来说，相比 PRF，RF 添加了一个运算 $\text{min}$，用于搜索某个函数在其他参数给定的情况下，关于第一个参数的最小零点，
+显然这个运算是一个 partial function，这个零点可能根本不存在。
+RF 的计算能力就和图灵机等价了。</p>
+<p>PRF 能计算所有<a href="https://zh.wikipedia.org/wiki/%E7%AE%97%E6%95%B0%E9%98%B6%E5%B1%82">算数阶层</a>中
+$\Delta_0^0$ 阶层中的公式，原因是 $\Delta_0^0$ 中所有量词都是有界的，通过 rec 我们可以逐个检查每个值。
+实际上 PRF <a href="https://math.stackexchange.com/questions/364494/primitive-recursive-function-which-isnt-delta-0">强于</a> $\Delta_0^0$。</p>
+<p>不那么严格的，“只允许使用有界循环”的面向过程程序<a href="https://math.stackexchange.com/questions/1333476/primitive-recursion-and-delta0-0">强于</a> $\Delta_0^0$，
+等于PRF，两者等价的形式化和证明见 Schwichtenberg and Wainer's <em>Proofs and Computations</em>，section 2.5。</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2024年12月23日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/可计算性理论">&nbsp;可计算性理论</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=原始递归函数&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;primitive-recursive-function&#x2F;&hashtags=可计算性理论"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
