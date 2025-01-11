@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Prove techniques in computability theory</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;computability-proof&#x2F;">Prove techniques in computability theory</a></h1>
+  
+  <div class="post-content"><h1 id="set-is-countable">Set is countable</h1>
+<h2 id="by-definition">By definition</h2>
+<p>Injection from $A$ to $ℕ$, in other words $∀𝑥, 𝑦 ∈ 𝐴. 𝑓\ 𝑥 = 𝑓\ 𝑦$<sup class="footnote-reference"><a href="#1">1</a></sup> implies $𝑥 = 𝑦$.</p>
+<ul>
+<li>composition of two injections is injective</li>
+<li>inverse: a surjection<sup class="footnote-reference"><a href="#2">2</a></sup> ($∀𝑏 ∈ 𝐵. ∃𝑎 ∈ 𝐴. 𝑓\ 𝑎 = 𝑏$) from $ℕ$ to $A$ where $A$ is not empty</li>
+<li>if $𝐵$ and $𝐶$ are countable, then $𝐵 × 𝐶$ is countable</li>
+<li>if $𝐵$ is countable, then $\text{List}\ B$ is countable</li>
+</ul>
+<h1 id="set-is-uncountable">Set is uncountable</h1>
+<p>Note: not coutable $\neq$ uncountable, not coutable can be also finite.</p>
+<h2 id="diagonalisation">Diagonalisation</h2>
+<p>Assume countable, get a surjection $𝑓 ∈ ℕ → A$, change each $f\ n$ in someway and make contradiction.</p>
+<h1 id="ch-computable">𝜒-computable</h1>
+<p>Variants:</p>
+<ul>
+<li>𝜒-semi-decidable: $\underline{f}$ implements $f$ when $f\ a = \text{true}$, not terminate (undefined) else.
+Just define a new partial function by replacing false in the return value into undefined.</li>
+</ul>
+<h2 id="implement-it">Implement it</h2>
+<p>Just implement it and prove $⟦ \underline{f}\ ⌜ x ⌝ ⟧ = ⌜ f\ x ⌝$, where $\underline{f}$ is the implemention of $f$.</p>
+<h3 id="example">Example</h3>
+<p>Prove this is 𝜒-semi-decidable.</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>f (e1, e2) = </span><span style="color:#b48ead;">if</span><span> ⟦ e1 ⟧ is defined or ⟦ e2 ⟧ is defined </span><span style="color:#b48ead;">then</span><span> true </span><span style="color:#b48ead;">else</span><span> false
+</span></code></pre>
+<p>We can define a partial function $g$ and its implemention $\underline{g}$:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>g (e1, e2) = </span><span style="color:#b48ead;">if</span><span> ⟦ e1 ⟧ is defined or ⟦ e2 ⟧ is defined </span><span style="color:#b48ead;">then</span><span> true </span><span style="color:#b48ead;">else</span><span> undefined
+</span></code></pre>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>_g_ = 𝜆 p. </span><span style="color:#b48ead;">case</span><span> p </span><span style="color:#b48ead;">of</span><span> { </span><span style="color:#d08770;">Pair</span><span>(e1, e2) → parallel e1 e2 ⌜ zero ⌝ }
+</span></code></pre>
+<p>where parallel conceptly means run <code>e1</code> and <code>e2</code> step by step and check whether any of them terminates.</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>parallel = 𝜆e1. 𝜆e2. 𝜆n. </span><span style="color:#b48ead;">case</span><span> (_terminates‐in_ </span><span style="color:#d08770;">Pair</span><span>(e1, n)) </span><span style="color:#b48ead;">of</span><span> {
+</span><span>  </span><span style="color:#d08770;">True() </span><span>-&gt; </span><span style="color:#d08770;">True()</span><span>,
+</span><span>  </span><span style="color:#d08770;">False() </span><span>-&gt; </span><span style="color:#b48ead;">case</span><span> (_terminates‐in_ </span><span style="color:#d08770;">Pair</span><span>(e2, n)) </span><span style="color:#b48ead;">of</span><span> {
+</span><span>    </span><span style="color:#d08770;">True() </span><span>-&gt; </span><span style="color:#d08770;">True()</span><span>,
+</span><span>    </span><span style="color:#d08770;">False() </span><span>-&gt; parallel e1 e2 </span><span style="color:#d08770;">Suc</span><span>(n) // run next step
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>We have:</p>
+<p>$$
+\begin{eqnarray}
+&amp; &amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
+&amp;=&amp; ⟦ \text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝ ⟧
+\end{eqnarray}
+$$</p>
+<p>For $n \in \mathbb{N}$:</p>
+<ul>
+<li>
+<p>If either $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$ or $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$, then
+$⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜n⌝⟧ = ⌜true⌝$.</p>
+</li>
+<li>
+<p>Else, $⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜n⌝⟧ = ⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜\text{suc}\ n⌝⟧$</p>
+</li>
+</ul>
+<p>So if for any $n$, $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$ or $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$,
+in other words, $⟦ e_1 ⟧$ is defined or $⟦ e_2 ⟧$ is defined, then</p>
+<p>$$
+\begin{eqnarray}
+&amp; &amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
+&amp;=&amp; ⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝⟧ \\
+&amp;=&amp; ⌜true⌝ \\
+&amp;=&amp; ⌜g (e_1, e_2)⌝
+\end{eqnarray}
+$$</p>
+<p>Else, $⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧$ is undefined, because it will keep searching on all natural numbers and will never terminate.</p>
+<p>So $\underline{g}$ is an implementation of $g$.</p>
+<h1 id="not-ch-computable">Not 𝜒-computable</h1>
+<h2 id="reducing-the-halting-problem">Reducing the halting problem</h2>
+<p>Assume $f$ is 𝜒-computable, witness by $\underline{f}$.
+Implement $\underline{halts}$ with $\underline{f}$.</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>halts p = </span><span style="color:#b48ead;">if</span><span> p terminates </span><span style="color:#b48ead;">then</span><span> true </span><span style="color:#b48ead;">else</span><span> false
+</span></code></pre>
+<h2 id="self-applying">Self-applying</h2>
+<p>Self-applying and lead to contradiction.</p>
+<h3 id="example-1">Example</h3>
+<p>Prove this is not 𝜒-semi-decidable.</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>f (e1, e2) = </span><span style="color:#b48ead;">if</span><span> ⟦ e1 ⟧ is defined and ⟦ e2 ⟧ is defined </span><span style="color:#b48ead;">then</span><span> false </span><span style="color:#b48ead;">else</span><span> true
+</span></code></pre>
+<p>Assume 𝜒-semi-decidable funcition $g$ implemented as $\underline{g}$:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>g (e1, e2) = </span><span style="color:#b48ead;">if</span><span> ⟦ e1 ⟧ is defined and ⟦ e2 ⟧ is defined </span><span style="color:#b48ead;">then</span><span> undefined </span><span style="color:#b48ead;">else</span><span> true
+</span></code></pre>
+<p>$\underline{g}$ has a pair of parameters which is hard to handle, we define another function $h$ with $g$ to solve this.</p>
+<p>$$
+\underline{h}\ e = \underline{g}\ ⌜( _⌞e_⌟\ _⌞code\ e_⌟\ ,\ _⌞e_⌟\ _⌞code\ e_⌟ )⌝
+$$</p>
+<p>Or in other words:</p>
+<p>$$
+\underline{h}\ e = \underline{g}\ Pair(Apply(e, code\ e), Apply(e, code\ e))
+$$</p>
+<p>Self-apply $h$.</p>
+<p>$$
+\begin{eqnarray}
+&amp;   &amp; ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧ \\
+&amp; = &amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝), Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝)) ⟧ \\
+&amp; = &amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝), Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝)) ⟧ \\
+&amp; = &amp; ⟦ \underline{g}\ ⌜(\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝)⌝ ⟧ \\
+&amp; = &amp; ⌜ g\ (\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝) ⌝ \\
+&amp; = &amp; ⌜ \text{if}\ ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧\  \text{is defined then undefined else true} ⌝
+\end{eqnarray}
+$$</p>
+<p>If $⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧$ is defined, then ⟦h ⌜ h ⌝⟧ is undefined by the last equation, which is a contradiction,
+and vice versa.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>I like to call this as left-fully-arrowed.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>I like to call this as right-fully-arrowed.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025-01-09</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/computability theory">&nbsp;computability theory</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/proof">&nbsp;proof</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Prove techniques in computability theory&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;computability-proof&#x2F;&hashtags=computability theory,proof"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

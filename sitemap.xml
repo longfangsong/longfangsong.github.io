@@ -103,6 +103,10 @@
         <lastmod>2024-11-10T00:23:22.429Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/computability-proof/</loc>
+        <lastmod>2025-01-09T23:57:10.103Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/decidable-in-agda/</loc>
         <lastmod>2022-10-14T16:58:06.023Z</lastmod>
     </url>
@@ -171,10 +175,6 @@
         <lastmod>2023-03-03T16:58:21.033Z</lastmod>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/en/lambda-and-chi/</loc>
-        <lastmod>2024-11-22T01:29:23.098Z</lastmod>
-    </url>
-    <url>
         <loc>https://longfangsong.github.io/en/links/</loc>
     </url>
     <url>
@@ -229,7 +229,7 @@
         <loc>https://longfangsong.github.io/en/tags/compiler/</loc>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/en/tags/ke-ji-suan-xing-li-lun/</loc>
+        <loc>https://longfangsong.github.io/en/tags/computability-theory/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/math/</loc>
@@ -248,6 +248,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/plt/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/proof/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/semiconductor/</loc>

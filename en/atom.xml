@@ -5,12 +5,12 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2024-11-22T01:29:23.098+00:00</updated>
+    <updated>2025-01-09T23:57:10.103+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
     <entry xml:lang="en">
-        <title>χ 语言和无类型 lambda 演算</title>
-        <published>2024-11-22T01:29:23.098+00:00</published>
-        <updated>2024-11-22T01:29:23.098+00:00</updated>
+        <title>Prove techniques in computability theory</title>
+        <published>2025-01-09T23:57:10.103+00:00</published>
+        <updated>2025-01-09T23:57:10.103+00:00</updated>
         
         <author>
           <name>
@@ -20,10 +20,120 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/lambda-and-chi/"/>
-        <id>https://longfangsong.github.io/en/lambda-and-chi/</id>
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/computability-proof/"/>
+        <id>https://longfangsong.github.io/en/computability-proof/</id>
         
-        <content type="html" xml:base="https://longfangsong.github.io/en/lambda-and-chi/"></content>
+        <content type="html" xml:base="https://longfangsong.github.io/en/computability-proof/">&lt;h1 id=&quot;set-is-countable&quot;&gt;Set is countable&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;by-definition&quot;&gt;By definition&lt;&#x2F;h2&gt;
+&lt;p&gt;Injection from $A$ to $ℕ$, in other words $∀𝑥, 𝑦 ∈ 𝐴. 𝑓\ 𝑥 = 𝑓\ 𝑦$&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; implies $𝑥 = 𝑦$.&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;composition of two injections is injective&lt;&#x2F;li&gt;
+&lt;li&gt;inverse: a surjection&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; ($∀𝑏 ∈ 𝐵. ∃𝑎 ∈ 𝐴. 𝑓\ 𝑎 = 𝑏$) from $ℕ$ to $A$ where $A$ is not empty&lt;&#x2F;li&gt;
+&lt;li&gt;if $𝐵$ and $𝐶$ are countable, then $𝐵 × 𝐶$ is countable&lt;&#x2F;li&gt;
+&lt;li&gt;if $𝐵$ is countable, then $\text{List}\ B$ is countable&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h1 id=&quot;set-is-uncountable&quot;&gt;Set is uncountable&lt;&#x2F;h1&gt;
+&lt;p&gt;Note: not coutable $\neq$ uncountable, not coutable can be also finite.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;diagonalisation&quot;&gt;Diagonalisation&lt;&#x2F;h2&gt;
+&lt;p&gt;Assume countable, get a surjection $𝑓 ∈ ℕ → A$, change each $f\ n$ in someway and make contradiction.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;ch-computable&quot;&gt;𝜒-computable&lt;&#x2F;h1&gt;
+&lt;p&gt;Variants:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;𝜒-semi-decidable: $\underline{f}$ implements $f$ when $f\ a = \text{true}$, not terminate (undefined) else.
+Just define a new partial function by replacing false in the return value into undefined.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;implement-it&quot;&gt;Implement it&lt;&#x2F;h2&gt;
+&lt;p&gt;Just implement it and prove $⟦ \underline{f}\ ⌜ x ⌝ ⟧ = ⌜ f\ x ⌝$, where $\underline{f}$ is the implemention of $f$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;Prove this is 𝜒-semi-decidable.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;f (e1, e2) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; ⟦ e1 ⟧ is defined or ⟦ e2 ⟧ is defined &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then&lt;&#x2F;span&gt;&lt;span&gt; true &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; false
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We can define a partial function $g$ and its implemention $\underline{g}$:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;g (e1, e2) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; ⟦ e1 ⟧ is defined or ⟦ e2 ⟧ is defined &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then&lt;&#x2F;span&gt;&lt;span&gt; true &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; undefined
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;_g_ = 𝜆 p. &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;case&lt;&#x2F;span&gt;&lt;span&gt; p &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;of&lt;&#x2F;span&gt;&lt;span&gt; { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Pair&lt;&#x2F;span&gt;&lt;span&gt;(e1, e2) → parallel e1 e2 ⌜ zero ⌝ }
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;where parallel conceptly means run &lt;code&gt;e1&lt;&#x2F;code&gt; and &lt;code&gt;e2&lt;&#x2F;code&gt; step by step and check whether any of them terminates.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;parallel = 𝜆e1. 𝜆e2. 𝜆n. &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;case&lt;&#x2F;span&gt;&lt;span&gt; (_terminates‐in_ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Pair&lt;&#x2F;span&gt;&lt;span&gt;(e1, n)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;of&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True() &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;False() &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;case&lt;&#x2F;span&gt;&lt;span&gt; (_terminates‐in_ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Pair&lt;&#x2F;span&gt;&lt;span&gt;(e2, n)) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;of&lt;&#x2F;span&gt;&lt;span&gt; {
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True() &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;True()&lt;&#x2F;span&gt;&lt;span&gt;,
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;False() &lt;&#x2F;span&gt;&lt;span&gt;-&amp;gt; parallel e1 e2 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;Suc&lt;&#x2F;span&gt;&lt;span&gt;(n) &#x2F;&#x2F; run next step
+&lt;&#x2F;span&gt;&lt;span&gt;  }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We have:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{eqnarray}
+&amp;amp; &amp;amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
+&amp;amp;=&amp;amp; ⟦ \text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝ ⟧
+\end{eqnarray}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;For $n \in \mathbb{N}$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If either $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$ or $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$, then
+$⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜n⌝⟧ = ⌜true⌝$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Else, $⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜n⌝⟧ = ⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜\text{suc}\ n⌝⟧$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;So if for any $n$, $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$ or $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$,
+in other words, $⟦ e_1 ⟧$ is defined or $⟦ e_2 ⟧$ is defined, then&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{eqnarray}
+&amp;amp; &amp;amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
+&amp;amp;=&amp;amp; ⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝⟧ \\
+&amp;amp;=&amp;amp; ⌜true⌝ \\
+&amp;amp;=&amp;amp; ⌜g (e_1, e_2)⌝
+\end{eqnarray}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Else, $⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧$ is undefined, because it will keep searching on all natural numbers and will never terminate.&lt;&#x2F;p&gt;
+&lt;p&gt;So $\underline{g}$ is an implementation of $g$.&lt;&#x2F;p&gt;
+&lt;h1 id=&quot;not-ch-computable&quot;&gt;Not 𝜒-computable&lt;&#x2F;h1&gt;
+&lt;h2 id=&quot;reducing-the-halting-problem&quot;&gt;Reducing the halting problem&lt;&#x2F;h2&gt;
+&lt;p&gt;Assume $f$ is 𝜒-computable, witness by $\underline{f}$.
+Implement $\underline{halts}$ with $\underline{f}$.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;halts p = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; p terminates &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then&lt;&#x2F;span&gt;&lt;span&gt; true &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; false
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;self-applying&quot;&gt;Self-applying&lt;&#x2F;h2&gt;
+&lt;p&gt;Self-applying and lead to contradiction.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;example-1&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;Prove this is not 𝜒-semi-decidable.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;f (e1, e2) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; ⟦ e1 ⟧ is defined and ⟦ e2 ⟧ is defined &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then&lt;&#x2F;span&gt;&lt;span&gt; false &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; true
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Assume 𝜒-semi-decidable funcition $g$ implemented as $\underline{g}$:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;g (e1, e2) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; ⟦ e1 ⟧ is defined and ⟦ e2 ⟧ is defined &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then&lt;&#x2F;span&gt;&lt;span&gt; undefined &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else&lt;&#x2F;span&gt;&lt;span&gt; true
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;$\underline{g}$ has a pair of parameters which is hard to handle, we define another function $h$ with $g$ to solve this.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\underline{h}\ e = \underline{g}\ ⌜( _⌞e_⌟\ _⌞code\ e_⌟\ ,\ _⌞e_⌟\ _⌞code\ e_⌟ )⌝
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Or in other words:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\underline{h}\ e = \underline{g}\ Pair(Apply(e, code\ e), Apply(e, code\ e))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Self-apply $h$.&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{eqnarray}
+&amp;amp;   &amp;amp; ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧ \\
+&amp;amp; = &amp;amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝), Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝)) ⟧ \\
+&amp;amp; = &amp;amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝), Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝)) ⟧ \\
+&amp;amp; = &amp;amp; ⟦ \underline{g}\ ⌜(\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝)⌝ ⟧ \\
+&amp;amp; = &amp;amp; ⌜ g\ (\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝) ⌝ \\
+&amp;amp; = &amp;amp; ⌜ \text{if}\ ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧\  \text{is defined then undefined else true} ⌝
+\end{eqnarray}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;If $⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧$ is defined, then ⟦h ⌜ h ⌝⟧ is undefined by the last equation, which is a contradiction,
+and vice versa.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;I like to call this as left-fully-arrowed.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;I like to call this as right-fully-arrowed.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
         
     </entry>
     <entry xml:lang="en">
