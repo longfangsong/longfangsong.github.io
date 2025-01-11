@@ -33,7 +33,7 @@
 &lt;li&gt;if $𝐵$ is countable, then $\text{List}\ B$ is countable&lt;&#x2F;li&gt;
 &lt;&#x2F;ul&gt;
 &lt;h1 id=&quot;set-is-uncountable&quot;&gt;Set is uncountable&lt;&#x2F;h1&gt;
-&lt;p&gt;Note: not coutable $\neq$ uncountable, not coutable can be also finite.&lt;&#x2F;p&gt;
+&lt;p&gt;Note: coutable = coutable infinity + finity&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;diagonalisation&quot;&gt;Diagonalisation&lt;&#x2F;h2&gt;
 &lt;p&gt;Assume countable, get a surjection $𝑓 ∈ ℕ → A$, change each $f\ n$ in someway and make contradiction.&lt;&#x2F;p&gt;
 &lt;h1 id=&quot;ch-computable&quot;&gt;𝜒-computable&lt;&#x2F;h1&gt;
