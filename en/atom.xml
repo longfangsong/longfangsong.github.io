@@ -127,6 +127,42 @@ $$&lt;&#x2F;p&gt;
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;If $⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧$ is defined, then ⟦h ⌜ h ⌝⟧ is undefined by the last equation, which is a contradiction,
 and vice versa.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;variant-self-applying-with-encode-decode&quot;&gt;Variant: Self-applying with encode-decode&lt;&#x2F;h3&gt;
+&lt;p&gt;Some times we want to prove something related to $\mathbb{N}$ instead of $\text{CExp}$, which makes
+self-applying harder.&lt;&#x2F;p&gt;
+&lt;p&gt;We can define $\text{encode}$ to encode $\text{CExp}$ into $\mathbb{N}$ and its reverse operation $\text{decode}$.
+Both of these functions are $\chi$-computable.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;example-2&quot;&gt;Example&lt;&#x2F;h4&gt;
+&lt;p&gt;Prove this function is not $\chi$-computable for every $\chi$-computable $f$:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span&gt;g f n = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if&lt;&#x2F;span&gt;&lt;span&gt; f n is defined &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;then&lt;&#x2F;span&gt;&lt;span&gt; undefined &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;else &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;0
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;We can define:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{eqnarray}
+app&amp;amp; ∈ &amp;amp;ℕ&amp;amp; &amp;amp;⇀&amp;amp;\ ℕ\\
+app&amp;amp;\  &amp;amp;n&amp;amp; &amp;amp;=&amp;amp;\ encode\ ⟦apply\ (decode\ n)\ ⌜n⌝⟧
+\end{eqnarray}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;implemented as:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\underline{app} = 𝜆n. \underline{encode} (\underline{eval}\ Apply(\underline{decode}\ n, \underline{code}\ n))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;It is simple to prove $⟦\underline{app}\ ⌜ n ⌝⟧ = ⌜ \text{app}\ n ⌝$.&lt;&#x2F;p&gt;
+&lt;p&gt;Assume $g_{app}$ is 𝜒-computable, then $⟦\underline{g_{app}}\ ⌜ n ⌝⟧ = ⌜ g_{app}\ n ⌝$.&lt;&#x2F;p&gt;
+&lt;p&gt;Let $m = \text{encode}\ \underline{g_{app}}$, thus $\text{decode}\ m = \underline{g_{app}}$.&lt;&#x2F;p&gt;
+&lt;p&gt;We can prove:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\begin{eqnarray}
+&amp;amp; &amp;amp; ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \\
+&amp;amp;=&amp;amp; ⌜ g_{app}\ m ⌝ \\
+&amp;amp;=&amp;amp; ⌜ \text{if app m is defined then undefined else 0} ⌝ \\
+&amp;amp;=&amp;amp; ⌜ \text{if}\ encode\ ⟦apply (decode\ m) ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
+&amp;amp;=&amp;amp; ⌜ \text{if}\ encode\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
+&amp;amp;=&amp;amp; ⌜ \text{if}\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧\ \text{is defined then undefined else 0} ⌝ \\
+\end{eqnarray}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Then it is a contradictory and app is a counter-example of $f$ in
+&quot;$g$ is $\chi$-computable for every $\chi$-computable $f$&quot;:&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;I like to call this as left-fully-arrowed.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;

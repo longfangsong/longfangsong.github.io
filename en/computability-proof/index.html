@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -217,6 +217,42 @@ $$</p>
 $$</p>
 <p>If $⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧$ is defined, then ⟦h ⌜ h ⌝⟧ is undefined by the last equation, which is a contradiction,
 and vice versa.</p>
+<h3 id="variant-self-applying-with-encode-decode">Variant: Self-applying with encode-decode</h3>
+<p>Some times we want to prove something related to $\mathbb{N}$ instead of $\text{CExp}$, which makes
+self-applying harder.</p>
+<p>We can define $\text{encode}$ to encode $\text{CExp}$ into $\mathbb{N}$ and its reverse operation $\text{decode}$.
+Both of these functions are $\chi$-computable.</p>
+<h4 id="example-2">Example</h4>
+<p>Prove this function is not $\chi$-computable for every $\chi$-computable $f$:</p>
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span>g f n = </span><span style="color:#b48ead;">if</span><span> f n is defined </span><span style="color:#b48ead;">then</span><span> undefined </span><span style="color:#b48ead;">else </span><span style="color:#d08770;">0
+</span></code></pre>
+<p>We can define:</p>
+<p>$$
+\begin{eqnarray}
+app&amp; ∈ &amp;ℕ&amp; &amp;⇀&amp;\ ℕ\\
+app&amp;\  &amp;n&amp; &amp;=&amp;\ encode\ ⟦apply\ (decode\ n)\ ⌜n⌝⟧
+\end{eqnarray}
+$$</p>
+<p>implemented as:</p>
+<p>$$
+\underline{app} = 𝜆n. \underline{encode} (\underline{eval}\ Apply(\underline{decode}\ n, \underline{code}\ n))
+$$</p>
+<p>It is simple to prove $⟦\underline{app}\ ⌜ n ⌝⟧ = ⌜ \text{app}\ n ⌝$.</p>
+<p>Assume $g_{app}$ is 𝜒-computable, then $⟦\underline{g_{app}}\ ⌜ n ⌝⟧ = ⌜ g_{app}\ n ⌝$.</p>
+<p>Let $m = \text{encode}\ \underline{g_{app}}$, thus $\text{decode}\ m = \underline{g_{app}}$.</p>
+<p>We can prove:</p>
+<p>$$
+\begin{eqnarray}
+&amp; &amp; ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \\
+&amp;=&amp; ⌜ g_{app}\ m ⌝ \\
+&amp;=&amp; ⌜ \text{if app m is defined then undefined else 0} ⌝ \\
+&amp;=&amp; ⌜ \text{if}\ encode\ ⟦apply (decode\ m) ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
+&amp;=&amp; ⌜ \text{if}\ encode\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
+&amp;=&amp; ⌜ \text{if}\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧\ \text{is defined then undefined else 0} ⌝ \\
+\end{eqnarray}
+$$</p>
+<p>Then it is a contradictory and app is a counter-example of $f$ in
+"$g$ is $\chi$-computable for every $\chi$-computable $f$":</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>I like to call this as left-fully-arrowed.</p>
 </div>
