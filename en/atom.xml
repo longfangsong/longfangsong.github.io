@@ -5,8 +5,127 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-01-09T23:57:10.103+00:00</updated>
+    <updated>2025-01-26T16:44:17.545+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Category theory Notes • Natural transformation</title>
+        <published>2025-01-26T16:44:17.545+00:00</published>
+        <updated>2025-01-26T16:44:17.545+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/category-theory-4/"/>
+        <id>https://longfangsong.github.io/en/category-theory-4/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/category-theory-4/">&lt;h2 id=&quot;natural-transformation&quot;&gt;Natural transformation&lt;&#x2F;h2&gt;
+&lt;p&gt;Let $F$ and $G$ be functors from category $\mathscr{A}$ to category $\mathscr{B}$,
+a natural transformation $α: F → G$  is a family $(F(A) \stackrel{α_A}{→} G(A))_{A \in \mathscr{A}}$
+of maps in $\mathscr{B}$ such that for every map $A \stackrel{f}{\rightarrow} A&#x27;$ in $\mathscr{A}$ , the square&lt;&#x2F;p&gt;
+&lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwwLCJGKEEpIl0sWzIsMCwiRihBJykiXSxbMCwyLCJHKEEpIl0sWzIsMiwiRyhBJykiXSxbMCwxLCJGKGYpIl0sWzIsMywiRyhmKSIsMl0sWzAsMiwiXFxhbHBoYV9BIiwyXSxbMSwzLCJcXGFscGhhX0EnIl1d --&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwwLCJGKEEpIl0sWzIsMCwiRihBJykiXSxbMCwyLCJHKEEpIl0sWzIsMiwiRyhBJykiXSxbMCwxLCJGKGYpIl0sWzIsMywiRyhmKSIsMl0sWzAsMiwiXFxhbHBoYV9BIiwyXSxbMSwzLCJcXGFscGhhX0EnIl1d&amp;embed&quot; width=&quot;239&quot; height=&quot;216&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;commutes.&lt;&#x2F;p&gt;
+&lt;p&gt;Note: $A$ and $A&#x27;$ are in $\text{ob}(\mathscr{A})$, $F(A)$, $F(A&#x27;)$, $G(A)$ and $G(A&#x27;)$ are in $\text{ob}(\mathscr{B})$.&lt;&#x2F;p&gt;
+&lt;p&gt;We denote the natural transformation $\alpha$ as this diagram:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMixbMCwwLCJcXG1hdGhzY3J7QX0iXSxbMiwwLCJcXG1hdGhzY3J7Qn0iXSxbMCwxLCJGIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiRyIsMix7ImN1cnZlIjoyfV0sWzIsMywiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=&amp;embed&quot; width=&quot;216&quot; height=&quot;88&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;p&gt;For example:&lt;&#x2F;p&gt;
+&lt;p&gt;Let $\mathscr{A} = \textbf{CRing}$ (commutative ring) and $\mathscr{B} = \textbf{Mon}$ (monoid),
+we can have&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;A functor $M_n$ which maps a commutative ring $R$ to a monoid $M_n(R)$, which its content is $n \times n$ matrix of $R$.&lt;&#x2F;li&gt;
+&lt;li&gt;A functor $U$ which maps a commutative ring $R$ to a monoid $U(R)$, which observes $R$&#x27;s content makes a monoid under $\times$ operation.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;For the family of function $det$ which calculates determinant of matrixes, and any ring homomorphism $f : R \to S$:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwwLCJNX24oUikiXSxbMywwLCJNX24oUykiXSxbMCwyLCJVKFIpIl0sWzMsMiwiVShTKSJdLFswLDEsIk1fbihmKSJdLFsyLDMsIlUoZikiLDJdLFswLDIsImRldF9SIiwyXSxbMSwzLCJkZXRfcyJdXQ==&amp;embed&quot; width=&quot;617&quot; height=&quot;432&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;We can prove this diagram commutes, thus:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsMixbMCwwLCJcXHRleHRiZntDUmluZ30iXSxbMiwwLCJcXHRleHRiZntNb259Il0sWzAsMSwiTV9uIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiVSIsMix7ImN1cnZlIjoyfV0sWzIsMywiZGV0IiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==&amp;embed&quot; width=&quot;479&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;In other words, $det$ is a natural transformation.&lt;&#x2F;p&gt;
+&lt;p&gt;In a more discrete case, take $R = \mathbb{Z}$ and $S = \mathbb{Z}&#x2F;2\mathbb{Z}$, $f = \lambda x. x\ \text{mod}\ 2$&lt;&#x2F;p&gt;
+&lt;p&gt;Say we have a matrix $X \in M_2(\mathbb{Z})$:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+x =
+\begin{pmatrix}
+2 &amp;amp; 3\\
+1 &amp;amp; 4
+\end{pmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We can covert it into:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+y = M_2(f)(x) = \begin{pmatrix}
+f(2) &amp;amp; f(3)\\
+f(1) &amp;amp; f(4)
+\end{pmatrix}
+= \begin{pmatrix}
+0 &amp;amp; 1\\
+1 &amp;amp; 0
+\end{pmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Where $y \in M_2(\mathbb{Z}&#x2F;2\mathbb{Z})$.&lt;&#x2F;p&gt;
+&lt;p&gt;We can calculate $x$ and $y$&#x27;s det:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+det_{\mathbb{Z}}(x) = 5
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+det_{\mathbb{Z}&#x2F;2\mathbb{Z}}(y) = -1\ \text{mod}\ 2 = 1
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;It&#x27;s obvious that $f(det_{\mathbb{Z}}(x)) = det_{\mathbb{Z}&#x2F;2\mathbb{Z}}(y)$.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;functor-category&quot;&gt;Functor category&lt;&#x2F;h2&gt;
+&lt;p&gt;Take functors as objects and natural transformations as arrows,
+we can see that functors between types can also be regarded as
+categories.&lt;&#x2F;p&gt;
+&lt;p&gt;We denote such kind of categories built by
+functors from $\mathscr{A}$ to $\mathscr{B}$ as $[\mathscr{A}, \mathscr{B}]$
+or $\mathscr{B}^{\mathscr{A}}$, read as functor category from $\mathscr{A}$ to $\mathscr{B}$.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;natural-isomorphism&quot;&gt;Natural isomorphism&lt;&#x2F;h2&gt;
+&lt;p&gt;A natural isomorphism between functors from $\mathscr{A}$ to $\mathscr{B}$ is an isomorphism in $[\mathscr{A} , \mathscr{B}]$.&lt;&#x2F;p&gt;
+&lt;p&gt;Or let $\alpha$ be a natural transformation between $F: \text{Functor&amp;lt;}\mathscr{A}, \mathscr{B}\text{&amp;gt;}$ and $G: Functor&amp;lt;\mathscr{A}, \mathscr{B}&amp;gt;$, $α$ is a
+natural isomorphism if and only if $α(A) : F(A) → G(A)$ is an isomorphism for all $A ∈ \mathscr{A}$. And it is an evidence of
+$F$ and $G$ are naturally isomorphic. Denoted as $F(A) \cong G(A)$ naturally in $A$.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;equivalence-between-categories&quot;&gt;Equivalence between categories&lt;&#x2F;h2&gt;
+&lt;p&gt;An equivalence between categories $\mathscr{A}$ and $\mathscr{B}$ consists of a pair of functors together with natural isomorphisms
+$$
+η: 1_\mathscr{A} → G ◦ F
+$$
+$$
+ε: F ◦ G → 1_\mathscr{B}.
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Note these two observes:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+G ◦ F \cong 1_\mathscr{A}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;and&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+F ◦ G \cong 1_\mathscr{B}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We denote it as $\mathscr{A} ≃ \mathscr{B}$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;equivalence-vs-isomorphism&quot;&gt;Equivalence vs Isomorphism&lt;&#x2F;h3&gt;
+&lt;p&gt;Equivalence is a weaken form of isomorphism, isomorphism requires $G ◦ F = 1_\mathscr{A}$ and $F ◦ G = 1_\mathscr{B}$,
+and equivalence weaken the $=$ here to $\cong$, or in English, it weaken the equal between functors into isomorphisms
+between functors.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;example-1&quot;&gt;Example&lt;&#x2F;h4&gt;
+&lt;p&gt;Say we have two categories:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\mathscr{C}$: has only one object $*$ and one mophism $id_*$.&lt;&#x2F;li&gt;
+&lt;li&gt;$\mathscr{D}$: has only two object $A$ and $B$ two mophisms $id_A$ and $id_B$.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;They are obviously not isomorphism with each other, but we can show they are equivalent with each other, say we can define functors:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$F : \mathscr{C} \to \mathscr{D}$ as $F_{obj}(*) = A$ and $F_{mop}(id_*) = id_A$&lt;&#x2F;li&gt;
+&lt;li&gt;$G : \mathscr{C} \to \mathscr{D}$ as $G_{obj}(A) = *, G_{obj}(B) = *$ and $G_{mop}(id_A) = id_*, G_{mop}(id_B) = id_*$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;essentially-surjective&quot;&gt;Essentially surjective&lt;&#x2F;h2&gt;
+&lt;p&gt;A functor $F : \mathscr{A} → \mathscr{B}$ is essentially surjective on objects if for all $B ∈ \mathscr{B}$,
+there exists $A ∈ \mathscr{A}$ such that $F(A) \cong B$.&lt;&#x2F;p&gt;
+&lt;p&gt;A functor is an equivalence if and only if it is full, faithful and essentially surjective on objects.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Prove techniques in computability theory</title>
         <published>2025-01-09T23:57:10.103+00:00</published>
@@ -99,10 +218,10 @@ Just define a new partial function by replacing false in the return value into u
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;We have:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\begin{eqnarray}
+\begin{align}
 &amp;amp; &amp;amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
 &amp;amp;=&amp;amp; ⟦ \text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝ ⟧
-\end{eqnarray}
+\end{align}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;For $n \in \mathbb{N}$:&lt;&#x2F;p&gt;
 &lt;ul&gt;
@@ -117,12 +236,12 @@ $⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜n⌝⟧ = ⌜true⌝$.&lt;&#x2F;p&
 &lt;p&gt;So if for any $n$, $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$ or $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$,
 in other words, $⟦ e_1 ⟧$ is defined or $⟦ e_2 ⟧$ is defined, then&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\begin{eqnarray}
+\begin{align}
 &amp;amp; &amp;amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
 &amp;amp;=&amp;amp; ⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝⟧ \\
 &amp;amp;=&amp;amp; ⌜true⌝ \\
 &amp;amp;=&amp;amp; ⌜g (e_1, e_2)⌝
-\end{eqnarray}
+\end{align}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;Else, $⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧$ is undefined, because it will keep searching on all natural numbers and will never terminate.&lt;&#x2F;p&gt;
 &lt;p&gt;So $\underline{g}$ is an implementation of $g$.&lt;&#x2F;p&gt;
@@ -151,14 +270,14 @@ $$&lt;&#x2F;p&gt;
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;Self-apply $h$.&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\begin{eqnarray}
+\begin{align}
 &amp;amp;   &amp;amp; ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧ \\
 &amp;amp; = &amp;amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝), Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝)) ⟧ \\
 &amp;amp; = &amp;amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝), Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝)) ⟧ \\
 &amp;amp; = &amp;amp; ⟦ \underline{g}\ ⌜(\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝)⌝ ⟧ \\
 &amp;amp; = &amp;amp; ⌜ g\ (\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝) ⌝ \\
 &amp;amp; = &amp;amp; ⌜ \text{if}\ ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧\  \text{is defined then undefined else true} ⌝
-\end{eqnarray}
+\end{align}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;If $⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧$ is defined, then ⟦h ⌜ h ⌝⟧ is undefined by the last equation, which is a contradiction,
 and vice versa.&lt;&#x2F;p&gt;
@@ -173,10 +292,10 @@ Both of these functions are $\chi$-computable.&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;We can define:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\begin{eqnarray}
+\begin{align}
 app&amp;amp; ∈ &amp;amp;ℕ&amp;amp; &amp;amp;⇀&amp;amp;\ ℕ\\
 app&amp;amp;\  &amp;amp;n&amp;amp; &amp;amp;=&amp;amp;\ encode\ ⟦apply\ (decode\ n)\ ⌜n⌝⟧
-\end{eqnarray}
+\end{align}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;implemented as:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -187,14 +306,14 @@ $$&lt;&#x2F;p&gt;
 &lt;p&gt;Let $m = \text{encode}\ \underline{g_{app}}$, thus $\text{decode}\ m = \underline{g_{app}}$.&lt;&#x2F;p&gt;
 &lt;p&gt;We can prove:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\begin{eqnarray}
+\begin{align}
 &amp;amp; &amp;amp; ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \\
 &amp;amp;=&amp;amp; ⌜ g_{app}\ m ⌝ \\
 &amp;amp;=&amp;amp; ⌜ \text{if app m is defined then undefined else 0} ⌝ \\
 &amp;amp;=&amp;amp; ⌜ \text{if}\ encode\ ⟦apply (decode\ m) ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
 &amp;amp;=&amp;amp; ⌜ \text{if}\ encode\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
 &amp;amp;=&amp;amp; ⌜ \text{if}\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧\ \text{is defined then undefined else 0} ⌝ \\
-\end{eqnarray}
+\end{align}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;Then it is a contradictory and app is a counter-example of $f$ in
 &quot;$g$ is $\chi$-computable for every $\chi$-computable $f$&quot;:&lt;&#x2F;p&gt;
@@ -2011,7 +2130,7 @@ Although &lt;a href=&quot;https:&#x2F;&#x2F;github.com&#x2F;WebAssembly&#x2F;des
         
     </entry>
     <entry xml:lang="en">
-        <title>Category theory Notes 3</title>
+        <title>Category theory Notes • Functor</title>
         <published>2023-01-30T17:46:45.264+00:00</published>
         <updated>2023-01-30T17:46:45.264+00:00</updated>
         
@@ -2072,9 +2191,19 @@ arrows to arrows, in such a way that:&lt;&#x2F;p&gt;
 &lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;dimap &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;∷&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;c &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;a&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;d&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f a b &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;→ &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f c d
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
 &lt;p&gt;A good example of profunctor is &lt;code&gt;(-&amp;gt;)&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
-&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Profunctor&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where 
+&lt;pre data-lang=&quot;haskell&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-haskell &quot;&gt;&lt;code class=&quot;language-haskell&quot; data-lang=&quot;haskell&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;instance Profunctor&lt;&#x2F;span&gt;&lt;span&gt; (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;-&amp;gt;&lt;&#x2F;span&gt;&lt;span&gt;) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;where
 &lt;&#x2F;span&gt;&lt;span&gt;    dimap ca bd ab = bd . ab . ca
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h2 id=&quot;faithful-full-functor&quot;&gt;Faithful &#x2F; Full Functor&lt;&#x2F;h2&gt;
+&lt;p&gt;A functor $F : \mathscr{A} → \mathscr{B}$ is faithful if for each $A, A&#x27; ∈ \mathscr{A}$, the function
+$$
+\begin{align}
+\mathscr{A} (A,A&#x27;) &amp;amp;→ \mathscr{B} (F(A),F(A&#x27;)) \\
+f &amp;amp;\mapsto F(f)
+\end{align}
+$$
+is injective.&lt;&#x2F;p&gt;
+&lt;p&gt;For full, just change injective to surjective.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;If you are familiar with &quot;tradition&quot; programming languages like Java or C#, you may have heard of &quot;covariant&quot; and &quot;contravariant&quot; before. For example, if type &lt;code&gt;A&lt;&#x2F;code&gt; is subtype of &lt;code&gt;B&lt;&#x2F;code&gt;, then &lt;code&gt;IEnumerable&amp;lt;A&amp;gt;&lt;&#x2F;code&gt; is subtype of &lt;code&gt;IEnumerable&amp;lt;B&amp;gt;&lt;&#x2F;code&gt;, so &lt;code&gt;IEnumerable&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is covariant on &lt;code&gt;T&lt;&#x2F;code&gt;. And similarly, &lt;code&gt;Action&amp;lt;T&amp;gt;&lt;&#x2F;code&gt; is contravariant on &lt;code&gt;T&lt;&#x2F;code&gt;. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
@@ -3579,7 +3708,7 @@ $$&lt;&#x2F;p&gt;
         
     </entry>
     <entry xml:lang="en">
-        <title>Category theory Notes 1</title>
+        <title>Category theory Notes • Category</title>
         <published>2022-09-29T03:43:34.088+00:00</published>
         <updated>2022-09-29T03:43:34.088+00:00</updated>
         
@@ -3676,6 +3805,13 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.&lt;&#x2F;p&gt;
 &lt;p&gt;A category is said to be locally small if each of its hom-sets is a small set. —— nLab&lt;&#x2F;p&gt;
 &lt;&#x2F;blockquote&gt;
 &lt;p&gt;And large categories are those which are not small.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;dual-category&quot;&gt;Dual Category&lt;&#x2F;h2&gt;
+&lt;p&gt;Reversing all the arrow in a category generate its dual category.&lt;&#x2F;p&gt;
+&lt;p&gt;Every categorical definition, theorem and proof has a dual, obtained by reversing all the arrows.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;product-category&quot;&gt;Product Category&lt;&#x2F;h2&gt;
+&lt;p&gt;Given category $\mathscr{A}$ and $\mathscr{B}$, its product category $\mathscr{A} \times \mathscr{B}$ is a category with:&lt;&#x2F;p&gt;
+&lt;p&gt;Object: element in $\text{ob}(\mathscr{A}) \times \text{ob}(\mathscr{B})$&lt;&#x2F;p&gt;
+&lt;p&gt;Arrow: for each arrow $f$ in $\mathscr{A}$ and $g$ in $\mathscr{B}$, $(f, g)$ is an arrow in $\mathscr{A} \times \mathscr{B}$.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;&lt;del&gt;I&#x27;m considering doing these kinds of proof in Agda, however, I&#x27;m not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)&lt;&#x2F;del&gt; I think it is OK to do so, ref &lt;a href=&quot;https:&#x2F;&#x2F;arxiv.org&#x2F;pdf&#x2F;2005.07059.pdf&quot;&gt;this paper&lt;&#x2F;a&gt;. I&#x27;ll use the &lt;code&gt;agda-categories&lt;&#x2F;code&gt; library for explanation.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;

@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • Category theory Notes 1</title>
+  <title>Blog • Category theory Notes • Category</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -111,7 +111,7 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-1&#x2F;">Category theory Notes 1</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-1&#x2F;">Category theory Notes • Category</a></h1>
   
   <div class="post-content"><h2 id="what-is-category-theory-all-about">What is category theory all about</h2>
 <p>Category theory is all about structures and relations.</p>
@@ -195,6 +195,13 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.</p>
 <p>A category is said to be locally small if each of its hom-sets is a small set. —— nLab</p>
 </blockquote>
 <p>And large categories are those which are not small.</p>
+<h2 id="dual-category">Dual Category</h2>
+<p>Reversing all the arrow in a category generate its dual category.</p>
+<p>Every categorical definition, theorem and proof has a dual, obtained by reversing all the arrows.</p>
+<h2 id="product-category">Product Category</h2>
+<p>Given category $\mathscr{A}$ and $\mathscr{B}$, its product category $\mathscr{A} \times \mathscr{B}$ is a category with:</p>
+<p>Object: element in $\text{ob}(\mathscr{A}) \times \text{ob}(\mathscr{B})$</p>
+<p>Arrow: for each arrow $f$ in $\mathscr{A}$ and $g$ in $\mathscr{B}$, $(f, g)$ is an arrow in $\mathscr{A} \times \mathscr{B}$.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p><del>I'm considering doing these kinds of proof in Agda, however, I'm not very sure about to what extent MLTT is compatible with set theory. (It seems like the book is based on ZF.)</del> I think it is OK to do so, ref <a href="https://arxiv.org/pdf/2005.07059.pdf">this paper</a>. I'll use the <code>agda-categories</code> library for explanation.</p>
 </div>
@@ -227,7 +234,7 @@ We need to prove $f ◦ (g ◦ h) = (f ◦ g) ◦ h$.</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=Category theory Notes 1&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-1&#x2F;&hashtags=Math,Notes"></a>
+      href="http://twitter.com/share?text=Category theory Notes • Category&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-1&#x2F;&hashtags=Math,Notes"></a>
   </div>
 </div>
 

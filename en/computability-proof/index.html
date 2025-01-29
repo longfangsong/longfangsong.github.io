@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -189,10 +189,10 @@ Just define a new partial function by replacing false in the return value into u
 </span></code></pre>
 <p>We have:</p>
 <p>$$
-\begin{eqnarray}
+\begin{align}
 &amp; &amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
 &amp;=&amp; ⟦ \text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝ ⟧
-\end{eqnarray}
+\end{align}
 $$</p>
 <p>For $n \in \mathbb{N}$:</p>
 <ul>
@@ -207,12 +207,12 @@ $⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜n⌝⟧ = ⌜true⌝$.</p>
 <p>So if for any $n$, $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$ or $\underline{\text{terminates‐in}}\ \text{Pair}(e_1, n)$,
 in other words, $⟦ e_1 ⟧$ is defined or $⟦ e_2 ⟧$ is defined, then</p>
 <p>$$
-\begin{eqnarray}
+\begin{align}
 &amp; &amp; ⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧ \\
 &amp;=&amp; ⟦\text{parallel}\ ⌜e_1⌝\ ⌜e_2⌝\ ⌜zero⌝⟧ \\
 &amp;=&amp; ⌜true⌝ \\
 &amp;=&amp; ⌜g (e_1, e_2)⌝
-\end{eqnarray}
+\end{align}
 $$</p>
 <p>Else, $⟦ \underline{g}\ ⌜(e_1, e_2)⌝ ⟧$ is undefined, because it will keep searching on all natural numbers and will never terminate.</p>
 <p>So $\underline{g}$ is an implementation of $g$.</p>
@@ -241,14 +241,14 @@ $$</p>
 $$</p>
 <p>Self-apply $h$.</p>
 <p>$$
-\begin{eqnarray}
+\begin{align}
 &amp;   &amp; ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧ \\
 &amp; = &amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝), Apply(⌜\underline{h}⌝, code\ ⌜\underline{h}⌝)) ⟧ \\
 &amp; = &amp; ⟦ \underline{g}\ Pair(Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝), Apply(⌜\underline{h}⌝, ⌜⌜\underline{h}⌝⌝)) ⟧ \\
 &amp; = &amp; ⟦ \underline{g}\ ⌜(\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝)⌝ ⟧ \\
 &amp; = &amp; ⌜ g\ (\underline{h}\ ⌜\underline{h}⌝, \underline{h}\ ⌜\underline{h}⌝) ⌝ \\
 &amp; = &amp; ⌜ \text{if}\ ⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧\  \text{is defined then undefined else true} ⌝
-\end{eqnarray}
+\end{align}
 $$</p>
 <p>If $⟦ \underline{h}\ ⌜\underline{h}⌝ ⟧$ is defined, then ⟦h ⌜ h ⌝⟧ is undefined by the last equation, which is a contradiction,
 and vice versa.</p>
@@ -263,10 +263,10 @@ Both of these functions are $\chi$-computable.</p>
 </span></code></pre>
 <p>We can define:</p>
 <p>$$
-\begin{eqnarray}
+\begin{align}
 app&amp; ∈ &amp;ℕ&amp; &amp;⇀&amp;\ ℕ\\
 app&amp;\  &amp;n&amp; &amp;=&amp;\ encode\ ⟦apply\ (decode\ n)\ ⌜n⌝⟧
-\end{eqnarray}
+\end{align}
 $$</p>
 <p>implemented as:</p>
 <p>$$
@@ -277,14 +277,14 @@ $$</p>
 <p>Let $m = \text{encode}\ \underline{g_{app}}$, thus $\text{decode}\ m = \underline{g_{app}}$.</p>
 <p>We can prove:</p>
 <p>$$
-\begin{eqnarray}
+\begin{align}
 &amp; &amp; ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \\
 &amp;=&amp; ⌜ g_{app}\ m ⌝ \\
 &amp;=&amp; ⌜ \text{if app m is defined then undefined else 0} ⌝ \\
 &amp;=&amp; ⌜ \text{if}\ encode\ ⟦apply (decode\ m) ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
 &amp;=&amp; ⌜ \text{if}\ encode\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧ \text{is defined then undefined else 0} ⌝ \\
 &amp;=&amp; ⌜ \text{if}\ ⟦\underline{g_{app}}\ ⌜ m ⌝⟧\ \text{is defined then undefined else 0} ⌝ \\
-\end{eqnarray}
+\end{align}
 $$</p>
 <p>Then it is a contradictory and app is a counter-example of $f$ in
 "$g$ is $\chi$-computable for every $\chi$-computable $f$":</p>

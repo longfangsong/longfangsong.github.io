@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • Restart learning math • Mathematical logic (7)</title>
+  <title>Blog • Category theory Notes • Natural transformation</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -111,59 +111,121 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-7&#x2F;">Restart learning math • Mathematical logic (7)</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-4&#x2F;">Category theory Notes • Natural transformation</a></h1>
   
-  <div class="post-content"><p>Modal logic in the book is very different from what I thought. It turns out what I thought is modal logic is just one kind of its interpreting ($\square$ means always, and $\diamond$ means occasionally).</p>
-<h2 id="basic-modal-logic">Basic modal logic</h2>
-<p>The language of basic modal logic is simple, just add unary connective $\square$ and $\diamond$ to propositional logic then we are done.</p>
-<p>The model (Kripke model) of basic modal logic is specified by</p>
+  <div class="post-content"><h2 id="natural-transformation">Natural transformation</h2>
+<p>Let $F$ and $G$ be functors from category $\mathscr{A}$ to category $\mathscr{B}$,
+a natural transformation $α: F → G$  is a family $(F(A) \stackrel{α_A}{→} G(A))_{A \in \mathscr{A}}$
+of maps in $\mathscr{B}$ such that for every map $A \stackrel{f}{\rightarrow} A'$ in $\mathscr{A}$ , the square</p>
+<!-- https://q.uiver.app/#q=WzAsNCxbMCwwLCJGKEEpIl0sWzIsMCwiRihBJykiXSxbMCwyLCJHKEEpIl0sWzIsMiwiRyhBJykiXSxbMCwxLCJGKGYpIl0sWzIsMywiRyhmKSIsMl0sWzAsMiwiXFxhbHBoYV9BIiwyXSxbMSwzLCJcXGFscGhhX0EnIl1d -->
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJGKEEpIl0sWzIsMCwiRihBJykiXSxbMCwyLCJHKEEpIl0sWzIsMiwiRyhBJykiXSxbMCwxLCJGKGYpIl0sWzIsMywiRyhmKSIsMl0sWzAsMiwiXFxhbHBoYV9BIiwyXSxbMSwzLCJcXGFscGhhX0EnIl1d&embed" width="239" height="216" style="border-radius: 8px; border: none;"></iframe>
+<p>commutes.</p>
+<p>Note: $A$ and $A'$ are in $\text{ob}(\mathscr{A})$, $F(A)$, $F(A')$, $G(A)$ and $G(A')$ are in $\text{ob}(\mathscr{B})$.</p>
+<p>We denote the natural transformation $\alpha$ as this diagram:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMixbMCwwLCJcXG1hdGhzY3J7QX0iXSxbMiwwLCJcXG1hdGhzY3J7Qn0iXSxbMCwxLCJGIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiRyIsMix7ImN1cnZlIjoyfV0sWzIsMywiXFxhbHBoYSIsMCx7InNob3J0ZW4iOnsic291cmNlIjoyMCwidGFyZ2V0IjoyMH19XV0=&embed" width="216" height="88" style="border-radius: 8px; border: none;"></iframe>
+<h3 id="example">Example</h3>
+<p>For example:</p>
+<p>Let $\mathscr{A} = \textbf{CRing}$ (commutative ring) and $\mathscr{B} = \textbf{Mon}$ (monoid),
+we can have</p>
 <ul>
-<li>A world set $W$</li>
-<li>A relation $R$ on $W$</li>
-<li>A function $L : W → \mathcal{P}(Atoms)$, called the labelling function, basically this function give us information about which atom props are true.</li>
+<li>A functor $M_n$ which maps a commutative ring $R$ to a monoid $M_n(R)$, which its content is $n \times n$ matrix of $R$.</li>
+<li>A functor $U$ which maps a commutative ring $R$ to a monoid $U(R)$, which observes $R$'s content makes a monoid under $\times$ operation.</li>
 </ul>
-<p>Definition 5.4 on the book gives us a method on how we can use the model, basically $x \Vdash \phi$ means "$\phi$ is true in world x", and we have a bunch of structural induction rules to form such a formula.</p>
-<p>A model $\mathcal{M} = (W, R, L)$ of basic modal logic is said to satisfy a formula if every state in the model satisfies it.</p>
-<h3 id="formula-scheme">Formula scheme</h3>
-<p>All formulas which are same with each other on several top levels in their parsing tree are in the same formula scheme.</p>
-<p>eg.</p>
+<p>For the family of function $det$ which calculates determinant of matrixes, and any ring homomorphism $f : R \to S$:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJNX24oUikiXSxbMywwLCJNX24oUykiXSxbMCwyLCJVKFIpIl0sWzMsMiwiVShTKSJdLFswLDEsIk1fbihmKSJdLFsyLDMsIlUoZikiLDJdLFswLDIsImRldF9SIiwyXSxbMSwzLCJkZXRfcyJdXQ==&embed" width="617" height="432" style="border-radius: 8px; border: none;"></iframe>
+<p>We can prove this diagram commutes, thus:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsMixbMCwwLCJcXHRleHRiZntDUmluZ30iXSxbMiwwLCJcXHRleHRiZntNb259Il0sWzAsMSwiTV9uIiwwLHsiY3VydmUiOi0yfV0sWzAsMSwiVSIsMix7ImN1cnZlIjoyfV0sWzIsMywiZGV0IiwwLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfX1dXQ==&embed" width="479" height="176" style="border-radius: 8px; border: none;"></iframe>
+<p>In other words, $det$ is a natural transformation.</p>
+<p>In a more discrete case, take $R = \mathbb{Z}$ and $S = \mathbb{Z}/2\mathbb{Z}$, $f = \lambda x. x\ \text{mod}\ 2$</p>
+<p>Say we have a matrix $X \in M_2(\mathbb{Z})$:</p>
 <p>$$
-\phi \rightarrow \square \phi \wedge \phi
+x =
+\begin{pmatrix}
+2 &amp; 3\\
+1 &amp; 4
+\end{pmatrix}
 $$</p>
-<p>is a scheme which contains</p>
+<p>We can covert it into:</p>
 <p>$$
-p \rightarrow \square q \wedge r
+y = M_2(f)(x) = \begin{pmatrix}
+f(2) &amp; f(3)\\
+f(1) &amp; f(4)
+\end{pmatrix}
+= \begin{pmatrix}
+0 &amp; 1\\
+1 &amp; 0
+\end{pmatrix}
+$$</p>
+<p>Where $y \in M_2(\mathbb{Z}/2\mathbb{Z})$.</p>
+<p>We can calculate $x$ and $y$'s det:</p>
+<p>$$
+det_{\mathbb{Z}}(x) = 5
+$$</p>
+<p>$$
+det_{\mathbb{Z}/2\mathbb{Z}}(y) = -1\ \text{mod}\ 2 = 1
+$$</p>
+<p>It's obvious that $f(det_{\mathbb{Z}}(x)) = det_{\mathbb{Z}/2\mathbb{Z}}(y)$.</p>
+<h2 id="functor-category">Functor category</h2>
+<p>Take functors as objects and natural transformations as arrows,
+we can see that functors between types can also be regarded as
+categories.</p>
+<p>We denote such kind of categories built by
+functors from $\mathscr{A}$ to $\mathscr{B}$ as $[\mathscr{A}, \mathscr{B}]$
+or $\mathscr{B}^{\mathscr{A}}$, read as functor category from $\mathscr{A}$ to $\mathscr{B}$.</p>
+<h2 id="natural-isomorphism">Natural isomorphism</h2>
+<p>A natural isomorphism between functors from $\mathscr{A}$ to $\mathscr{B}$ is an isomorphism in $[\mathscr{A} , \mathscr{B}]$.</p>
+<p>Or let $\alpha$ be a natural transformation between $F: \text{Functor&lt;}\mathscr{A}, \mathscr{B}\text{&gt;}$ and $G: Functor&lt;\mathscr{A}, \mathscr{B}&gt;$, $α$ is a
+natural isomorphism if and only if $α(A) : F(A) → G(A)$ is an isomorphism for all $A ∈ \mathscr{A}$. And it is an evidence of
+$F$ and $G$ are naturally isomorphic. Denoted as $F(A) \cong G(A)$ naturally in $A$.</p>
+<h2 id="equivalence-between-categories">Equivalence between categories</h2>
+<p>An equivalence between categories $\mathscr{A}$ and $\mathscr{B}$ consists of a pair of functors together with natural isomorphisms
+$$
+η: 1_\mathscr{A} → G ◦ F
+$$
+$$
+ε: F ◦ G → 1_\mathscr{B}.
+$$</p>
+<p>Note these two observes:</p>
+<p>$$
+G ◦ F \cong 1_\mathscr{A}
 $$</p>
 <p>and</p>
 <p>$$
-q \rightarrow \square p \wedge r
+F ◦ G \cong 1_\mathscr{B}
 $$</p>
-<p>and</p>
-<p>$$
-(p \vee q) \rightarrow \square (r \vee s) \wedge (u \vee v)
-$$</p>
-<h3 id="equivalences-between-modal-formulas">Equivalences between modal formulas</h3>
-<p>In any world $x$ of any model $\mathcal{M}=(W,R,L)$, for all $\phi \in \Gamma$, $x ⊫ \phi \rightarrow x ⊫ \psi$, we write this as $\Gamma \models ψ$, which means $\Gamma$ of basic modal logic semantically entails a formula $ψ$ of basic modal logic.</p>
-<p>If $\phi \models ψ$ and $\phi \models \psi$, we say $\phi \equiv \psi$.</p>
-<h3 id="valid-formulas">Valid formulas</h3>
-<blockquote>
-<p>A formula $\phi$ of basic modal logic is said to be valid if it is true in every world of every model, i.e. iff $(nothing) \models \phi$ holds.</p>
-</blockquote>
-<h2 id="logic-engineering">Logic engineering</h2>
-<p>(Actually this chapter made feel strange, why we re-engineer basic modal logic instead of inventing new logic? These logic seems not that similar.)</p>
+<p>We denote it as $\mathscr{A} ≃ \mathscr{B}$.</p>
+<h3 id="equivalence-vs-isomorphism">Equivalence vs Isomorphism</h3>
+<p>Equivalence is a weaken form of isomorphism, isomorphism requires $G ◦ F = 1_\mathscr{A}$ and $F ◦ G = 1_\mathscr{B}$,
+and equivalence weaken the $=$ here to $\cong$, or in English, it weaken the equal between functors into isomorphisms
+between functors.</p>
+<h4 id="example-1">Example</h4>
+<p>Say we have two categories:</p>
+<ul>
+<li>$\mathscr{C}$: has only one object $*$ and one mophism $id_*$.</li>
+<li>$\mathscr{D}$: has only two object $A$ and $B$ two mophisms $id_A$ and $id_B$.</li>
+</ul>
+<p>They are obviously not isomorphism with each other, but we can show they are equivalent with each other, say we can define functors:</p>
+<ul>
+<li>$F : \mathscr{C} \to \mathscr{D}$ as $F_{obj}(*) = A$ and $F_{mop}(id_*) = id_A$</li>
+<li>$G : \mathscr{C} \to \mathscr{D}$ as $G_{obj}(A) = *, G_{obj}(B) = *$ and $G_{mop}(id_A) = id_*, G_{mop}(id_B) = id_*$</li>
+</ul>
+<h2 id="essentially-surjective">Essentially surjective</h2>
+<p>A functor $F : \mathscr{A} → \mathscr{B}$ is essentially surjective on objects if for all $B ∈ \mathscr{B}$,
+there exists $A ∈ \mathscr{A}$ such that $F(A) \cong B$.</p>
+<p>A functor is an equivalence if and only if it is full, faithful and essentially surjective on objects.</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2022-10-03</span>
+        <i class="far fa-sun"></i><span class="date">2025-01-26</span>
         
         
         <i class="fas fa-tags"></i>
         
         <a class="tag" href="https://longfangsong.github.io/en/tags/Math">&nbsp;Math</a>
         
-        <a class="tag" href="https://longfangsong.github.io/en/tags/Mathematical logic">&nbsp;Mathematical logic</a>
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
         
         
       </div>
@@ -177,7 +239,7 @@ $$</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=Restart learning math • Mathematical logic (7)&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;restart-math-logic-7&#x2F;&hashtags=Math,Mathematical logic"></a>
+      href="http://twitter.com/share?text=Category theory Notes • Natural transformation&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-4&#x2F;&hashtags=Math,Notes"></a>
   </div>
 </div>
 

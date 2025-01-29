@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • Category theory Notes 3</title>
+  <title>Blog • Category theory Notes • Functor</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -111,7 +111,7 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-3&#x2F;">Category theory Notes 3</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-3&#x2F;">Category theory Notes • Functor</a></h1>
   
   <div class="post-content"><h2 id="covariant-functor">(Covariant) Functor</h2>
 <p>Initually, functor is a mapping from one category to another, which preserves the structure of the origin one.</p>
@@ -159,9 +159,19 @@ arrows to arrows, in such a way that:</p>
 </span><span>    </span><span style="color:#8fa1b3;">dimap </span><span style="color:#b48ead;">∷</span><span> (</span><span style="color:#bf616a;">c </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">a</span><span>) </span><span style="color:#b48ead;">→</span><span> (</span><span style="color:#bf616a;">b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">d</span><span>) </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f a b </span><span style="color:#b48ead;">→ </span><span style="color:#bf616a;">f c d
 </span></code></pre>
 <p>A good example of profunctor is <code>(-&gt;)</code>:</p>
-<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">instance Profunctor</span><span> (</span><span style="color:#b48ead;">-&gt;</span><span>) </span><span style="color:#b48ead;">where 
+<pre data-lang="haskell" style="background-color:#2b303b;color:#c0c5ce;" class="language-haskell "><code class="language-haskell" data-lang="haskell"><span style="color:#b48ead;">instance Profunctor</span><span> (</span><span style="color:#b48ead;">-&gt;</span><span>) </span><span style="color:#b48ead;">where
 </span><span>    dimap ca bd ab = bd . ab . ca
 </span></code></pre>
+<h2 id="faithful-full-functor">Faithful / Full Functor</h2>
+<p>A functor $F : \mathscr{A} → \mathscr{B}$ is faithful if for each $A, A' ∈ \mathscr{A}$, the function
+$$
+\begin{align}
+\mathscr{A} (A,A') &amp;→ \mathscr{B} (F(A),F(A')) \\
+f &amp;\mapsto F(f)
+\end{align}
+$$
+is injective.</p>
+<p>For full, just change injective to surjective.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>If you are familiar with "tradition" programming languages like Java or C#, you may have heard of "covariant" and "contravariant" before. For example, if type <code>A</code> is subtype of <code>B</code>, then <code>IEnumerable&lt;A&gt;</code> is subtype of <code>IEnumerable&lt;B&gt;</code>, so <code>IEnumerable&lt;T&gt;</code> is covariant on <code>T</code>. And similarly, <code>Action&lt;T&gt;</code> is contravariant on <code>T</code>. We can regard covariant and contravariant functors as more abstract (we weaken relationship from subtype to arbitrary binary relation) version of these types.</p>
 </div>
@@ -191,7 +201,7 @@ arrows to arrows, in such a way that:</p>
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=Category theory Notes 3&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-3&#x2F;&hashtags=Math,Notes"></a>
+      href="http://twitter.com/share?text=Category theory Notes • Functor&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-3&#x2F;&hashtags=Math,Notes"></a>
   </div>
 </div>
 

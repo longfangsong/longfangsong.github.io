@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog • RoCC RISC-V 扩展方案</title>
+  <title>Blog • 带 过去 信息的 LTL</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -111,45 +111,106 @@
       <div class="content">
         
 <article class="post animated fadeInDown">
-  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;riscv-rocc&#x2F;">RoCC RISC-V 扩展方案</a></h1>
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;pltl&#x2F;">带 过去 信息的 LTL</a></h1>
   
-  <div class="post-content"><p>RoCC 是通过向 RISC-V 处理器添加扩展的半官方<sup class="footnote-reference"><a href="#1">1</a></sup>方案，最早用于 BSD 的 Rocket-core。</p>
-<h2 id="rocc-gui-ding-de-kuo-zhan-zhi-ling">RoCC 规定的扩展指令</h2>
-<p>RoCC 使用了 RISCV 标准中预留的所有四个扩展槽位，并规定了如下指令格式：</p>
-<p><img src="https://longfangsong.github.io/riscv-rocc/./rocc-inst.png" alt="RoCC inst" /></p>
-<p>其中 <code>xd</code>、<code>xs1</code>、<code>xs2</code> 分别表示对应的寄存器是否被使用到了。</p>
-<h2 id="rocc-he-cpu-zhi-jian-de-jiao-hu">RoCC 和 CPU 之间的交互</h2>
-<p>RoCC 主要通过如下接口和 CPU 进行交互：</p>
+  <div class="post-content"><p>除了标准的 LTL 运算之外，带过去信息的 LTL （pLTL）新增了两个基本运算符 $Y$ 和 $S$.</p>
+<p>$
+φ::= ⊤|⊥|p|¬ φ|φ ∧ φ|φ ∨ φ|X φ|φ U φ|Y φ|φ S φ,
+$</p>
+<p>$Y$ 的“人话语义”是 "Yesterday"，即 <strong>上一时刻</strong> $φ$ 成立。</p>
+<p>$S$ 的“人话语义”是 "Since"，即 $a S b$ 意思是 $b$ <strong>曾经</strong> 在某一时刻成立过，且<strong>自此之后</strong> $a$ 一直成立。</p>
+<p>同时派生出了一系列运算符：</p>
+<p>$
+O φ:= ⊤ S φ
+$</p>
+<p>Once，表示 $φ$ 曾经成立过。</p>
+<p>$
+H φ:= ¬ O ¬ φ
+$</p>
+<p>Historically，表示自古以来 $φ$ 一直成立。</p>
+<p>$
+φ \widetilde S ψ:= φ S ψ ∨ H φ
+$</p>
+<p>Since 的弱化版本， $a \widetilde S b$ 表示 自从 $b$ <strong>曾经</strong> 成立过之后 $a$ 一直成立，或者 $a$ 自古以来一直成立，也可以理解为“假设在史前时代，$b$ 成立过一下”的 $S$</p>
+<p>$
+φ B ψ:= ψ S (ψ ∧ φ)
+$</p>
+<p>Before，$a B b$ 表示曾经有一时刻 $a$ 和 $b$ 同时成立，自此之后 $b$ 仍然成立（$a$ 可能成立或不成立）。</p>
+<p>$
+φ \widetilde B ψ:= ψ \widetilde S (ψ ∧ φ)
+$</p>
+<p>Before 的弱化版本，“假设在史前时代，$ψ ∧ φ$ 成立过一下”的 $B$。</p>
+<p>$
+\widetilde Y := Yφ ∨ ¬Y⊤
+$</p>
+<p>Yesterday 的弱化版本，即 在 0 时刻总是成立 的 $Y$，或者说，“假设在 -1 时刻，$φ$ 成立”的 $Y$。</p>
+<h2 id="dui-pltl-gong-shi-de-qiang-hua-yu-ruo-hua">对 pLTL 公式的强化与弱化</h2>
+<p>我们观察到，$Y$，$S$，$B$ 这三个运算符各自有其强化和弱化版本。</p>
+<p>利用对这些公式中运算符的强化和弱化，我们可以在判定某个序列是否符合一个公式时，通过对公式的强化和弱化避免回朔。</p>
+<h3 id="he-shi-xu-yao-qiang-hua-he-shi-xu-yao-ruo-hua">何时需要强化，何时需要弱化</h3>
+<h4 id="y-s-b-ji-qi-ruo-hua-ban-ben-gong-shi-cheng-li-de-qian-ti-tiao-jian">$Y$，$S$，$B$ 及其弱化版本公式成立的前提条件</h4>
+<p>这些涉及到历史的公式的前提条件分别是：</p>
+<ul>
+<li>$Y x$ 和 $\widetilde Y x$ 在之前看到过 $x$ 成立时才有可能成立</li>
+<li>$a S b$ 在之前看到过 $b$ 成立时才有可能成立</li>
+<li>$a \widetilde S b$ 在之前看到过 $a ∨ b$ 成立时才有可能成立</li>
+<li>$a B b$ 在之前看到过 $a ∧ b$ 成立时才有可能成立</li>
+<li>$a \widetilde B b$ 在之前看到过 $b$ 成立时才有可能成立</li>
+</ul>
+<p>我们将把公式映射到对应前提条件的函数记为 $wc$。</p>
+<p>在公式 $f$ 对序列 $w$ 进行判定时，我们可以维护一个集合 $C$，记录所有 前提条件成立的 涉及到历史的 $f$ 的子公式。</p>
 <ul>
 <li>
-<p>CPU 通过 <code>Cmd</code> 接口将指令和相关寄存器的值发送给 RoCC 加速器</p>
+<p>一开始，这个集合为所有 $f$ 中为 弱化版本 的子公式。（显然，所有弱化版本的子公式的前提条件在 0 时刻都是天然成立的）</p>
 </li>
 <li>
-<p>RoCC 加速器通过 <code>Resp</code> 接口将计算结果（要写入的寄存器号和值）返回到 CPU</p>
-</li>
-<li>
-<p>RoCC 通过 <code>busy</code> 标记加速器是否处于忙状态</p>
-</li>
-<li>
-<p>RoCC 自身也可以访问内存、引发中断等</p>
+<p>对于下一时刻，对于每个 f 中涉及到历史的子公式，</p>
+<ul>
+<li>若其已经在集合中（说明前提之前已经被满足），则将其弱化，若如果这一时刻的序列满足这个弱化公式的“前提条件”，将其加入集合。</li>
+<li>否则，将其强化，若如果这一时刻的序列满足这个强化公式的“前提条件”，将其加入集合。</li>
+</ul>
+<p>弱化已经前提已经被满足的子公式原因是，我们从上面弱化版本的运算符的定义可以看到，我们可以将这些运算符看作 其对应的强化版本 的前提条件在“之前”被满足过的版本。
+强化之前没有满足的子公式的原因是，如果这个子公式是一个弱化版本，且之前它的前提条件没有被满足，那么当前它和它的强化版本是等效的。</p>
 </li>
 </ul>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>指由 RISC-V 亲爹 BSD 研发。</p>
-</div>
+<p>形式化地，在公式 $φ$ 对序列 $w$ 进行判定时，我们定义这样一个集合 $C$：</p>
+<p>$$
+C_0 = \{ψ ∈ \text{psf} (φ) | ψ = weaken(ψ)\}
+$$</p>
+<p>$$
+C_{t+1} = \{ψ ∈ \text{psf} (φ⟨C_t⟩) | w_{t} \models wc(ψ)\}
+$$</p>
+<p>其中 $\text{psf}(φ)$ 指的是 $φ$ 中所有以 $Y,\widetilde Y,S,\widetilde S,B,\widetilde B$ 为根的子公式。</p>
+<p>$weaken(ψ)$ 是 $ψ$ 的弱化版本。</p>
+<p>$φ⟨C_t⟩$ 即上面提到的强化/弱化规则，即：</p>
+<p>$$
+a⟨C⟩ := a
+$$</p>
+<p>$$
+(op\ \psi) \langle C \rangle :=
+\begin{cases}
+(op\ \psi \langle C \rangle)_W &amp; \quad (op\ \psi \in C) \\
+(op\ \psi \langle C \rangle)_S &amp; \quad (\text{otherwise})
+\end{cases}
+$$</p>
+<p>$$
+(\phi\ op\ \psi) \langle C \rangle :=
+\begin{cases}
+(\phi\ op\ \psi \langle C \rangle)_W &amp; \quad (\phi\ op\ \psi \in C) \\
+(\phi\ op\ \psi \langle C \rangle)_S &amp; \quad (\text{otherwise})
+\end{cases}
+$$</p>
 </div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">
         
-        <i class="far fa-sun"></i><span class="date">2021年04月19日</span>
+        <i class="far fa-sun"></i><span class="date">2024年12月13日</span>
         
         
         <i class="fas fa-tags"></i>
         
-        <a class="tag" href="https://longfangsong.github.io/tags/RISC-V">&nbsp;RISC-V</a>
-        
-        <a class="tag" href="https://longfangsong.github.io/tags/体系结构">&nbsp;体系结构</a>
+        <a class="tag" href="https://longfangsong.github.io/tags/logic">&nbsp;logic</a>
         
         
       </div>
@@ -163,7 +224,7 @@
   </div>
   <div class="twitter">
     <a class="fab fa-twitter"
-      href="http://twitter.com/share?text=RoCC RISC-V 扩展方案&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;riscv-rocc&#x2F;&hashtags=RISC-V,体系结构"></a>
+      href="http://twitter.com/share?text=带 过去 信息的 LTL&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;pltl&#x2F;&hashtags=logic"></a>
   </div>
 </div>
 
@@ -180,6 +241,19 @@
   </script>
 
 
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 
 
 
