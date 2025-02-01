@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Category theory Notes • Limits &amp; Colimits</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-5&#x2F;">Category theory Notes • Limits &amp; Colimits</a></h1>
+  
+  <div class="post-content"><h2 id="diagram">Diagram</h2>
+<p>Let $\mathscr{A}$ be a category and $\mathbf{I}$ a small category.
+A functor $\mathbf{I} → \mathscr{A}$ is called a diagram in $\mathscr{A}$ of shape $\mathbf{I}$.</p>
+<h2 id="cone">Cone</h2>
+<p>A cone on diagram $D : \mathbf{I} → \mathscr{A}$ is an object $A ∈ \mathscr{A}$ (the <strong>vertex</strong> of the cone) together with a family:</p>
+<p>$$
+(A \stackrel{f_I}{\rightarrow} D(I))_{I\in \mathbf{I}}
+$$</p>
+<p>of maps in $\mathscr{A}$ such that for all maps $I \stackrel{u}{→} J$ in $\mathbf{I}$, the triangle</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMCwxLCJBIixbMCw2MCw2MCwxXV0sWzIsMCwiRChJKSJdLFsyLDIsIkQoSikiXSxbNCwwLCJJIixbMCwwLDUwLDFdXSxbNCwyLCJKIixbMCwwLDUwLDFdXSxbMSwyLCJEKHUpIl0sWzAsMSwiZl9JIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCwyLCJmX0oiLDJdLFszLDQsInUiLDAseyJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXSxbOCw1LCJEIiwyLHsibGFiZWxfcG9zaXRpb24iOjQwLCJzaG9ydGVuIjp7InNvdXJjZSI6MTAsInRhcmdldCI6MzB9LCJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXV0=&embed" width="696" height="432" style="border-radius: 8px; border: none;"></iframe>
+<p>commutes.</p>
+<h2 id="limit">Limit</h2>
+<p>A limit of D is a cone $(L \stackrel{p_I}{→} D(I))_{I∈\mathbf{I}}$ with the property that for any
+cone on D, there exists a unique map $\overline{f} : A → L$ such that $p_I ◦ \overline{f} = f_I$
+for all $I ∈ \mathbf{I} $.</p>
+<p>The maps $p_I$ are called the projections of the limit.</p>
+<p>We denote $(L \stackrel{p_I}{→} D(I))_{I ∈ \mathbf{I}}$ is a limit as $L = \text{lim}_{\leftarrow \mathbf{I}} D$.</p>
+<h3 id="example">Example</h3>
+<h4 id="product">Product</h4>
+<p>Take $\mathbf{I}$ be a category with only two objects and no non-trivial mophisms,
+and $\mathscr{A}$ be an arbitary category. It's obvious that functor
+$D: \mathbf{I} → \mathscr{A}$ is a diagram:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNyxbMCwxLCJBIl0sWzIsMCwiWCJdLFsyLDIsIlkiXSxbNCwwLCJcXGJ1bGxldCIsWzAsMCw1MCwxXV0sWzQsMiwiXFxidWxsZXQiLFswLDAsNTAsMV1dLFs0LDMsIlxcbWF0aGJme0l9Il0sWzEsMywiXFxtYXRoc2Nye0F9Il0sWzAsMSwiZl8xIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCwyLCJmXzIiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs5LDEwLCJEIiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwiY29sb3VyIjpbMCwwLDUwXX0sWzAsMCw1MCwxXV1d&embed" width="688" height="560" style="border-radius: 8px; border: none;"></iframe>
+<p>And $A$ together with map family $A \stackrel{f_1}{\rightarrow} X$ and $A \stackrel{f_2}{\rightarrow} X$ forms a cone.</p>
+<p>The most universal cone, which is the limit in this shape. Is $X \times Y$:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMiwxLCJYXFx0aW1lcyBZIl0sWzQsMCwiWCJdLFs0LDIsIlkiXSxbMCwxLCJBJyJdLFswLDEsInByb2pfMSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzAsMiwicHJval8yIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwyLCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywwLCJcXG92ZXJsaW5le2Z9Il0sWzMsMSwiZl8xPXByb2pfMSDil6YgXFxvdmVybGluZXtmfSIsMCx7ImN1cnZlIjotMn1dLFszLDIsImZfMj1wcm9qXzIg4pemIFxcb3ZlcmxpbmV7Zn0iLDIseyJjdXJ2ZSI6Mn1dXQ==&embed" width="716" height="432" style="border-radius: 8px; border: none;"></iframe>
+<p>Take</p>
+<ul>
+<li>$\mathscr{A} = \textbf{Set}$</li>
+<li>$X = \{1,2\}$</li>
+<li>$Y = \{a,b\}$</li>
+</ul>
+<p>An example of a non-limit cone:</p>
+<ul>
+<li>$A' = \{1, 2\}$</li>
+<li>$f_1(x) = x$</li>
+<li>$f_2(x) = \text{if}\ x = 1\ \text{then}\ a\ \text{else}\ b$</li>
+</ul>
+<p>We can see there exists a unique $\overline{f}(x) = (x, \text{if}\ x = 1\ \text{then}\ a\ \text{else}\ b)$ which
+makes this graph correct.</p>
+<h4 id="equalizer">Equalizer</h4>
+<p>Take $\mathbf{I}$ be a category with only two objects and two parallel mophisms,
+and $\mathscr{A}$ be an arbitary category. It's obvious that functor
+$D: \mathbf{I} → \mathscr{A}$ is a diagram:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNyxbMCwxLCJBIl0sWzIsMCwiWCJdLFsyLDIsIlkiXSxbNCwwLCJcXGJ1bGxldCIsWzAsMCw1MCwxXV0sWzQsMiwiXFxidWxsZXQiLFswLDAsNTAsMV1dLFs0LDMsIlxcbWF0aGJme0l9Il0sWzEsMywiXFxtYXRoc2Nye0F9Il0sWzMsNCwiIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDAsNTBdfV0sWzEsMiwidCIsMCx7Im9mZnNldCI6LTF9XSxbMyw0LCIiLDAseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlswLDAsNTBdfV0sWzEsMiwicyIsMix7Im9mZnNldCI6MX1dLFswLDEsImYiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs3LDgsIkQiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXV0=&embed" width="688" height="560" style="border-radius: 8px; border: none;"></iframe>
+<p>And $A$ together with map $A \stackrel{f}{\rightarrow} X$ forms a cone.</p>
+<p>The most universal cone, which is the limit in this shape. Is the equalizer:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMiwxLCJFIl0sWzQsMCwiWCJdLFs0LDIsIlkiXSxbMCwxLCJBJyJdLFsxLDIsInQiLDAseyJvZmZzZXQiOi0xfV0sWzEsMiwicyIsMix7Im9mZnNldCI6MX1dLFswLDEsImYiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDAsIlxcb3ZlcmxpbmV7Zn0iLDJdLFszLDEsImbil6ZcXG92ZXJsaW5le2Z9IiwwLHsiY3VydmUiOi0xfV1d&embed" width="688" height="432" style="border-radius: 8px; border: none;"></iframe>
+<p>Take</p>
+<ul>
+<li>$\mathscr{A} = \textbf{Set}$</li>
+<li>$X = \{1,2,3\}$</li>
+<li>$Y = \{a,b\}$</li>
+<li>$$
+s(x) =
+\begin{equation}
+\begin{cases}
+a &amp; x = 1,3 \\
+b &amp; x = 2
+\end{cases}
+\end{equation}
+$$</li>
+<li>$$
+t(x) = a
+$$</li>
+</ul>
+<p>An example of a non-limit cone:</p>
+<ul>
+<li>$A' = \{1, 2, 3\}$</li>
+<li>$g(x) = (f ◦ \overline{f})(x) = x, x \in \{1,2,3\}$</li>
+</ul>
+<p>Note: $E = \{1,3\}$, $f(x) = x, x \in \{1,3\}$</p>
+<p>We can see there exists a unique $\overline{f}(x) = x, x \in \{1,2,3\}$ which makes this graph correct.</p>
+<h4 id="pullback">Pullback</h4>
+<p>Take $\mathbf{I}$ be a category with three objects and two mophisms,  point from different sources into one same target,
+and $\mathscr{A}$ be an arbitary category. It's obvious that functor
+$D: \mathbf{I} → \mathscr{A}$ is a diagram:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsOSxbMiwwLCJZIl0sWzIsMiwiWiJdLFs0LDIsIlxcYnVsbGV0IixbMCwwLDUwLDFdXSxbMSwzLCJcXG1hdGhzY3J7QX0iXSxbNiwwLCJcXGJ1bGxldCIsWzAsMCw1MCwxXV0sWzYsMiwiXFxidWxsZXQiLFswLDAsNTAsMV1dLFs1LDMsIlxcbWF0aGJme0l9Il0sWzAsMiwiWCJdLFswLDAsIkEiXSxbNCw1LCIiLDIseyJjb2xvdXIiOlswLDAsNTBdfV0sWzIsNSwiIiwwLHsiY29sb3VyIjpbMCwwLDUwXX1dLFsyLDQsIiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs3LDEsInMiLDJdLFswLDEsInQiXSxbOCwwLCJmXzIiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs4LDcsImZfMSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzExLDEzLCJEIiwyLHsibGFiZWxfcG9zaXRpb24iOjYwLCJzaG9ydGVuIjp7InNvdXJjZSI6NDAsInRhcmdldCI6MjB9LCJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXV0=&embed" width="944" height="560" style="border-radius: 8px; border: none;"></iframe>
+<p>And $A$ together with map family</p>
+<ul>
+<li>$A \stackrel{f_1}{\rightarrow} X$ and</li>
+<li>$A \stackrel{f_2}{\rightarrow} Y$</li>
+</ul>
+<p>forms a cone.</p>
+<p>The most universal cone, which is the limit in this shape. Is the pullback:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNSxbMywxLCJZIl0sWzMsMywiWiJdLFsxLDMsIlgiXSxbMSwxLCJQIl0sWzAsMCwiQSciXSxbMiwxLCJzIiwyXSxbMCwxLCJ0Il0sWzMsMCwicF8yIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMywyLCJwXzEiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs0LDAsImZfMiIsMCx7ImN1cnZlIjotMX1dLFs0LDMsIlxcb3ZlcmxpbmV7Zn0iLDFdLFs0LDIsImZfMSIsMix7ImN1cnZlIjoxfV1d&embed" width="560" height="560" style="border-radius: 8px; border: none;"></iframe>
+<p>Take</p>
+<ul>
+<li>$\mathscr{A} = \textbf{Set}$</li>
+<li>$X = \{1,2\}$</li>
+<li>$Y = \{a,b\}$</li>
+<li>$Z = \{c, d\}$</li>
+<li>$s(1) = c$, $s(2) = d$</li>
+<li>$t(a) = c$, $t(b) = d$</li>
+</ul>
+<p>An example of a non-limit cone:</p>
+<ul>
+<li>$A' = \{1, 2\}$</li>
+<li>$f_1(1) = 1$, $f_1(2) = 2$</li>
+<li>$f_2(1) = a$, $f_2(2) = b$</li>
+</ul>
+<p>Note: $P = \{(x,y) ∈ X × Y |s(x) = t(y)\} = \{(1, a), (2, b)\}$, $p_1((x, y)) = x$, $p_2((x, y)) = y$</p>
+<p>We can see there exists a unique</p>
+<p>$$
+\overline{f}(x) =
+\begin{equation}
+\begin{cases}
+(1,a) &amp; x = 1 \\
+(2,b) &amp; x = 2
+\end{cases}
+\end{equation}
+$$</p>
+<p>which makes this graph correct.</p>
+<h2 id="colimit">Colimit</h2>
+<p>Colimits are dual of limits, or, limits in the opposite category.</p>
+<p>Colimits are denoted as $\text{lim}_{\rightarrow \mathbf{I}} D$.</p>
+<h3 id="examples">Examples</h3>
+<table><thead><tr><th>Limit</th><th>Colimits</th></tr></thead><tbody>
+<tr><td>Product</td><td>Sum</td></tr>
+<tr><td>Equalizer</td><td>Coequalizer</td></tr>
+<tr><td>Pullback</td><td>Pushout</td></tr>
+</tbody></table>
+<h2 id="monos-limit-epics-colimits">Monos &amp; limit / Epics &amp; colimits</h2>
+<p>Recall we define monomorphism as:</p>
+<p>In any category $C$, an arrow $f: A → B$ is called a monomorphism if for any $g, h: C → A$, $f\cdot g = f\cdot h$ implies $g = h$.</p>
+<!-- https://q.uiver.app/?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0= -->
+<iframe class="quiver-embed" src="https://q.uiver.app/?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0=&embed" width="688" height="176" style="border-radius: 8px; border: none; width: 688px; height: 176px;"></iframe>
+<p>We can find out that saying $f$ is a monomorphism is equivalent with saying:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJBIl0sWzAsMiwiQSJdLFsyLDAsIkEiXSxbMiwyLCJCIl0sWzIsMywiZiJdLFsxLDMsImYiLDJdLFswLDIsIjEiXSxbMCwxLCIxIiwyXV0=&embed" width="432" height="432" style="border-radius: 8px; border: none;"></iframe>
+<p>is a pullback.</p>
+<p>Whenever we prove a result about limits, a result about monics will follow.</p>
+<p>The dual concept of monos is epics, which is corresponding with a pushout colimit.</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025-02-01</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Math">&nbsp;Math</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Category theory Notes • Limits &amp; Colimits&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-5&#x2F;&hashtags=Math,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

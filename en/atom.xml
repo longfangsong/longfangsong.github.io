@@ -5,8 +5,159 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-01-26T16:44:17.545+00:00</updated>
+    <updated>2025-02-01T00:15:24.609+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Category theory Notes • Limits &amp; Colimits</title>
+        <published>2025-02-01T00:15:24.609+00:00</published>
+        <updated>2025-02-01T00:15:24.609+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/category-theory-5/"/>
+        <id>https://longfangsong.github.io/en/category-theory-5/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/category-theory-5/">&lt;h2 id=&quot;diagram&quot;&gt;Diagram&lt;&#x2F;h2&gt;
+&lt;p&gt;Let $\mathscr{A}$ be a category and $\mathbf{I}$ a small category.
+A functor $\mathbf{I} → \mathscr{A}$ is called a diagram in $\mathscr{A}$ of shape $\mathbf{I}$.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;cone&quot;&gt;Cone&lt;&#x2F;h2&gt;
+&lt;p&gt;A cone on diagram $D : \mathbf{I} → \mathscr{A}$ is an object $A ∈ \mathscr{A}$ (the &lt;strong&gt;vertex&lt;&#x2F;strong&gt; of the cone) together with a family:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+(A \stackrel{f_I}{\rightarrow} D(I))_{I\in \mathbf{I}}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;of maps in $\mathscr{A}$ such that for all maps $I \stackrel{u}{→} J$ in $\mathbf{I}$, the triangle&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNSxbMCwxLCJBIixbMCw2MCw2MCwxXV0sWzIsMCwiRChJKSJdLFsyLDIsIkQoSikiXSxbNCwwLCJJIixbMCwwLDUwLDFdXSxbNCwyLCJKIixbMCwwLDUwLDFdXSxbMSwyLCJEKHUpIl0sWzAsMSwiZl9JIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCwyLCJmX0oiLDJdLFszLDQsInUiLDAseyJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXSxbOCw1LCJEIiwyLHsibGFiZWxfcG9zaXRpb24iOjQwLCJzaG9ydGVuIjp7InNvdXJjZSI6MTAsInRhcmdldCI6MzB9LCJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXV0=&amp;embed&quot; width=&quot;696&quot; height=&quot;432&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;commutes.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;limit&quot;&gt;Limit&lt;&#x2F;h2&gt;
+&lt;p&gt;A limit of D is a cone $(L \stackrel{p_I}{→} D(I))_{I∈\mathbf{I}}$ with the property that for any
+cone on D, there exists a unique map $\overline{f} : A → L$ such that $p_I ◦ \overline{f} = f_I$
+for all $I ∈ \mathbf{I} $.&lt;&#x2F;p&gt;
+&lt;p&gt;The maps $p_I$ are called the projections of the limit.&lt;&#x2F;p&gt;
+&lt;p&gt;We denote $(L \stackrel{p_I}{→} D(I))_{I ∈ \mathbf{I}}$ is a limit as $L = \text{lim}_{\leftarrow \mathbf{I}} D$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;example&quot;&gt;Example&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;product&quot;&gt;Product&lt;&#x2F;h4&gt;
+&lt;p&gt;Take $\mathbf{I}$ be a category with only two objects and no non-trivial mophisms,
+and $\mathscr{A}$ be an arbitary category. It&#x27;s obvious that functor
+$D: \mathbf{I} → \mathscr{A}$ is a diagram:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNyxbMCwxLCJBIl0sWzIsMCwiWCJdLFsyLDIsIlkiXSxbNCwwLCJcXGJ1bGxldCIsWzAsMCw1MCwxXV0sWzQsMiwiXFxidWxsZXQiLFswLDAsNTAsMV1dLFs0LDMsIlxcbWF0aGJme0l9Il0sWzEsMywiXFxtYXRoc2Nye0F9Il0sWzAsMSwiZl8xIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMCwyLCJmXzIiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDQsIiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFsxLDIsIiIsMCx7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs5LDEwLCJEIiwyLHsic2hvcnRlbiI6eyJzb3VyY2UiOjIwLCJ0YXJnZXQiOjIwfSwiY29sb3VyIjpbMCwwLDUwXX0sWzAsMCw1MCwxXV1d&amp;embed&quot; width=&quot;688&quot; height=&quot;560&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;And $A$ together with map family $A \stackrel{f_1}{\rightarrow} X$ and $A \stackrel{f_2}{\rightarrow} X$ forms a cone.&lt;&#x2F;p&gt;
+&lt;p&gt;The most universal cone, which is the limit in this shape. Is $X \times Y$:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMiwxLCJYXFx0aW1lcyBZIl0sWzQsMCwiWCJdLFs0LDIsIlkiXSxbMCwxLCJBJyJdLFswLDEsInByb2pfMSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzAsMiwicHJval8yIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwyLCIiLDAseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJub25lIn0sImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMywwLCJcXG92ZXJsaW5le2Z9Il0sWzMsMSwiZl8xPXByb2pfMSDil6YgXFxvdmVybGluZXtmfSIsMCx7ImN1cnZlIjotMn1dLFszLDIsImZfMj1wcm9qXzIg4pemIFxcb3ZlcmxpbmV7Zn0iLDIseyJjdXJ2ZSI6Mn1dXQ==&amp;embed&quot; width=&quot;716&quot; height=&quot;432&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;Take&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\mathscr{A} = \textbf{Set}$&lt;&#x2F;li&gt;
+&lt;li&gt;$X = \{1,2\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$Y = \{a,b\}$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;An example of a non-limit cone:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$A&#x27; = \{1, 2\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_1(x) = x$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_2(x) = \text{if}\ x = 1\ \text{then}\ a\ \text{else}\ b$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;We can see there exists a unique $\overline{f}(x) = (x, \text{if}\ x = 1\ \text{then}\ a\ \text{else}\ b)$ which
+makes this graph correct.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;equalizer&quot;&gt;Equalizer&lt;&#x2F;h4&gt;
+&lt;p&gt;Take $\mathbf{I}$ be a category with only two objects and two parallel mophisms,
+and $\mathscr{A}$ be an arbitary category. It&#x27;s obvious that functor
+$D: \mathbf{I} → \mathscr{A}$ is a diagram:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNyxbMCwxLCJBIl0sWzIsMCwiWCJdLFsyLDIsIlkiXSxbNCwwLCJcXGJ1bGxldCIsWzAsMCw1MCwxXV0sWzQsMiwiXFxidWxsZXQiLFswLDAsNTAsMV1dLFs0LDMsIlxcbWF0aGJme0l9Il0sWzEsMywiXFxtYXRoc2Nye0F9Il0sWzMsNCwiIiwyLHsib2Zmc2V0IjoxLCJjb2xvdXIiOlswLDAsNTBdfV0sWzEsMiwidCIsMCx7Im9mZnNldCI6LTF9XSxbMyw0LCIiLDAseyJvZmZzZXQiOi0xLCJjb2xvdXIiOlswLDAsNTBdfV0sWzEsMiwicyIsMix7Im9mZnNldCI6MX1dLFswLDEsImYiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs3LDgsIkQiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9LCJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXV0=&amp;embed&quot; width=&quot;688&quot; height=&quot;560&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;And $A$ together with map $A \stackrel{f}{\rightarrow} X$ forms a cone.&lt;&#x2F;p&gt;
+&lt;p&gt;The most universal cone, which is the limit in this shape. Is the equalizer:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMiwxLCJFIl0sWzQsMCwiWCJdLFs0LDIsIlkiXSxbMCwxLCJBJyJdLFsxLDIsInQiLDAseyJvZmZzZXQiOi0xfV0sWzEsMiwicyIsMix7Im9mZnNldCI6MX1dLFswLDEsImYiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFszLDAsIlxcb3ZlcmxpbmV7Zn0iLDJdLFszLDEsImbil6ZcXG92ZXJsaW5le2Z9IiwwLHsiY3VydmUiOi0xfV1d&amp;embed&quot; width=&quot;688&quot; height=&quot;432&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;Take&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\mathscr{A} = \textbf{Set}$&lt;&#x2F;li&gt;
+&lt;li&gt;$X = \{1,2,3\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$Y = \{a,b\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$$
+s(x) =
+\begin{equation}
+\begin{cases}
+a &amp;amp; x = 1,3 \\
+b &amp;amp; x = 2
+\end{cases}
+\end{equation}
+$$&lt;&#x2F;li&gt;
+&lt;li&gt;$$
+t(x) = a
+$$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;An example of a non-limit cone:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$A&#x27; = \{1, 2, 3\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$g(x) = (f ◦ \overline{f})(x) = x, x \in \{1,2,3\}$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Note: $E = \{1,3\}$, $f(x) = x, x \in \{1,3\}$&lt;&#x2F;p&gt;
+&lt;p&gt;We can see there exists a unique $\overline{f}(x) = x, x \in \{1,2,3\}$ which makes this graph correct.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;pullback&quot;&gt;Pullback&lt;&#x2F;h4&gt;
+&lt;p&gt;Take $\mathbf{I}$ be a category with three objects and two mophisms,  point from different sources into one same target,
+and $\mathscr{A}$ be an arbitary category. It&#x27;s obvious that functor
+$D: \mathbf{I} → \mathscr{A}$ is a diagram:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsOSxbMiwwLCJZIl0sWzIsMiwiWiJdLFs0LDIsIlxcYnVsbGV0IixbMCwwLDUwLDFdXSxbMSwzLCJcXG1hdGhzY3J7QX0iXSxbNiwwLCJcXGJ1bGxldCIsWzAsMCw1MCwxXV0sWzYsMiwiXFxidWxsZXQiLFswLDAsNTAsMV1dLFs1LDMsIlxcbWF0aGJme0l9Il0sWzAsMiwiWCJdLFswLDAsIkEiXSxbNCw1LCIiLDIseyJjb2xvdXIiOlswLDAsNTBdfV0sWzIsNSwiIiwwLHsiY29sb3VyIjpbMCwwLDUwXX1dLFsyLDQsIiIsMix7InN0eWxlIjp7ImJvZHkiOnsibmFtZSI6Im5vbmUifSwiaGVhZCI6eyJuYW1lIjoibm9uZSJ9fX1dLFs3LDEsInMiLDJdLFswLDEsInQiXSxbOCwwLCJmXzIiLDAseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs4LDcsImZfMSIsMix7ImNvbG91ciI6WzAsNjAsNjBdfSxbMCw2MCw2MCwxXV0sWzExLDEzLCJEIiwyLHsibGFiZWxfcG9zaXRpb24iOjYwLCJzaG9ydGVuIjp7InNvdXJjZSI6NDAsInRhcmdldCI6MjB9LCJjb2xvdXIiOlswLDAsNTBdfSxbMCwwLDUwLDFdXV0=&amp;embed&quot; width=&quot;944&quot; height=&quot;560&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;And $A$ together with map family&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$A \stackrel{f_1}{\rightarrow} X$ and&lt;&#x2F;li&gt;
+&lt;li&gt;$A \stackrel{f_2}{\rightarrow} Y$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;forms a cone.&lt;&#x2F;p&gt;
+&lt;p&gt;The most universal cone, which is the limit in this shape. Is the pullback:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNSxbMywxLCJZIl0sWzMsMywiWiJdLFsxLDMsIlgiXSxbMSwxLCJQIl0sWzAsMCwiQSciXSxbMiwxLCJzIiwyXSxbMCwxLCJ0Il0sWzMsMCwicF8yIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMywyLCJwXzEiLDIseyJjb2xvdXIiOlswLDYwLDYwXX0sWzAsNjAsNjAsMV1dLFs0LDAsImZfMiIsMCx7ImN1cnZlIjotMX1dLFs0LDMsIlxcb3ZlcmxpbmV7Zn0iLDFdLFs0LDIsImZfMSIsMix7ImN1cnZlIjoxfV1d&amp;embed&quot; width=&quot;560&quot; height=&quot;560&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;Take&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\mathscr{A} = \textbf{Set}$&lt;&#x2F;li&gt;
+&lt;li&gt;$X = \{1,2\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$Y = \{a,b\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$Z = \{c, d\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$s(1) = c$, $s(2) = d$&lt;&#x2F;li&gt;
+&lt;li&gt;$t(a) = c$, $t(b) = d$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;An example of a non-limit cone:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$A&#x27; = \{1, 2\}$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_1(1) = 1$, $f_1(2) = 2$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_2(1) = a$, $f_2(2) = b$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Note: $P = \{(x,y) ∈ X × Y |s(x) = t(y)\} = \{(1, a), (2, b)\}$, $p_1((x, y)) = x$, $p_2((x, y)) = y$&lt;&#x2F;p&gt;
+&lt;p&gt;We can see there exists a unique&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\overline{f}(x) =
+\begin{equation}
+\begin{cases}
+(1,a) &amp;amp; x = 1 \\
+(2,b) &amp;amp; x = 2
+\end{cases}
+\end{equation}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;which makes this graph correct.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;colimit&quot;&gt;Colimit&lt;&#x2F;h2&gt;
+&lt;p&gt;Colimits are dual of limits, or, limits in the opposite category.&lt;&#x2F;p&gt;
+&lt;p&gt;Colimits are denoted as $\text{lim}_{\rightarrow \mathbf{I}} D$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;examples&quot;&gt;Examples&lt;&#x2F;h3&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Limit&lt;&#x2F;th&gt;&lt;th&gt;Colimits&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;Product&lt;&#x2F;td&gt;&lt;td&gt;Sum&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Equalizer&lt;&#x2F;td&gt;&lt;td&gt;Coequalizer&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Pullback&lt;&#x2F;td&gt;&lt;td&gt;Pushout&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h2 id=&quot;monos-limit-epics-colimits&quot;&gt;Monos &amp;amp; limit &#x2F; Epics &amp;amp; colimits&lt;&#x2F;h2&gt;
+&lt;p&gt;Recall we define monomorphism as:&lt;&#x2F;p&gt;
+&lt;p&gt;In any category $C$, an arrow $f: A → B$ is called a monomorphism if for any $g, h: C → A$, $f\cdot g = f\cdot h$ implies $g = h$.&lt;&#x2F;p&gt;
+&lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0= --&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0=&amp;embed&quot; width=&quot;688&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;We can find out that saying $f$ is a monomorphism is equivalent with saying:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwwLCJBIl0sWzAsMiwiQSJdLFsyLDAsIkEiXSxbMiwyLCJCIl0sWzIsMywiZiJdLFsxLDMsImYiLDJdLFswLDIsIjEiXSxbMCwxLCIxIiwyXV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;432&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;is a pullback.&lt;&#x2F;p&gt;
+&lt;p&gt;Whenever we prove a result about limits, a result about monics will follow.&lt;&#x2F;p&gt;
+&lt;p&gt;The dual concept of monos is epics, which is corresponding with a pushout colimit.&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Category theory Notes • Natural transformation</title>
         <published>2025-01-26T16:44:17.545+00:00</published>
