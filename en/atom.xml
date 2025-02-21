@@ -5,8 +5,33 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-02-01T00:15:24.609+00:00</updated>
+    <updated>2025-02-18T12:25:34.987+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Category theory Notes • Adjoints</title>
+        <published>2025-02-18T12:25:34.987+00:00</published>
+        <updated>2025-02-18T12:25:34.987+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/category-theory-6/"/>
+        <id>https://longfangsong.github.io/en/category-theory-6/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/category-theory-6/">&lt;p&gt;Given two categories and functors between them:&lt;&#x2F;p&gt;
+&lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwwLCJcXG1hdGhzY3J7QX0iXSxbMiwwLCJcXG1hdGhzY3J7Qn0iXSxbMCwxLCJBIl0sWzIsMSwiQiJdLFswLDEsIkYiLDAseyJvZmZzZXQiOi0xfV0sWzEsMCwiRyIsMCx7Im9mZnNldCI6LTF9XV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;304&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
+&lt;p&gt;We say that $F$ is left adjoint to $G$, and $G$ is right adjoint to $F$, and write $F ⊣ G$, if&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\mathbb{Hom}&lt;em&gt;\mathscr{B}(F(A), B) ≅ \mathbb{Hom}&lt;&#x2F;em&gt;\mathscr{A}(A, G(B))
+$$&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Category theory Notes • Limits &amp; Colimits</title>
         <published>2025-02-01T00:15:24.609+00:00</published>
@@ -2630,10 +2655,12 @@ is injective.&lt;&#x2F;p&gt;
 &lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0= --&gt;
 &lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJDIl0sWzIsMCwiQSJdLFs0LDAsIkIiXSxbMCwxLCJnIiwwLHsib2Zmc2V0IjotMX1dLFswLDEsImgiLDIseyJvZmZzZXQiOjF9XSxbMSwyLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXV0=&amp;embed&quot; width=&quot;688&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px;&quot;&gt;&lt;&#x2F;iframe&gt;
 &lt;p&gt;We usually write $f: A ↣ B$ if $f$ is a monomorphism.&lt;&#x2F;p&gt;
+&lt;p&gt;It is a generalization of injective function.&lt;&#x2F;p&gt;
 &lt;p&gt;Similarly, an arrow $f: A → B$ is called an epimorphism (or $f$ is monic) if for any $g, h: B → D$, $g \cdot f = h \cdot f$ implies $g = h$.&lt;&#x2F;p&gt;
 &lt;!-- https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFs0LDAsIkQiXSxbMCwxLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwyLCJnIiwwLHsib2Zmc2V0IjotMX1dLFsxLDIsImgiLDIseyJvZmZzZXQiOjF9XV0= --&gt;
 &lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;?q=WzAsMyxbMCwwLCJBIl0sWzIsMCwiQiJdLFs0LDAsIkQiXSxbMCwxLCJmIiwwLHsiY29sb3VyIjpbMCw2MCw2MF19LFswLDYwLDYwLDFdXSxbMSwyLCJnIiwwLHsib2Zmc2V0IjotMX1dLFsxLDIsImgiLDIseyJvZmZzZXQiOjF9XV0=&amp;embed&quot; width=&quot;688&quot; height=&quot;176&quot; style=&quot;border-radius: 8px; border: none; width: 688px; height: 176px;&quot;&gt;&lt;&#x2F;iframe&gt;
 &lt;p&gt;We usually write $f: A ↠ B$ if $f$ is an epimorphism.&lt;&#x2F;p&gt;
+&lt;p&gt;It is a generalization of surjective function.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;initial-and-terminal-objects&quot;&gt;Initial and terminal objects&lt;&#x2F;h2&gt;
 &lt;p&gt;In any category $C$, an object 0&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; is initial if for any object A there is a unique morphism&lt;&#x2F;p&gt;
 &lt;p&gt;$$
@@ -2815,14 +2842,14 @@ By using a control-flow graph, we can express this as:&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
     id0(Entry)
-    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n store a, 1]
-    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;\n %a0 = load a\n store a, %t0]
-    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n%a1 = load a\n store a, %t1]
-    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
-    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n%a2 = load a\n store a, 2]
-    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n%a3 = load a\n store a, 3]
-    id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;\n%a4 = load a]
-    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;\n%a5 = load a]
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt; store a, 1]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt; %a0 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, %t0]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a1 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, %t1]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a2 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, 2]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a3 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, 3]
+    id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a4 = load a]
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a5 = load a]
     id9(End)
     id0 --&amp;gt; id1
     id1 --&amp;gt; id2
@@ -2843,7 +2870,7 @@ flowchart TD
 &lt;p&gt;So we insert &lt;code&gt;phi&lt;&#x2F;code&gt; nodes in &lt;code&gt;bb2&lt;&#x2F;code&gt; and &lt;code&gt;bb8&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
-    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a\n store a, %t0]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, %t0]
     id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a5 = load a]
 &lt;&#x2F;div&gt;
 &lt;p&gt;Note we neither fill the source value for &lt;code&gt;phi&lt;&#x2F;code&gt; nodes nor remove the &lt;code&gt;load&lt;&#x2F;code&gt; and &lt;code&gt;store&lt;&#x2F;code&gt; statements here, we&#x27;ll talk about these operations later.&lt;&#x2F;p&gt;
@@ -2863,12 +2890,12 @@ flowchart TD
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
     id0(Entry)
-    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n store a, 1]
-    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a\n store a, %t0]
-    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n%a1 = load a\n store a, %t1]
-    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
-    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n%a2 = load a\n store a, 2]
-    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n%a3 = load a\n store a, 3]
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt; store a, 1]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, %t0]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a1 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, %t1]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a2 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, 2]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a3 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, 3]
     id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb7 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a4 = load a]
     id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a5 = load a]
     id9(End)
@@ -2960,14 +2987,14 @@ flowchart TD
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
     id0(Entry)
-    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n store a, 1]
-    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a\n %t0 = add %a0, 1 \n store a, %t0]
-    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n%a1 = load a\n %t1 = add %a1, %a1 \n store a, %t1]
-    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
-    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n%a2 = load a\n store a, 2]
-    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n%a3 = load a\n store a, 3]
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt; store a, 1]
+    id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi ...&amp;lt;&amp;#x2F;p&amp;gt; %a0 = load a&amp;lt;br &amp;#x2F;&amp;gt; %t0 = add %a0, 1 &amp;lt;br &amp;#x2F;&amp;gt; store a, %t0]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a1 = load a&amp;lt;br &amp;#x2F;&amp;gt; %t1 = add %a1, %a1 &amp;lt;br &amp;#x2F;&amp;gt; store a, %t1]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a2 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, 2]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;%a3 = load a&amp;lt;br &amp;#x2F;&amp;gt; store a, 3]
     id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb7 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a4 = load a]
-    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a5 = load a\n ret %a5]
+    id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi ...&amp;lt;&amp;#x2F;p&amp;gt;%a5 = load a&amp;lt;br &amp;#x2F;&amp;gt; ret %a5]
     id9(End)
     id0 --&amp;gt; id1
     id1 --&amp;gt; id2
@@ -2986,7 +3013,7 @@ flowchart TD
 &lt;p&gt;When visiting &lt;code&gt;bb1&lt;&#x2F;code&gt;, we meet up with a &lt;code&gt;store&lt;&#x2F;code&gt; that set &lt;code&gt;a&lt;&#x2F;code&gt; to &lt;code&gt;1&lt;&#x2F;code&gt;, so after visiting &lt;code&gt;bb1&lt;&#x2F;code&gt;, the value stack of &lt;code&gt;a&lt;&#x2F;code&gt; is &lt;code&gt;[(bb1, 1)]&lt;&#x2F;code&gt;. And the &lt;code&gt;store&lt;&#x2F;code&gt; statement is removed.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
-    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;...]
 &lt;&#x2F;div&gt;
 &lt;p&gt;&lt;code&gt;bb1&lt;&#x2F;code&gt; ends with a &lt;code&gt;Branch&lt;&#x2F;code&gt; (didn&#x27;t show on the graph, but you can tell that because the node has two outgoing edges).&lt;&#x2F;p&gt;
 &lt;p&gt;First, we visit &lt;code&gt;bb2&lt;&#x2F;code&gt;, and we&#x27;ll come back to &lt;code&gt;bb4&lt;&#x2F;code&gt; later.&lt;&#x2F;p&gt;
@@ -3002,7 +3029,7 @@ flowchart TD
 &lt;p&gt;Then we go to &lt;code&gt;bb3&lt;&#x2F;code&gt;, similar to &lt;code&gt;bb2&lt;&#x2F;code&gt;, we can replace &lt;code&gt;%a1&lt;&#x2F;code&gt; with &lt;code&gt;%t0&lt;&#x2F;code&gt;, and update the value stack to &lt;code&gt;[(bb1, 1), (bb2, %t0), (bb3, %t1)]&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
-    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %t0, %t0]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt; %t1 = add %t0, %t0]
 &lt;&#x2F;div&gt;
 &lt;p&gt;And then we are led back to &lt;code&gt;bb2&lt;&#x2F;code&gt;, since &lt;code&gt;bb2&lt;&#x2F;code&gt; is already visited, we just need to update &lt;code&gt;phi&lt;&#x2F;code&gt;&#x27;s from with the current value of &lt;code&gt;a&lt;&#x2F;code&gt; now.&lt;&#x2F;p&gt;
 &lt;div class=&quot;mermaid&quot;&gt;
@@ -3020,12 +3047,12 @@ flowchart TD
 &lt;div class=&quot;mermaid&quot;&gt;
 flowchart TD
     id0(Entry)
-    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;\n ...]
+    id1[&amp;lt;span&amp;gt;bb1&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt; ...]
     id2[&amp;lt;span&amp;gt;bb2&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb2 = phi bb1.1, bb3.%t1 &amp;lt;&amp;#x2F;p&amp;gt; %t0 = add 1, 1]
-    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;\n %t1 = add %t0, %t0]
-    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;\n...]
-    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;\n...]
-    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;\n...]
+    id3[&amp;lt;span&amp;gt;bb3&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt; %t1 = add %t0, %t0]
+    id4[&amp;lt;span&amp;gt;bb4&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;...]
+    id5[&amp;lt;span&amp;gt;bb5&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;...]
+    id6[&amp;lt;span&amp;gt;bb6&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;br &amp;#x2F;&amp;gt;...]
     id7[&amp;lt;span&amp;gt;bb7&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb7 = phi bb5.2, bb6.3&amp;lt;&amp;#x2F;p&amp;gt;]
     id8[&amp;lt;span&amp;gt;bb8&amp;lt;&amp;#x2F;span&amp;gt;&amp;lt;p&amp;gt;%a_bb8 = phi bb3.%t1, bb7.%a_bb7&amp;lt;&amp;#x2F;p&amp;gt;ret %a_bb8]
     id9(End)
@@ -3061,19 +3088,25 @@ flowchart TD
 &lt;p&gt;Here we have a good example of why mem2reg is important: obviously, &lt;code&gt;t0&lt;&#x2F;code&gt; can be replaced with constant value &lt;code&gt;2&lt;&#x2F;code&gt;, which is hard to be discovered before mem2reg.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;
 &lt;style&gt;
-.nodeLabel &gt; span {
+.nodeLabel {
+    font-family: monospace;
+}
+
+.nodeLabel span {
     color: white !important;
     font-size: 10px;
     background: #666;
     padding: 4px;
     border-radius: 8px;
 }
+
 .nodeLabel &gt; p {
     color: red;
     margin: 0;
     font-size: 16px;
 }
-&lt;&#x2F;style&gt;</content>
+&lt;&#x2F;style&gt;
+</content>
         
     </entry>
     <entry xml:lang="en">

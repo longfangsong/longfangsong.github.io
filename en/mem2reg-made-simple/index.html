@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
             
           </div>
         </div>
@@ -223,14 +223,14 @@ By using a control-flow graph, we can express this as:</p>
 <div class="mermaid">
 flowchart TD
     id0(Entry)
-    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n store a, 1]
-    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;\n %a0 = load a\n store a, %t0]
-    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n%a1 = load a\n store a, %t1]
-    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
-    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n%a2 = load a\n store a, 2]
-    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n%a3 = load a\n store a, 3]
-    id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;\n%a4 = load a]
-    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;\n%a5 = load a]
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;&lt;br &#x2F;&gt; store a, 1]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;br &#x2F;&gt; %a0 = load a&lt;br &#x2F;&gt; store a, %t0]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a1 = load a&lt;br &#x2F;&gt; store a, %t1]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a2 = load a&lt;br &#x2F;&gt; store a, 2]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a3 = load a&lt;br &#x2F;&gt; store a, 3]
+    id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a4 = load a]
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a5 = load a]
     id9(End)
     id0 --&gt; id1
     id1 --&gt; id2
@@ -251,7 +251,7 @@ flowchart TD
 <p>So we insert <code>phi</code> nodes in <code>bb2</code> and <code>bb8</code>:</p>
 <div class="mermaid">
 flowchart TD
-    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a\n store a, %t0]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a&lt;br &#x2F;&gt; store a, %t0]
     id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi ...&lt;&#x2F;p&gt; %a5 = load a]
 </div>
 <p>Note we neither fill the source value for <code>phi</code> nodes nor remove the <code>load</code> and <code>store</code> statements here, we'll talk about these operations later.</p>
@@ -271,12 +271,12 @@ flowchart TD
 <div class="mermaid">
 flowchart TD
     id0(Entry)
-    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n store a, 1]
-    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a\n store a, %t0]
-    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n%a1 = load a\n store a, %t1]
-    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
-    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n%a2 = load a\n store a, 2]
-    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n%a3 = load a\n store a, 3]
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;&lt;br &#x2F;&gt; store a, 1]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a&lt;br &#x2F;&gt; store a, %t0]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a1 = load a&lt;br &#x2F;&gt; store a, %t1]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a2 = load a&lt;br &#x2F;&gt; store a, 2]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a3 = load a&lt;br &#x2F;&gt; store a, 3]
     id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;p&gt;%a_bb7 = phi ...&lt;&#x2F;p&gt;%a4 = load a]
     id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi ...&lt;&#x2F;p&gt; %a5 = load a]
     id9(End)
@@ -368,14 +368,14 @@ flowchart TD
 <div class="mermaid">
 flowchart TD
     id0(Entry)
-    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n store a, 1]
-    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a\n %t0 = add %a0, 1 \n store a, %t0]
-    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n%a1 = load a\n %t1 = add %a1, %a1 \n store a, %t1]
-    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
-    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n%a2 = load a\n store a, 2]
-    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n%a3 = load a\n store a, 3]
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;&lt;br &#x2F;&gt; store a, 1]
+    id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi ...&lt;&#x2F;p&gt; %a0 = load a&lt;br &#x2F;&gt; %t0 = add %a0, 1 &lt;br &#x2F;&gt; store a, %t0]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a1 = load a&lt;br &#x2F;&gt; %t1 = add %a1, %a1 &lt;br &#x2F;&gt; store a, %t1]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a2 = load a&lt;br &#x2F;&gt; store a, 2]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;%a3 = load a&lt;br &#x2F;&gt; store a, 3]
     id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;p&gt;%a_bb7 = phi ...&lt;&#x2F;p&gt;%a4 = load a]
-    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi ...&lt;&#x2F;p&gt;%a5 = load a\n ret %a5]
+    id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi ...&lt;&#x2F;p&gt;%a5 = load a&lt;br &#x2F;&gt; ret %a5]
     id9(End)
     id0 --&gt; id1
     id1 --&gt; id2
@@ -394,7 +394,7 @@ flowchart TD
 <p>When visiting <code>bb1</code>, we meet up with a <code>store</code> that set <code>a</code> to <code>1</code>, so after visiting <code>bb1</code>, the value stack of <code>a</code> is <code>[(bb1, 1)]</code>. And the <code>store</code> statement is removed.</p>
 <div class="mermaid">
 flowchart TD
-    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n...]
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;...]
 </div>
 <p><code>bb1</code> ends with a <code>Branch</code> (didn't show on the graph, but you can tell that because the node has two outgoing edges).</p>
 <p>First, we visit <code>bb2</code>, and we'll come back to <code>bb4</code> later.</p>
@@ -410,7 +410,7 @@ flowchart TD
 <p>Then we go to <code>bb3</code>, similar to <code>bb2</code>, we can replace <code>%a1</code> with <code>%t0</code>, and update the value stack to <code>[(bb1, 1), (bb2, %t0), (bb3, %t1)]</code>.</p>
 <div class="mermaid">
 flowchart TD
-    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %t0, %t0]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;&lt;br &#x2F;&gt; %t1 = add %t0, %t0]
 </div>
 <p>And then we are led back to <code>bb2</code>, since <code>bb2</code> is already visited, we just need to update <code>phi</code>'s from with the current value of <code>a</code> now.</p>
 <div class="mermaid">
@@ -428,12 +428,12 @@ flowchart TD
 <div class="mermaid">
 flowchart TD
     id0(Entry)
-    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;\n ...]
+    id1[&lt;span&gt;bb1&lt;&#x2F;span&gt;&lt;br &#x2F;&gt; ...]
     id2[&lt;span&gt;bb2&lt;&#x2F;span&gt;&lt;p&gt;%a_bb2 = phi bb1.1, bb3.%t1 &lt;&#x2F;p&gt; %t0 = add 1, 1]
-    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;\n %t1 = add %t0, %t0]
-    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;\n...]
-    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;\n...]
-    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;\n...]
+    id3[&lt;span&gt;bb3&lt;&#x2F;span&gt;&lt;br &#x2F;&gt; %t1 = add %t0, %t0]
+    id4[&lt;span&gt;bb4&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;...]
+    id5[&lt;span&gt;bb5&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;...]
+    id6[&lt;span&gt;bb6&lt;&#x2F;span&gt;&lt;br &#x2F;&gt;...]
     id7[&lt;span&gt;bb7&lt;&#x2F;span&gt;&lt;p&gt;%a_bb7 = phi bb5.2, bb6.3&lt;&#x2F;p&gt;]
     id8[&lt;span&gt;bb8&lt;&#x2F;span&gt;&lt;p&gt;%a_bb8 = phi bb3.%t1, bb7.%a_bb7&lt;&#x2F;p&gt;ret %a_bb8]
     id9(End)
@@ -469,19 +469,25 @@ flowchart TD
 <p>Here we have a good example of why mem2reg is important: obviously, <code>t0</code> can be replaced with constant value <code>2</code>, which is hard to be discovered before mem2reg.</p>
 </div>
 <style>
-.nodeLabel > span {
+.nodeLabel {
+    font-family: monospace;
+}
+
+.nodeLabel span {
     color: white !important;
     font-size: 10px;
     background: #666;
     padding: 4px;
     border-radius: 8px;
 }
+
 .nodeLabel > p {
     color: red;
     margin: 0;
     font-size: 16px;
 }
-</style></div>
+</style>
+</div>
   <div class="post-footer">
     <div class="meta">
       <div class="info">

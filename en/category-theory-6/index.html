@@ -12,7 +12,7 @@
   <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
   <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
-  <title>Blog</title>
+  <title>Blog • Category theory Notes • Adjoints</title>
   
   
   <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
@@ -79,7 +79,7 @@
         
         
         <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
-        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a class="current"  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
             href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
       <div class="information">
         <div class="back_btn">
@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -110,43 +110,74 @@
     <div class="autopagerize_page_element">
       <div class="content">
         
-<div class="archive animated fadeInDown">
-    <ul class="list-with-title">
-        <div class="archive">
-        <div class="listing-title">Automata</div>
-        <ul class="listing">
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-3&#x2F;" title="Automata Theory • Pushdown Automata">Automata Theory • Pushdown Automata</a>
-                    <div class="post-time">
-                        <span class="date">2024-01-07</span>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-2&#x2F;" title="Automata Theory • Finite State Machines">Automata Theory • Finite State Machines</a>
-                    <div class="post-time">
-                        <span class="date">2021-07-22</span>
-                    </div>
-                </div>
-            </div>
-        
-            <div class="listing-item">
-                <div class="listing-post">
-                    <a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;automata-4&#x2F;" title="Automata Theory • Büchi Automata">Automata Theory • Büchi Automata</a>
-                    <div class="post-time">
-                        <span class="date">2024-10-26</span>
-                    </div>
-                </div>
-            </div>
-        
-        </ul>
-        </div>
-    </ul>
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-6&#x2F;">Category theory Notes • Adjoints</a></h1>
+  
+  <div class="post-content"><p>Given two categories and functors between them:</p>
+<iframe class="quiver-embed" src="https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXG1hdGhzY3J7QX0iXSxbMiwwLCJcXG1hdGhzY3J7Qn0iXSxbMCwxLCJBIl0sWzIsMSwiQiJdLFswLDEsIkYiLDAseyJvZmZzZXQiOi0xfV0sWzEsMCwiRyIsMCx7Im9mZnNldCI6LTF9XV0=&embed" width="432" height="304" style="border-radius: 8px; border: none;"></iframe>
+<p>We say that $F$ is left adjoint to $G$, and $G$ is right adjoint to $F$, and write $F ⊣ G$, if</p>
+<p>$$
+\mathbb{Hom}<em>\mathscr{B}(F(A), B) ≅ \mathbb{Hom}</em>\mathscr{A}(A, G(B))
+$$</p>
 </div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025-02-18</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Math">&nbsp;Math</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Notes">&nbsp;Notes</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Category theory Notes • Adjoints&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;category-theory-6&#x2F;&hashtags=Math,Notes"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
 
       </div>
     </div>
