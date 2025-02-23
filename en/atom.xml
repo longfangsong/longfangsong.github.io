@@ -27,7 +27,7 @@
 &lt;iframe class=&quot;quiver-embed&quot; src=&quot;https:&#x2F;&#x2F;q.uiver.app&#x2F;#q=WzAsNCxbMCwwLCJcXG1hdGhzY3J7QX0iXSxbMiwwLCJcXG1hdGhzY3J7Qn0iXSxbMCwxLCJBIl0sWzIsMSwiQiJdLFswLDEsIkYiLDAseyJvZmZzZXQiOi0xfV0sWzEsMCwiRyIsMCx7Im9mZnNldCI6LTF9XV0=&amp;embed&quot; width=&quot;432&quot; height=&quot;304&quot; style=&quot;border-radius: 8px; border: none;&quot;&gt;&lt;&#x2F;iframe&gt;
 &lt;p&gt;We say that $F$ is left adjoint to $G$, and $G$ is right adjoint to $F$, and write $F ⊣ G$, if&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-\mathbb{Hom}&lt;em&gt;\mathscr{B}(F(A), B) ≅ \mathbb{Hom}&lt;&#x2F;em&gt;\mathscr{A}(A, G(B))
+Hom_{\mathscr{B}}(F(A), B) ≅ Hom_\mathscr{A}(A, G(B))
 $$&lt;&#x2F;p&gt;
 </content>
         
