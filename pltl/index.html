@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
             
           </div>
         </div>
@@ -200,6 +200,57 @@ $$</p>
 (\phi\ op\ \psi \langle C \rangle)_S &amp; \quad (\text{otherwise})
 \end{cases}
 $$</p>
+<h2 id="ji-zhu-yi-jing-zhi-dao-de-xin-xi">“记住”已经知道的信息</h2>
+<h3 id="local-after-function">local after-function</h3>
+<p>观察到，对于读到的每个字母，我们可以把一个 pLTL 公式分为两个部分：</p>
+<ul>
+<li>一部分的值可以立刻被确定（为 $⊤$ 或 $⊥$），比如原子公式或原子公式的否定。</li>
+<li>一部分的值未来才能确定，比如 $X \phi$ 就完全取决于下一个字母的情况。
+对于这一部分，我们“向当前公式中编入目前可以得到的信息”，决定下一个时间点下需要检查的 pLTL 公式<sup class="footnote-reference"><a href="#1">1</a></sup></li>
+</ul>
+<p>例如，假如我们有 pLTL $X(p S Xq)$，同时 “猜测”[^2] 前提条件成立的 过去子公式集合 是 $C = {p S Xq}$ ，我们知道</p>
+<ul>
+<li>这个公式的值完全需要在未来被确定。</li>
+<li>若猜测成立，且未来（下一状态）若能满足 p S Xq，则这个公式也可以满足。
+<ul>
+<li>此时可以将其弱化为 p ~S Xq。</li>
+</ul>
+</li>
+<li>要验证猜测成立，需要检查 p S Xq 的 weakening condition 的值是否成立。</li>
+</ul>
+<p>针对这一情形，我们定义 pLTL 的 local after-function:</p>
+<p><img src="https://longfangsong.github.io/pltl/./afl.png" alt="afl" /></p>
+<p>$x = af_\mathscr{l}(φ,σ,C)$ 的意义是，当 “猜测” 前提条件成立的 过去子公式集合 是 C，
+看到字符 $σ$ 之后，t 时刻 $φ$ 成立等价于 t + 1 时刻 $x$ 成立。</p>
+<h4 id="after-function">after-function</h4>
+<p>由于我们事先并不知道每个 过去子公式 的 前提条件 是否成立，我们每次只好检查所有可能的 过去子公式集合，即所有 过去子公式集合 的幂集。</p>
+<p>即:</p>
+<p>$$
+\text{af}(φ,σ) = \bigvee_{C ∈ 2^{\text{psf}(φ)}} \text{af}_\mathscr{l}(φ,σ,C)
+$$</p>
+<h2 id="guarantee-automata">guarantee automata</h2>
+<p>For checking good things eventually happens.</p>
+<p>Or, will reach a ⊤ state sooner or later.</p>
+<p>transition:
+state == ⊤ =&gt; restart
+state != ⊤ =&gt; rewrite it with af</p>
+<h2 id="safety-automata">safety automata</h2>
+<p>For checking bad things never happens.</p>
+<p>Or, will reach a ⊥ state only finite times.</p>
+<p>transition:
+state == ⊥ =&gt; safe 的假设被推翻，restart
+state != ⊥ =&gt; rewrite it with af</p>
+<h2 id="stable-automata">stable automata</h2>
+<p>For find out whether we are in a stable state.</p>
+<p>Or, will reach a &lt; -, ⊥ &gt; state only finite times.</p>
+<p>state == &lt; -, ⊥&gt; =&gt; 稳定的假设被推翻，重启
+state != ⊥ =&gt; rewrite it（both parts）with af</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>比如 t 时刻 的公式为 f，我们需要得到 公式 g，使得 若 g 在 t + 1 时刻成立，则 f 在 t 时刻也成立。</p>
+</div>
+<hr />
+<p>afl/puℓ(φ,σ,C): if anyone in C is not in psf(φ), it's not related at all
+all results' psf is in psf(φ),may rewrittern by C</p>
 </div>
   <div class="post-footer">
     <div class="meta">
