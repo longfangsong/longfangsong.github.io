@@ -5,8 +5,212 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-02-18T12:25:34.987+00:00</updated>
+    <updated>2025-04-30T23:43:05.909+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Program Synthesis Based on GR(1) Games</title>
+        <published>2025-04-30T23:43:05.909+00:00</published>
+        <updated>2025-04-30T23:43:05.909+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/synthesis-generalized-reactivity-1-games/"/>
+        <id>https://longfangsong.github.io/en/synthesis-generalized-reactivity-1-games/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/synthesis-generalized-reactivity-1-games/">&lt;h1 id=&quot;problem-definition&quot;&gt;Problem Definition&lt;&#x2F;h1&gt;
+&lt;p&gt;For a two-player game scenario consisting of an environment (which can be viewed as the uncontrollable part of the entire scene) and a system (generally the program you want to generate), we abstract it as an 8-tuple:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$\mathcal{X}$: Set of variables controlled by the environment&lt;&#x2F;li&gt;
+&lt;li&gt;$\mathcal{Y}$: Set of variables controlled by the system&lt;&#x2F;li&gt;
+&lt;li&gt;$\mathcal{V} = \mathcal{X} \cup \mathcal{Y}$&lt;&#x2F;li&gt;
+&lt;li&gt;$\theta_e$: Initial assertion about the environment, composed of variables in $\mathcal{X}$&lt;&#x2F;li&gt;
+&lt;li&gt;$\theta_s$: Initial assertion about the system, composed of variables in $\mathcal{Y}$&lt;&#x2F;li&gt;
+&lt;li&gt;$\rho_e: (\Sigma_V, \Sigma_X) \rightarrow \text{bool}$: Assertion function for selecting the next action of the environment,
+where the first parameter inputs the current values of all (environment and system) variables,
+the second parameter inputs the possible actions of the environment,
+if $\rho_e(s, x) = \text{true}$, it means that when all current variables have value $s$, the environment can take action $x$&lt;&#x2F;li&gt;
+&lt;li&gt;$\rho_s: (\Sigma_V, \Sigma_X, \Sigma_Y) \rightarrow \text{bool}$: Assertion function for selecting the next action of the system,
+where the first parameter inputs the current values of all (environment and system) variables,
+the second parameter inputs the action taken by the environment at this time,
+the third parameter inputs the possible actions of the system,
+if $\rho_s(s, x, y) = \text{true}$, it means that when all current variables have value $s$ and the environment takes action $x$, the system can take action $y$&lt;&#x2F;li&gt;
+&lt;li&gt;$\varphi$: An LTL formula defining the winning condition (for the system)&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;The goal of the algorithm is to find a function $f: (M, \Sigma_V, \Sigma_X) \rightarrow (M, \Sigma_X)$,
+such that:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;If $\rho_e(s,s_X) = \text{true}$​, then $\rho_s(s,s_X,\text{snd}(f(m,s,s_X))) = \text{true}$,&lt;&#x2F;li&gt;
+&lt;li&gt;Starting from some state $s$, all matches (state sequences) that conform to $f$ are system victories ($(s_0, s_1, \cdots) \models \varphi$).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Here, $M$ is a memory space containing the initial value $m_0$.&lt;&#x2F;p&gt;
+&lt;p&gt;This paper solves the Generalized Reactivity(1) game, where $\varphi$ takes the form:
+$$
+\varphi = \bigwedge_{i=1}^{m} \mathbf{G}(\mathbf{F}(J_i^e)) \rightarrow \bigwedge_{j=1}^{n} \mathbf{G}(\mathbf{F}(J_j^s))
+$$
+where $J_i^e$ and $J_j^s$ are boolean functions representing the liveness conditions that the environment and system must guarantee&#x2F;achieve, respectively.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;algorithm&quot;&gt;Algorithm&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;required-concepts&quot;&gt;Required Concepts&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;m-calculus&quot;&gt;μ-calculus&lt;&#x2F;h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In theoretical computer science, the modal μ-calculus (Lμ, sometimes just μ-calculus, although this can have a more general meaning) is an extension of propositional modal logic (with many modalities) by adding the least fixed point operator μ and the greatest fixed point operator ν, thus a fixed-point logic. - &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Modal_%CE%BC-calculus&quot;&gt;Modal μ-calculus, Wikipedia&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Basically, it just adds fixed-point operators $\mu$ and $\nu$ and extended operators $[-]$ and $\langle - \rangle$ to first-order propositional logic.&lt;&#x2F;p&gt;
+&lt;p&gt;The syntax is as follows:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\varphi ::= v \mid \neg \varphi \mid X \mid \varphi \vee \varphi \mid \varphi \wedge \varphi \mid [\varphi] \mid \langle \varphi \rangle \mid \mu X \varphi \mid \nu X \varphi
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;A formula $\phi$ is interpreted as the set of states $Σ$ in $G$ where $\phi$ holds, denoted as $[[\phi]]_G^E$, where $G$ is the game structure, and $E: \text{Map}\langle\text{Var}, 2 ^ Σ\rangle$ maps each relation variable&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to a set of states.&lt;&#x2F;p&gt;
+&lt;p&gt;The (denotational) semantics of the new introduced operators are as follows:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$[[X]]_G^E = E[X]$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$[[ [\varphi] ]]_G^E$ represents the set of states where the system can force $[[\varphi]]_G^E$ to hold.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$[[ \langle \varphi \rangle ]]_G^E$ represents the set of states where the environment can force $[[\varphi]]_G^E$ to hold.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$ [[ \mu X \varphi ]]_G^E $ represents the set of states that can make $\varphi$ hold in finite steps&lt;&#x2F;p&gt;
+&lt;p&gt;$[[ \mu X \varphi ]]_G^E = \bigcup_{i} S_i $ where $S_0 = \emptyset$ and $S_{i+1} = [[ \varphi ]]_G^{E[X \leftarrow S_i]}$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$ [[ \nu X \varphi ]]_G^E $ represents the set of states that can make $\varphi$ hold continuously from now on.&lt;&#x2F;p&gt;
+&lt;p&gt;$[[ \nu X \varphi ]]_G^E = \bigcap_{i} S_i $ where $S_0 = \Sigma$ and $S_{i+1} = [[ \varphi ]]_G^{E[X \leftarrow S_i]}$&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h3 id=&quot;formula-to-solve&quot;&gt;Formula to Solve&lt;&#x2F;h3&gt;
+&lt;p&gt;The final formula to solve is:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\varphi_{gr} = \nu
+\begin{bmatrix}
+Z_1 \\
+Z_2 \\
+\vdots \\
+Z_n
+\end{bmatrix}
+\begin{bmatrix}
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_1^s \wedge [Z_2]) \vee [Y] \vee (\neg J_i^e \wedge [X]))) \\
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_2^s \wedge [Z_3]) \vee [Y] \vee (\neg J_i^e \wedge [X]))) \\
+\vdots \\
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_n^s \wedge [Z_1]) \vee [Y] \vee (\neg J_i^e \wedge [X])))
+\end{bmatrix}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;The outermost $\nu Z$ and internal $Z_{i+1 \text{mod} n}$ indicate that if the system satisfies the current $J_i$, it can move on to try to satisfy the next $J_{i+1}$.&lt;&#x2F;p&gt;
+&lt;p&gt;The middle $\mu Y$ ensures that the subsequent $\bigvee_{i=1}^{m} \nu X ((J_1^s \wedge [Z_2]) \vee [Y] \vee (\neg J_i^e \wedge [X]))$ part will terminate in finite steps.&lt;&#x2F;p&gt;
+&lt;p&gt;The innermost $\nu X$ and internal $\neg J_i^e \wedge [X]$ indicate that if the environment does not satisfy some $J^e$, the system does not need to push forward.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;solution&quot;&gt;Solution&lt;&#x2F;h3&gt;
+&lt;p&gt;The paper provides code for solving out X, Y, and Z using BDD:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span&gt;BDD &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;calculate_win&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    BDD Z = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;TRUE&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;    
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Outer νZ fixpoint iteration
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(Fix &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fZ &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Fix&lt;&#x2F;span&gt;&lt;span&gt;(); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fZ&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;advance&lt;&#x2F;span&gt;&lt;span&gt;(Z);) { 
+&lt;&#x2F;span&gt;&lt;span&gt;        mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;clear&lt;&#x2F;span&gt;&lt;span&gt;();
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; for each system goal (J^s_j)
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; j = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;; j &amp;lt;= sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;(); j++) {
+&lt;&#x2F;span&gt;&lt;span&gt;            BDD Y = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;FALSE&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Middle μY fixpoint iteration
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(Fix &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fY &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Fix&lt;&#x2F;span&gt;&lt;span&gt;(); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fY&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;advance&lt;&#x2F;span&gt;&lt;span&gt;(Y);) { 
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Construct starting set: either already satisfy J^s_j and enter next phase Z_{j⊕1}, or already in Y
+&lt;&#x2F;span&gt;&lt;span&gt;                BDD start = sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Ji&lt;&#x2F;span&gt;&lt;span&gt;(j).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cox&lt;&#x2F;span&gt;&lt;span&gt;(Z)).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;or&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cox&lt;&#x2F;span&gt;&lt;span&gt;(Y));
+&lt;&#x2F;span&gt;&lt;span&gt;                Y = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;FALSE&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; i = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;; i &amp;lt;= env.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;(); i++) { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Iterate through each environment assumption J^e_i
+&lt;&#x2F;span&gt;&lt;span&gt;                    BDD X = Z;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Innermost νX fixpoint iteration
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(Fix &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fX &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Fix&lt;&#x2F;span&gt;&lt;span&gt;(); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fX&lt;&#x2F;span&gt;&lt;span&gt;.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;advance&lt;&#x2F;span&gt;&lt;span&gt;(X);) { 
+&lt;&#x2F;span&gt;&lt;span&gt;                        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; If environment does not satisfy J^e_i, system can &amp;quot;stay in X&amp;quot;; otherwise must advance through start
+&lt;&#x2F;span&gt;&lt;span&gt;                        X = start.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;or&lt;&#x2F;span&gt;&lt;span&gt;(env.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Ji&lt;&#x2F;span&gt;&lt;span&gt;(i).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;not&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;cox&lt;&#x2F;span&gt;&lt;span&gt;(X)));
+&lt;&#x2F;span&gt;&lt;span&gt;                    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Store X set for j-th goal and i-th assumption
+&lt;&#x2F;span&gt;&lt;span&gt;                    mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;addX&lt;&#x2F;span&gt;&lt;span&gt;(j, i, X);
+&lt;&#x2F;span&gt;&lt;span&gt;                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Add all X to Y to build μY
+&lt;&#x2F;span&gt;&lt;span&gt;                    Y = Y.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;or&lt;&#x2F;span&gt;&lt;span&gt;(X);
+&lt;&#x2F;span&gt;&lt;span&gt;                }
+&lt;&#x2F;span&gt;&lt;span&gt;                &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Store Y (representing set of states where goal j can be achieved in finite steps)
+&lt;&#x2F;span&gt;&lt;span&gt;                mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;addY&lt;&#x2F;span&gt;&lt;span&gt;(j, Y); 
+&lt;&#x2F;span&gt;&lt;span&gt;            }
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Use latest Y as input for next outer Z iteration (advance νZ)
+&lt;&#x2F;span&gt;&lt;span&gt;            Z = Y; 
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return&lt;&#x2F;span&gt;&lt;span&gt; Z;
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Where &lt;code&gt;cox(x)&lt;&#x2F;code&gt; is the implementation of $[x]$.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;strategy-extraction&quot;&gt;Strategy Extraction&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;cpp&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-cpp &quot;&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;void &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;build_symbolic_controller&lt;&#x2F;span&gt;&lt;span&gt;() {
+&lt;&#x2F;span&gt;&lt;span&gt;    ctrl = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;new &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;FDS&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;symbolic_controller&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    Zn = ctrl.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;newBDDDomain&lt;&#x2F;span&gt;&lt;span&gt;(&amp;quot;&lt;&#x2F;span&gt;&lt;span style=&quot;color:#a3be8c;&quot;&gt;Zn&lt;&#x2F;span&gt;&lt;span&gt;&amp;quot;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;, sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;());
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Combine environment and system transition relations
+&lt;&#x2F;span&gt;&lt;span&gt;    BDD tr12 = sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trans&lt;&#x2F;span&gt;&lt;span&gt;().&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(env.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;trans&lt;&#x2F;span&gt;&lt;span&gt;());
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; When subgoal J^s_j is satisfied, rotate Zn to next goal (j → j ⊕ 1)
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; j = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;; j &amp;lt;= sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;(); j++) {
+&lt;&#x2F;span&gt;&lt;span&gt;        BDD rho1 = (Zn.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;eq&lt;&#x2F;span&gt;&lt;span&gt;(j))                 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Current memory state is j (processing j-th goal)
+&lt;&#x2F;span&gt;&lt;span&gt;                   .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(Z)                    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Current state is in Z
+&lt;&#x2F;span&gt;&lt;span&gt;                   .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Ji&lt;&#x2F;span&gt;&lt;span&gt;(j))            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Current state satisfies system goal J^s_j
+&lt;&#x2F;span&gt;&lt;span&gt;                   .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(tr12)                 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Current transition is legal
+&lt;&#x2F;span&gt;&lt;span&gt;                   .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;next&lt;&#x2F;span&gt;&lt;span&gt;(Z))              &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Next state must still be in region Z
+&lt;&#x2F;span&gt;&lt;span&gt;                   .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;next&lt;&#x2F;span&gt;&lt;span&gt;(Zn).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;eq&lt;&#x2F;span&gt;&lt;span&gt;((j % sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;()) + &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;)); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Next state switches Zn to j⊕1
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Add this transition to controller&amp;#39;s transition relation
+&lt;&#x2F;span&gt;&lt;span&gt;        ctrl.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;disjunctTrans&lt;&#x2F;span&gt;&lt;span&gt;(rho1);
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Advance from current state mY[j][r] to state closer to goal mY[j][r&amp;#39;], until goal is achieved
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; j = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;; j &amp;lt;= sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;(); j++) {
+&lt;&#x2F;span&gt;&lt;span&gt;        BDD low = mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Y&lt;&#x2F;span&gt;&lt;span&gt;(j, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; r=1 represents state closest to achieving goal
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; r = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;; r &amp;lt;= mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;maxr&lt;&#x2F;span&gt;&lt;span&gt;(j); r++) { &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Search from upper layer down
+&lt;&#x2F;span&gt;&lt;span&gt;            BDD rho2 = (Zn.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;eq&lt;&#x2F;span&gt;&lt;span&gt;(j))               &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Current goal is j
+&lt;&#x2F;span&gt;&lt;span&gt;                        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Y&lt;&#x2F;span&gt;&lt;span&gt;(j, r))       &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Current distance to goal is r steps
+&lt;&#x2F;span&gt;&lt;span&gt;                        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(low.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;not&lt;&#x2F;span&gt;&lt;span&gt;())         &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Next &amp;quot;layer&amp;quot; cannot be current layer (r′ &amp;lt; r)
+&lt;&#x2F;span&gt;&lt;span&gt;                        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(tr12)              &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Legal transition
+&lt;&#x2F;span&gt;&lt;span&gt;                        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;next&lt;&#x2F;span&gt;&lt;span&gt;(low))         &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Next state enters lower &amp;quot;layer&amp;quot; (r&amp;#39;)
+&lt;&#x2F;span&gt;&lt;span&gt;                        .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;next&lt;&#x2F;span&gt;&lt;span&gt;(Zn).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;eq&lt;&#x2F;span&gt;&lt;span&gt;(j));   &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Zn remains unchanged, still in current goal
+&lt;&#x2F;span&gt;&lt;span&gt;            low = low.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;or&lt;&#x2F;span&gt;&lt;span&gt;(mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Y&lt;&#x2F;span&gt;&lt;span&gt;(j, r)); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Update &amp;quot;known lower layer&amp;quot; set
+&lt;&#x2F;span&gt;&lt;span&gt;            ctrl.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;disjunctTrans&lt;&#x2F;span&gt;&lt;span&gt;(rho2); &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Add to controller
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; If environment violates assumption J^e_i, system does not need to advance
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; j = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;; j &amp;lt;= sys.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;(); j++) {
+&lt;&#x2F;span&gt;&lt;span&gt;        BDD low = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;FALSE&lt;&#x2F;span&gt;&lt;span&gt;;
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; r = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;2&lt;&#x2F;span&gt;&lt;span&gt;; r &amp;lt;= mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;maxr&lt;&#x2F;span&gt;&lt;span&gt;(j); r++) {
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;int&lt;&#x2F;span&gt;&lt;span&gt; i = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt;; i &amp;lt;= env.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;numJ&lt;&#x2F;span&gt;&lt;span&gt;(); i++) {
+&lt;&#x2F;span&gt;&lt;span&gt;                BDD rho3 = (Zn.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;eq&lt;&#x2F;span&gt;&lt;span&gt;(j))                  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Current subgoal j
+&lt;&#x2F;span&gt;&lt;span&gt;                            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;X&lt;&#x2F;span&gt;&lt;span&gt;(j, r, i))       &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Currently in environment assumption i&amp;#39;s advance layer X
+&lt;&#x2F;span&gt;&lt;span&gt;                            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(low.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;not&lt;&#x2F;span&gt;&lt;span&gt;())            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Next layer must descend
+&lt;&#x2F;span&gt;&lt;span&gt;                            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(env.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;Ji&lt;&#x2F;span&gt;&lt;span&gt;(i).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;not&lt;&#x2F;span&gt;&lt;span&gt;())      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Environment violates assumption J^e_i
+&lt;&#x2F;span&gt;&lt;span&gt;                            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(tr12)                 &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Transition is legal
+&lt;&#x2F;span&gt;&lt;span&gt;                            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;next&lt;&#x2F;span&gt;&lt;span&gt;(mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;X&lt;&#x2F;span&gt;&lt;span&gt;(j, r, i))) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Next state continues in X (i.e., maintain)
+&lt;&#x2F;span&gt;&lt;span&gt;                            .&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;and&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;next&lt;&#x2F;span&gt;&lt;span&gt;(Zn).&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;eq&lt;&#x2F;span&gt;&lt;span&gt;(j));      &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Zn remains unchanged
+&lt;&#x2F;span&gt;&lt;span&gt;                low = low.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;or&lt;&#x2F;span&gt;&lt;span&gt;(mem.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;X&lt;&#x2F;span&gt;&lt;span&gt;(j, r, i));          &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Update lower layer state set
+&lt;&#x2F;span&gt;&lt;span&gt;                ctrl.&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;disjunctTrans&lt;&#x2F;span&gt;&lt;span&gt;(rho3);              &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; Add transition
+&lt;&#x2F;span&gt;&lt;span&gt;            }
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Relation variables generally represent a (remaining to be solved) set of states.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Category theory Notes • Adjoints</title>
         <published>2025-02-18T12:25:34.987+00:00</published>

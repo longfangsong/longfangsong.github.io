@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Program Synthesis Based on GR(1) Games</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;synthesis-generalized-reactivity-1-games&#x2F;">Program Synthesis Based on GR(1) Games</a></h1>
+  
+  <div class="post-content"><h1 id="problem-definition">Problem Definition</h1>
+<p>For a two-player game scenario consisting of an environment (which can be viewed as the uncontrollable part of the entire scene) and a system (generally the program you want to generate), we abstract it as an 8-tuple:</p>
+<ul>
+<li>$\mathcal{X}$: Set of variables controlled by the environment</li>
+<li>$\mathcal{Y}$: Set of variables controlled by the system</li>
+<li>$\mathcal{V} = \mathcal{X} \cup \mathcal{Y}$</li>
+<li>$\theta_e$: Initial assertion about the environment, composed of variables in $\mathcal{X}$</li>
+<li>$\theta_s$: Initial assertion about the system, composed of variables in $\mathcal{Y}$</li>
+<li>$\rho_e: (\Sigma_V, \Sigma_X) \rightarrow \text{bool}$: Assertion function for selecting the next action of the environment,
+where the first parameter inputs the current values of all (environment and system) variables,
+the second parameter inputs the possible actions of the environment,
+if $\rho_e(s, x) = \text{true}$, it means that when all current variables have value $s$, the environment can take action $x$</li>
+<li>$\rho_s: (\Sigma_V, \Sigma_X, \Sigma_Y) \rightarrow \text{bool}$: Assertion function for selecting the next action of the system,
+where the first parameter inputs the current values of all (environment and system) variables,
+the second parameter inputs the action taken by the environment at this time,
+the third parameter inputs the possible actions of the system,
+if $\rho_s(s, x, y) = \text{true}$, it means that when all current variables have value $s$ and the environment takes action $x$, the system can take action $y$</li>
+<li>$\varphi$: An LTL formula defining the winning condition (for the system)</li>
+</ul>
+<p>The goal of the algorithm is to find a function $f: (M, \Sigma_V, \Sigma_X) \rightarrow (M, \Sigma_X)$,
+such that:</p>
+<ul>
+<li>If $\rho_e(s,s_X) = \text{true}$​, then $\rho_s(s,s_X,\text{snd}(f(m,s,s_X))) = \text{true}$,</li>
+<li>Starting from some state $s$, all matches (state sequences) that conform to $f$ are system victories ($(s_0, s_1, \cdots) \models \varphi$).</li>
+</ul>
+<p>Here, $M$ is a memory space containing the initial value $m_0$.</p>
+<p>This paper solves the Generalized Reactivity(1) game, where $\varphi$ takes the form:
+$$
+\varphi = \bigwedge_{i=1}^{m} \mathbf{G}(\mathbf{F}(J_i^e)) \rightarrow \bigwedge_{j=1}^{n} \mathbf{G}(\mathbf{F}(J_j^s))
+$$
+where $J_i^e$ and $J_j^s$ are boolean functions representing the liveness conditions that the environment and system must guarantee/achieve, respectively.</p>
+<h2 id="algorithm">Algorithm</h2>
+<h3 id="required-concepts">Required Concepts</h3>
+<h4 id="m-calculus">μ-calculus</h4>
+<blockquote>
+<p>In theoretical computer science, the modal μ-calculus (Lμ, sometimes just μ-calculus, although this can have a more general meaning) is an extension of propositional modal logic (with many modalities) by adding the least fixed point operator μ and the greatest fixed point operator ν, thus a fixed-point logic. - <a href="https://en.wikipedia.org/wiki/Modal_%CE%BC-calculus">Modal μ-calculus, Wikipedia</a></p>
+</blockquote>
+<p>Basically, it just adds fixed-point operators $\mu$ and $\nu$ and extended operators $[-]$ and $\langle - \rangle$ to first-order propositional logic.</p>
+<p>The syntax is as follows:</p>
+<p>$$
+\varphi ::= v \mid \neg \varphi \mid X \mid \varphi \vee \varphi \mid \varphi \wedge \varphi \mid [\varphi] \mid \langle \varphi \rangle \mid \mu X \varphi \mid \nu X \varphi
+$$</p>
+<p>A formula $\phi$ is interpreted as the set of states $Σ$ in $G$ where $\phi$ holds, denoted as $[[\phi]]_G^E$, where $G$ is the game structure, and $E: \text{Map}\langle\text{Var}, 2 ^ Σ\rangle$ maps each relation variable<sup class="footnote-reference"><a href="#1">1</a></sup> to a set of states.</p>
+<p>The (denotational) semantics of the new introduced operators are as follows:</p>
+<ul>
+<li>
+<p>$[[X]]_G^E = E[X]$</p>
+</li>
+<li>
+<p>$[[ [\varphi] ]]_G^E$ represents the set of states where the system can force $[[\varphi]]_G^E$ to hold.</p>
+</li>
+<li>
+<p>$[[ \langle \varphi \rangle ]]_G^E$ represents the set of states where the environment can force $[[\varphi]]_G^E$ to hold.</p>
+</li>
+<li>
+<p>$ [[ \mu X \varphi ]]_G^E $ represents the set of states that can make $\varphi$ hold in finite steps</p>
+<p>$[[ \mu X \varphi ]]_G^E = \bigcup_{i} S_i $ where $S_0 = \emptyset$ and $S_{i+1} = [[ \varphi ]]_G^{E[X \leftarrow S_i]}$</p>
+</li>
+<li>
+<p>$ [[ \nu X \varphi ]]_G^E $ represents the set of states that can make $\varphi$ hold continuously from now on.</p>
+<p>$[[ \nu X \varphi ]]_G^E = \bigcap_{i} S_i $ where $S_0 = \Sigma$ and $S_{i+1} = [[ \varphi ]]_G^{E[X \leftarrow S_i]}$</p>
+</li>
+</ul>
+<h3 id="formula-to-solve">Formula to Solve</h3>
+<p>The final formula to solve is:</p>
+<p>$$
+\varphi_{gr} = \nu
+\begin{bmatrix}
+Z_1 \\
+Z_2 \\
+\vdots \\
+Z_n
+\end{bmatrix}
+\begin{bmatrix}
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_1^s \wedge [Z_2]) \vee [Y] \vee (\neg J_i^e \wedge [X]))) \\
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_2^s \wedge [Z_3]) \vee [Y] \vee (\neg J_i^e \wedge [X]))) \\
+\vdots \\
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_n^s \wedge [Z_1]) \vee [Y] \vee (\neg J_i^e \wedge [X])))
+\end{bmatrix}
+$$</p>
+<p>The outermost $\nu Z$ and internal $Z_{i+1 \text{mod} n}$ indicate that if the system satisfies the current $J_i$, it can move on to try to satisfy the next $J_{i+1}$.</p>
+<p>The middle $\mu Y$ ensures that the subsequent $\bigvee_{i=1}^{m} \nu X ((J_1^s \wedge [Z_2]) \vee [Y] \vee (\neg J_i^e \wedge [X]))$ part will terminate in finite steps.</p>
+<p>The innermost $\nu X$ and internal $\neg J_i^e \wedge [X]$ indicate that if the environment does not satisfy some $J^e$, the system does not need to push forward.</p>
+<h3 id="solution">Solution</h3>
+<p>The paper provides code for solving out X, Y, and Z using BDD:</p>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span>BDD </span><span style="color:#8fa1b3;">calculate_win</span><span>() {
+</span><span>    BDD Z = </span><span style="color:#d08770;">TRUE</span><span>;
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// Outer νZ fixpoint iteration
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(Fix </span><span style="color:#bf616a;">fZ </span><span>= </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">Fix</span><span>(); </span><span style="color:#bf616a;">fZ</span><span>.</span><span style="color:#bf616a;">advance</span><span>(Z);) { 
+</span><span>        mem.</span><span style="color:#bf616a;">clear</span><span>();
+</span><span>
+</span><span>        </span><span style="color:#65737e;">// for each system goal (J^s_j)
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>            BDD Y = </span><span style="color:#d08770;">FALSE</span><span>;
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// Middle μY fixpoint iteration
+</span><span>            </span><span style="color:#b48ead;">for </span><span>(Fix </span><span style="color:#bf616a;">fY </span><span>= </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">Fix</span><span>(); </span><span style="color:#bf616a;">fY</span><span>.</span><span style="color:#bf616a;">advance</span><span>(Y);) { 
+</span><span>                </span><span style="color:#65737e;">// Construct starting set: either already satisfy J^s_j and enter next phase Z_{j⊕1}, or already in Y
+</span><span>                BDD start = sys.</span><span style="color:#bf616a;">Ji</span><span>(j).</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">cox</span><span>(Z)).</span><span style="color:#bf616a;">or</span><span>(</span><span style="color:#bf616a;">cox</span><span>(Y));
+</span><span>                Y = </span><span style="color:#d08770;">FALSE</span><span>;
+</span><span>
+</span><span>                </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">1</span><span>; i &lt;= env.</span><span style="color:#bf616a;">numJ</span><span>(); i++) { </span><span style="color:#65737e;">// Iterate through each environment assumption J^e_i
+</span><span>                    BDD X = Z;
+</span><span>
+</span><span>                    </span><span style="color:#65737e;">// Innermost νX fixpoint iteration
+</span><span>                    </span><span style="color:#b48ead;">for </span><span>(Fix </span><span style="color:#bf616a;">fX </span><span>= </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">Fix</span><span>(); </span><span style="color:#bf616a;">fX</span><span>.</span><span style="color:#bf616a;">advance</span><span>(X);) { 
+</span><span>                        </span><span style="color:#65737e;">// If environment does not satisfy J^e_i, system can &quot;stay in X&quot;; otherwise must advance through start
+</span><span>                        X = start.</span><span style="color:#bf616a;">or</span><span>(env.</span><span style="color:#bf616a;">Ji</span><span>(i).</span><span style="color:#bf616a;">not</span><span>().</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">cox</span><span>(X)));
+</span><span>                    }
+</span><span>
+</span><span>                    </span><span style="color:#65737e;">// Store X set for j-th goal and i-th assumption
+</span><span>                    mem.</span><span style="color:#bf616a;">addX</span><span>(j, i, X);
+</span><span>                    </span><span style="color:#65737e;">// Add all X to Y to build μY
+</span><span>                    Y = Y.</span><span style="color:#bf616a;">or</span><span>(X);
+</span><span>                }
+</span><span>                </span><span style="color:#65737e;">// Store Y (representing set of states where goal j can be achieved in finite steps)
+</span><span>                mem.</span><span style="color:#bf616a;">addY</span><span>(j, Y); 
+</span><span>            }
+</span><span>            </span><span style="color:#65737e;">// Use latest Y as input for next outer Z iteration (advance νZ)
+</span><span>            Z = Y; 
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> Z;
+</span><span>}
+</span></code></pre>
+<p>Where <code>cox(x)</code> is the implementation of $[x]$.</p>
+<h3 id="strategy-extraction">Strategy Extraction</h3>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">build_symbolic_controller</span><span>() {
+</span><span>    ctrl = </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">FDS</span><span>(&quot;</span><span style="color:#a3be8c;">symbolic_controller</span><span>&quot;);
+</span><span>
+</span><span>    Zn = ctrl.</span><span style="color:#bf616a;">newBDDDomain</span><span>(&quot;</span><span style="color:#a3be8c;">Zn</span><span>&quot;, </span><span style="color:#d08770;">1</span><span>, sys.</span><span style="color:#bf616a;">numJ</span><span>());
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// Combine environment and system transition relations
+</span><span>    BDD tr12 = sys.</span><span style="color:#bf616a;">trans</span><span>().</span><span style="color:#bf616a;">and</span><span>(env.</span><span style="color:#bf616a;">trans</span><span>());
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// When subgoal J^s_j is satisfied, rotate Zn to next goal (j → j ⊕ 1)
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>        BDD rho1 = (Zn.</span><span style="color:#bf616a;">eq</span><span>(j))                 </span><span style="color:#65737e;">// Current memory state is j (processing j-th goal)
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(Z)                    </span><span style="color:#65737e;">// Current state is in Z
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(sys.</span><span style="color:#bf616a;">Ji</span><span>(j))            </span><span style="color:#65737e;">// Current state satisfies system goal J^s_j
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(tr12)                 </span><span style="color:#65737e;">// Current transition is legal
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Z))              </span><span style="color:#65737e;">// Next state must still be in region Z
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Zn).</span><span style="color:#bf616a;">eq</span><span>((j % sys.</span><span style="color:#bf616a;">numJ</span><span>()) + </span><span style="color:#d08770;">1</span><span>)); </span><span style="color:#65737e;">// Next state switches Zn to j⊕1
+</span><span>        </span><span style="color:#65737e;">// Add this transition to controller&#39;s transition relation
+</span><span>        ctrl.</span><span style="color:#bf616a;">disjunctTrans</span><span>(rho1);
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// Advance from current state mY[j][r] to state closer to goal mY[j][r&#39;], until goal is achieved
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>        BDD low = mem.</span><span style="color:#bf616a;">Y</span><span>(j, </span><span style="color:#d08770;">1</span><span>); </span><span style="color:#65737e;">// r=1 represents state closest to achieving goal
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> r = </span><span style="color:#d08770;">2</span><span>; r &lt;= mem.</span><span style="color:#bf616a;">maxr</span><span>(j); r++) { </span><span style="color:#65737e;">// Search from upper layer down
+</span><span>            BDD rho2 = (Zn.</span><span style="color:#bf616a;">eq</span><span>(j))               </span><span style="color:#65737e;">// Current goal is j
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(mem.</span><span style="color:#bf616a;">Y</span><span>(j, r))       </span><span style="color:#65737e;">// Current distance to goal is r steps
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(low.</span><span style="color:#bf616a;">not</span><span>())         </span><span style="color:#65737e;">// Next &quot;layer&quot; cannot be current layer (r′ &lt; r)
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(tr12)              </span><span style="color:#65737e;">// Legal transition
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(low))         </span><span style="color:#65737e;">// Next state enters lower &quot;layer&quot; (r&#39;)
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Zn).</span><span style="color:#bf616a;">eq</span><span>(j));   </span><span style="color:#65737e;">// Zn remains unchanged, still in current goal
+</span><span>            low = low.</span><span style="color:#bf616a;">or</span><span>(mem.</span><span style="color:#bf616a;">Y</span><span>(j, r)); </span><span style="color:#65737e;">// Update &quot;known lower layer&quot; set
+</span><span>            ctrl.</span><span style="color:#bf616a;">disjunctTrans</span><span>(rho2); </span><span style="color:#65737e;">// Add to controller
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// If environment violates assumption J^e_i, system does not need to advance
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>        BDD low = </span><span style="color:#d08770;">FALSE</span><span>;
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> r = </span><span style="color:#d08770;">2</span><span>; r &lt;= mem.</span><span style="color:#bf616a;">maxr</span><span>(j); r++) {
+</span><span>            </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">1</span><span>; i &lt;= env.</span><span style="color:#bf616a;">numJ</span><span>(); i++) {
+</span><span>                BDD rho3 = (Zn.</span><span style="color:#bf616a;">eq</span><span>(j))                  </span><span style="color:#65737e;">// Current subgoal j
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(mem.</span><span style="color:#bf616a;">X</span><span>(j, r, i))       </span><span style="color:#65737e;">// Currently in environment assumption i&#39;s advance layer X
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(low.</span><span style="color:#bf616a;">not</span><span>())            </span><span style="color:#65737e;">// Next layer must descend
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(env.</span><span style="color:#bf616a;">Ji</span><span>(i).</span><span style="color:#bf616a;">not</span><span>())      </span><span style="color:#65737e;">// Environment violates assumption J^e_i
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(tr12)                 </span><span style="color:#65737e;">// Transition is legal
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(mem.</span><span style="color:#bf616a;">X</span><span>(j, r, i))) </span><span style="color:#65737e;">// Next state continues in X (i.e., maintain)
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Zn).</span><span style="color:#bf616a;">eq</span><span>(j));      </span><span style="color:#65737e;">// Zn remains unchanged
+</span><span>                low = low.</span><span style="color:#bf616a;">or</span><span>(mem.</span><span style="color:#bf616a;">X</span><span>(j, r, i));          </span><span style="color:#65737e;">// Update lower layer state set
+</span><span>                ctrl.</span><span style="color:#bf616a;">disjunctTrans</span><span>(rho3);              </span><span style="color:#65737e;">// Add transition
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Relation variables generally represent a (remaining to be solved) set of states.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025-04-30</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Paper Reading">&nbsp;Paper Reading</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Formal Methods">&nbsp;Formal Methods</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Program Synthesis">&nbsp;Program Synthesis</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Program Synthesis Based on GR(1) Games&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;synthesis-generalized-reactivity-1-games&#x2F;&hashtags=Paper Reading,Formal Methods,Program Synthesis"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true });</script>
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

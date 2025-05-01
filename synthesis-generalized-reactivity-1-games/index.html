@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • 基于 GR(1) 博弈的程序综合</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;synthesis-generalized-reactivity-1-games&#x2F;">基于 GR(1) 博弈的程序综合</a></h1>
+  
+  <div class="post-content"><h1 id="wen-ti-ding-yi">问题定义</h1>
+<p>对于由 环境（可以看作是整个场景中不可控制的部分） 和 系统（一般来说就是你希望生成的程序）组成的双人博弈的场景，我们将其抽象为 8 元组：</p>
+<ul>
+<li>$\mathcal{X}$：由环境控制的变量集合</li>
+<li>$\mathcal{Y}$：由系统控制的变量集合</li>
+<li>$\mathcal{V} = \mathcal{X} \cup \mathcal{Y}$</li>
+<li>$\theta_e$：关于环境的，初始成立的断言，由 $\mathcal{X}$ 中的变量组成</li>
+<li>$\theta_s$：关于系统的，初始成立的断言，由 $\mathcal{Y}$ 中的变量组成</li>
+<li>$\rho_e: (\Sigma_V, \Sigma_X) \rightarrow \text{bool}$：用于选择 环境 的下一个动作的断言函数，
+其中 第一个参数 输入当前 所有（环境与系统的）变量的取值，
+第二个参数 输入环境可能采取的动作，
+若 $\rho_e(s, x) = \text{true}$，说明 在所有当前变量的值为 $s$ 的情况下，环境可以采取动作 $x$</li>
+<li>$\rho_s: (\Sigma_V, \Sigma_X, \Sigma_Y) \rightarrow \text{bool}$：用于选择 系统 的下一个动作的断言函数，
+其中 第一个参数 输入当前 所有（环境与系统的）变量的取值，
+第二个参数 输入 环境这时采取的动作，
+第三个参数 输入 系统可能采取的动作，
+若 $\rho_s(s, x, y) = \text{true}$，说明 在所有当前变量的值为 $s$ 且 环境采取动作 $x$ 的情况下，系统可以采取动作 $y$</li>
+<li>$\varphi$：一个 LTL 公式，定义了（对于系统来说的）胜利条件</li>
+</ul>
+<p>算法的目标是，找到一个函数 $f: (M, \Sigma_V, \Sigma_X) \rightarrow (M, \Sigma_X)$，
+使得：</p>
+<ul>
+<li>若 $\rho_e(s,s_X) = \text{true}$​，那么 $\rho_s(s,s_X,\text{snd}(f(m,s,s_X))) = \text{true}$，</li>
+<li>从某个状态 $s$ 出发时，所有符合 $f$ 的 对局（状态序列）都是系统胜利（$(s_0, s_1, \cdots) \models \varphi$）的。</li>
+</ul>
+<p>其中的 $M$ 是一个记忆空间，包含初始值 $m_0$。</p>
+<p>这篇论文解决的问题是 Generalized Reactivity(1) 博弈，即 $\varphi$ 形如
+$$
+\varphi = \bigwedge_{i=1}^{m} \mathbf{G}(\mathbf{F}(J_i^e)) \rightarrow \bigwedge_{j=1}^{n} \mathbf{G}(\mathbf{F}(J_j^s))
+$$
+的情况，其中 $J_i^e$ 和 $J_j^s$ 是布尔函数，分别表示 环境 和 系统 要保证/实现的 liveness 条件。</p>
+<h2 id="suan-fa">算法</h2>
+<h3 id="bi-xu-de-gai-nian">必须的概念</h3>
+<h4 id="m-calculus">μ-calculus</h4>
+<blockquote>
+<p>In theoretical computer science, the modal μ-calculus (Lμ, sometimes just μ-calculus, although this can have a more general meaning) is an extension of propositional modal logic (with many modalities) by adding the least fixed point operator μ and the greatest fixed point operator ν, thus a fixed-point logic. - <a href="https://en.wikipedia.org/wiki/Modal_%CE%BC-calculus">Modal μ-calculus, Wikipedia</a></p>
+</blockquote>
+<p>简单来说就是往一阶 propositional logic 中添加了 定点运算符 $\mu$ 和 $\nu$ 和 扩展运算符 $[-]$ 和 $\langle - \rangle$。</p>
+<p>语法如下：</p>
+<p>$$
+\varphi ::= v \mid \neg \varphi \mid X \mid \varphi \vee \varphi \mid \varphi \wedge \varphi \mid [\varphi] \mid \langle \varphi \rangle \mid \mu X \varphi \mid \nu X \varphi
+$$</p>
+<p>一个公式 $\phi$ 被解释为 $G$ 中状态集合 $Σ$ 中使 $\phi$ 成立的状态集合，记为 $[[\phi]]_G^E$，其中 $G$ 是游戏结构，$E: \text{Map}\langle\text{Var}, 2 ^ Σ\rangle$ 将每个关系变量<sup class="footnote-reference"><a href="#1">1</a></sup>映射到一组状态。</p>
+<p>除了常见 propositional logic 的符号以外几个运算符的（指称）语义：</p>
+<ul>
+<li>
+<p>$[[X]]_G^E = E[X]$</p>
+</li>
+<li>
+<p>$[[ [\varphi] ]]_G^E$ 表示，系统可以强迫 $[[\varphi]]_G^E$ 成立的状态集合。</p>
+</li>
+<li>
+<p>$[[ \langle \varphi \rangle ]]_G^E$ 表示，环境可以强迫 $[[\varphi]]_G^E$ 成立的状态集合。</p>
+</li>
+<li>
+<p>$ [[ \mu X \varphi ]]_G^E $ 表示，在有限步之内能够使得 $\varphi$ 成立的状态集合</p>
+<p>$[[ \mu X \varphi ]]_G^E = \bigcup_{i} S_i $ where $S_0 = \emptyset$ and $S_{i+1} = [[ \varphi ]]_G^{E[X \leftarrow S_i]}$</p>
+</li>
+<li>
+<p>$ [[ \nu X \varphi ]]_G^E $ 表示，从现在开始能够一直使得 $\varphi$ 成立的状态集合。</p>
+<p>$[[ \nu X \varphi ]]_G^E = \bigcap_{i} S_i $ where $S_0 = \Sigma$ and $S_{i+1} = [[ \varphi ]]_G^{E[X \leftarrow S_i]}$</p>
+</li>
+</ul>
+<h3 id="yao-qiu-jie-de-gong-shi">要求解的公式</h3>
+<p>最终要求解的公式是：</p>
+<p>$$
+\varphi_{gr} = \nu
+\begin{bmatrix}
+Z_1 \\
+Z_2 \\
+\vdots \\
+Z_n
+\end{bmatrix}
+\begin{bmatrix}
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_1^s \wedge [Z_2]) \vee [Y] \vee (\neg J_i^e \wedge [X]))) \\
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_2^s \wedge [Z_3]) \vee [Y] \vee (\neg J_i^e \wedge [X]))) \\
+\vdots \\
+\mu Y (\bigvee_{i=1}^{m} \nu X ((J_n^s \wedge [Z_1]) \vee [Y] \vee (\neg J_i^e \wedge [X])))
+\end{bmatrix}
+$$</p>
+<p>最外层的 $\nu Z$ 和内部的 $Z_{i+1 \text{mod} n}$ 表示，如果系统满足了当前的 $J_i$，则可以转而去尝试满足下一个 $J_{i+1}$。</p>
+<p>中间的 $\mu Y$ 保证了后面的 $\bigvee_{i=1}^{m} \nu X ((J_1^s \wedge [Z_2]) \vee [Y] \vee (\neg J_i^e \wedge [X]))$ 部分会在有限步内结束。</p>
+<p>最里面的 $\nu X$ 和内部的 $\neg J_i^e \wedge [X]$ 表示，若环境没有满足某个 $J^e$，则系统可以不前进。</p>
+<h3 id="qiu-jie">求解</h3>
+<p>论文中给出了利用 BDD 求解的代码：</p>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span>BDD </span><span style="color:#8fa1b3;">calculate_win</span><span>() {
+</span><span>    BDD Z = </span><span style="color:#d08770;">TRUE</span><span>;
+</span><span>    
+</span><span>    </span><span style="color:#65737e;">// 外层 νZ 的 fixpoint 迭代
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(Fix </span><span style="color:#bf616a;">fZ </span><span>= </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">Fix</span><span>(); </span><span style="color:#bf616a;">fZ</span><span>.</span><span style="color:#bf616a;">advance</span><span>(Z);) { 
+</span><span>        mem.</span><span style="color:#bf616a;">clear</span><span>();
+</span><span>
+</span><span>        </span><span style="color:#65737e;">// for each system goal （J^s_j）
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>            BDD Y = </span><span style="color:#d08770;">FALSE</span><span>;
+</span><span>
+</span><span>            </span><span style="color:#65737e;">// 中层 μY 的 fixpoint 迭代
+</span><span>            </span><span style="color:#b48ead;">for </span><span>(Fix </span><span style="color:#bf616a;">fY </span><span>= </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">Fix</span><span>(); </span><span style="color:#bf616a;">fY</span><span>.</span><span style="color:#bf616a;">advance</span><span>(Y);) { 
+</span><span>                </span><span style="color:#65737e;">// 构造起始集合：要么已经满足 J^s_j 并进入下一个阶段 Z_{j⊕1}，要么已在 Y 中
+</span><span>                BDD start = sys.</span><span style="color:#bf616a;">Ji</span><span>(j).</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">cox</span><span>(Z)).</span><span style="color:#bf616a;">or</span><span>(</span><span style="color:#bf616a;">cox</span><span>(Y));
+</span><span>                Y = </span><span style="color:#d08770;">FALSE</span><span>;
+</span><span>
+</span><span>                </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">1</span><span>; i &lt;= env.</span><span style="color:#bf616a;">numJ</span><span>(); i++) { </span><span style="color:#65737e;">// 遍历每个环境假设 J^e_i
+</span><span>                    BDD X = Z;
+</span><span>
+</span><span>                    </span><span style="color:#65737e;">// 最内层 νX 的 fixpoint 迭代
+</span><span>                    </span><span style="color:#b48ead;">for </span><span>(Fix </span><span style="color:#bf616a;">fX </span><span>= </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">Fix</span><span>(); </span><span style="color:#bf616a;">fX</span><span>.</span><span style="color:#bf616a;">advance</span><span>(X);) { 
+</span><span>                        </span><span style="color:#65737e;">// 如果环境没有满足 J^e_i，系统可以“停在 X”；否则必须通过 start 推进
+</span><span>                        X = start.</span><span style="color:#bf616a;">or</span><span>(env.</span><span style="color:#bf616a;">Ji</span><span>(i).</span><span style="color:#bf616a;">not</span><span>().</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">cox</span><span>(X)));
+</span><span>                    }
+</span><span>
+</span><span>                    </span><span style="color:#65737e;">// 存储第 j 个目标、第 i 个假设下的 X 集合
+</span><span>                    mem.</span><span style="color:#bf616a;">addX</span><span>(j, i, X);
+</span><span>                    </span><span style="color:#65737e;">// 把所有 X 累加进 Y，构建 μY
+</span><span>                    Y = Y.</span><span style="color:#bf616a;">or</span><span>(X);
+</span><span>                }
+</span><span>                </span><span style="color:#65737e;">// 存储 Y（表示目标 j 可在有限步内达成的状态集）
+</span><span>                mem.</span><span style="color:#bf616a;">addY</span><span>(j, Y); 
+</span><span>            }
+</span><span>            </span><span style="color:#65737e;">// 将最新的 Y 作为下一轮外层 Z 的输入（推进 νZ）
+</span><span>            Z = Y; 
+</span><span>        }
+</span><span>    }
+</span><span>    </span><span style="color:#b48ead;">return</span><span> Z;
+</span><span>}
+</span></code></pre>
+<p>其中 <code>cox(x)</code> 是 $[x]$ 的实现。</p>
+<h3 id="ti-qu-ce-lue">提取策略</h3>
+<pre data-lang="cpp" style="background-color:#2b303b;color:#c0c5ce;" class="language-cpp "><code class="language-cpp" data-lang="cpp"><span style="color:#b48ead;">void </span><span style="color:#8fa1b3;">build_symbolic_controller</span><span>() {
+</span><span>    ctrl = </span><span style="color:#b48ead;">new </span><span style="color:#bf616a;">FDS</span><span>(&quot;</span><span style="color:#a3be8c;">symbolic_controller</span><span>&quot;);
+</span><span>
+</span><span>    Zn = ctrl.</span><span style="color:#bf616a;">newBDDDomain</span><span>(&quot;</span><span style="color:#a3be8c;">Zn</span><span>&quot;, </span><span style="color:#d08770;">1</span><span>, sys.</span><span style="color:#bf616a;">numJ</span><span>());
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// 联合环境与系统的转移关系
+</span><span>    BDD tr12 = sys.</span><span style="color:#bf616a;">trans</span><span>().</span><span style="color:#bf616a;">and</span><span>(env.</span><span style="color:#bf616a;">trans</span><span>());
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// 当子目标 J^s_j 被满足，就将 Zn 轮换至下一个目标（j → j ⊕ 1）
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>        BDD rho1 = (Zn.</span><span style="color:#bf616a;">eq</span><span>(j))                 </span><span style="color:#65737e;">// 当前记忆状态是 j（正在处理第 j 个目标）
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(Z)                    </span><span style="color:#65737e;">// 当前状态在 Z 中
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(sys.</span><span style="color:#bf616a;">Ji</span><span>(j))            </span><span style="color:#65737e;">// 当前满足系统目标 J^s_j
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(tr12)                 </span><span style="color:#65737e;">// 当前转移合法
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Z))              </span><span style="color:#65737e;">// 下一状态仍要在区域 Z 中
+</span><span>                   .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Zn).</span><span style="color:#bf616a;">eq</span><span>((j % sys.</span><span style="color:#bf616a;">numJ</span><span>()) + </span><span style="color:#d08770;">1</span><span>)); </span><span style="color:#65737e;">// 下一状态将 Zn 切换到 j⊕1
+</span><span>        </span><span style="color:#65737e;">// 将该转移加入控制器的转移关系
+</span><span>        ctrl.</span><span style="color:#bf616a;">disjunctTrans</span><span>(rho1);
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// 从当前状态 mY[j][r] 推进到更接近目标的状态 mY[j][r&#39;]，直到最终达成目标
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>        BDD low = mem.</span><span style="color:#bf616a;">Y</span><span>(j, </span><span style="color:#d08770;">1</span><span>); </span><span style="color:#65737e;">// r=1 表示最接近达成目标的状态
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> r = </span><span style="color:#d08770;">2</span><span>; r &lt;= mem.</span><span style="color:#bf616a;">maxr</span><span>(j); r++) { </span><span style="color:#65737e;">// 从上层往下找
+</span><span>            BDD rho2 = (Zn.</span><span style="color:#bf616a;">eq</span><span>(j))               </span><span style="color:#65737e;">// 当前是目标 j
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(mem.</span><span style="color:#bf616a;">Y</span><span>(j, r))       </span><span style="color:#65737e;">// 当前距离目标还有 r 步
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(low.</span><span style="color:#bf616a;">not</span><span>())         </span><span style="color:#65737e;">// 下一“层”不能是当前这一“层”（r′ &lt; r）
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(tr12)              </span><span style="color:#65737e;">// 合法转移
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(low))         </span><span style="color:#65737e;">// 下一状态进入更低“层”（r&#39;）
+</span><span>                        .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Zn).</span><span style="color:#bf616a;">eq</span><span>(j));   </span><span style="color:#65737e;">// Zn 不变，仍处于当前目标
+</span><span>            low = low.</span><span style="color:#bf616a;">or</span><span>(mem.</span><span style="color:#bf616a;">Y</span><span>(j, r)); </span><span style="color:#65737e;">// 更新“已知的低层”集合
+</span><span>            ctrl.</span><span style="color:#bf616a;">disjunctTrans</span><span>(rho2); </span><span style="color:#65737e;">// 加入控制器
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#65737e;">// 如果环境违背假设 J^e_i，系统可以不推进
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> j = </span><span style="color:#d08770;">1</span><span>; j &lt;= sys.</span><span style="color:#bf616a;">numJ</span><span>(); j++) {
+</span><span>        BDD low = </span><span style="color:#d08770;">FALSE</span><span>;
+</span><span>        </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> r = </span><span style="color:#d08770;">2</span><span>; r &lt;= mem.</span><span style="color:#bf616a;">maxr</span><span>(j); r++) {
+</span><span>            </span><span style="color:#b48ead;">for </span><span>(</span><span style="color:#b48ead;">int</span><span> i = </span><span style="color:#d08770;">1</span><span>; i &lt;= env.</span><span style="color:#bf616a;">numJ</span><span>(); i++) {
+</span><span>                BDD rho3 = (Zn.</span><span style="color:#bf616a;">eq</span><span>(j))                  </span><span style="color:#65737e;">// 当前子目标 j
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(mem.</span><span style="color:#bf616a;">X</span><span>(j, r, i))       </span><span style="color:#65737e;">// 当前在环境假设 i 的推进层 X
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(low.</span><span style="color:#bf616a;">not</span><span>())            </span><span style="color:#65737e;">// 下一层需下降
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(env.</span><span style="color:#bf616a;">Ji</span><span>(i).</span><span style="color:#bf616a;">not</span><span>())      </span><span style="color:#65737e;">// 环境违反假设 J^e_i
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(tr12)                 </span><span style="color:#65737e;">// 转移合法
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(mem.</span><span style="color:#bf616a;">X</span><span>(j, r, i))) </span><span style="color:#65737e;">// 下一状态继续在 X（即维持）
+</span><span>                            .</span><span style="color:#bf616a;">and</span><span>(</span><span style="color:#bf616a;">next</span><span>(Zn).</span><span style="color:#bf616a;">eq</span><span>(j));      </span><span style="color:#65737e;">// Zn 不变
+</span><span>                low = low.</span><span style="color:#bf616a;">or</span><span>(mem.</span><span style="color:#bf616a;">X</span><span>(j, r, i));          </span><span style="color:#65737e;">// 更新低层状态集合
+</span><span>                ctrl.</span><span style="color:#bf616a;">disjunctTrans</span><span>(rho3);              </span><span style="color:#65737e;">// 加入转移
+</span><span>            }
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>关系变量一般代表了一个需要求解的状态集合。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025年04月30日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/论文简介">&nbsp;论文简介</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/形式化方法">&nbsp;形式化方法</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/程序综合">&nbsp;程序综合</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=基于 GR(1) 博弈的程序综合&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;synthesis-generalized-reactivity-1-games&#x2F;&hashtags=论文简介,形式化方法,程序综合"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<script>mermaid.initialize({ startOnLoad: true });</script>
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
