@@ -5,8 +5,123 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-04-30T23:43:05.909+00:00</updated>
+    <updated>2025-05-01T22:42:14.973+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Counterexample-guided Abstraction Refinement Algorithm</title>
+        <published>2025-05-01T22:42:14.973+00:00</published>
+        <updated>2025-05-01T22:42:14.973+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/cegar/"/>
+        <id>https://longfangsong.github.io/en/cegar/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/cegar/">&lt;p&gt;The main idea of the CEGAR algorithm is:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Initially, build an approximate model of the original model with a smaller state space&lt;&#x2F;li&gt;
+&lt;li&gt;Run the verification algorithm on the model. If verification fails, the model checker provides a counterexample
+&lt;ul&gt;
+&lt;li&gt;This counterexample might be due to execution paths introduced during the approximation process that don&#x27;t exist in the original model
+In this case, we need to refine the approximate model and re-run the verification&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Use symbolic methods like BDD to efficiently implement the above process&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h2 id=&quot;building-the-approximate-model&quot;&gt;Building the Approximate Model&lt;&#x2F;h2&gt;
+&lt;p&gt;We group ACTL*&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; formulas that share variables into equivalence classes. That is, if:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\text{Var}(\phi_1) \cap \text{Var}(\phi_2) \neq \emptyset
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;then $\phi_1$ and $\phi_2$ belong to the same equivalence class.&lt;&#x2F;p&gt;
+&lt;p&gt;We denote the equivalence class of a formula as $[\phi]_f$, called a formula cluster.&lt;&#x2F;p&gt;
+&lt;p&gt;Correspondingly, the set of all variables in formulas from the same formula cluster is called a variable cluster.&lt;&#x2F;p&gt;
+&lt;p&gt;If all formulas in the same formula cluster evaluate to the same value in two different states (represented by variable values), then these two states can be mapped to the same abstract state.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;refinement&quot;&gt;Refinement&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;identifying-spurious-counterexamples&quot;&gt;Identifying Spurious Counterexamples&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;splitpath&quot;&gt;SplitPATH&lt;&#x2F;h4&gt;
+&lt;p&gt;Suppose the model checker finds a counterexample path:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\hat \pi = \hat s_0 \rightarrow \hat s_1 \rightarrow \cdots \rightarrow \hat s_n
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;We denote the set of original states corresponding to abstract state $\hat s_i$ as $\gamma(\hat s)$.&lt;&#x2F;p&gt;
+&lt;p&gt;To identify spurious counterexamples, we define a sequence of symbolic sets:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+R_0, R_1, \cdots, R_n
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;where:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$R_0 = \gamma(\hat s_0) \cap I$, where I is the set of initial states in the original state sequence&lt;&#x2F;li&gt;
+&lt;li&gt;$R_i = \text{Post}(R_{i-1} \cap \gamma(\hat s_i))$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Essentially, we follow the abstract path in the actual model to see if it&#x27;s feasible.&lt;&#x2F;p&gt;
+&lt;p&gt;If all $R_i$ are non-empty, then the path is feasible and represents a real counterexample in the original model.
+Otherwise, it&#x27;s a spurious counterexample, and we need to refine the abstract model.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;splitloop&quot;&gt;SplitLOOP&lt;&#x2F;h4&gt;
+&lt;p&gt;A loop in the abstract model might correspond to multiple loops in the actual model.&lt;&#x2F;p&gt;
+&lt;p&gt;We can identify this by unrolling the abstract loop several times and then using SplitPATH.&lt;&#x2F;p&gt;
+&lt;p&gt;The upper bound for unrolling is the maximum number of concrete states corresponding to any state in the abstract loop.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;refinement-1&quot;&gt;Refinement&lt;&#x2F;h3&gt;
+&lt;p&gt;After identifying a spurious counterexample, we need to refine the abstract model to eliminate it.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;polyrefine&quot;&gt;PolyRefine&lt;&#x2F;h4&gt;
+&lt;p&gt;We divide the concrete state set $S = \gamma(\hat s_i)$ into three categories:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;$S_{i,0}$: States reachable from the initial state in the concrete model
+This is $R_i$.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;$S_{i,1}$: States not in $S_{i,0}$ but can reach $\hat s_{i+1}$ in the abstract model.&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Other states (which we don&#x27;t care about)&lt;&#x2F;p&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;To break the conditions that produce spurious counterexamples, we need to split the $\hat s_i$ where we found $R_i$ to be empty,
+making the corresponding $S_{i,0}$ and $S_{i,1}$ belong to different new states.&lt;&#x2F;p&gt;
+&lt;p&gt;Each abstract state corresponds to original states in the form:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+E = E_1 \times E_2 \times \cdots \times E_n
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;For example, if $X_j = {mode, valid}$, where $mode \in {IDLE, RUN, ERR}$ and $valid \in {true, false}$, a possible partition might be:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+C_1 = {(IDLE, true), (IDLE, false)}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+C_2 = {(RUN, true), (RUN, false)}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+C_3 = {(ERR, true), (ERR, false)}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+E_j = {C_1, C_2, C_3}
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;The goal of refinement is to split this $E_j$ into smaller parts.&lt;&#x2F;p&gt;
+&lt;p&gt;The core of the algorithm is:&lt;&#x2F;p&gt;
+&lt;p&gt;For each pair of equivalence classes $a$ and $b$ in $E_j$:
+If there exist two states $s_1$ and $s_2$ that differ only in the j-th variable, where one belongs to $a$ and the other to $b$, then we can determine that $a$ and $b$ are not equivalent, and thus split $E_j$ into smaller parts.&lt;&#x2F;p&gt;
+&lt;p&gt;Pseudocode:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;c++&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-c++ &quot;&gt;&lt;code class=&quot;language-c++&quot; data-lang=&quot;c++&quot;&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for&lt;&#x2F;span&gt;&lt;span&gt; j in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;1&lt;&#x2F;span&gt;&lt;span&gt; to &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;m &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;    &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;for &lt;&#x2F;span&gt;&lt;span&gt;(a, b) in &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;E_j &lt;&#x2F;span&gt;&lt;span&gt;{
+&lt;&#x2F;span&gt;&lt;span&gt;        &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proj&lt;&#x2F;span&gt;&lt;span&gt;(S_i_0, j, a) != &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;proj&lt;&#x2F;span&gt;&lt;span&gt;(S_i_0, j, b) {
+&lt;&#x2F;span&gt;&lt;span&gt;            &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;split&lt;&#x2F;span&gt;&lt;span&gt;(a, b);
+&lt;&#x2F;span&gt;&lt;span&gt;        }
+&lt;&#x2F;span&gt;&lt;span&gt;    }
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;where $proj(S, j, a)$ represents ${s.remove(j) | s \in S, s.j = a}$.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;This is CTL* where only A is allowed, not E. See &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CTL*&quot;&gt;CTL*&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Program Synthesis Based on GR(1) Games</title>
         <published>2025-04-30T23:43:05.909+00:00</published>

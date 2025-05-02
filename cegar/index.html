@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Counterexample-guided Abstraction Refinement 算法</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cegar&#x2F;">Counterexample-guided Abstraction Refinement 算法</a></h1>
+  
+  <div class="post-content"><p>CEGAR 算法主要的想法是：</p>
+<ul>
+<li>最初，建立一个原模型的近似模型，其拥有较小的状态空间</li>
+<li>在模型上运行验证算法，如果验证失败，模型检测器会给出反例
+<ul>
+<li>这个反例可能是由于在对原模型的近似过程中引入了原模型中不存在的执行路径
+在此情况下需要细化近似模型，并重新进行验证</li>
+</ul>
+</li>
+<li>使用 BDD 等符号方法高效地实现上述过程</li>
+</ul>
+<h2 id="gou-jian-jin-si-mo-xing">构建近似模型</h2>
+<p>我们将所有使用的变量存在交集的 ACTL*<sup class="footnote-reference"><a href="#1">1</a></sup> 公式归为一个等价类，即，若：</p>
+<p>$$
+\text{Var}(\phi_1) \cap \text{Var}(\phi_2) \neq \emptyset
+$$</p>
+<p>则 $\phi_1$ 和 $\phi_2$ 属于同一个等价类。</p>
+<p>我们将一个公式的等价类记为 $[\phi]_f$，称为一个 公式簇。</p>
+<p>相对应的，同一个公式簇中的公式的所有变量集合称为一个 变量簇。</p>
+<p>如果同一公式簇 在 两个不同状态（体现为变量的值）下每个公式的取值都相同，则称这两个状态暂且可以被映射到同一个抽象状态。</p>
+<h2 id="xi-hua">细化</h2>
+<h3 id="shi-bie-wei-fan-li">识别伪反例</h3>
+<h4 id="splitpath">SplitPATH</h4>
+<p>假设 model checker 找到了一个反例路径：</p>
+<p>$$
+\hat \pi = \hat s_0 \rightarrow \hat s_1 \rightarrow \cdots \rightarrow \hat s_n
+$$</p>
+<p>我们将抽象状态 $\hat \s_i$ 所对应的原状态集合记为 $\gamma(\hat s)$。</p>
+<p>为了识别伪反例，我们定义符号集合序列：</p>
+<p>$$
+R_0, R_1, \cdots, R_n
+$$</p>
+<p>其中：</p>
+<ul>
+<li>$R_0 = \gamma(\hat s_0) \cap I$，I 是原状态序列的起始状态集合</li>
+<li>$R_i = \text{Post}(R_{i-1} \cap \gamma(\hat s_i))$</li>
+</ul>
+<p>基本上就是沿着抽象路径，在实际的模型中走，看能不能走通。</p>
+<p>若所有 $R_i$ 都非空，则说明能走通，这确实也是原路径中的一个反例，
+否则这就是一个伪反例，需要对抽象模型进行细化。</p>
+<h4 id="splitloop">SplitLOOP</h4>
+<p>一个抽象模型中的循环可能对应于实际模型中的多次循环。</p>
+<p>只需将抽象循环展开数次，然后使用 SplitPATH 进行识别即可。</p>
+<p>展开次数的上限就是抽象循环中，每个状态对应的 具体状态个数 的最大值。</p>
+<h3 id="xi-hua-1">细化</h3>
+<p>识别出伪反例后，我们需要对抽象模型进行细化，消除找到的伪反例。</p>
+<h4 id="polyrefine">PolyRefine</h4>
+<p>我们将具体状态集合 $S = \gamma(\hat s_i)$ 分为三类：</p>
+<ul>
+<li>
+<p>$S_{i,0}$：可以从初始状态出发，在具体模型中达到的状态
+这就是 $R_i$。</p>
+</li>
+<li>
+<p>$S_{i,1}$：不在 $S_{i,0}$ 中，但在抽象模型中可以通向 $\hat s_{i+1}$ 的状态。</p>
+</li>
+<li>
+<p>其他状态（我们并不关心）</p>
+</li>
+</ul>
+<p>为了破坏伪反例的产生条件，我们需要把之前发现 $R_i$ 为空时对应的 $\hat s_i$ 分开，
+让此时对应的 $S_{i,0}$ 和 $S_{i,1}$ 分属不同的新状态。</p>
+<p>每个抽象状态对应的原状态形式如下：</p>
+<p>$$
+E = E_1 \times E_2 \times \cdots \times E_n
+$$</p>
+<p>比如 $X_j = \{mode, valid\}$，$mode \in \{IDLE, RUN, ERR\}$，$valid \in \{true, false\}$，一个可能的划分方式是：</p>
+<p>$$
+C_1 = \{(IDLE, true), (IDLE, false)\}
+$$</p>
+<p>$$
+C_2 = \{(RUN, true), (RUN, false)\}
+$$</p>
+<p>$$
+C_3 = \{(ERR, true), (ERR, false)\}
+$$</p>
+<p>$$
+E_j = \{C_1, C_2, C_3\}
+$$</p>
+<p>细化的目标就是把这个 $E_j$ 拆分成更小的部分。</p>
+<p>算法的核心是：</p>
+<p>对于 $E_j$ 中的每对等价类 $a$ 和 $b$：
+如果存在 两个状态 $s_1$ 和 $s_2$，两者的差异只在第 j 个变量上，即其中一个为 $a$ 的元素，另一个为 $b$ 的元素，则可以根据这个，判定 $a$ 和 $b$ 不等价，进而将 $E_j$ 拆分成更小的部分。</p>
+<p>伪代码如下：</p>
+<pre data-lang="c++" style="background-color:#2b303b;color:#c0c5ce;" class="language-c++ "><code class="language-c++" data-lang="c++"><span style="color:#b48ead;">for</span><span> j in </span><span style="color:#d08770;">1</span><span> to </span><span style="color:#bf616a;">m </span><span>{
+</span><span>    </span><span style="color:#b48ead;">for </span><span>(a, b) in </span><span style="color:#bf616a;">E_j </span><span>{
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">proj</span><span>(S_i_0, j, a) != </span><span style="color:#bf616a;">proj</span><span>(S_i_0, j, b) {
+</span><span>            </span><span style="color:#bf616a;">split</span><span>(a, b);
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>其中 $proj(S, j, a)$ 表示 ${s.remove(j) | s \in S, s.j = a}$。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>就是只准 A 不准 E 的 <a href="https://en.wikipedia.org/wiki/CTL*">CTL*</a>.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025年05月01日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/Paper Reading">&nbsp;Paper Reading</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/Formal Methods">&nbsp;Formal Methods</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/Model Checking">&nbsp;Model Checking</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Counterexample-guided Abstraction Refinement 算法&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;cegar&#x2F;&hashtags=Paper Reading,Formal Methods,Model Checking"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
