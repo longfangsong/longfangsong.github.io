@@ -89,18 +89,18 @@ making the corresponding $S_{i,0}$ and $S_{i,1}$ belong to different new states.
 &lt;p&gt;$$
 E = E_1 \times E_2 \times \cdots \times E_n
 $$&lt;&#x2F;p&gt;
-&lt;p&gt;For example, if $X_j = {mode, valid}$, where $mode \in {IDLE, RUN, ERR}$ and $valid \in {true, false}$, a possible partition might be:&lt;&#x2F;p&gt;
+&lt;p&gt;For example, if $X_j = \{mode, valid\}$, where $mode \in \{IDLE, RUN, ERR\}$ and $valid \in \{true, false\}$, a possible partition might be:&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-C_1 = {(IDLE, true), (IDLE, false)}
+C_1 = \{(IDLE, true), (IDLE, false)\}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-C_2 = {(RUN, true), (RUN, false)}
+C_2 = \{(RUN, true), (RUN, false)\}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-C_3 = {(ERR, true), (ERR, false)}
+C_3 = \{(ERR, true), (ERR, false)\}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;$$
-E_j = {C_1, C_2, C_3}
+E_j = \{C_1, C_2, C_3\}
 $$&lt;&#x2F;p&gt;
 &lt;p&gt;The goal of refinement is to split this $E_j$ into smaller parts.&lt;&#x2F;p&gt;
 &lt;p&gt;The core of the algorithm is:&lt;&#x2F;p&gt;
@@ -115,7 +115,7 @@ If there exist two states $s_1$ and $s_2$ that differ only in the j-th variable,
 &lt;&#x2F;span&gt;&lt;span&gt;    }
 &lt;&#x2F;span&gt;&lt;span&gt;}
 &lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;where $proj(S, j, a)$ represents ${s.remove(j) | s \in S, s.j = a}$.&lt;&#x2F;p&gt;
+&lt;p&gt;where $proj(S, j, a)$ represents $\{s.remove(j) | s \in S, s.j = a\}$.&lt;&#x2F;p&gt;
 &lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
 &lt;p&gt;This is CTL* where only A is allowed, not E. See &lt;a href=&quot;https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;CTL*&quot;&gt;CTL*&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
 &lt;&#x2F;div&gt;

@@ -97,9 +97,9 @@
           <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
           <div id="languages" style="display: none">
             
-            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
-            
             <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
             
           </div>
         </div>
@@ -179,18 +179,18 @@ making the corresponding $S_{i,0}$ and $S_{i,1}$ belong to different new states.
 <p>$$
 E = E_1 \times E_2 \times \cdots \times E_n
 $$</p>
-<p>For example, if $X_j = {mode, valid}$, where $mode \in {IDLE, RUN, ERR}$ and $valid \in {true, false}$, a possible partition might be:</p>
+<p>For example, if $X_j = \{mode, valid\}$, where $mode \in \{IDLE, RUN, ERR\}$ and $valid \in \{true, false\}$, a possible partition might be:</p>
 <p>$$
-C_1 = {(IDLE, true), (IDLE, false)}
+C_1 = \{(IDLE, true), (IDLE, false)\}
 $$</p>
 <p>$$
-C_2 = {(RUN, true), (RUN, false)}
+C_2 = \{(RUN, true), (RUN, false)\}
 $$</p>
 <p>$$
-C_3 = {(ERR, true), (ERR, false)}
+C_3 = \{(ERR, true), (ERR, false)\}
 $$</p>
 <p>$$
-E_j = {C_1, C_2, C_3}
+E_j = \{C_1, C_2, C_3\}
 $$</p>
 <p>The goal of refinement is to split this $E_j$ into smaller parts.</p>
 <p>The core of the algorithm is:</p>
@@ -205,7 +205,7 @@ If there exist two states $s_1$ and $s_2$ that differ only in the j-th variable,
 </span><span>    }
 </span><span>}
 </span></code></pre>
-<p>where $proj(S, j, a)$ represents ${s.remove(j) | s \in S, s.j = a}$.</p>
+<p>where $proj(S, j, a)$ represents $\{s.remove(j) | s \in S, s.j = a\}$.</p>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>This is CTL* where only A is allowed, not E. See <a href="https://en.wikipedia.org/wiki/CTL*">CTL*</a>.</p>
 </div>
