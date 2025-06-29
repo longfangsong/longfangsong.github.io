@@ -202,6 +202,10 @@
         <lastmod>2022-11-16T15:17:53.579Z</lastmod>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/minato-isop/</loc>
+        <lastmod>2025-06-16T07:17:01.217Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/page/1/</loc>
     </url>
     <url>
@@ -244,6 +248,9 @@
         <loc>https://longfangsong.github.io/en/tags/agda/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/en/tags/algorithm/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/en/tags/automata/</loc>
     </url>
     <url>
@@ -254,6 +261,9 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/computability-theory/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/en/tags/digital-logic/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/en/tags/formal-methods/</loc>
@@ -359,6 +369,10 @@
     <url>
         <loc>https://longfangsong.github.io/midi/</loc>
         <lastmod>2022-06-05T11:56:50Z</lastmod>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/minato-isop/</loc>
+        <lastmod>2025-06-16T07:17:01.217Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/mitchell-merritt-algorithm/</loc>
@@ -596,6 +610,12 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/shu-xue/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/shu-zi-luo-ji/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/tags/suan-fa/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/ti-xi-jie-gou/</loc>

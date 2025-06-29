@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Minato ISOP 算法</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;minato-isop&#x2F;">Minato ISOP 算法</a></h1>
+  
+  <div class="post-content"><h2 id="glossary">Glossary</h2>
+<table><thead><tr><th>Chinese name</th><th>English mane</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+<tr><td></td><td>cube</td><td>假设我们有一个包含 $2^n$ 个顶点的空间，每个顶点代表 $n$ 个变量的一种赋值，$n$ 维 cube 是其中的一个子集</td><td>对于 $\{x_0, x_1\}$，立方体中的顶点是 ${(0,0), (0,1), (1,0), (1,1)}$</td></tr>
+<tr><td>最小项</td><td>minterm</td><td>cube 中的单个顶点，可以表示为一个乘积项，对于<strong>所有</strong>变量，项中要么包含变量本身，要么包含其否定</td><td>对于 $(0, 1)$，可以表示为 $\neg x0 \cdot x1$</td></tr>
+<tr><td>蕴涵项</td><td>implicant</td><td>对于逻辑公式 F，如果存在 P 使得 $(P = 1) \rightarrow (F = 1)$ 恒成立，那么 $P$ 是 $F$ 的蕴涵项</td><td>$f = xy + yz$，那么 $xy$ 和 $yz$ 是 $f$ 的蕴涵项，而单独的 $x$ 不是</td></tr>
+<tr><td>素蕴涵项</td><td>prime implicant</td><td>如果对于任何蕴涵项，我们不能删除其中的任何一个文字而仍使其保持为蕴涵项，那么它就是素蕴涵项</td><td>$f = x \cdot y + z$，那么 $x \cdot y$ 和 $z$ 是 $f$ 的素蕴涵项，而 $x \cdot y \cdot z$ 是蕴涵项但不是素蕴涵项</td></tr>
+<tr><td>覆盖(n.)</td><td>cover</td><td>布尔函数的 乘积之和 表示形式</td><td>$f = AB + A\neg B$ 是它自身的一个覆盖，其简化形式 $f=A$ 也是一个覆盖</td></tr>
+<tr><td>f 被 g 覆盖的部分</td><td>parts of f covered by g</td><td>如果 $g\rightarrow f$，$f$ 被 $g$ 覆盖的部分是 $g$ 为真的部分</td><td></td></tr>
+<tr><td>不可约覆盖</td><td>irredundant cover</td><td>如果对于任何覆盖，我们不能删除其中的任何一项/蕴涵项而仍使其保持为覆盖，那么它就是不可约覆盖</td><td>$f = AB + AC$，它本身是不可约覆盖，但 $AB + AC + ABC$ 不是（尽管它是一个覆盖）</td></tr>
+<tr><td>素不可约覆盖</td><td>Prime-Irredundant Cover</td><td>由素蕴涵项组成的不可约覆盖</td><td></td></tr>
+</tbody></table>
+<h2 id="suan-fa">算法</h2>
+<p>Minato 算法的用途是寻找一个布尔函数的 素不可约覆盖 。换句话说：</p>
+<ul>
+<li>我们希望找到一个原布尔函数的析取范式（Sum of Products）形式</li>
+<li>其中每一个 合取项 都是 素蕴含项，即其中不包含任何可以删去的变量，或者说这个项是最小的</li>
+<li>删除任何一个 合取项 都会使得这个 析取范式 不完整（不能表达原本的函数）。</li>
+</ul>
+<p>我们来逐个解决。</p>
+<h3 id="xi-qu-fan-shi">析取范式</h3>
+<p>最简单的把任意布尔函数写成析取范式的方案是 香农展开，直接</p>
+<ul>
+<li>固定一个变量的值为0，计算布尔函数的值</li>
+<li>固定一个变量的值为1，计算布尔函数的值</li>
+<li>通过 乘（合取）上这个变量或其取反 将结果合并</li>
+</ul>
+<p>即，设有布尔函数 $f(x_0,\cdots, x_n)$，我们可以递归应用：</p>
+<p>$$
+f(x_0, x_1, \cdots, x_n) = \neg x_0 \cdot (f(0, x_1, \cdots, x_n)) + x_0 \cdot (f(1, x_1, \cdots, x_n))
+$$</p>
+<p>直至 $f$ 的参数完全是确定的为止。</p>
+<p>这样展开得到的显然是一个覆盖，但是既不保证 素 也不保证 不可约。</p>
+<h3 id="su-yu-bu-ke-yue">素 与 不可约</h3>
+<p>我们在 香农展开 的基础上进行改进：
+假设 $f$ 的 香农展开 的两个部分是 $f_0(x_1, \cdots, x_n) = f(0, x1, \cdots, x_n)$, $f_1(x_1, \cdots, x_n) = f(1, x1, \cdots, x_n)$。</p>
+<p>如果一组 $x_1, \cdots, x_n$</p>
+<ul>
+<li>在 $f_0$ 下为 1，但在 $f_1$ 下为 0，那么说明这组 $x$ 只有在 $x_0$ 为 0 才可能使得原函数为 1，即对应的项需要乘上一个 $\neg x_0$ 才能成为一个蕴含项。</li>
+<li>在 $f_1$ 下为 1，但在 $f_0$ 下为 0，那么说明这组 $x$ 只有在 $x_0$ 为 1 才可能使得原函数为 1，即对应的项需要乘上一个 $x_0$ 才能成为一个蕴含项。</li>
+<li>在 $f_0$ 下为 0，说明只要 $x_0$ 为 0，整个原函数就不可能为 1，即对应项不可以包含 $\neg x_0$，否则就不能成为一个蕴含项。</li>
+<li>在 $f_1$ 下为 0，说明只要 $x_0$ 为 1，整个原函数就不可能为 1，即对应项不可以包含 $x_0$，否则就不能成为一个蕴含项。</li>
+<li>在 $f_1$ 和 $f_0$ 下都为 1 的情况下，$x_0$ 不能影响 原函数 的值，这种情况下对应的项中不包含 $x_0$ 或是 $\neg x_0$</li>
+</ul>
+<table><thead><tr><th>$f_0$</th><th>$f_1$</th><th>Information</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>不可能覆盖任何最小项</td></tr>
+<tr><td>0</td><td>1</td><td>必须包含形如 $x_0\cdot\varphi$ 的最小项</td></tr>
+<tr><td>1</td><td>0</td><td>必须包含形如 $\neg x_0\cdot\varphi$ 的最小项</td></tr>
+<tr><td>1</td><td>1</td><td>不包含 $x_0$ 或 $\neg x_0$ 的最小项</td></tr>
+</tbody></table>
+<p>通过上面的分析，我们可以发现 除了 $f_0$ 和 $f_1$ 都为 1 的情况，别的三种情况都可以直接确定出所对应的一部分蕴含项了，当然，要获取到最终的结果，还需要递归地将 $f_1$ 和 $f_0$ 转换为素不可约覆盖。</p>
+<p>而对于 $f_0$ 和 $f_1$ 都为 1 的情况，只需把 $x_0$ 抛弃，继续从 $x_1$ 部分开始判断即可。</p>
+<p>按照这个流程得到的就是 素不可约覆盖。</p>
+<h3 id="gao-xiao-shi-xian">高效实现</h3>
+<h4 id="shu-ju-jie-gou">数据结构</h4>
+<p>我们用 BDD 表示逻辑公式。</p>
+<p>对于找到的覆盖，虽然也可以用 BDD 表示，但更高效的表示方式是 零抑制决策图 （Zero-Suppressed Binary Decision Diagram, ZDD）。</p>
+<h5 id="ling-yi-zhi-jue-ce-tu-zero-suppressed-binary-decision-diagram-zdd">零抑制决策图（Zero-Suppressed Binary Decision Diagram, ZDD）</h5>
+<p>ZDD 相比 BDD 更适合表示集合的集合，比如 一个逻辑表达式的覆盖 其中每个项都是一个集合，而其整体就是这些集合的集合。</p>
+<p>使用 ZDD 表示 逻辑表达式的覆盖 的方法如下：</p>
+<ul>
+<li>除了最底部的一层是两个特殊节点 $\{ \varnothing \}$（$\top$） 和 $\varnothing$（$\bot$）之外，每层表示一个原子变量或其否定 $\neg x$，因此对于 k 个原子变量的逻辑公式，最多需要 2k + 1 个层的 zdd 来表示</li>
+<li>对每个位于表示原子变量 $x$ 或其否定 $\neg x$ 的层中的节点，其 low 分支表示不包含 $x$ 的集合，其 high 分支表示包含 $x$ 的集合。</li>
+</ul>
+<p>更多关于 ZDD 的信息，见 <img src="https://crypto.stanford.edu/pbc/notes/zdd/" alt="这个页面" />。</p>
+<h4 id="suan-fa-1">算法</h4>
+<pre data-lang="rust" style="background-color:#2b303b;color:#c0c5ce;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#65737e;">// `f`: 需要生成覆盖的 Boolean function
+</span><span style="color:#65737e;">// `fd`: `f` 和 don&#39;t care set （可以覆盖也可以不覆盖）的 union
+</span><span style="color:#65737e;">//   如果不存在 don&#39;t care set，直接输入两个 f 即可
+</span><span style="color:#b48ead;">fn </span><span style="color:#8fa1b3;">irr_sop</span><span>(</span><span style="color:#bf616a;">f</span><span>: BDD, </span><span style="color:#bf616a;">fd</span><span>: BDD) -&gt; ZDD {
+</span><span>  </span><span style="color:#b48ead;">if </span><span>(f == </span><span style="color:#d08770;">BDD</span><span>::Bottom) </span><span style="color:#b48ead;">return </span><span>{};
+</span><span>  </span><span style="color:#b48ead;">if </span><span>(fd == </span><span style="color:#d08770;">BDD</span><span>::Top) </span><span style="color:#b48ead;">return </span><span>{{}};
+</span><span>
+</span><span>  </span><span style="color:#b48ead;">let</span><span> f_top: BDDVariable = </span><span style="color:#96b5b4;">top_variable</span><span>(f);
+</span><span>  </span><span style="color:#b48ead;">let</span><span> fd_top: BDDVariable = </span><span style="color:#96b5b4;">top_variable</span><span>(fd);
+</span><span>  </span><span style="color:#b48ead;">let</span><span> x: BDDVariable = f_top &lt; fd_top ? f_top : fd_top;
+</span><span>
+</span><span>  </span><span style="color:#b48ead;">let </span><span>(f0, f1): (</span><span style="color:#d08770;">BDD</span><span>, </span><span style="color:#d08770;">BDD</span><span>) = </span><span style="color:#96b5b4;">decompose_bdd</span><span>(f, x);
+</span><span>  </span><span style="color:#b48ead;">let </span><span>(fd0, fd1): (</span><span style="color:#d08770;">BDD</span><span>, </span><span style="color:#d08770;">BDD</span><span>) = </span><span style="color:#96b5b4;">decompose_bdd</span><span>(fd, x);
+</span><span>
+</span><span>  </span><span style="color:#65737e;">// g0: 必须 由 包含 !x 的项覆盖的部分
+</span><span>  </span><span style="color:#b48ead;">let</span><span> g0: </span><span style="color:#d08770;">BDD </span><span>= f0 - fd1;
+</span><span>  </span><span style="color:#b48ead;">let</span><span> r0: </span><span style="color:#d08770;">ZDD </span><span>= </span><span style="color:#96b5b4;">irr_sop</span><span>(g0, fd0);
+</span><span>
+</span><span>  </span><span style="color:#65737e;">// g1: 必须 由 包含 x 的项覆盖的部分
+</span><span>  </span><span style="color:#b48ead;">let</span><span> g1: </span><span style="color:#d08770;">BDD </span><span>= f1 - fd0;
+</span><span>  </span><span style="color:#b48ead;">let</span><span> r1: </span><span style="color:#d08770;">ZDD </span><span>= </span><span style="color:#96b5b4;">irr_sop</span><span>(g1, fd1);
+</span><span>
+</span><span>  </span><span style="color:#65737e;">// h: 没有成功被 r0 和 r1 覆盖掉的部分
+</span><span>  </span><span style="color:#b48ead;">let</span><span> h: </span><span style="color:#d08770;">BDD </span><span>= (f0 - </span><span style="color:#d08770;">BDD</span><span>(r0)) + (f1 - </span><span style="color:#d08770;">BDD</span><span>(r1));
+</span><span>  </span><span style="color:#b48ead;">let</span><span> hd: </span><span style="color:#d08770;">BDD </span><span>= fd0 &amp; fd1;
+</span><span>  </span><span style="color:#b48ead;">let</span><span> r2: </span><span style="color:#d08770;">ZDD </span><span>= </span><span style="color:#96b5b4;">irr_sop</span><span>(h, hd);
+</span><span>
+</span><span>  !x・r0 + x・r1 + r2
+</span><span>}
+</span></code></pre>
+<p>其中 $f - g = f \cdot (\neg g)$</p>
+<h4 id="li-zi">例子</h4>
+<p>假设有如下函数（用真值表表示）：</p>
+<table><thead><tr><th>A</th><th>B</th><th>C</th><th>Output</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+</tbody></table>
+<p>直接把最小项拿出来，可以得到最简单的函数表示：</p>
+<p>$$
+\neg A \neg B C + \neg A B \neg C + A \neg B \neg C + A B \neg C
+$$</p>
+<p>将其带入 <code>f</code> 和 <code>fd</code>：</p>
+<ul>
+<li>$x = A$</li>
+<li>$f_0 = fd_0 = \neg B C + B \neg C$</li>
+<li>$f_1 = fd_1 = \neg B \neg C + B \neg C$</li>
+<li>$g_0 = f_0 - fd_1 = (\neg B C + B \neg C) \cdot \neg (\neg B \neg C + B \neg C) = \neg BC$</li>
+<li>$g_1 = f_1 - fd_0 = (\neg B \neg C + B \neg C) \cdot \neg (\neg B C + B \neg C) = \neg B \neg C$</li>
+<li>递归计算 <code>r_0 = irr_sop(g_0, fd_0) = irr_sop(!B・C, !B・C + B・!C)</code>
+<ul>
+<li>$x = B$</li>
+<li>$f_0 = C$</li>
+<li>$fd_0 = C$</li>
+<li>$f_1 = 0$</li>
+<li>$fd_1 = \neg C$</li>
+<li>$g_0 = f_0 - fd_1 = C \cdot \neg (\neg C) = C$</li>
+<li>$g_1 = f_1 - fd_0 = 0$</li>
+<li>递归计算 <code>r_0 = irr_sop(g_0, fd_0) = irr_sop(C, C)</code>
+<ul>
+<li>$x = C$</li>
+<li>$f_0 = fd_0 = 0$</li>
+<li>$f_1 = fd_1 = 1$</li>
+<li>$g_0 = f_0 - fd_1 = 0$</li>
+<li>$g_1 = f_1 - fd_0 = 1$</li>
+<li>递归计算 <code>r_0 = irr_sop(g_0, fd_0) = irr_sop(0, 0) = 0</code>。</li>
+<li>递归计算 <code>r_1 = irr_sop(g_1, fd_1) = irr_sop(1, 1) = 1</code>。</li>
+<li>$h = 0 \cdot \neg 0 + 1 \cdot \neg 1 = 0$</li>
+<li>$hd = 0 \cdot 1 = 0$</li>
+<li>递归计算 <code>r_2 = irr_sop(h, hd) = irr_sop(0, 0) = 0</code>。</li>
+<li>返回 $r_0 = \neg C・0 + C・1 + 0 = C$</li>
+</ul>
+</li>
+<li>递归计算 <code>r_1 = irr_sop(g_1, fd_1) = irr_sop(0, !C) = 0</code></li>
+<li>$h = C \cdot \neg C + 0 \cdot \neg 0 = 0$</li>
+<li>$hd = C \cdot \neg C = 0$</li>
+<li>递归计算 <code>r_2 = irr_sop(h, hd) = irr_sop(0, 0) = 0</code>。</li>
+<li>返回 $r_0 = \neg B・C + B・0 + 0 = \neg BC$</li>
+</ul>
+</li>
+<li>递归计算 <code>r_1 = irr_sop(g_1, fd_1) = irr_sop(!B・!C, !B・!C + B・!C)</code>
+<ul>
+<li>$x = B$</li>
+<li>$f_0 = \neg C$</li>
+<li>$fd_0 = \neg C$</li>
+<li>$f_1 = 0$</li>
+<li>$fd_1 = \neg C$</li>
+<li>$g_0 = f_0 - fd_1 = \neg C \cdot \neg (\neg C) = 0$</li>
+<li>$g_1 = f_1 - fd_0 = 0 \cdot \neg (\neg C) = 0$
+<ul>
+<li>递归计算 <code>r_0 = irr_sop(g_0, fd_0) = irr_sop(0, !C) = 0</code></li>
+<li>递归计算 <code>r_1 = irr_sop(g_1, fd_1) = irr_sop(0, !C) = 0</code></li>
+<li>$h = (\neg C - 0) + (0 - 0) = \neg C$</li>
+<li>$hd = \neg C$</li>
+<li>递归计算 <code>r_2 = irr_sop(h, hd) = irr_sop(!C, !C) = !C</code></li>
+<li>返回 $r_1 = \neg B \cdot 0 + B \cdot 0 + \neg C = \neg C$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>$h = (\neg B C + B \neg C - \neg BC) + (\neg B \neg C + B \neg C - \neg C) = B \neg C$</li>
+<li>$hd = (\neg B C + B \neg C) \cdot (\neg B \neg C + B \neg C) = B \neg C$</li>
+<li>递归计算 <code>r_2 = irr_sop(h, hd) = irr_sop(B・!C, B・!C) = B・!C</code>。</li>
+<li>返回最终结果 $\neg A \neg B C + A \neg C + B \neg C$</li>
+</ul>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025年06月16日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/算法">&nbsp;算法</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/数字逻辑">&nbsp;数字逻辑</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Minato ISOP 算法&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;minato-isop&#x2F;&hashtags=算法,数字逻辑"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

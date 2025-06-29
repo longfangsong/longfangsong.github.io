@@ -5,8 +5,203 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-05-01T22:42:14.973+00:00</updated>
+    <updated>2025-06-16T07:17:01.217+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Minato&#x27;s ISOP Algorithm</title>
+        <published>2025-06-16T07:17:01.217+00:00</published>
+        <updated>2025-06-16T07:17:01.217+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/minato-isop/"/>
+        <id>https://longfangsong.github.io/en/minato-isop/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/minato-isop/">&lt;h2 id=&quot;glossary&quot;&gt;Glossary&lt;&#x2F;h2&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;English Name&lt;&#x2F;th&gt;&lt;th&gt;Meaning&lt;&#x2F;th&gt;&lt;th&gt;Example&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;cube&lt;&#x2F;td&gt;&lt;td&gt;A subset of a space containing $2^n$ vertices, where each vertex represents an assignment for $n$ variables.&lt;&#x2F;td&gt;&lt;td&gt;For $\{x_0, x_1\}$, the vertices in the cube are ${(0,0), (0,1), (1,0), (1,1)}$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;minterm&lt;&#x2F;td&gt;&lt;td&gt;A single vertex in a cube, which can be expressed as a product term where &lt;strong&gt;all&lt;&#x2F;strong&gt; variables are included either in their true form or negated.&lt;&#x2F;td&gt;&lt;td&gt;For $(0, 1)$, it can be expressed as $\neg x0 \cdot x1$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;implicant&lt;&#x2F;td&gt;&lt;td&gt;For a logical formula $F$, if there exists a product term $P$ such that $(P = 1) \rightarrow (F = 1)$ is always true, then $P$ is an implicant of $F$.&lt;&#x2F;td&gt;&lt;td&gt;If $f = xy + yz$, then $xy$ and $yz$ are implicants of $f$, but $x$ alone is not.&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;prime implicant&lt;&#x2F;td&gt;&lt;td&gt;An implicant such that we cannot remove any literal from it and still have it remain an implicant.&lt;&#x2F;td&gt;&lt;td&gt;If $f = x \cdot y + z$, then $x \cdot y$ and $z$ are prime implicants of $f$, while $x \cdot y \cdot z$ is an implicant but not a prime implicant.&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;cover&lt;&#x2F;td&gt;&lt;td&gt;A sum-of-products representation of a Boolean function.&lt;&#x2F;td&gt;&lt;td&gt;$f = AB + A\neg B$ is a cover of itself, and its simplified form $f=A$ is also a cover.&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;parts of f covered by g&lt;&#x2F;td&gt;&lt;td&gt;If $g\rightarrow f$, the parts of $f$ covered by $g$ are the parts where $g$ is true.&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;irredundant cover&lt;&#x2F;td&gt;&lt;td&gt;For any cover, if we cannot remove any term&#x2F;implicant from it and still have it remain a cover, then it is an irredundant cover.&lt;&#x2F;td&gt;&lt;td&gt;If $f = AB + AC$, it is an irredundant cover itself, but $AB + AC + ABC$ is not (though it is a cover).&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;Prime-Irredundant Cover&lt;&#x2F;td&gt;&lt;td&gt;An irredundant cover composed of prime implicants.&lt;&#x2F;td&gt;&lt;td&gt;&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;h2 id=&quot;algorithm&quot;&gt;Algorithm&lt;&#x2F;h2&gt;
+&lt;p&gt;The purpose of Minato&#x27;s algorithm is to find a prime-irredundant cover for a Boolean function. In other words:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;We want to find a Sum of Products (SOP) form of the original Boolean function.&lt;&#x2F;li&gt;
+&lt;li&gt;Each product term is a prime implicant, meaning it contains no literals that can be removed, or in other words, the term is minimal.&lt;&#x2F;li&gt;
+&lt;li&gt;Removing any product term will make the SOP incomplete (unable to represent the original function).&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Let&#x27;s solve these problems one by one.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;sum-of-products&quot;&gt;Sum of Products&lt;&#x2F;h3&gt;
+&lt;p&gt;The simplest way to write any Boolean function in SOP form is through Shannon expansion:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fix a variable&#x27;s value to 0 and calculate the value of the Boolean function.&lt;&#x2F;li&gt;
+&lt;li&gt;Fix a variable&#x27;s value to 1 and calculate the value of the Boolean function.&lt;&#x2F;li&gt;
+&lt;li&gt;Combine the results by multiplying (ANDing) with the variable or its negation.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;That is, for a Boolean function $f(x_0,\cdots, x_n)$, we can recursively apply:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+f(x_0, x_1, \cdots, x_n) = \neg x_0 \cdot (f(0, x_1, \cdots, x_n)) + x_0 \cdot (f(1, x_1, \cdots, x_n))
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;until the parameters of $f$ are completely determined.&lt;&#x2F;p&gt;
+&lt;p&gt;The result of this expansion is obviously a cover, but it is neither guaranteed to be prime nor irredundant.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;prime-and-irredundant&quot;&gt;Prime and Irredundant&lt;&#x2F;h3&gt;
+&lt;p&gt;We improve upon the Shannon expansion:
+Suppose the two parts of the Shannon expansion of $f$ are $f_0(x_1, \cdots, x_n) = f(0, x1, \cdots, x_n)$ and $f_1(x_1, \cdots, x_n) = f(1, x1, \cdots, x_n)$.&lt;&#x2F;p&gt;
+&lt;p&gt;If a set of $x_1, \cdots, x_n$:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;is 1 under $f_0$ but 0 under $f_1$, it means this set of $x$ can only make the original function 1 when $x_0$ is 0. The corresponding term needs to be multiplied by $\neg x_0$ to become an implicant.&lt;&#x2F;li&gt;
+&lt;li&gt;is 1 under $f_1$ but 0 under $f_0$, it means this set of $x$ can only make the original function 1 when $x_0$ is 1. The corresponding term needs to be multiplied by $x_0$ to become an implicant.&lt;&#x2F;li&gt;
+&lt;li&gt;is 0 under $f_0$, it means that if $x_0$ is 0, the entire original function cannot be 1. The corresponding term cannot contain $\neg x_0$, otherwise it cannot be an implicant.&lt;&#x2F;li&gt;
+&lt;li&gt;is 0 under $f_1$, it means that if $x_0$ is 1, the entire original function cannot be 1. The corresponding term cannot contain $x_0$, otherwise it cannot be an implicant.&lt;&#x2F;li&gt;
+&lt;li&gt;is 1 under both $f_1$ and $f_0$, $x_0$ cannot affect the value of the original function. In this case, the corresponding term does not contain $x_0$ or $\neg x_0$.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;Here&#x27;s the translated table:&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;$f_0$&lt;&#x2F;th&gt;&lt;th&gt;$f_1$&lt;&#x2F;th&gt;&lt;th&gt;Information&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;Cannot cover any minterm&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;Must contain minterms of the form $x_0\cdot\varphi$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;Must contain minterms of the form $\neg x_0\cdot\varphi$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;Contains no minterms of $x_0$ or $\neg x_0$&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;From the analysis above, we can see that except for the case where both $f_0$ and $f_1$ are 1, the other three cases can directly determine a part of the corresponding implicants. Of course, to get the final result, we still need to recursively convert $f_1$ and $f_0$ into prime-irredundant covers.&lt;&#x2F;p&gt;
+&lt;p&gt;For the case where both $f_0$ and $f_1$ are 1, we just need to discard $x_0$ and continue to judge from the $x_1$ part.&lt;&#x2F;p&gt;
+&lt;p&gt;The result obtained according to this process is a prime-irredundant cover.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;efficient-implementation&quot;&gt;Efficient Implementation&lt;&#x2F;h3&gt;
+&lt;h4 id=&quot;data-structure&quot;&gt;Data Structure&lt;&#x2F;h4&gt;
+&lt;p&gt;We use BDDs to represent logic formulas.&lt;&#x2F;p&gt;
+&lt;p&gt;For the found cover, although it can also be represented by a BDD, a more efficient representation is a Zero-Suppressed Binary Decision Diagram (ZDD).&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;zero-suppressed-binary-decision-diagram-zdd&quot;&gt;Zero-Suppressed Binary Decision Diagram (ZDD)&lt;&#x2F;h5&gt;
+&lt;p&gt;Compared to BDDs, ZDDs are more suitable for representing sets of sets, such as a cover of a logic expression, where each term is a set, and the whole is a set of these sets.&lt;&#x2F;p&gt;
+&lt;p&gt;The method of using ZDD to represent the cover of a logic expression is as follows:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;Except for the bottom layer, which consists of two special nodes $\{ \varnothing \}$ ($\top$) and $\varnothing$ ($\bot$), each layer represents an atomic variable or its negation $\neg x$. Therefore, for a logic formula with k atomic variables, at most 2k + 1 layers of zdd are needed to represent it.&lt;&#x2F;li&gt;
+&lt;li&gt;For each node in the layer representing the atomic variable $x$ or its negation $\neg x$, its low branch represents the set that does not contain $x$, and its high branch represents the set that contains $x$.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;For more information about ZDD, see &lt;a href=&quot;https:&#x2F;&#x2F;crypto.stanford.edu&#x2F;pbc&#x2F;notes&#x2F;zdd&#x2F;&quot;&gt;this page&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;algorithm-1&quot;&gt;Algorithm&lt;&#x2F;h4&gt;
+&lt;pre data-lang=&quot;rust&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-rust &quot;&gt;&lt;code class=&quot;language-rust&quot; data-lang=&quot;rust&quot;&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `f`: The Boolean function for which to generate a cover
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; `fd`: The union of `f` and the don&amp;#39;t care set (can be covered or not)
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F;   If there is no don&amp;#39;t care set, just input two f&amp;#39;s
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;fn &lt;&#x2F;span&gt;&lt;span style=&quot;color:#8fa1b3;&quot;&gt;irr_sop&lt;&#x2F;span&gt;&lt;span&gt;(&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;f&lt;&#x2F;span&gt;&lt;span&gt;: BDD, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;fd&lt;&#x2F;span&gt;&lt;span&gt;: BDD) -&amp;gt; ZDD {
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(f == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;::Bottom) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;{};
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;if &lt;&#x2F;span&gt;&lt;span&gt;(fd == &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;::Top) &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;return &lt;&#x2F;span&gt;&lt;span&gt;{{}};
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; f_top: BDDVariable = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;top_variable&lt;&#x2F;span&gt;&lt;span&gt;(f);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; fd_top: BDDVariable = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;top_variable&lt;&#x2F;span&gt;&lt;span&gt;(fd);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; x: BDDVariable = f_top &amp;lt; fd_top ? f_top : fd_top;
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span&gt;(f0, f1): (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;decompose_bdd&lt;&#x2F;span&gt;&lt;span&gt;(f, x);
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let &lt;&#x2F;span&gt;&lt;span&gt;(fd0, fd1): (&lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;, &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;) = &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;decompose_bdd&lt;&#x2F;span&gt;&lt;span&gt;(fd, x);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; g0: The part that must be covered by terms containing !x
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; g0: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD &lt;&#x2F;span&gt;&lt;span&gt;= f0 - fd1;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; r0: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;ZDD &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;irr_sop&lt;&#x2F;span&gt;&lt;span&gt;(g0, fd0);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; g1: The part that must be covered by terms containing x
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; g1: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD &lt;&#x2F;span&gt;&lt;span&gt;= f1 - fd0;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; r1: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;ZDD &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;irr_sop&lt;&#x2F;span&gt;&lt;span&gt;(g1, fd1);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;&#x2F;&#x2F; h: The part that was not successfully covered by r0 and r1
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; h: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD &lt;&#x2F;span&gt;&lt;span&gt;= (f0 - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;(r0)) + (f1 - &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD&lt;&#x2F;span&gt;&lt;span&gt;(r1));
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; hd: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;BDD &lt;&#x2F;span&gt;&lt;span&gt;= fd0 &amp;amp; fd1;
+&lt;&#x2F;span&gt;&lt;span&gt;  &lt;&#x2F;span&gt;&lt;span style=&quot;color:#b48ead;&quot;&gt;let&lt;&#x2F;span&gt;&lt;span&gt; r2: &lt;&#x2F;span&gt;&lt;span style=&quot;color:#d08770;&quot;&gt;ZDD &lt;&#x2F;span&gt;&lt;span&gt;= &lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;irr_sop&lt;&#x2F;span&gt;&lt;span&gt;(h, hd);
+&lt;&#x2F;span&gt;&lt;span&gt;
+&lt;&#x2F;span&gt;&lt;span&gt;  !x・r0 + x・r1 + r2
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;where $f - g = f \cdot (\neg g)$&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;&#x2F;h4&gt;
+&lt;p&gt;Suppose we have the following function (represented by a truth table):&lt;&#x2F;p&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;A&lt;&#x2F;th&gt;&lt;th&gt;B&lt;&#x2F;th&gt;&lt;th&gt;C&lt;&#x2F;th&gt;&lt;th&gt;Output&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;1&lt;&#x2F;td&gt;&lt;td&gt;0&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;By taking out the minterms directly, we can get the simplest function representation:&lt;&#x2F;p&gt;
+&lt;p&gt;$$
+\neg A \neg B C + \neg A B \neg C + A \neg B \neg C + A B \neg C
+$$&lt;&#x2F;p&gt;
+&lt;p&gt;Substitute it into &lt;code&gt;f&lt;&#x2F;code&gt; and &lt;code&gt;fd&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;$x = A$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_0 = fd_0 = \neg B C + B \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_1 = fd_1 = \neg B \neg C + B \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_0 = f_0 - fd_1 = (\neg B C + B \neg C) \cdot \neg (\neg B \neg C + B \neg C) = \neg BC$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_1 = f_1 - fd_0 = (\neg B \neg C + B \neg C) \cdot \neg (\neg B C + B \neg C) = \neg B \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_0 = irr_sop(g_0, fd_0) = irr_sop(!B・C, !B・C + B・!C)&lt;&#x2F;code&gt;
+&lt;ul&gt;
+&lt;li&gt;$x = B$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_0 = C$&lt;&#x2F;li&gt;
+&lt;li&gt;$fd_0 = C$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_1 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;$fd_1 = \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_0 = f_0 - fd_1 = C \cdot \neg (\neg C) = C$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_1 = f_1 - fd_0 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_0 = irr_sop(g_0, fd_0) = irr_sop(C, C)&lt;&#x2F;code&gt;
+&lt;ul&gt;
+&lt;li&gt;$x = C$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_0 = fd_0 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_1 = fd_1 = 1$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_0 = f_0 - fd_1 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_1 = f_1 - fd_0 = 1$&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_0 = irr_sop(g_0, fd_0) = irr_sop(0, 0) = 0&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_1 = irr_sop(g_1, fd_1) = irr_sop(1, 1) = 1&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;$h = 0 \cdot \neg 0 + 1 \cdot \neg 1 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;$hd = 0 \cdot 1 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_2 = irr_sop(h, hd) = irr_sop(0, 0) = 0&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Return $r_0 = \neg C・0 + C・1 + 0 = C$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_1 = irr_sop(g_1, fd_1) = irr_sop(0, !C) = 0&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;$h = C \cdot \neg C + 0 \cdot \neg 0 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;$hd = C \cdot \neg C = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_2 = irr_sop(h, hd) = irr_sop(0, 0) = 0&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Return $r_0 = \neg B・C + B・0 + 0 = \neg BC$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_1 = irr_sop(g_1, fd_1) = irr_sop(!B・!C, !B・!C + B・!C)&lt;&#x2F;code&gt;
+&lt;ul&gt;
+&lt;li&gt;$x = B$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_0 = \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$fd_0 = \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$f_1 = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;$fd_1 = \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_0 = f_0 - fd_1 = \neg C \cdot \neg (\neg C) = 0$&lt;&#x2F;li&gt;
+&lt;li&gt;$g_1 = f_1 - fd_0 = 0 \cdot \neg (\neg C) = 0$
+&lt;ul&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_0 = irr_sop(g_0, fd_0) = irr_sop(0, !C) = 0&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_1 = irr_sop(g_1, fd_1) = irr_sop(0, !C) = 0&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;$h = (\neg C - 0) + (0 - 0) = \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$hd = \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_2 = irr_sop(h, hd) = irr_sop(!C, !C) = !C&lt;&#x2F;code&gt;&lt;&#x2F;li&gt;
+&lt;li&gt;Return $r_1 = \neg B \cdot 0 + B \cdot 0 + \neg C = \neg C$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;$h = (\neg B C + B \neg C - \neg BC) + (\neg B \neg C + B \neg C - \neg C) = B \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;$hd = (\neg B C + B \neg C) \cdot (\neg B \neg C + B \neg C) = B \neg C$&lt;&#x2F;li&gt;
+&lt;li&gt;Recursively calculate &lt;code&gt;r_2 = irr_sop(h, hd) = irr_sop(B・!C, B・!C) = B・!C&lt;&#x2F;code&gt;.&lt;&#x2F;li&gt;
+&lt;li&gt;Return the final result $\neg A \neg B C + A \neg C + B \neg C$&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Counterexample-guided Abstraction Refinement Algorithm</title>
         <published>2025-05-01T22:42:14.973+00:00</published>
