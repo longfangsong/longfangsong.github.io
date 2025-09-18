@@ -844,7 +844,7 @@ there exists $A ∈ \mathscr{A}$ such that $F(A) \cong B$.&lt;&#x2F;p&gt;
 &lt;h1 id=&quot;set-is-uncountable-infinity&quot;&gt;Set is uncountable infinity&lt;&#x2F;h1&gt;
 &lt;p&gt;Note: coutable = coutable infinity + finite&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;diagonalisation&quot;&gt;Diagonalisation&lt;&#x2F;h2&gt;
-&lt;p&gt;Assume countable, get a surjection $𝑓 ∈ ℕ → A$, change each $f\ n$ in someway and make contradiction.&lt;&#x2F;p&gt;
+&lt;p&gt;Assume countable, get a surjection $f \in ℕ → A$, change each $f\ n$ in someway and make contradiction.&lt;&#x2F;p&gt;
 &lt;h2 id=&quot;common-finite-sets&quot;&gt;Common finite sets&lt;&#x2F;h2&gt;
 &lt;ul&gt;
 &lt;li&gt;$∅$

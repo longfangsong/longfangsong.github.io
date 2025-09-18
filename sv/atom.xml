@@ -5,8 +5,29 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/sv/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-03-13T22:22:36.426+00:00</updated>
+    <updated>2025-09-18T06:44:13.946+00:00</updated>
     <id>https://longfangsong.github.io/sv/atom.xml</id>
+    <entry xml:lang="sv">
+        <title>Min sovsal övervakningskamera</title>
+        <published>2025-09-18T06:44:13.946+00:00</published>
+        <updated>2025-09-18T06:44:13.946+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/sv/webcam/"/>
+        <id>https://longfangsong.github.io/sv/webcam/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/sv/webcam/">&lt;p&gt;Sikta på arbetsbänken där jag vanligtvis lagar mat, så att du kan se vad jag gör.&lt;&#x2F;p&gt;
+&lt;p&gt;&lt;img src=&quot;https:&#x2F;&#x2F;webcam.longfangsong.mywire.org&#x2F;?action=stream&quot; alt=&quot;&quot; &#x2F;&gt;&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="sv">
         <title>En eller Ett - Varför i hela friden</title>
         <published>2025-03-13T22:22:36.426+00:00</published>

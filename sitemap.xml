@@ -398,6 +398,9 @@
         <loc>https://longfangsong.github.io/page/5/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/page/6/</loc>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/parsing-combinator/</loc>
         <lastmod>2020-05-17T16:30:31.045Z</lastmod>
     </url>
@@ -508,6 +511,13 @@
         <loc>https://longfangsong.github.io/sv/tags/svenska/</loc>
     </url>
     <url>
+        <loc>https://longfangsong.github.io/sv/tags/verktyg/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/sv/webcam/</loc>
+        <lastmod>2025-09-18T06:44:13.946Z</lastmod>
+    </url>
+    <url>
         <loc>https://longfangsong.github.io/svenska-substantiv/</loc>
         <lastmod>2025-03-13T22:22:36.426Z</lastmod>
     </url>
@@ -538,9 +548,6 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/fen-bu-shi-xi-tong/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/formal-methods/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/fpga/</loc>
@@ -585,10 +592,7 @@
         <loc>https://longfangsong.github.io/tags/math/</loc>
     </url>
     <url>
-        <loc>https://longfangsong.github.io/tags/model-checking/</loc>
-    </url>
-    <url>
-        <loc>https://longfangsong.github.io/tags/paper-reading/</loc>
+        <loc>https://longfangsong.github.io/tags/mo-xing-jian-cha/</loc>
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/plt/</loc>
@@ -634,6 +638,10 @@
     </url>
     <url>
         <loc>https://longfangsong.github.io/tags/zola/</loc>
+    </url>
+    <url>
+        <loc>https://longfangsong.github.io/webcam/</loc>
+        <lastmod>2025-09-18T06:44:13.946Z</lastmod>
     </url>
     <url>
         <loc>https://longfangsong.github.io/why-lean-proof/</loc>
