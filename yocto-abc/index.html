@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Yocto ABC</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/">Blog</a></h3>
+        <div class="description">
+          <p>生命是灰色的，而理论之树常青</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/">首页</a></li>
+        <li><a  href="https://longfangsong.github.io/about/">关于</a></li><li><a  href="https://longfangsong.github.io/tags">标签</a></li><li><a 
+            href="https://longfangsong.github.io/archive/">归档</a></li><li><a  href="https://longfangsong.github.io/links/">友链</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;'"> English </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;yocto-abc&#x2F;">Yocto ABC</a></h1>
+  
+  <div class="post-content"><h2 id="what-is-it">What is it</h2>
+<blockquote>
+<p>The Yocto Project (YP) is an open source collaboration project that helps developers create custom Linux-based systems regardless of the hardware architecture.</p>
+</blockquote>
+<p>基本上这就是一套用来为特定硬件系统定制 Linux 发行版的工具链，一般用于嵌入式系统。</p>
+<h2 id="he-xin-gai-nian">核心概念</h2>
+<h3 id="bitbake">BitBake</h3>
+<p>Yocto 项目引入的构建工具。类似于 make, cmake, bazel 等构建工具，但专门用于构建系统映像等任务。</p>
+<h3 id="ceng">层</h3>
+<p>层 是 Yocto 项目中承担 “模块” 这一角色的机制。</p>
+<p>一般会将：</p>
+<ul>
+<li>一个 硬件平台 或 板级配置 所需要的所有文件。</li>
+<li>一组（往往是可重用的）逻辑上独立的文件。</li>
+</ul>
+<p>组织在一个层里。
+一个层往往会包含多个 配方。</p>
+<h3 id="pei-fang">配方</h3>
+<p>配方 类似于 make 的 Makefile，但相比之下 配方 除了 从源码编译到二进制 之外，同时也可以负责对软件的 源代码 的获取（支持直接利用 Git 等方式获取源代码）和解包、对 patch 的应用、配置编译环境、打包软件包 等功能。</p>
+<p>另外，还有一些用以特殊用途的配方，比如用以制作 最终映像，向其中添加别的打包好的软件包 的 映像配方。</p>
+<p>配方一般由一个 <code>.bb</code> 文件表示，并且要遵守一定的 文件名（<code>name_version.bb</code>） 和 目录规则。</p>
+<h3 id="bao">包</h3>
+<p>通常指由 配方 源代码编译而成 的 产品。</p>
+<h2 id="gong-zuo-liu-cheng">工作流程</h2>
+<p>建议从 Yocto 的官方发行版 poky 开始逐步 添加/修改，得到需要的发行版，如果你没有使用 yocto 的经验，建议先构建一个 poky 的镜像，并在 qemu 中运行一下来试试手。</p>
+<p>poky 项目的构建过程可以参考 <a href="https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html">官方文档</a>，如果你的设备可以正常联网，请不要忘记如文档中所述地配置 mirrors（可能需要安装 <code>python3-websockets</code> 之类的包），否则构建将会花费长到离谱的时间。</p>
+<p>如果你愿意使用 Docker，请使用这个 <a href="https://gist.github.com/longfangsong/0d126188aefa096ab4cf5bc95e3b38af">Dockerfile</a>。</p>
+<h3 id="cong-wang-shang-xia-zai-xian-you-de-ceng">从网上下载现有的层</h3>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#96b5b4;">cd</span><span> poky
+</span><span style="color:#bf616a;">git</span><span> clone &lt;层的 Git URL&gt;
+</span><span style="color:#65737e;"># 你可能需要进入 clone 到的 repo 并切换到正确的分支
+</span><span style="color:#96b5b4;">cd</span><span> build
+</span><span style="color:#bf616a;">bitbake-layers</span><span> add-layer ../&lt;层名字&gt;
+</span></code></pre>
+<p>然后 <code>bitbake core-image-*</code> 得到的镜像就是基于你加入的层的。</p>
+<h3 id="chuang-jian-ni-zi-ji-de-ceng">创建你自己的层</h3>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">bitbake-layers</span><span> create-layer &lt;层名字&gt;
+</span></code></pre>
+<p>然后 一个新的层就会在 <code>poky</code> 目录中生成。</p>
+<h3 id="dao-chu-sdk">导出 SDK</h3>
+<p>SDK 指 开发目标平台上的应用需要的交叉编译工具链 和 目标平台的头文件和库，一般如果你只需要构建一些能在固定的 目标平台（映像）上运行的二进制文件，则应该使用 SDK。</p>
+<p>运行：</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">bitbake </span><span>&lt;image-name&gt; -c populate_sdk
+</span></code></pre>
+<p>来制作对应镜像的 SDK。</p>
+<p>之后可以在 <code>poky/build/tmp/deploy/sdk</code> 中找到一个 <code>.sh</code> 文件，就是打包好的 SDK。</p>
+<p>可以在另一台计算机<sup class="footnote-reference"><a href="#1">1</a></sup>上运行这个 <code>.sh</code> 文件，然后就可以使用这个工具链，而无需安装 poky 了。</p>
+<h3 id="dao-chu-extensible-sdk-esdk">导出 Extensible SDK (eSDK)</h3>
+<p>相比 SDK，Extensible SDK 额外打包了 <code>devtool</code> 命令行工具，方便用户对发行版中 现存的层 中的 配方 进行修改，如果希望创建新的层或是修改现有的层，应该使用 eSDK。</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">bitbake </span><span>&lt;image-name&gt; -c populate_sdk_ext
+</span></code></pre>
+<p>同样可以在另一台计算机<sup class="footnote-reference"><a href="#2">2</a></sup>上运行这个 <code>.sh</code> 文件来安装，然后就可以使用 <code>devtool</code> 进行对层的创建、修改，以及<strong>直接构建 image</strong>。</p>
+<h3 id="sdk-vs-esdk">SDK vs eSDK</h3>
+<table><thead><tr><th style="text-align: left">Feature</th><th style="text-align: left">Standard SDK</th><th style="text-align: left">Extensible SDK</th></tr></thead><tbody>
+<tr><td style="text-align: left"><strong>Toolchain</strong></td><td style="text-align: left">Yes</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Debugger</strong></td><td style="text-align: left">Yes</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Size</strong></td><td style="text-align: left">100+ MBytes</td><td style="text-align: left">1+ GBytes</td></tr>
+<tr><td style="text-align: left"><strong>devtool</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Build Images</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Updateable</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Sysroot</strong>（库、头文件等）</td><td style="text-align: left">预定义的</td><td style="text-align: left">动态更新</td></tr>
+<tr><td style="text-align: left"><strong>Installed Packages</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Construction</strong></td><td style="text-align: left">Packages</td><td style="text-align: left">Shared State</td></tr>
+</tbody></table>
+<p>简单来说，一般 SDK 只能 为固定的镜像开发二进制应用程序，而 eSDK 能对镜像进行一定程度的修改。</p>
+<h3 id="pei-fang-pei-zhi-wen-jian-yu-fa-he-guan-jian-bian-liang">配方 配置文件语法和关键变量</h3>
+<p>参考 <a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-metadata.html">官方文档</a>。</p>
+<h4 id="bian-liang">变量</h4>
+<p>配方文件 的绝大部分都是对各种变量的值进行设置。</p>
+<p>值得注意的是除了 <code>A = B</code> 这样的直接赋值，还可以：</p>
+<ul>
+<li>
+<p>使用 <code>A += "B"</code> 会将 A 中的字符串、一个空格 和 "B" 拼接起来，比如：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A = &quot;A&quot;
+</span><span>A += &quot;B&quot;
+</span><span># Now A is &quot;A B&quot;
+</span></code></pre>
+</li>
+<li>
+<p>要进行直接拼接而不加空格，使用 <code>.=</code>：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A = &quot;A&quot;
+</span><span>A .= &quot;B&quot;
+</span><span># Now A is &quot;AB&quot;
+</span></code></pre>
+<p>等效的，也可以使用 <code>:append =</code>：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A = &quot;A&quot;
+</span><span>A:append = &quot;B&quot;
+</span><span># Now A is &quot;AB&quot;
+</span></code></pre>
+</li>
+</ul>
+<h4 id="han-shu">函数</h4>
+<p>bitback 支持使用 shell 和 python 语法编写函数，参考 <a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-metadata.html#functions">官方文档</a>。</p>
+<p>函数 的最大用途就是 让 <code>bb</code> 文件可以导出任务，一般这些任务的函数名都是由 <code>do_</code> 开头。</p>
+<p>例如：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>python foo() {
+</span><span>    bb.plain(&quot;second&quot;)
+</span><span>}
+</span><span>addtask foo after do_fetch before do_build
+</span></code></pre>
+<p>就创建了一个新的任务 <code>foo</code>, 这个任务需要在 <code>fetch</code> 任务之后，<code>build</code> 任务之前执行。</p>
+<p>可以用 <code>bitbake &lt;recipe 名&gt; -c listtasks</code> 列出 配方中的所有任务。用 <code>bitbake &lt;recipe 名&gt; -c &lt;任务名&gt;</code> 执行特定任务。用 <code>bitbake</code> 管理任务 的 详细讲解见<a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-metadata.html#promoting-a-function-to-a-task">官方文档</a>。</p>
+<h4 id="ji-cheng">继承</h4>
+<p>我们可以（且一般都需要）直接继承一些已经存在 的 配方模版，例如：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>inherit cmake
+</span></code></pre>
+<p>会继承 cmake 模版，里面包含了一些预先定义好的任务。</p>
+<p>在 inherit 之后写的变量和函数可以覆盖模版里的同名变量和函数。</p>
+<h4 id="chang-jian-de-bian-liang">常见的变量</h4>
+<p>全部约定名称的变量见 <a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html">Bitbake 官方文档</a> 和 <a href="https://docs.yoctoproject.org/ref-manual/variables.html">Yocto 官方文档</a>，这里只列出一些最常见的。</p>
+<h5 id="src-uri">SRC_URI</h5>
+<p>描述了 配方要构建的 源代码 的位置，支持从 本地文件系统、FTP、Git 仓库、一般网页 等地方自动拉取代码。</p>
+<p>例如：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>SRC_URI = &quot;git://example.com/foo.git;branch=main;name=first \
+</span><span>           git://example.com/bar.git;branch=main;name=second \
+</span><span>           http://example.com/file.tar.gz;name=third&quot;
+</span></code></pre>
+<h5 id="srcrev">SRCREV</h5>
+<p>标记要用哪个版本的代码，比如 <code>SRCREV_first = "f1d2d2f924e986ac86fdf7b36c94bcdf32beec15"</code> 意思就是使用上面的 <code>foo</code> 的对应 commit。</p>
+<h5 id="depends"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-DEPENDS">DEPENDS</a></h5>
+<p>标记这个 配方 的 构建 依赖哪些 配方 。</p>
+<h5 id="rdepends"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-RDEPENDS">RDEPENDS</a></h5>
+<p>标记了这个 包 的 运行 依赖哪些 包。</p>
+<h5 id="packages"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PACKAGES">PACKAGES</a></h5>
+<p>这个 配方 实际构建出 哪些包，用于和别的包的 <code>RDEPENDS</code> 或者 最终的 <code>IMAGE_INSTALL</code> 做匹配。</p>
+<h5 id="pn"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PN">PN</a></h5>
+<p>配方名称。</p>
+<h5 id="pv"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PV">PV</a></h5>
+<p>食谱的版本号，即 <code>example_0.1.bb</code> 里面这个 0.1。</p>
+<h5 id="provides"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PROVIDES">PROVIDES</a></h5>
+<p>这个 配方 对外承诺构建出 哪些包，用于和别的包的 <code>DEPENDS</code> 做匹配。</p>
+<h5 id="workdir"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-WORKDIR">WORKDIR</a></h5>
+<p>bitbake 构建你的 配方 时所在的 目录。</p>
+<h5 id="s"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-S">S</a></h5>
+<p>标记 源代码 被 下载/解压/移动 到的 目录。</p>
+<p>有时你需要手动设置这个目录，比如如果你的 <code>SRC_URI = "git://...</code>，则需要写：</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>S = &quot;${WORKDIR}/git&quot;
+</span></code></pre>
+<h5 id="files"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-FILES">FILES</a></h5>
+<p>放入 包 中的文件。</p>
+<p>例如：<code>FILES:${PN} += "${bindir}/mydir1 ${bindir}/mydir2/myfile"</code></p>
+<h5 id="image-install"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-IMAGE_INSTALL">IMAGE_INSTALL</a></h5>
+<p>要被直接打包进 <a href="https://docs.yoctoproject.org/ref-manual/classes.html#ref-classes-image">image</a> 的 包。</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>安装这个 SDK 还是有一些基本的软件包需求，比如 <code>python3</code>, <code>file</code> 和 <code>xz-utils</code>，另外，<code>make</code> 和 <code>cmake</code> 之类的构建工具也没有被打包进 SDK，而是需要自己安装，你可以安装并启动 SDK 之后用 <code>env</code> 命令观察这个 SDK 具体设置了些什么。</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>需要相比标准 SDK 更多的包，包括 <code>diffstat</code>, <code>bzip2</code>, <code>gawk</code>, <code>cpio</code>, <code>gcc</code>, <code>g++</code>, <code>perl</code>。</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025年11月17日</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/环境配置">&nbsp;环境配置</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/嵌入式">&nbsp;嵌入式</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/tags/Linux">&nbsp;Linux</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Yocto ABC&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;yocto-abc&#x2F;&hashtags=环境配置,嵌入式,Linux"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

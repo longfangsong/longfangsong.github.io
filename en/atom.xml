@@ -5,8 +5,175 @@
     <link rel="self" type="application/atom+xml" href="https://longfangsong.github.io/en/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://longfangsong.github.io"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2025-06-16T07:17:01.217+00:00</updated>
+    <updated>2025-11-17T17:41:47.641+00:00</updated>
     <id>https://longfangsong.github.io/en/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Yocto ABC</title>
+        <published>2025-11-17T17:41:47.641+00:00</published>
+        <updated>2025-11-17T17:41:47.641+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://longfangsong.github.io/en/yocto-abc/"/>
+        <id>https://longfangsong.github.io/en/yocto-abc/</id>
+        
+        <content type="html" xml:base="https://longfangsong.github.io/en/yocto-abc/">&lt;h2 id=&quot;what-is-it&quot;&gt;What is it&lt;&#x2F;h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The Yocto Project (YP) is an open source collaboration project that helps developers create custom Linux-based systems regardless of the hardware architecture.&lt;&#x2F;p&gt;
+&lt;&#x2F;blockquote&gt;
+&lt;p&gt;Essentially, it is a toolchain used to create customized Linux distributions for specific hardware systems, typically used in embedded systems.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;core-concepts&quot;&gt;Core Concepts&lt;&#x2F;h2&gt;
+&lt;h3 id=&quot;bitbake&quot;&gt;BitBake&lt;&#x2F;h3&gt;
+&lt;p&gt;The build tool introduced by the Yocto Project. Similar to tools like make, cmake, and bazel, but specifically designed for tasks like building system images.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;layers&quot;&gt;Layers&lt;&#x2F;h3&gt;
+&lt;p&gt;Layers in the Yocto Project serve as the mechanism for modularization.&lt;&#x2F;p&gt;
+&lt;p&gt;Typically, a layer contains:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;All the files required for a specific hardware platform or board configuration.&lt;&#x2F;li&gt;
+&lt;li&gt;A set of logically independent (and often reusable) files.&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;p&gt;These are organized into a layer. A layer often contains multiple recipes.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;recipes&quot;&gt;Recipes&lt;&#x2F;h3&gt;
+&lt;p&gt;Recipes are similar to Makefiles in make. However, recipes not only handle the process of compiling source code into binaries but also manage tasks like fetching source code (e.g., clone from Git), unpacking, applying patches, configuring the build environment, and packaging software.&lt;&#x2F;p&gt;
+&lt;p&gt;There are also special-purpose recipes, such as image recipes, which are used to create final images and include pre-packaged software.&lt;&#x2F;p&gt;
+&lt;p&gt;Recipes are typically represented by &lt;code&gt;.bb&lt;&#x2F;code&gt; files and should follow specific naming (&lt;code&gt;name_version.bb&lt;&#x2F;code&gt;) and directory conventions.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;packages&quot;&gt;Packages&lt;&#x2F;h3&gt;
+&lt;p&gt;Packages usually refer to the products compiled from the source code specified in a recipe.&lt;&#x2F;p&gt;
+&lt;h2 id=&quot;workflow&quot;&gt;Workflow&lt;&#x2F;h2&gt;
+&lt;p&gt;It is recommended to start with Yocto&#x27;s official distribution, poky, and gradually add&#x2F;modify it to create the desired distribution. If you are new to Yocto, it is advisable to first build a poky image and run it in QEMU to get a feel for it.&lt;&#x2F;p&gt;
+&lt;p&gt;The build process for the poky project can be found in the &lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;brief-yoctoprojectqs&#x2F;index.html&quot;&gt;official documentation&lt;&#x2F;a&gt;. If your device has internet access, don&#x27;t forget to configure mirrors as described in the documentation (you may need to install packages like &lt;code&gt;python3-websockets&lt;&#x2F;code&gt;), otherwise, the build process will take an unreasonably long time.&lt;&#x2F;p&gt;
+&lt;p&gt;If you prefer using Docker, you can use this &lt;a href=&quot;https:&#x2F;&#x2F;gist.github.com&#x2F;longfangsong&#x2F;0d126188aefa096ab4cf5bc95e3b38af&quot;&gt;Dockerfile&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;downloading-existing-layers&quot;&gt;Downloading Existing Layers&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; poky
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;git&lt;&#x2F;span&gt;&lt;span&gt; clone &amp;lt;Layer Git URL&amp;gt;
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#65737e;&quot;&gt;# You may need to enter the cloned repo and switch to the correct branch
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#96b5b4;&quot;&gt;cd&lt;&#x2F;span&gt;&lt;span&gt; build
+&lt;&#x2F;span&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bitbake-layers&lt;&#x2F;span&gt;&lt;span&gt; add-layer ..&#x2F;&amp;lt;Layer Name&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Then, running &lt;code&gt;bitbake core-image-*&lt;&#x2F;code&gt; will produce an image based on the added layers.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;creating-your-own-layer&quot;&gt;Creating Your Own Layer&lt;&#x2F;h3&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bitbake-layers&lt;&#x2F;span&gt;&lt;span&gt; create-layer &amp;lt;Layer Name&amp;gt;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This will generate a new layer in the &lt;code&gt;poky&lt;&#x2F;code&gt; directory.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;exporting-the-sdk&quot;&gt;Exporting the SDK&lt;&#x2F;h3&gt;
+&lt;p&gt;The SDK includes the cross-compilation toolchain, headers, and libraries required for developing applications on the target platform. If you only need to build binaries for a fixed target platform (image), you should use the SDK.&lt;&#x2F;p&gt;
+&lt;p&gt;Run:&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bitbake &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;image-name&amp;gt; -c populate_sdk
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;to create the SDK for the corresponding image.&lt;&#x2F;p&gt;
+&lt;p&gt;You can find a &lt;code&gt;.sh&lt;&#x2F;code&gt; file in &lt;code&gt;poky&#x2F;build&#x2F;tmp&#x2F;deploy&#x2F;sdk&lt;&#x2F;code&gt;, which is the packaged SDK.&lt;&#x2F;p&gt;
+&lt;p&gt;You can run this &lt;code&gt;.sh&lt;&#x2F;code&gt; file on another computer&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#1&quot;&gt;1&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to use the toolchain without installing poky.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;exporting-the-extensible-sdk-esdk&quot;&gt;Exporting the Extensible SDK (eSDK)&lt;&#x2F;h3&gt;
+&lt;p&gt;Compared to the SDK, the Extensible SDK includes the &lt;code&gt;devtool&lt;&#x2F;code&gt; command-line tool, which makes it easier to modify recipes in existing layers of the distribution. If you want to create new layers or modify existing ones, you should use the eSDK.&lt;&#x2F;p&gt;
+&lt;pre data-lang=&quot;sh&quot; style=&quot;background-color:#2b303b;color:#c0c5ce;&quot; class=&quot;language-sh &quot;&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span style=&quot;color:#bf616a;&quot;&gt;bitbake &lt;&#x2F;span&gt;&lt;span&gt;&amp;lt;image-name&amp;gt; -c populate_sdk_ext
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Similarly, you can run the resulting &lt;code&gt;.sh&lt;&#x2F;code&gt; file on another computer&lt;sup class=&quot;footnote-reference&quot;&gt;&lt;a href=&quot;#2&quot;&gt;2&lt;&#x2F;a&gt;&lt;&#x2F;sup&gt; to install it. Then, you can use &lt;code&gt;devtool&lt;&#x2F;code&gt; to create and modify layers, as well as &lt;strong&gt;directly build images&lt;&#x2F;strong&gt;.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;sdk-vs-esdk&quot;&gt;SDK vs eSDK&lt;&#x2F;h3&gt;
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th style=&quot;text-align: left&quot;&gt;Feature&lt;&#x2F;th&gt;&lt;th style=&quot;text-align: left&quot;&gt;Standard SDK&lt;&#x2F;th&gt;&lt;th style=&quot;text-align: left&quot;&gt;Extensible SDK&lt;&#x2F;th&gt;&lt;&#x2F;tr&gt;&lt;&#x2F;thead&gt;&lt;tbody&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Toolchain&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Debugger&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Size&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;100+ MBytes&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;1+ GBytes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;devtool&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;No&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Build Images&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;No&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Updateable&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;No&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Sysroot&lt;&#x2F;strong&gt; (libraries, headers, etc.)&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Predefined&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Dynamically updated&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Installed Packages&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;No&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Yes&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;tr&gt;&lt;td style=&quot;text-align: left&quot;&gt;&lt;strong&gt;Construction&lt;&#x2F;strong&gt;&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Packages&lt;&#x2F;td&gt;&lt;td style=&quot;text-align: left&quot;&gt;Shared State&lt;&#x2F;td&gt;&lt;&#x2F;tr&gt;
+&lt;&#x2F;tbody&gt;&lt;&#x2F;table&gt;
+&lt;p&gt;In short, the standard SDK is mainly for developing binary applications for a fixed image, while the eSDK allows for some degree of image modification.&lt;&#x2F;p&gt;
+&lt;h3 id=&quot;recipe-configuration-file-syntax-and-key-variables&quot;&gt;Recipe Configuration File Syntax and Key Variables&lt;&#x2F;h3&gt;
+&lt;p&gt;Refer to the &lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-metadata.html&quot;&gt;official documentation&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;variables&quot;&gt;Variables&lt;&#x2F;h4&gt;
+&lt;p&gt;Most of a recipe file consists of setting various variables.&lt;&#x2F;p&gt;
+&lt;p&gt;In addition to direct assignments like &lt;code&gt;A = B&lt;&#x2F;code&gt;, you can also:&lt;&#x2F;p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;code&gt;A += &quot;B&quot;&lt;&#x2F;code&gt; to concatenate the string in A, a space, and &quot;B&quot;. For example:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;A = &amp;quot;A&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;A += &amp;quot;B&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;# Now A is &amp;quot;A B&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;li&gt;
+&lt;p&gt;Use &lt;code&gt;.=&lt;&#x2F;code&gt; for direct concatenation without a space:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;A = &amp;quot;A&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;A .= &amp;quot;B&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;# Now A is &amp;quot;AB&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;Alternatively, you can use &lt;code&gt;:append =&lt;&#x2F;code&gt;:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;A = &amp;quot;A&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;A:append = &amp;quot;B&amp;quot;
+&lt;&#x2F;span&gt;&lt;span&gt;# Now A is &amp;quot;AB&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;
+&lt;h4 id=&quot;functions&quot;&gt;Functions&lt;&#x2F;h4&gt;
+&lt;p&gt;BitBake supports functions written in shell and Python. Refer to the &lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-metadata.html#functions&quot;&gt;official documentation&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;The main purpose of functions is to allow &lt;code&gt;.bb&lt;&#x2F;code&gt; files to define tasks. These task functions usually start with &lt;code&gt;do_&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;p&gt;For example:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;python foo() {
+&lt;&#x2F;span&gt;&lt;span&gt;    bb.plain(&amp;quot;second&amp;quot;)
+&lt;&#x2F;span&gt;&lt;span&gt;}
+&lt;&#x2F;span&gt;&lt;span&gt;addtask foo after do_fetch before do_build
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This creates a new task &lt;code&gt;foo&lt;&#x2F;code&gt;, which is executed after the &lt;code&gt;fetch&lt;&#x2F;code&gt; task and before the &lt;code&gt;build&lt;&#x2F;code&gt; task.&lt;&#x2F;p&gt;
+&lt;p&gt;You can list all tasks in a recipe using &lt;code&gt;bitbake &amp;lt;recipe-name&amp;gt; -c listtasks&lt;&#x2F;code&gt;. Use &lt;code&gt;bitbake &amp;lt;recipe-name&amp;gt; -c &amp;lt;task-name&amp;gt;&lt;&#x2F;code&gt; to execute a specific task. For detailed information on managing tasks with &lt;code&gt;bitbake&lt;&#x2F;code&gt;, see the &lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-metadata.html#promoting-a-function-to-a-task&quot;&gt;official documentation&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;inheritance&quot;&gt;Inheritance&lt;&#x2F;h4&gt;
+&lt;p&gt;You can (and often should) inherit existing recipe templates. For example:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;inherit cmake
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;p&gt;This inherits the cmake template, which includes predefined tasks.&lt;&#x2F;p&gt;
+&lt;p&gt;Variables and functions defined after &lt;code&gt;inherit&lt;&#x2F;code&gt; can override those in the template.&lt;&#x2F;p&gt;
+&lt;h4 id=&quot;common-variables&quot;&gt;Common Variables&lt;&#x2F;h4&gt;
+&lt;p&gt;For a complete list of predefined variables, see the &lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-ref-variables.html&quot;&gt;BitBake documentation&lt;&#x2F;a&gt; and the &lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;ref-manual&#x2F;variables.html&quot;&gt;Yocto documentation&lt;&#x2F;a&gt;. Below are some of the most common ones.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;src-uri&quot;&gt;SRC_URI&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the location of the source code for the recipe. It supports fetching code from local files, FTP, Git repositories, web pages, etc.&lt;&#x2F;p&gt;
+&lt;p&gt;Example:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;SRC_URI = &amp;quot;git:&#x2F;&#x2F;example.com&#x2F;foo.git;branch=main;name=first \
+&lt;&#x2F;span&gt;&lt;span&gt;           git:&#x2F;&#x2F;example.com&#x2F;bar.git;branch=main;name=second \
+&lt;&#x2F;span&gt;&lt;span&gt;           http:&#x2F;&#x2F;example.com&#x2F;file.tar.gz;name=third&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h5 id=&quot;srcrev&quot;&gt;SRCREV&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the version of the code to use. For example, &lt;code&gt;SRCREV_first = &quot;f1d2d2f924e986ac86fdf7b36c94bcdf32beec15&quot;&lt;&#x2F;code&gt; means using the corresponding commit of &lt;code&gt;foo&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;depends&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-ref-variables.html#term-DEPENDS&quot;&gt;DEPENDS&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the build dependencies of the recipe.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;rdepends&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-ref-variables.html#term-RDEPENDS&quot;&gt;RDEPENDS&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the runtime dependencies of the package.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;packages-1&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-ref-variables.html#term-PACKAGES&quot;&gt;PACKAGES&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the packages produced by the recipe, used for matching with other packages&#x27; &lt;code&gt;RDEPENDS&lt;&#x2F;code&gt; or the final &lt;code&gt;IMAGE_INSTALL&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;pn&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-ref-variables.html#term-PN&quot;&gt;PN&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;The recipe name.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;pv&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-ref-variables.html#term-PV&quot;&gt;PV&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;The recipe version, e.g., the &lt;code&gt;0.1&lt;&#x2F;code&gt; in &lt;code&gt;example_0.1.bb&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;provides&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;bitbake&#x2F;2.0&#x2F;bitbake-user-manual&#x2F;bitbake-user-manual-ref-variables.html#term-PROVIDES&quot;&gt;PROVIDES&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the packages the recipe promises to produce, used for matching with other packages&#x27; &lt;code&gt;DEPENDS&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;workdir&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;ref-manual&#x2F;variables.html#term-WORKDIR&quot;&gt;WORKDIR&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;The directory where BitBake builds the recipe.&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;s&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;ref-manual&#x2F;variables.html#term-S&quot;&gt;S&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the directory where the source code is downloaded&#x2F;unpacked&#x2F;moved.&lt;&#x2F;p&gt;
+&lt;p&gt;You may need to set this manually. For example, if &lt;code&gt;SRC_URI = &quot;git:&#x2F;&#x2F;...&quot;&lt;&#x2F;code&gt;, you should write:&lt;&#x2F;p&gt;
+&lt;pre style=&quot;background-color:#2b303b;color:#c0c5ce;&quot;&gt;&lt;code&gt;&lt;span&gt;S = &amp;quot;${WORKDIR}&#x2F;git&amp;quot;
+&lt;&#x2F;span&gt;&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
+&lt;h5 id=&quot;files&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;ref-manual&#x2F;variables.html#term-FILES&quot;&gt;FILES&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the files to include in the package.&lt;&#x2F;p&gt;
+&lt;p&gt;Example: &lt;code&gt;FILES:${PN} += &quot;${bindir}&#x2F;mydir1 ${bindir}&#x2F;mydir2&#x2F;myfile&quot;&lt;&#x2F;code&gt;&lt;&#x2F;p&gt;
+&lt;h5 id=&quot;image-install&quot;&gt;&lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;ref-manual&#x2F;variables.html#term-IMAGE_INSTALL&quot;&gt;IMAGE_INSTALL&lt;&#x2F;a&gt;&lt;&#x2F;h5&gt;
+&lt;p&gt;Specifies the packages to be directly included in the &lt;a href=&quot;https:&#x2F;&#x2F;docs.yoctoproject.org&#x2F;ref-manual&#x2F;classes.html#ref-classes-image&quot;&gt;image&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;1&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;1&lt;&#x2F;sup&gt;
+&lt;p&gt;Installing the SDK requires some basic packages like &lt;code&gt;python3&lt;&#x2F;code&gt;, &lt;code&gt;file&lt;&#x2F;code&gt;, and &lt;code&gt;xz-utils&lt;&#x2F;code&gt;. Additionally, build tools like &lt;code&gt;make&lt;&#x2F;code&gt; and &lt;code&gt;cmake&lt;&#x2F;code&gt; are not included in the SDK and need to be installed separately. You can use the &lt;code&gt;env&lt;&#x2F;code&gt; command after setting up the SDK to see what it configures.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+&lt;div class=&quot;footnote-definition&quot; id=&quot;2&quot;&gt;&lt;sup class=&quot;footnote-definition-label&quot;&gt;2&lt;&#x2F;sup&gt;
+&lt;p&gt;The eSDK requires more packages than the standard SDK, including &lt;code&gt;diffstat&lt;&#x2F;code&gt;, &lt;code&gt;bzip2&lt;&#x2F;code&gt;, &lt;code&gt;gawk&lt;&#x2F;code&gt;, &lt;code&gt;cpio&lt;&#x2F;code&gt;, &lt;code&gt;gcc&lt;&#x2F;code&gt;, &lt;code&gt;g++&lt;&#x2F;code&gt;, and &lt;code&gt;perl&lt;&#x2F;code&gt;.&lt;&#x2F;p&gt;
+&lt;&#x2F;div&gt;
+</content>
+        
+    </entry>
     <entry xml:lang="en">
         <title>Minato&#x27;s ISOP Algorithm</title>
         <published>2025-06-16T07:17:01.217+00:00</published>

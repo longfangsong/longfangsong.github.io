@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://longfangsong.github.io/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://longfangsong.github.io/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://longfangsong.github.io/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://longfangsong.github.io/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://longfangsong.github.io/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://longfangsong.github.io/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>Blog • Yocto ABC</title>
+  
+  
+  <link rel="alternate" type="application/rss+xml" title="Blog" href="https://longfangsong.github.io/en/rss.xml">
+  
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar" content="#ffffff" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="stylesheet" href="https://longfangsong.github.io/blog.css">
+<link rel="manifest" href="https://longfangsong.github.io/manifest.json">
+<script src="//cdn.wordart.com/wordart.min.js" async defer></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG5Z4J086Y" defer></script>
+<meta name="google-site-verification" content="eIlbRaKM-jgH9zQg2VFwWY4H-027wQlW6K-TWdEvI1g" />
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-YG5Z4J086Y');
+</script>
+<script type="module">
+  import { Workbox } from 'https://storage.googleapis.com/workbox-cdn/releases/6.2.0/workbox-window.prod.mjs';
+
+  if ('serviceWorker' in navigator && window.location.href.startsWith("https://longfangsong.github.io")) {
+    const wb = new Workbox('/serviceWorker.js');
+    console.log("load serviceWorker");
+    wb.register();
+  }
+</script>
+
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://longfangsong.github.io/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://longfangsong.github.io/en/">Blog</a></h3>
+        <div class="description">
+          <p>Und grün des Theorie goldner Baum</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/longfangsong" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://twitter.com/longfangsong" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li><li><a rel="me" href="https://mathstodon.xyz&#x2F;@longfangsong"
+                      aria-label="Go to Mastodon profile page"><i class="fab fa-mastodon"></i></a>
+      </li><li><a href="https://www.facebook.com/longfangsong" aria-label="Go to FaceBook profile page"><i class="fab fa-facebook"></i></a></li>
+<div id="pirate" data-wordart-src="//cdn.wordart.com/json/bre8vfj02ejl" style="width: 100%;"
+  data-wordart-show-attribution></div>
+
+    </ul>
+    <div class="footer">
+      
+      <span>Designed by </span><a href="https://www.caicai.me">CaiCai</a>
+      <div class="by_zola"><a href="https://www.getzola.org/" target="_blank">Proudly published with Zola!</a></div>
+      
+    </div>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://longfangsong.github.io/en/">Home</a></li>
+        <li><a  href="https://longfangsong.github.io/en/about/">About</a></li><li><a  href="https://longfangsong.github.io/en/tags">Tags</a></li><li><a 
+            href="https://longfangsong.github.io/en/archive/">Archive</a></li><li><a  href="https://longfangsong.github.io/en/links/">Links</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+          
+        
+          
+        
+        
+        <div id="language-switch">
+          <button onclick="showLanguages()" aria-label="show languages"><i class="fas fa-globe"></i></button>
+          <div id="languages" style="display: none">
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;'"> 中文 </a>
+            
+            <a onclick="window.location.href='https:&#x2F;&#x2F;longfangsong.github.io&#x2F;sv&#x2F;'"> Svenska </a>
+            
+          </div>
+        </div>
+        
+        <div class="avatar"><img src="https://longfangsong.github.io/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;yocto-abc&#x2F;">Yocto ABC</a></h1>
+  
+  <div class="post-content"><h2 id="what-is-it">What is it</h2>
+<blockquote>
+<p>The Yocto Project (YP) is an open source collaboration project that helps developers create custom Linux-based systems regardless of the hardware architecture.</p>
+</blockquote>
+<p>Essentially, it is a toolchain used to create customized Linux distributions for specific hardware systems, typically used in embedded systems.</p>
+<h2 id="core-concepts">Core Concepts</h2>
+<h3 id="bitbake">BitBake</h3>
+<p>The build tool introduced by the Yocto Project. Similar to tools like make, cmake, and bazel, but specifically designed for tasks like building system images.</p>
+<h3 id="layers">Layers</h3>
+<p>Layers in the Yocto Project serve as the mechanism for modularization.</p>
+<p>Typically, a layer contains:</p>
+<ul>
+<li>All the files required for a specific hardware platform or board configuration.</li>
+<li>A set of logically independent (and often reusable) files.</li>
+</ul>
+<p>These are organized into a layer. A layer often contains multiple recipes.</p>
+<h3 id="recipes">Recipes</h3>
+<p>Recipes are similar to Makefiles in make. However, recipes not only handle the process of compiling source code into binaries but also manage tasks like fetching source code (e.g., clone from Git), unpacking, applying patches, configuring the build environment, and packaging software.</p>
+<p>There are also special-purpose recipes, such as image recipes, which are used to create final images and include pre-packaged software.</p>
+<p>Recipes are typically represented by <code>.bb</code> files and should follow specific naming (<code>name_version.bb</code>) and directory conventions.</p>
+<h3 id="packages">Packages</h3>
+<p>Packages usually refer to the products compiled from the source code specified in a recipe.</p>
+<h2 id="workflow">Workflow</h2>
+<p>It is recommended to start with Yocto's official distribution, poky, and gradually add/modify it to create the desired distribution. If you are new to Yocto, it is advisable to first build a poky image and run it in QEMU to get a feel for it.</p>
+<p>The build process for the poky project can be found in the <a href="https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html">official documentation</a>. If your device has internet access, don't forget to configure mirrors as described in the documentation (you may need to install packages like <code>python3-websockets</code>), otherwise, the build process will take an unreasonably long time.</p>
+<p>If you prefer using Docker, you can use this <a href="https://gist.github.com/longfangsong/0d126188aefa096ab4cf5bc95e3b38af">Dockerfile</a>.</p>
+<h3 id="downloading-existing-layers">Downloading Existing Layers</h3>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#96b5b4;">cd</span><span> poky
+</span><span style="color:#bf616a;">git</span><span> clone &lt;Layer Git URL&gt;
+</span><span style="color:#65737e;"># You may need to enter the cloned repo and switch to the correct branch
+</span><span style="color:#96b5b4;">cd</span><span> build
+</span><span style="color:#bf616a;">bitbake-layers</span><span> add-layer ../&lt;Layer Name&gt;
+</span></code></pre>
+<p>Then, running <code>bitbake core-image-*</code> will produce an image based on the added layers.</p>
+<h3 id="creating-your-own-layer">Creating Your Own Layer</h3>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">bitbake-layers</span><span> create-layer &lt;Layer Name&gt;
+</span></code></pre>
+<p>This will generate a new layer in the <code>poky</code> directory.</p>
+<h3 id="exporting-the-sdk">Exporting the SDK</h3>
+<p>The SDK includes the cross-compilation toolchain, headers, and libraries required for developing applications on the target platform. If you only need to build binaries for a fixed target platform (image), you should use the SDK.</p>
+<p>Run:</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">bitbake </span><span>&lt;image-name&gt; -c populate_sdk
+</span></code></pre>
+<p>to create the SDK for the corresponding image.</p>
+<p>You can find a <code>.sh</code> file in <code>poky/build/tmp/deploy/sdk</code>, which is the packaged SDK.</p>
+<p>You can run this <code>.sh</code> file on another computer<sup class="footnote-reference"><a href="#1">1</a></sup> to use the toolchain without installing poky.</p>
+<h3 id="exporting-the-extensible-sdk-esdk">Exporting the Extensible SDK (eSDK)</h3>
+<p>Compared to the SDK, the Extensible SDK includes the <code>devtool</code> command-line tool, which makes it easier to modify recipes in existing layers of the distribution. If you want to create new layers or modify existing ones, you should use the eSDK.</p>
+<pre data-lang="sh" style="background-color:#2b303b;color:#c0c5ce;" class="language-sh "><code class="language-sh" data-lang="sh"><span style="color:#bf616a;">bitbake </span><span>&lt;image-name&gt; -c populate_sdk_ext
+</span></code></pre>
+<p>Similarly, you can run the resulting <code>.sh</code> file on another computer<sup class="footnote-reference"><a href="#2">2</a></sup> to install it. Then, you can use <code>devtool</code> to create and modify layers, as well as <strong>directly build images</strong>.</p>
+<h3 id="sdk-vs-esdk">SDK vs eSDK</h3>
+<table><thead><tr><th style="text-align: left">Feature</th><th style="text-align: left">Standard SDK</th><th style="text-align: left">Extensible SDK</th></tr></thead><tbody>
+<tr><td style="text-align: left"><strong>Toolchain</strong></td><td style="text-align: left">Yes</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Debugger</strong></td><td style="text-align: left">Yes</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Size</strong></td><td style="text-align: left">100+ MBytes</td><td style="text-align: left">1+ GBytes</td></tr>
+<tr><td style="text-align: left"><strong>devtool</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Build Images</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Updateable</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Sysroot</strong> (libraries, headers, etc.)</td><td style="text-align: left">Predefined</td><td style="text-align: left">Dynamically updated</td></tr>
+<tr><td style="text-align: left"><strong>Installed Packages</strong></td><td style="text-align: left">No</td><td style="text-align: left">Yes</td></tr>
+<tr><td style="text-align: left"><strong>Construction</strong></td><td style="text-align: left">Packages</td><td style="text-align: left">Shared State</td></tr>
+</tbody></table>
+<p>In short, the standard SDK is mainly for developing binary applications for a fixed image, while the eSDK allows for some degree of image modification.</p>
+<h3 id="recipe-configuration-file-syntax-and-key-variables">Recipe Configuration File Syntax and Key Variables</h3>
+<p>Refer to the <a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-metadata.html">official documentation</a>.</p>
+<h4 id="variables">Variables</h4>
+<p>Most of a recipe file consists of setting various variables.</p>
+<p>In addition to direct assignments like <code>A = B</code>, you can also:</p>
+<ul>
+<li>
+<p>Use <code>A += "B"</code> to concatenate the string in A, a space, and "B". For example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A = &quot;A&quot;
+</span><span>A += &quot;B&quot;
+</span><span># Now A is &quot;A B&quot;
+</span></code></pre>
+</li>
+<li>
+<p>Use <code>.=</code> for direct concatenation without a space:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A = &quot;A&quot;
+</span><span>A .= &quot;B&quot;
+</span><span># Now A is &quot;AB&quot;
+</span></code></pre>
+<p>Alternatively, you can use <code>:append =</code>:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>A = &quot;A&quot;
+</span><span>A:append = &quot;B&quot;
+</span><span># Now A is &quot;AB&quot;
+</span></code></pre>
+</li>
+</ul>
+<h4 id="functions">Functions</h4>
+<p>BitBake supports functions written in shell and Python. Refer to the <a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-metadata.html#functions">official documentation</a>.</p>
+<p>The main purpose of functions is to allow <code>.bb</code> files to define tasks. These task functions usually start with <code>do_</code>.</p>
+<p>For example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>python foo() {
+</span><span>    bb.plain(&quot;second&quot;)
+</span><span>}
+</span><span>addtask foo after do_fetch before do_build
+</span></code></pre>
+<p>This creates a new task <code>foo</code>, which is executed after the <code>fetch</code> task and before the <code>build</code> task.</p>
+<p>You can list all tasks in a recipe using <code>bitbake &lt;recipe-name&gt; -c listtasks</code>. Use <code>bitbake &lt;recipe-name&gt; -c &lt;task-name&gt;</code> to execute a specific task. For detailed information on managing tasks with <code>bitbake</code>, see the <a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-metadata.html#promoting-a-function-to-a-task">official documentation</a>.</p>
+<h4 id="inheritance">Inheritance</h4>
+<p>You can (and often should) inherit existing recipe templates. For example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>inherit cmake
+</span></code></pre>
+<p>This inherits the cmake template, which includes predefined tasks.</p>
+<p>Variables and functions defined after <code>inherit</code> can override those in the template.</p>
+<h4 id="common-variables">Common Variables</h4>
+<p>For a complete list of predefined variables, see the <a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html">BitBake documentation</a> and the <a href="https://docs.yoctoproject.org/ref-manual/variables.html">Yocto documentation</a>. Below are some of the most common ones.</p>
+<h5 id="src-uri">SRC_URI</h5>
+<p>Specifies the location of the source code for the recipe. It supports fetching code from local files, FTP, Git repositories, web pages, etc.</p>
+<p>Example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>SRC_URI = &quot;git://example.com/foo.git;branch=main;name=first \
+</span><span>           git://example.com/bar.git;branch=main;name=second \
+</span><span>           http://example.com/file.tar.gz;name=third&quot;
+</span></code></pre>
+<h5 id="srcrev">SRCREV</h5>
+<p>Specifies the version of the code to use. For example, <code>SRCREV_first = "f1d2d2f924e986ac86fdf7b36c94bcdf32beec15"</code> means using the corresponding commit of <code>foo</code>.</p>
+<h5 id="depends"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-DEPENDS">DEPENDS</a></h5>
+<p>Specifies the build dependencies of the recipe.</p>
+<h5 id="rdepends"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-RDEPENDS">RDEPENDS</a></h5>
+<p>Specifies the runtime dependencies of the package.</p>
+<h5 id="packages-1"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PACKAGES">PACKAGES</a></h5>
+<p>Specifies the packages produced by the recipe, used for matching with other packages' <code>RDEPENDS</code> or the final <code>IMAGE_INSTALL</code>.</p>
+<h5 id="pn"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PN">PN</a></h5>
+<p>The recipe name.</p>
+<h5 id="pv"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PV">PV</a></h5>
+<p>The recipe version, e.g., the <code>0.1</code> in <code>example_0.1.bb</code>.</p>
+<h5 id="provides"><a href="https://docs.yoctoproject.org/bitbake/2.0/bitbake-user-manual/bitbake-user-manual-ref-variables.html#term-PROVIDES">PROVIDES</a></h5>
+<p>Specifies the packages the recipe promises to produce, used for matching with other packages' <code>DEPENDS</code>.</p>
+<h5 id="workdir"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-WORKDIR">WORKDIR</a></h5>
+<p>The directory where BitBake builds the recipe.</p>
+<h5 id="s"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-S">S</a></h5>
+<p>Specifies the directory where the source code is downloaded/unpacked/moved.</p>
+<p>You may need to set this manually. For example, if <code>SRC_URI = "git://..."</code>, you should write:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>S = &quot;${WORKDIR}/git&quot;
+</span></code></pre>
+<h5 id="files"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-FILES">FILES</a></h5>
+<p>Specifies the files to include in the package.</p>
+<p>Example: <code>FILES:${PN} += "${bindir}/mydir1 ${bindir}/mydir2/myfile"</code></p>
+<h5 id="image-install"><a href="https://docs.yoctoproject.org/ref-manual/variables.html#term-IMAGE_INSTALL">IMAGE_INSTALL</a></h5>
+<p>Specifies the packages to be directly included in the <a href="https://docs.yoctoproject.org/ref-manual/classes.html#ref-classes-image">image</a>.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Installing the SDK requires some basic packages like <code>python3</code>, <code>file</code>, and <code>xz-utils</code>. Additionally, build tools like <code>make</code> and <code>cmake</code> are not included in the SDK and need to be installed separately. You can use the <code>env</code> command after setting up the SDK to see what it configures.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>The eSDK requires more packages than the standard SDK, including <code>diffstat</code>, <code>bzip2</code>, <code>gawk</code>, <code>cpio</code>, <code>gcc</code>, <code>g++</code>, and <code>perl</code>.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">2025-11-17</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Environment Setup">&nbsp;Environment Setup</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Embedded">&nbsp;Embedded</a>
+        
+        <a class="tag" href="https://longfangsong.github.io/en/tags/Linux">&nbsp;Linux</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="weibo">
+    <a class="fab fa-weibo"
+      href="javascript:void((function(s,d,e){try{}catch(e){}var f='http://service.weibo.com/share/share.php?',u=d.location.href,p=['url=',e(u),'&title=',e(d.title),'&appkey=2924220432'].join('');function a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=620,height=450,left=',(s.width-620)/2,',top=',(s.height-450)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})(screen,document,encodeURIComponent));"></a>
+  </div>
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Yocto ABC&url=https:&#x2F;&#x2F;longfangsong.github.io&#x2F;en&#x2F;yocto-abc&#x2F;&hashtags=Environment Setup,Embedded,Linux"></a>
+  </div>
+</div>
+
+
+
+
+
+  <script src="https://utteranc.es/client.js"
+    repo="longfangsong&#x2F;longfangsong.github.io"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      displayMath: [['$$', '$$'], ["\\[", "\\]"]],
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
